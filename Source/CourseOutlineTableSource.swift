@@ -344,7 +344,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 make.trailing.equalTo(headerContainer)
                 make.leading.equalTo(headerContainer)
                 make.top.equalTo(headerContainer)
-                let bannerHeight = showBanner ? courseDatesResetView.heightForView(width: headerContainer.frame.width) : 0
+                let bannerHeight = showBanner ? courseDatesResetView.heightForView(width: headerContainer.frame.height) : 0
                 make.height.equalTo(bannerHeight)
             }
             
