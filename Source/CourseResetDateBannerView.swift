@@ -88,10 +88,7 @@ class CourseResetDateBannerView: UIView {
         stackView.subviews.forEach { $0.removeFromSuperview() }
         stackView.superview?.removeFromSuperview()
         container.superview?.removeFromSuperview()
-        
-        container.backgroundColor = .red
-        messageLabel.backgroundColor = .yellow
-        
+                
         backgroundColor = OEXStyles.shared().primaryXLightColor()
         addSubview(container)
         stackView.alignment = .leading
