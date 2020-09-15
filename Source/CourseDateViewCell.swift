@@ -75,7 +75,6 @@ class CourseDateViewCell: UITableViewCell {
     private var defaultTimelinePointDiameter: CGFloat = 8
     
     var setDueNextOnThisBlock = false
-    var userTimeZone: String?
     
     var blocks: [CourseDateBlock]? {
         didSet {
@@ -84,7 +83,7 @@ class CourseDateViewCell: UITableViewCell {
             statusStackView.subviews.forEach { $0.removeFromSuperview() }
             
             if let block = blocks.first {
-                let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZoneIdentifier: userTimeZone)
+                let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
                 dateLabel.attributedText = dateStyle.attributedString(withText: dateText)
                 updateTimelinePoint(block)
                 updateBadge(block)
@@ -101,8 +100,9 @@ class CourseDateViewCell: UITableViewCell {
                 let color = block.isAvailable ? OEXStyles.shared().neutralBlack() : OEXStyles.shared().neutralLight()
                 titleStyle.color = color
                 titleTextView.tintColor = color
-                var attributedString = titleStyle.attributedString(withText: block.title)
-                                
+                let blockTitle = block.assignmentType.isEmpty ? block.title : "\(block.assignmentType): \(block.title)"
+                var attributedString = titleStyle.attributedString(withText: blockTitle)
+                
                 if block.canShowLink, let url = URL(string: block.link) {
                     attributedString = attributedString.addLink(on: block.title, value: url, foregroundColor: color, underline: true)
                     titleTextView.delegate = self

@@ -184,7 +184,6 @@ extension CourseDatesViewController: UITableViewDataSource {
         
         cell.delegate = self
         cell.setDueNextOnThisBlock = !setDueNext
-        cell.userTimeZone = courseDateModel?.userTimezone
         cell.blocks = blocks
         
         return cell
