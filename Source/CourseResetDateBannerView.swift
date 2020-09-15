@@ -1,5 +1,5 @@
 //
-//  CourseResetDateView.swift
+//  CourseResetDateBannerView.swift
 //  edX
 //
 //  Created by Muhammad Umer on 08/09/2020.
@@ -14,7 +14,7 @@ protocol CourseResetDateViewDelegate {
     func courseResetButtonAction()
 }
 
-class CourseResetDateView: UIView {
+class CourseResetDateBannerView: UIView {
     private let labelDefaultHeightOffset: CGFloat = 30
     private let buttonMinWidth: CGFloat = 80
     private var buttonContainerHeight: CGFloat {

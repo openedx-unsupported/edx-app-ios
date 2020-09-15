@@ -30,7 +30,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     let courseID : String
     private var courseOutlineMode: CourseOutlineMode
     
-    private let courseDatesResetView = CourseResetDateView(frame: .zero)
+    private let courseDatesResetView = CourseResetDateBannerView(frame: .zero)
     private let courseCard = CourseCardView(frame: .zero)
     private var courseCertificateView : CourseCertificateView?
     private let headerContainer = UIView()
