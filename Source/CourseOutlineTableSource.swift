@@ -350,10 +350,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         updateHeaderConstrains()
         
         UIView.animate(withDuration: 0.1) { [weak self] in
-            self?.courseDatesResetView.superview?.layoutIfNeeded()
-            self?.courseCard.superview?.layoutIfNeeded()
-            self?.courseCertificateView?.superview?.layoutIfNeeded()
-            self?.lastAccessedView.superview?.layoutIfNeeded()
+            self?.view.layoutIfNeeded()
         }
     }
     
