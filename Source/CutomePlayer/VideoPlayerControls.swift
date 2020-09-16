@@ -315,11 +315,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     var bottomBarFrame: CGRect {
         return bottomBar.frame
     }
-    
-//    func getBottomBarPosition() -> CGRect {
-//        return bottomBar.frame
-//    }
-    
+
     func addTapGestures() {
         let singleTapGesture = UITapGestureRecognizer()
         singleTapGesture.numberOfTapsRequired = 1
