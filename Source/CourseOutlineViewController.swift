@@ -32,11 +32,11 @@ public class CourseOutlineViewController :
     private var environment : Environment
     
     private let courseQuerier : CourseOutlineQuerier
-    fileprivate let tableController : CourseOutlineTableController
+    private let tableController : CourseOutlineTableController
     
     private let blockIDStream = BackedStream<CourseBlockID?>()
     private let headersLoader = BackedStream<CourseOutlineQuerier.BlockGroup>()
-    fileprivate let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
+    private let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
     private let courseDeadlineInfoLoader = BackedStream<(CourseDateDeadlineInfoModel)>()
 
     private let loadController : LoadStateViewController
@@ -103,7 +103,7 @@ public class CourseOutlineViewController :
         super.viewWillAppear(animated)
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
-        loadStreams()
+        loadCourseStream()
         
         if courseOutlineMode == .video {
             // We are doing calculations to show downloading progress on video tab, For this purpose we are observing notifications.
@@ -155,28 +155,29 @@ public class CourseOutlineViewController :
         navigationItem.title = (courseOutlineMode == .video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
     }
     
-    private func loadStreams() {
-        loadController.state = .Initial
+    private func loadCourseOutlineStream() {
         let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
-        
+
         courseOutlineStream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
-                if self?.blockID == rootID || self?.blockID == nil {
-                    if self?.courseOutlineMode == .full {
-                        self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
-                    }
-                    else {
-                        self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
-                    }
+            if self?.blockID == rootID || self?.blockID == nil {
+                if self?.courseOutlineMode == .full {
+                    self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
                 }
                 else {
-                    self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
-                    self?.tableController.hideTableHeaderView()
+                    self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
                 }
+            }
+            else {
+                self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
+                self?.tableController.hideTableHeaderView()
+            }
             }, failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
-            }
+        }
         )
-        
+    }
+    
+    private func loadCourseBannerStream() {
         let courseDeadlineInfoRequest = CourseDatesAPI.courseDeadlineInfoRequest(courseID: courseID)
         let courseDeadlineInfoStream = environment.networkManager.streamForRequest(courseDeadlineInfoRequest)
         courseDeadlineInfoLoader.backWithStream(courseDeadlineInfoStream)
@@ -192,7 +193,12 @@ public class CourseOutlineViewController :
                 break
             }
         }
-        
+    }
+    
+    private func loadCourseStream() {
+        loadController.state = .Initial
+        loadCourseOutlineStream()
+        loadCourseBannerStream()
         reload()
     }
     
@@ -218,7 +224,7 @@ public class CourseOutlineViewController :
         }
     }
     
-    private func addListeners() {
+    private func addBackStreams() {
         headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
             if let owner = self {
                 return owner.courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: owner.courseOutlineMode)
@@ -240,33 +246,42 @@ public class CourseOutlineViewController :
         )
         
         self.blockIDStream.backWithStream(OEXStream(value: rootID))
-        
-        headersLoader.listen(self,
-                             success: {[weak self] headers in
-                                self?.setupNavigationItem(block: headers.block)
-            },
-                             failure: {[weak self] error in
-                                self?.showErrorIfNecessary(error: error)
+    }
+    
+    private func loadHeaderStream() {
+        headersLoader.listen(self, success: { [weak self] headers in
+                self?.setupNavigationItem(block: headers.block)
+            }, failure: {[weak self] error in
+                self?.showErrorIfNecessary(error: error)
             }
         )
-        
-        rowsLoader.listen(self,
-                          success : {[weak self] groups in
-                            if let owner = self {
-                                owner.tableController.groups = groups
-                                owner.tableController.tableView.reloadData()
-                                owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded
-                            }
-            },
-                          failure : {[weak self] error in
-                            self?.showErrorIfNecessary(error: error)
-            },
-                          finally: {[weak self] in
-                            if let active = self?.rowsLoader.active, !active {
-                                self?.tableController.refreshController.endRefreshing()
-                            }
+    }
+    
+    private func loadRowsStream() {
+        rowsLoader.listen(self, success : { [weak self] groups in
+                if let owner = self {
+                    owner.tableController.groups = groups
+                    owner.tableController.tableView.reloadData()
+                    owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded
+                }
+            }, failure : {[weak self] error in
+                self?.showErrorIfNecessary(error: error)
+            }, finally: {[weak self] in
+                if let active = self?.rowsLoader.active, !active {
+                    self?.tableController.refreshController.endRefreshing()
+                }
             }
         )
+    }
+    
+    private func loadBackedStreams() {
+        loadHeaderStream()
+        loadRowsStream()
+    }
+    
+    private func addListeners() {
+        addBackStreams()
+        loadBackedStreams()
     }
     
     private func canDownload() -> Bool {
@@ -332,8 +347,8 @@ public class CourseOutlineViewController :
     
     private func reloadAfterCourseDateReset() {
         courseQuerier.needsRefresh = true
-        addListeners()
-        loadStreams()
+        loadBackedStreams()
+        loadCourseStream()
     }
     
     //MARK: PullRefreshControllerDelegate

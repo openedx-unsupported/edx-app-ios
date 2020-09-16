@@ -15,7 +15,18 @@ protocol CourseResetDateViewDelegate {
 }
 
 class CourseResetDateBannerView: UIView {
-    private let labelDefaultHeightOffset: CGFloat = 30
+    private var labelDefaultHeightOffset: CGFloat {
+        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
+        
+        switch status {
+        case .upgradeToCompleteGradedBanner:
+            return 10
+        
+        default:
+            return 0
+        }
+    }
+    
     private let buttonMinWidth: CGFloat = 80
     private var buttonContainerHeight: CGFloat {
         return isiPad ? 80 : 60
@@ -23,6 +34,7 @@ class CourseResetDateBannerView: UIView {
     
     private lazy var container = UIView()
     private lazy var stackView = UIStackView()
+    private lazy var labelContainer = UIView()
     private lazy var buttonContainer = UIView()
     
     private lazy var messageLabel: UILabel = {
@@ -79,7 +91,7 @@ class CourseResetDateBannerView: UIView {
     
     func setupView() {
         configureViews()
-        applyContrains()
+        applyConstraints()
         setAccessibilityIdentifiers()
         populate()
     }
@@ -87,14 +99,18 @@ class CourseResetDateBannerView: UIView {
     private func configureViews() {
         stackView.subviews.forEach { $0.removeFromSuperview() }
         stackView.superview?.removeFromSuperview()
+        labelContainer.superview?.removeFromSuperview()
         container.superview?.removeFromSuperview()
-                
+        
         backgroundColor = OEXStyles.shared().primaryXLightColor()
         addSubview(container)
+        
         stackView.alignment = .leading
         stackView.axis = .vertical
-        stackView.spacing = StandardHorizontalMargin
-        stackView.addArrangedSubview(messageLabel)
+        stackView.spacing = StandardVerticalMargin / 2
+        stackView.addArrangedSubview(labelContainer)
+        
+        labelContainer.addSubview(messageLabel)
         container.addSubview(stackView)
         
         if isButtonTextAvailable {
@@ -103,13 +119,25 @@ class CourseResetDateBannerView: UIView {
         }
     }
     
-    private func applyContrains() {
+    private func applyConstraints() {
         container.snp.makeConstraints { make in
-            make.edges.equalTo(self).inset(StandardVerticalMargin)
+            make.leading.equalTo(self).inset(StandardHorizontalMargin)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
+            make.top.equalTo(self).inset(-StandardVerticalMargin)
+            make.bottom.equalTo(self)
         }
         
         stackView.snp.makeConstraints { make in
-            make.edges.equalTo(container).inset(StandardVerticalMargin)
+            make.edges.equalTo(container)
+        }
+        
+        labelContainer.snp.makeConstraints { make in
+            make.top.equalTo(stackView)
+            make.width.equalTo(stackView)
+        }
+        
+        messageLabel.snp.makeConstraints { make in
+            make.edges.equalTo(labelContainer)
         }
         
         if isButtonTextAvailable {
@@ -124,12 +152,19 @@ class CourseResetDateBannerView: UIView {
                 make.bottom.equalTo(buttonContainer.snp.bottom)
                 make.width.greaterThanOrEqualTo(buttonMinWidth)
             }
+            
+            stackView.snp.remakeConstraints { make in
+                make.leading.equalTo(container)
+                make.trailing.equalTo(container)
+                make.top.equalTo(container)
+                make.bottom.equalTo(container).inset(StandardVerticalMargin)
+            }
         }
     }
     
     private func setAccessibilityIdentifiers() {
-        messageLabel.accessibilityIdentifier = "CourseResetDateView:banner-text-label"
-        bannerButton.accessibilityIdentifier = "CourseResetDateView:reset-date-button"
+        messageLabel.accessibilityIdentifier = "CourseResetDateBannerView:banner-text-label"
+        bannerButton.accessibilityIdentifier = "CourseResetDateBannerView:reset-date-button"
     }
     
     private func populate() {
@@ -138,11 +173,13 @@ class CourseResetDateBannerView: UIView {
         let headerText = bannerHeaderStyle.attributedString(withText: status.header)
         let bodyText = bannerBodyStyle.attributedString(withText: status.body)
         
-        let attributedString = NSMutableAttributedString(attributedString: headerText)
-        attributedString.append(bodyText)
+        let messageText = [headerText, bodyText]
+        let attributedString = NSAttributedString.joinInNaturalLayout(attributedStrings: messageText)
         
         messageLabel.attributedText = attributedString
         messageLabel.sizeToFit()
+        messageLabel.layoutIfNeeded()
+        messageLabel.setNeedsLayout()
         
         if isButtonTextAvailable {
             let buttonText = buttonStyle.attributedString(withText: status.button)

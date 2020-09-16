@@ -338,6 +338,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     private func updateResetBannerView() {
+        courseDatesResetView.setupView()
+
         courseDatesResetView.snp.remakeConstraints { make in
             make.trailing.equalTo(headerContainer)
             make.leading.equalTo(headerContainer)
@@ -345,7 +347,44 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             make.height.equalTo(courseDatesResetView.heightForView(width: headerContainer.frame.size.width))
         }
         
-        courseDatesResetView.setupView()
+        updateHeaderConstrains()
+        
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            self?.courseDatesResetView.superview?.layoutIfNeeded()
+            self?.courseCard.superview?.layoutIfNeeded()
+            self?.courseCertificateView?.superview?.layoutIfNeeded()
+            self?.lastAccessedView.superview?.layoutIfNeeded()
+        }
+    }
+    
+    private func updateHeaderConstrains() {
+        var constraintView: UIView = courseCard
+        courseCard.snp.remakeConstraints { make in
+            make.trailing.equalTo(headerContainer)
+            make.leading.equalTo(headerContainer)
+            make.top.equalTo(courseDatesResetView.snp.bottom)
+            make.height.equalTo(CourseCardView.cardHeight())
+        }
+        
+        if let courseCertificateView = courseCertificateView {
+            courseCertificateView.snp.remakeConstraints { make in
+                make.trailing.equalTo(courseCard)
+                make.leading.equalTo(courseCard)
+                make.height.equalTo(CourseCertificateView.height)
+                make.top.equalTo(constraintView.snp.bottom)
+            }
+            constraintView = courseCertificateView
+        }
+        
+        lastAccessedView.snp.remakeConstraints { make in
+            make.trailing.equalTo(courseCard)
+            make.leading.equalTo(courseCard)
+            make.top.equalTo(constraintView.snp.bottom)
+            let height = lastAccess ? (isVerticallyCompact() ? lassAccessViewLandscapeHeight : lassAccessViewPortraitHeight) : 0
+            make.height.equalTo(height)
+            make.bottom.equalTo(headerContainer)
+        }
+        tableView.setAndLayoutTableHeaderView(header: headerContainer)
     }
     
     private func refreshTableHeaderView(lastAccess: Bool) {
@@ -355,34 +394,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         switch courseOutlineMode {
         case .full:
             if shouldHideTableViewHeader { return }
-                        
-            var constraintView: UIView = courseCard
-            courseCard.snp.remakeConstraints { make in
-                make.trailing.equalTo(headerContainer)
-                make.leading.equalTo(headerContainer)
-                make.top.equalTo(courseDatesResetView.snp.bottom)
-                make.height.equalTo(CourseCardView.cardHeight())
-            }
-            
-            if let courseCertificateView = courseCertificateView {
-                courseCertificateView.snp.remakeConstraints { make in
-                    make.trailing.equalTo(courseCard)
-                    make.leading.equalTo(courseCard)
-                    make.height.equalTo(CourseCertificateView.height)
-                    make.top.equalTo(constraintView.snp.bottom)
-                }
-                constraintView = courseCertificateView
-            }
-            
-            lastAccessedView.snp.remakeConstraints { make in
-                make.trailing.equalTo(courseCard)
-                make.leading.equalTo(courseCard)
-                make.top.equalTo(constraintView.snp.bottom)
-                let height = lastAccess ? (isVerticallyCompact() ? lassAccessViewLandscapeHeight : lassAccessViewPortraitHeight) : 0
-                make.height.equalTo(height)
-                make.bottom.equalTo(headerContainer)
-            }
-            tableView.setAndLayoutTableHeaderView(header: headerContainer)
+            updateHeaderConstrains()
             break
         case .video:
             if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, courseBlockID == nil {
