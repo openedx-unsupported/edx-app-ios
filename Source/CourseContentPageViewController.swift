@@ -45,7 +45,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var courseOutlineMode: CourseOutlineMode
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
     
-    let scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
+    private let scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
     var restrictedPaginationAreaStart: CGFloat = 0
     var restrictedPaginationAreaEnd: CGFloat = 0
     
@@ -447,9 +447,10 @@ extension CourseContentPageViewController: UIGestureRecognizerDelegate {
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if (gestureRecognizer == scrollViewPanGestureRecognzier) {
             let locationInView = gestureRecognizer.location(in: view)
-            if (locationInView.y > restrictedPaginationAreaStart && locationInView.y < restrictedPaginationAreaEnd) {
+            if (locationInView.y > restrictedPaginationAreaStart - 100 && locationInView.y < restrictedPaginationAreaEnd + 100) {
                 return true
             }
+            return false
         }
         return false
     }

@@ -34,7 +34,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     public let environment : Environment
-    var controls: VideoPlayerControls?
+    fileprivate var controls: VideoPlayerControls?
     weak var playerDelegate : VideoPlayerDelegate?
     var isFullScreen : Bool = false {
         didSet {
@@ -96,6 +96,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     var currentTime: TimeInterval {
         return player.currentItem?.currentTime().seconds ?? 0
+    }
+    
+    var restrictedTouchFrame: CGRect? {
+        return controls?.bottomBarFrame
     }
     
     var playableDuration: TimeInterval {
@@ -278,6 +282,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if playerState == .paused {
+            return
+        }
         if context == &playbackLikelyToKeepUpContext, let currentItem = player.currentItem {
             if currentItem.isPlaybackLikelyToKeepUp {
                 loadingIndicatorView.stopAnimating()
@@ -332,7 +339,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if !ChromeCastManager.shared.isMiniPlayerAdded {
             applyScreenOrientation()
         }
-        resume()
+        if playerState == .paused {
+            resume()
+        }
     }
     
     private func applyScreenOrientation() {
@@ -611,13 +620,17 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale)
         player.currentItem?.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self]
             (completed: Bool) -> Void in
-            if self?.playerState == .playing {
-                self?.controls?.autoHide()
-                self?.player.play()
+            if completed {
+                if self?.playerState == .playing {
+                    self?.controls?.autoHide()
+                    self?.player.play()
+                }
+                else if self?.playerState == .paused {
+                    self?.player.pause()
+                    self?.savePlayedTime()
+                }
             }
-            else {
-                self?.savePlayedTime()
-            }
+            
         }
     }
     
