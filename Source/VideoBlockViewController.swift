@@ -458,15 +458,6 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         return .allButUpsideDown
     }
     
-    //MARK: - VideoPlayerDelegate methods
-    
-    func playerDidFinishLoad(videoPlayer: VideoPlayer) {
-        if let frame = videoPlayer.restrictedTouchFrame, let contentView = parent as? CourseContentPageViewController  {
-            contentView.restrictedPaginationAreaStart = frame.origin.y
-            contentView.restrictedPaginationAreaEnd = (frame.origin.y) + (frame.size.height)
-        }
-    }
-    
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer) {
         videoPlayer.view.snp.remakeConstraints { make in
             make.top.equalTo(safeTop)

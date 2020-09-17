@@ -20,7 +20,6 @@ private let currentItemStatusKey = "currentItem.status"
 private let currentItemPlaybackLikelyToKeepUpKey = "currentItem.playbackLikelyToKeepUp"
 
 protocol VideoPlayerDelegate: class {
-    func playerDidFinishLoad(videoPlayer: VideoPlayer)
     func playerDidLoadTranscripts(videoPlayer:VideoPlayer, transcripts: [TranscriptObject])
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer)
     func playerDidTimeout(videoPlayer: VideoPlayer)
@@ -97,11 +96,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     var currentTime: TimeInterval {
         return player.currentItem?.currentTime().seconds ?? 0
     }
-    
-    var restrictedTouchFrame: CGRect? {
-        return controls?.bottomBarFrame
-    }
-    
+        
     var playableDuration: TimeInterval {
         var result: TimeInterval = 0
         if let loadedTimeRanges = player.currentItem?.loadedTimeRanges, loadedTimeRanges.count > 0  {
@@ -386,7 +381,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             observer.playerDidFinishPlaying(note: notification)
         }
         perform(#selector(movieTimedOut), with: nil, afterDelay: playerTimeOutInterval)
-        playerDelegate?.playerDidFinishLoad(videoPlayer: self)
     }
     
     private func play(at timeInterval: TimeInterval) {
@@ -616,21 +610,18 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
 
     func seek(to time: Double) {
         if player.currentItem?.status != .readyToPlay { return }
-        
         let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale)
+        lastElapsedTime = time
         player.currentItem?.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self]
             (completed: Bool) -> Void in
-            if completed {
                 if self?.playerState == .playing {
                     self?.controls?.autoHide()
                     self?.player.play()
                 }
                 else if self?.playerState == .paused {
                     self?.player.pause()
-                    self?.savePlayedTime()
                 }
-            }
-            
+            self?.savePlayedTime(time: time)
         }
     }
     
