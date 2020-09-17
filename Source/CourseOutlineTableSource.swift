@@ -347,14 +347,14 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             make.height.equalTo(courseDatesResetView.heightForView(width: headerContainer.frame.size.width))
         }
         
-        updateHeaderConstrains()
+        updateHeaderConstraints()
         
         UIView.animate(withDuration: 0.1) { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
     
-    private func updateHeaderConstrains() {
+    private func updateHeaderConstraints() {
         var constraintView: UIView = courseCard
         courseCard.snp.remakeConstraints { make in
             make.trailing.equalTo(headerContainer)
@@ -391,7 +391,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         switch courseOutlineMode {
         case .full:
             if shouldHideTableViewHeader { return }
-            updateHeaderConstrains()
+            updateHeaderConstraints()
             break
         case .video:
             if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, courseBlockID == nil {

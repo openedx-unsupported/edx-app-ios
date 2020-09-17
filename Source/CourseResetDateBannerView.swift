@@ -163,7 +163,10 @@ class CourseResetDateBannerView: UIView {
     }
     
     private func setAccessibilityIdentifiers() {
-        messageLabel.accessibilityIdentifier = "CourseResetDateBannerView:banner-text-label"
+        container.accessibilityIdentifier = "CourseResetDateBannerView:container-view"
+        labelContainer.accessibilityIdentifier = "CourseResetDateBannerView:messagelabel-container"
+        buttonContainer.accessibilityIdentifier = "CourseResetDateBannerView:reset-date-button-container"
+        messageLabel.accessibilityIdentifier = "CourseResetDateBannerView:message-label"
         bannerButton.accessibilityIdentifier = "CourseResetDateBannerView:reset-date-button"
     }
     

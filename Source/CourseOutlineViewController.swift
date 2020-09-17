@@ -173,8 +173,7 @@ public class CourseOutlineViewController :
             }
             }, failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
-        }
-        )
+        })
     }
     
     private func loadCourseBannerStream() {
@@ -346,6 +345,10 @@ public class CourseOutlineViewController :
     }
     
     private func reloadAfterCourseDateReset() {
+        refreshCourseOutlineController()
+    }
+    
+    private func refreshCourseOutlineController() {
         courseQuerier.needsRefresh = true
         loadBackedStreams()
         loadCourseStream()
@@ -353,8 +356,7 @@ public class CourseOutlineViewController :
     
     //MARK: PullRefreshControllerDelegate
     public func refreshControllerActivated(controller: PullRefreshController) {
-        courseQuerier.needsRefresh = true
-        reload()
+        refreshCourseOutlineController()
     }
     
     //MARK: CourseContentPageViewControllerDelegate
