@@ -332,12 +332,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.tableHeaderView = nil
     }
     
-    func showDateInfoBanner(bannerInfo: DatesBannerInfo) {
+    func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
         courseDateBannerView.bannerInfo = bannerInfo
         updateResetBannerView(show: true)
     }
     
-    func hideDateInfoBanner() {
+    func hideCourseDateBanner() {
         courseDateBannerView.bannerInfo = nil
         updateResetBannerView(show: false)
     }

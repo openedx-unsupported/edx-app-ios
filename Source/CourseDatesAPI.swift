@@ -30,46 +30,4 @@ public class CourseDatesAPI: NSObject {
             requiresAuth : true,
             deserializer: .jsonResponse(courseDateDeserializer))
     }
-    
-    private static func courseDeadlineInfoDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDateInfoBannerModel> {
-        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {
-            return Success(v: CourseDateInfoBannerModel(json: json))
-        }
-        return Failure()
-    }
-    
-    private class func resetDatePath(courseID: String) -> String {
-        return "/api/course_experience/v1/course_deadlines_info/{courseID}".oex_format(withParameters: ["courseID" : courseID])
-    }
-    
-    class func courseBannerInfoRequest(courseID: String) -> NetworkRequest<CourseDateInfoBannerModel> {
-        return NetworkRequest(
-            method: .GET,
-            path : resetDatePath(courseID: courseID),
-            requiresAuth : true,
-            deserializer: .jsonResponse(courseDeadlineInfoDeserializer))
-    }
-    
-    private static func courseBannerInfoDeserializer(response : HTTPURLResponse) -> Result<()> {
-        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {
-            return Success(v: ())
-            
-        }
-        return Failure()
-    }
-    
-    private class var datesShiftPath: String {
-        return "/api/course_experience/v1/reset_course_deadlines"
-    }
-    
-    class func courseDatesShiftRequest(courseID: String)-> NetworkRequest<()> {
-        return NetworkRequest(
-            method: .POST,
-            path : datesShiftPath,
-            requiresAuth : true,
-            body: .jsonBody(
-                JSON(["course_key": courseID])
-            ),
-            deserializer: .noContent(courseBannerInfoDeserializer))
-    }
 }

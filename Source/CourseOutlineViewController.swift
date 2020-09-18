@@ -37,7 +37,7 @@ public class CourseOutlineViewController :
     private let blockIDStream = BackedStream<CourseBlockID?>()
     private let headersLoader = BackedStream<CourseOutlineQuerier.BlockGroup>()
     private let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
-    private let courseDateBannerInfoLoader = BackedStream<(CourseDateInfoBannerModel)>()
+    private let courseDateBannerLoader = BackedStream<(CourseDateBannerModel)>()
 
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
@@ -177,18 +177,18 @@ public class CourseOutlineViewController :
     }
     
     private func loadCourseBannerStream() {
-        let courseBannerInfoRequest = CourseDatesAPI.courseBannerInfoRequest(courseID: courseID)
-        let courseBannerInfoStream = environment.networkManager.streamForRequest(courseBannerInfoRequest)
-        courseDateBannerInfoLoader.backWithStream(courseBannerInfoStream)
+        let courseBannerRequest = CourseBannerAPI.courseBannerRequest(courseID: courseID)
+        let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
+        courseDateBannerLoader.backWithStream(courseBannerStream)
         
-        courseBannerInfoStream.listen(self) { [weak self] result in
+        courseBannerStream.listen(self) { [weak self] result in
             switch result {
-            case .success(let courseBannerInfo):
-                self?.loadCourseBannerInfoView(courseBannerInfo: courseBannerInfo)
+            case .success(let courseBanner):
+                self?.loadCourseDateBannerView(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
-                self?.hideCourseBannerInfoView()
+                self?.hideCourseBannerView()
                 Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
                 break
             }
@@ -202,16 +202,16 @@ public class CourseOutlineViewController :
         reload()
     }
     
-    private func loadCourseBannerInfoView(courseBannerInfo: CourseDateInfoBannerModel) {
-        if courseBannerInfo.hasEnded {
-            tableController.hideDateInfoBanner()
+    private func loadCourseDateBannerView(courseBanner: CourseDateBannerModel) {
+        if courseBanner.hasEnded {
+            tableController.hideCourseDateBanner()
         } else {
-            tableController.showDateInfoBanner(bannerInfo: courseBannerInfo.bannerInfo)
+            tableController.showCourseDateBanner(bannerInfo: courseBanner.bannerInfo)
         }
     }
     
-    private func hideCourseBannerInfoView() {
-        tableController.hideDateInfoBanner()
+    private func hideCourseBannerView() {
+        tableController.hideCourseDateBanner()
     }
     
     private func reload() {
@@ -338,7 +338,7 @@ public class CourseOutlineViewController :
     }
     
     func resetCourseDate(controller: CourseOutlineTableController) {
-        let request = CourseDatesAPI.courseDatesShiftRequest(courseID: courseID)
+        let request = CourseBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             if let _ = result.error {
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: controller)
