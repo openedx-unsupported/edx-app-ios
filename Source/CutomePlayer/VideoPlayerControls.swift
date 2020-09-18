@@ -301,10 +301,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     var isRTL: Bool {
         return (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft)
     }
-    
-    var bottomBarFrame: CGRect {
-        return bottomBar.frame
-    }
 
     func addTapGestures() {
         let singleTapGesture = UITapGestureRecognizer()
@@ -712,7 +708,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         if !tableSettings.isHidden && tableSettings.frame.contains(touch.location(in: self)) {
             return false
         }
-        if bottomBarFrame.contains(touch.location(in: self)){
+        if bottomBar.frame.contains(touch.location(in: self)){
             return false
         }
         return true

@@ -46,9 +46,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
     
     private let scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
-    var restrictedPaginationAreaStart: CGFloat = 0
-    var restrictedPaginationAreaEnd: CGFloat = 0
-    
+   
     ///Manages the caching of the viewControllers that have been viewed atleast once.
     ///Removes the ViewControllers from memory in case of a memory warning
     private let cacheManager : BlockViewControllerCacheManager

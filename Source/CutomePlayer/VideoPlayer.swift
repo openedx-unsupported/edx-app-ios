@@ -415,6 +415,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 (completed: Bool) -> Void in
                 self?.player.play()
                 self?.playerState = .playing
+                self?.controls?.setPlayPauseButtonState(isSelected: false)
+                
             }
         }
     }
@@ -618,10 +620,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                     self?.controls?.autoHide()
                     self?.player.play()
                 }
-                else if self?.playerState == .paused {
-                    self?.player.pause()
-                }
-            self?.savePlayedTime(time: time)
+                self?.savePlayedTime(time: time)
         }
     }
     
