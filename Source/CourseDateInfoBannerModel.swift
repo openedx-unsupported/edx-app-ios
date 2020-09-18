@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CourseDateDeadlineInfoModel {
+struct CourseDateInfoBannerModel {
     private enum Keys: String, RawStringExtractable {
         case bannerInfo = "dates_banner_info"
         case hasEnded = "has_ended"

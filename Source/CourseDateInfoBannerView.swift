@@ -11,10 +11,10 @@ import UIKit
 private let cornerRadius: CGFloat = 5
 
 protocol CourseResetDateViewDelegate {
-    func courseResetButtonAction()
+    func courseResetDateButtonAction()
 }
 
-class CourseResetDateBannerView: UIView {
+class CourseDateInfoBannerView: UIView {
     private var labelDefaultHeightOffset: CGFloat {
         guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
         
@@ -194,7 +194,7 @@ class CourseResetDateBannerView: UIView {
         guard let bannerInfo = bannerInfo else { return }
                 
         if bannerInfo.status == .resetDatesBanner {
-            delegate?.courseResetButtonAction()
+            delegate?.courseResetDateButtonAction()
         }
     }
     

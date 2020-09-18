@@ -37,7 +37,7 @@ public class CourseOutlineViewController :
     private let blockIDStream = BackedStream<CourseBlockID?>()
     private let headersLoader = BackedStream<CourseOutlineQuerier.BlockGroup>()
     private let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
-    private let courseDeadlineInfoLoader = BackedStream<(CourseDateDeadlineInfoModel)>()
+    private let courseDeadlineInfoLoader = BackedStream<(CourseDateInfoBannerModel)>()
 
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
@@ -201,11 +201,11 @@ public class CourseOutlineViewController :
         reload()
     }
     
-    private func loadCourseDatesResetView(courseDeadlineInfo: CourseDateDeadlineInfoModel) {
-        if let _ = courseDeadlineInfo.bannerInfo.status {
-            if !courseDeadlineInfo.hasEnded {
-                tableController.showDateResetBanner(bannerInfo: courseDeadlineInfo.bannerInfo)
-            }
+    private func loadCourseDatesResetView(courseDeadlineInfo: CourseDateInfoBannerModel) {
+        if courseDeadlineInfo.hasEnded {
+            tableController.hideDateInfoBanner()
+        } else {
+            tableController.showDateInfoBanner(bannerInfo: courseDeadlineInfo.bannerInfo)
         }
     }
     

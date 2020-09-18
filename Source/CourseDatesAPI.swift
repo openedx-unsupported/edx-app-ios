@@ -31,9 +31,9 @@ public class CourseDatesAPI: NSObject {
             deserializer: .jsonResponse(courseDateDeserializer))
     }
     
-    private static func courseDeadlineInfoDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDateDeadlineInfoModel> {
+    private static func courseDeadlineInfoDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDateInfoBannerModel> {
         guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {
-            return Success(v: CourseDateDeadlineInfoModel(json: json))
+            return Success(v: CourseDateInfoBannerModel(json: json))
         }
         return Failure()
     }
@@ -42,7 +42,7 @@ public class CourseDatesAPI: NSObject {
         return "/api/course_experience/v1/course_deadlines_info/{courseID}".oex_format(withParameters: ["courseID" : courseID])
     }
     
-    class func courseDeadlineInfoRequest(courseID: String) -> NetworkRequest<CourseDateDeadlineInfoModel> {
+    class func courseDeadlineInfoRequest(courseID: String) -> NetworkRequest<CourseDateInfoBannerModel> {
         return NetworkRequest(
             method: .GET,
             path : resetDatePath(courseID: courseID),

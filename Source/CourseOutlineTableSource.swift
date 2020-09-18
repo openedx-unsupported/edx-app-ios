@@ -30,7 +30,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     let courseID : String
     private var courseOutlineMode: CourseOutlineMode
     
-    private let courseDatesResetView = CourseResetDateBannerView(frame: .zero)
+    private let courseDateInfoBannerView = CourseDateInfoBannerView(frame: .zero)
     private let courseCard = CourseCardView(frame: .zero)
     private var courseCertificateView : CourseCertificateView?
     private let headerContainer = UIView()
@@ -100,13 +100,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     private func configureHeaderView() {
         if courseOutlineMode == .full {
-            courseDatesResetView.delegate = self
-            headerContainer.addSubview(courseDatesResetView)
+            courseDateInfoBannerView.delegate = self
+            headerContainer.addSubview(courseDateInfoBannerView)
             headerContainer.addSubview(courseCard)
             headerContainer.addSubview(lastAccessedView)
             addCertificateView()
             
-            courseDatesResetView.snp.remakeConstraints { make in
+            courseDateInfoBannerView.snp.remakeConstraints { make in
                 make.trailing.equalTo(headerContainer)
                 make.leading.equalTo(headerContainer)
                 make.top.equalTo(headerContainer)
@@ -332,19 +332,29 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.tableHeaderView = nil
     }
     
-    func showDateResetBanner(bannerInfo: DatesBannerInfo) {
-        courseDatesResetView.bannerInfo = bannerInfo
-        updateResetBannerView()
+    func showDateInfoBanner(bannerInfo: DatesBannerInfo) {
+        courseDateInfoBannerView.bannerInfo = bannerInfo
+        updateResetBannerView(show: true)
     }
     
-    private func updateResetBannerView() {
-        courseDatesResetView.setupView()
+    func hideDateInfoBanner() {
+        courseDateInfoBannerView.bannerInfo = nil
+        updateResetBannerView(show: false)
+    }
+    
+    private func updateResetBannerView(show: Bool) {
+        var height: CGFloat = 0
+        
+        if show {
+            courseDateInfoBannerView.setupView()
+            height = courseDateInfoBannerView.heightForView(width: headerContainer.frame.size.width)
+        }
 
-        courseDatesResetView.snp.remakeConstraints { make in
+        courseDateInfoBannerView.snp.remakeConstraints { make in
             make.trailing.equalTo(headerContainer)
             make.leading.equalTo(headerContainer)
             make.top.equalTo(headerContainer)
-            make.height.equalTo(courseDatesResetView.heightForView(width: headerContainer.frame.size.width))
+            make.height.equalTo(height)
         }
         
         updateHeaderConstraints()
@@ -359,7 +369,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         courseCard.snp.remakeConstraints { make in
             make.trailing.equalTo(headerContainer)
             make.leading.equalTo(headerContainer)
-            make.top.equalTo(courseDatesResetView.snp.bottom)
+            make.top.equalTo(courseDateInfoBannerView.snp.bottom)
             make.height.equalTo(CourseCardView.cardHeight())
         }
         
@@ -414,7 +424,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
 }
 
 extension CourseOutlineTableController: CourseResetDateViewDelegate {
-    func courseResetButtonAction() {
+    func courseResetDateButtonAction() {
         delegate?.resetCourseDate(controller: self)
     }
 }
