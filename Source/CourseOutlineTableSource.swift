@@ -30,7 +30,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     let courseID : String
     private var courseOutlineMode: CourseOutlineMode
     
-    private let courseDateInfoBannerView = CourseDateInfoBannerView(frame: .zero)
+    private let courseDateBannerView = CourseDateBannerView(frame: .zero)
     private let courseCard = CourseCardView(frame: .zero)
     private var courseCertificateView : CourseCertificateView?
     private let headerContainer = UIView()
@@ -100,13 +100,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     private func configureHeaderView() {
         if courseOutlineMode == .full {
-            courseDateInfoBannerView.delegate = self
-            headerContainer.addSubview(courseDateInfoBannerView)
+            courseDateBannerView.delegate = self
+            headerContainer.addSubview(courseDateBannerView)
             headerContainer.addSubview(courseCard)
             headerContainer.addSubview(lastAccessedView)
             addCertificateView()
             
-            courseDateInfoBannerView.snp.remakeConstraints { make in
+            courseDateBannerView.snp.remakeConstraints { make in
                 make.trailing.equalTo(headerContainer)
                 make.leading.equalTo(headerContainer)
                 make.top.equalTo(headerContainer)
@@ -333,12 +333,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     func showDateInfoBanner(bannerInfo: DatesBannerInfo) {
-        courseDateInfoBannerView.bannerInfo = bannerInfo
+        courseDateBannerView.bannerInfo = bannerInfo
         updateResetBannerView(show: true)
     }
     
     func hideDateInfoBanner() {
-        courseDateInfoBannerView.bannerInfo = nil
+        courseDateBannerView.bannerInfo = nil
         updateResetBannerView(show: false)
     }
     
@@ -346,11 +346,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         var height: CGFloat = 0
         
         if show {
-            courseDateInfoBannerView.setupView()
-            height = courseDateInfoBannerView.heightForView(width: headerContainer.frame.size.width)
+            courseDateBannerView.setupView()
+            height = courseDateBannerView.heightForView(width: headerContainer.frame.size.width)
         }
 
-        courseDateInfoBannerView.snp.remakeConstraints { make in
+        courseDateBannerView.snp.remakeConstraints { make in
             make.trailing.equalTo(headerContainer)
             make.leading.equalTo(headerContainer)
             make.top.equalTo(headerContainer)
@@ -369,7 +369,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         courseCard.snp.remakeConstraints { make in
             make.trailing.equalTo(headerContainer)
             make.leading.equalTo(headerContainer)
-            make.top.equalTo(courseDateInfoBannerView.snp.bottom)
+            make.top.equalTo(courseDateBannerView.snp.bottom)
             make.height.equalTo(CourseCardView.cardHeight())
         }
         
@@ -423,8 +423,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 }
 
-extension CourseOutlineTableController: CourseResetDateViewDelegate {
-    func courseResetDateButtonAction() {
+extension CourseOutlineTableController: CourseDateBannerViewDelegate {
+    func courseShiftDateButtonAction() {
         delegate?.resetCourseDate(controller: self)
     }
 }

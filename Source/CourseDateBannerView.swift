@@ -1,5 +1,5 @@
 //
-//  CourseDateInfoBannerView.swift
+//  CourseDateBannerView.swift
 //  edX
 //
 //  Created by Muhammad Umer on 08/09/2020.
@@ -10,11 +10,11 @@ import UIKit
 
 private let cornerRadius: CGFloat = 5
 
-protocol CourseResetDateViewDelegate {
-    func courseResetDateButtonAction()
+protocol CourseDateBannerViewDelegate {
+    func courseShiftDateButtonAction()
 }
 
-class CourseDateInfoBannerView: UIView {
+class CourseDateBannerView: UIView {
     private var labelDefaultHeightOffset: CGFloat {
         guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
         
@@ -79,7 +79,7 @@ class CourseDateInfoBannerView: UIView {
     }
     
     var bannerInfo: DatesBannerInfo?
-    var delegate: CourseResetDateViewDelegate?
+    var delegate: CourseDateBannerViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -194,7 +194,7 @@ class CourseDateInfoBannerView: UIView {
         guard let bannerInfo = bannerInfo else { return }
                 
         if bannerInfo.status == .resetDatesBanner {
-            delegate?.courseResetDateButtonAction()
+            delegate?.courseShiftDateButtonAction()
         }
     }
     
