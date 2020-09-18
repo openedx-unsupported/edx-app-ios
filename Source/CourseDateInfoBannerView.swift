@@ -1,5 +1,5 @@
 //
-//  CourseResetDateBannerView.swift
+//  CourseDateInfoBannerView.swift
 //  edX
 //
 //  Created by Muhammad Umer on 08/09/2020.

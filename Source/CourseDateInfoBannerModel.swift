@@ -1,5 +1,5 @@
 //
-//  CourseDateDeadlineInfoModel.swift
+//  CourseDateInfoBannerModel.swift
 //  edX
 //
 //  Created by Muhammad Umer on 08/09/2020.
