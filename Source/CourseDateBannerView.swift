@@ -15,18 +15,6 @@ protocol CourseDateBannerViewDelegate {
 }
 
 class CourseDateBannerView: UIView {
-    private var labelDefaultHeightOffset: CGFloat {
-        return 0
-//        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
-//
-//        switch status {
-//        case .upgradeToCompleteGradedBanner:
-//            //return 10
-//
-//        default:
-//            return 0
-//        }
-    }
     
     private let buttonMinWidth: CGFloat = 80
     private var buttonContainerHeight: CGFloat {
@@ -134,7 +122,10 @@ class CourseDateBannerView: UIView {
         }
         
         stackView.snp.makeConstraints { make in
-            make.edges.equalTo(container)
+            make.leading.equalTo(container)
+            make.trailing.equalTo(container)
+            make.top.equalTo(container)
+            make.bottom.equalTo(container).inset(StandardVerticalMargin)
         }
         
         labelContainer.snp.makeConstraints { make in
@@ -157,13 +148,6 @@ class CourseDateBannerView: UIView {
                 make.top.equalTo(buttonContainer.snp.top)
                 make.bottom.equalTo(buttonContainer.snp.bottom)
                 make.width.greaterThanOrEqualTo(buttonMinWidth)
-            }
-            
-            stackView.snp.remakeConstraints { make in
-                make.leading.equalTo(container)
-                make.trailing.equalTo(container)
-                make.top.equalTo(container)
-                make.bottom.equalTo(container).inset(StandardVerticalMargin)
             }
         }
     }
@@ -214,6 +198,6 @@ class CourseDateBannerView: UIView {
         label.text = status.header + status.body
         label.sizeToFit()
         
-        return status.button.isEmpty ? label.frame.height + labelDefaultHeightOffset : label.frame.height + buttonContainerHeight
+        return status.button.isEmpty ? label.frame.height + StandardVerticalMargin : label.frame.height + buttonContainerHeight
     }
 }
