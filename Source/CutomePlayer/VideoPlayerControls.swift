@@ -79,7 +79,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     lazy private var bottomBar: UIView = {
         let view = UIView()
         view.backgroundColor = self.barColor
-        view.isUserInteractionEnabled = false
         return view
     }()
     
@@ -250,6 +249,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     
     private var barColor: UIColor {
         return UIColor.black.withAlphaComponent(0.7)
+    }
+    
+    var bottomBarPosition: CGRect {
+        return bottomBar.frame
     }
     
     init(environment : Environment, player: VideoPlayer) {
@@ -711,6 +714,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         if bottomBar.frame.contains(touch.location(in: self)){
             return false
         }
+        
         return true
     }
 }

@@ -20,6 +20,7 @@ private let currentItemStatusKey = "currentItem.status"
 private let currentItemPlaybackLikelyToKeepUpKey = "currentItem.playbackLikelyToKeepUp"
 
 protocol VideoPlayerDelegate: class {
+    func playerDidFinishLoad(videoPlayer: VideoPlayer)
     func playerDidLoadTranscripts(videoPlayer:VideoPlayer, transcripts: [TranscriptObject])
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer)
     func playerDidTimeout(videoPlayer: VideoPlayer)
@@ -95,6 +96,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     var currentTime: TimeInterval {
         return player.currentItem?.currentTime().seconds ?? 0
+    }
+    
+    var controlsBarFrame: CGRect? {
+       return controls?.bottomBarPosition
     }
         
     var playableDuration: TimeInterval {
@@ -380,6 +385,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, object: player.currentItem as Any) {(notification, observer, _) in
             observer.playerDidFinishPlaying(note: notification)
         }
+        playerDelegate?.playerDidFinishLoad(videoPlayer: self)
         perform(#selector(movieTimedOut), with: nil, afterDelay: playerTimeOutInterval)
     }
     
