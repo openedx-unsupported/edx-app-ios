@@ -16,15 +16,16 @@ protocol CourseDateBannerViewDelegate {
 
 class CourseDateBannerView: UIView {
     private var labelDefaultHeightOffset: CGFloat {
-        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
-        
-        switch status {
-        case .upgradeToCompleteGradedBanner:
-            return 10
-        
-        default:
-            return 0
-        }
+        return 0
+//        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
+//
+//        switch status {
+//        case .upgradeToCompleteGradedBanner:
+//            //return 10
+//
+//        default:
+//            return 0
+//        }
     }
     
     private let buttonMinWidth: CGFloat = 80
@@ -107,8 +108,11 @@ class CourseDateBannerView: UIView {
         
         stackView.alignment = .leading
         stackView.axis = .vertical
+        stackView.distribution = .fill
         stackView.spacing = StandardVerticalMargin / 2
         stackView.addArrangedSubview(labelContainer)
+        
+        labelContainer.setContentHuggingPriority(.defaultLow, for: .vertical)
         
         labelContainer.addSubview(messageLabel)
         container.addSubview(stackView)
@@ -116,6 +120,8 @@ class CourseDateBannerView: UIView {
         if isButtonTextAvailable {
             stackView.addArrangedSubview(buttonContainer)
             buttonContainer.addSubview(bannerButton)
+            
+            buttonContainer.setContentHuggingPriority(.defaultHigh, for: .vertical)
         }
     }
     
@@ -123,7 +129,7 @@ class CourseDateBannerView: UIView {
         container.snp.makeConstraints { make in
             make.leading.equalTo(self).inset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
-            make.top.equalTo(self).inset(-StandardVerticalMargin)
+            make.top.equalTo(self)
             make.bottom.equalTo(self)
         }
         
