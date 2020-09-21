@@ -17,14 +17,14 @@ class CourseBannerAPI: NSObject {
         return Failure()
     }
     
-    private class func resetDatePath(courseID: String) -> String {
+    private class func courseBannerPath(courseID: String) -> String {
         return "/api/course_experience/v1/course_deadlines_info/{courseID}".oex_format(withParameters: ["courseID" : courseID])
     }
     
     class func courseBannerRequest(courseID: String) -> NetworkRequest<CourseDateBannerModel> {
         return NetworkRequest(
             method: .GET,
-            path : resetDatePath(courseID: courseID),
+            path : courseBannerPath(courseID: courseID),
             requiresAuth : true,
             deserializer: .jsonResponse(courseBannerDeserializer))
     }
@@ -37,14 +37,14 @@ class CourseBannerAPI: NSObject {
         return Failure()
     }
     
-    private class var datesShiftPath: String {
+    private class var courseDatesResetPath: String {
         return "/api/course_experience/v1/reset_course_deadlines"
     }
     
     class func courseDatesResetRequest(courseID: String)-> NetworkRequest<()> {
         return NetworkRequest(
             method: .POST,
-            path : datesShiftPath,
+            path : courseDatesResetPath,
             requiresAuth : true,
             body: .jsonBody(
                 JSON(["course_key": courseID])

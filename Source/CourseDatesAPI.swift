@@ -19,14 +19,14 @@ public class CourseDatesAPI: NSObject {
         return Failure(e: NSError(domain: "CourseDatesErrorDomain", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: Strings.Coursedates.courseDateUnavailable]))
     }
     
-    private class func courseDatesPath(courseID: String)-> String {
+    private class func path(courseID: String)-> String {
         return "/api/course_home/v1/dates/{courseID}".oex_format(withParameters: ["courseID" : courseID])
     }
     
     class func courseDatesRequest(courseID: String)-> NetworkRequest<CourseDateModel> {
         return NetworkRequest(
-            method: HTTPMethod.GET,
-            path : courseDatesPath(courseID: courseID),
+            method: .GET,
+            path : path(courseID: courseID),
             requiresAuth : true,
             deserializer: .jsonResponse(courseDateDeserializer))
     }

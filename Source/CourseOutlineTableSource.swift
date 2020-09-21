@@ -334,15 +334,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
         courseDateBannerView.bannerInfo = bannerInfo
-        updateResetBannerView(show: true)
+        updateCourseDateBannerView(show: true)
     }
     
     func hideCourseDateBanner() {
         courseDateBannerView.bannerInfo = nil
-        updateResetBannerView(show: false)
+        updateCourseDateBannerView(show: false)
     }
     
-    private func updateResetBannerView(show: Bool) {
+    private func updateCourseDateBannerView(show: Bool) {
         var height: CGFloat = 0
         
         if show {
