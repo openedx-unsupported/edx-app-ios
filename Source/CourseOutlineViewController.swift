@@ -177,7 +177,7 @@ public class CourseOutlineViewController :
     }
     
     private func loadCourseBannerStream() {
-        let courseBannerRequest = CourseBannerAPI.courseBannerRequest(courseID: courseID)
+        let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
         let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
         courseDateBannerLoader.backWithStream(courseBannerStream)
         
@@ -338,7 +338,7 @@ public class CourseOutlineViewController :
     }
     
     func resetCourseDate(controller: CourseOutlineTableController) {
-        let request = CourseBannerAPI.courseDatesResetRequest(courseID: courseID)
+        let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             if let _ = result.error {
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: controller)

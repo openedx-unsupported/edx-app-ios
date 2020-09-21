@@ -189,7 +189,7 @@
 		5FAE055524EA866900A29B1D /* CourseDatesModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAE055424EA866900A29B1D /* CourseDatesModelTests.swift */; };
 		5FB44C1324978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */; };
 		5FB69A8E24BC2CD800BBCAD7 /* RegistrationFormValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB69A8D24BC2CD800BBCAD7 /* RegistrationFormValidation.swift */; };
-		5FC24C222514DBDA0059C0BA /* CourseBannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC24C212514DBDA0059C0BA /* CourseBannerAPI.swift */; };
+		5FC24C222514DBDA0059C0BA /* CourseDateBannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */; };
 		67FDC7528B4181D9153A7C36 /* Pods_edXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */; };
 		6919F5FF1D65CD27006935C8 /* OEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6919F5FE1D65CD27006935C8 /* OEXColors.swift */; };
 		6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDA41D59BE3600A16E22 /* ic_next_press.png */; };
@@ -1206,7 +1206,7 @@
 		5FAE055424EA866900A29B1D /* CourseDatesModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesModelTests.swift; sourceTree = "<group>"; };
 		5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationSelectOptionViewController.swift; sourceTree = "<group>"; };
 		5FB69A8D24BC2CD800BBCAD7 /* RegistrationFormValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationFormValidation.swift; sourceTree = "<group>"; };
-		5FC24C212514DBDA0059C0BA /* CourseBannerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseBannerAPI.swift; sourceTree = "<group>"; };
+		5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerAPI.swift; sourceTree = "<group>"; };
 		61E8D7FCCFA0751E2D510864 /* libPods-EndToEndTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EndToEndTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6919F5FE1D65CD27006935C8 /* OEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColors.swift; sourceTree = "<group>"; };
 		6926CDA41D59BE3600A16E22 /* ic_next_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_next_press.png; sourceTree = "<group>"; };
@@ -4067,7 +4067,7 @@
 				E0FF457820FDD24400109662 /* VideoCompletionApi.swift */,
 				5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */,
 				5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */,
-				5FC24C212514DBDA0059C0BA /* CourseBannerAPI.swift */,
+				5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -4869,7 +4869,7 @@
 				77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */,
 				7742F8DD1C3C979D009E555A /* DiscoveryConfig.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
-				5FC24C222514DBDA0059C0BA /* CourseBannerAPI.swift in Sources */,
+				5FC24C222514DBDA0059C0BA /* CourseDateBannerAPI.swift in Sources */,
 				1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */,
 				1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,

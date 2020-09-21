@@ -1,5 +1,5 @@
 //
-//  CourseBannerAPI.swift
+//  CourseDateBannerAPI.swift
 //  edX
 //
 //  Created by Muhammad Umer on 18/09/2020.
@@ -9,27 +9,27 @@
 import Foundation
 import edXCore
 
-class CourseBannerAPI: NSObject {
-    private static func courseBannerDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDateBannerModel> {
+class CourseDateBannerAPI: NSObject {
+    private static func courseDateBannerDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDateBannerModel> {
         guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {
             return Success(v: CourseDateBannerModel(json: json))
         }
         return Failure()
     }
     
-    private class func courseBannerPath(courseID: String) -> String {
+    private class func courseDateBannerPath(courseID: String) -> String {
         return "/api/course_experience/v1/course_deadlines_info/{courseID}".oex_format(withParameters: ["courseID" : courseID])
     }
     
-    class func courseBannerRequest(courseID: String) -> NetworkRequest<CourseDateBannerModel> {
+    class func courseDateBannerRequest(courseID: String) -> NetworkRequest<CourseDateBannerModel> {
         return NetworkRequest(
             method: .GET,
-            path : courseBannerPath(courseID: courseID),
+            path : courseDateBannerPath(courseID: courseID),
             requiresAuth : true,
-            deserializer: .jsonResponse(courseBannerDeserializer))
+            deserializer: .jsonResponse(courseDateBannerDeserializer))
     }
     
-    private static func courseDateResetDeserializer(response : HTTPURLResponse) -> Result<()> {
+    private static func courseDatesResetPath(response : HTTPURLResponse) -> Result<()> {
         guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {
             return Success(v: ())
             
@@ -49,6 +49,6 @@ class CourseBannerAPI: NSObject {
             body: .jsonBody(
                 JSON(["course_key": courseID])
             ),
-            deserializer: .noContent(courseDateResetDeserializer))
+            deserializer: .noContent(courseDatesResetPath))
     }
 }
