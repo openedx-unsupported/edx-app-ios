@@ -251,7 +251,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         return UIColor.black.withAlphaComponent(0.7)
     }
     
-    var bottomBarPosition: CGRect {
+    var bottomBarFrame: CGRect {
         return bottomBar.frame
     }
     
@@ -711,7 +711,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         if !tableSettings.isHidden && tableSettings.frame.contains(touch.location(in: self)) {
             return false
         }
-        if bottomBar.frame.contains(touch.location(in: self)){
+        if bottomBarFrame.contains(touch.location(in: self)){
             return false
         }
         

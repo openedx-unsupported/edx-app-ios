@@ -98,8 +98,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         return player.currentItem?.currentTime().seconds ?? 0
     }
     
-    var controlsBarFrame: CGRect? {
-       return controls?.bottomBarPosition
+    var controlsBottomBarFrame: CGRect? {
+       return controls?.bottomBarFrame
     }
         
     var playableDuration: TimeInterval {
