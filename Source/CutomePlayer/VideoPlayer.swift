@@ -116,6 +116,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private lazy var leftSwipeGestureRecognizer : UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer()
         gesture.direction = .left
+        gesture.delegate = self
         gesture.addAction { [weak self] _ in
             self?.controls?.nextButtonClicked()
         }
@@ -126,6 +127,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private lazy var rightSwipeGestureRecognizer : UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer()
         gesture.direction = .right
+        gesture.delegate = self
         gesture.addAction { [weak self] _ in
             self?.controls?.previousButtonClicked()
         }
@@ -814,5 +816,15 @@ extension VideoPlayer {
     @objc fileprivate func t_postNotification() {
         //This notification call specifically for test cases in readyToPlay state
         NotificationCenter.default.post(name: Notification.Name.init("TestPlayerStatusDidChangedToReadyState"), object: nil)
+    }
+}
+
+extension VideoPlayer: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if let bottomBarframe = controlsBottomBarFrame, bottomBarframe.contains(touch.location(in: playerView)) {
+            return false
+        }
+        
+        return true
     }
 }
