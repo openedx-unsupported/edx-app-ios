@@ -343,24 +343,26 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     private func updateCourseDateBannerView(show: Bool) {
-        var height: CGFloat = 0
-        
-        if show {
-            courseDateBannerView.setupView()
-            height = courseDateBannerView.heightForView(width: headerContainer.frame.size.width)
-        }
-
-        courseDateBannerView.snp.remakeConstraints { make in
-            make.trailing.equalTo(headerContainer)
-            make.leading.equalTo(headerContainer)
-            make.top.equalTo(headerContainer)
-            make.height.equalTo(height)
-        }
-        
-        updateHeaderConstraints()
-        
-        UIView.animate(withDuration: 0.1) { [weak self] in
-            self?.view.layoutIfNeeded()
+        if courseOutlineMode == .full {
+            var height: CGFloat = 0
+            
+            if show {
+                courseDateBannerView.setupView()
+                height = courseDateBannerView.heightForView(width: headerContainer.frame.size.width)
+            }
+            
+            courseDateBannerView.snp.remakeConstraints { make in
+                make.trailing.equalTo(headerContainer)
+                make.leading.equalTo(headerContainer)
+                make.top.equalTo(headerContainer)
+                make.height.equalTo(height)
+            }
+            
+            updateHeaderConstraints()
+            
+            UIView.animate(withDuration: 0.1) { [weak self] in
+                self?.view.layoutIfNeeded()
+            }
         }
     }
     
