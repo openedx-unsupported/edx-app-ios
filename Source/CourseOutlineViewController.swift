@@ -93,7 +93,7 @@ public class CourseOutlineViewController :
         tableController.refreshController.setupInScrollView(scrollView: tableController.tableView)
         tableController.refreshController.delegate = self
         
-        insetsController.setupInController(owner: self, scrollView : self.tableController.tableView)
+        insetsController.setupInController(owner: self, scrollView : tableController.tableView)
         view.setNeedsUpdateConstraints()
         addListeners()
         setAccessibilityIdentifiers()
@@ -128,7 +128,7 @@ public class CourseOutlineViewController :
     }
     
     override public func updateViewConstraints() {
-        loadController.insets = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: self.bottomLayoutGuide.length, right : 0)
+        loadController.insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0, bottom: bottomLayoutGuide.length, right : 0)
         
         tableController.view.snp.remakeConstraints { make in
             make.edges.equalTo(safeEdges)
@@ -138,7 +138,7 @@ public class CourseOutlineViewController :
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.insetsController.updateInsets()
+        insetsController.updateInsets()
     }
     
     override func reloadViewData() {
@@ -215,7 +215,7 @@ public class CourseOutlineViewController :
     }
     
     private func reload() {
-        self.blockIDStream.backWithStream(OEXStream(value : self.blockID))
+        blockIDStream.backWithStream(OEXStream(value : self.blockID))
     }
     
     private func emptyState() -> LoadState {
@@ -223,8 +223,8 @@ public class CourseOutlineViewController :
     }
     
     private func showErrorIfNecessary(error : NSError) {
-        if self.loadController.state.isInitial {
-            self.loadController.state = LoadState.failed(error: error)
+        if loadController.state.isInitial {
+            loadController.state = LoadState.failed(error: error)
         }
     }
     
@@ -249,7 +249,7 @@ public class CourseOutlineViewController :
             }}
         )
         
-        self.blockIDStream.backWithStream(OEXStream(value: rootID))
+        blockIDStream.backWithStream(OEXStream(value: rootID))
     }
     
     private func loadHeaderStream() {
@@ -329,7 +329,7 @@ public class CourseOutlineViewController :
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
-        self.environment.router?.showContainerForBlockWithID(blockID: block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self, forMode: courseOutlineMode)
+        environment.router?.showContainerForBlockWithID(blockID: block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self, forMode: courseOutlineMode)
     }
     
     func outlineTableControllerReload(controller: CourseOutlineTableController) {
@@ -366,17 +366,17 @@ public class CourseOutlineViewController :
     
     //MARK: CourseContentPageViewControllerDelegate
     public func courseContentPageViewController(controller: CourseContentPageViewController, enteredBlockWithID blockID: CourseBlockID, parentID: CourseBlockID) {
-        self.blockIDStream.backWithStream(courseQuerier.parentOfBlockWithID(blockID: parentID))
-        self.tableController.highlightedBlockID = blockID
+        blockIDStream.backWithStream(courseQuerier.parentOfBlockWithID(blockID: parentID))
+        tableController.highlightedBlockID = blockID
     }
     
     //MARK: LastAccessedControllerDeleagte
     public func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
         if let lastAccessedItem = item {
-            self.tableController.showLastAccessedWithItem(item: lastAccessedItem)
+            tableController.showLastAccessedWithItem(item: lastAccessedItem)
         }
         else {
-            self.tableController.hideLastAccessed()
+            tableController.hideLastAccessed()
         }
         
     }
@@ -399,8 +399,8 @@ extension CourseOutlineViewController {
     }
     
     public func t_populateLastAccessedItem(item : CourseLastAccessed) -> Bool {
-        self.tableController.showLastAccessedWithItem(item: item)
-        return self.tableController.tableView.tableHeaderView != nil
+        tableController.showLastAccessedWithItem(item: item)
+        return tableController.tableView.tableHeaderView != nil
         
     }
     
@@ -409,7 +409,7 @@ extension CourseOutlineViewController {
     }
     
     public func t_tableView() -> UITableView {
-        return self.tableController.tableView
+        return tableController.tableView
     }
     
 }
