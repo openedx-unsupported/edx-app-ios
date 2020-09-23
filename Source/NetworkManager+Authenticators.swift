@@ -54,7 +54,7 @@ extension NetworkManager {
                    return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
                 }
 
-                if error.isAPIError(code: .OAuth2InvalidGrant) {
+                if error.isAPIError(code: .OAuth2InvalidGrant) || error.isAPIError(code: .OAuth2DisabledUser) {
                     return logout(router: router)
                 }
             }

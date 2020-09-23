@@ -32,7 +32,7 @@
 
 NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXExternalRegistrationWithExistingAccountNotification";
 
-@interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate, AgreementTextViewDelegate, InterfaceOrientationOverriding>
+@interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate, AgreementTextViewDelegate, InterfaceOrientationOverriding, MFMailComposeViewControllerDelegate>
 
 /// Contents are id <OEXRegistrationFieldController>
 @property (strong, nonatomic) NSArray* fieldControllers;
@@ -444,6 +444,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                         [[NSNotificationCenter defaultCenter] postNotificationName:OEXExternalRegistrationWithExistingAccountNotification object:provider.displayName];
                     }];
                 }
+                else if (response.statusCode == OEXHTTPStatusCode403Forbidden) {
+                    [self showDisabledUserMessage];
+                }
                 else {
                     [self configureViewForSocial:provider accessToken:accessToken userDetails:userDetails];
                 }
@@ -469,6 +472,17 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [blockSelf useHeadingView:headingView];
         [blockSelf receivedFields:userDetails fromProvider:provider withAccessToken:accessToken];
     });
+}
+
+- (void) showDisabledUserMessage {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    UIAlertController *alertController = [[UIAlertController alloc] showAlertWithTitle:[Strings floatingErrorLoginTitle] message:[Strings authProviderDisabledUserError] cancelButtonTitle:[Strings cancel] onViewController:self];
+
+    __block OEXRegistrationViewController *blockSelf = self;
+    [alertController addButtonWithTitle:[Strings customerSupport] actionBlock:^(UIAlertAction * _Nonnull action) {
+        [blockSelf launchEmailComposer];
+    }];
 }
 
 - (void)receivedFields:(OEXRegisteringUserDetails*)profile fromProvider:(id <OEXExternalAuthProvider>)provider withAccessToken:(NSString*)accessToken {
@@ -624,6 +638,31 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (BOOL) isRTL {
     return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
+}
+
+#pragma mark - Emaila and MFMailComposeViewControllerDelegate methods
+- (void) launchEmailComposer {
+    if (![MFMailComposeViewController canSendMail]) {
+        [[UIAlertController alloc] showAlertWithTitle:[Strings emailAccountNotSetUpTitle] message:[Strings emailAccountNotSetUpMessage] onViewController:self.navigationController];
+        return;
+    }
+
+    MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+    mailComposer.mailComposeDelegate = self;
+    mailComposer.navigationBar.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
+    [mailComposer setSubject:[Strings accountDisabled]];
+    [mailComposer setMessageBody:[EmailTemplates supportEmailMessageTemplate] isHTML:false];
+
+    NSString *fbAddress = self.environment.config.feedbackEmailAddress;
+    if (fbAddress) {
+        [mailComposer setToRecipients:[NSArray arrayWithObject:fbAddress]];
+    }
+
+    [self presentViewController:mailComposer animated:true completion:nil];
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [self dismissViewControllerAnimated:true completion:nil];
 }
 
 @end
