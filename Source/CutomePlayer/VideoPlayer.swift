@@ -424,7 +424,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 self?.player.play()
                 self?.playerState = .playing
                 self?.controls?.setPlayPauseButtonState(isSelected: false)
-                
             }
         }
     }

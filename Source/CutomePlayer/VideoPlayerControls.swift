@@ -711,10 +711,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         if !tableSettings.isHidden && tableSettings.frame.contains(touch.location(in: self)) {
             return false
         }
-        if bottomBarFrame.contains(touch.location(in: self)){
-            return false
-        }
-        
         return true
     }
 }

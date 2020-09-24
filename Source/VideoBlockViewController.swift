@@ -460,8 +460,8 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     
     func playerDidFinishLoad(videoPlayer: VideoPlayer) {
         if let frame = videoPlayer.controlsBottomBarFrame, let contentView = parent as? CourseContentPageViewController {
-                contentView.restrictedPaginationAreaStart = frame.origin.y
-                contentView.restrictedPaginationAreaEnd = (frame.origin.y) + (frame.size.height)
+            contentView.restrictedPaginationAreaStart = frame.origin.y
+            contentView.restrictedPaginationAreaEnd = (frame.origin.y) + (frame.size.height)
         }
     }
     

@@ -119,11 +119,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     // This is to restrict the pagination for bottom bar of player to make player progress slider smooth
     private func addRestrictedViewToPagination() {
-        for view in view.subviews {
-            if let scrollView = view as? UIScrollView {
-                scrollViewPanGestureRecognzier.delegate = self
-                scrollView.addGestureRecognizer(scrollViewPanGestureRecognzier)
-            }
+        for case let scrollView as UIScrollView in view.subviews {
+            scrollViewPanGestureRecognzier.delegate = self
+            scrollView.addGestureRecognizer(scrollViewPanGestureRecognzier)
         }
     }
     
