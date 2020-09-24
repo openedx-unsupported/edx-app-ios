@@ -131,25 +131,24 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         slider.secondaryTrackColor = UIColor(red: 76.0/255.0, green: 135.0/255.0, blue: 130.0/255.0, alpha: 0.9)
         slider.oex_addAction({ [weak self] (action) in
             if let weakSelf = self {
-                weakSelf.delegate?.sliderValueChanged(playerControls: weakSelf)
-            }
-            }, for: .valueChanged)
+                    weakSelf.delegate?.sliderValueChanged(playerControls: weakSelf)
+                }
+        }, for: .valueChanged)
         slider.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
-                weakSelf.delegate?.sliderTouchBegan(playerControls: weakSelf)
-            }
-            }, for: .touchDown)
+                    weakSelf.delegate?.sliderTouchBegan(playerControls: weakSelf)
+                }
+        }, for: .touchDown)
         slider.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
-                weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
-            }
-            }, for: .touchUpInside)
+                    weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
+                }
+        }, for: .touchUpInside)
         slider.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
-                weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
-            }
-            }, for: .touchUpOutside)
-        
+                    weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
+                }
+        }, for: .touchUpOutside)
         return slider
     }()
     
@@ -252,6 +251,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         return UIColor.black.withAlphaComponent(0.7)
     }
     
+    var bottomBarFrame: CGRect {
+        return bottomBar.frame
+    }
+    
     init(environment : Environment, player: VideoPlayer) {
         self.environment = environment
         videoPlayer = player
@@ -301,7 +304,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     var isRTL: Bool {
         return (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft)
     }
-    
+
     func addTapGestures() {
         let singleTapGesture = UITapGestureRecognizer()
         singleTapGesture.numberOfTapsRequired = 1

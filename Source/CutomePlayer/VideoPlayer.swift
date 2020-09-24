@@ -20,6 +20,7 @@ private let currentItemStatusKey = "currentItem.status"
 private let currentItemPlaybackLikelyToKeepUpKey = "currentItem.playbackLikelyToKeepUp"
 
 protocol VideoPlayerDelegate: class {
+    func playerDidFinishLoad(videoPlayer: VideoPlayer)
     func playerDidLoadTranscripts(videoPlayer:VideoPlayer, transcripts: [TranscriptObject])
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer)
     func playerDidTimeout(videoPlayer: VideoPlayer)
@@ -97,6 +98,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         return player.currentItem?.currentTime().seconds ?? 0
     }
     
+    var controlsBottomBarFrame: CGRect? {
+       return controls?.bottomBarFrame
+    }
+        
     var playableDuration: TimeInterval {
         var result: TimeInterval = 0
         if let loadedTimeRanges = player.currentItem?.loadedTimeRanges, loadedTimeRanges.count > 0  {
@@ -111,6 +116,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private lazy var leftSwipeGestureRecognizer : UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer()
         gesture.direction = .left
+        gesture.delegate = self
         gesture.addAction { [weak self] _ in
             self?.controls?.nextButtonClicked()
         }
@@ -121,6 +127,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private lazy var rightSwipeGestureRecognizer : UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer()
         gesture.direction = .right
+        gesture.delegate = self
         gesture.addAction { [weak self] _ in
             self?.controls?.previousButtonClicked()
         }
@@ -277,6 +284,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if playerState == .paused {
+            return
+        }
         if context == &playbackLikelyToKeepUpContext, let currentItem = player.currentItem {
             if currentItem.isPlaybackLikelyToKeepUp {
                 loadingIndicatorView.stopAnimating()
@@ -331,7 +341,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if !ChromeCastManager.shared.isMiniPlayerAdded {
             applyScreenOrientation()
         }
-        resume()
+        if playerState == .paused {
+            resume()
+        }
     }
     
     private func applyScreenOrientation() {
@@ -375,6 +387,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, object: player.currentItem as Any) {(notification, observer, _) in
             observer.playerDidFinishPlaying(note: notification)
         }
+        playerDelegate?.playerDidFinishLoad(videoPlayer: self)
         perform(#selector(movieTimedOut), with: nil, afterDelay: playerTimeOutInterval)
     }
     
@@ -410,6 +423,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 (completed: Bool) -> Void in
                 self?.player.play()
                 self?.playerState = .playing
+                self?.controls?.setPlayPauseButtonState(isSelected: false)
             }
         }
     }
@@ -451,7 +465,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     fileprivate func addGestures() {
-        
         if let _ = playerView.gestureRecognizers?.contains(leftSwipeGestureRecognizer), let _ = playerView.gestureRecognizers?.contains(rightSwipeGestureRecognizer) {
             removeGestures()
         }
@@ -606,17 +619,15 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
 
     func seek(to time: Double) {
         if player.currentItem?.status != .readyToPlay { return }
-        
         let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale)
+        lastElapsedTime = time
         player.currentItem?.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self]
             (completed: Bool) -> Void in
-            if self?.playerState == .playing {
-                self?.controls?.autoHide()
-                self?.player.play()
-            }
-            else {
-                self?.savePlayedTime()
-            }
+                if self?.playerState == .playing {
+                    self?.controls?.autoHide()
+                    self?.player.play()
+                }
+                self?.savePlayedTime(time: time)
         }
     }
     
@@ -804,5 +815,15 @@ extension VideoPlayer {
     @objc fileprivate func t_postNotification() {
         //This notification call specifically for test cases in readyToPlay state
         NotificationCenter.default.post(name: Notification.Name.init("TestPlayerStatusDidChangedToReadyState"), object: nil)
+    }
+}
+
+extension VideoPlayer: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if let bottomBarframe = controlsBottomBarFrame, bottomBarframe.contains(touch.location(in: playerView)) {
+            return false
+        }
+        
+        return true
     }
 }

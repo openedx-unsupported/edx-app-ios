@@ -45,6 +45,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var courseOutlineMode: CourseOutlineMode
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
     
+    private let scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
+    var restrictedPaginationAreaStart: CGFloat = 0
+    var restrictedPaginationAreaEnd: CGFloat = 0
+   
     ///Manages the caching of the viewControllers that have been viewed atleast once.
     ///Removes the ViewControllers from memory in case of a memory warning
     private let cacheManager : BlockViewControllerCacheManager
@@ -109,8 +113,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             scrollView.delaysContentTouches = false
         }
         addObservers()
-        
+        addRestrictedViewToPagination()
         ChromeCastManager.shared.removeChromeCastButton(from: self, force: true)
+    }
+    
+    // This is to restrict the pagination for bottom bar of player to make player progress slider smooth
+    private func addRestrictedViewToPagination() {
+        for case let scrollView as UIScrollView in view.subviews {
+            scrollViewPanGestureRecognzier.delegate = self
+            scrollView.addGestureRecognizer(scrollViewPanGestureRecognzier)
+        }
     }
     
     private func addStreamListeners() {
@@ -421,5 +433,22 @@ extension CourseContentPageViewController {
     
     public func t_goBackward() {
         moveInDirection(direction: .reverse)
+    }
+}
+
+extension CourseContentPageViewController: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if (gestureRecognizer == scrollViewPanGestureRecognzier) {
+            let locationInView = gestureRecognizer.location(in: view)
+            if (locationInView.y > restrictedPaginationAreaStart && locationInView.y < restrictedPaginationAreaEnd) {
+                return true
+            }
+        }
+        
+        return false
     }
 }
