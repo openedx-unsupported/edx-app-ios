@@ -54,6 +54,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         setConstraints()
         setAccessibilityIdentifiers()
         loadCourseDates()
+        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +68,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+    
+    func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD) { _, observer, _ in
+            observer.loadCourseDates()
+        }
     }
     
     private func setupView() {
@@ -151,6 +158,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

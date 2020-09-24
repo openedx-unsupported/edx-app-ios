@@ -350,6 +350,7 @@ public class CourseOutlineViewController :
     }
     
     private func reloadAfterCourseDateReset() {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD)))
         refreshCourseOutlineController()
     }
     
