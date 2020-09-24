@@ -8,8 +8,6 @@
 
 import Foundation
 
-let NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD = "ShifCourseDatesSuccessFromCourseDashboard"
-
 struct CourseDateBannerModel {
     private enum Keys: String, RawStringExtractable {
         case bannerInfo = "dates_banner_info"
