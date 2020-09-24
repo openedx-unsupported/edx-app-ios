@@ -137,7 +137,61 @@ struct CourseDateModel {
     }
 }
 
-struct DatesBannerInfo {
+enum BannerInfoStatus {
+    case datesTabInfoBanner
+    case upgradeToCompleteGradedBanner
+    case upgradeToResetBanner
+    case resetDatesBanner
+        
+    var header: String {
+        switch self {
+        case .datesTabInfoBanner:
+            return Strings.Coursedates.ResetDate.TabInfoBanner.header
+            
+        case .upgradeToCompleteGradedBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToCompleteGradedBanner.header
+            
+        case .upgradeToResetBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToResetBanner.header
+            
+        case .resetDatesBanner:
+            return Strings.Coursedates.ResetDate.ResetDateBanner.header
+        }
+    }
+    
+    var body: String {
+        switch self {
+        case .datesTabInfoBanner:
+            return Strings.Coursedates.ResetDate.TabInfoBanner.body
+                        
+        case .upgradeToCompleteGradedBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToCompleteGradedBanner.body
+            
+        case .upgradeToResetBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToResetBanner.body
+            
+        case .resetDatesBanner:
+            return Strings.Coursedates.ResetDate.ResetDateBanner.body
+        }
+    }
+    
+    var button: String {
+        switch self {
+        case .upgradeToCompleteGradedBanner, .upgradeToResetBanner:
+            // Mobile payments are not implemented yet and to avoid breaking appstore guidelines,
+            // upgrade button is hidden, which leads user to payments
+            return ""
+            
+        case .resetDatesBanner:
+            return Strings.Coursedates.ResetDate.ResetDateBanner.button
+
+        default:
+            return ""
+        }
+    }
+}
+
+class DatesBannerInfo {
     private enum Keys: String, RawStringExtractable {
         case contentTypeGatingEnabled = "content_type_gating_enabled"
         case missedDeadline = "missed_deadlines"
@@ -155,6 +209,41 @@ struct DatesBannerInfo {
         missedDeadline = json[Keys.missedDeadline].bool ?? false
         missedGatedContent = json[Keys.missedGatedContent].bool ?? false
         verifiedUpgradeLink = json[Keys.verifiedUpgradeLink].string ?? ""
+    }
+    
+    var status: BannerInfoStatus? {
+        if upgradeToCompleteGraded {
+            return .upgradeToCompleteGradedBanner
+        } else if upgradeToReset {
+            return .upgradeToResetBanner
+        } else if resetDates {
+            return .resetDatesBanner
+        } else if showDatesTabBannerInfo {
+            return .datesTabInfoBanner
+        }
+        
+        return nil
+    }
+    
+    // Cases are defied according to this link https://openedx.atlassian.net/browse/LEARNER-7724?focusedCommentId=479226
+    // Case 1
+    private var showDatesTabBannerInfo: Bool {
+        return !missedDeadline
+    }
+    
+    // Case 2
+    private var upgradeToCompleteGraded: Bool {
+        return contentTypeGatingEnabled && !missedDeadline
+    }
+    
+    // Case 3
+    private var upgradeToReset: Bool {
+        return !upgradeToCompleteGraded && missedDeadline && missedGatedContent
+    }
+    
+    // Case 4
+    private var resetDates: Bool {
+        return !upgradeToCompleteGraded && missedDeadline && !missedGatedContent
     }
 }
 

@@ -17,6 +17,7 @@ protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideoForBlock block:CourseBlock)
     func outlineTableControllerChoseShowDownloads(controller : CourseOutlineTableController)
     func outlineTableControllerReload(controller: CourseOutlineTableController)
+    func resetCourseDate(controller: CourseOutlineTableController)
 }
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate {
@@ -29,12 +30,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     let courseID : String
     private var courseOutlineMode: CourseOutlineMode
     
+    private let courseDateBannerView = CourseDateBannerView(frame: .zero)
     private let courseCard = CourseCardView(frame: .zero)
     private var courseCertificateView : CourseCertificateView?
     private let headerContainer = UIView()
     private let lastAccessedView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     var courseVideosHeaderView: CourseVideosHeaderView?
-    private var lastAccess:Bool = false
+    private var lastAccess = false
     private var shouldHideTableViewHeader:Bool = false
     let refreshController = PullRefreshController()
     private var courseBlockID : CourseBlockID?
@@ -98,9 +100,18 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     private func configureHeaderView() {
         if courseOutlineMode == .full {
-            headerContainer.addSubview(lastAccessedView)
+            courseDateBannerView.delegate = self
+            headerContainer.addSubview(courseDateBannerView)
             headerContainer.addSubview(courseCard)
+            headerContainer.addSubview(lastAccessedView)
             addCertificateView()
+            
+            courseDateBannerView.snp.remakeConstraints { make in
+                make.trailing.equalTo(headerContainer)
+                make.leading.equalTo(headerContainer)
+                make.top.equalTo(headerContainer)
+                make.height.equalTo(0)
+            }
         }
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
             switch courseOutlineMode {
@@ -321,6 +332,70 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.tableHeaderView = nil
     }
     
+    func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
+        courseDateBannerView.bannerInfo = bannerInfo
+        updateCourseDateBannerView(show: true)
+    }
+    
+    func hideCourseDateBanner() {
+        courseDateBannerView.bannerInfo = nil
+        updateCourseDateBannerView(show: false)
+    }
+    
+    private func updateCourseDateBannerView(show: Bool) {
+        if courseOutlineMode == .full {
+            var height: CGFloat = 0
+            
+            if show {
+                courseDateBannerView.setupView()
+                height = courseDateBannerView.heightForView(width: headerContainer.frame.size.width)
+            }
+            
+            courseDateBannerView.snp.remakeConstraints { make in
+                make.trailing.equalTo(headerContainer)
+                make.leading.equalTo(headerContainer)
+                make.top.equalTo(headerContainer)
+                make.height.equalTo(height)
+            }
+            
+            updateHeaderConstraints()
+            
+            UIView.animate(withDuration: 0.1) { [weak self] in
+                self?.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    private func updateHeaderConstraints() {
+        var constraintView: UIView = courseCard
+        courseCard.snp.remakeConstraints { make in
+            make.trailing.equalTo(headerContainer)
+            make.leading.equalTo(headerContainer)
+            make.top.equalTo(courseDateBannerView.snp.bottom)
+            make.height.equalTo(CourseCardView.cardHeight())
+        }
+        
+        if let courseCertificateView = courseCertificateView {
+            courseCertificateView.snp.remakeConstraints { make in
+                make.trailing.equalTo(courseCard)
+                make.leading.equalTo(courseCard)
+                make.height.equalTo(CourseCertificateView.height)
+                make.top.equalTo(constraintView.snp.bottom)
+            }
+            constraintView = courseCertificateView
+        }
+        
+        lastAccessedView.snp.remakeConstraints { make in
+            make.trailing.equalTo(courseCard)
+            make.leading.equalTo(courseCard)
+            make.top.equalTo(constraintView.snp.bottom)
+            let height = lastAccess ? (isVerticallyCompact() ? lassAccessViewLandscapeHeight : lassAccessViewPortraitHeight) : 0
+            make.height.equalTo(height)
+            make.bottom.equalTo(headerContainer)
+        }
+        tableView.setAndLayoutTableHeaderView(header: headerContainer)
+    }
+    
     private func refreshTableHeaderView(lastAccess: Bool) {
         self.lastAccess = lastAccess
         lastAccessedView.isHidden = !lastAccess
@@ -328,33 +403,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         switch courseOutlineMode {
         case .full:
             if shouldHideTableViewHeader { return }
-            var constraintView: UIView = courseCard            
-            courseCard.snp.remakeConstraints { make in
-                make.trailing.equalTo(headerContainer)
-                make.leading.equalTo(headerContainer)
-                make.top.equalTo(headerContainer)
-                make.height.equalTo(CourseCardView.cardHeight())
-            }
-            
-            if let courseCertificateView = courseCertificateView {
-                courseCertificateView.snp.remakeConstraints { make in
-                    make.trailing.equalTo(courseCard)
-                    make.leading.equalTo(courseCard)
-                    make.height.equalTo(CourseCertificateView.height)
-                    make.top.equalTo(constraintView.snp.bottom)
-                }
-                constraintView = courseCertificateView
-            }
-            
-            lastAccessedView.snp.remakeConstraints { make in
-                make.trailing.equalTo(courseCard)
-                make.leading.equalTo(courseCard)
-                make.top.equalTo(constraintView.snp.bottom)
-                let height = lastAccess ? (isVerticallyCompact() ? lassAccessViewLandscapeHeight : lassAccessViewPortraitHeight) : 0
-                make.height.equalTo(height)
-                make.bottom.equalTo(headerContainer)
-            }
-            tableView.setAndLayoutTableHeaderView(header: headerContainer)
+            updateHeaderConstraints()
             break
         case .video:
             if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, courseBlockID == nil {
@@ -373,11 +422,16 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
             break
         }
-        
     }
 }
 
-extension UITableView {
+extension CourseOutlineTableController: CourseDateBannerViewDelegate {
+    func courseShiftDateButtonAction() {
+        delegate?.resetCourseDate(controller: self)
+    }
+}
+
+fileprivate extension UITableView {
     //set the tableHeaderView so that the required height can be determined, update the header's frame and set it again
     func setAndLayoutTableHeaderView(header: UIView) {
         header.setNeedsLayout()

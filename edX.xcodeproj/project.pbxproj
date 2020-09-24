@@ -175,6 +175,8 @@
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
 		5F0248C624AC9ED8000AF1FF /* CourseDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C524AC9ED8000AF1FF /* CourseDates.swift */; };
 		5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */; };
+		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
+		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
 		5F46A7CC24ADFFA300347EFC /* CourseDateViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */; };
 		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
@@ -187,6 +189,7 @@
 		5FAE055524EA866900A29B1D /* CourseDatesModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAE055424EA866900A29B1D /* CourseDatesModelTests.swift */; };
 		5FB44C1324978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */; };
 		5FB69A8E24BC2CD800BBCAD7 /* RegistrationFormValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB69A8D24BC2CD800BBCAD7 /* RegistrationFormValidation.swift */; };
+		5FC24C222514DBDA0059C0BA /* CourseDateBannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */; };
 		67FDC7528B4181D9153A7C36 /* Pods_edXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */; };
 		6919F5FF1D65CD27006935C8 /* OEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6919F5FE1D65CD27006935C8 /* OEXColors.swift */; };
 		6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDA41D59BE3600A16E22 /* ic_next_press.png */; };
@@ -1190,6 +1193,8 @@
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
 		5F0248C524AC9ED8000AF1FF /* CourseDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDates.swift; sourceTree = "<group>"; };
 		5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesAPI.swift; sourceTree = "<group>"; };
+		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
+		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
 		5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDateViewCell.swift; sourceTree = "<group>"; };
 		5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePoint.swift; sourceTree = "<group>"; };
@@ -1200,6 +1205,7 @@
 		5FAE055424EA866900A29B1D /* CourseDatesModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesModelTests.swift; sourceTree = "<group>"; };
 		5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationSelectOptionViewController.swift; sourceTree = "<group>"; };
 		5FB69A8D24BC2CD800BBCAD7 /* RegistrationFormValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationFormValidation.swift; sourceTree = "<group>"; };
+		5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerAPI.swift; sourceTree = "<group>"; };
 		61E8D7FCCFA0751E2D510864 /* libPods-EndToEndTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EndToEndTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6919F5FE1D65CD27006935C8 /* OEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColors.swift; sourceTree = "<group>"; };
 		6926CDA41D59BE3600A16E22 /* ic_next_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_next_press.png; sourceTree = "<group>"; };
@@ -2367,6 +2373,7 @@
 			children = (
 				5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */,
 				221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */,
+				5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */,
 			);
 			name = "Course Dates";
 			sourceTree = "<group>";
@@ -3046,6 +3053,7 @@
 				22AB111E2375695C007D03D2 /* PushLink.swift */,
 				228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */,
 				5F0248C524AC9ED8000AF1FF /* CourseDates.swift */,
+				5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */,
 			);
 			name = "Course Structure";
 			sourceTree = "<group>";
@@ -4057,6 +4065,7 @@
 				E0FF457820FDD24400109662 /* VideoCompletionApi.swift */,
 				5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */,
 				5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */,
+				5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -4856,6 +4865,7 @@
 				77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */,
 				7742F8DD1C3C979D009E555A /* DiscoveryConfig.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
+				5FC24C222514DBDA0059C0BA /* CourseDateBannerAPI.swift in Sources */,
 				1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */,
 				1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
@@ -4989,6 +4999,7 @@
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
 				69EFBB0D1E36270000FF66C4 /* RatingContainerView.swift in Sources */,
+				5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */,
 				B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */,
 				77691FA31B3B4596003922F2 /* UIColor+OEXHex.m in Sources */,
 				E01F45671E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift in Sources */,
@@ -5230,6 +5241,7 @@
 				77E6487F1C9133C600B6740D /* SessionUsernameProvider.swift in Sources */,
 				E03E6A171D38EB9000944AAA /* SnackbarViews.swift in Sources */,
 				0D930BC223680983001C80AF /* ChromeCastMiniPlayer.swift in Sources */,
+				5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */,
 				77C901A71BBDDD630016E468 /* TableCellStyle.swift in Sources */,
 				7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */,
 				7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */,

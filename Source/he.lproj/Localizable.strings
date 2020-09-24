@@ -284,6 +284,34 @@
 "COURSEDATES.COURSE_END_DATE"="Course End Date";
 /* Course Date Event */
 "COURSEDATES.EVENT"="Event";
+/* Course Reset Date Title */
+"COURSEDATES.RESET_DATE.TITLE"="Course Dates";
+/* Course Reset Date Success Message */
+"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Your dates have been successfully shifted.";
+/* Course Reset Date Error Message */
+"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Your dates could not be shifted. Please try again.";
+/* Course Reset Date Tab Info Banner Header */
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="We've built a suggested schedule to help you stay on track. ";
+/* Course Reset Date Tab Info Banner Body */
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="But don't worry—it's flexible so you can learn at your own pace. If you happen to fall behind on our suggested dates, you'll be able to adjust them to keep yourself on track.";
+/* Course Reset Date Upgrade To Complete Graded Banner Header */
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="You are auditing this course, ";
+/* Course Reset Date Upgrade To Complete Graded Banner Body */
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded assignments as part of this course, you can upgrade today.";
+/* Course Reset Date Upgrade To Complete Graded Banner Button */
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Upgrade now";
+/* Course Reset Date Upgrade Reset Banner Header */
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="You are auditing this course, ";
+/* Course Reset Date Upgrade Reset Banner Body */
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="which means that you are unable to participate in graded assignments. It looks like you missed some important deadlines based on our suggested schedule. To complete graded assignments as part of this course and shift the past due assignments into the future, you can upgrade today.";
+/* Course Reset Date Upgrade Reset Banner Button */
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
+/* Course Reset Date Banner Header */
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="It looks like you missed some important deadlines based on our suggested schedule. ";
+/* Course Reset Date Banner Body */
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
+/* Course Reset Date Banner Button */
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
 /* Button text for cancelling any action */
 "CANCEL"="ביטול";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */

@@ -32,12 +32,13 @@ public class CourseOutlineViewController :
     private var environment : Environment
     
     private let courseQuerier : CourseOutlineQuerier
-    fileprivate let tableController : CourseOutlineTableController
+    private let tableController : CourseOutlineTableController
     
     private let blockIDStream = BackedStream<CourseBlockID?>()
     private let headersLoader = BackedStream<CourseOutlineQuerier.BlockGroup>()
-    fileprivate let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
-    
+    private let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
+    private let courseDateBannerLoader = BackedStream<(CourseDateBannerModel)>()
+
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private var lastAccessedController : CourseLastAccessedController
@@ -92,7 +93,7 @@ public class CourseOutlineViewController :
         tableController.refreshController.setupInScrollView(scrollView: tableController.tableView)
         tableController.refreshController.delegate = self
         
-        insetsController.setupInController(owner: self, scrollView : self.tableController.tableView)
+        insetsController.setupInController(owner: self, scrollView : tableController.tableView)
         view.setNeedsUpdateConstraints()
         addListeners()
         setAccessibilityIdentifiers()
@@ -102,7 +103,7 @@ public class CourseOutlineViewController :
         super.viewWillAppear(animated)
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
-        loadStreams()
+        loadCourseStream()
         
         if courseOutlineMode == .video {
             // We are doing calculations to show downloading progress on video tab, For this purpose we are observing notifications.
@@ -127,7 +128,7 @@ public class CourseOutlineViewController :
     }
     
     override public func updateViewConstraints() {
-        loadController.insets = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: self.bottomLayoutGuide.length, right : 0)
+        loadController.insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0, bottom: bottomLayoutGuide.length, right : 0)
         
         tableController.view.snp.remakeConstraints { make in
             make.edges.equalTo(safeEdges)
@@ -137,7 +138,7 @@ public class CourseOutlineViewController :
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.insetsController.updateInsets()
+        insetsController.updateInsets()
     }
     
     override func reloadViewData() {
@@ -154,31 +155,67 @@ public class CourseOutlineViewController :
         navigationItem.title = (courseOutlineMode == .video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
     }
     
-    private func loadStreams() {
-        loadController.state = .Initial
-        let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
-        stream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
-                if self?.blockID == rootID || self?.blockID == nil {
-                    if self?.courseOutlineMode == .full {
-                        self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
-                    }
-                    else {
-                        self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
-                    }
+    private func loadCourseOutlineStream() {
+        let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
+
+        courseOutlineStream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
+            if self?.blockID == rootID || self?.blockID == nil {
+                if self?.courseOutlineMode == .full {
+                    self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
                 }
                 else {
-                    self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
-                    self?.tableController.hideTableHeaderView()
+                    self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
                 }
+            }
+            else {
+                self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
+                self?.tableController.hideTableHeaderView()
+            }
             }, failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
+        })
+    }
+    
+    private func loadCourseBannerStream() {
+        let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
+        let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
+        courseDateBannerLoader.backWithStream(courseBannerStream)
+        
+        courseBannerStream.listen(self) { [weak self] result in
+            switch result {
+            case .success(let courseBanner):
+                self?.loadCourseDateBannerView(courseBanner: courseBanner)
+                break
+                
+            case .failure(let error):
+                self?.hideCourseBannerView()
+                Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
+                break
             }
-        )
+        }
+    }
+    
+    private func loadCourseStream() {
+        loadController.state = .Initial
+        loadCourseOutlineStream()
+        loadCourseBannerStream()
         reload()
     }
     
+    private func loadCourseDateBannerView(courseBanner: CourseDateBannerModel) {
+        if courseBanner.hasEnded {
+            tableController.hideCourseDateBanner()
+        } else {
+            tableController.showCourseDateBanner(bannerInfo: courseBanner.bannerInfo)
+        }
+    }
+    
+    private func hideCourseBannerView() {
+        tableController.hideCourseDateBanner()
+    }
+    
     private func reload() {
-        self.blockIDStream.backWithStream(OEXStream(value : self.blockID))
+        blockIDStream.backWithStream(OEXStream(value : self.blockID))
     }
     
     private func emptyState() -> LoadState {
@@ -186,12 +223,12 @@ public class CourseOutlineViewController :
     }
     
     private func showErrorIfNecessary(error : NSError) {
-        if self.loadController.state.isInitial {
-            self.loadController.state = LoadState.failed(error: error)
+        if loadController.state.isInitial {
+            loadController.state = LoadState.failed(error: error)
         }
     }
     
-    private func addListeners() {
+    private func addBackStreams() {
         headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
             if let owner = self {
                 return owner.courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: owner.courseOutlineMode)
@@ -212,34 +249,43 @@ public class CourseOutlineViewController :
             }}
         )
         
-        self.blockIDStream.backWithStream(OEXStream(value: rootID))
-        
-        headersLoader.listen(self,
-                             success: {[weak self] headers in
-                                self?.setupNavigationItem(block: headers.block)
-            },
-                             failure: {[weak self] error in
-                                self?.showErrorIfNecessary(error: error)
+        blockIDStream.backWithStream(OEXStream(value: rootID))
+    }
+    
+    private func loadHeaderStream() {
+        headersLoader.listen(self, success: { [weak self] headers in
+                self?.setupNavigationItem(block: headers.block)
+            }, failure: {[weak self] error in
+                self?.showErrorIfNecessary(error: error)
             }
         )
-        
-        rowsLoader.listen(self,
-                          success : {[weak self] groups in
-                            if let owner = self {
-                                owner.tableController.groups = groups
-                                owner.tableController.tableView.reloadData()
-                                owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded
-                            }
-            },
-                          failure : {[weak self] error in
-                            self?.showErrorIfNecessary(error: error)
-            },
-                          finally: {[weak self] in
-                            if let active = self?.rowsLoader.active, !active {
-                                self?.tableController.refreshController.endRefreshing()
-                            }
+    }
+    
+    private func loadRowsStream() {
+        rowsLoader.listen(self, success : { [weak self] groups in
+                if let owner = self {
+                    owner.tableController.groups = groups
+                    owner.tableController.tableView.reloadData()
+                    owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded
+                }
+            }, failure : {[weak self] error in
+                self?.showErrorIfNecessary(error: error)
+            }, finally: {[weak self] in
+                if let active = self?.rowsLoader.active, !active {
+                    self?.tableController.refreshController.endRefreshing()
+                }
             }
         )
+    }
+    
+    private func loadBackedStreams() {
+        loadHeaderStream()
+        loadRowsStream()
+    }
+    
+    private func addListeners() {
+        addBackStreams()
+        loadBackedStreams()
     }
     
     private func canDownload() -> Bool {
@@ -283,7 +329,7 @@ public class CourseOutlineViewController :
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
-        self.environment.router?.showContainerForBlockWithID(blockID: block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self, forMode: courseOutlineMode)
+        environment.router?.showContainerForBlockWithID(blockID: block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self, forMode: courseOutlineMode)
     }
     
     func outlineTableControllerReload(controller: CourseOutlineTableController) {
@@ -291,25 +337,47 @@ public class CourseOutlineViewController :
         reload()
     }
     
+    func resetCourseDate(controller: CourseOutlineTableController) {
+        let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
+        environment.networkManager.taskForRequest(request) { [weak self] result  in
+            if let _ = result.error {
+                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: controller)
+            } else {
+                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: controller)
+                self?.reloadAfterCourseDateReset()
+            }
+        }
+    }
+    
+    private func reloadAfterCourseDateReset() {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD)))
+        refreshCourseOutlineController()
+    }
+    
+    private func refreshCourseOutlineController() {
+        courseQuerier.needsRefresh = true
+        loadBackedStreams()
+        loadCourseStream()
+    }
+    
     //MARK: PullRefreshControllerDelegate
     public func refreshControllerActivated(controller: PullRefreshController) {
-        courseQuerier.needsRefresh = true
-        reload()
+        refreshCourseOutlineController()
     }
     
     //MARK: CourseContentPageViewControllerDelegate
     public func courseContentPageViewController(controller: CourseContentPageViewController, enteredBlockWithID blockID: CourseBlockID, parentID: CourseBlockID) {
-        self.blockIDStream.backWithStream(courseQuerier.parentOfBlockWithID(blockID: parentID))
-        self.tableController.highlightedBlockID = blockID
+        blockIDStream.backWithStream(courseQuerier.parentOfBlockWithID(blockID: parentID))
+        tableController.highlightedBlockID = blockID
     }
     
     //MARK: LastAccessedControllerDeleagte
     public func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
         if let lastAccessedItem = item {
-            self.tableController.showLastAccessedWithItem(item: lastAccessedItem)
+            tableController.showLastAccessedWithItem(item: lastAccessedItem)
         }
         else {
-            self.tableController.hideLastAccessed()
+            tableController.hideLastAccessed()
         }
         
     }
@@ -332,8 +400,8 @@ extension CourseOutlineViewController {
     }
     
     public func t_populateLastAccessedItem(item : CourseLastAccessed) -> Bool {
-        self.tableController.showLastAccessedWithItem(item: item)
-        return self.tableController.tableView.tableHeaderView != nil
+        tableController.showLastAccessedWithItem(item: item)
+        return tableController.tableView.tableHeaderView != nil
         
     }
     
@@ -342,7 +410,7 @@ extension CourseOutlineViewController {
     }
     
     public func t_tableView() -> UITableView {
-        return self.tableController.tableView
+        return tableController.tableView
     }
     
 }

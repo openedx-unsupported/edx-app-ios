@@ -24,10 +24,9 @@ public class CourseDatesAPI: NSObject {
     }
     
     class func courseDatesRequest(courseID: String)-> NetworkRequest<CourseDateModel> {
-        let datesPath = path(courseID: courseID)
         return NetworkRequest(
-            method: HTTPMethod.GET,
-            path : datesPath,
+            method: .GET,
+            path : path(courseID: courseID),
             requiresAuth : true,
             deserializer: .jsonResponse(courseDateDeserializer))
     }
