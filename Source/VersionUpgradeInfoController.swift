@@ -34,7 +34,7 @@ class VersionUpgradeInfoController: NSObject {
         
         var postNotification:Bool = false
         
-        if let appLatestVersion = responseHeaders[AppLatestVersionKey] as? String {
+        if let appLatestVersion = responseHeaders[caseInsensitive: AppLatestVersionKey] as? String {
             postNotification = latestVersion != appLatestVersion
             latestVersion = appLatestVersion
         }
@@ -46,7 +46,7 @@ class VersionUpgradeInfoController: NSObject {
             }
         }
         
-        if let versionLastSupportedDate = responseHeaders[AppVersionLastSupportedDateKey] as? String {
+        if let versionLastSupportedDate = responseHeaders[caseInsensitive: AppVersionLastSupportedDateKey] as? String {
             lastSupportedDateString = versionLastSupportedDate
         }
         
@@ -58,6 +58,17 @@ class VersionUpgradeInfoController: NSObject {
     private func postVersionUpgradeNotification() {
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: AppNewVersionAvailableNotification), object: self)
+        }
+    }
+}
+
+extension Dictionary where Key == String {
+    subscript(caseInsensitive key: Key) -> Value? {
+        get {
+            if let k = keys.first(where: { $0.caseInsensitiveCompare(key) == .orderedSame }) {
+                return self[k]
+            }
+            return nil
         }
     }
 }
