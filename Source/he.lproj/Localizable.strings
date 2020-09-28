@@ -160,7 +160,7 @@
 "ACCESSIBILITY.PROFILE_LABEL"="Profile";
 /* Accessibility trait for image */
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
-/*Email subjact for disabled account*/
+/*Email subject for disabled account*/
 "ACCOUNT_DISABLED" = "Account Disabled";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "הישגים";

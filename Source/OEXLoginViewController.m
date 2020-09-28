@@ -699,7 +699,7 @@
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-#pragma mark - Emaila and MFMailComposeViewControllerDelegate methods
+#pragma mark - Email and MFMailComposeViewControllerDelegate methods
 - (void) launchEmailComposer {
     if (![MFMailComposeViewController canSendMail]) {
         [[UIAlertController alloc] showAlertWithTitle:[Strings emailAccountNotSetUpTitle] message:[Strings emailAccountNotSetUpMessage] onViewController:self.navigationController];
