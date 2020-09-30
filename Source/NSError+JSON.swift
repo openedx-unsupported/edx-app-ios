@@ -14,6 +14,7 @@ enum APIErrorCode : String {
     case OAuth2Expired = "token_expired"
     case OAuth2Nonexistent = "token_nonexistent"
     case OAuth2InvalidGrant = "invalid_grant"
+    case OAuth2DisabledUser = "user_is_disabled"
 }
 
 fileprivate enum ErrorFields: String, RawStringExtractable {

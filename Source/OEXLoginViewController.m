@@ -36,7 +36,7 @@
 
 #define USER_EMAIL @"USERNAME"
 
-@interface OEXLoginViewController () <AgreementTextViewDelegate, InterfaceOrientationOverriding>
+@interface OEXLoginViewController () <AgreementTextViewDelegate, InterfaceOrientationOverriding, MFMailComposeViewControllerDelegate>
 {
     CGPoint originalOffset;     // store the offset of the scrollview.
     UITextField* activeField;   // assign textfield object which is in active state.
@@ -419,6 +419,9 @@
             NSString *errorMessage = [Strings authProviderErrorWithAuthProvider:self.authProvider.displayName platformName:self.environment.config.platformName];
             [self loginFailedWithErrorMessage:errorMessage title:nil];
         }
+        else if (httpResp.statusCode == OEXHTTPStatusCode403Forbidden && self.authProvider != nil) {
+            [self showDisabledUserMessage];
+        }
         else if(httpResp.statusCode >= 400 && httpResp.statusCode < 500) {
                 [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
         }
@@ -525,6 +528,19 @@
     [self setLoginDefaultState];
 
     [self tappedToDismiss];
+}
+
+- (void) showDisabledUserMessage {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self setLoginDefaultState];
+    [self tappedToDismiss];
+
+    UIAlertController *alertController = [[UIAlertController alloc] showAlertWithTitle:[Strings floatingErrorLoginTitle] message:[Strings authProviderDisabledUserError] cancelButtonTitle:[Strings cancel] onViewController:self];
+
+    __block OEXLoginViewController *blockSelf = self;
+    [alertController addButtonWithTitle:[Strings customerSupport] actionBlock:^(UIAlertAction * _Nonnull action) {
+        [blockSelf launchEmailComposer];
+    }];
 }
 
 - (void) showUpdateRequiredMessage {
@@ -681,6 +697,31 @@
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+#pragma mark - Email and MFMailComposeViewControllerDelegate methods
+- (void) launchEmailComposer {
+    if (![MFMailComposeViewController canSendMail]) {
+        [[UIAlertController alloc] showAlertWithTitle:[Strings emailAccountNotSetUpTitle] message:[Strings emailAccountNotSetUpMessage] onViewController:self.navigationController];
+        return;
+    }
+
+    MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+    mailComposer.mailComposeDelegate = self;
+    mailComposer.navigationBar.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
+    [mailComposer setSubject:[Strings accountDisabled]];
+    [mailComposer setMessageBody:[EmailTemplates supportEmailMessageTemplate] isHTML:false];
+
+    NSString *fbAddress = self.environment.config.feedbackEmailAddress;
+    if (fbAddress) {
+        [mailComposer setToRecipients:[NSArray arrayWithObject:fbAddress]];
+    }
+
+    [self presentViewController:mailComposer animated:true completion:nil];
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [self dismissViewControllerAnimated:true completion:nil];
 }
 
 @end

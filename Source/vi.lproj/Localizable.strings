@@ -149,6 +149,8 @@
 "ACCESSIBILITY.CLOSE_LABEL"="Đóng";
 /* Accessibility trait for image */
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
+/*Email subject for disabled account*/
+"ACCOUNT_DISABLED" = "Account Disabled";
 /*Accessibility text for profile button*/
 "ACCESSIBILITY.PROFILE_LABEL"="Hồ sơ";
 /* Title of user profile section for user accomplishments (like badges) */
@@ -219,6 +221,8 @@
 "ASTERIC" = "*";
 /* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
 "AUTH_PROVIDER_ERROR" = "Tài khoản {auth_provider} này chưa liên kết với bất kỳ tài khoản {platform_name} nào. Vui lòng đăng ký.";
+/* This error message will be shown if user tried to login with third party (facebook/google) and server returns 403 status code, Disabled user*/
+"AUTH_PROVIDER_DISABLED_USER_ERROR" = "Your account is disabled. Please contact customer support for assistance.";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
 "BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Video, {videos_size}MB tổng cộng";
@@ -386,6 +390,8 @@
 "COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} giây";
 /*Error meessage on course content screen if course audit expires*/
 "COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Quyền truy cập của bạn đến khóa học này đã hết hạn";
+/*Customer support text, using as button title for disabled user*/
+"CUSTOMER_SUPPORT" = "Customer Support";
 /* Title text for the Announcements section within the course dashboard */
 "DASHBOARD.COURSE_ANNOUNCEMENTS"="Thông báo";
 /* Text describing the Announcements section within the course dashboard */

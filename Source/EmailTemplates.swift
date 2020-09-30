@@ -8,9 +8,9 @@
 
 import UIKit
 
-class EmailTemplates {
+@objc class EmailTemplates: NSObject {
     
-    static func supportEmailMessageTemplate() -> String {
+  @objc static func supportEmailMessageTemplate() -> String {
         let osVersionText = Strings.SubmitFeedback.osVersion(version: UIDevice.current.systemVersion)
         let appVersionText = Strings.SubmitFeedback.appVersion(version: Bundle.main.oex_shortVersionString(), build: Bundle.main.oex_buildVersionString())
         let deviceModelText = Strings.SubmitFeedback.deviceModel(model: UIDevice.current.model)

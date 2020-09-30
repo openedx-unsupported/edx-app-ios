@@ -154,6 +154,8 @@
 "ACCESSIBILITY.PROFILE_LABEL"="Profile";
 /* Accessibility trait for image */
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
+/*Email subject for disabled account*/
+"ACCOUNT_DISABLED" = "Account Disabled";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
@@ -222,6 +224,8 @@
 "ASTERIC" = "*";
 /* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
 "AUTH_PROVIDER_ERROR" = "This {auth_provider} account is not linked with any {platform_name} account. Please register.";
+/* This error message will be shown if user tried to login with third party (facebook/google) and server returns 403 status code, Disabled user*/
+"AUTH_PROVIDER_DISABLED_USER_ERROR" = "Your account is disabled. Please contact customer support for assistance.";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
 "BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
@@ -396,6 +400,8 @@
 "COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} seconds";
 /*Error meessage on course content screen if course audit expires*/
 "COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
+/*Customer support text, using as button title for disabled user*/
+"CUSTOMER_SUPPORT" = "Customer Support";
 /* Title text for the Announcements section within the course dashboard */
 "DASHBOARD.COURSE_ANNOUNCEMENTS"="Announcements";
 /* Text describing the Announcements section within the course dashboard */
