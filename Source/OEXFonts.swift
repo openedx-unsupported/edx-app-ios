@@ -51,7 +51,7 @@ public class OEXFonts: NSObject {
     @objc public func font(for identifier: FontIdentifiers, size: CGFloat) -> UIFont {
         
         let preferredFontDescriptor = UIFont().preferredDescriptor(name: fontName(identifier: identifier), size: size)
-        let preferredFontSize = UIFont().preferredFontSize(descriptor: preferredFontDescriptor)
+        let preferredFontSize = UIFont().preferredFontSize(size: size)
         
         return UIFont(descriptor: preferredFontDescriptor, size: preferredFontSize)
     }
