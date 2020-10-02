@@ -29,19 +29,18 @@ extension UIFont {
     func preferredDescriptor(name: String, size: CGFloat) -> UIFontDescriptor {
         let style = textStyle(for: size)
         let preferrredFontSize = preferredFontSize(textStyle: style)
-        return UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.name: name, UIFontDescriptor.AttributeName.size: preferrredFontSize, UIFontDescriptor.AttributeName.textStyle: style])
+        
+        return UIFontDescriptor(name: name, size: preferrredFontSize)
     }
     
     func preferredFont(with style: UIFont.TextStyle) -> UIFont {
          return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: style))
     }
     
-    func preferredFontSize(descriptor: UIFontDescriptor) -> CGFloat {
-        if let style = descriptor.object(forKey: UIFontDescriptor.AttributeName.textStyle) as? UIFont.TextStyle {
-            return preferredFontSize(textStyle: style)
-        }
-        
-        return preferredFontSize(textStyle: .body)
+    func preferredFontSize(size: CGFloat) -> CGFloat {
+        let style = textStyle(for: size)
+        let preferrredFontSize = preferredFontSize(textStyle: style)
+        return preferrredFontSize
     }
     
     func preferredFontSize(textStyle: UIFont.TextStyle) -> CGFloat {
