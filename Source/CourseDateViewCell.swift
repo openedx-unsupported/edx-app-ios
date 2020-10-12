@@ -10,7 +10,7 @@ import UIKit
 
 protocol CourseDateViewCellDelegate {
     func didSelectLink(with url: URL)
-    func didSetDueNextOnCell(index: Int)
+    func didSetDueNextOnCell(with index: Int)
 }
 
 private let imageSize: CGFloat = 14
@@ -56,6 +56,7 @@ class CourseDateViewCell: UITableViewCell {
         }
     }
     
+    var index = -1
     var setDueNextOnThisBlock = false
     
     var blocks: [CourseDateBlock]? {
@@ -68,13 +69,17 @@ class CourseDateViewCell: UITableViewCell {
     private let cornerRadius = 5
     private let lineWidth: CGFloat = 0.5
     private let lineSpacing: CGFloat = 20
-    private var todayTimelinePointDiameter: CGFloat = 12
-    private var defaultTimelinePointDiameter: CGFloat = 8
-    private var textContainerEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 2, right: 0)
-    private var titleStringCharacterCount = 30
-    private var titleStringSecondLineCharacterCount = 45
+    private let todayTimelinePointDiameter: CGFloat = 12
+    private let defaultTimelinePointDiameter: CGFloat = 8
+    private let textContainerEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 2, right: 0)
+    // titleStringCharacterCount and titleStringSecondLineCharacterCount are used to track number of characters in the
+    // title inside text view. these are used to determine if space is to be appended or new should be appended
+    // if badge status is indivisual and shown after title, as uitextview does not seem to have a way to determine
+    // which part of text is on which line.
+    private let titleStringCharacterCount = 30
+    private let titleStringSecondLineCharacterCount = 45
     
-    private var lockImageInsideAttributedString: NSAttributedString {
+    private var attributedLockImage: NSAttributedString {
         let lockImage = Icon.Closed.imageWithFontSize(size: imageSize).image(with: OEXStyles.shared().neutralWhite())
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = lockImage
@@ -87,10 +92,10 @@ class CourseDateViewCell: UITableViewCell {
         return NSAttributedString(attachment: imageAttachment)
     }
     
-    private let space = NSMutableAttributedString(string: "  ")
-    private let unicodeSpace = NSAttributedString(string: "\u{00a0}  ")
-    private let newLine = NSMutableAttributedString(string: "\n")
-    private let tab = NSMutableAttributedString(string: "\t")
+    private let attributedSpace = NSMutableAttributedString(string: "  ")
+    private let attributedUnicodeSpace = NSAttributedString(string: "\u{00a0}  ")
+    private let attributedNewLine = NSMutableAttributedString(string: "\n")
+    private let attributedTab = NSMutableAttributedString(string: "\t")
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -148,14 +153,14 @@ class CourseDateViewCell: UITableViewCell {
         if let block = blocks.first {
             if blocks.allSatisfy ({ $0.blockStatus == block.blockStatus }) {
                 isConsolidated = true
-                caseDatesAreConsolidated(block)
+                consolidatedDates(for: block)
             } else {
-                caseSingleDate(block)
+                singleDate(for: block)
             }
-            updateTimelinePoint(block)
+            updateTimelinePoint(for: block)
         }
         
-        caseIndivisualBadges(blocks, isConsolidated: isConsolidated)
+        indivisualBadges(for: blocks, isConsolidated: isConsolidated)
     }
     
     private func generateTextView(with attributedString: NSAttributedString) -> (textView: UITextView, textStorage: FillBackgroundTextStorage, layoutManager: FillBackgroundLayoutManager) {
@@ -167,7 +172,6 @@ class CourseDateViewCell: UITableViewCell {
         layoutManager.addTextContainer(textContainer)
         
         let textView = UITextView(frame: .zero, textContainer: textContainer)
-        textView.isSelectable = false
         textView.isUserInteractionEnabled = true
         textView.isScrollEnabled = false
         textView.isEditable = false
@@ -177,16 +181,15 @@ class CourseDateViewCell: UITableViewCell {
         return (textView, textStorage, layoutManager)
     }
     
-    private func makeBadgeStatusAttributedString(with status: NSAttributedString, isVerified: Bool = false) -> NSAttributedString {
+    private func makeBadge(with status: NSAttributedString, isVerified: Bool = false) -> NSAttributedString {
         let badgeStatus = NSMutableAttributedString()
-        
         if isVerified {
-            badgeStatus.append(unicodeSpace)
-            badgeStatus.append(lockImageInsideAttributedString)
+            badgeStatus.append(attributedUnicodeSpace)
+            badgeStatus.append(attributedLockImage)
         }
-        badgeStatus.append(space)
+        badgeStatus.append(attributedSpace)
         badgeStatus.append(status)
-        badgeStatus.append(space)
+        badgeStatus.append(attributedSpace)
         
         return badgeStatus
     }
@@ -194,7 +197,7 @@ class CourseDateViewCell: UITableViewCell {
     // MARK:- Cell Designing
     
     // Handles case when a block has one badge status, likely today block
-    private func caseSingleDate(_ block: CourseDateBlock) {
+    private func singleDate(for block: CourseDateBlock) {
         let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
         let attributedString = dateStyle.attributedString(withText: dateText)
         
@@ -207,7 +210,7 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     /// Handles case when a block of consolidated dates have same badge status
-    private func caseDatesAreConsolidated(_ block: CourseDateBlock) {
+    private func consolidatedDates(for block: CourseDateBlock) {
         let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
         let attributedString = dateStyle.attributedString(withText: dateText)
                 
@@ -220,17 +223,17 @@ class CourseDateViewCell: UITableViewCell {
         
         var messageText: [NSAttributedString] = [attributedString]
         
-        let todayBackgroundColor = UIColor.systemYellow
+        let todayBackgroundColor = OEXStyles.shared().warningBase()
         let todayForegroundColor = OEXStyles.shared().neutralXDark()
         
         var todayAttributedText: NSAttributedString?
         
         if block.isToday {
             let status = statusStyle.attributedString(withText: block.todayText)
-            todayAttributedText = makeBadgeStatusAttributedString(with: status)
+            todayAttributedText = makeBadge(with: status)
             
             if let todayAttributedText = todayAttributedText {
-                messageText.append(space)
+                messageText.append(attributedSpace)
                 messageText.append(todayAttributedText)
             }
         }
@@ -246,7 +249,7 @@ class CourseDateViewCell: UITableViewCell {
             (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor) = prepareBadge(for: block, status: status)
             
             if let statusText = statusText {
-                messageText.append(space)
+                messageText.append(attributedSpace)
                 messageText.append(statusText)
             }
         }
@@ -275,7 +278,7 @@ class CourseDateViewCell: UITableViewCell {
         
         switch block.blockStatus {
         case .verifiedOnly:
-            statusText = makeBadgeStatusAttributedString(with: status, isVerified: true)
+            statusText = makeBadge(with: status, isVerified: true)
             
             statusBackgroundColor = OEXStyles.shared().neutralXDark()
             statusForegroundColor = OEXStyles.shared().neutralWhite()
@@ -283,7 +286,7 @@ class CourseDateViewCell: UITableViewCell {
             break
             
         case .completed:
-            statusText = makeBadgeStatusAttributedString(with: status)
+            statusText = makeBadge(with: status)
             
             statusBackgroundColor = OEXStyles.shared().neutralXXLight()
             statusForegroundColor = OEXStyles.shared().neutralXDark()
@@ -291,7 +294,7 @@ class CourseDateViewCell: UITableViewCell {
             break
             
         case .pastDue:
-            statusText = makeBadgeStatusAttributedString(with: status)
+            statusText = makeBadge(with: status)
             
             statusBackgroundColor = OEXStyles.shared().neutralLight()
             statusForegroundColor = OEXStyles.shared().neutralXDark()
@@ -300,12 +303,12 @@ class CourseDateViewCell: UITableViewCell {
             
         case .dueNext:
             if setDueNextOnThisBlock {
-                statusText = makeBadgeStatusAttributedString(with: status)
+                statusText = makeBadge(with: status)
                 
                 statusBackgroundColor = OEXStyles.shared().neutralDark()
                 statusForegroundColor = OEXStyles.shared().neutralWhite()
                 
-                delegate?.didSetDueNextOnCell(index: tag)
+                delegate?.didSetDueNextOnCell(with: index)
             } else {
                 statusBackgroundColor = .clear
                 statusForegroundColor = .clear
@@ -314,7 +317,7 @@ class CourseDateViewCell: UITableViewCell {
             break
             
         case .unreleased:
-            statusText = makeBadgeStatusAttributedString(with: status)
+            statusText = makeBadge(with: status)
             
             statusBackgroundColor = OEXStyles.shared().neutralWhite()
             statusForegroundColor = OEXStyles.shared().neutralXDark()
@@ -331,7 +334,7 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     /// Handles case when each or some block have different badge status of a single date
-    private func caseIndivisualBadges(_ blocks: [CourseDateBlock], isConsolidated: Bool) {
+    private func indivisualBadges(for blocks: [CourseDateBlock], isConsolidated: Bool) {
         for block in blocks {
             let color = block.isAvailable ? OEXStyles.shared().neutralBlack() : OEXStyles.shared().neutralLight()
             titleStyle.color = color
@@ -363,9 +366,9 @@ class CourseDateViewCell: UITableViewCell {
                 
                 if let statusText = statusText {
                     if !isiPad && characterCount > titleStringCharacterCount && characterCount < titleStringSecondLineCharacterCount {
-                        messageText.append(newLine)
+                        messageText.append(attributedNewLine)
                     } else {
-                        messageText.append(tab)
+                        messageText.append(attributedTab)
                     }
                     messageText.append(statusText)
                 }
@@ -416,9 +419,9 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     /// Updates timeline point color based on appropirate state
-    private func updateTimelinePoint(_ block: CourseDateBlock) {
+    private func updateTimelinePoint(for block: CourseDateBlock) {
         if block.isToday {
-            timelinePoint.color = .systemYellow
+            timelinePoint.color = OEXStyles.shared().warningBase()
             timelinePoint.diameter = todayTimelinePointDiameter
         } else if block.isInPast {
             
@@ -480,7 +483,7 @@ fileprivate extension UIImage {
         
         if let cgImage = UIGraphicsGetImageFromCurrentImageContext()?.cgImage {
             UIGraphicsEndImageContext()
-            return UIImage(cgImage: cgImage, scale: 1, orientation:.downMirrored)
+            return UIImage(cgImage: cgImage, scale: 1, orientation: .downMirrored)
         } else {
             return self
         }

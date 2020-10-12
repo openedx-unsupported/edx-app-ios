@@ -12,7 +12,7 @@ class FillBackgroundTextStorage: NSTextStorage {
     private var attributedString: NSMutableAttributedString
     
     override init(attributedString attrStr: NSAttributedString) {
-        self.attributedString = NSMutableAttributedString(attributedString: attrStr)
+        attributedString = NSMutableAttributedString(attributedString: attrStr)
         super.init()
     }
     

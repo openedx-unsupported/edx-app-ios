@@ -9,11 +9,11 @@
 import Foundation
 
 class FillBackgroundLayoutManager: NSLayoutManager {
+    private var borderColor: UIColor = .clear
     private var lineWidth: CGFloat = 0.5
     private var cornerRadius = 5
-    private var borderColor: UIColor = .clear
     
-    func set(borderColor: UIColor, lineWidth: CGFloat,  cornerRadius: Int) {
+    func set(borderColor: UIColor, lineWidth: CGFloat, cornerRadius: Int) {
         self.borderColor = borderColor
         self.lineWidth = lineWidth
         self.cornerRadius = cornerRadius

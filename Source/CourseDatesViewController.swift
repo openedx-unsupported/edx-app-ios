@@ -43,6 +43,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         self.courseID = courseID
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
+        
+        setupView()
+        setConstraints()
+        setAccessibilityIdentifiers()
+        loadCourseDates()
+        addObserver()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,11 +57,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        setConstraints()
-        setAccessibilityIdentifiers()
-        loadCourseDates()
-        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -193,7 +194,7 @@ extension CourseDatesViewController: UITableViewDataSource {
         }
         
         guard let blocks = dateBlocksMap[key] else { return cell }
-        cell.tag = index
+        cell.index = index
         cell.delegate = self
         cell.setDueNextOnThisBlock = !isDueNextSet
         
@@ -216,7 +217,7 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
         }
     }
     
-    func didSetDueNextOnCell(index: Int) {
+    func didSetDueNextOnCell(with index: Int) {
         isDueNextSet = true
         dueNextCellIndex = index
     }
