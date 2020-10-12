@@ -33,7 +33,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var courseDateModel: CourseDateModel?
     private var dateBlocksMap: [Date : [CourseDateBlock]] = [:]
     private var dateBlocksMapSortedKeys: [Date] = []
-    private var setDueNext = false
+    private var isDueNextSet = false
+    private var dueNextCellIndex: Int?
     
     private let courseID: String
     private let environment: Environment
@@ -115,7 +116,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         dateBlocksMap = [:]
         
-        let isToday = blocks.first { $0.blockStatus == .today }
+        let isToday = blocks.first { $0.isToday }
         
         if isToday == nil {
             let past = blocks.filter { $0.isInPast }
@@ -192,9 +193,14 @@ extension CourseDatesViewController: UITableViewDataSource {
         }
         
         guard let blocks = dateBlocksMap[key] else { return cell }
-        
+        cell.tag = index
         cell.delegate = self
-        cell.setDueNextOnThisBlock = !setDueNext
+        cell.setDueNextOnThisBlock = !isDueNextSet
+        
+        if let dueNextCellIndex = dueNextCellIndex, dueNextCellIndex == index {
+            cell.setDueNextOnThisBlock = true
+        }
+        
         cell.blocks = blocks
         
         return cell
@@ -210,8 +216,9 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
         }
     }
     
-    func didSetDueNext() {
-        setDueNext = true
+    func didSetDueNextOnCell(index: Int) {
+        isDueNextSet = true
+        dueNextCellIndex = index
     }
 }
 

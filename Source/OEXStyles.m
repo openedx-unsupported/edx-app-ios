@@ -273,6 +273,11 @@ static OEXStyles* sSharedStyles;
                              size:size dynamicTypeSupported:dynamicTypeSupported];
 }
 
+- (UIFont*)boldItalicSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL)dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersBoldItalic
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
+}
+
 - (UIFont*)lightSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
     return [self.oexFonts fontFor:FontIdentifiersLight
                              size:size dynamicTypeSupported:dynamicTypeSupported];

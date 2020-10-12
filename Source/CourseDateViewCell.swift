@@ -10,36 +10,22 @@ import UIKit
 
 protocol CourseDateViewCellDelegate {
     func didSelectLink(with url: URL)
-    func didSetDueNext()
+    func didSetDueNextOnCell(index: Int)
 }
 
 private let imageSize: CGFloat = 14
-private let cornerRadius: CGFloat = 5
 
 class CourseDateViewCell: UITableViewCell {
     static let identifier = String(describing: self)
     
     var delegate: CourseDateViewCellDelegate?
-        
-    private lazy var dateLabel = UILabel()
-    private lazy var statusLabel = UILabel()
-    
-    private lazy var dateAndStatusContainerView = UIView()
-    private let statusContainerView = UIView()
-    
-    private lazy var lockedImageView: UIImageView = {
-        let image = Icon.Closed.imageWithFontSize(size: imageSize).withRenderingMode(.alwaysTemplate)
-        let imageView = UIImageView(image: image)
-        imageView.tintColor = OEXStyles.shared().neutralWhite()
-        return imageView
-    }()
     
     private lazy var dateStyle: OEXMutableTextStyle = {
         return OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().neutralXDark())
     }()
     
     private lazy var statusStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .xxSmall, color: OEXStyles.shared().neutralWhite())
+        let style = OEXMutableTextStyle(weight: .boldItalic, size: .xxSmall, color: OEXStyles.shared().neutralWhite())
         style.alignment = .center
         return style
     }()
@@ -54,9 +40,9 @@ class CourseDateViewCell: UITableViewCell {
         return OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralDark())
     }()
     
-    private let titleAndDescriptionStackView = TZStackView()
-    private let dateAndStatusContainerStackView = TZStackView()
-    private let statusStackView = TZStackView()
+    private let dateContainer = UIView()
+    private let titleStackContainer = UIView()
+    private let titleStackView = TZStackView()
     
     private var timelinePoint = TimelinePoint() {
         didSet {
@@ -70,61 +56,47 @@ class CourseDateViewCell: UITableViewCell {
         }
     }
     
-    private var minimumViewWidth = 20
-    private var todayTimelinePointDiameter: CGFloat = 12
-    private var defaultTimelinePointDiameter: CGFloat = 8
-    
     var setDueNextOnThisBlock = false
     
     var blocks: [CourseDateBlock]? {
         didSet {
             guard let blocks = blocks else { return }
-            titleAndDescriptionStackView.subviews.forEach { $0.removeFromSuperview() }
-            statusStackView.subviews.forEach { $0.removeFromSuperview() }
-            
-            if let block = blocks.first {
-                let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
-                dateLabel.attributedText = dateStyle.attributedString(withText: dateText)
-                updateTimelinePoint(block)
-                updateBadge(block)
-            }
-            
-            for block in blocks {
-                let titleTextView = UITextView(frame: .zero)
-                titleTextView.isUserInteractionEnabled = true
-                titleTextView.isScrollEnabled = false
-                titleTextView.isEditable = false
-                titleTextView.textContainerInset = .zero
-                titleTextView.textContainer.lineFragmentPadding = .zero
-                
-                let color = block.isAvailable ? OEXStyles.shared().neutralBlack() : OEXStyles.shared().neutralLight()
-                titleStyle.color = color
-                titleTextView.tintColor = color
-                let blockTitle = block.assignmentType.isEmpty ? block.title : "\(block.assignmentType): \(block.title)"
-                var attributedString = titleStyle.attributedString(withText: blockTitle)
-                
-                if block.canShowLink, let url = URL(string: block.link) {
-                    attributedString = attributedString.addLink(on: block.title, value: url, foregroundColor: color, underline: true)
-                    titleTextView.delegate = self
-                }
-
-                titleTextView.attributedText = attributedString
-                titleTextView.sizeToFit()
-
-                titleAndDescriptionStackView.addArrangedSubview(titleTextView)
-                
-                if block.hasDescription {
-                    addDescriptionLabel(block)
-                }
-            }
+            setupCell(with: blocks)
         }
     }
+    
+    private let cornerRadius = 5
+    private let lineWidth: CGFloat = 0.5
+    private let lineSpacing: CGFloat = 20
+    private var todayTimelinePointDiameter: CGFloat = 12
+    private var defaultTimelinePointDiameter: CGFloat = 8
+    private var textContainerEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 2, right: 0)
+    private var titleStringCharacterCount = 30
+    private var titleStringSecondLineCharacterCount = 45
+    
+    private var lockImageInsideAttributedString: NSAttributedString {
+        let lockImage = Icon.Closed.imageWithFontSize(size: imageSize).image(with: OEXStyles.shared().neutralWhite())
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = lockImage
+        
+        let imageOffsetY: CGFloat = -4.0
+        if let image = imageAttachment.image {
+            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
+        }
+        
+        return NSAttributedString(attachment: imageAttachment)
+    }
+    
+    private let space = NSMutableAttributedString(string: "  ")
+    private let unicodeSpace = NSAttributedString(string: "\u{00a0}  ")
+    private let newLine = NSMutableAttributedString(string: "\n")
+    private let tab = NSMutableAttributedString(string: "\t")
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
-        accessibilityIdentifier = "CourseDatesViewController:table-cell"
+        accessibilityIdentifier = "CourseDatesViewController:tableview-cell"
         
         setupViews()
         setupConstrains()
@@ -138,137 +110,281 @@ class CourseDateViewCell: UITableViewCell {
         drawTimelineView()
     }
     
-    private func drawTimelineView() {
-        for layer in contentView.layer.sublayers ?? [] {
-            if layer is CAShapeLayer {
-                layer.removeFromSuperlayer()
-            }
-        }
-                
-        timelinePoint.position = CGPoint(x: (StandardVerticalMargin * 3), y: dateAndStatusContainerView.frame.midY)
-        
-        timeline.start = CGPoint(x: (StandardVerticalMargin * 3), y: 0)
-        timeline.middle = CGPoint(x: timeline.start.x, y: timelinePoint.position.y)
-        timeline.end = CGPoint(x: timeline.start.x, y: bounds.size.height)
-        timeline.draw(view: contentView)
-        
-        timelinePoint.draw(view: contentView)
-    }
-    
     private func setupViews() {
-        titleAndDescriptionStackView.spacing = (StandardHorizontalMargin / 4)
-        titleAndDescriptionStackView.alignment = .leading
-        titleAndDescriptionStackView.axis = .vertical
+        titleStackView.spacing = StandardHorizontalMargin / 4
+        titleStackView.alignment = .leading
+        titleStackView.axis = .vertical
         
-        dateAndStatusContainerStackView.addArrangedSubview(dateLabel)
-        statusContainerView.addSubview(statusStackView)
-        dateAndStatusContainerStackView.addArrangedSubview(statusContainerView)
-        
-        statusStackView.alignment = .center
-        statusStackView.axis = .horizontal
-        statusStackView.spacing = (StandardHorizontalMargin / 4)
-        
-        dateAndStatusContainerStackView.alignment = .center
-        dateAndStatusContainerStackView.axis = .horizontal
-        dateAndStatusContainerStackView.spacing = (StandardHorizontalMargin)
-        
-        contentView.addSubview(titleAndDescriptionStackView)
-        contentView.addSubview(dateAndStatusContainerView)
-        dateAndStatusContainerView.addSubview(dateAndStatusContainerStackView)
+        titleStackContainer.addSubview(titleStackView)
+        contentView.addSubview(titleStackContainer)
+        contentView.addSubview(dateContainer)
     }
     
     private func setupConstrains() {
-        statusContainerView.snp.makeConstraints { make in
-            make.height.equalTo(StandardHorizontalMargin * 3)
-            make.width.greaterThanOrEqualTo(minimumViewWidth)
-        }
-        
-        dateAndStatusContainerView.snp.makeConstraints { make in
+        dateContainer.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardHorizontalMargin)
             make.leading.equalTo(contentView).offset(StandardVerticalMargin * 5)
-            make.height.equalTo(StandardHorizontalMargin + 4)
-            make.width.greaterThanOrEqualTo(minimumViewWidth)
+            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            make.height.equalTo(StandardHorizontalMargin + (StandardHorizontalMargin / 2))
         }
         
-        statusStackView.snp.makeConstraints { make in
-            make.leading.equalTo(statusContainerView).offset(StandardHorizontalMargin / 3)
-            make.trailing.equalTo(statusContainerView).inset(StandardHorizontalMargin / 3)
-            make.top.equalTo(statusContainerView)
-            make.bottom.equalTo(statusContainerView)
-        }
-        
-        dateAndStatusContainerStackView.snp.makeConstraints { make in
-            make.edges.equalTo(dateAndStatusContainerView)
-        }
-        
-        titleAndDescriptionStackView.snp.makeConstraints { make in
-            make.top.equalTo(dateAndStatusContainerView.snp.bottom).offset(StandardHorizontalMargin / 2)
+        titleStackContainer.snp.makeConstraints { make in
+            make.top.equalTo(dateContainer.snp.bottom).offset(StandardHorizontalMargin / 2)
             make.leading.equalTo(contentView).offset(StandardVerticalMargin * 5)
             make.trailing.equalTo(contentView).inset(StandardVerticalMargin)
             make.bottom.equalTo(contentView).inset(4)
         }
+        
+        titleStackView.snp.makeConstraints { make in
+            make.edges.equalTo(titleStackContainer)
+        }
+    }
+        
+    private func setupCell(with blocks: [CourseDateBlock]) {
+        titleStackView.subviews.forEach { $0.removeFromSuperview() }
+        
+        var isConsolidated = false
+        
+        if let block = blocks.first {
+            if blocks.allSatisfy ({ $0.blockStatus == block.blockStatus }) {
+                isConsolidated = true
+                caseDatesAreConsolidated(block)
+            } else {
+                caseSingleDate(block)
+            }
+            updateTimelinePoint(block)
+        }
+        
+        caseIndivisualBadges(blocks, isConsolidated: isConsolidated)
     }
     
-    // MARK:- Cell Information Designing
+    private func generateTextView(with attributedString: NSAttributedString) -> (textView: UITextView, textStorage: FillBackgroundTextStorage, layoutManager: FillBackgroundLayoutManager) {
+        let textStorage = FillBackgroundTextStorage(attributedString: attributedString)
+        let layoutManager = FillBackgroundLayoutManager()
+        layoutManager.delegate = self
+        textStorage.addLayoutManager(layoutManager)
+        let textContainer = NSTextContainer(size: .zero)
+        layoutManager.addTextContainer(textContainer)
+        
+        let textView = UITextView(frame: .zero, textContainer: textContainer)
+        textView.isSelectable = false
+        textView.isUserInteractionEnabled = true
+        textView.isScrollEnabled = false
+        textView.isEditable = false
+        textView.textContainerInset = textContainerEdgeInsets
+        textView.textContainer.lineFragmentPadding = .zero
+        
+        return (textView, textStorage, layoutManager)
+    }
     
-    /// Designs the badge/pill with appropirate state of block
-    private func updateBadge(_ block: CourseDateBlock) {
-            statusLabel.attributedText = statusStyle.attributedString(withText: block.blockStatus.localized)
-            statusLabel.textColor = .clear
+    private func makeBadgeStatusAttributedString(with status: NSAttributedString, isVerified: Bool = false) -> NSAttributedString {
+        let badgeStatus = NSMutableAttributedString()
+        
+        if isVerified {
+            badgeStatus.append(unicodeSpace)
+            badgeStatus.append(lockImageInsideAttributedString)
+        }
+        badgeStatus.append(space)
+        badgeStatus.append(status)
+        badgeStatus.append(space)
+        
+        return badgeStatus
+    }
+    
+    // MARK:- Cell Designing
+    
+    // Handles case when a block has one badge status, likely today block
+    private func caseSingleDate(_ block: CourseDateBlock) {
+        let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
+        let attributedString = dateStyle.attributedString(withText: dateText)
+        
+        let textView = generateTextView(with: attributedString).textView
+        
+        dateContainer.addSubview(textView)
+        textView.snp.makeConstraints { make in
+            make.edges.equalTo(dateContainer)
+        }
+    }
+    
+    /// Handles case when a block of consolidated dates have same badge status
+    private func caseDatesAreConsolidated(_ block: CourseDateBlock) {
+        let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
+        let attributedString = dateStyle.attributedString(withText: dateText)
+                
+        let (textView, textStorage, layoutManager) = generateTextView(with: attributedString)
+        
+        dateContainer.addSubview(textView)
+        textView.snp.makeConstraints { make in
+            make.edges.equalTo(dateContainer)
+        }
+        
+        var messageText: [NSAttributedString] = [attributedString]
+        
+        let todayBackgroundColor = UIColor.systemYellow
+        let todayForegroundColor = OEXStyles.shared().neutralXDark()
+        
+        var todayAttributedText: NSAttributedString?
+        
+        if block.isToday {
+            let status = statusStyle.attributedString(withText: block.todayText)
+            todayAttributedText = makeBadgeStatusAttributedString(with: status)
             
-            switch block.blockStatus {
-            case .today:
-                statusContainerView.configure(backgroundColor: .systemYellow, borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = OEXStyles.shared().neutralXDark()
-                statusStackView.addArrangedSubview(statusLabel)
+            if let todayAttributedText = todayAttributedText {
+                messageText.append(space)
+                messageText.append(todayAttributedText)
+            }
+        }
+        
+        var statusBackgroundColor: UIColor = .clear
+        var statusForegroundColor: UIColor = .clear
+        var statusBorderColor: UIColor = .clear
+        
+        var statusText: NSAttributedString?
+        
+        if block.blockStatus != .event && !block.title.isEmpty {
+            let status = statusStyle.attributedString(withText: block.blockStatus.localized)
+            (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor) = prepareBadge(for: block, status: status)
+            
+            if let statusText = statusText {
+                messageText.append(space)
+                messageText.append(statusText)
+            }
+        }
+        
+        let statusAttributedString = NSAttributedString.joinInNaturalLayout(attributedStrings: messageText)
+        textView.attributedText = statusAttributedString
+
+        if let todayAttributedText = todayAttributedText {
+            let range = statusAttributedString.string.nsString.range(of: todayAttributedText.string)
+            textStorage.drawBackground(range: range, backgroundColor: todayBackgroundColor, foregroundColor: todayForegroundColor)
+        }
+        
+        if let statusText = statusText {
+            layoutManager.set(borderColor: statusBorderColor, lineWidth: lineWidth, cornerRadius: cornerRadius)
+            let range = statusAttributedString.string.nsString.range(of: statusText.string)
+            textStorage.drawBackground(range: range, backgroundColor: statusBackgroundColor, foregroundColor: statusForegroundColor)
+        }
+    }
+    
+    private func prepareBadge(for block: CourseDateBlock, status: NSAttributedString) -> (statusText: NSAttributedString?, statusBackgroundColor: UIColor, statusForegroundColor: UIColor, statusBorderColor: UIColor) {
+        
+        var statusText: NSAttributedString?
+        var statusBackgroundColor: UIColor = .clear
+        var statusForegroundColor: UIColor = .clear
+        var statusBorderColor: UIColor = .clear
+        
+        switch block.blockStatus {
+        case .verifiedOnly:
+            statusText = makeBadgeStatusAttributedString(with: status, isVerified: true)
+            
+            statusBackgroundColor = OEXStyles.shared().neutralXDark()
+            statusForegroundColor = OEXStyles.shared().neutralWhite()
+            
+            break
+            
+        case .completed:
+            statusText = makeBadgeStatusAttributedString(with: status)
+            
+            statusBackgroundColor = OEXStyles.shared().neutralXXLight()
+            statusForegroundColor = OEXStyles.shared().neutralXDark()
+            
+            break
+            
+        case .pastDue:
+            statusText = makeBadgeStatusAttributedString(with: status)
+            
+            statusBackgroundColor = OEXStyles.shared().neutralLight()
+            statusForegroundColor = OEXStyles.shared().neutralXDark()
+            
+            break
+            
+        case .dueNext:
+            if setDueNextOnThisBlock {
+                statusText = makeBadgeStatusAttributedString(with: status)
                 
-                break
+                statusBackgroundColor = OEXStyles.shared().neutralDark()
+                statusForegroundColor = OEXStyles.shared().neutralWhite()
                 
-            case .verifiedOnly:
-                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralXDark(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = OEXStyles.shared().neutralWhite()
-                statusStackView.addArrangedSubview(lockedImageView)
-                statusStackView.addArrangedSubview(statusLabel)
-                
-                break
-                
-            case .completed:
-                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralXXLight(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = OEXStyles.shared().neutralXDark()
-                statusStackView.addArrangedSubview(statusLabel)
-                
-                break
-                
-            case .pastDue:
-                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralLight(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = OEXStyles.shared().neutralXDark()
-                statusStackView.addArrangedSubview(statusLabel)
-                
-                break
-                
-            case .dueNext:
-                if setDueNextOnThisBlock {
-                    statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralDark(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
-                    statusLabel.textColor = OEXStyles.shared().neutralWhite()
-                    statusStackView.addArrangedSubview(statusLabel)
-                    delegate?.didSetDueNext()
-                } else {
-                    statusContainerView.backgroundColor = .clear
+                delegate?.didSetDueNextOnCell(index: tag)
+            } else {
+                statusBackgroundColor = .clear
+                statusForegroundColor = .clear
+            }
+            
+            break
+            
+        case .unreleased:
+            statusText = makeBadgeStatusAttributedString(with: status)
+            
+            statusBackgroundColor = OEXStyles.shared().neutralWhite()
+            statusForegroundColor = OEXStyles.shared().neutralXDark()
+            statusBorderColor = OEXStyles.shared().neutralXDark()
+            
+            break
+            
+        default:
+            statusBackgroundColor = .clear
+            statusForegroundColor = .clear
+        }
+        
+        return (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor)
+    }
+    
+    /// Handles case when each or some block have different badge status of a single date
+    private func caseIndivisualBadges(_ blocks: [CourseDateBlock], isConsolidated: Bool) {
+        for block in blocks {
+            let color = block.isAvailable ? OEXStyles.shared().neutralBlack() : OEXStyles.shared().neutralLight()
+            titleStyle.color = color
+            let blockTitle = block.assignmentType.isEmpty ? block.title : "\(block.assignmentType): \(block.title)"
+            var attributedString = titleStyle.attributedString(withText: blockTitle)
+            
+            if block.canShowLink, let url = URL(string: block.link) {
+                attributedString = attributedString.addLink(on: block.title, value: url, foregroundColor: color, underline: true)
+            }
+            
+            var messageText: [NSAttributedString] = [attributedString]
+            
+            let (textView, textStorage, layoutManager) = generateTextView(with: attributedString)
+            textView.tintColor = color
+            textView.delegate = self
+
+            var statusText: NSAttributedString?
+            var statusBackgroundColor: UIColor = .clear
+            var statusForegroundColor: UIColor = .clear
+            var statusBorderColor: UIColor = .clear
+            
+            if !isConsolidated {
+                if block.blockStatus != .event && !block.title.isEmpty {
+                    let status = statusStyle.attributedString(withText: block.blockStatus.localized)
+                    (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor) = prepareBadge(for: block, status: status)
                 }
                 
-                break
+                let characterCount = attributedString.string.count
                 
-            case .unreleased:
-                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralWhite(), borderColor: OEXStyles.shared().neutralXDark(), borderWith: 0.5, cornerRadius: cornerRadius)
-                statusLabel.textColor = OEXStyles.shared().neutralXDark()
-                statusStackView.addArrangedSubview(statusLabel)
-                
-                break
-                
-            default:
-                statusContainerView.backgroundColor = .clear
-                
-                break
+                if let statusText = statusText {
+                    if !isiPad && characterCount > titleStringCharacterCount && characterCount < titleStringSecondLineCharacterCount {
+                        messageText.append(newLine)
+                    } else {
+                        messageText.append(tab)
+                    }
+                    messageText.append(statusText)
+                }
+            }
+            
+            let titleAttributedString = NSAttributedString.joinInNaturalLayout(attributedStrings: messageText)
+            textView.attributedText = titleAttributedString.setLineSpacing(lineSpacing)
+            
+            if let statusText = statusText, !isConsolidated {
+                layoutManager.set(borderColor: statusBorderColor, lineWidth: lineWidth, cornerRadius: cornerRadius)
+                let range = titleAttributedString.string.nsString.range(of: statusText.string)
+                textStorage.drawBackground(range: range, backgroundColor: statusBackgroundColor, foregroundColor: statusForegroundColor)
+            }
+            
+            titleStackView.addArrangedSubview(textView)
+            
+            if block.hasDescription {
+                addDescriptionLabel(block)
+            }
         }
     }
     
@@ -280,8 +396,23 @@ class CourseDateViewCell: UITableViewCell {
         descriptionLabel.attributedText = descriptionStyle.attributedString(withText: block.description)
         descriptionLabel.sizeToFit()
         descriptionLabel.layoutIfNeeded()
+        titleStackView.addArrangedSubview(descriptionLabel)
+    }
+    
+    /// Draws timeline View on left side of cell
+    private func drawTimelineView() {
+        for case let layer as CAShapeLayer in contentView.layer.sublayers ?? [] {
+            layer.removeFromSuperlayer()
+        }
         
-        titleAndDescriptionStackView.addArrangedSubview(descriptionLabel)
+        timelinePoint.position = CGPoint(x: StandardVerticalMargin * 3, y: dateContainer.frame.midY)
+        
+        timeline.start = CGPoint(x: StandardVerticalMargin * 3, y: 0)
+        timeline.middle = CGPoint(x: timeline.start.x, y: timelinePoint.position.y)
+        timeline.end = CGPoint(x: timeline.start.x, y: bounds.size.height)
+        timeline.draw(view: contentView)
+        
+        timelinePoint.draw(view: contentView)
     }
     
     /// Updates timeline point color based on appropirate state
@@ -326,11 +457,51 @@ extension CourseDateViewCell: UITextViewDelegate {
     }
 }
 
-fileprivate extension UIView {
-    func configure(backgroundColor: UIColor, borderColor: UIColor , borderWith: CGFloat, cornerRadius: CGFloat) {
-        layer.backgroundColor = backgroundColor.cgColor
-        layer.borderWidth = borderWith
-        layer.borderColor = borderColor.cgColor
-        layer.cornerRadius = cornerRadius
+extension CourseDateViewCell: NSLayoutManagerDelegate {
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return CGFloat(floorf(Float(glyphIndex) / 100))
+    }
+    
+    func layoutManager(_ layoutManager: NSLayoutManager, paragraphSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return 10
+    }
+}
+
+fileprivate extension UIImage {
+    func image(with color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        if let cgImage = cgImage {
+            context?.clip(to: rect, mask: cgImage)
+        }
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        
+        if let cgImage = UIGraphicsGetImageFromCurrentImageContext()?.cgImage {
+            UIGraphicsEndImageContext()
+            return UIImage(cgImage: cgImage, scale: 1, orientation:.downMirrored)
+        } else {
+            return self
+        }
+    }
+}
+
+fileprivate extension NSAttributedString {
+    func setLineSpacing(_ spacing: CGFloat) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(attributedString: self)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = .byWordWrapping
+        paragraphStyle.lineSpacing = spacing
+        paragraphStyle.minimumLineHeight = spacing
+        paragraphStyle.paragraphSpacing = spacing
+        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: string.count))
+        return NSAttributedString(attributedString: attributedString)
+    }
+}
+
+fileprivate extension String {
+    var nsString: NSString {
+        return NSString(string: self)
     }
 }
