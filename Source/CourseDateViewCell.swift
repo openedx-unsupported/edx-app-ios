@@ -154,11 +154,11 @@ class CourseDateViewCell: UITableViewCell {
             if blocks.allSatisfy ({ $0.blockStatus == block.blockStatus }) {
                 isConsolidated = true
             }
-            addSingleBadge(for: block, consolidated: isConsolidated)
+            addBadge(for: block, isConsolidated: isConsolidated)
             updateTimelinePoint(for: block)
         }
         
-        addIndivisualBadge(for: blocks, isConsolidated: isConsolidated)
+        addBadge(for: blocks, isConsolidated: isConsolidated)
     }
     
     private func generateTextView(with attributedString: NSAttributedString) -> (textView: UITextView, textStorage: FillBackgroundTextStorage, layoutManager: FillBackgroundLayoutManager) {
@@ -195,7 +195,7 @@ class CourseDateViewCell: UITableViewCell {
     // MARK:- Cell Designing
     
     /// Handles case when a block of consolidated dates have same badge status
-    private func addSingleBadge(for block: CourseDateBlock, consolidated: Bool) {
+    private func addBadge(for block: CourseDateBlock, isConsolidated: Bool) {
         let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
         let attributedString = dateStyle.attributedString(withText: dateText)
                 
@@ -206,7 +206,7 @@ class CourseDateViewCell: UITableViewCell {
             make.edges.equalTo(dateContainer)
         }
         
-        if consolidated {
+        if isConsolidated {
             var messageText: [NSAttributedString] = [attributedString]
             
             let todayBackgroundColor = OEXStyles.shared().warningBase()
@@ -321,7 +321,7 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     /// Handles case when each or some block have different badge status of a single date
-    private func addIndivisualBadge(for blocks: [CourseDateBlock], isConsolidated: Bool) {
+    private func addBadge(for blocks: [CourseDateBlock], isConsolidated: Bool) {
         for block in blocks {
             let color = block.isAvailable ? OEXStyles.shared().neutralBlack() : OEXStyles.shared().neutralLight()
             titleStyle.color = color
