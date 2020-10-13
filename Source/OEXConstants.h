@@ -53,6 +53,9 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 // Course Dates Shift Notification From Course Dashboard
 # define NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD @"ShifCourseDatesSuccessNotificationFromCourseDashboard"
 
+// Course Dates Shift Notification From Dates Tab
+# define NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_DATES_TAB @"ShifCourseDatesSuccessNotificationFromDatesTab"
+
 //courses and videos
 #define CAV_KEY_COURSE @"course"
 #define CAV_KEY_VIDEOS @"videos"

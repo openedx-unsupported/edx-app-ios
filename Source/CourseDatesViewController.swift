@@ -14,10 +14,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider
 
     private let datesLoader = BackedStream<(CourseDateModel, UserPreference?)>()
+    private let courseDateBannerLoader = BackedStream<(CourseDateBannerModel)>()
     private var stream: OEXStream<(CourseDateModel, UserPreference?)>?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.tableHeaderView = courseDateBannerView
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
@@ -29,7 +31,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }()
     
     private lazy var loadController = LoadStateViewController()
-    
+    private lazy var courseDateBannerView = CourseDateBannerView(frame: .zero)
+
     private var courseDateModel: CourseDateModel?
     private var dateBlocksMap: [Date : [CourseDateBlock]] = [:]
     private var dateBlocksMapSortedKeys: [Date] = []
@@ -50,10 +53,11 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupView()
         setConstraints()
         setAccessibilityIdentifiers()
-        loadCourseDates()
+        loadStreams()
         addObserver()
     }
     
@@ -70,9 +74,14 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return .allButUpsideDown
     }
     
+    private func loadStreams() {
+        loadCourseDates()
+        loadCourseBannerStream()
+    }
+    
     func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD) { _, observer, _ in
-            observer.loadCourseDates()
+            observer.loadStreams()
         }
     }
     
@@ -108,7 +117,44 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             }
         }
     }
+    
+    private func loadCourseBannerStream() {
+        let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
+        let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
+        courseDateBannerLoader.backWithStream(courseBannerStream)
+        
+        courseBannerStream.listen(self) { [weak self] result in
+            switch result {
+            case .success(let courseBanner):
+                self?.loadCourseDateBannerView(courseBanner: courseBanner)
+                break
+                
+            case .failure(let error):
+                Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
+                break
+            }
+        }
+    }
 
+    private func loadCourseDateBannerView(courseBanner: CourseDateBannerModel) {
+        let height: CGFloat
+        if courseBanner.hasEnded {
+            height = 0
+        } else {
+            courseDateBannerView.delegate = self
+            courseDateBannerView.bannerInfo = courseBanner.bannerInfo
+            courseDateBannerView.setupView()
+            height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
+        }
+        
+        courseDateBannerView.snp.remakeConstraints { make in
+            make.trailing.equalTo(view)
+            make.leading.equalTo(view)
+            make.top.equalTo(view)
+            make.height.equalTo(height)
+        }
+    }
+    
     private func populate(with dateModel: CourseDateModel) {
         courseDateModel = dateModel
         var blocks = dateModel.dateBlocks
@@ -158,6 +204,31 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
+        
+        courseDateBannerView.snp.makeConstraints { make in
+            make.trailing.equalTo(view)
+            make.leading.equalTo(view)
+            make.top.equalTo(view)
+            make.height.equalTo(0)
+        }
+    }
+    
+    func resetCourseDate() {
+        let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
+        environment.networkManager.taskForRequest(request) { [weak self] result  in
+            guard let weakSelf = self else { return }
+            if let _ = result.error {
+                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: weakSelf)
+            } else {
+                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: weakSelf)
+                weakSelf.reloadAfterCourseDateReset()
+            }
+        }
+    }
+    
+    private func reloadAfterCourseDateReset() {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_DATES_TAB)))
+        loadStreams()
     }
     
     deinit {
@@ -212,6 +283,12 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
     
     func didSetDueNext() {
         setDueNext = true
+    }
+}
+
+extension CourseDatesViewController: CourseDateBannerViewDelegate {
+    func courseShiftDateButtonAction() {
+        resetCourseDate()
     }
 }
 

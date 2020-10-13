@@ -68,6 +68,7 @@ public class CourseOutlineViewController :
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
+        addObserver()
         lastAccessedController.delegate = self
         
         addChild(tableController)
@@ -153,6 +154,12 @@ public class CourseOutlineViewController :
     
     private func setupNavigationItem(block : CourseBlock) {
         navigationItem.title = (courseOutlineMode == .video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
+    }
+    
+    func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_DATES_TAB) { _, observer, _ in
+            observer.refreshCourseOutlineController()
+        }
     }
     
     private func loadCourseOutlineStream() {
@@ -358,6 +365,10 @@ public class CourseOutlineViewController :
         courseQuerier.needsRefresh = true
         loadBackedStreams()
         loadCourseStream()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: PullRefreshControllerDelegate
