@@ -153,14 +153,12 @@ class CourseDateViewCell: UITableViewCell {
         if let block = blocks.first {
             if blocks.allSatisfy ({ $0.blockStatus == block.blockStatus }) {
                 isConsolidated = true
-                consolidatedDates(for: block)
-            } else {
-                singleDate(for: block)
             }
+            addSingleBadge(for: block, consolidated: isConsolidated)
             updateTimelinePoint(for: block)
         }
         
-        indivisualBadges(for: blocks, isConsolidated: isConsolidated)
+        addIndivisualBadge(for: blocks, isConsolidated: isConsolidated)
     }
     
     private func generateTextView(with attributedString: NSAttributedString) -> (textView: UITextView, textStorage: FillBackgroundTextStorage, layoutManager: FillBackgroundLayoutManager) {
@@ -196,21 +194,8 @@ class CourseDateViewCell: UITableViewCell {
     
     // MARK:- Cell Designing
     
-    // Handles case when a block has one badge status, likely today block
-    private func singleDate(for block: CourseDateBlock) {
-        let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
-        let attributedString = dateStyle.attributedString(withText: dateText)
-        
-        let textView = generateTextView(with: attributedString).textView
-        
-        dateContainer.addSubview(textView)
-        textView.snp.makeConstraints { make in
-            make.edges.equalTo(dateContainer)
-        }
-    }
-    
     /// Handles case when a block of consolidated dates have same badge status
-    private func consolidatedDates(for block: CourseDateBlock) {
+    private func addSingleBadge(for block: CourseDateBlock, consolidated: Bool) {
         let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
         let attributedString = dateStyle.attributedString(withText: dateText)
                 
@@ -221,51 +206,53 @@ class CourseDateViewCell: UITableViewCell {
             make.edges.equalTo(dateContainer)
         }
         
-        var messageText: [NSAttributedString] = [attributedString]
-        
-        let todayBackgroundColor = OEXStyles.shared().warningBase()
-        let todayForegroundColor = OEXStyles.shared().neutralXDark()
-        
-        var todayAttributedText: NSAttributedString?
-        
-        if block.isToday {
-            let status = statusStyle.attributedString(withText: block.todayText)
-            todayAttributedText = makeBadge(with: status)
+        if consolidated {
+            var messageText: [NSAttributedString] = [attributedString]
             
-            if let todayAttributedText = todayAttributedText {
-                messageText.append(attributedSpace)
-                messageText.append(todayAttributedText)
+            let todayBackgroundColor = OEXStyles.shared().warningBase()
+            let todayForegroundColor = OEXStyles.shared().neutralXDark()
+            
+            var todayAttributedText: NSAttributedString?
+            
+            if block.isToday {
+                let status = statusStyle.attributedString(withText: block.todayText)
+                todayAttributedText = makeBadge(with: status)
+                
+                if let todayAttributedText = todayAttributedText {
+                    messageText.append(attributedSpace)
+                    messageText.append(todayAttributedText)
+                }
             }
-        }
-        
-        var statusBackgroundColor: UIColor = .clear
-        var statusForegroundColor: UIColor = .clear
-        var statusBorderColor: UIColor = .clear
-        
-        var statusText: NSAttributedString?
-        
-        if block.blockStatus != .event && !block.title.isEmpty {
-            let status = statusStyle.attributedString(withText: block.blockStatus.localized)
-            (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor) = prepareBadge(for: block, status: status)
+            
+            var statusBackgroundColor: UIColor = .clear
+            var statusForegroundColor: UIColor = .clear
+            var statusBorderColor: UIColor = .clear
+            
+            var statusText: NSAttributedString?
+            
+            if block.blockStatus != .event && !block.title.isEmpty {
+                let status = statusStyle.attributedString(withText: block.blockStatus.localized)
+                (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor) = prepareBadge(for: block, status: status)
+                
+                if let statusText = statusText {
+                    messageText.append(attributedSpace)
+                    messageText.append(statusText)
+                }
+            }
+            
+            let statusAttributedString = NSAttributedString.joinInNaturalLayout(attributedStrings: messageText)
+            textView.attributedText = statusAttributedString
+
+            if let todayAttributedText = todayAttributedText {
+                let range = statusAttributedString.string.nsString.range(of: todayAttributedText.string)
+                textStorage.drawBackground(range: range, backgroundColor: todayBackgroundColor, foregroundColor: todayForegroundColor)
+            }
             
             if let statusText = statusText {
-                messageText.append(attributedSpace)
-                messageText.append(statusText)
+                layoutManager.set(borderColor: statusBorderColor, lineWidth: lineWidth, cornerRadius: cornerRadius)
+                let range = statusAttributedString.string.nsString.range(of: statusText.string)
+                textStorage.drawBackground(range: range, backgroundColor: statusBackgroundColor, foregroundColor: statusForegroundColor)
             }
-        }
-        
-        let statusAttributedString = NSAttributedString.joinInNaturalLayout(attributedStrings: messageText)
-        textView.attributedText = statusAttributedString
-
-        if let todayAttributedText = todayAttributedText {
-            let range = statusAttributedString.string.nsString.range(of: todayAttributedText.string)
-            textStorage.drawBackground(range: range, backgroundColor: todayBackgroundColor, foregroundColor: todayForegroundColor)
-        }
-        
-        if let statusText = statusText {
-            layoutManager.set(borderColor: statusBorderColor, lineWidth: lineWidth, cornerRadius: cornerRadius)
-            let range = statusAttributedString.string.nsString.range(of: statusText.string)
-            textStorage.drawBackground(range: range, backgroundColor: statusBackgroundColor, foregroundColor: statusForegroundColor)
         }
     }
     
@@ -334,7 +321,7 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     /// Handles case when each or some block have different badge status of a single date
-    private func indivisualBadges(for blocks: [CourseDateBlock], isConsolidated: Bool) {
+    private func addIndivisualBadge(for blocks: [CourseDateBlock], isConsolidated: Bool) {
         for block in blocks {
             let color = block.isAvailable ? OEXStyles.shared().neutralBlack() : OEXStyles.shared().neutralLight()
             titleStyle.color = color
