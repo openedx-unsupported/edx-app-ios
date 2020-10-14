@@ -109,7 +109,7 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
         alertController.addCancelAction()
         alertController.configurePresentationController(withSourceView: self)
 
-        alertController.view.accessibilityIdentifier = "RegistrationSelectOptionView:alert-controller-view"
+        alertController.view.accessibilityIdentifier = "RegistrationSelectOptionView:options-controller-\(field.name)"
         
         parent.present(alertController, animated: true, completion: nil)
         
