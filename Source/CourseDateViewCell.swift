@@ -10,7 +10,7 @@ import UIKit
 
 protocol CourseDateViewCellDelegate {
     func didSelectLink(with url: URL)
-    func didSetDueNextOnCell(with index: Int)
+    func didSetDueNext(with index: Int)
 }
 
 private let imageSize: CGFloat = 14
@@ -57,7 +57,7 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     var index = -1
-    var setDueNextOnThisBlock = false
+    var setDueNext = false
     
     var blocks: [CourseDateBlock]? {
         didSet {
@@ -179,7 +179,7 @@ class CourseDateViewCell: UITableViewCell {
         return (textView, textStorage, layoutManager)
     }
     
-    private func makeBadge(with status: NSAttributedString, isVerified: Bool = false) -> NSAttributedString {
+    private func createBadge(with status: NSAttributedString, isVerified: Bool = false) -> NSAttributedString {
         let badgeStatus = NSMutableAttributedString()
         if isVerified {
             badgeStatus.append(attributedUnicodeSpace)
@@ -198,7 +198,7 @@ class CourseDateViewCell: UITableViewCell {
     private func addBadge(for block: CourseDateBlock, isConsolidated: Bool) {
         let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
         let attributedString = dateStyle.attributedString(withText: dateText)
-                
+        
         let (textView, textStorage, layoutManager) = generateTextView(with: attributedString)
         
         dateContainer.addSubview(textView)
@@ -206,118 +206,54 @@ class CourseDateViewCell: UITableViewCell {
             make.edges.equalTo(dateContainer)
         }
         
-        if isConsolidated {
-            var messageText: [NSAttributedString] = [attributedString]
+        guard isConsolidated else { return }
+        
+        var messageText: [NSAttributedString] = [attributedString]
+        
+        let todayBackgroundColor = OEXStyles.shared().warningBase()
+        let todayForegroundColor = OEXStyles.shared().neutralXDark()
+        
+        var todayAttributedText: NSAttributedString?
+        
+        if block.isToday {
+            let status = statusStyle.attributedString(withText: block.todayText)
+            todayAttributedText = createBadge(with: status)
             
-            let todayBackgroundColor = OEXStyles.shared().warningBase()
-            let todayForegroundColor = OEXStyles.shared().neutralXDark()
-            
-            var todayAttributedText: NSAttributedString?
-            
-            if block.isToday {
-                let status = statusStyle.attributedString(withText: block.todayText)
-                todayAttributedText = makeBadge(with: status)
-                
-                if let todayAttributedText = todayAttributedText {
-                    messageText.append(attributedSpace)
-                    messageText.append(todayAttributedText)
-                }
-            }
-            
-            var statusBackgroundColor: UIColor = .clear
-            var statusForegroundColor: UIColor = .clear
-            var statusBorderColor: UIColor = .clear
-            
-            var statusText: NSAttributedString?
-            
-            if block.blockStatus != .event && !block.title.isEmpty {
-                let status = statusStyle.attributedString(withText: block.blockStatus.localized)
-                (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor) = prepareBadge(for: block, status: status)
-                
-                if let statusText = statusText {
-                    messageText.append(attributedSpace)
-                    messageText.append(statusText)
-                }
-            }
-            
-            let statusAttributedString = NSAttributedString.joinInNaturalLayout(attributedStrings: messageText)
-            textView.attributedText = statusAttributedString
-
             if let todayAttributedText = todayAttributedText {
-                let range = statusAttributedString.string.nsString.range(of: todayAttributedText.string)
-                textStorage.drawBackground(range: range, backgroundColor: todayBackgroundColor, foregroundColor: todayForegroundColor)
-            }
-            
-            if let statusText = statusText {
-                layoutManager.set(borderColor: statusBorderColor, lineWidth: lineWidth, cornerRadius: cornerRadius)
-                let range = statusAttributedString.string.nsString.range(of: statusText.string)
-                textStorage.drawBackground(range: range, backgroundColor: statusBackgroundColor, foregroundColor: statusForegroundColor)
+                messageText.append(attributedSpace)
+                messageText.append(todayAttributedText)
             }
         }
-    }
-    
-    private func prepareBadge(for block: CourseDateBlock, status: NSAttributedString) -> (statusText: NSAttributedString?, statusBackgroundColor: UIColor, statusForegroundColor: UIColor, statusBorderColor: UIColor) {
         
-        var statusText: NSAttributedString?
         var statusBackgroundColor: UIColor = .clear
         var statusForegroundColor: UIColor = .clear
         var statusBorderColor: UIColor = .clear
         
-        switch block.blockStatus {
-        case .verifiedOnly:
-            statusText = makeBadge(with: status, isVerified: true)
+        var statusText: NSAttributedString?
+        
+        if block.blockStatus != .event && !block.title.isEmpty {
+            let status = statusStyle.attributedString(withText: block.blockStatus.localized)
+            (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor) = prepareBadge(for: block, status: status)
             
-            statusBackgroundColor = OEXStyles.shared().neutralXDark()
-            statusForegroundColor = OEXStyles.shared().neutralWhite()
-            
-            break
-            
-        case .completed:
-            statusText = makeBadge(with: status)
-            
-            statusBackgroundColor = OEXStyles.shared().neutralXXLight()
-            statusForegroundColor = OEXStyles.shared().neutralXDark()
-            
-            break
-            
-        case .pastDue:
-            statusText = makeBadge(with: status)
-            
-            statusBackgroundColor = OEXStyles.shared().neutralLight()
-            statusForegroundColor = OEXStyles.shared().neutralXDark()
-            
-            break
-            
-        case .dueNext:
-            if setDueNextOnThisBlock {
-                statusText = makeBadge(with: status)
-                
-                statusBackgroundColor = OEXStyles.shared().neutralDark()
-                statusForegroundColor = OEXStyles.shared().neutralWhite()
-                
-                delegate?.didSetDueNextOnCell(with: index)
-            } else {
-                statusBackgroundColor = .clear
-                statusForegroundColor = .clear
+            if let statusText = statusText {
+                messageText.append(attributedSpace)
+                messageText.append(statusText)
             }
-            
-            break
-            
-        case .unreleased:
-            statusText = makeBadge(with: status)
-            
-            statusBackgroundColor = OEXStyles.shared().neutralWhite()
-            statusForegroundColor = OEXStyles.shared().neutralXDark()
-            statusBorderColor = OEXStyles.shared().neutralXDark()
-            
-            break
-            
-        default:
-            statusBackgroundColor = .clear
-            statusForegroundColor = .clear
         }
         
-        return (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor)
+        let statusAttributedString = NSAttributedString.joinInNaturalLayout(attributedStrings: messageText)
+        textView.attributedText = statusAttributedString
+        
+        if let todayAttributedText = todayAttributedText {
+            let range = statusAttributedString.string.nsString.range(of: todayAttributedText.string)
+            textStorage.drawBackground(range: range, backgroundColor: todayBackgroundColor, foregroundColor: todayForegroundColor)
+        }
+        
+        if let statusText = statusText {
+            layoutManager.set(borderColor: statusBorderColor, lineWidth: lineWidth, cornerRadius: cornerRadius)
+            let range = statusAttributedString.string.nsString.range(of: statusText.string)
+            textStorage.drawBackground(range: range, backgroundColor: statusBackgroundColor, foregroundColor: statusForegroundColor)
+        }
     }
     
     /// Handles case when each or some block have different badge status of a single date
@@ -378,7 +314,71 @@ class CourseDateViewCell: UITableViewCell {
         }
     }
     
-    /// Adds description to titleAndDescriptionStackView if block does contains description
+    private func prepareBadge(for block: CourseDateBlock, status: NSAttributedString) -> (statusText: NSAttributedString?, statusBackgroundColor: UIColor, statusForegroundColor: UIColor, statusBorderColor: UIColor) {
+        
+        var statusText: NSAttributedString?
+        var statusBackgroundColor: UIColor = .clear
+        var statusForegroundColor: UIColor = .clear
+        var statusBorderColor: UIColor = .clear
+        
+        switch block.blockStatus {
+        case .verifiedOnly:
+            statusText = createBadge(with: status, isVerified: true)
+            
+            statusBackgroundColor = OEXStyles.shared().neutralXDark()
+            statusForegroundColor = OEXStyles.shared().neutralWhite()
+            
+            break
+            
+        case .completed:
+            statusText = createBadge(with: status)
+            
+            statusBackgroundColor = OEXStyles.shared().neutralXXLight()
+            statusForegroundColor = OEXStyles.shared().neutralXDark()
+            
+            break
+            
+        case .pastDue:
+            statusText = createBadge(with: status)
+            
+            statusBackgroundColor = OEXStyles.shared().neutralLight()
+            statusForegroundColor = OEXStyles.shared().neutralXDark()
+            
+            break
+            
+        case .dueNext:
+            if setDueNext {
+                statusText = createBadge(with: status)
+                
+                statusBackgroundColor = OEXStyles.shared().neutralDark()
+                statusForegroundColor = OEXStyles.shared().neutralWhite()
+                
+                delegate?.didSetDueNext(with: index)
+            } else {
+                statusBackgroundColor = .clear
+                statusForegroundColor = .clear
+            }
+            
+            break
+            
+        case .unreleased:
+            statusText = createBadge(with: status)
+            
+            statusBackgroundColor = OEXStyles.shared().neutralWhite()
+            statusForegroundColor = OEXStyles.shared().neutralXDark()
+            statusBorderColor = OEXStyles.shared().neutralXDark()
+            
+            break
+            
+        default:
+            statusBackgroundColor = .clear
+            statusForegroundColor = .clear
+        }
+        
+        return (statusText, statusBackgroundColor, statusForegroundColor, statusBorderColor)
+    }
+    
+    /// Adds description to titleStackView if block does contains description
     private func addDescriptionLabel(_ block: CourseDateBlock) {
         let descriptionLabel = UILabel()
         descriptionLabel.lineBreakMode = .byWordWrapping

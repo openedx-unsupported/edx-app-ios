@@ -196,10 +196,10 @@ extension CourseDatesViewController: UITableViewDataSource {
         guard let blocks = dateBlocksMap[key] else { return cell }
         cell.index = index
         cell.delegate = self
-        cell.setDueNextOnThisBlock = !isDueNextSet
+        cell.setDueNext = !isDueNextSet
         
         if let dueNextCellIndex = dueNextCellIndex, dueNextCellIndex == index {
-            cell.setDueNextOnThisBlock = true
+            cell.setDueNext = true
         }
         
         cell.blocks = blocks
@@ -217,7 +217,7 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
         }
     }
     
-    func didSetDueNextOnCell(with index: Int) {
+    func didSetDueNext(with index: Int) {
         isDueNextSet = true
         dueNextCellIndex = index
     }
