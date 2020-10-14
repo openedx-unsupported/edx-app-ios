@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+let NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD = "ShifCourseDatesSuccessNotificationFromCourseDashboard"
 
 public enum CourseOutlineMode {
     case full
@@ -156,7 +157,7 @@ public class CourseOutlineViewController :
         navigationItem.title = (courseOutlineMode == .video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
     }
     
-    func addObserver() {
+    private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_DATES_TAB) { _, observer, _ in
             observer.refreshCourseOutlineController()
         }

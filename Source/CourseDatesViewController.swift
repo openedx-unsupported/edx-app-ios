@@ -9,6 +9,8 @@
 import UIKit
 import WebKit
 
+let NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_DATES_TAB = "ShifCourseDatesSuccessNotificationFromDatesTab"
+
 class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider
@@ -79,7 +81,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         loadCourseBannerStream()
     }
     
-    func addObserver() {
+    private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD) { _, observer, _ in
             observer.loadStreams()
         }
@@ -126,7 +128,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.loadCourseDateBannerView(courseBanner: courseBanner)
+                self?.loadCourseDateBannerView(bannerModel: courseBanner)
                 break
                 
             case .failure(let error):
@@ -136,22 +138,23 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
 
-    private func loadCourseDateBannerView(courseBanner: CourseDateBannerModel) {
+    private func loadCourseDateBannerView(bannerModel: CourseDateBannerModel) {
         let height: CGFloat
-        if courseBanner.hasEnded {
+        if bannerModel.hasEnded {
             height = 0
         } else {
             courseDateBannerView.delegate = self
-            courseDateBannerView.bannerInfo = courseBanner.bannerInfo
+            courseDateBannerView.bannerInfo = bannerModel.bannerInfo
             courseDateBannerView.setupView()
             height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
         }
         
         courseDateBannerView.snp.remakeConstraints { make in
-            make.trailing.equalTo(view)
-            make.leading.equalTo(view)
-            make.top.equalTo(view)
+            make.trailing.equalTo(tableView)
+            make.leading.equalTo(tableView)
+            make.top.equalTo(tableView)
             make.height.equalTo(height)
+            make.width.equalTo(tableView.snp.width)
         }
     }
     
@@ -206,14 +209,15 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
         
         courseDateBannerView.snp.makeConstraints { make in
-            make.trailing.equalTo(view)
-            make.leading.equalTo(view)
-            make.top.equalTo(view)
+            make.trailing.equalTo(tableView.snp.trailing)
+            make.leading.equalTo(tableView.snp.leading)
+            make.top.equalTo(tableView)
             make.height.equalTo(0)
+            make.width.equalTo(tableView.snp.width)
         }
     }
     
-    func resetCourseDate() {
+    private func resetCourseDate() {
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
