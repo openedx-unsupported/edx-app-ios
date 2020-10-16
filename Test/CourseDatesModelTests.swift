@@ -20,7 +20,7 @@ class CourseDatesModelTests: XCTestCase {
     func testDatesIsInToday() {
         var blocks = courseDates.dateBlocks
         
-        let isToday = blocks.first { $0.blockStatus == .today }
+        let isToday = blocks.first { $0.isToday }
         
         if isToday == nil {
             let past = blocks.filter { $0.isInPast }
@@ -33,7 +33,7 @@ class CourseDatesModelTests: XCTestCase {
             blocks.append(todayBlock)
             blocks.append(contentsOf: future)
             
-            if let _ = blocks.first(where: { $0.blockStatus == .today }) {
+            if let _ = blocks.first(where: { $0.isToday }) {
                 XCTAssert(true, "Expected Course Date in today")
             } else {
                 XCTFail("Expected Course Date in Today Failed")
@@ -45,7 +45,7 @@ class CourseDatesModelTests: XCTestCase {
     }
     
     func testDatesIsInNotToday() {
-        let isToday = courseDates.dateBlocks.first { $0.blockStatus == .today }
+        let isToday = courseDates.dateBlocks.first { $0.isToday }
         XCTAssert(isToday == nil, "Expected Course Date in Not Today")
     }
     

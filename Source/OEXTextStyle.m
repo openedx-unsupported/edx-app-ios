@@ -141,6 +141,8 @@
             return [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
         case OEXTextWeightBold:
             return [[OEXStyles sharedStyles] boldSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
+        case OEXTextWeightBoldItalic:
+            return [[OEXStyles sharedStyles] boldItalicSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
     }
 }
 
