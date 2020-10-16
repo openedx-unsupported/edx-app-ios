@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-let NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD = "ShifCourseDatesSuccessNotificationFromCourseDashboard"
-
 public enum CourseOutlineMode {
     case full
     case video
@@ -158,7 +156,7 @@ public class CourseOutlineViewController :
     }
     
     private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_DATES_TAB) { _, observer, _ in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.refreshCourseOutlineController()
         }
     }
@@ -352,14 +350,13 @@ public class CourseOutlineViewController :
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: controller)
             } else {
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: controller)
-                self?.reloadAfterCourseDateReset()
+                self?.postCourseDateResetNotification()
             }
         }
     }
     
-    private func reloadAfterCourseDateReset() {
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD)))
-        refreshCourseOutlineController()
+    private func postCourseDateResetNotification() {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
     }
     
     private func refreshCourseOutlineController() {

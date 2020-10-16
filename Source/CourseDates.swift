@@ -8,6 +8,8 @@
 
 import Foundation
 
+let NOTIFICATION_SHIFT_COURSE_DATES = "ShifCourseDatesNotification"
+
 enum DateBlockStatus {
     case completed
     case today

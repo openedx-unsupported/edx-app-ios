@@ -82,7 +82,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD) { _, observer, _ in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.loadStreams()
         }
     }
@@ -225,14 +225,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: weakSelf)
             } else {
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: weakSelf)
-                weakSelf.reloadAfterCourseDateReset()
+                weakSelf.postCourseDateResetNotification()
             }
         }
     }
     
-    private func reloadAfterCourseDateReset() {
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_DATES_TAB)))
-        loadStreams()
+    private func postCourseDateResetNotification() {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
     }
     
     deinit {
