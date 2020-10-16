@@ -38,7 +38,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var courseDateModel: CourseDateModel?
     private var dateBlocksMap: [Date : [CourseDateBlock]] = [:]
     private var dateBlocksMapSortedKeys: [Date] = []
-    private var setDueNext = false
+    private var isDueNextSet = false
+    private var dueNextCellIndex: Int?
     
     private let courseID: String
     private let environment: Environment
@@ -47,6 +48,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         self.courseID = courseID
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
+              
+        setupView()
+        setConstraints()
+        setAccessibilityIdentifiers()
+        loadStreams()
+        addObserver()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,12 +62,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupView()
-        setConstraints()
-        setAccessibilityIdentifiers()
-        loadStreams()
-        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -164,7 +165,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         dateBlocksMap = [:]
         
-        let isToday = blocks.first { $0.blockStatus == .today }
+        let isToday = blocks.first { $0.isToday }
         
         if isToday == nil {
             let past = blocks.filter { $0.isInPast }
@@ -266,9 +267,14 @@ extension CourseDatesViewController: UITableViewDataSource {
         }
         
         guard let blocks = dateBlocksMap[key] else { return cell }
-        
+        cell.index = index
         cell.delegate = self
-        cell.setDueNextOnThisBlock = !setDueNext
+        cell.setDueNext = !isDueNextSet
+        
+        if let dueNextCellIndex = dueNextCellIndex, dueNextCellIndex == index {
+            cell.setDueNext = true
+        }
+        
         cell.blocks = blocks
         
         return cell
@@ -284,8 +290,9 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
         }
     }
     
-    func didSetDueNext() {
-        setDueNext = true
+    func didSetDueNext(with index: Int) {
+        isDueNextSet = true
+        dueNextCellIndex = index
     }
 }
 

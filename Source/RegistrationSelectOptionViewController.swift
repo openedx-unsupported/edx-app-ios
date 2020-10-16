@@ -27,6 +27,9 @@ class RegistrationSelectOptionViewCell : UITableViewCell {
         selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .clear
+
+        contentView.accessibilityIdentifier = "RegistrationSelectOptionViewCell:content-view"
+        accessibilityIdentifier = "RegistrationSelectOptionViewCell:view"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -102,11 +105,21 @@ class RegistrationSelectOptionViewController: UIViewController {
         tableView.register(RegistrationSelectOptionViewCell.self, forCellReuseIdentifier: RegistrationSelectOptionViewCell.identifier)
         tableView.reloadData()
         scrollToSelectedItem()
+
+        setAccessibilityIdentifiers()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         preferredContentSize.height = (tableView.estimatedRowHeight * visibleRows) + searchViewHeight
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "RegistrationSelectOptionViewCompletion:view"
+        tableView.accessibilityIdentifier = "RegistrationSelectOptionViewCompletion:table-view"
+        searchView.accessibilityIdentifier = "RegistrationSelectOptionViewCompletion:search-view"
+        searchController.view.accessibilityIdentifier = "RegistrationSelectOptionViewCompletion:search-controller"
+        searchController.searchBar.accessibilityIdentifier = "RegistrationSelectOptionViewCompletion:search-bar"
     }
     
     private func setupViews() {

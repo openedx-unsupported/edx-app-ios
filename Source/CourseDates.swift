@@ -12,7 +12,6 @@ let NOTIFICATION_SHIFT_COURSE_DATES = "ShifCourseDatesNotification"
 
 enum DateBlockStatus {
     case completed
-    case today
     case pastDue
     case dueNext
     case unreleased
@@ -30,10 +29,7 @@ enum DateBlockStatus {
         switch self {
         case .completed:
             return Strings.Coursedates.completed
-            
-        case .today:
-            return Strings.Coursedates.today
-            
+        
         case .pastDue:
             return Strings.Coursedates.pastDue
             
@@ -337,6 +333,10 @@ struct CourseDateBlock {
  course-end-date:
  */
 extension CourseDateBlock {
+    var todayText: String {
+        return Strings.Coursedates.today
+    }
+    
     var isInPast: Bool {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedAscending
     }
@@ -394,10 +394,6 @@ extension CourseDateBlock {
     }
     
     private func getBlockStatus(of type: String) -> DateBlockStatus {
-        if isToday {
-            return .today
-        }
-        
         if complete {
             return .completed
         } else {
@@ -407,7 +403,7 @@ extension CourseDateBlock {
                 if isInPast {
                     return isUnreleased ? .unreleased : .pastDue
                 } else if isToday {
-                    return .today
+                    return isUnreleased ? .unreleased : .dueNext
                 } else if isInFuture {
                     return isUnreleased ? .unreleased : .dueNext
                 }
