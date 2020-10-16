@@ -45,13 +45,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
-        super.init(nibName: nil, bundle: nil)
-              
-        setupView()
-        setConstraints()
-        setAccessibilityIdentifiers()
-        loadStreams()
-        addObserver()
+        super.init(nibName: nil, bundle: nil)        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -60,6 +54,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupView()
+        setConstraints()
+        setAccessibilityIdentifiers()
+        loadStreams()
+        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
