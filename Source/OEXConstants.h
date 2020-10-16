@@ -50,9 +50,6 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 // Dynamic Text Type Notification
 # define NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE @"DynamicTextTypeUpdateNotification"
 
-// Course Dates Shift Notification From Course Dashboard
-# define NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD @"ShifCourseDatesSuccessNotificationFromCourseDashboard"
-
 //courses and videos
 #define CAV_KEY_COURSE @"course"
 #define CAV_KEY_VIDEOS @"videos"

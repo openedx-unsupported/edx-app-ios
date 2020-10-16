@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 public enum CourseOutlineMode {
     case full
     case video
@@ -68,6 +67,7 @@ public class CourseOutlineViewController :
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
+        addObserver()
         lastAccessedController.delegate = self
         
         addChild(tableController)
@@ -153,6 +153,12 @@ public class CourseOutlineViewController :
     
     private func setupNavigationItem(block : CourseBlock) {
         navigationItem.title = (courseOutlineMode == .video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
+            observer.refreshCourseOutlineController()
+        }
     }
     
     private func loadCourseOutlineStream() {
@@ -344,20 +350,23 @@ public class CourseOutlineViewController :
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: controller)
             } else {
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: controller)
-                self?.reloadAfterCourseDateReset()
+                self?.postCourseDateResetNotification()
             }
         }
     }
     
-    private func reloadAfterCourseDateReset() {
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_COURSE_DASHBOARD)))
-        refreshCourseOutlineController()
+    private func postCourseDateResetNotification() {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
     }
     
     private func refreshCourseOutlineController() {
         courseQuerier.needsRefresh = true
         loadBackedStreams()
         loadCourseStream()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: PullRefreshControllerDelegate
