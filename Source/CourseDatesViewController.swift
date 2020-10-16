@@ -9,8 +9,6 @@
 import UIKit
 import WebKit
 
-let NOTIFICATION_SHIFT_COURSE_DATES_SUCCESS_FROM_DATES_TAB = "ShifCourseDatesSuccessNotificationFromDatesTab"
-
 class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider
