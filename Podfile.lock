@@ -188,15 +188,6 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (4.8.0)
   - PromisesObjC (1.2.8)
   - Protobuf (3.11.4)
-  - Segment-Firebase (2.6.0):
-    - Analytics (~> 3.2)
-    - Firebase/Core (~> 6.2)
-    - FirebaseAnalytics (~> 6.1)
-    - Segment-Firebase/Core (= 2.6.0)
-  - Segment-Firebase/Core (2.6.0):
-    - Analytics (~> 3.2)
-    - Firebase/Core (~> 6.2)
-    - FirebaseAnalytics (~> 6.1)
   - Segment-GoogleAnalytics (1.2.0):
     - Analytics (~> 3.0)
     - Segment-GoogleAnalytics/GoogleIDFASupport (= 1.2.0)
@@ -227,7 +218,6 @@ DEPENDENCIES:
   - Masonry (~> 0.6)
   - NewRelicAgent (~> 4.1)
   - OHHTTPStubs (~> 4.0)
-  - Segment-Firebase (= 2.6.0)
   - Segment-GoogleAnalytics (~> 1.2.0)
   - Smartling.i18n (~> 1.0)
   - YoutubePlayer-in-WKWebView (~> 0.3.0)
@@ -271,7 +261,6 @@ SPEC REPOS:
     - OHHTTPStubs
     - PromisesObjC
     - Protobuf
-    - Segment-Firebase
     - Segment-GoogleAnalytics
     - Smartling.i18n
     - YoutubePlayer-in-WKWebView
@@ -314,11 +303,10 @@ SPEC CHECKSUMS:
   OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
-  Segment-Firebase: 0eed2062280020a418957d991c8c12588fea5c14
   Segment-GoogleAnalytics: b5070619ad337eb09c4b01c52c3d0d90495307cf
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
   YoutubePlayer-in-WKWebView: af2f5929fc78882d94bfdfeea999b661b78d9717
 
-PODFILE CHECKSUM: 241750c27ec008f3c8e431f7566f326d26f96180
+PODFILE CHECKSUM: 8bc43a2c3a1a6a3dacc7b32857b439519d50d4b8
 
 COCOAPODS: 1.5.3

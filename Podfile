@@ -8,7 +8,6 @@ project 'edX.xcodeproj'
 target 'edX' do
 pod 'Analytics', '~> 3.6.10'
 pod 'Segment-GoogleAnalytics', '~> 1.2.0'
-pod 'Segment-Firebase', '=2.6.0'
 pod 'DateTools', '~> 1.6.1'
 pod 'GoogleSignIn', '~> 5.0.2'
 pod 'Masonry', '~> 0.6'
