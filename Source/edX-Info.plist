@@ -54,14 +54,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
-	<false/>
 	<key>FacebookDisplayName</key>
 	<string>edX</string>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
-	<key>FirebaseAutomaticScreenReportingEnabled</key>
-	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
