@@ -162,6 +162,13 @@ extension UIViewController {
         showSnackBarView(snackBarView: view)
     }
     
+    func showDateResetSucessSnackBar() {
+        let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
+        hideInfo?.value.action()
+        let view = DateResetSuccessView(message: "Your due dates have been successfully shifted to help you stay on track.", link: "View all dates", selector: nil)
+        showSnackBarView(snackBarView: view)
+    }
+    
     func hideSnackBar() {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()

@@ -179,3 +179,125 @@ public class OfflineView: UIView {
         })
     }
 }
+
+public class DateResetSuccessView: UIView {
+    private var selector: Selector?
+    
+    private let stackView = TZStackView()
+    private let container = UIView()
+    private let messageLabel = UILabel()
+    
+    private lazy var linkTextView: UITextView = {
+        let textView = UITextView(frame: .zero)
+        textView.isUserInteractionEnabled = true
+        textView.isScrollEnabled = false
+        textView.isEditable = false
+        textView.textContainer.lineFragmentPadding = .zero
+        textView.backgroundColor = .clear
+        textView.tintColor = .white
+        textView.textColor = .white
+        
+        return textView
+    }()
+    
+    private let dismissButton = UIButton()
+        
+    private lazy var messageLabelStyle: OEXTextStyle = {
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhite())
+    }()
+    
+    private lazy var linkLabelStyle: OEXTextStyle = {
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralWhite())
+    }()
+    
+    private lazy var buttonLabelStyle: OEXTextStyle = {
+        return OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
+    }()
+    
+    private lazy var lockImage: UIImage = {
+        return Icon.Close.imageWithFontSize(size: 14).withRenderingMode(.alwaysTemplate)
+    }()
+    
+    init(message: String, link: String, selector: Selector?) {
+        super.init(frame: CGRect.zero)
+        
+        self.selector = selector
+        self.backgroundColor = OEXStyles.shared().neutralXDark()
+        
+        messageLabel.numberOfLines = 0
+        messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
+        messageLabel.sizeToFit()
+        
+        var attributedString = linkLabelStyle.attributedString(withText: link)
+        
+        let url = URL(string: "www.google.com")!
+        
+        attributedString = attributedString.addLink(on: link, value: url, foregroundColor: OEXStyles.shared().neutralWhite(), underline: true)
+        linkTextView.attributedText = attributedString
+        
+        dismissButton.setImage(lockImage, for: UIControl.State())
+        dismissButton.tintColor = OEXStyles.shared().neutralWhite()
+        
+        stackView.spacing = StandardHorizontalMargin / 4
+        stackView.alignment = .leading
+        stackView.axis = .vertical
+        
+        stackView.addArrangedSubview(messageLabel)
+        stackView.addArrangedSubview(linkTextView)
+        
+        container.addSubview(stackView)
+        container.addSubview(dismissButton)
+        
+        addSubview(container)
+        
+        addConstraints()
+        addButtonActions()
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func addConstraints() {
+        stackView.snp.makeConstraints { make in
+            make.leading.equalTo(container).inset(StandardVerticalMargin * 2)
+            make.trailing.equalTo(dismissButton.snp.leading)
+            make.top.equalTo(container).offset(StandardVerticalMargin)
+            make.bottom.equalTo(container).inset(StandardVerticalMargin)
+        }
+        
+        container.snp.makeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
+            make.height.greaterThanOrEqualTo(StandardHorizontalMargin * 6)
+        }
+        
+        dismissButton.snp.makeConstraints { make in
+            make.trailing.equalTo(self).inset(StandardVerticalMargin)
+            make.top.equalTo(self).inset(StandardVerticalMargin)
+            make.width.equalTo(StandardHorizontalMargin * 2)
+            make.height.equalTo(StandardHorizontalMargin * 2)
+        }
+    }
+    
+    private func addButtonActions() {
+        dismissButton.oex_addAction({ [weak self] _ in
+            self?.dismissView()
+        }, for: .touchUpInside)
+    }
+    
+    private func dismissView() {
+        var container = superview
+        if container == nil {
+            container = self
+        }
+        
+        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut) { [weak self] in
+            self?.transform = .identity
+        } completion: { _ in
+            container?.removeFromSuperview()
+        }
+    }
+}
