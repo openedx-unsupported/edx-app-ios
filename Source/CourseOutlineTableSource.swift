@@ -438,7 +438,7 @@ extension CourseOutlineTableController: CourseDateBannerViewDelegate {
     }
 }
 
-fileprivate extension UITableView {
+extension UITableView {
     //set the tableHeaderView so that the required height can be determined, update the header's frame and set it again
     func setAndLayoutTableHeaderView(header: UIView) {
         header.setNeedsLayout()

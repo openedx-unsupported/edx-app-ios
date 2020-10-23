@@ -162,12 +162,21 @@ extension UIViewController {
         showSnackBarView(snackBarView: view)
     }
     
-    func hideSnackBar() {
+    @objc func hideSnackBar() {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
     }
+    
+    func showDateResetSnackBar(message: String, buttonText: String? = nil, showButton: Bool = false, autoDismiss: Bool = true, buttonAction: (()->())? = nil) {
+        let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
+        hideInfo?.value.action()
+        let view = DateResetToastView(message: message, buttonText: buttonText, showButton: showButton, buttonAction: buttonAction)
+        showSnackBarView(snackBarView: view)
+        if autoDismiss {
+            perform(#selector(hideSnackBar), with: nil, afterDelay: 5)
+        }
+    }
 }
-
 
 // For use in testing only
 extension UIViewController {

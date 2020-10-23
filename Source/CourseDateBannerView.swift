@@ -144,7 +144,7 @@ class CourseDateBannerView: UIView {
             }
             
             bannerButton.snp.makeConstraints { make in
-                make.leading.equalTo(buttonContainer.snp.leading)
+                make.trailing.equalTo(buttonContainer.snp.trailing)
                 make.top.equalTo(buttonContainer.snp.top)
                 make.bottom.equalTo(buttonContainer.snp.bottom)
                 make.width.greaterThanOrEqualTo(buttonMinWidth)
