@@ -38,7 +38,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         super.init(nibName : nil, bundle : nil)
 
         addObserver()
-        setup()
+        setupViews()
         loadStreams()
     }
 
@@ -52,7 +52,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         }
     }
 
-    private func setup() {
+    private func setupViews() {
         view.addSubview(courseDateBannerView)
         courseDateBannerView.snp.makeConstraints { make in
             make.trailing.equalTo(view.snp.trailing)
