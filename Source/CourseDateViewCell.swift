@@ -271,7 +271,7 @@ class CourseDateViewCell: UITableViewCell {
             var messageText: [NSAttributedString] = [attributedString]
             
             let (textView, textStorage, layoutManager) = generateTextView(with: attributedString)
-            textView.tintColor = color
+            textView.tintColor = OEXStyles.shared().neutralWhite()
             textView.delegate = self
 
             var statusText: NSAttributedString?

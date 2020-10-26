@@ -194,8 +194,8 @@ public class DateResetSuccessView: UIView {
         textView.isEditable = false
         textView.textContainer.lineFragmentPadding = .zero
         textView.backgroundColor = .clear
-        textView.tintColor = .white
-        textView.textColor = .white
+        textView.tintColor = OEXStyles.shared().neutralWhite()
+        textView.textColor = OEXStyles.shared().neutralWhite()
         
         return textView
     }()
