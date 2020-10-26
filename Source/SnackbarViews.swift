@@ -180,7 +180,7 @@ public class OfflineView: UIView {
     }
 }
 
-public class DateResetSuccessView: UIView {
+public class DateResetToastView: UIView {
     private var selector: Selector?
     
     private let stackView = TZStackView()
