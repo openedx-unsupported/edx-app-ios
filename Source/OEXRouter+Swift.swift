@@ -15,7 +15,7 @@ import WebKit
 // We should gradually migrate the existing router class here and then
 // get rid of the objc version
 
-enum CourseHTMLBlockSubkind {
+public enum CourseHTMLBlockSubkind {
     case Base
     case Problem
 }
@@ -69,8 +69,16 @@ extension OEXRouter {
         case .Unit:
             let outlineController = controllerForBlockWithID(blockID: blockID, type: type, courseID: courseID, forMode: mode)
             controller.navigationController?.pushViewController(outlineController, animated: true)
-        case .HTML:
-            fallthrough
+        case .HTML(let subkind):
+            if subkind == .Problem {
+                let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID, forMode: mode)
+                if let delegate = controller as? CourseContentPageViewControllerDelegate {
+                    pageController.navigationDelegate = delegate
+                }
+                controller.navigationController?.pushViewController(pageController, animated: true)
+            } else {
+                fallthrough
+            }
         case .Video:
             fallthrough
         case .Unknown:
@@ -100,8 +108,8 @@ extension OEXRouter {
                 return outlineController
         case .Unit:
             return unitControllerForCourseID(courseID: courseID, blockID: blockID, initialChildID: nil, forMode: mode)
-        case .HTML:
-            let controller = HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
+        case .HTML(let subkind):
+            let controller = HTMLBlockViewController(blockID: blockID, courseID: courseID, environment: environment, subkind: subkind)
             return controller
         case .Video:
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)

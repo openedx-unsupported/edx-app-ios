@@ -22,7 +22,8 @@ public class CourseOutlineViewController :
     CourseLastAccessedControllerDelegate,
     PullRefreshControllerDelegate,
     LoadStateViewReloadSupport,
-    InterfaceOrientationOverriding
+    InterfaceOrientationOverriding,
+    DateResetSnackBar
 {
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider
     
@@ -346,11 +347,12 @@ public class CourseOutlineViewController :
     func resetCourseDate(controller: CourseOutlineTableController) {
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
+            guard let weakSelf = self else { return }
             if let _ = result.error {
-                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: controller)
+                weakSelf.showDateResetSucessSnackBar(message: Strings.Coursedates.ResetDate.errorMessage, linkText: Strings.Coursedates.toastLinkToDates)
             } else {
-                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: controller)
-                self?.postCourseDateResetNotification()
+                weakSelf.showDateResetSucessSnackBar(message: Strings.Coursedates.toastSuccessMessage, linkText: Strings.Coursedates.toastLinkToDates)
+                weakSelf.postCourseDateResetNotification()
             }
         }
     }

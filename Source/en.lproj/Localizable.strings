@@ -250,6 +250,10 @@
 "COURSE_HANDOUTS"="Handouts";
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Resources";
+/* Course Dates Success Toast Message */
+"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Your due dates have been successfully shifted to help you stay on track.";
+/* Course Dates Toast navigate to Dates */
+"COURSEDATES.TOAST_LINK_TO_DATES" = "View all dates";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
 /* Course Date Type Completed */

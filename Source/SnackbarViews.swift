@@ -218,7 +218,7 @@ public class DateResetSuccessView: UIView {
         return Icon.Close.imageWithFontSize(size: 14).withRenderingMode(.alwaysTemplate)
     }()
     
-    init(message: String, link: String, selector: Selector?) {
+    init(message: String, linkText: String, showLink: Bool, selector: Selector?) {
         super.init(frame: CGRect.zero)
         
         self.selector = selector
@@ -228,11 +228,14 @@ public class DateResetSuccessView: UIView {
         messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
         messageLabel.sizeToFit()
         
-        var attributedString = linkLabelStyle.attributedString(withText: link)
+        var attributedString = linkLabelStyle.attributedString(withText: linkText)
         
-        let url = URL(string: "www.google.com")!
+        if showLink, !linkText.isEmpty {
+            if let url = URL(string: linkText) {
+                attributedString = attributedString.addLink(on: linkText, value: url, foregroundColor: OEXStyles.shared().neutralWhite(), underline: true)
+            }
+        }
         
-        attributedString = attributedString.addLink(on: link, value: url, foregroundColor: OEXStyles.shared().neutralWhite(), underline: true)
         linkTextView.attributedText = attributedString
         
         dismissButton.setImage(lockImage, for: UIControl.State())
@@ -243,7 +246,10 @@ public class DateResetSuccessView: UIView {
         stackView.axis = .vertical
         
         stackView.addArrangedSubview(messageLabel)
-        stackView.addArrangedSubview(linkTextView)
+        
+        if showLink {
+            stackView.addArrangedSubview(linkTextView)
+        }
         
         container.addSubview(stackView)
         container.addSubview(dismissButton)

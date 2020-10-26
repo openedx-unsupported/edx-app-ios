@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
+class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding, DateResetSnackBar {
     
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider
 
@@ -221,9 +221,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
             if let _ = result.error {
-                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: weakSelf)
+                weakSelf.showDateResetSucessSnackBar(message: Strings.Coursedates.ResetDate.errorMessage, linkText: Strings.Coursedates.toastLinkToDates)
             } else {
-                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: weakSelf)
+                weakSelf.showDateResetSucessSnackBar(message: Strings.Coursedates.toastSuccessMessage, linkText: Strings.Coursedates.toastLinkToDates)
                 weakSelf.postCourseDateResetNotification()
             }
         }

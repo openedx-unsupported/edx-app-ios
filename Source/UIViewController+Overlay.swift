@@ -52,6 +52,10 @@ private class StatusMessageView : UIView {
 private let visibleDuration: TimeInterval = 5.0
 private let animationDuration: TimeInterval = 1.0
 
+protocol DateResetSnackBar {
+    
+}
+
 extension UIViewController {
     
     func showOverlayMessageView(messageView : UIView) {
@@ -162,16 +166,18 @@ extension UIViewController {
         showSnackBarView(snackBarView: view)
     }
     
-    func showDateResetSucessSnackBar() {
-        let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
-        hideInfo?.value.action()
-        let view = DateResetSuccessView(message: "Your due dates have been successfully shifted to help you stay on track.", link: "View all dates", selector: nil)
-        showSnackBarView(snackBarView: view)
-    }
-    
     func hideSnackBar() {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
+    }
+}
+
+extension DateResetSnackBar where Self: UIViewController {
+    func showDateResetSucessSnackBar(message: String, linkText: String, showLink: Bool = false) {
+        let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
+        hideInfo?.value.action()
+        let view = DateResetSuccessView(message: message, linkText: linkText, showLink: showLink, selector: nil)
+        showSnackBarView(snackBarView: view)
     }
 }
 
