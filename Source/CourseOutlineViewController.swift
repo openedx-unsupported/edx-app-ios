@@ -349,9 +349,9 @@ public class CourseOutlineViewController :
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
             if let _ = result.error {
-                weakSelf.showDateResetSucessSnackBar(message: Strings.Coursedates.ResetDate.errorMessage, linkText: Strings.Coursedates.toastLinkToDates)
+                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage, linkText: Strings.Coursedates.toastLinkToDates)
             } else {
-                weakSelf.showDateResetSucessSnackBar(message: Strings.Coursedates.toastSuccessMessage, linkText: Strings.Coursedates.toastLinkToDates)
+                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.toastSuccessMessage, linkText: Strings.Coursedates.toastLinkToDates)
                 weakSelf.postCourseDateResetNotification()
             }
         }

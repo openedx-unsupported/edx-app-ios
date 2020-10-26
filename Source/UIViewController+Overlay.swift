@@ -173,7 +173,7 @@ extension UIViewController {
 }
 
 extension DateResetSnackBar where Self: UIViewController {
-    func showDateResetSucessSnackBar(message: String, linkText: String, showLink: Bool = false) {
+    func showDateResetSnackBar(message: String, linkText: String, showLink: Bool = false) {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
         let view = DateResetSuccessView(message: message, linkText: linkText, showLink: showLink, selector: nil)
