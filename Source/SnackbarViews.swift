@@ -183,9 +183,23 @@ public class OfflineView: UIView {
 public class DateResetToastView: UIView {
     private var selector: Selector?
     
-    private let stackView = TZStackView()
     private let container = UIView()
-    private let messageLabel = UILabel()
+
+    private lazy var stackView: TZStackView = {
+        let stackView = TZStackView()
+        stackView.spacing = StandardHorizontalMargin / 4
+        stackView.alignment = .leading
+        stackView.axis = .vertical
+        
+        return stackView
+    }()
+    
+    private lazy var messageLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        
+        return label
+    }()
     
     private lazy var linkTextView: UITextView = {
         let textView = UITextView(frame: .zero)
@@ -200,7 +214,13 @@ public class DateResetToastView: UIView {
         return textView
     }()
     
-    private let dismissButton = UIButton()
+    private lazy var dismissButton: UIButton = {
+        let button = UIButton()
+        button.setImage(lockImage, for: UIControl.State())
+        button.tintColor = OEXStyles.shared().neutralWhite()
+        
+        return button
+    }()
         
     private lazy var messageLabelStyle: OEXTextStyle = {
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhite())
@@ -223,32 +243,19 @@ public class DateResetToastView: UIView {
         
         self.selector = selector
         self.backgroundColor = OEXStyles.shared().neutralXDark()
-        
-        messageLabel.numberOfLines = 0
+                        
         messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
         messageLabel.sizeToFit()
         
-        var attributedString = linkLabelStyle.attributedString(withText: linkText)
-        
+        stackView.addArrangedSubview(messageLabel)
+
         if showLink, !linkText.isEmpty {
             if let url = URL(string: linkText) {
+                var attributedString = linkLabelStyle.attributedString(withText: linkText)
                 attributedString = attributedString.addLink(on: linkText, value: url, foregroundColor: OEXStyles.shared().neutralWhite(), underline: true)
+                linkTextView.attributedText = attributedString
+                stackView.addArrangedSubview(linkTextView)
             }
-        }
-        
-        linkTextView.attributedText = attributedString
-        
-        dismissButton.setImage(lockImage, for: UIControl.State())
-        dismissButton.tintColor = OEXStyles.shared().neutralWhite()
-        
-        stackView.spacing = StandardHorizontalMargin / 4
-        stackView.alignment = .leading
-        stackView.axis = .vertical
-        
-        stackView.addArrangedSubview(messageLabel)
-        
-        if showLink {
-            stackView.addArrangedSubview(linkTextView)
         }
         
         container.addSubview(stackView)
@@ -300,9 +307,9 @@ public class DateResetToastView: UIView {
             container = self
         }
         
-        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut) { [weak self] in
+        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: { [weak self] in
             self?.transform = .identity
-        } completion: { _ in
+        }) { _ in
             container?.removeFromSuperview()
         }
     }

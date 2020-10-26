@@ -81,27 +81,26 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
             let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
             courseDateBannerLoader.addBackingStream(courseBannerStream)
             
-            courseBannerStream.listen(self) { [weak self] courseBannerModel in
+            courseBannerStream.listen((self), success: { [weak self] courseBannerModel in
                 self?.loadCourseDateBannerView(bannerModel: courseBannerModel)
-            } failure: { _ in
+            }, failure: { _ in
                 
-            }
+            })
             
             let courseQuerierStream = courseQuerier.blockWithID(id: self.blockID).firstSuccess()
             loader.addBackingStream(courseQuerierStream)
             
-            courseQuerierStream.listen(self) { [weak self] block in
+            courseQuerierStream.listen((self), success: { [weak self] block in
                 if let url = block.blockURL {
                     let request = NSURLRequest(url: url as URL)
                     self?.webController.loadRequest(request: request)
-                    
                 }
                 else {
                     self?.webController.showError(error: nil)
                 }
-            } failure: { [weak self] error in
+            }, failure: { [weak self] error in
                 self?.webController.showError(error: error)
-            }
+            })
         }
     }
     
