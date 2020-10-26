@@ -69,16 +69,8 @@ extension OEXRouter {
         case .Unit:
             let outlineController = controllerForBlockWithID(blockID: blockID, type: type, courseID: courseID, forMode: mode)
             controller.navigationController?.pushViewController(outlineController, animated: true)
-        case .HTML(let subkind):
-            if subkind == .Problem {
-                let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID, forMode: mode)
-                if let delegate = controller as? CourseContentPageViewControllerDelegate {
-                    pageController.navigationDelegate = delegate
-                }
-                controller.navigationController?.pushViewController(pageController, animated: true)
-            } else {
-                fallthrough
-            }
+        case .HTML:
+            fallthrough
         case .Video:
             fallthrough
         case .Unknown:
