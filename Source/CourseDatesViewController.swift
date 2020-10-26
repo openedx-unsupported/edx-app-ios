@@ -45,7 +45,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
-        super.init(nibName: nil, bundle: nil)        
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -73,6 +73,21 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let headerView = tableView.tableHeaderView {
+            let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+            var headerFrame = headerView.frame
+
+            if height != headerFrame.size.height {
+                headerFrame.size.height = height
+                headerView.frame = headerFrame
+                tableView.tableHeaderView = headerView
+            }
+        }
     }
     
     private func loadStreams() {
@@ -154,6 +169,11 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             make.top.equalTo(tableView)
             make.height.equalTo(height)
             make.width.equalTo(tableView.snp.width)
+        }
+        
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            self?.view.setNeedsLayout()
+            self?.view.layoutIfNeeded()
         }
     }
     
