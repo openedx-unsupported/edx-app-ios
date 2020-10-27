@@ -213,7 +213,8 @@ public class DateResetToastView: UIView {
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton()
-        button.setImage(lockImage, for: UIControl.State())
+        let image = Icon.Close.imageWithFontSize(size: 14).withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: UIControl.State())
         button.tintColor = OEXStyles.shared().neutralWhite()
         
         return button
@@ -231,14 +232,10 @@ public class DateResetToastView: UIView {
         return OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
     }()
     
-    private lazy var lockImage: UIImage = {
-        return Icon.Close.imageWithFontSize(size: 14).withRenderingMode(.alwaysTemplate)
-    }()
-    
     init(message: String, buttonText: String? = nil, showButton: Bool = false, buttonAction: (()->())? = nil) {
-        super.init(frame: CGRect.zero)
+        super.init(frame: .zero)
         
-        self.backgroundColor = OEXStyles.shared().neutralXDark()
+        backgroundColor = OEXStyles.shared().neutralXDark()
                         
         messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
         messageLabel.sizeToFit()
@@ -246,10 +243,10 @@ public class DateResetToastView: UIView {
         stackView.addArrangedSubview(messageLabel)
 
         if showButton {
+            button.setAttributedTitle(buttonStyle.attributedString(withText: buttonText), for: UIControl.State())
             button.oex_addAction({ _ in
                 buttonAction?()
             }, for: .touchUpInside)
-            button.setAttributedTitle(buttonStyle.attributedString(withText: buttonText), for: UIControl.State())
             buttonContainer.addSubview(button)
             stackView.addArrangedSubview(buttonContainer)
         }
@@ -280,7 +277,7 @@ public class DateResetToastView: UIView {
             make.trailing.equalTo(self)
             make.top.equalTo(self)
             make.bottom.equalTo(self)
-            make.height.greaterThanOrEqualTo(StandardHorizontalMargin * 6)
+            make.height.greaterThanOrEqualTo(showButton ? StandardHorizontalMargin * 6 : StandardHorizontalMargin * 4)
         }
         
         dismissButton.snp.makeConstraints { make in

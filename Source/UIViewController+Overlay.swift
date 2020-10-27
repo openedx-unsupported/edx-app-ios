@@ -179,7 +179,7 @@ extension DateResetSnackBar where Self: UIViewController {
         let view = DateResetToastView(message: message, buttonText: buttonText, showButton: showButton, buttonAction: buttonAction)
         showSnackBarView(snackBarView: view)
         if autoDismiss {
-            //perform(#selector(hideSnackBar), with: nil, afterDelay: 5)
+            perform(#selector(hideSnackBar), with: nil, afterDelay: 5)
         }
     }
 }
