@@ -181,7 +181,6 @@ public class OfflineView: UIView {
 }
 
 public class DateResetToastView: UIView {
-    
     private lazy var container = UIView()
     private lazy var buttonContainer = UIView()
     

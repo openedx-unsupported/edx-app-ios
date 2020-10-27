@@ -52,10 +52,6 @@ private class StatusMessageView : UIView {
 private let visibleDuration: TimeInterval = 5.0
 private let animationDuration: TimeInterval = 1.0
 
-protocol DateResetSnackBar {
-    
-}
-
 extension UIViewController {
     
     func showOverlayMessageView(messageView : UIView) {
@@ -171,6 +167,8 @@ extension UIViewController {
         hideInfo?.value.action()
     }
 }
+
+protocol DateResetSnackBar { }
 
 extension DateResetSnackBar where Self: UIViewController {
     func showDateResetSnackBar(message: String, buttonText: String? = nil, showButton: Bool = false, autoDismiss: Bool = true, buttonAction: (()->())? = nil) {
