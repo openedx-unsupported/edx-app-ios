@@ -141,6 +141,15 @@ extension OEXRouter {
         showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller, forMode: .video)
     }
     
+    func showDatesTabController(controller: UIViewController) {
+        if let dashboardController = controller as? CourseDashboardViewController {
+            dashboardController.switchTab(with: .courseDates)
+        } else if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
+            controller.navigationController?.popToViewController(dashboardController, animated: false)
+            dashboardController.switchTab(with: .courseDates)
+        }
+    }
+    
     // MARK: Deep Linking
     //Method can be use to navigate on particular tab of course dashboard with deep link type
     func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController) {

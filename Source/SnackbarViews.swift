@@ -181,14 +181,15 @@ public class OfflineView: UIView {
 }
 
 public class DateResetToastView: UIView {
-    private var selector: Selector?
     
-    private let container = UIView()
-
+    private lazy var container = UIView()
+    private lazy var buttonContainer = UIView()
+    
     private lazy var stackView: TZStackView = {
         let stackView = TZStackView()
         stackView.spacing = StandardHorizontalMargin / 4
         stackView.alignment = .leading
+        stackView.distribution = .fill
         stackView.axis = .vertical
         
         return stackView
@@ -201,17 +202,13 @@ public class DateResetToastView: UIView {
         return label
     }()
     
-    private lazy var linkTextView: UITextView = {
-        let textView = UITextView(frame: .zero)
-        textView.isUserInteractionEnabled = true
-        textView.isScrollEnabled = false
-        textView.isEditable = false
-        textView.textContainer.lineFragmentPadding = .zero
-        textView.backgroundColor = .clear
-        textView.tintColor = OEXStyles.shared().neutralWhite()
-        textView.textColor = OEXStyles.shared().neutralWhite()
+    private lazy var button: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.borderColor = OEXStyles.shared().neutralWhite().cgColor
         
-        return textView
+        return button
     }()
     
     private lazy var dismissButton: UIButton = {
@@ -226,7 +223,7 @@ public class DateResetToastView: UIView {
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhite())
     }()
     
-    private lazy var linkLabelStyle: OEXTextStyle = {
+    private lazy var buttonStyle: OEXTextStyle = {
         return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralWhite())
     }()
     
@@ -238,10 +235,9 @@ public class DateResetToastView: UIView {
         return Icon.Close.imageWithFontSize(size: 14).withRenderingMode(.alwaysTemplate)
     }()
     
-    init(message: String, linkText: String, showLink: Bool, selector: Selector?) {
+    init(message: String, buttonText: String? = nil, showButton: Bool = false, buttonAction: (()->())? = nil) {
         super.init(frame: CGRect.zero)
         
-        self.selector = selector
         self.backgroundColor = OEXStyles.shared().neutralXDark()
                         
         messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
@@ -249,13 +245,13 @@ public class DateResetToastView: UIView {
         
         stackView.addArrangedSubview(messageLabel)
 
-        if showLink, !linkText.isEmpty {
-            if let url = URL(string: linkText) {
-                var attributedString = linkLabelStyle.attributedString(withText: linkText)
-                attributedString = attributedString.addLink(on: linkText, value: url, foregroundColor: OEXStyles.shared().neutralWhite(), underline: true)
-                linkTextView.attributedText = attributedString
-                stackView.addArrangedSubview(linkTextView)
-            }
+        if showButton {
+            button.oex_addAction({ _ in
+                buttonAction?()
+            }, for: .touchUpInside)
+            button.setAttributedTitle(buttonStyle.attributedString(withText: buttonText), for: UIControl.State())
+            buttonContainer.addSubview(button)
+            stackView.addArrangedSubview(buttonContainer)
         }
         
         container.addSubview(stackView)
@@ -263,7 +259,7 @@ public class DateResetToastView: UIView {
         
         addSubview(container)
         
-        addConstraints()
+        addConstraints(showButton: showButton)
         addButtonActions()
     }
     
@@ -271,7 +267,7 @@ public class DateResetToastView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func addConstraints() {
+    private func addConstraints(showButton: Bool) {
         stackView.snp.makeConstraints { make in
             make.leading.equalTo(container).inset(StandardVerticalMargin * 2)
             make.trailing.equalTo(dismissButton.snp.leading)
@@ -292,6 +288,20 @@ public class DateResetToastView: UIView {
             make.top.equalTo(self).inset(StandardVerticalMargin)
             make.width.equalTo(StandardHorizontalMargin * 2)
             make.height.equalTo(StandardHorizontalMargin * 2)
+        }
+        
+        if showButton {
+            buttonContainer.snp.makeConstraints { make in
+                make.leading.equalTo(stackView.snp.leading)
+                make.trailing.equalTo(stackView.snp.trailing)
+            }
+            
+            button.snp.makeConstraints { make in
+                make.trailing.equalTo(buttonContainer.snp.trailing)
+                make.top.equalTo(buttonContainer.snp.top)
+                make.bottom.equalTo(buttonContainer.snp.bottom)
+                make.width.greaterThanOrEqualTo(StandardHorizontalMargin * 7)
+            }
         }
     }
     

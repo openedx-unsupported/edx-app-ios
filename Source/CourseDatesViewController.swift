@@ -231,9 +231,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
             if let _ = result.error {
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage, linkText: Strings.Coursedates.toastLinkToDates)
+                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.toastSuccessMessage, linkText: Strings.Coursedates.toastLinkToDates)
+                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
                 weakSelf.postCourseDateResetNotification()
             }
         }

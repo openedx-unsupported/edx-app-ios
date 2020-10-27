@@ -10,7 +10,7 @@ import UIKit
 
 public class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController, DateResetSnackBar {
     
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
     
     public let courseID: String
     public let blockID: CourseBlockID?
@@ -18,8 +18,6 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     private let subkind: CourseHTMLBlockSubkind
     
     private lazy var courseDateBannerView = CourseDateBannerView(frame: .zero)
-    private lazy var webViewContainer = UIView(frame: .zero)
-    
     private let webController: AuthenticatedWebViewController
     
     private let loader = BackedStream<CourseBlock>()
@@ -61,33 +59,32 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
             make.height.equalTo(0)
         }
         
-        view.addSubview(webViewContainer)
-        webViewContainer.snp.makeConstraints { make in
+        addChild(webController)
+        webController.didMove(toParent: self)
+        view.addSubview(webController.view)
+        
+        webController.view.snp.makeConstraints { make in
             make.trailing.equalTo(view.snp.trailing)
             make.leading.equalTo(view.snp.leading)
             make.top.equalTo(courseDateBannerView.snp.bottom)
             make.bottom.equalTo(view.snp.bottom)
         }
-        
-        addChild(webController)
-        webController.didMove(toParent: self)
-        webViewContainer.addSubview(webController.view)
     }
     
     private func loadStreams() {
+        if subkind == .Problem {
+            let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
+            let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
+            courseDateBannerLoader.addBackingStream(courseBannerStream)
+            
+            courseBannerStream.listen((self), success: { [weak self] courseBannerModel in
+                self?.loadCourseDateBannerView(bannerModel: courseBannerModel)
+            }, failure: { [weak self] _ in
+                self?.hideCourseBannerView()
+            })
+        }
+        
         if !loader.hasBacking {
-            if subkind == .Problem {
-                let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
-                let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
-                courseDateBannerLoader.addBackingStream(courseBannerStream)
-                
-                courseBannerStream.listen((self), success: { [weak self] courseBannerModel in
-                    self?.loadCourseDateBannerView(bannerModel: courseBannerModel)
-                }, failure: { _ in
-                    
-                })
-                
-            }
             let courseQuerierStream = courseQuerier.blockWithID(id: self.blockID).firstSuccess()
             loader.addBackingStream(courseQuerierStream)
             
@@ -132,20 +129,44 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         }
     }
     
+    private func hideCourseBannerView() {
+        courseDateBannerView.snp.remakeConstraints { make in
+            make.trailing.equalTo(view.snp.trailing)
+            make.leading.equalTo(view.snp.leading)
+            make.top.equalTo(view.snp.top)
+            make.height.equalTo(0)
+        }
+        
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
     public func preloadData() {
         let _ = self.view
         loadStreams()
     }
     
     private func resetCourseDate() {
+        showSnackBar()
+        return
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
             if let _ = result.error {
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage, linkText: Strings.Coursedates.toastLinkToDates)
+                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.toastSuccessMessage, linkText: Strings.Coursedates.toastLinkToDates)
+                weakSelf.showSnackBar()
                 weakSelf.postCourseDateResetNotification()
+            }
+        }
+    }
+    
+    private func showSnackBar() {
+        showDateResetSnackBar(message: Strings.Coursedates.toastSuccessMessage, buttonText: Strings.Coursedates.viewAllDates, showButton: true) { [weak self] in
+            if let weakSelf = self {
+                weakSelf.environment.router?.showDatesTabController(controller: weakSelf)
+                weakSelf.hideSnackBar()
             }
         }
     }

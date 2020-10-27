@@ -166,18 +166,21 @@ extension UIViewController {
         showSnackBarView(snackBarView: view)
     }
     
-    func hideSnackBar() {
+    @objc func hideSnackBar() {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
     }
 }
 
 extension DateResetSnackBar where Self: UIViewController {
-    func showDateResetSnackBar(message: String, linkText: String, showLink: Bool = false) {
+    func showDateResetSnackBar(message: String, buttonText: String? = nil, showButton: Bool = false, autoDismiss: Bool = true, buttonAction: (()->())? = nil) {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
-        let view = DateResetToastView(message: message, linkText: linkText, showLink: showLink, selector: nil)
+        let view = DateResetToastView(message: message, buttonText: buttonText, showButton: showButton, buttonAction: buttonAction)
         showSnackBarView(snackBarView: view)
+        if autoDismiss {
+            //perform(#selector(hideSnackBar), with: nil, afterDelay: 5)
+        }
     }
 }
 
