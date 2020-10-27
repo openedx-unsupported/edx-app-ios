@@ -76,17 +76,18 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     private func loadStreams() {
         if !loader.hasBacking {
-
-            let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
-            let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
-            courseDateBannerLoader.addBackingStream(courseBannerStream)
-            
-            courseBannerStream.listen((self), success: { [weak self] courseBannerModel in
-                self?.loadCourseDateBannerView(bannerModel: courseBannerModel)
-            }, failure: { _ in
+            if subkind == .Problem {
+                let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
+                let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
+                courseDateBannerLoader.addBackingStream(courseBannerStream)
                 
-            })
-            
+                courseBannerStream.listen((self), success: { [weak self] courseBannerModel in
+                    self?.loadCourseDateBannerView(bannerModel: courseBannerModel)
+                }, failure: { _ in
+                    
+                })
+                
+            }
             let courseQuerierStream = courseQuerier.blockWithID(id: self.blockID).firstSuccess()
             loader.addBackingStream(courseQuerierStream)
             
