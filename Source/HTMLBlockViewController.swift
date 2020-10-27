@@ -148,8 +148,6 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     }
     
     private func resetCourseDate() {
-        showSnackBar()
-        return
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
