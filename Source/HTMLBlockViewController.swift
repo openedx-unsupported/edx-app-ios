@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController, DateResetSnackBar {
+public class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
     
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
     

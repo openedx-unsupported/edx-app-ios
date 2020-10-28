@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding, DateResetSnackBar {
+class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider
 

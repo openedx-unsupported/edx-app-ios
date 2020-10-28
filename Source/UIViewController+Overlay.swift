@@ -166,11 +166,7 @@ extension UIViewController {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
     }
-}
-
-protocol DateResetSnackBar { }
-
-extension DateResetSnackBar where Self: UIViewController {
+    
     func showDateResetSnackBar(message: String, buttonText: String? = nil, showButton: Bool = false, autoDismiss: Bool = true, buttonAction: (()->())? = nil) {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
@@ -181,7 +177,6 @@ extension DateResetSnackBar where Self: UIViewController {
         }
     }
 }
-
 
 // For use in testing only
 extension UIViewController {

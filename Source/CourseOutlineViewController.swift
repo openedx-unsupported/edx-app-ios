@@ -22,8 +22,7 @@ public class CourseOutlineViewController :
     CourseLastAccessedControllerDelegate,
     PullRefreshControllerDelegate,
     LoadStateViewReloadSupport,
-    InterfaceOrientationOverriding,
-    DateResetSnackBar
+    InterfaceOrientationOverriding
 {
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider
     
