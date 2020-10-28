@@ -47,17 +47,17 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     }
     
     private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
-            observer.loadWebviewStream()
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { [weak self] _, observer, _ in
+            self?.webController.reload()
         }
     }
 
     private func setupViews() {
         view.addSubview(courseDateBannerView)
         courseDateBannerView.snp.makeConstraints { make in
-            make.trailing.equalTo(view.snp.trailing)
-            make.leading.equalTo(view.snp.leading)
-            make.top.equalTo(view.snp.top)
+            make.trailing.equalTo(view)
+            make.leading.equalTo(view)
+            make.top.equalTo(view)
             make.height.equalTo(0)
         }
         
@@ -66,10 +66,10 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         view.addSubview(webController.view)
         
         webController.view.snp.makeConstraints { make in
-            make.trailing.equalTo(view.snp.trailing)
-            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view)
+            make.leading.equalTo(view)
             make.top.equalTo(courseDateBannerView.snp.bottom)
-            make.bottom.equalTo(view.snp.bottom)
+            make.bottom.equalTo(view)
         }
     }
     
@@ -93,17 +93,17 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     }
     
     private func loadBannerStream() {
-        if subkind == .Problem {
-            let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
-            let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
-            courseDateBannerLoader.addBackingStream(courseBannerStream)
-            
-            courseBannerStream.listen((self), success: { [weak self] courseBannerModel in
-                self?.loadCourseDateBannerView(bannerModel: courseBannerModel)
-            }, failure: { [weak self] _ in
-                self?.hideCourseBannerView()
-            })
-        }
+        guard subkind == .Problem else { return }
+        
+        let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
+        let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
+        courseDateBannerLoader.addBackingStream(courseBannerStream)
+        
+        courseBannerStream.listen((self), success: { [weak self] courseBannerModel in
+            self?.loadCourseDateBannerView(bannerModel: courseBannerModel)
+        }, failure: { [weak self] _ in
+            self?.hideCourseBannerView()
+        })
     }
     
     private func loadCourseDateBannerView(bannerModel: CourseDateBannerModel) {
@@ -122,9 +122,9 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         }
         
         courseDateBannerView.snp.remakeConstraints { make in
-            make.trailing.equalTo(view.snp.trailing)
-            make.leading.equalTo(view.snp.leading)
-            make.top.equalTo(view.snp.top)
+            make.trailing.equalTo(view)
+            make.leading.equalTo(view)
+            make.top.equalTo(view)
             make.height.equalTo(height)
         }
         
@@ -135,9 +135,9 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     private func hideCourseBannerView() {
         courseDateBannerView.snp.remakeConstraints { make in
-            make.trailing.equalTo(view.snp.trailing)
-            make.leading.equalTo(view.snp.leading)
-            make.top.equalTo(view.snp.top)
+            make.trailing.equalTo(view)
+            make.leading.equalTo(view)
+            make.top.equalTo(view)
             make.height.equalTo(0)
         }
         

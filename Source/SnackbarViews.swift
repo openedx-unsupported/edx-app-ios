@@ -227,10 +227,6 @@ public class DateResetToastView: UIView {
         return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralWhite())
     }()
     
-    private lazy var buttonLabelStyle: OEXTextStyle = {
-        return OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
-    }()
-    
     init(message: String, buttonText: String? = nil, showButton: Bool = false, buttonAction: (()->())? = nil) {
         super.init(frame: .zero)
         
