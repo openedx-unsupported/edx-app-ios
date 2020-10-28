@@ -48,6 +48,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { [weak self] _, observer, _ in
+            self?.hideCourseBannerView()
             self?.webController.reload()
         }
     }
