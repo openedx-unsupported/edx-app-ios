@@ -344,6 +344,7 @@ public class CourseOutlineViewController :
     }
     
     func resetCourseDate(controller: CourseOutlineTableController) {
+        hideCourseBannerView()
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
