@@ -343,6 +343,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     private func updateCourseDateBannerView(show: Bool) {
+        if shouldHideTableViewHeader { return }
+
         if courseOutlineMode == .full {
             var height: CGFloat = 0
             
@@ -367,6 +369,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     private func updateHeaderConstraints() {
+        if shouldHideTableViewHeader {
+            tableView.tableHeaderView = nil
+            return
+        }
+
         var constraintView: UIView = courseCard
         courseCard.snp.remakeConstraints { make in
             make.trailing.equalTo(headerContainer)
