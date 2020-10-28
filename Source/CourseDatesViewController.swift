@@ -221,11 +221,11 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
         
         courseDateBannerView.snp.makeConstraints { make in
-            make.trailing.equalTo(tableView.snp.trailing)
-            make.leading.equalTo(tableView.snp.leading)
+            make.trailing.equalTo(tableView)
+            make.leading.equalTo(tableView)
             make.top.equalTo(tableView)
             make.height.equalTo(0)
-            make.width.equalTo(tableView.snp.width)
+            make.width.equalTo(tableView)
         }
     }
     
