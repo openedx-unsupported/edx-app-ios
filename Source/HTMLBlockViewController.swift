@@ -148,7 +148,6 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     }
     
     public func preloadData() {
-        let _ = self.view
         loadWebviewStream()
     }
     
