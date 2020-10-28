@@ -81,6 +81,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func loadStreams() {
+        loadController.state = .Initial
         loadCourseDates()
         loadCourseBannerStream()
     }
