@@ -185,12 +185,16 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         super.viewWillLayoutSubviews()
         updateViewConstraints()
     }
-    
+    // Lifecycle of view has been changed in latest SDK XCode 12.
+    // The app stuck in calling updateViewConstraints forever.
+    // Disabling it for the builds compiling with XCode 12
+    #if swift(<5.3)
     override func updateViewConstraints() {
         super.updateViewConstraints()
         refreshTableHeaderView(lastAccess: lastAccess)
     }
-    
+    #endif
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         return groups.count
     }
@@ -443,6 +447,7 @@ fileprivate extension UITableView {
     func setAndLayoutTableHeaderView(header: UIView) {
         header.setNeedsLayout()
         header.layoutIfNeeded()
+
         let size = header.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         header.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         tableHeaderView = header
