@@ -1,6 +1,11 @@
 #import "SEGFirebaseIntegration.h"
-#import <Analytics/SEGAnalyticsUtils.h>
 #import <Firebase/Firebase.h>
+
+#if defined(__has_include) && __has_include(<Analytics/SEGAnalytics.h>)
+#import <Analytics/SEGAnalyticsUtils.h>
+#else
+#import <Segment/SEGAnalyticsUtils.h>
+#endif
 
 
 @implementation SEGFirebaseIntegration
@@ -58,16 +63,30 @@
 {
     NSString *name = [self formatFirebaseEventNames:payload.event];
     NSDictionary *parameters = [self returnMappedFirebaseParameters:payload.properties];
+    NSDictionary *mappedParameters = [SEGFirebaseIntegration mapToStrings:parameters];
+    NSMutableDictionary *formattedParameters = [[NSMutableDictionary alloc] init];
 
-    [self.firebaseClass logEventWithName:name parameters:parameters];
-    SEGLog(@"[FIRAnalytics logEventWithName:%@ parameters:%@]", name, parameters);
+    [mappedParameters enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+        NSArray* components = [value componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString* formattedValue = [components componentsJoinedByString:@""];
+        if ([formattedValue length] > 100) {
+            formattedValue = [formattedValue substringToIndex:100];
+        }
+        formattedParameters[key] = formattedValue;
+    }];
+
+    [self.firebaseClass logEventWithName:name parameters:formattedParameters];
+    SEGLog(@"[FIRAnalytics logEventWithName:%@ parameters:%@]", name, formattedParameters);
 }
 
 
 - (void)screen:(SEGScreenPayload *)payload
 {
-    [self.firebaseClass setScreenName:payload.name screenClass:nil];
-    SEGLog(@"[FIRAnalytics setScreenName:%@]", payload.name);
+    __block SEGFirebaseIntegration *blockSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [blockSelf.firebaseClass setScreenName:payload.name screenClass:nil];
+        SEGLog(@"[FIRAnalytics setScreenName:%@]", payload.name);
+    });
 }
 
 
@@ -117,7 +136,7 @@
         if ([periodSeparatedEvent count] > 1) {
             return [trimmedEvent stringByReplacingOccurrencesOfString:@"." withString:@"_"];
         } else {
-            return [trimmedEvent stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+            return [[[[trimmedEvent stringByReplacingOccurrencesOfString:@" " withString:@"_"] stringByReplacingOccurrencesOfString:@"-" withString:@"_"] stringByReplacingOccurrencesOfString:@":" withString:@"_"] stringByReplacingOccurrencesOfString:@"__" withString:@"_"];
         }
     } else {
         return event;
@@ -176,7 +195,7 @@ NSDictionary *formatEventProperties(NSDictionary *dictionary)
         if ([periodSeparatedKey count] > 1) {
             key = [trimmedKey stringByReplacingOccurrencesOfString:@"." withString:@"_"];
         } else {
-            key = [trimmedKey stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+            key = [[trimmedKey stringByReplacingOccurrencesOfString:@" " withString:@"_"] stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
         }
         if ([data isKindOfClass:[NSNumber class]]) {
             data = [NSNumber numberWithDouble:[data doubleValue]];

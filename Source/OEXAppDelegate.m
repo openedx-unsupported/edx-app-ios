@@ -15,7 +15,7 @@
 #import <Analytics/SEGAnalytics.h>
 #import <Branch/Branch.h>
 #import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
-#import <Segment-Firebase/SEGFirebaseIntegrationFactory.h>
+#import "SEGFirebaseIntegrationFactory.h"
 #import "OEXAppDelegate.h"
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"

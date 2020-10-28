@@ -828,6 +828,9 @@
 		E021F46C1F739599007A26E7 /* loginScreenImage@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E021F46A1F739599007A26E7 /* loginScreenImage@2x~ipad.png */; };
 		E021F46D1F739599007A26E7 /* logo@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E021F46B1F739599007A26E7 /* logo@2x~ipad.png */; };
 		E021F46F1F739806007A26E7 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E021F46E1F739806007A26E7 /* Default-Portrait@2x~ipad.png */; };
+		E0241782254043BB00E397EA /* SEGFirebaseIntegrationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E024177F254043BB00E397EA /* SEGFirebaseIntegrationFactory.m */; };
+		E0241783254043BB00E397EA /* SEGFirebaseIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = E0241780254043BB00E397EA /* SEGFirebaseIntegration.m */; };
+		E0241785254043C400E397EA /* read-this-before-update.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E0241784254043C400E397EA /* read-this-before-update.rtf */; };
 		E024B0001EC4589800498ECA /* WhatsNewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E024AFFF1EC4589800498ECA /* WhatsNewViewControllerTests.swift */; };
 		E02661732269A821002721B7 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02661672269A821002721B7 /* libOCMock.a */; };
 		E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02E59EE1F0E231000060AE0 /* VersionParser.swift */; };
@@ -1963,6 +1966,11 @@
 		E021F46A1F739599007A26E7 /* loginScreenImage@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginScreenImage@2x~ipad.png"; sourceTree = "<group>"; };
 		E021F46B1F739599007A26E7 /* logo@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x~ipad.png"; sourceTree = "<group>"; };
 		E021F46E1F739806007A26E7 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		E024177E254043BB00E397EA /* SEGFirebaseIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGFirebaseIntegration.h; sourceTree = "<group>"; };
+		E024177F254043BB00E397EA /* SEGFirebaseIntegrationFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGFirebaseIntegrationFactory.m; sourceTree = "<group>"; };
+		E0241780254043BB00E397EA /* SEGFirebaseIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGFirebaseIntegration.m; sourceTree = "<group>"; };
+		E0241781254043BB00E397EA /* SEGFirebaseIntegrationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGFirebaseIntegrationFactory.h; sourceTree = "<group>"; };
+		E0241784254043C400E397EA /* read-this-before-update.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "read-this-before-update.rtf"; sourceTree = "<group>"; };
 		E024AFFF1EC4589800498ECA /* WhatsNewViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewViewControllerTests.swift; sourceTree = "<group>"; };
 		E02661672269A821002721B7 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 		E02661692269A821002721B7 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
@@ -3734,6 +3742,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E0CF1DB225402900009E7901 /* Segment-Firebase */,
 				5F46A7C624ADFF5B00347EFC /* Timeline */,
 				E02661662269A821002721B7 /* OCMock */,
 				B7CCC6F9209B16B000A66923 /* SnapKit */,
@@ -4097,6 +4106,17 @@
 			name = "Front Rear views";
 			sourceTree = "<group>";
 		};
+		E024177D254043BB00E397EA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E024177E254043BB00E397EA /* SEGFirebaseIntegration.h */,
+				E024177F254043BB00E397EA /* SEGFirebaseIntegrationFactory.m */,
+				E0241780254043BB00E397EA /* SEGFirebaseIntegration.m */,
+				E0241781254043BB00E397EA /* SEGFirebaseIntegrationFactory.h */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		E02661662269A821002721B7 /* OCMock */ = {
 			isa = PBXGroup;
 			children = (
@@ -4156,6 +4176,16 @@
 			);
 			name = PassthroughView;
 			sourceTree = "<group>";
+		};
+		E0CF1DB225402900009E7901 /* Segment-Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				E0241784254043C400E397EA /* read-this-before-update.rtf */,
+				E024177D254043BB00E397EA /* Classes */,
+			);
+			name = "Segment-Firebase";
+			path = "Libraries/Segment-Firebase";
+			sourceTree = SOURCE_ROOT;
 		};
 		E0D1598F1EB87604005E2A76 /* WhatsNew */ = {
 			isa = PBXGroup;
@@ -4421,6 +4451,7 @@
 				B71AA1B420CEF64D00700C5E /* chemistry@2x.png in Resources */,
 				B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */,
 				69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */,
+				E0241785254043C400E397EA /* read-this-before-update.rtf in Resources */,
 				69ECC60F1D50D1170030CF87 /* arrow_next@2x.png in Resources */,
 				B7C5DB5C20BB4AAC00D80AD2 /* TestSubjects.json in Resources */,
 				69ECC6451D50D1170030CF87 /* separator.png in Resources */,
@@ -4985,6 +5016,7 @@
 				1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */,
 				9EA4788B1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift in Sources */,
 				22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */,
+				E0241783254043BB00E397EA /* SEGFirebaseIntegration.m in Sources */,
 				B7EC83BF21A2D34600D6A89C /* ProgramsDiscoveryViewController.swift in Sources */,
 				E02F656A1E8B94CC000D1C4E /* TZStackViewDistribution.swift in Sources */,
 				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
@@ -5287,6 +5319,7 @@
 				220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */,
+				E0241782254043BB00E397EA /* SEGFirebaseIntegrationFactory.m in Sources */,
 				9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */,
 				698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */,
 				694D34A01D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift in Sources */,
