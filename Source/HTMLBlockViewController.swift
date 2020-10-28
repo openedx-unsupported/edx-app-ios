@@ -35,9 +35,11 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         
         super.init(nibName : nil, bundle : nil)
 
+        webController.delegate = self
+        
         addObserver()
         setupViews()
-        loadStreams()
+        loadWebviewStream()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -46,7 +48,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
-            observer.loadStreams()
+            observer.loadWebviewStream()
         }
     }
 
@@ -71,19 +73,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         }
     }
     
-    private func loadStreams() {
-        if subkind == .Problem {
-            let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
-            let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
-            courseDateBannerLoader.addBackingStream(courseBannerStream)
-            
-            courseBannerStream.listen((self), success: { [weak self] courseBannerModel in
-                self?.loadCourseDateBannerView(bannerModel: courseBannerModel)
-            }, failure: { [weak self] _ in
-                self?.hideCourseBannerView()
-            })
-        }
-        
+    private func loadWebviewStream() {
         if !loader.hasBacking {
             let courseQuerierStream = courseQuerier.blockWithID(id: self.blockID).firstSuccess()
             loader.addBackingStream(courseQuerierStream)
@@ -98,6 +88,20 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
                 }
             }, failure: { [weak self] error in
                 self?.webController.showError(error: error)
+            })
+        }
+    }
+    
+    private func loadBannerStream() {
+        if subkind == .Problem {
+            let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
+            let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
+            courseDateBannerLoader.addBackingStream(courseBannerStream)
+            
+            courseBannerStream.listen((self), success: { [weak self] courseBannerModel in
+                self?.loadCourseDateBannerView(bannerModel: courseBannerModel)
+            }, failure: { [weak self] _ in
+                self?.hideCourseBannerView()
             })
         }
     }
@@ -144,7 +148,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     public func preloadData() {
         let _ = self.view
-        loadStreams()
+        loadWebviewStream()
     }
     
     private func resetCourseDate() {
@@ -175,6 +179,13 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension HTMLBlockViewController: AuthenticatedWebViewControllerDelegate {
+    func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView) {
+        authenticatedController.setLoadControllerState(withState: .Loaded)
+        loadBannerStream()
     }
 }
 
