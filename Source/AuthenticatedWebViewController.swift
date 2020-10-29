@@ -355,21 +355,20 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             completionHandler(.performDefaultHandling, nil)
         }
     }
-    
-    
+
     public func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        
+
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
-        
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+
+        alertController.addAction(UIAlertAction(title: Strings.ok, style: .default, handler: { (action) in
             completionHandler(true)
         }))
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+
+        alertController.addAction(UIAlertAction(title: Strings.cancel, style: .default, handler: { (action) in
             completionHandler(false)
         }))
-        
-        self.present(alertController, animated: true, completion: nil)
+
+        present(alertController, animated: true, completion: nil)
     }
-    
+
 }
