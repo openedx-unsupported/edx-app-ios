@@ -344,13 +344,24 @@ public class CourseOutlineViewController :
     }
     
     func resetCourseDate(controller: CourseOutlineTableController) {
+        hideCourseBannerView()
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
+            guard let weakSelf = self else { return }
             if let _ = result.error {
-                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: controller)
+                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
-                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: controller)
-                self?.postCourseDateResetNotification()
+                weakSelf.showSnackBar()
+                weakSelf.postCourseDateResetNotification()
+            }
+        }
+    }
+    
+    private func showSnackBar() {
+        showDateResetSnackBar(message: Strings.Coursedates.toastSuccessMessage, buttonText: Strings.Coursedates.viewAllDates, showButton: true) { [weak self] in
+            if let weakSelf = self {
+                weakSelf.environment.router?.showDatesTabController(controller: weakSelf)
+                weakSelf.hideSnackBar()
             }
         }
     }
@@ -360,6 +371,7 @@ public class CourseOutlineViewController :
     }
     
     private func refreshCourseOutlineController() {
+        hideCourseBannerView()
         courseQuerier.needsRefresh = true
         loadBackedStreams()
         loadCourseStream()

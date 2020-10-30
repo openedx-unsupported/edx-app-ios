@@ -45,7 +45,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
-        super.init(nibName: nil, bundle: nil)        
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -75,7 +75,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return .allButUpsideDown
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.setAndLayoutTableHeaderView(header: courseDateBannerView)
+    }
+    
     private func loadStreams() {
+        loadController.state = .Initial
         loadCourseDates()
         loadCourseBannerStream()
     }
@@ -128,6 +134,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             switch result {
             case .success(let courseBanner):
                 self?.loadCourseDateBannerView(bannerModel: courseBanner)
+                self?.setTableViewScrolling()
                 break
                 
             case .failure(let error):
@@ -154,6 +161,11 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             make.top.equalTo(tableView)
             make.height.equalTo(height)
             make.width.equalTo(tableView.snp.width)
+        }
+        
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            self?.view.setNeedsLayout()
+            self?.view.layoutIfNeeded()
         }
     }
     
@@ -191,6 +203,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         dateBlocksMapSortedKeys = dateBlocksMap.keys.sorted()
         tableView.reloadData()
+        setTableViewScrolling()
     }
     
     override func didReceiveMemoryWarning() {
@@ -208,12 +221,17 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
         
         courseDateBannerView.snp.makeConstraints { make in
-            make.trailing.equalTo(tableView.snp.trailing)
-            make.leading.equalTo(tableView.snp.leading)
+            make.trailing.equalTo(tableView)
+            make.leading.equalTo(tableView)
             make.top.equalTo(tableView)
             make.height.equalTo(0)
-            make.width.equalTo(tableView.snp.width)
+            make.width.equalTo(tableView)
         }
+    }
+    
+    private func setTableViewScrolling() {
+        let contentHeight = (CGFloat(dateBlocksMapSortedKeys.count) * tableView.rowHeight) + courseDateBannerView.frame.size.height
+        tableView.alwaysBounceVertical = contentHeight > tableView.frame.size.height
     }
     
     private func resetCourseDate() {
@@ -221,9 +239,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
             if let _ = result.error {
-                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: weakSelf)
+                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
-                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: weakSelf)
+                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
                 weakSelf.postCourseDateResetNotification()
             }
         }

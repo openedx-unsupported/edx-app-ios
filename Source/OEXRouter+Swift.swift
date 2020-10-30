@@ -15,7 +15,7 @@ import WebKit
 // We should gradually migrate the existing router class here and then
 // get rid of the objc version
 
-enum CourseHTMLBlockSubkind {
+public enum CourseHTMLBlockSubkind {
     case Base
     case Problem
 }
@@ -100,8 +100,8 @@ extension OEXRouter {
                 return outlineController
         case .Unit:
             return unitControllerForCourseID(courseID: courseID, blockID: blockID, initialChildID: nil, forMode: mode)
-        case .HTML:
-            let controller = HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
+        case .HTML(let subkind):
+            let controller = HTMLBlockViewController(blockID: blockID, courseID: courseID, environment: environment, subkind: subkind)
             return controller
         case .Video:
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
@@ -139,6 +139,15 @@ extension OEXRouter {
     
     func showCourseVideos(controller:UIViewController, courseID: String) {
         showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller, forMode: .video)
+    }
+    
+    func showDatesTabController(controller: UIViewController) {
+        if let dashboardController = controller as? CourseDashboardViewController {
+            dashboardController.switchTab(with: .courseDates)
+        } else if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
+            controller.navigationController?.popToViewController(dashboardController, animated: false)
+            dashboardController.switchTab(with: .courseDates)
+        }
     }
     
     // MARK: Deep Linking
