@@ -231,7 +231,7 @@ private let modelKey = "model"
 public extension UIDevice {
     static var deviceModel: String {
         let info: [String : String]
-        if deviceType == .notAvailable {
+        if DeviceType.current == .notAvailable {
             info = [
                 nameKey: DeviceType.deviceIdentifier
             ]
