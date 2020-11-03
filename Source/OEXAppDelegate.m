@@ -35,11 +35,13 @@
 #import "OEXSession.h"
 #import "OEXSegmentConfig.h"
 #import <MSAL/MSAL.h>
+#import "FIRRemoteConfig.h"
 
 @interface OEXAppDelegate () <UIApplicationDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* dictCompletionHandler;
 @property (nonatomic, strong) OEXEnvironment* environment;
+@property (nonatomic, strong) FIRRemoteConfig* remoteConfig;
 
 @end
 
@@ -215,8 +217,12 @@
     if (config.firebaseConfig.enabled && !config.firebaseConfig.isAnalyticsSourceSegment) {
         [FIRApp configure];
         [FIRAnalytics setAnalyticsCollectionEnabled:YES];
+        self.remoteConfig = [FIRRemoteConfig remoteConfig];
+        FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] init];
+        self.remoteConfig.configSettings = remoteConfigSettings;
+        [self fetchRemoteConfig];
     }
-
+    
     //NewRelic Initialization with edx key
     OEXNewRelicConfig* newrelic = [config newRelicConfig];
     if(newrelic.apiKey && newrelic.isEnabled) {
@@ -225,6 +231,7 @@
     }
     
     [self initilizeChromeCast];
+    
 }
 
 - (void) initilizeChromeCast {
@@ -248,6 +255,18 @@
             }];
         }
     }
+}
+
+- (void)fetchRemoteConfig {
+    [self.remoteConfig fetchWithCompletionHandler:^(FIRRemoteConfigFetchStatus status, NSError *error) {
+        if (status == FIRRemoteConfigFetchStatusSuccess) {
+            [self.remoteConfig activateWithCompletionHandler:^(NSError * _Nullable error) {
+                
+            }];
+        } else {
+            NSLog(@"Error %@", error.localizedDescription);
+        }
+    }];
 }
 
 @end
