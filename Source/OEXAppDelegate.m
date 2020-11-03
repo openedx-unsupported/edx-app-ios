@@ -231,7 +231,6 @@
     }
     
     [self initilizeChromeCast];
-    
 }
 
 - (void) initilizeChromeCast {
