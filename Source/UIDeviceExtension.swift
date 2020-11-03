@@ -11,8 +11,6 @@
 import Foundation
 import UIKit
 
-// MARK: -
-
 /// Enum representing the different types of iOS devices available
 public enum DeviceType: String, CaseIterable {
     case iPhone2G
@@ -81,12 +79,12 @@ public enum DeviceType: String, CaseIterable {
     
     case simulator
     case notAvailable
-    
-    // MARK: Constants
-    
-    /// The current device type
-    public static var current: DeviceType {
         
+    public static var current: DeviceType {
+        return DeviceType.init(identifier: deviceIdentifier)
+    }
+    
+    static var deviceIdentifier: String {
         var systemInfo = utsname()
         uname(&systemInfo)
         
@@ -99,13 +97,9 @@ public enum DeviceType: String, CaseIterable {
                 identifier.append(String(UnicodeScalar(UInt8(value))))
             }
         }
-        
-        return DeviceType(identifier: identifier)
+        return identifier
     }
-    
-    // MARK: Variables
-    
-    /// The display name of the device type
+        
     public var displayName: String {
         
         switch self {
@@ -161,8 +155,7 @@ public enum DeviceType: String, CaseIterable {
         }
     }
     
-    /// The identifiers associated with each device type
-    internal var identifiers: [String] {
+    private var identifiers: [String] {
         
         switch self {
         case .notAvailable: return []
@@ -220,13 +213,7 @@ public enum DeviceType: String, CaseIterable {
         }
     }
     
-    // MARK: Inits
-    
-    /// Creates a device type
-    ///
-    /// - Parameter identifier: The identifier of the device
-    internal init(identifier: String) {
-        
+    private init(identifier: String) {
         for device in DeviceType.allCases {
             for deviceId in device.identifiers {
                 guard identifier == deviceId else { continue }
@@ -234,19 +221,33 @@ public enum DeviceType: String, CaseIterable {
                 return
             }
         }
-        
         self = .notAvailable
     }
 }
 
-// MARK: -
+private let nameKey = "name"
+private let modelKey = "model"
 
 public extension UIDevice {
-    static var deviceType: DeviceType {
-        return DeviceType.current
-    }
-    
-    @objc static var deviceName: String {
-        return DeviceType.current.displayName
+    static var deviceModel: String {
+        let info: [String : String]
+        if deviceType == .notAvailable {
+            info = [
+                nameKey: DeviceType.deviceIdentifier
+            ]
+            return DeviceType.deviceIdentifier
+        } else {
+            info = [
+                nameKey: DeviceType.current.displayName,
+                modelKey: DeviceType.deviceIdentifier
+            ]
+        }
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: info, options: [.prettyPrinted]),
+              let jsonString = String(data: jsonData, encoding: .ascii) else {
+            return String(describing: info)
+        }
+        
+        return jsonString
     }
 }

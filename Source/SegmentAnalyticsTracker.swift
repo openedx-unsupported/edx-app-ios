@@ -13,6 +13,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     private let GoogleCategoryKey = "category"
     private let GoogleLabelKey = "label"
     private let GoogleActionKey = "action"
+    private let GoogleDeviceKey = "device_model"
     
     var currentOrientationValue : String {
         return UIApplication.shared.statusBarOrientation.isLandscape ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
@@ -56,6 +57,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
 
         info[GoogleCategoryKey] = event.category
         info[GoogleLabelKey] = event.label
+        info[GoogleDeviceKey] = UIDevice.deviceModel
 
         if let userID = OEXSession.shared()?.currentUser?.userId {
             info[AnalyticsEventDataKey.UserID.rawValue] = userID
