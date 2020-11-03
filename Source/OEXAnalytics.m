@@ -36,6 +36,7 @@
     [info setObjectOrNil:self.name forKey:@"name"];
     [info setObjectOrNil:self.courseID forKey:@"courseID"];
     [info setObjectOrNil:self.openInBrowserURL forKey:@"openInBrowserURL"];
+    [info setObjectOrNil:[UIDevice deviceName] forKey:@"device_model"];
     return [NSString stringWithFormat:@"<%@: %p %@>", self.class, self, info];
 }
 @end
