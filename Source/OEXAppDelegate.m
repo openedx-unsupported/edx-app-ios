@@ -41,7 +41,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary* dictCompletionHandler;
 @property (nonatomic, strong) OEXEnvironment* environment;
-@property (nonatomic, strong) FIRRemoteConfig* remoteConfig;
+@property (nonatomic, strong) FIRRemoteConfig* firebaseRemoteConfig;
 
 @end
 
@@ -217,9 +217,9 @@
     if (config.firebaseConfig.enabled && !config.firebaseConfig.isAnalyticsSourceSegment) {
         [FIRApp configure];
         [FIRAnalytics setAnalyticsCollectionEnabled:YES];
-        self.remoteConfig = [FIRRemoteConfig remoteConfig];
+        self.firebaseRemoteConfig = [FIRRemoteConfig remoteConfig];
         FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] init];
-        self.remoteConfig.configSettings = remoteConfigSettings;
+        self.firebaseRemoteConfig.configSettings = remoteConfigSettings;
         [self fetchRemoteConfig];
     }
     
@@ -257,11 +257,16 @@
 }
 
 - (void)fetchRemoteConfig {
-    [self.remoteConfig fetchWithCompletionHandler:^(FIRRemoteConfigFetchStatus status, NSError *error) {
+    [self.firebaseRemoteConfig fetchWithCompletionHandler:^(FIRRemoteConfigFetchStatus status, NSError *error) {
         if (status == FIRRemoteConfigFetchStatusSuccess) {
-            [self.remoteConfig activateWithCompletionHandler:^(NSError * _Nullable error) {
+            [self.firebaseRemoteConfig activateWithCompletionHandler:^(NSError * _Nullable error) {
                 
             }];
+            NSString *const appThemeConfigKey = @"app_theme";
+            NSDictionary *dict = self.firebaseRemoteConfig[appThemeConfigKey].JSONValue;
+            RemoteConfig* remoteConfig = [[RemoteConfig alloc] initWithDictionary:dict];
+            NSLog(@"Test:  %@", remoteConfig.mode);
+            
         } else {
             NSLog(@"Error %@", error.localizedDescription);
         }
