@@ -214,14 +214,14 @@
     //Initialize Firebase
     // Make Sure the google app id is valid before configuring firebase, the app can produce crash.
     //Firebase do not get exception with invalid google app ID, https://github.com/firebase/firebase-ios-sdk/issues/1581
-    if (config.firebaseConfig.enabled && !config.firebaseConfig.isAnalyticsSourceSegment) {
+    //if (config.firebaseConfig.enabled && !config.firebaseConfig.isAnalyticsSourceSegment) {
         [FIRApp configure];
         [FIRAnalytics setAnalyticsCollectionEnabled:YES];
         self.firebaseRemoteConfig = [FIRRemoteConfig remoteConfig];
         FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] init];
         self.firebaseRemoteConfig.configSettings = remoteConfigSettings;
         [self fetchRemoteConfig];
-    }
+    //}
     
     //NewRelic Initialization with edx key
     OEXNewRelicConfig* newrelic = [config newRelicConfig];
@@ -262,10 +262,9 @@
             [self.firebaseRemoteConfig activateWithCompletionHandler:^(NSError * _Nullable error) {
                 
             }];
-            NSString *const appThemeConfigKey = @"app_theme";
-            NSDictionary *dict = self.firebaseRemoteConfig[appThemeConfigKey].JSONValue;
-            RemoteConfig* remoteConfig = [[RemoteConfig alloc] initWithDictionary:dict];
-            NSLog(@"Test:  %@", remoteConfig.mode);
+            
+            //Uncomment this when to use remoteConfig
+            //FirebaseRemoteConfiguration* remoteConfig = [[FirebaseRemoteConfiguration alloc] initWithRemoteConfig:self.firebaseRemoteConfig];
             
         } else {
             NSLog(@"Error %@", error.localizedDescription);

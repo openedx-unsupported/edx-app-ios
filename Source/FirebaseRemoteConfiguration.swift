@@ -25,14 +25,25 @@ fileprivate enum ColorKeys: String, RawStringExtractable {
     case enable = "enabled"
 }
 
-@objc class RemoteConfig: NSObject {
+@objc class FirebaseRemoteConfiguration: NSObject {
+    @objc let appTheme: ThemeConfig?
+    
+    @objc init(remoteConfig: RemoteConfig) {
+        
+        let appThemeConfigKey = "app_theme"
+        let dict = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
+        appTheme = ThemeConfig(dictionary: dict)
+    }
+}
+
+class ThemeConfig: NSObject {
     
     let fontConfig: FontConfig
     let colorConfig: ColorConfig
     let icon: String?
-    @objc let mode: String?
+    let mode: String?
     
-    @objc init(dictionary: [String: AnyObject]) {
+    init(dictionary: [String: AnyObject]) {
         fontConfig = FontConfig(dictionary: dictionary[AppThemeKeys.font] as? [String:AnyObject] ?? [:])
         colorConfig = ColorConfig(dictionary: dictionary[AppThemeKeys.color] as? [String:AnyObject] ?? [:])
         icon = dictionary[AppThemeKeys.icon] as? String
