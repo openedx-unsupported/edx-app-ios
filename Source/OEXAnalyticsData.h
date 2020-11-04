@@ -55,6 +55,7 @@ extern NSString* const OEXAnalyticsKeyQueryString;
 #define value_videoplayer @"videoplayer"
 #define value_downloadmodule @"downloadmodule"
 #define value_play_medium_youtube @"youtube"
+#define value_play_medium_chromecast @"google_cast"
 
 // Event Names
 

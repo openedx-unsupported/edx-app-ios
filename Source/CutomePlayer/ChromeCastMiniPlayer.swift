@@ -71,7 +71,11 @@ class ChromeCastMiniPlayer: UIViewController {
         let thumbnail = video.summary?.videoThumbnailURL ?? courseImageURLString
         let mediaInfo = mediaInformation(contentID: url.absoluteString, title: video.summary?.name ?? "", videoID: videoID, contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
         
-        play(with: mediaInfo, at: time)
+        play(with: mediaInfo, at: time) { [weak self] success in
+            if success {
+                self?.environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: time, forVideo: video, playMedium: "google_cast")
+            }
+        }
     }
     
     private func contentType(url: String) -> ChromeCastContentType {

@@ -23,10 +23,15 @@ private enum DelegateCallbackType: Int {
     case connect, disconnect, playing, finished, none
 }
 
+private enum ChromecastConnectionState: String {
+    case connected = "Cast: Connected"
+    case disconnected = "Cast: Disconnected"
+}
+
 /// This class ChromeCastManager is a singleton class and it is taking care of all the chrome cast related functionality
 @objc class ChromeCastManager: NSObject, GCKSessionManagerListener, GCKDiscoveryManagerListener, GCKRemoteMediaClientListener, GCKCastDeviceStatusListener  {
     
-    typealias Environment = OEXInterfaceProvider
+    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider
     
     @objc static let shared = ChromeCastManager()
     private let context = GCKCastContext.sharedInstance()
@@ -121,9 +126,11 @@ private enum DelegateCallbackType: Int {
         for delegate in delegates {
             switch callbackType {
             case .connect:
+                environment?.analytics.trackChromecastConnected(value: ChromecastConnectionState.connected.rawValue)
                 delegate.chromeCastDidConnect()
                 break
             case .disconnect:
+                environment?.analytics.trackChromecastDisconnected(value: ChromecastConnectionState.disconnected.rawValue)
                 delegate.chromeCastDidDisconnect(playedTime: playedTime)
                 break
             case .playing:
