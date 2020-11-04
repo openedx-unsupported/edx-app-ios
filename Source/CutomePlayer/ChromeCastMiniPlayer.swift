@@ -73,7 +73,7 @@ class ChromeCastMiniPlayer: UIViewController {
         
         play(with: mediaInfo, at: time) { [weak self] success in
             if success {
-                self?.environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: time, forVideo: video, playMedium: "google_cast")
+                self?.environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: time, forVideo: video, playMedium: value_play_medium_chromecast)
             }
         }
     }

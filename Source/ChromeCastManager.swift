@@ -126,12 +126,12 @@ private enum ChromecastConnectionState: String {
         for delegate in delegates {
             switch callbackType {
             case .connect:
-                environment?.analytics.trackChromecastConnected(value: ChromecastConnectionState.connected.rawValue)
                 delegate.chromeCastDidConnect()
+                environment?.analytics.trackChromecastConnected(value: ChromecastConnectionState.connected.rawValue)
                 break
             case .disconnect:
-                environment?.analytics.trackChromecastDisconnected(value: ChromecastConnectionState.disconnected.rawValue)
                 delegate.chromeCastDidDisconnect(playedTime: playedTime)
+                environment?.analytics.trackChromecastDisconnected(value: ChromecastConnectionState.disconnected.rawValue)
                 break
             case .playing:
                 playedTime = streamPosition
