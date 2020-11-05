@@ -177,14 +177,12 @@ private enum ChromecastConnectionState: String {
         switch playerState {
         case .paused:
             guard let video = video,
-                let courseID = video.course_id,
                 let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
                 let videoID = metadata.string(forKey: ChromeCastVideoID),
-                let unitUrl = environment?.interface?.videoData(forVideoID: videoID).unit_url,
                 video.summary?.videoID == videoID,
                 streamPosition > .zero  else { return }
             
-            environment?.analytics.trackVideoPause(videoID, currentTime: streamPosition, courseID: courseID, unitURL: unitUrl, playMedium: value_play_medium_chromecast)
+            environment?.interface?.sendAnalyticsEvents(.pause, withCurrentTime: streamPosition, forVideo: video, playMedium: value_play_medium_chromecast)
         case .idle:
             switch idleReason {
             case .none:
