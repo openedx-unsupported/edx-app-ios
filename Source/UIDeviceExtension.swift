@@ -225,29 +225,8 @@ public enum DeviceType: String, CaseIterable {
     }
 }
 
-private let nameKey = "name"
-private let modelKey = "model"
-
 public extension UIDevice {
     static var deviceModel: String {
-        let info: [String : String]
-        if DeviceType.current == .notAvailable {
-            info = [
-                nameKey: DeviceType.deviceIdentifier
-            ]
-            return DeviceType.deviceIdentifier
-        } else {
-            info = [
-                nameKey: DeviceType.current.displayName,
-                modelKey: DeviceType.deviceIdentifier
-            ]
-        }
-        
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: info, options: [.prettyPrinted]),
-              let jsonString = String(data: jsonData, encoding: .ascii) else {
-            return String(describing: info)
-        }
-        
-        return jsonString
+        return DeviceType.current == .notAvailable ? DeviceType.deviceIdentifier : DeviceType.current.displayName
     }
 }
