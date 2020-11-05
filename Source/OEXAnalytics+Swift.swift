@@ -30,7 +30,6 @@ public enum AnalyticsDisplayName : String {
     case SharedCourse = "Shared a course"
     case SubjectsDiscovery = "Subject Discovery"
     case CourseSearch = "Discovery: Courses Search"
-    case Chromecast = "Chromecast"
 }
 
 public enum AnalyticsEventName: String {
