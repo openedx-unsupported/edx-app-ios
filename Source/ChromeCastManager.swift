@@ -48,6 +48,8 @@ private enum ChromecastConnectionState: String {
         return remoteMediaClient?.mediaStatus?.idleReason ?? .none
     }
     
+    var video: OEXHelperVideoDownload?
+    
     var isConnected: Bool {
         return sessionManager?.hasConnectedCastSession() ?? false
     }
@@ -173,6 +175,16 @@ private enum ChromecastConnectionState: String {
 
         let playerState = mediaStatus.playerState
         switch playerState {
+        case .paused:
+            guard let video = video,
+                let courseID = video.course_id,
+                let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
+                let videoID = metadata.string(forKey: ChromeCastVideoID),
+                let unitUrl = environment?.interface?.videoData(forVideoID: videoID).unit_url,
+                video.summary?.videoID == videoID,
+                streamPosition > .zero  else { return }
+            
+            environment?.analytics.trackVideoPause(videoID, currentTime: streamPosition, courseID: courseID, unitURL: unitUrl, playMedium: value_play_medium_chromecast)
         case .idle:
             switch idleReason {
             case .none:

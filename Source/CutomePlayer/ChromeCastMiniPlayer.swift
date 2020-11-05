@@ -73,6 +73,7 @@ class ChromeCastMiniPlayer: UIViewController {
         
         play(with: mediaInfo, at: time) { [weak self] success in
             if success {
+                ChromeCastManager.shared.video = video
                 self?.environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: time, forVideo: video, playMedium: value_play_medium_chromecast)
             }
         }
