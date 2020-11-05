@@ -218,16 +218,14 @@ extension OEXAnalytics {
     func trackChromecastConnected(value: String) {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.ChromecastConnected.rawValue
-        event.displayName = AnalyticsDisplayName.Chromecast.rawValue
-        event.label = value
+        event.displayName = value
         trackEvent(event, forComponent: nil, withInfo: nil)
     }
     
     func trackChromecastDisconnected(value: String) {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.ChromecastDisconnected.rawValue
-        event.displayName = AnalyticsDisplayName.Chromecast.rawValue
-        event.label = value
+        event.displayName = value
         trackEvent(event, forComponent: nil, withInfo: nil)
     }
 }
