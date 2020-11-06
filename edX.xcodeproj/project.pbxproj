@@ -2848,6 +2848,7 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
+				5F903AF2255020C9006365DE /* UIDevice */,
 				5F7C0C3425344E1500A344B9 /* UITextView */,
 				22F6A15520B7E62C009C3F4A /* HTML Decoding */,
 				021AD6241F150BA3009AF653 /* Dictionary+SafeAccess.swift */,
@@ -3868,7 +3869,6 @@
 				199B9B6419349DE800081A09 /* Videos */,
 				E0D1598F1EB87604005E2A76 /* WhatsNew */,
 				77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */,
-				5F903AF2255020C9006365DE /* UIDevice */,
 			);
 			path = Source;
 			sourceTree = "<group>";
