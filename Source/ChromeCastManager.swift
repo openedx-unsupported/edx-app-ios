@@ -167,7 +167,7 @@ private enum DelegateCallbackType: Int {
         
         guard type == .playing || type == .paused else { return }
         let state: OEXVideoState = type == .playing ? .play : .pause
-        environment?.interface?.sendAnalyticsEvents(state, withCurrentTime: streamPosition, forVideo: video, playMedium: value_play_medium_chromecast)
+        environment?.interface?.sendAnalyticsEvents(state, withCurrentTime: streamPosition, forVideo: video, playMedium: AnalyticsEventDataKey.PlayMediumChromecast.rawValue)
     }
     
     func sessionManager(_ sessionManager: GCKSessionManager, didEnd session: GCKSession, withError error: Error?) {

@@ -89,6 +89,8 @@ public enum AnalyticsEventDataKey: String {
     case remainingDownloadableVideos = "remaining_downloadable_videos"
     case UserID = "user_id"
     case SubjectID = "subject_id"
+    case PlayMediumYoutube = "youtube"
+    case PlayMediumChromecast = "google_cast"
 }
 
 
@@ -220,14 +222,14 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.ChromecastConnected.rawValue
         event.displayName = AnalyticsDisplayName.ChromecastConnected.rawValue
-        trackEvent(event, forComponent: nil, withInfo: [key_play_medium: value_play_medium_chromecast])
+        trackEvent(event, forComponent: nil, withInfo: [key_play_medium: AnalyticsEventDataKey.PlayMediumChromecast.rawValue])
     }
     
     func trackChromecastDisconnected() {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.ChromecastDisconnected.rawValue
         event.displayName = AnalyticsDisplayName.ChromecastDisonnected.rawValue
-        trackEvent(event, forComponent: nil, withInfo: [key_play_medium: value_play_medium_chromecast])
+        trackEvent(event, forComponent: nil, withInfo: [key_play_medium: AnalyticsEventDataKey.PlayMediumChromecast.rawValue])
     }
 }
 
