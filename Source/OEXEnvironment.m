@@ -32,6 +32,7 @@
 @property (strong, nonatomic) OEXRouter* router;
 @property (strong, nonatomic) OEXSession* session;
 @property (strong, nonatomic) OEXStyles* styles;
+//@property (strong, nonatomic) FirebaseRemoteConfiguration* remoteConfig;
 
 /// Array of actions to be executed once all the objects are wired up
 /// Used to resolve what would be otherwise be circular dependencies
@@ -158,6 +159,10 @@
             }];
             return session;
         };
+        
+        self.remoteConfigBuilder = ^(OEXEnvironment* env){
+            return  [FirebaseRemoteConfiguration sharedRemoteConfig];
+        };
     }
     return self;
 }
@@ -177,6 +182,7 @@
     self.styles = self.stylesBuilder(self);
     self.router = self.routerBuilder(self);
     self.pushNotificationManager = self.pushNotificationManagerBuilder(self);
+    self.remoteConfig = self.remoteConfigBuilder(self);
     
     // We should minimize the use of these singletons and mostly use explicitly passed in dependencies
     // But occasionally that's very inconvenient and also much existing code is not structured to deal with that

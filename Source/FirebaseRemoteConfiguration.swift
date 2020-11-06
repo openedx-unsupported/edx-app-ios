@@ -26,13 +26,26 @@ fileprivate enum ColorKeys: String, RawStringExtractable {
 }
 
 @objc class FirebaseRemoteConfiguration: NSObject {
-    @objc let appTheme: ThemeConfig?
+    @objc var appTheme: ThemeConfig?
+    @objc static let sharedRemoteConfig =  FirebaseRemoteConfiguration()
     
-    @objc init(remoteConfig: RemoteConfig) {
-        
+    @objc private override init() {
+        super.init()
+    }
+    
+    @objc func initializeRemoteConfig(remoteConfig: RemoteConfig) {
         let appThemeConfigKey = "app_theme"
-        let dict = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
+        
+        guard let dict = UserDefaults.standard.value(forKey: appThemeConfigKey) as? [String:AnyObject] else {
+            let remoteDict = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
+            appTheme = ThemeConfig(dictionary: remoteDict)
+            UserDefaults.standard.set(remoteDict, forKey: appThemeConfigKey)
+            return
+        }
+    
         appTheme = ThemeConfig(dictionary: dict)
+        let remoteDict = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
+        UserDefaults.standard.set(remoteDict, forKey: appThemeConfigKey)
     }
 }
 
