@@ -3752,7 +3752,6 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5F903AF2255020C9006365DE /* UIDevice */,
 				E0CF1DB225402900009E7901 /* Segment-Firebase */,
 				5F46A7C624ADFF5B00347EFC /* Timeline */,
 				E02661662269A821002721B7 /* OCMock */,
@@ -3869,6 +3868,7 @@
 				199B9B6419349DE800081A09 /* Videos */,
 				E0D1598F1EB87604005E2A76 /* WhatsNew */,
 				77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */,
+				5F903AF2255020C9006365DE /* UIDevice */,
 			);
 			path = Source;
 			sourceTree = "<group>";

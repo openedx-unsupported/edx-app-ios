@@ -1,4 +1,5 @@
 //
+//  https://github.com/schickling/Device.swift
 //  UIDeviceExtension.swift
 //  Device
 //
