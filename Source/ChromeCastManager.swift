@@ -52,11 +52,7 @@ private enum DelegateCallbackType: Int {
     private var callbackType: DelegateCallbackType = .none {
         didSet {
             if oldValue != callbackType {
-                if callbackType == .playing {
-                    trackEvent(for: .play)
-                } else if callbackType == .paused {
-                    trackEvent(for: .pause)
-                }
+                trackEvent(for: callbackType)
             }
             delegateCallBacks()
         }
@@ -163,11 +159,20 @@ private enum DelegateCallbackType: Int {
         environment?.interface?.markVideoState(state, forVideoID: videoID)
     }
     
-    private func trackEvent(for state: OEXVideoState) {
+    private func trackEvent(for type: DelegateCallbackType) {
         guard let video = video,
             let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
             let videoID = metadata.string(forKey: ChromeCastVideoID),
             video.summary?.videoID == videoID else { return }
+        
+        var state: OEXVideoState
+        if type == .playing {
+            state = .play
+        } else if callbackType == .paused {
+            state = .pause
+        } else {
+            return
+        }
         environment?.interface?.sendAnalyticsEvents(state, withCurrentTime: streamPosition, forVideo: video, playMedium: value_play_medium_chromecast)
     }
     
