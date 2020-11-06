@@ -165,14 +165,8 @@ private enum DelegateCallbackType: Int {
             let videoID = metadata.string(forKey: ChromeCastVideoID),
             video.summary?.videoID == videoID else { return }
         
-        var state: OEXVideoState
-        if type == .playing {
-            state = .play
-        } else if callbackType == .paused {
-            state = .pause
-        } else {
-            return
-        }
+        guard type == .playing || type == .paused else { return }
+        let state: OEXVideoState = type == .playing ? .play : .pause
         environment?.interface?.sendAnalyticsEvents(state, withCurrentTime: streamPosition, forVideo: video, playMedium: value_play_medium_chromecast)
     }
     
