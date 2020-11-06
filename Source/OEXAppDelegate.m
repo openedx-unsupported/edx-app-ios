@@ -269,7 +269,7 @@
         if (status == FIRRemoteConfigFetchStatusSuccess) {
             
             [self.firebaseRemoteConfig activateWithCompletionHandler:^(NSError * _Nullable error) {
-                [self.environment.remoteConfig initializeRemoteConfigWithRemoteConfig:self.firebaseRemoteConfig];
+                [self.environment.remoteConfig initializeWithRemoteConfig:self.firebaseRemoteConfig];
             }];
             
         } else {

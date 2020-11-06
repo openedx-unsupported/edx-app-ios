@@ -8,19 +8,13 @@
 
 import UIKit
 
+fileprivate let appThemeConfigKey = "app_theme"
+
 fileprivate enum AppThemeKeys: String, RawStringExtractable {
     case icon = "icon"
     case font = "font"
     case color = "color"
     case mode = "mode"
-}
-
-fileprivate enum FontKeys: String, RawStringExtractable {
-    case name = "name"
-    case enable = "enabled"
-}
-
-fileprivate enum ColorKeys: String, RawStringExtractable {
     case name = "name"
     case enable = "enabled"
 }
@@ -29,21 +23,20 @@ fileprivate enum ColorKeys: String, RawStringExtractable {
     @objc var appTheme: ThemeConfig?
     @objc static let sharedRemoteConfig =  FirebaseRemoteConfiguration()
     
-    @objc private override init() {
+    private override init() {
         super.init()
     }
     
-    @objc func initializeRemoteConfig(remoteConfig: RemoteConfig) {
-        let appThemeConfigKey = "app_theme"
+    @objc func initialize(remoteConfig: RemoteConfig) {
         
-        guard let dict = UserDefaults.standard.value(forKey: appThemeConfigKey) as? [String:AnyObject] else {
-            let remoteDict = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
-            appTheme = ThemeConfig(dictionary: remoteDict)
-            UserDefaults.standard.set(remoteDict, forKey: appThemeConfigKey)
+        guard let dictionary = UserDefaults.standard.value(forKey: appThemeConfigKey) as? [String:AnyObject] else {
+            let remoteDictionary = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
+            appTheme = ThemeConfig(dictionary: remoteDictionary)
+            UserDefaults.standard.set(remoteDictionary, forKey: appThemeConfigKey)
             return
         }
     
-        appTheme = ThemeConfig(dictionary: dict)
+        appTheme = ThemeConfig(dictionary: dictionary)
         let remoteDict = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
         UserDefaults.standard.set(remoteDict, forKey: appThemeConfigKey)
     }
@@ -69,8 +62,8 @@ class FontConfig: NSObject {
     let name: String?
     
     init(dictionary: [String: AnyObject]) {
-        enabled = dictionary[FontKeys.enable] as? Bool ?? false
-        name = dictionary[FontKeys.name] as? String
+        enabled = dictionary[AppThemeKeys.enable] as? Bool ?? false
+        name = dictionary[AppThemeKeys.name] as? String
     }
 }
 
@@ -79,7 +72,7 @@ class ColorConfig: NSObject {
     let name: String?
     
     init(dictionary: [String: AnyObject]) {
-        enabled = dictionary[FontKeys.enable] as? Bool ?? false
-        name = dictionary[FontKeys.name] as? String
+        enabled = dictionary[AppThemeKeys.enable] as? Bool ?? false
+        name = dictionary[AppThemeKeys.name] as? String
     }
 }
