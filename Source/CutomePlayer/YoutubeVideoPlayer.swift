@@ -123,7 +123,7 @@ class YoutubeVideoPlayer: VideoPlayer {
         setVideoPlayerMode(isPortrait: !fullscreen)
         
         if let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoOrientation(videoID, courseID: courseId, currentTime: CGFloat(currentTime), mode: fullscreen, unitURL: unitUrl, playMedium: value_play_medium_youtube)
+            environment.analytics.trackVideoOrientation(videoID, courseID: courseId, currentTime: CGFloat(currentTime), mode: fullscreen, unitURL: unitUrl, playMedium: AnalyticsEventDataKey.PlayMediumYoutube.rawValue)
         }
     }
 
@@ -171,10 +171,10 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
     func playerView(_ playerView: WKYTPlayerView, didChangeTo state: WKYTPlayerState) {
         switch state {
         case .paused:
-            environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video, playMedium: value_play_medium_youtube)
+            environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video, playMedium: AnalyticsEventDataKey.PlayMediumYoutube.rawValue)
             break
         case .playing:
-            environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: value_play_medium_youtube)
+            environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: AnalyticsEventDataKey.PlayMediumYoutube.rawValue)
             NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoTimedOut), object: nil)
             break
         default:

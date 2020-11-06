@@ -30,6 +30,8 @@ public enum AnalyticsDisplayName : String {
     case SharedCourse = "Shared a course"
     case SubjectsDiscovery = "Subject Discovery"
     case CourseSearch = "Discovery: Courses Search"
+    case ChromecastConnected = "Cast: Connected"
+    case ChromecastDisonnected = "Cast: Disconnected"
 }
 
 public enum AnalyticsEventName: String {
@@ -55,6 +57,8 @@ public enum AnalyticsEventName: String {
     case SharedCourse = "edx.bi.app.course.shared"
     case SubjectClicked = "edx.bi.app.discover.subject.clicked"
     case CourseSearch = "edx.bi.app.discovery.courses_search"
+    case ChromecastConnected = "edx.bi.app.cast.connected"
+    case ChromecastDisconnected = "edx.bi.app.cast.disconnected"
 }
 
 public enum AnalyticsScreenName: String {
@@ -85,6 +89,8 @@ public enum AnalyticsEventDataKey: String {
     case remainingDownloadableVideos = "remaining_downloadable_videos"
     case UserID = "user_id"
     case SubjectID = "subject_id"
+    case PlayMediumYoutube = "youtube"
+    case PlayMediumChromecast = "google_cast"
 }
 
 
@@ -212,5 +218,18 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: ["action": action, "app_version": Bundle.main.oex_buildVersionString()])
     }
     
+    func trackChromecastConnected() {
+        let event = OEXAnalyticsEvent()
+        event.name = AnalyticsEventName.ChromecastConnected.rawValue
+        event.displayName = AnalyticsDisplayName.ChromecastConnected.rawValue
+        trackEvent(event, forComponent: nil, withInfo: [key_play_medium: AnalyticsEventDataKey.PlayMediumChromecast.rawValue])
+    }
+    
+    func trackChromecastDisconnected() {
+        let event = OEXAnalyticsEvent()
+        event.name = AnalyticsEventName.ChromecastDisconnected.rawValue
+        event.displayName = AnalyticsDisplayName.ChromecastDisonnected.rawValue
+        trackEvent(event, forComponent: nil, withInfo: [key_play_medium: AnalyticsEventDataKey.PlayMediumChromecast.rawValue])
+    }
 }
 
