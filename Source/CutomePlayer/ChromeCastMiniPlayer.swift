@@ -71,10 +71,9 @@ class ChromeCastMiniPlayer: UIViewController {
         let thumbnail = video.summary?.videoThumbnailURL ?? courseImageURLString
         let mediaInfo = mediaInformation(contentID: url.absoluteString, title: video.summary?.name ?? "", videoID: videoID, contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
         
-        play(with: mediaInfo, at: time) { [weak self] success in
+        play(with: mediaInfo, at: time) { success in
             if success {
                 ChromeCastManager.shared.video = video
-                self?.environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: time, forVideo: video, playMedium: value_play_medium_chromecast)
             }
         }
     }

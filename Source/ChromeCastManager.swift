@@ -20,7 +20,7 @@ protocol ChromeCastPlayerStatusDelegate: class {
 }
 
 private enum DelegateCallbackType: Int {
-    case connect, disconnect, playing, finished, none
+    case connect, disconnect, playing, paused, finished, none
 }
 
 /// This class ChromeCastManager is a singleton class and it is taking care of all the chrome cast related functionality
@@ -51,6 +51,13 @@ private enum DelegateCallbackType: Int {
     
     private var callbackType: DelegateCallbackType = .none {
         didSet {
+            if oldValue != callbackType {
+                if callbackType == .playing {
+                    trackEvent(for: .play)
+                } else if callbackType == .paused {
+                    trackEvent(for: .pause)
+                }
+            }
             delegateCallBacks()
         }
     }
@@ -156,6 +163,14 @@ private enum DelegateCallbackType: Int {
         environment?.interface?.markVideoState(state, forVideoID: videoID)
     }
     
+    private func trackEvent(for state: OEXVideoState) {
+        guard let video = video,
+            let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
+            let videoID = metadata.string(forKey: ChromeCastVideoID),
+            video.summary?.videoID == videoID else { return }
+        environment?.interface?.sendAnalyticsEvents(state, withCurrentTime: streamPosition, forVideo: video, playMedium: value_play_medium_chromecast)
+    }
+    
     func sessionManager(_ sessionManager: GCKSessionManager, didEnd session: GCKSession, withError error: Error?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             self?.removeMediaListener()
@@ -171,13 +186,8 @@ private enum DelegateCallbackType: Int {
         let playerState = mediaStatus.playerState
         switch playerState {
         case .paused:
-            guard let video = video,
-                let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
-                let videoID = metadata.string(forKey: ChromeCastVideoID),
-                video.summary?.videoID == videoID,
-                streamPosition > .zero  else { return }
-            
-            environment?.interface?.sendAnalyticsEvents(.pause, withCurrentTime: streamPosition, forVideo: video, playMedium: value_play_medium_chromecast)
+            callbackType = .paused
+            break
         case .idle:
             switch idleReason {
             case .none:

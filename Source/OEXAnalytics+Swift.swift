@@ -220,20 +220,14 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.ChromecastConnected.rawValue
         event.displayName = AnalyticsDisplayName.ChromecastConnected.rawValue
-        let info = [
-            key_play_medium: value_play_medium_chromecast
-        ]
-        trackEvent(event, forComponent: nil, withInfo: info)
+        trackEvent(event, forComponent: nil, withInfo: [key_play_medium: value_play_medium_chromecast])
     }
     
     func trackChromecastDisconnected() {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.ChromecastDisconnected.rawValue
         event.displayName = AnalyticsDisplayName.ChromecastDisonnected.rawValue
-        let info = [
-            key_play_medium: value_play_medium_chromecast
-        ]
-        trackEvent(event, forComponent: nil, withInfo: info)
+        trackEvent(event, forComponent: nil, withInfo: [key_play_medium: value_play_medium_chromecast])
     }
 }
 
