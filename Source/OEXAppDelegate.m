@@ -183,11 +183,10 @@
 
 #pragma mark Environment
 
+// Initializing the Remote config with the already stored user default values
+// because the application would have theme values before setting global appearance
 - (void)initializeRemoteConfig {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:APP_THEME_USER_DEFAULT_KEY]) {
-        NSDictionary* dictionary = [[NSUserDefaults standardUserDefaults] objectForKey:APP_THEME_USER_DEFAULT_KEY];
-        [[FirebaseRemoteConfiguration shared] initializeWithDictionary:dictionary];
-    }
+    [[FirebaseRemoteConfiguration shared] initialize];
 }
 
 - (void)setUpRemoteConfig {

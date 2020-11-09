@@ -43,8 +43,6 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 //Wifi only Key
 #define USERDEFAULT_KEY_WIFIONLY @"download on wifi only"
 
-#define APP_THEME_USER_DEFAULT_KEY @"app_theme"
-
 // Registration
 #define NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE @"RegistrationFormFieldValueDidChange"
 #define NOTIFICATION_REGISTRATION_FORM_SELECT_FIELD_DID_OPEN @"RegistrationFormFieldSelectDidOpen"
