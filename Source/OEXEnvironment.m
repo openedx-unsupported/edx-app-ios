@@ -145,6 +145,7 @@
                                             reachability:[[InternetReachability alloc] init]
                                             session:env.session
                                             styles:env.styles
+                                            remoteConfig:env.remoteConfig
                                             ];
             return [[OEXRouter alloc] initWithEnvironment:routerEnv];
             
@@ -161,7 +162,7 @@
         };
         
         self.remoteConfigBuilder = ^(OEXEnvironment* env){
-            return  [FirebaseRemoteConfiguration sharedRemoteConfig];
+            return  [FirebaseRemoteConfiguration shared];
         };
     }
     return self;
@@ -177,12 +178,12 @@
     
     self.session = self.sessionBuilder(self);
     
+    self.remoteConfig = self.remoteConfigBuilder(self);
     self.networkManager = self.networkManagerBuilder(self);
     self.dataManager = self.dataManagerBuilder(self);
     self.styles = self.stylesBuilder(self);
     self.router = self.routerBuilder(self);
     self.pushNotificationManager = self.pushNotificationManagerBuilder(self);
-    self.remoteConfig = self.remoteConfigBuilder(self);
     
     // We should minimize the use of these singletons and mostly use explicitly passed in dependencies
     // But occasionally that's very inconvenient and also much existing code is not structured to deal with that

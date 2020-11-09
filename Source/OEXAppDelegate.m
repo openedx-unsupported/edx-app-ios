@@ -79,6 +79,7 @@
     }
     [self.window makeKeyAndVisible];
 
+    [self initializeRemoteConfig];
     [self setupGlobalEnvironment];
     [self setUpRemoteConfig];
     [self.environment.session performMigrations];
@@ -182,10 +183,19 @@
 
 #pragma mark Environment
 
+- (void)initializeRemoteConfig {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:APP_THEME_USER_DEFAULT_KEY]) {
+        NSDictionary* dictionary = [[NSUserDefaults standardUserDefaults] objectForKey:APP_THEME_USER_DEFAULT_KEY];
+        [[FirebaseRemoteConfiguration shared] initializeWithDictionary:dictionary];
+    }
+}
+
 - (void)setUpRemoteConfig {
     OEXConfig* config = self.environment.config;
     if (config.firebaseConfig.enabled) {
-        [FIRApp configure];
+        if ([FIRApp defaultApp] == nil) {
+            [FIRApp configure];
+        }
         self.firebaseRemoteConfig = [FIRRemoteConfig remoteConfig];
         FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] init];
         self.firebaseRemoteConfig.configSettings = remoteConfigSettings;

@@ -10,6 +10,16 @@ import UIKit
 
 fileprivate let appThemeConfigKey = "app_theme"
 
+protocol RemoteConfigProvider {
+  var remoteConfig: FirebaseRemoteConfiguration { get }
+}
+
+extension RemoteConfigProvider {
+  var remoteConfig: FirebaseRemoteConfiguration {
+    return FirebaseRemoteConfiguration.shared
+  }
+}
+
 fileprivate enum AppThemeKeys: String, RawStringExtractable {
     case icon = "icon"
     case font = "font"
@@ -21,29 +31,26 @@ fileprivate enum AppThemeKeys: String, RawStringExtractable {
 
 @objc class FirebaseRemoteConfiguration: NSObject {
     @objc var appTheme: ThemeConfig?
-    @objc static let sharedRemoteConfig =  FirebaseRemoteConfiguration()
+    @objc static let shared =  FirebaseRemoteConfiguration()
     
     private override init() {
         super.init()
     }
     
     @objc func initialize(remoteConfig: RemoteConfig) {
-        
-        guard let dictionary = UserDefaults.standard.value(forKey: appThemeConfigKey) as? [String:AnyObject] else {
-            let remoteDictionary = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
+        let remoteDictionary = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
+        if appTheme == nil && !remoteDictionary.isEmpty {
             appTheme = ThemeConfig(dictionary: remoteDictionary)
-            UserDefaults.standard.set(remoteDictionary, forKey: appThemeConfigKey)
-            return
         }
+        UserDefaults.standard.set(remoteDictionary, forKey: APP_THEME_USER_DEFAULT_KEY)
+    }
     
-        appTheme = ThemeConfig(dictionary: dictionary)
-        let remoteDict = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
-        UserDefaults.standard.set(remoteDict, forKey: appThemeConfigKey)
+    @objc func initialize(dictionary: NSDictionary) {
+        appTheme = ThemeConfig(dictionary: dictionary as? [String : AnyObject] ?? [:])
     }
 }
 
 class ThemeConfig: NSObject {
-    
     let fontConfig: FontConfig
     let colorConfig: ColorConfig
     let icon: String?
