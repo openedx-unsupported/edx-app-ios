@@ -187,6 +187,7 @@
 		5F514FBB240696D700BA113A /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F7C0C642534520200A344B9 /* FillBackgroundTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */; };
 		5F7C0C6A2534521300A344B9 /* FillBackgroundLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */; };
+		5F903AF4255020D7006365DE /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F903AF3255020D7006365DE /* UIDeviceExtension.swift */; };
 		5FAE055324EA647D00A29B1D /* CourseDates.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAE055124EA618000A29B1D /* CourseDates.json */; };
 		5FAE055524EA866900A29B1D /* CourseDatesModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAE055424EA866900A29B1D /* CourseDatesModelTests.swift */; };
 		5FB44C1324978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */; };
@@ -1208,6 +1209,7 @@
 		5F514FB9240696D700BA113A /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Libraries/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundTextStorage.swift; sourceTree = "<group>"; };
 		5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundLayoutManager.swift; sourceTree = "<group>"; };
+		5F903AF3255020D7006365DE /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		5FAE055124EA618000A29B1D /* CourseDates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CourseDates.json; sourceTree = "<group>"; };
 		5FAE055424EA866900A29B1D /* CourseDatesModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesModelTests.swift; sourceTree = "<group>"; };
 		5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationSelectOptionViewController.swift; sourceTree = "<group>"; };
@@ -2497,6 +2499,14 @@
 			path = UITextView;
 			sourceTree = "<group>";
 		};
+		5F903AF2255020C9006365DE /* UIDevice */ = {
+			isa = PBXGroup;
+			children = (
+				5F903AF3255020D7006365DE /* UIDeviceExtension.swift */,
+			);
+			name = UIDevice;
+			sourceTree = "<group>";
+		};
 		6919F5FB1D65CD14006935C8 /* Colors */ = {
 			isa = PBXGroup;
 			children = (
@@ -2838,6 +2848,7 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
+				5F903AF2255020C9006365DE /* UIDevice */,
 				5F7C0C3425344E1500A344B9 /* UITextView */,
 				22F6A15520B7E62C009C3F4A /* HTML Decoding */,
 				021AD6241F150BA3009AF653 /* Dictionary+SafeAccess.swift */,
@@ -4983,6 +4994,7 @@
 				9E4E6C411B4BDB5C0034F7EB /* MockLastAccessedProvider.swift in Sources */,
 				9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */,
 				1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */,
+				5F903AF4255020D7006365DE /* UIDeviceExtension.swift in Sources */,
 				46CECC3C1B041D270073C63A /* AdditionalTableViewCell.swift in Sources */,
 				778F177A1C0D125A0099BF93 /* CoursesContainerViewController.swift in Sources */,
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
