@@ -24,16 +24,28 @@ public class OEXFonts: NSObject {
     }
     
     private func initializeFontsDictionary() -> [String: AnyObject] {
-        guard let filePath = Bundle.main.path(forResource: "fonts", ofType: "json") else {
-            return fallbackFonts()
+        var filePath: String = ""
+        
+        if let config = FirebaseRemoteConfiguration.shared.appTheme?.fontConfig,
+           let fontFileName = config.name?.components(separatedBy: ".").first, config.enabled,
+           let path = Bundle.main.path(forResource: fontFileName, ofType: "json") {
+            filePath = path
+        } else if let path = Bundle.main.path(forResource: "fonts", ofType: "json") {
+            filePath = path
         }
-        if let data = NSData(contentsOfFile: filePath) {
-            var error : NSError?
-            
-            if let json = JSON(data: data as Data, error: &error).dictionaryObject{
-                return json as [String : AnyObject]
+        
+        if filePath.isEmpty {
+            return fallbackFonts()
+        } else {
+            if let data = NSData(contentsOfFile: filePath) {
+                var error : NSError?
+                
+                if let json = JSON(data: data as Data, error: &error).dictionaryObject {
+                    return json as [String : AnyObject]
+                }
             }
         }
+        
         return fallbackFonts()
     }
     

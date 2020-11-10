@@ -238,47 +238,47 @@ static OEXStyles* sSharedStyles;
 
 #pragma mark Fonts
 
-- (UIFont*)sansSerifOfSize:(CGFloat)size {
+- (UIFont*)regularFontOfSize:(CGFloat)size {
     return [self.oexFonts fontFor:FontIdentifiersRegular
                                        size:size];
 }
 
-- (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size {
+- (UIFont*)semiBoldFontOfSize:(CGFloat)size {
     return [self.oexFonts fontFor:FontIdentifiersSemiBold
                                        size:size];
 }
 
-- (UIFont*)boldSansSerifOfSize:(CGFloat)size {
+- (UIFont*)boldFontOfSize:(CGFloat)size {
     return [self.oexFonts fontFor:FontIdentifiersBold
                                        size:size];
 }
 
-- (UIFont*)lightSansSerifOfSize:(CGFloat)size {
+- (UIFont*)lightFontOfSize:(CGFloat)size {
     return [self.oexFonts fontFor:FontIdentifiersLight
                                        size:size];
 }
 
-- (UIFont*)sansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+- (UIFont*)regularFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
     return [self.oexFonts fontFor:FontIdentifiersRegular
                              size:size dynamicTypeSupported:dynamicTypeSupported];
 }
 
-- (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+- (UIFont*)semiBoldFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
     return [self.oexFonts fontFor:FontIdentifiersSemiBold
                              size:size dynamicTypeSupported:dynamicTypeSupported];
 }
 
-- (UIFont*)boldSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+- (UIFont*)boldFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
     return [self.oexFonts fontFor:FontIdentifiersBold
                              size:size dynamicTypeSupported:dynamicTypeSupported];
 }
 
-- (UIFont*)boldItalicSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL)dynamicTypeSupported {
+- (UIFont*)boldItalicFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL)dynamicTypeSupported {
     return [self.oexFonts fontFor:FontIdentifiersBoldItalic
                              size:size dynamicTypeSupported:dynamicTypeSupported];
 }
 
-- (UIFont*)lightSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+- (UIFont*)lightFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
     return [self.oexFonts fontFor:FontIdentifiersLight
                              size:size dynamicTypeSupported:dynamicTypeSupported];
 }
