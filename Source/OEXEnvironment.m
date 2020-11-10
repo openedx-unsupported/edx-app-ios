@@ -32,6 +32,7 @@
 @property (strong, nonatomic) OEXRouter* router;
 @property (strong, nonatomic) OEXSession* session;
 @property (strong, nonatomic) OEXStyles* styles;
+//@property (strong, nonatomic) FirebaseRemoteConfiguration* remoteConfig;
 
 /// Array of actions to be executed once all the objects are wired up
 /// Used to resolve what would be otherwise be circular dependencies
@@ -144,6 +145,7 @@
                                             reachability:[[InternetReachability alloc] init]
                                             session:env.session
                                             styles:env.styles
+                                            remoteConfig:env.remoteConfig
                                             ];
             return [[OEXRouter alloc] initWithEnvironment:routerEnv];
             
@@ -157,6 +159,10 @@
                 [env.session loadTokenFromStore];
             }];
             return session;
+        };
+        
+        self.remoteConfigBuilder = ^(OEXEnvironment* env){
+            return  [FirebaseRemoteConfiguration shared];
         };
     }
     return self;
@@ -172,6 +178,7 @@
     
     self.session = self.sessionBuilder(self);
     
+    self.remoteConfig = self.remoteConfigBuilder(self);
     self.networkManager = self.networkManagerBuilder(self);
     self.dataManager = self.dataManagerBuilder(self);
     self.styles = self.stylesBuilder(self);

@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXRouter;
 @class OEXSession;
 @class OEXStyles;
+@class FirebaseRemoteConfiguration;
 
 @interface OEXEnvironment : NSObject
 
@@ -32,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) OEXRouter* (^ routerBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) OEXSession* (^ sessionBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) OEXStyles* (^ stylesBuilder)(OEXEnvironment* env);
+@property (strong, nonatomic) FirebaseRemoteConfiguration* (^ remoteConfigBuilder)(OEXEnvironment* env);
 
 // These will all be nil until setupEnvironment is called
 @property (readonly, strong, nonatomic) OEXAnalytics* analytics;
@@ -42,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) OEXRouter* router;
 @property (readonly, strong, nonatomic) OEXSession* session;
 @property (readonly, strong, nonatomic) OEXStyles* styles;
+@property (strong, nonatomic) FirebaseRemoteConfiguration* remoteConfig;
 
 @end
 

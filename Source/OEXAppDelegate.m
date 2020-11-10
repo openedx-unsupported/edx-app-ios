@@ -35,11 +35,13 @@
 #import "OEXSession.h"
 #import "OEXSegmentConfig.h"
 #import <MSAL/MSAL.h>
+#import "FIRRemoteConfig.h"
 
 @interface OEXAppDelegate () <UIApplicationDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* dictCompletionHandler;
 @property (nonatomic, strong) OEXEnvironment* environment;
+@property (nonatomic, strong) FIRRemoteConfig* firebaseRemoteConfig;
 
 @end
 
@@ -77,7 +79,9 @@
     }
     [self.window makeKeyAndVisible];
 
+    [self initializeRemoteConfig];
     [self setupGlobalEnvironment];
+    [self setUpRemoteConfig];
     [self.environment.session performMigrations];
     [self.environment.router openInWindow:self.window];
     [self configureBranch:launchOptions];
@@ -179,6 +183,25 @@
 
 #pragma mark Environment
 
+// Initializing the Remote config with the already stored user default values
+// because the application would have theme values before setting global appearance
+- (void)initializeRemoteConfig {
+    [[FirebaseRemoteConfiguration shared] initialize];
+}
+
+- (void)setUpRemoteConfig {
+    OEXConfig* config = self.environment.config;
+    if (config.firebaseConfig.enabled) {
+        if ([FIRApp defaultApp] == nil) {
+            [FIRApp configure];
+        }
+        self.firebaseRemoteConfig = [FIRRemoteConfig remoteConfig];
+        FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] init];
+        self.firebaseRemoteConfig.configSettings = remoteConfigSettings;
+        [self fetchRemoteConfig];
+    }
+}
+
 - (void)setupGlobalEnvironment {
     [UserAgentOverrideOperation overrideUserAgentWithCompletion:nil];
     
@@ -216,7 +239,7 @@
         [FIRApp configure];
         [FIRAnalytics setAnalyticsCollectionEnabled:YES];
     }
-
+    
     //NewRelic Initialization with edx key
     OEXNewRelicConfig* newrelic = [config newRelicConfig];
     if(newrelic.apiKey && newrelic.isEnabled) {
@@ -248,6 +271,20 @@
             }];
         }
     }
+}
+
+- (void)fetchRemoteConfig {
+    [self.firebaseRemoteConfig fetchWithCompletionHandler:^(FIRRemoteConfigFetchStatus status, NSError *error) {
+        if (status == FIRRemoteConfigFetchStatusSuccess) {
+            
+            [self.firebaseRemoteConfig activateWithCompletionHandler:^(NSError * _Nullable error) {
+                [self.environment.remoteConfig initializeWithRemoteConfig:self.firebaseRemoteConfig];
+            }];
+            
+        } else {
+            NSLog(@"Error %@", error.localizedDescription);
+        }
+    }];
 }
 
 @end
