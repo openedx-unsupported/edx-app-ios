@@ -8,7 +8,7 @@
 
 import UIKit
 
-let appThemeConfigKey = "app_theme"
+private let appThemeConfigKey = "app_theme"
 
 protocol RemoteConfigProvider {
   var remoteConfig: FirebaseRemoteConfiguration { get }
@@ -38,11 +38,15 @@ fileprivate enum AppThemeKeys: String, RawStringExtractable {
     }
     
     @objc func initialize(remoteConfig: RemoteConfig) {
-        let remoteDictionary = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject] ?? [:]
-        if appTheme == nil && !remoteDictionary.isEmpty {
-            appTheme = ThemeConfig(dictionary: remoteDictionary)
+        
+        guard let themeDictionary = remoteConfig[appThemeConfigKey].jsonValue as? [String:AnyObject], !themeDictionary.isEmpty else {
+            return
         }
-        UserDefaults.standard.set(remoteDictionary, forKey: appThemeConfigKey)
+        
+        if appTheme == nil {
+            appTheme = ThemeConfig(dictionary: themeDictionary)
+        }
+        UserDefaults.standard.set(themeDictionary, forKey: appThemeConfigKey)
         UserDefaults.standard.synchronize()
     }
     
