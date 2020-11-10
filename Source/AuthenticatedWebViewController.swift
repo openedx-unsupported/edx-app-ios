@@ -368,6 +368,11 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             completionHandler(false)
         }))
 
+        if let presenter = alertController.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+        }
+
         present(alertController, animated: true, completion: nil)
     }
 
