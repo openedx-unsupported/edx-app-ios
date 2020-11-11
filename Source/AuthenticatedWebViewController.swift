@@ -364,13 +364,13 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             completionHandler(true)
         }))
 
-        alertController.addAction(UIAlertAction(title: Strings.cancel, style: .default, handler: { (action) in
+        alertController.addAction(UIAlertAction(title: Strings.cancel, style: .cancel, handler: { (action) in
             completionHandler(false)
         }))
 
         if let presenter = alertController.popoverPresentationController {
-            presenter.sourceView = self.view
-            presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            presenter.sourceView = view
+            presenter.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
         }
 
         present(alertController, animated: true, completion: nil)
