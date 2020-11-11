@@ -8,6 +8,7 @@
 
 #import "OEXCustomLabel.h"
 #import "OEXStyles.h"
+#import "OEXTextStyle.h"
 
 @implementation OEXCustomLabel
 
@@ -15,7 +16,7 @@
     self = [super initWithFrame:frame];
     if(self) {
         // set custom font to labels through code
-        self.font = [[OEXStyles sharedStyles] semiBoldFontOfSize:16.0];
+        self.font = [[OEXStyles sharedStyles] semiBoldFontOfSize:OEXTextSizeLarge];
     }
 
     return self;
@@ -124,7 +125,7 @@
                 break;
 
             case 701:   // Course Video Download Screen Video title - Size
-                self.font = [[OEXStyles sharedStyles] semiBoldFontOfSize:14.0f];
+                self.font = [[OEXStyles sharedStyles] semiBoldFontOfSize:OEXTextSizeBase];
                 break;
 
             case 702:   // Course Video Download Screen Video course title - Size
@@ -132,14 +133,14 @@
                 break;
 
             case 703:   // Course Video Download Screen Video section title - Size
-                self.font = [[OEXStyles sharedStyles] regularFontOfSize:12.0f];
+                self.font = [[OEXStyles sharedStyles] regularFontOfSize:OEXTextSizeSmall];
                 break;
 
             case 801:   //Download view Controller
                 self.font = [[OEXStyles sharedStyles] semiBoldFontOfSize:20.0f];
 
             case 802:   //Download view Controller
-                self.font = [[OEXStyles sharedStyles] regularFontOfSize:16.0f];
+                self.font = [[OEXStyles sharedStyles] regularFontOfSize:OEXTextSizeLarge];
             default:
                 break;
         }

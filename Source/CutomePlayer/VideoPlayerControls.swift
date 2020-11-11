@@ -64,7 +64,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         label.layer.cornerRadius = 5
         label.layer.rasterizationScale = UIScreen.main.scale
         label.textAlignment = .center
-        label.font = self.environment.styles.regularFont(ofSize: 12)
+        label.font = OEXStyles().boldFont(ofSize: OEXTextStyle.pointSize(for: .small))
         label.layer.shouldRasterize = true
         return label
     }()
@@ -228,14 +228,14 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         label.layer.shadowRadius = 1
         label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         label.layer.shadowOpacity = 0.8
-        label.font = self.environment.styles.semiBoldFont(ofSize: 12.0)
+        label.font = OEXStyles().semiBoldFont(ofSize: OEXTextStyle.pointSize(for: .small))
         return label
     }()
     
     lazy private var videoTitleLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .clear
-        label.font = self.environment.styles.semiBoldFont(ofSize: 16.0)
+        label.font = OEXStyles().semiBoldFont(ofSize: OEXTextStyle.pointSize(for: .large))
         label.textAlignment = .left
         label.textColor = .white
         label.text = Strings.untitled
