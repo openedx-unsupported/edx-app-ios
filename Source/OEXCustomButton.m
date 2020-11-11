@@ -8,6 +8,7 @@
 
 #import "OEXStyles.h"
 #import "OEXCustomButton.h"
+#import "OEXTextStyle.h"
 
 @implementation OEXCustomButton
 
@@ -59,7 +60,7 @@
                 break;
 
             case 401:   //Download View Controller
-                self.titleLabel.font = [[OEXStyles sharedStyles] regularFontOfSize:14.0f];
+                self.titleLabel.font = [[OEXStyles sharedStyles] regularFontOfSize:OEXTextSizeBase];
                 break;
 
             default:

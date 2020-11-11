@@ -129,7 +129,7 @@
                 break;
 
             case 702:   // Course Video Download Screen Video course title - Size
-                self.font = [[OEXStyles sharedStyles] regularFontOfSize:15.0f];
+                self.font = [[OEXStyles sharedStyles] regularFontOfSize:OEXTextSizeLarge];
                 break;
 
             case 703:   // Course Video Download Screen Video section title - Size
@@ -137,7 +137,7 @@
                 break;
 
             case 801:   //Download view Controller
-                self.font = [[OEXStyles sharedStyles] semiBoldFontOfSize:20.0f];
+                self.font = [[OEXStyles sharedStyles] semiBoldFontOfSize:OEXTextSizeXXLarge];
 
             case 802:   //Download view Controller
                 self.font = [[OEXStyles sharedStyles] regularFontOfSize:OEXTextSizeLarge];
