@@ -30,9 +30,9 @@
     "utilitySuccessBase":"#F0CC00",
     "utilitySuccessLight":"#F0CC00",
     
-    "warningDark":"#A97D39",
-    "warningBase":"#FDBC56",
-    "warningLight":"#FDD28D",
+    "warningDark":"#F0CC00",
+    "warningBase":"#F0CC00",
+    "warningLight":"#F0CC00",
     
     "errorDark":"#D23228",
     "errorBase":"#D23228",
