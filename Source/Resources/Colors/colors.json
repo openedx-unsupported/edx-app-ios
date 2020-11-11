@@ -27,11 +27,14 @@
     "utilitySuccessDark":"#1E8142",
     "utilitySuccessBase":"#25B85A",
     "utilitySuccessLight":"#6CCF90",
+    
     "warningDark":"#A97D39",
     "warningBase":"#FDBC56",
     "warningLight":"#FDD28D",
+    
     "errorDark":"#77040A",
     "errorBase":"#B20610",
     "errorLight":"#CB585E",
-    "banner":"#7DC88F",
+    
+    "banner":"#00262B",
 }

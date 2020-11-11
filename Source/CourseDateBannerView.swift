@@ -91,7 +91,7 @@ class CourseDateBannerView: UIView {
         labelContainer.superview?.removeFromSuperview()
         container.superview?.removeFromSuperview()
         
-        backgroundColor = OEXStyles.shared().primaryXLightColor()
+        backgroundColor = OEXStyles.shared().banner()
         addSubview(container)
         
         stackView.alignment = .leading
