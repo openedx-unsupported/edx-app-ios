@@ -274,18 +274,18 @@ public class BottomBarView: UIView, NSCopying {
     private func makeBottomBar() {
 
         bottomBar.backgroundColor = environment?.styles.standardBackgroundColor()
-        let signInBorderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment?.styles.primaryBaseColor())
+        let signInBorderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment?.styles.brandActionColor())
         signInButton.applyBorderStyle(style: signInBorderStyle)
         signInButton.accessibilityIdentifier = "StartUpViewController:sign-in-button"
         
-        let signinTextStyle = OEXTextStyle(weight: .normal, size: .large, color: environment?.styles.primaryBaseColor())
+        let signinTextStyle = OEXTextStyle(weight: .normal, size: .large, color: environment?.styles.brandActionColor())
         signInButton.setAttributedTitle(signinTextStyle.attributedString(withText: Strings.signInText), for: .normal)
         let signInEvent = OEXAnalytics.loginEvent()
         signInButton.oex_addAction({ [weak self] _ in
             self?.showLogin()
             }, for: .touchUpInside, analyticsEvent: signInEvent)
 
-        registerButton.backgroundColor = environment?.styles.primaryDarkColor()
+        registerButton.backgroundColor = environment?.styles.brandActionColor()
         registerButton.applyBorderStyle(style: BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(0), color: nil))
         registerButton.accessibilityIdentifier = "StartUpViewController:register-button"
         let registerTextStyle = OEXTextStyle(weight: .normal, size: .large, color: environment?.styles.neutralWhite())

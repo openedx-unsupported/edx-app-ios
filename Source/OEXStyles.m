@@ -99,6 +99,10 @@ static OEXStyles* sSharedStyles;
     }
 }
 
+- (UIColor*)brandActionColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersBrandActionColor];
+}
+
 #pragma mark Primary
 
 - (UIColor*)primaryXDarkColor {

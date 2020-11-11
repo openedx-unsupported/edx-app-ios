@@ -20,7 +20,8 @@ public class OEXColors: NSObject {
         UtilitySuccessDark, UtilitySuccessBase, UtilitySuccessLight,
         WarningDark, WarningBase, WarningLight,
         ErrorDark, ErrorBase, ErrorLight,
-        Banner, Random
+        Banner, Random,
+        BrandActionColor
     }
     
     public var colorsDictionary = [String: AnyObject]()
@@ -31,17 +32,29 @@ public class OEXColors: NSObject {
     }
     
     private func initializeColorsDictionary() -> [String: AnyObject] {
-        guard let filePath = Bundle.main.path(forResource: "colors", ofType: "json") else {
-            return fallbackColors()
+        var filePath: String = ""
+        
+        if let config = FirebaseRemoteConfiguration.shared.appTheme?.colorConfig,
+           let colorFileName = config.name?.components(separatedBy: ".").first, config.enabled,
+           let path = Bundle.main.path(forResource: colorFileName, ofType: "json") {
+            filePath = path
+        } else if let path = Bundle.main.path(forResource: "colors", ofType: "json") {
+            filePath = path
         }
-        if let data = NSData(contentsOfFile: filePath) {
-            var error : NSError?
-            
-            if let json = JSON(data: data as Data, error: &error).dictionaryObject{
-                return json as [String : AnyObject]
+        
+        if filePath.isEmpty {
+            return fallbackColors()
+        } else {
+            if let data = NSData(contentsOfFile: filePath) {
+                var error : NSError?
+                
+                if let json = JSON(data: data as Data, error: &error).dictionaryObject{
+                    return json as [String : AnyObject]
+                }
+                return fallbackColors()
             }
-            return fallbackColors()
         }
+        
         return fallbackColors()
     }
     
@@ -64,6 +77,8 @@ public class OEXColors: NSObject {
     
     private func getIdentifier(identifier: ColorsIdentifiers) -> String {
         switch identifier {
+        case .BrandActionColor:
+            return "brandActionColor"
         case .PrimaryXDarkColor:
             return "primaryXDarkColor"
         case .PrimaryDarkColor:
