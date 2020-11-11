@@ -17,6 +17,7 @@
     "neutralBlackT":"#000000",
     "neutralXDark":"#424141",
     "neutralDark":"#646262",
+    
     "neutralBase":"#A7A4A4",
     "neutralLight":"#D3D1D1",
     "neutralXLight":"#E9E8E8",
@@ -36,5 +37,5 @@
     "errorBase":"#B20610",
     "errorLight":"#CB585E",
     
-    "banner":"#00262B",
+    "banner":"#D9EBF5",
 }
