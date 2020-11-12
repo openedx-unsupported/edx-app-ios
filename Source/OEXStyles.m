@@ -232,7 +232,7 @@ static OEXStyles* sSharedStyles;
 }
 
 - (UIColor*)bannerColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersBanner];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersBannerColor];
 }
 
 - (UIColor * __nonnull) disabledButtonColor
