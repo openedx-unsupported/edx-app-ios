@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let appThemeConfigKey = "app_theme"
+private let appThemeConfigKey = "app_theme_ios"
 
 protocol RemoteConfigProvider {
   var remoteConfig: FirebaseRemoteConfiguration { get }
