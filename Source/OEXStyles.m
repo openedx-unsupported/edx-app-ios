@@ -231,7 +231,7 @@ static OEXStyles* sSharedStyles;
     return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorLight];
 }
 
-- (UIColor*)banner {
+- (UIColor*)bannerColor {
     return [self.oexColors colorForIdentifier:ColorsIdentifiersBanner];
 }
 

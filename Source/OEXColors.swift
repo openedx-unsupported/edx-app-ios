@@ -20,7 +20,7 @@ public class OEXColors: NSObject {
         UtilitySuccessDark, UtilitySuccessBase, UtilitySuccessLight,
         WarningDark, WarningBase, WarningLight,
         ErrorDark, ErrorBase, ErrorLight,
-        Banner, Random,
+        BannerColor, RandomColor,
         BrandActionColor
     }
     
@@ -72,7 +72,7 @@ public class OEXColors: NSObject {
             return color
         }
 
-        return UIColor(hexString: getIdentifier(identifier: ColorsIdentifiers.Random), alpha: 1.0)
+        return UIColor(hexString: getIdentifier(identifier: ColorsIdentifiers.RandomColor), alpha: 1.0)
     }
     
     private func getIdentifier(identifier: ColorsIdentifiers) -> String {
@@ -137,9 +137,9 @@ public class OEXColors: NSObject {
             return "errorBase"
         case .ErrorLight:
             return "errorLight"
-        case .Banner:
-            return "banner"
-        case .Random:
+        case .BannerColor:
+            return "bannerColor"
+        case .RandomColor:
             fallthrough
         default:
             //Assert to crash on development, and return a random color for distribution
