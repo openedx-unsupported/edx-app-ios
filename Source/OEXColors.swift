@@ -20,8 +20,9 @@ public class OEXColors: NSObject {
         UtilitySuccessDark, UtilitySuccessBase, UtilitySuccessLight,
         WarningDark, WarningBase, WarningLight,
         ErrorDark, ErrorBase, ErrorLight,
-        BannerColor, RandomColor,
-        BrandActionColor
+        BannerColor,
+        BrandActionColor,
+        RandomColor
     }
     
     public var colorsDictionary = [String: AnyObject]()
