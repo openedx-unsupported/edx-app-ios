@@ -1,6 +1,7 @@
 {
     "brandActionColor":"#005483",
-    
+    "brandAccentColor": "#4CA1D0"
+
     "primaryXDarkColor":"#003654",
     "primaryDarkColor":"#005483",
     "primaryBaseColor":"#0079BC",
@@ -37,5 +38,5 @@
     "errorBase":"#B20610",
     "errorLight":"#CB585E",
     
-    "bannerColor":"#D9EBF5",
+    "bannerColor":"#D9EBF5"
 }

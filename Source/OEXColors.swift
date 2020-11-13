@@ -22,6 +22,7 @@ public class OEXColors: NSObject {
         ErrorDark, ErrorBase, ErrorLight,
         BannerColor,
         BrandActionColor,
+        BrandAccentColor,
         RandomColor
     }
     
@@ -80,6 +81,8 @@ public class OEXColors: NSObject {
         switch identifier {
         case .BrandActionColor:
             return "brandActionColor"
+        case .BrandAccentColor:
+            return "brandAccentColor"
         case .PrimaryXDarkColor:
             return "primaryXDarkColor"
         case .PrimaryDarkColor:
