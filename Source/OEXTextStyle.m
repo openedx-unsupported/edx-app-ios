@@ -134,15 +134,15 @@
     CGFloat pointSize = [[self class] pointSizeForTextSize:size];
     switch (weight) {
         case OEXTextWeightNormal:
-            return [[OEXStyles sharedStyles] sansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] regularFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
         case OEXTextWeightLight:
-            return [[OEXStyles sharedStyles] lightSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] lightFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
         case OEXTextWeightSemiBold:
-            return [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] semiBoldFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
         case OEXTextWeightBold:
-            return [[OEXStyles sharedStyles] boldSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] boldFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
         case OEXTextWeightBoldItalic:
-            return [[OEXStyles sharedStyles] boldItalicSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] boldItalicFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
     }
 }
 

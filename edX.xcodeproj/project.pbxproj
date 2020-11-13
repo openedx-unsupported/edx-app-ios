@@ -186,6 +186,17 @@
 		5F4AB77A2463F891002D1C9C /* GoogleCast.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4AB7782463F891002D1C9C /* GoogleCast.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F514FBA240696D700BA113A /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; };
 		5F514FBB240696D700BA113A /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
+		5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */; };
+		5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */; };
+		5F6F2B63255AABA400AA3708 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B59255AABA300AA3708 /* Inter-Regular.ttf */; };
+		5F6F2B64255AABA400AA3708 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5A255AABA300AA3708 /* Inter-SemiBold.ttf */; };
+		5F6F2B65255AABA400AA3708 /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5B255AABA300AA3708 /* Inter-Light.ttf */; };
+		5F6F2B66255AABA400AA3708 /* Inter-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5C255AABA400AA3708 /* Inter-Italic.ttf */; };
+		5F6F2B67255AABA400AA3708 /* Inter-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5D255AABA400AA3708 /* Inter-LightItalic.ttf */; };
+		5F6F2B68255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */; };
+		5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */; };
+		5F6F2B6F255AABC400AA3708 /* inter_fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B6E255AABC400AA3708 /* inter_fonts.json */; };
 		5F7C0C642534520200A344B9 /* FillBackgroundTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */; };
 		5F7C0C6A2534521300A344B9 /* FillBackgroundLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */; };
 		5F903AF4255020D7006365DE /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F903AF3255020D7006365DE /* UIDeviceExtension.swift */; };
@@ -1209,6 +1220,17 @@
 		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		5F4AB7782463F891002D1C9C /* GoogleCast.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleCast.framework; path = Libraries/Cast/GoogleCast.framework; sourceTree = "<group>"; };
 		5F514FB9240696D700BA113A /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Libraries/MSAL/MSAL.framework; sourceTree = "<group>"; };
+		5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
+		5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		5F6F2B59255AABA300AA3708 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		5F6F2B5A255AABA300AA3708 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		5F6F2B5B255AABA300AA3708 /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
+		5F6F2B5C255AABA400AA3708 /* Inter-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Italic.ttf"; sourceTree = "<group>"; };
+		5F6F2B5D255AABA400AA3708 /* Inter-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-LightItalic.ttf"; sourceTree = "<group>"; };
+		5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-BoldItalic.ttf"; sourceTree = "<group>"; };
+		5F6F2B6E255AABC400AA3708 /* inter_fonts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = inter_fonts.json; sourceTree = "<group>"; };
 		5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundTextStorage.swift; sourceTree = "<group>"; };
 		5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundLayoutManager.swift; sourceTree = "<group>"; };
 		5F903AF3255020D7006365DE /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
@@ -2492,6 +2514,40 @@
 			name = Timeline;
 			sourceTree = "<group>";
 		};
+		5F6F2B54255AAB6F00AA3708 /* OpenSans */ = {
+			isa = PBXGroup;
+			children = (
+				69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */,
+				69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */,
+				69ECC5A61D50D1170030CF87 /* OpenSans-ExtraBold.ttf */,
+				69ECC5A71D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf */,
+				69ECC5A81D50D1170030CF87 /* OpenSans-Italic.ttf */,
+				69ECC5A91D50D1170030CF87 /* OpenSans-Light.ttf */,
+				69ECC5AA1D50D1170030CF87 /* OpenSans-LightItalic.ttf */,
+				69ECC5AB1D50D1170030CF87 /* OpenSans-Regular.ttf */,
+				69ECC5AC1D50D1170030CF87 /* OpenSans-Semibold.ttf */,
+				69ECC5AD1D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf */,
+			);
+			path = OpenSans;
+			sourceTree = "<group>";
+		};
+		5F6F2B55255AAB7F00AA3708 /* Inter */ = {
+			isa = PBXGroup;
+			children = (
+				5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */,
+				5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */,
+				5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */,
+				5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */,
+				5F6F2B5C255AABA400AA3708 /* Inter-Italic.ttf */,
+				5F6F2B5B255AABA300AA3708 /* Inter-Light.ttf */,
+				5F6F2B5D255AABA400AA3708 /* Inter-LightItalic.ttf */,
+				5F6F2B59255AABA300AA3708 /* Inter-Regular.ttf */,
+				5F6F2B5A255AABA300AA3708 /* Inter-SemiBold.ttf */,
+				5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */,
+			);
+			path = Inter;
+			sourceTree = "<group>";
+		};
 		5F7C0C3425344E1500A344B9 /* UITextView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2540,16 +2596,9 @@
 			children = (
 				228E169B2136BC0E006FA184 /* FontAwesome.ttf */,
 				BD7C6C3F1DCA329A0004D135 /* fonts.json */,
-				69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */,
-				69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */,
-				69ECC5A61D50D1170030CF87 /* OpenSans-ExtraBold.ttf */,
-				69ECC5A71D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf */,
-				69ECC5A81D50D1170030CF87 /* OpenSans-Italic.ttf */,
-				69ECC5A91D50D1170030CF87 /* OpenSans-Light.ttf */,
-				69ECC5AA1D50D1170030CF87 /* OpenSans-LightItalic.ttf */,
-				69ECC5AB1D50D1170030CF87 /* OpenSans-Regular.ttf */,
-				69ECC5AC1D50D1170030CF87 /* OpenSans-Semibold.ttf */,
-				69ECC5AD1D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf */,
+				5F6F2B55255AAB7F00AA3708 /* Inter */,
+				5F6F2B54255AAB6F00AA3708 /* OpenSans */,
+				5F6F2B6E255AABC400AA3708 /* inter_fonts.json */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -4460,6 +4509,7 @@
 				69ECC6171D50D1170030CF87 /* bt_google.png in Resources */,
 				69ECC62E1D50D1170030CF87 /* ic_cancel.png in Resources */,
 				B71AA19620CEF64D00700C5E /* business@3x.png in Resources */,
+				5F6F2B66255AABA400AA3708 /* Inter-Italic.ttf in Resources */,
 				69ECC64E1D50D1170030CF87 /* Default-414w-736h@3x.png in Resources */,
 				22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */,
 				B71AA1B420CEF64D00700C5E /* chemistry@2x.png in Resources */,
@@ -4497,6 +4547,7 @@
 				69ECC6341D50D1170030CF87 /* ic_next_deactive.png in Resources */,
 				B71AA1BE20CEF64D00700C5E /* education@2x.png in Resources */,
 				B71AA19E20CEF64D00700C5E /* math@3x.png in Resources */,
+				5F6F2B63255AABA400AA3708 /* Inter-Regular.ttf in Resources */,
 				B71AA1C220CEF64D00700C5E /* physics@2x.png in Resources */,
 				B71AA1A720CEF64D00700C5E /* history@3x.png in Resources */,
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
@@ -4513,7 +4564,9 @@
 				69ECC62B1D50D1170030CF87 /* downloading.png in Resources */,
 				69ECC60D1D50D1170030CF87 /* Icon-60@2x.png in Resources */,
 				69ECC60A1D50D1170030CF87 /* Icon-29@3x.png in Resources */,
+				5F6F2B64255AABA400AA3708 /* Inter-SemiBold.ttf in Resources */,
 				69ECC6191D50D1170030CF87 /* bt_grey_deactive.png in Resources */,
+				5F6F2B67255AABA400AA3708 /* Inter-LightItalic.ttf in Resources */,
 				6926CDAC1D59BE3600A16E22 /* ic_next.png in Resources */,
 				E0D9C59523FE76560085218B /* screen_2.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
@@ -4524,6 +4577,7 @@
 				E06BEB0A2270863F00C7CF01 /* GoogleService-Info.plist in Resources */,
 				69ECC60E1D50D1170030CF87 /* Icon-60@3x.png in Resources */,
 				E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */,
+				5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */,
 				B71AA1B620CEF64D00700C5E /* environmental_studies@2x.png in Resources */,
 				B75E8F5E20A5B1EB00685F58 /* Default-Landscape-375w-812h@3x.png in Resources */,
 				B71AA1CC20CEF64D00700C5E /* medicine@2x.png in Resources */,
@@ -4569,6 +4623,7 @@
 				69ECC6391D50D1170030CF87 /* ic_unwatched@3x.png in Resources */,
 				69ECC61B1D50D1170030CF87 /* bt_logout_active.png in Resources */,
 				69ECC6291D50D1170030CF87 /* check@2x.png in Resources */,
+				5F6F2B68255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf in Resources */,
 				B71AA1C520CEF64D00700C5E /* food_nutrition@2x.png in Resources */,
 				B71AA1C820CEF64D00700C5E /* philosophy_ethics@2x.png in Resources */,
 				E0DB52C720A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png in Resources */,
@@ -4582,11 +4637,13 @@
 				B71AA1A020CEF64D00700C5E /* social_sciences@3x.png in Resources */,
 				69ECC63D1D50D1170030CF87 /* icon_facebook_white@2x.png in Resources */,
 				228E169C2136BC0E006FA184 /* FontAwesome.ttf in Resources */,
+				5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */,
 				69ECC6361D50D1170030CF87 /* ic_partiallywatched@2x.png in Resources */,
 				69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */,
 				69ECC6041D50D1170030CF87 /* OpenSans-LightItalic.ttf in Resources */,
 				E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */,
 				69ECC64F1D50D1170030CF87 /* Default-Landscape@3x.png in Resources */,
+				5F6F2B65255AABA400AA3708 /* Inter-Light.ttf in Resources */,
 				B71AA1BA20CEF64D00700C5E /* energy@2x.png in Resources */,
 				B71AA1C120CEF64D00700C5E /* ethics@2x.png in Resources */,
 				B71AA1AF20CEF64D00700C5E /* health@3x.png in Resources */,
@@ -4605,6 +4662,7 @@
 				2212FD3921D4BE92007409C3 /* PrivacyPolicy.htm in Resources */,
 				E0DB52C920A1F36600150FF5 /* Default-Landscape-568h@2x.png in Resources */,
 				B71AA1B220CEF64D00700C5E /* language@2x.png in Resources */,
+				5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */,
 				69ECC63F1D50D1170030CF87 /* icon_google_white@2x.png in Resources */,
 				69ECC6301D50D1170030CF87 /* ic_circle.png in Resources */,
 				B71AA1B320CEF64D00700C5E /* art@2x.png in Resources */,
@@ -4612,6 +4670,7 @@
 				E021F46F1F739806007A26E7 /* Default-Portrait@2x~ipad.png in Resources */,
 				69ECC61F1D50D1170030CF87 /* bt_signin_active.png in Resources */,
 				6960892B1D53935500EE66DD /* courseCertificate.png in Resources */,
+				5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */,
 				69ECC6071D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				69ECC60C1D50D1170030CF87 /* Icon-40@3x.png in Resources */,
 				2212FD3521D4BE84007409C3 /* MobileAppEula.htm in Resources */,
@@ -4633,6 +4692,7 @@
 				B71AA1BB20CEF64D00700C5E /* humanities@2x.png in Resources */,
 				B71AA1AD20CEF64D00700C5E /* science@3x.png in Resources */,
 				22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */,
+				5F6F2B6F255AABC400AA3708 /* inter_fonts.json in Resources */,
 				6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */,
 				B71AA1B720CEF64D00700C5E /* math@2x.png in Resources */,
 				6926CDB11D59BE3600A16E22 /* ic_seek_thumb@2x.png in Resources */,

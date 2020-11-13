@@ -194,7 +194,7 @@ class CourseDateBannerView: UIView {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = OEXStyles().boldSansSerif(ofSize: OEXTextStyle.pointSize(for: .base))
+        label.font = OEXStyles().boldFont(ofSize: OEXTextStyle.pointSize(for: .base))
         label.text = status.header + status.body
         label.sizeToFit()
         

@@ -1,0 +1,12 @@
+{
+    "regular":"Inter",
+    "semiBold":"Inter-SemiBold",
+    "semiBoldItalic":"Inter-SemiboldItalic",
+    "bold":"Inter-Bold",
+    "boldItalic":"Inter-BoldItalic",
+    "extraBold":"Inter-ExtraBold",
+    "extraBoldItalic":"Inter-ExtraBoldItalic",
+    "light":"Inter-Light",
+    "lightItalic":"Inter-LightItalic",
+    "italic":"Inter-Italic"
+}

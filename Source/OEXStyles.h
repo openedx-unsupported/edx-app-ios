@@ -21,16 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (CGFloat)dividerSize;
 
-- (UIFont*)sansSerifOfSize:(CGFloat)size;
-- (UIFont*)lightSansSerifOfSize:(CGFloat)size;
-- (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size;
-- (UIFont*)boldSansSerifOfSize:(CGFloat)size;
+- (UIFont*)regularFontOfSize:(CGFloat)size;
+- (UIFont*)lightFontOfSize:(CGFloat)size;
+- (UIFont*)semiBoldFontOfSize:(CGFloat)size;
+- (UIFont*)boldFontOfSize:(CGFloat)size;
 
-- (UIFont*)sansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
-- (UIFont*)lightSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
-- (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
-- (UIFont*)boldSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
-- (UIFont*)boldItalicSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
+- (UIFont*)regularFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
+- (UIFont*)lightFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
+- (UIFont*)semiBoldFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
+- (UIFont*)boldFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
+- (UIFont*)boldItalicFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
 
 - (nullable NSString*)styleHTMLContent:(nullable NSString*)htmlString stylesheet:(NSString*)stylesheet;
 
