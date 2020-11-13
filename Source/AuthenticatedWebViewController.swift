@@ -92,7 +92,7 @@ private let OAuthExchangePath = "/oauth2/login/"
 
 // Allows access to course content that requires authentication.
 // Forwarding our oauth token to the server so we can get a web based cookie
-public class AuthenticatedWebViewController: UIViewController, WKNavigationDelegate {
+public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     fileprivate enum State {
         case CreatingSession
@@ -111,6 +111,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     private lazy var webController : WebContentController = {
         let controller = WKWebViewContentController()
         controller.webView.navigationDelegate = self
+        controller.webView.uiDelegate = self
         return controller
     
     }()
@@ -354,4 +355,25 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             completionHandler(.performDefaultHandling, nil)
         }
     }
+
+    public func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+
+        alertController.addAction(UIAlertAction(title: Strings.ok, style: .default, handler: { (action) in
+            completionHandler(true)
+        }))
+
+        alertController.addAction(UIAlertAction(title: Strings.cancel, style: .cancel, handler: { (action) in
+            completionHandler(false)
+        }))
+
+        if let presenter = alertController.popoverPresentationController {
+            presenter.sourceView = view
+            presenter.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+        }
+
+        present(alertController, animated: true, completion: nil)
+    }
+
 }
