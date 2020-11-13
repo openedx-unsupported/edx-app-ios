@@ -365,7 +365,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func updateNewPostButtonStyle() {
-        newPostButton.backgroundColor = isDiscussionBlackedOut ? environment.styles.neutralBase() : environment.styles.brandActionColor()
+        newPostButton.backgroundColor = isDiscussionBlackedOut ? environment.styles.neutralBase() : environment.styles.primaryXDarkColor()
         newPostButton.isEnabled = !isDiscussionBlackedOut
     }
     
