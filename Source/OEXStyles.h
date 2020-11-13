@@ -58,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 // Or from Swift use UIStatusBarStyle.init(barStyle:)
 - (UIStatusBarStyle)standardStatusBarStyle;
 
+- (UIColor*)brandActionColor;
+
 #pragma mark Primary
 
 - (UIColor*)primaryXDarkColor;
@@ -98,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)errorDark;
 - (UIColor*)errorBase;
 - (UIColor*)errorLight;
-- (UIColor*)banner;
+- (UIColor*)bannerColor;
 - (UIColor*)disabledButtonColor;
 
 @end

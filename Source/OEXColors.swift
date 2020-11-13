@@ -20,7 +20,10 @@ public class OEXColors: NSObject {
         UtilitySuccessDark, UtilitySuccessBase, UtilitySuccessLight,
         WarningDark, WarningBase, WarningLight,
         ErrorDark, ErrorBase, ErrorLight,
-        Banner, Random
+        BannerColor,
+        BrandActionColor,
+        BrandAccentColor,
+        RandomColor
     }
     
     public var colorsDictionary = [String: AnyObject]()
@@ -31,17 +34,29 @@ public class OEXColors: NSObject {
     }
     
     private func initializeColorsDictionary() -> [String: AnyObject] {
-        guard let filePath = Bundle.main.path(forResource: "colors", ofType: "json") else {
-            return fallbackColors()
+        var filePath: String = ""
+        
+        if let config = FirebaseRemoteConfiguration.shared.appTheme?.colorConfig,
+           let colorFileName = config.name?.components(separatedBy: ".").first, config.enabled,
+           let path = Bundle.main.path(forResource: colorFileName, ofType: "json") {
+            filePath = path
+        } else if let path = Bundle.main.path(forResource: "colors", ofType: "json") {
+            filePath = path
         }
-        if let data = NSData(contentsOfFile: filePath) {
-            var error : NSError?
-            
-            if let json = JSON(data: data as Data, error: &error).dictionaryObject{
-                return json as [String : AnyObject]
+        
+        if filePath.isEmpty {
+            return fallbackColors()
+        } else {
+            if let data = NSData(contentsOfFile: filePath) {
+                var error : NSError?
+                
+                if let json = JSON(data: data as Data, error: &error).dictionaryObject{
+                    return json as [String : AnyObject]
+                }
+                return fallbackColors()
             }
-            return fallbackColors()
         }
+        
         return fallbackColors()
     }
     
@@ -59,11 +74,15 @@ public class OEXColors: NSObject {
             return color
         }
 
-        return UIColor(hexString: getIdentifier(identifier: ColorsIdentifiers.Random), alpha: 1.0)
+        return UIColor(hexString: getIdentifier(identifier: ColorsIdentifiers.RandomColor), alpha: 1.0)
     }
     
     private func getIdentifier(identifier: ColorsIdentifiers) -> String {
         switch identifier {
+        case .BrandActionColor:
+            return "brandActionColor"
+        case .BrandAccentColor:
+            return "brandAccentColor"
         case .PrimaryXDarkColor:
             return "primaryXDarkColor"
         case .PrimaryDarkColor:
@@ -122,9 +141,9 @@ public class OEXColors: NSObject {
             return "errorBase"
         case .ErrorLight:
             return "errorLight"
-        case .Banner:
-            return "banner"
-        case .Random:
+        case .BannerColor:
+            return "bannerColor"
+        case .RandomColor:
             fallthrough
         default:
             //Assert to crash on development, and return a random color for distribution

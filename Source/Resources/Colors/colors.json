@@ -1,4 +1,7 @@
 {
+    "brandActionColor":"#005483",
+    "brandAccentColor": "#4CA1D0",
+
     "primaryXDarkColor":"#003654",
     "primaryDarkColor":"#005483",
     "primaryBaseColor":"#0079BC",
@@ -15,6 +18,7 @@
     "neutralBlackT":"#000000",
     "neutralXDark":"#424141",
     "neutralDark":"#646262",
+    
     "neutralBase":"#A7A4A4",
     "neutralLight":"#D3D1D1",
     "neutralXLight":"#E9E8E8",
@@ -25,11 +29,14 @@
     "utilitySuccessDark":"#1E8142",
     "utilitySuccessBase":"#25B85A",
     "utilitySuccessLight":"#6CCF90",
+    
     "warningDark":"#A97D39",
     "warningBase":"#FDBC56",
     "warningLight":"#FDD28D",
+    
     "errorDark":"#77040A",
     "errorBase":"#B20610",
     "errorLight":"#CB585E",
-    "banner":"#7DC88F",
+    
+    "bannerColor":"#D9EBF5"
 }

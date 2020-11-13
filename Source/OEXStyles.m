@@ -99,6 +99,10 @@ static OEXStyles* sSharedStyles;
     }
 }
 
+- (UIColor*)brandActionColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersBrandActionColor];
+}
+
 #pragma mark Primary
 
 - (UIColor*)primaryXDarkColor {
@@ -227,8 +231,8 @@ static OEXStyles* sSharedStyles;
     return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorLight];
 }
 
-- (UIColor*)banner {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersBanner];
+- (UIColor*)bannerColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersBannerColor];
 }
 
 - (UIColor * __nonnull) disabledButtonColor

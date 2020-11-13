@@ -66,7 +66,7 @@ public class CourseOutlineHeaderView: UIView {
         messageView.attributedText = labelStyle.attributedString(withText: titleText)
         subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: subtitleText)
         
-        backgroundColor = styles.primaryXLightColor()
+        backgroundColor = styles.bannerColor()
         bottomDivider.backgroundColor = contrastColor
         
         bottomDivider.snp.makeConstraints { make in

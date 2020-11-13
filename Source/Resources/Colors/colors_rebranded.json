@@ -1,0 +1,43 @@
+
+{
+    "brandActionColor":"#D23228",
+    "brandAccentColor": "#03C7E8",
+    
+    "primaryXDarkColor":"#00262B",
+    "primaryDarkColor":"#00262B",
+    "primaryBaseColor":"#00262B",
+    "primaryLightColor":"#00262B",
+    "primaryXLightColor":"#00262B",
+    
+    "secondaryXDarkColor":"#5B283F",
+    "secondaryDarkColor":"#8E3E62",
+    "secondaryBaseColor":"#CB598D",
+    "secondaryLightColor":"#DA8AAF",
+    "secondaryXLightColor":"#EFCDDC",
+    
+    "neutralBlack":"#101010",
+    "neutralBlackT":"#000000",
+    "neutralXDark":"#454545",
+    "neutralDark":"#2D494E",
+    
+    "neutralBase":"#D7D3D1",
+    "neutralLight":"#E1DDDB",
+    "neutralXLight":"#EBE9E9",
+    "neutralXXLight":"#F5F4F4",
+    "neutralWhite":"#FAF9F7",
+    "neutralWhiteT":"#FFFFFF",
+    
+    "utilitySuccessDark":"#F0CC00",
+    "utilitySuccessBase":"#F0CC00",
+    "utilitySuccessLight":"#F0CC00",
+    
+    "warningDark":"#F0CC00",
+    "warningBase":"#F0CC00",
+    "warningLight":"#F0CC00",
+    
+    "errorDark":"#D23228",
+    "errorBase":"#D23228",
+    "errorLight":"#D23228",
+    
+    "bannerColor":"#D1C5E8"
+}
