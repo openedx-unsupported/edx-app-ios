@@ -187,6 +187,22 @@ enum BannerInfoStatus {
             return ""
         }
     }
+    
+    var anayticsEventName: String {
+        switch self {
+        case .datesTabInfoBanner:
+            return AnalyticsEventName.CourseDatesInfo.rawValue
+            
+        case .upgradeToCompleteGradedBanner:
+            return AnalyticsEventName.CourseDatesUpgradeToParticipate.rawValue
+            
+        case .upgradeToResetBanner:
+            return AnalyticsEventName.CourseDatesUpgradeToShift.rawValue
+            
+        case .resetDatesBanner:
+            return AnalyticsEventName.CourseDatesShiftDates.rawValue
+        }
+    }
 }
 
 class DatesBannerInfo {

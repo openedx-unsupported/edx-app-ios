@@ -32,6 +32,9 @@ public enum AnalyticsDisplayName : String {
     case CourseSearch = "Discovery: Courses Search"
     case ChromecastConnected = "Cast: Connected"
     case ChromecastDisonnected = "Cast: Disconnected"
+    case CourseDatesBanner = "PLS Banner Viewed"
+    case CourseDatesShiftButtonTapped = "PLS Shift Button Tapped"
+    case CourseDatesShift = "PLS Shift Dates"
 }
 
 public enum AnalyticsEventName: String {
@@ -59,6 +62,10 @@ public enum AnalyticsEventName: String {
     case CourseSearch = "edx.bi.app.discovery.courses_search"
     case ChromecastConnected = "edx.bi.app.cast.connected"
     case ChromecastDisconnected = "edx.bi.app.cast.disconnected"
+    case CourseDatesInfo = "info"
+    case CourseDatesUpgradeToParticipate = "upgrade_to_participate"
+    case CourseDatesUpgradeToShift = "upgrade_to_shift"
+    case CourseDatesShiftDates = "shift_dates"
 }
 
 public enum AnalyticsScreenName: String {
@@ -76,6 +83,9 @@ public enum AnalyticsScreenName: String {
     case DiscoverProgram = "Find Programs"
     case DiscoverDegree = "Find Degrees"
     case ProgramInfo = "Program Info"
+    case CourseDashboard = "course_dashboard"
+    case DatesScreen = "dates_screen"
+    case AssignmentScreen = "assignments_screen"
 }
 
 public enum AnalyticsEventDataKey: String {
@@ -91,6 +101,10 @@ public enum AnalyticsEventDataKey: String {
     case SubjectID = "subject_id"
     case PlayMediumYoutube = "youtube"
     case PlayMediumChromecast = "google_cast"
+    case UserMode = "mode"
+    case ScreenName = "screen_name"
+    case BannerEventType = "banner_type"
+    case Success = "success"
 }
 
 
@@ -230,6 +244,38 @@ extension OEXAnalytics {
         event.name = AnalyticsEventName.ChromecastDisconnected.rawValue
         event.displayName = AnalyticsDisplayName.ChromecastDisonnected.rawValue
         trackEvent(event, forComponent: nil, withInfo: [key_play_medium: AnalyticsEventDataKey.PlayMediumChromecast.rawValue])
+    }
+    
+    func trackDatesBannerAppearence(screenName: AnalyticsScreenName, mode: String, event: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseDatesBanner.rawValue
+        let info: [AnyHashable: Any] = [
+            AnalyticsEventDataKey.UserMode.rawValue: mode,
+            AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue,
+            AnalyticsEventDataKey.BannerEventType.rawValue: event
+        ]
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackDatesShiftButtonTapped(screenName: AnalyticsScreenName, mode: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseDatesShiftButtonTapped.rawValue
+        let info = [
+            AnalyticsEventDataKey.UserMode.rawValue: mode,
+            AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue
+        ]
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackDatesShiftEvent(screenName: AnalyticsScreenName, mode: String, success: Bool) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseDatesShift.rawValue
+        let info: [AnyHashable: Any] = [
+            AnalyticsEventDataKey.UserMode.rawValue: mode,
+            AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue,
+            AnalyticsEventDataKey.Success.rawValue: success
+        ]
+        trackEvent(event, forComponent: nil, withInfo: info)
     }
 }
 
