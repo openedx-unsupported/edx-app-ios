@@ -123,7 +123,6 @@ public class CourseOutlineItemView: UIView {
 
     func setDetailText(title : String, dueDate: String? = "", blockType: CourseBlockType?, videoSize: String? = "", underline: Bool = false) {
         var attributedStrings = [NSAttributedString]()
-        let color = boldFontStyle.color
         var attributedString = getAttributedString(withBlockType: blockType, withText: title)
         
         if underline {
@@ -136,7 +135,7 @@ public class CourseOutlineItemView: UIView {
             let formattedDateString = formattedDueDateString(asMonthDay: DateFormatting.date(withServerString: dueDate))
             attributedStrings.append(CourseOutlineItemView.detailFontStyle.attributedString(withText: formattedDateString))
         }
-        subtitleLabel.tintColor = color
+        subtitleLabel.tintColor = boldFontStyle.color
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.minimumScaleFactor = 0.6
         subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
