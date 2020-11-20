@@ -24,8 +24,19 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     var block : CourseBlock? = nil {
         didSet {
             if block?.isGated ?? false {
-                content.leadingIconColor = OEXStyles.shared().neutralBase()
-                content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
+                // check env for feature flag
+                let flag = true
+                if flag {
+                    let download = DownloadsAccessoryView()
+                    download.state = .Gated
+                    content.trailingView = download
+                    content.leadingIconColor = OEXStyles.shared().neutralBase()
+                    content.setDetailText(title: Strings.courseContentGatedLearnHowToUnlock, blockType: block?.type, underline: true)
+                } else {
+                    content.leadingIconColor = OEXStyles.shared().neutralBase()
+                    content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
+                }
+                
             }
             content.setTitleText(title: block?.displayName)
         }

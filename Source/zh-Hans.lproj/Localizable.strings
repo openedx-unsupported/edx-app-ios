@@ -369,6 +369,14 @@
 "COURSE.ENDING" = "结束于 {end_date}";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
+/* Message shown when course content is gated, propmt user how to unlock */
+"COURSE_CONTENT_GATED_LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
+/* Message shown when course content is gated, on button */
+"COURSE_CONTENT_GATED_LEARN_MORE"= "Learn More";
+/* Message shown when course content is gated, new message behind feature flag */
+"COURSE_CONTENT_GATED_LOCKED"= "Graded assignments are locked";
+/* Message shown when course content is gated, upgrade to access, new message behind feature flag */
+"COURSE_CONTENT_GATED_UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course.";
 /* Label indicated that a course has ended */
 "COURSE.ENDED"="已结束 {end_date}";
 /* Course audit will expires on date*/

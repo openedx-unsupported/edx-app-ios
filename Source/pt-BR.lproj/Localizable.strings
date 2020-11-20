@@ -370,6 +370,16 @@
 "COURSE_CONTENT_UNKNOWN" = "Este componente interativo ainda não está disponível para celulares\n\nExplore outras partes deste curso ou acesse na internet";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
+/* Message shown when course content is gated, propmt user how to unlock */
+"COURSE_CONTENT_GATED_LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
+/* Message shown when course content is gated, propmt user how to unlock */
+"COURSE_CONTENT_GATED_LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
+/* Message shown when course content is gated, on button */
+"COURSE_CONTENT_GATED_LEARN_MORE"= "Learn More";
+/* Message shown when course content is gated, new message behind feature flag */
+"COURSE_CONTENT_GATED_LOCKED"= "Graded assignments are locked";
+/* Message shown when course content is gated, upgrade to access, new message behind feature flag */
+"COURSE_CONTENT_GATED_UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course.";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="As datas do curso não estão disponíveis no momento.";
 /* Label for date when course starts */

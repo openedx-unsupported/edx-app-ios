@@ -363,6 +363,14 @@
 "COURSE_CONTENT_UNKNOWN" = "この内容はモバイルでは使えません。\n\n他の内容を見るか、ウェブ上でこの内容をご覧ください。";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
+/* Message shown when course content is gated, propmt user how to unlock */
+"COURSE_CONTENT_GATED_LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
+/* Message shown when course content is gated, on button */
+"COURSE_CONTENT_GATED_LEARN_MORE"= "Learn More";
+/* Message shown when course content is gated, new message behind feature flag */
+"COURSE_CONTENT_GATED_LOCKED"= "Graded assignments are locked";
+/* Message shown when course content is gated, upgrade to access, new message behind feature flag */
+"COURSE_CONTENT_GATED_UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course.";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="講座の日時は現在不明です。";
 /* Label for date when course starts */

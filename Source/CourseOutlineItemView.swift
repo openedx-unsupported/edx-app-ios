@@ -121,13 +121,22 @@ public class CourseOutlineItemView: UIView {
         return boldFontStyle.attributedString(withText: text)
     }
 
-    func setDetailText(title : String, dueDate: String? = "", blockType: CourseBlockType?, videoSize: String? = "") {
+    func setDetailText(title : String, dueDate: String? = "", blockType: CourseBlockType?, videoSize: String? = "", underline: Bool = false) {
         var attributedStrings = [NSAttributedString]()
-        attributedStrings.append(getAttributedString(withBlockType: blockType, withText: title))
+        let color = boldFontStyle.color
+        var attributedString = getAttributedString(withBlockType: blockType, withText: title)
+        
+        if underline {
+            attributedString = attributedString.addUnderline()
+        }
+        
+        attributedStrings.append(attributedString)
+        
         if isGraded == true {
             let formattedDateString = formattedDueDateString(asMonthDay: DateFormatting.date(withServerString: dueDate))
             attributedStrings.append(CourseOutlineItemView.detailFontStyle.attributedString(withText: formattedDateString))
         }
+        subtitleLabel.tintColor = color
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.minimumScaleFactor = 0.6
         subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
