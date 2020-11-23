@@ -188,7 +188,7 @@ enum BannerInfoStatus {
         }
     }
     
-    var anayticsEventName: String {
+    var bannerTypeEventName: String {
         switch self {
         case .datesTabInfoBanner:
             return AnalyticsEventName.CourseDatesInfo.rawValue

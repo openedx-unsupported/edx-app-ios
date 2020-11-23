@@ -153,9 +153,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             courseDateBannerView.bannerInfo = bannerModel.bannerInfo
             courseDateBannerView.setupView()
             height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
-            if let anayticsEventName = bannerModel.bannerInfo.status?.anayticsEventName,
+            if let bannerTypeEventName = bannerModel.bannerInfo.status?.bannerTypeEventName,
                   let mode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
-                environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDates, mode: mode, event: anayticsEventName)
+                environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDates, courseMode: mode, event: bannerTypeEventName)
             }
         }
         
@@ -257,12 +257,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func trackDatesShiftTapped() {
         guard let mode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
-        environment.analytics.trackDatesShiftButtonTapped(screenName: AnalyticsScreenName.AssignmentScreen, mode: mode)
+        environment.analytics.trackDatesShiftButtonTapped(screenName: AnalyticsScreenName.CourseDates, courseMode: mode)
     }
     
     private func trackDatesShiftEvent(success: Bool) {
         guard let mode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
-        environment.analytics.trackDatesShiftEvent(screenName: AnalyticsScreenName.CourseDates, mode: mode, success: success)
+        environment.analytics.trackDatesShiftEvent(screenName: AnalyticsScreenName.CourseDates, courseMode: mode, success: success)
     }
     
     private func postCourseDateResetNotification() {

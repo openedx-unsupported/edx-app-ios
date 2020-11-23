@@ -335,9 +335,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
         courseDateBannerView.bannerInfo = bannerInfo
         updateCourseDateBannerView(show: true)
-        if let anayticsEventName = bannerInfo.status?.anayticsEventName,
+        if let bannerTypeEventName = bannerInfo.status?.bannerTypeEventName,
               let mode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
-            environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, mode: mode, event: anayticsEventName)
+            environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, courseMode: mode, event: bannerTypeEventName)
         }
     }
     
