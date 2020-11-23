@@ -8,7 +8,7 @@
 
 import Foundation
 
-private let CornerRadius:CGFloat = 2.0
+private let CornerRadius:CGFloat = 0.0
 private let BottomBarMargin:CGFloat = 20.0
 private let BottomBarHeight:CGFloat = 90.0
 
@@ -177,7 +177,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         
         view.addSubview(searchView)
         view.addSubview(searchViewTitle)
-        let borderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment.styles.primaryBaseColor())
+        let borderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment.styles.neutralLight())
         searchView.applyBorderStyle(style: borderStyle)
 
         searchViewTitle.snp.makeConstraints { make in
@@ -223,7 +223,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             make.centerY.equalTo(searchView)
         }
 
-        let labelStyle = OEXTextStyle(weight: .normal, size: .large, color: environment.styles.primaryBaseColor())
+        let labelStyle = OEXTextStyle(weight: .semiBold, size: .large, color: environment.styles.primaryBaseColor())
         searchViewTitle.attributedText = labelStyle.attributedString(withText: Strings.Startup.searchTitleText)
     }
 
@@ -274,21 +274,21 @@ public class BottomBarView: UIView, NSCopying {
     private func makeBottomBar() {
 
         bottomBar.backgroundColor = environment?.styles.standardBackgroundColor()
-        let signInBorderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment?.styles.primaryBaseColor())
+        let signInBorderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment?.styles.neutralBase())
         signInButton.applyBorderStyle(style: signInBorderStyle)
         signInButton.accessibilityIdentifier = "StartUpViewController:sign-in-button"
         
-        let signinTextStyle = OEXTextStyle(weight: .normal, size: .large, color: environment?.styles.primaryBaseColor())
+        let signinTextStyle = OEXTextStyle(weight: .semiBold, size: .large, color: environment?.styles.secondaryBaseColor())
         signInButton.setAttributedTitle(signinTextStyle.attributedString(withText: Strings.signInText), for: .normal)
         let signInEvent = OEXAnalytics.loginEvent()
         signInButton.oex_addAction({ [weak self] _ in
             self?.showLogin()
             }, for: .touchUpInside, analyticsEvent: signInEvent)
 
-        registerButton.backgroundColor = environment?.styles.primaryDarkColor()
-        registerButton.applyBorderStyle(style: BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(0), color: nil))
+        registerButton.backgroundColor = environment?.styles.secondaryBaseColor()
+        registerButton.applyBorderStyle(style: BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(0), color: environment?.styles.secondaryBaseColor()))
         registerButton.accessibilityIdentifier = "StartUpViewController:register-button"
-        let registerTextStyle = OEXTextStyle(weight: .normal, size: .large, color: environment?.styles.neutralWhite())
+        let registerTextStyle = OEXTextStyle(weight: .semiBold, size: .large, color: environment?.styles.neutralWhite())
         registerButton.setAttributedTitle(registerTextStyle.attributedString(withText: Strings.registerText), for: .normal)
         let signUpEvent = OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue)
         registerButton.oex_addAction({ [weak self] _ in

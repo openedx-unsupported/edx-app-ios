@@ -15,13 +15,13 @@ class VideoTranscriptTableViewCell: UITableViewCell {
     let titleLabel = UILabel(frame: CGRect.zero)
     
     private var standardTitleStyle : OEXTextStyle {
-        let style = OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: OEXStyles.shared().primaryBaseColor())
+        let style = OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: OEXStyles.shared().primaryXLightColor())
         titleLabel.lineBreakMode = .byWordWrapping
         return style
     }
     
     private var highlightedTitleStyle : OEXTextStyle {
-        let style = OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: OEXStyles.shared().neutralXDark())
+        let style = OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: OEXStyles.shared().neutralBlackT())
         titleLabel.lineBreakMode = .byWordWrapping
         return style
     }

@@ -98,7 +98,7 @@ class AccomplishmentView : UIView {
     }
 
     private var titleStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().primaryXLightColor())
     }
 
     private var detailStyle : OEXTextStyle {

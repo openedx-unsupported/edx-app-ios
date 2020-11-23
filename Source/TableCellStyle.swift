@@ -17,7 +17,7 @@ extension UITableViewCell {
     func applyStyle(style : TableCellStyle) {
         switch style {
         case .Normal: self.backgroundColor = OEXStyles.shared().standardBackgroundColor()
-        case .Highlighted: self.backgroundColor = OEXStyles.shared().primaryXLightColor()
+        case .Highlighted: self.backgroundColor = OEXStyles.shared().neutralLight()
         }
     }
 }

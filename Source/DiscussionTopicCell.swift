@@ -15,7 +15,7 @@ class DiscussionTopicCell: UITableViewCell {
     private let titleLabel = UILabel()
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralXDark())
+        return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

@@ -77,8 +77,8 @@ class CourseVideosHeaderView: UIView {
     lazy private var toggleSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
         toggleSwitch.accessibilityIdentifier = "CourseVideosHeader:toggle-switch"
-        toggleSwitch.onTintColor = self.environment.styles.utilitySuccessBase()
-        toggleSwitch.tintColor = self.environment.styles.neutralLight()
+        toggleSwitch.onTintColor = environment.styles.primaryBaseColor()
+        toggleSwitch.tintColor = environment.styles.neutralLight()
         toggleSwitch.oex_addAction({[weak self] _ in
             self?.switchToggled()
         }, for: .valueChanged)
@@ -88,7 +88,7 @@ class CourseVideosHeaderView: UIView {
         let progressView = UIProgressView()
         progressView.accessibilityIdentifier = "CourseVideosHeader:download-progress-view"
         progressView.isAccessibilityElement = false
-        progressView.tintColor = self.environment.styles.utilitySuccessBase()
+        progressView.tintColor = environment.styles.successBase()
         progressView.trackTintColor = self.environment.styles.neutralXLight()
         return progressView
     }()
@@ -98,7 +98,7 @@ class CourseVideosHeaderView: UIView {
         return OEXTextStyle(weight: .normal, size: .base, color: environment.styles.primaryBaseColor())
     }
     private var subTitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color : environment.styles.neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color : environment.styles.primaryXLightColor())
     }
     
     // MARK: - Properties -
@@ -287,7 +287,7 @@ class CourseVideosHeaderView: UIView {
     
     private func configureView() {
         accessibilityIdentifier = "CourseVideosHeader: view"
-        backgroundColor = environment.styles.neutralXXLight()
+        backgroundColor = environment.styles.neutralXLight()
         addSubviews()
         imageView.image = Icon.CourseVideos.imageWithFontSize(size: 20)
         accessibilityElements = [toggleSwitch, showDownloadsButton]

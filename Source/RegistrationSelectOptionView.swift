@@ -18,7 +18,7 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
     private let tapButton = UIButton()
     
     private var titleStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlack())
     }
     
     override var currentValue: String {
@@ -36,7 +36,7 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
         dropdownView.addSubview(dropdownTab)
         dropdownView.layoutIfNeeded()
         dropdownTab.image = Icon.Dropdown.imageWithFontSize(size: 12)
-        dropdownTab.tintColor = OEXStyles.shared().neutralDark()
+        dropdownTab.tintColor = OEXStyles.shared().neutralBlack()
         dropdownTab.contentMode = .scaleAspectFit
         dropdownTab.sizeToFit()
         dropdownTab.center = dropdownView.center

@@ -21,11 +21,11 @@ class WhatsNewContentController: UIViewController {
     private let messageLabel = UILabel()
     
     private var titleStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .xLarge, color: OEXStyles.shared().neutralWhite())
+        return OEXTextStyle(weight: .semiBold, size: .xLarge, color: OEXStyles.shared().neutralWhiteT())
     }
     
     private var messageStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhite())
+        return OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhiteT())
     }
     
     typealias Environment = OEXStylesProvider

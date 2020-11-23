@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let cornerRadius: CGFloat = 5
+private let cornerRadius: CGFloat = 0
 
 protocol CourseDateBannerViewDelegate {
     func courseShiftDateButtonAction()
@@ -33,26 +33,26 @@ class CourseDateBannerView: UIView {
     }()
     
     private lazy var bannerHeaderStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralBlack())
+        let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralBlackT())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
     
     private lazy var bannerBodyStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralBlack())
+        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralBlackT())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
     
     private lazy var buttonStyle: OEXMutableTextStyle = {
-        return OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralBlack())
+        return OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhiteT())
     }()
     
     private lazy var bannerButton: UIButton = {
         let button = UIButton()
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
-        button.layer.backgroundColor = OEXStyles.shared().neutralWhiteT().cgColor
-        button.layer.borderColor = OEXStyles.shared().neutralXDark().cgColor
+        button.layer.backgroundColor = OEXStyles.shared().primaryBaseColor().cgColor
+        button.layer.borderColor = OEXStyles.shared().primaryBaseColor().cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = cornerRadius
         button.oex_removeAllActions()
@@ -91,7 +91,7 @@ class CourseDateBannerView: UIView {
         labelContainer.superview?.removeFromSuperview()
         container.superview?.removeFromSuperview()
         
-        backgroundColor = OEXStyles.shared().bannerColor()
+        backgroundColor = OEXStyles.shared().infoXXLight()
         addSubview(container)
         
         stackView.alignment = .leading

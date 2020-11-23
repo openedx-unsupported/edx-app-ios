@@ -14,16 +14,16 @@ public class VersionUpgradeView: UIView {
     private let upgradeButton = UIButton(type: .system)
     private let dismissButton = UIButton(type: .system)
     private var messageLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
     }
     
     private var buttonLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().primaryBaseColor())
     }
     
     init(message: String) {
         super.init(frame: CGRect.zero)
-        self.backgroundColor = OEXStyles.shared().warningBase()
+        backgroundColor = OEXStyles.shared().warningXXLight()
         messageLabel.numberOfLines = 0
         messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
         upgradeButton.setAttributedTitle(buttonLabelStyle.attributedString(withText: Strings.versionUpgradeUpdate), for: .normal)
@@ -98,17 +98,17 @@ public class OfflineView: UIView {
     private let dismissButton = UIButton(type: .system)
     private var selector: Selector?
     private var messageLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
     }
     
     private var buttonLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().primaryBaseColor())
     }
     
     init(message: String, selector: Selector?) {
         super.init(frame: CGRect.zero)
         self.selector = selector
-        self.backgroundColor = OEXStyles.shared().warningBase()
+        self.backgroundColor = OEXStyles.shared().warningXXLight()
         messageLabel.numberOfLines = 0
         messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
         reloadButton.setAttributedTitle(buttonLabelStyle.attributedString(withText: Strings.reload), for: .normal)
@@ -203,9 +203,7 @@ public class DateResetToastView: UIView {
     
     private lazy var button: UIButton = {
         let button = UIButton()
-        button.layer.cornerRadius = 10
-        button.layer.borderWidth = 1
-        button.layer.borderColor = OEXStyles.shared().neutralWhite().cgColor
+        button.backgroundColor = OEXStyles.shared().primaryBaseColor()
         
         return button
     }()
@@ -214,23 +212,23 @@ public class DateResetToastView: UIView {
         let button = UIButton()
         let image = Icon.Close.imageWithFontSize(size: 14).withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: UIControl.State())
-        button.tintColor = OEXStyles.shared().neutralWhite()
+        button.tintColor = OEXStyles.shared().neutralXXDark()
         
         return button
     }()
         
     private lazy var messageLabelStyle: OEXTextStyle = {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhite())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlackT())
     }()
     
     private lazy var buttonStyle: OEXTextStyle = {
-        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralWhite())
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralWhiteT())
     }()
     
     init(message: String, buttonText: String? = nil, showButton: Bool = false, buttonAction: (()->())? = nil) {
         super.init(frame: .zero)
         
-        backgroundColor = OEXStyles.shared().neutralXDark()
+        backgroundColor = OEXStyles.shared().infoXXLight()
                         
         messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
         messageLabel.sizeToFit()
