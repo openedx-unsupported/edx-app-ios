@@ -16,7 +16,11 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     let blockID: CourseBlockID?
     let courseID: String
-    private var block: CourseBlock?
+    private var block: CourseBlock? {
+        didSet {
+            navigationItem.title = block?.displayName
+        }
+    }
     private var messageView: IconMessageView?
     private lazy var bannerErrorView = UIView(frame: .zero)
     private lazy var container = UIView()
