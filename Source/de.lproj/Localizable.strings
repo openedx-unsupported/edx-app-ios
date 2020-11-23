@@ -373,7 +373,7 @@
 /* Message shown when course content is gated, propmt user how to unlock */
 "COURSE_CONTENT_GATED_LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
 /* Message shown when course content is gated, on button */
-"COURSE_CONTENT_GATED_LEARN_MORE"= "Learn More";
+"COURSE_CONTENT_GATED_LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
 "COURSE_CONTENT_GATED_LOCKED"= "Graded assignments are locked";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
