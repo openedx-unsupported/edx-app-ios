@@ -111,7 +111,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         let buttonLearnMore = UIButton()
         buttonLearnMore.backgroundColor = OEXStyles.shared().neutralWhiteT()
-        let buttonTextStyle = OEXMutableTextStyle(weight: .semiBold, size: .small, color: UIColor.init(rgb: 0x002121))
+        let buttonTextStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: UIColor.init(rgb: 0x002121))
         buttonLearnMore.setAttributedTitle(buttonTextStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
         
         titleContainer.addSubview(imageView)
