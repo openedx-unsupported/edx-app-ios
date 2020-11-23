@@ -51,7 +51,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func showYoutubeMessage(buttonTitle: String, message: String, icon: Icon, videoUrl: String?) {
         messageView = IconMessageView(icon: icon, message: message)
         messageView?.buttonInfo = MessageButtonInfo(title : buttonTitle) {
-            guard let videoURL = videoUrl, let url =  URL(string: videoURL), UIApplication.shared.canOpenURL(url) else { return }
+            guard let videoURL = videoUrl, let url = URL(string: videoURL), UIApplication.shared.canOpenURL(url) else { return }
             UIApplication.shared.openURL(url)
         }
         
@@ -65,7 +65,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         if let block = block, block.isGated {
             if flag {
-                showUpdatedError()
+                showValuePropErrorMessage()
                 return
             } else {
                 messageView = IconMessageView(icon: Icon.Closed, message: Strings.courseContentGated)
@@ -88,7 +88,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
     }
     
-    private func showUpdatedError() {
+    private func showValuePropErrorMessage() {
+        container.backgroundColor = UIColor.init(rgb: 0x03C7E8)
+        
         let bannerViewHeight = StandardHorizontalMargin * 12
         let leadingOffset = StandardHorizontalMargin * 4
                 
@@ -99,18 +101,17 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         let titleLabel = UILabel()
         titleLabel.numberOfLines = 0
-        let titleTextStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: OEXStyles.shared().neutralXDark())
+        let titleTextStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: UIColor.init(rgb: 0x002121))
         titleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.courseContentGatedLocked)
         
         let messageLabel = UILabel()
         messageLabel.numberOfLines = 0
-        let messageTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
+        let messageTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: UIColor.init(rgb: 0x002121))
         messageLabel.attributedText = messageTextStyle.attributedString(withText: Strings.courseContentGatedUpgradeToAccessGraded)
         
         let buttonLearnMore = UIButton()
-        buttonLearnMore.layer.cornerRadius = 5
-        buttonLearnMore.backgroundColor = OEXStyles.shared().primaryXLightColor()
-        let buttonTextStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralWhite())
+        buttonLearnMore.backgroundColor = OEXStyles.shared().neutralWhiteT()
+        let buttonTextStyle = OEXMutableTextStyle(weight: .semiBold, size: .small, color: UIColor.init(rgb: 0x002121))
         buttonLearnMore.setAttributedTitle(buttonTextStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
         
         titleContainer.addSubview(imageView)
@@ -150,7 +151,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         buttonLearnMore.snp.makeConstraints { make in
             make.height.equalTo(StandardVerticalMargin * 4)
             make.bottom.equalTo(buttonContainer).inset(StandardVerticalMargin * 2)
-            make.leading.equalTo(buttonContainer)
+            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
             make.width.greaterThanOrEqualTo(StandardHorizontalMargin * 6)
         }
         
@@ -237,4 +238,22 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         environment.analytics.trackOpenInBrowser(withURL: block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
     }
+}
+
+extension UIColor {
+   convenience init(red: Int, green: Int, blue: Int) {
+       assert(red >= 0 && red <= 255, "Invalid red component")
+       assert(green >= 0 && green <= 255, "Invalid green component")
+       assert(blue >= 0 && blue <= 255, "Invalid blue component")
+
+       self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+   }
+
+   convenience init(rgb: Int) {
+       self.init(
+           red: (rgb >> 16) & 0xFF,
+           green: (rgb >> 8) & 0xFF,
+           blue: rgb & 0xFF
+       )
+   }
 }

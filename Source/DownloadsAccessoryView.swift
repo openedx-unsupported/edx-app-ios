@@ -159,6 +159,7 @@ class DownloadsAccessoryView : UIView {
                 isUserInteractionEnabled = false
                 downloadButton.isHidden = false
                 countLabel.isHidden = true
+                downloadButton.tintColor = OEXStyles.shared().primaryDarkColor()
             }
         }
     }
