@@ -140,7 +140,7 @@
     }];
 
     [self.lbl_OrSignIn setText:[Strings orSignInWith]];
-    [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
+    [self.lbl_OrSignIn setTextColor:[[OEXStyles sharedStyles] neutralBlack]];
     [self.lbl_OrSignIn setIsAccessibilityElement:false];
     
     if (self.environment.config.isRegistrationEnabled) {
@@ -171,7 +171,7 @@
         self.versionLabel.text = @"";
     }
     
-    _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+    _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralBlackT]];
     [self setAccessibilityIdentifiers];
     [self setUpAgreementTextView];
 }
@@ -284,7 +284,7 @@
     self.tf_Password.accessibilityLabel = [Strings passwordTitleText];
     self.tf_EmailID.accessibilityHint = [Strings accessibilityRequiredInput];
     self.tf_Password.accessibilityHint = [Strings accessibilityRequiredInput];
-    OEXTextStyle *forgotButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles primaryBaseColor]];
+    OEXTextStyle *forgotButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles infoBase]];
     [self.btn_TroubleLogging setAttributedTitle:[forgotButtonStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
 
     [self setLoginDefaultState];

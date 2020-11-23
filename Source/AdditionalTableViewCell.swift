@@ -28,10 +28,10 @@ class AdditionalTableViewCell: UITableViewCell {
     private let bottomLine = UIView()
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .normal, size: .base, color : OEXStyles.shared().neutralXDark())
+        return OEXTextStyle(weight : .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
     }
     private var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .normal, size: .xxSmall, color : OEXStyles.shared().neutralBase())
+        return OEXTextStyle(weight : .normal, size: .xxSmall, color : OEXStyles.shared().neutralBlack())
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -64,7 +64,7 @@ class AdditionalTableViewCell: UITableViewCell {
         
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
-        iconView.tintColor = OEXStyles.shared().neutralLight()
+        iconView.tintColor = OEXStyles.shared().neutralXDark()
         
         container.snp.makeConstraints { make in
             make.edges.equalTo(contentView)

@@ -99,65 +99,58 @@ static OEXStyles* sSharedStyles;
     }
 }
 
-- (UIColor*)brandActionColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersBrandActionColor];
-}
-
 #pragma mark Primary
 
-- (UIColor*)primaryXDarkColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryXDarkColor];
+- (UIColor*)primaryXXLightColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryXXLightColor];
 }
-
-- (UIColor*)primaryDarkColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryDarkColor];
+- (UIColor*)primaryXLightColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryXLightColor];
+}
+- (UIColor*)primaryLightColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryLightColor];
 }
 
 - (UIColor*)primaryBaseColor {
     return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryBaseColor];
 }
 
-- (UIColor*)primaryLightColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryLightColor];
+- (UIColor*)primaryDarkColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryDarkColor];
 }
 
-- (UIColor*)primaryXLightColor {
-    // Note. This is not the color value from the mobile style guide.
-    // iOS seems to have a darker color space than the desktop so this is
-    // deliberately lightened from that.
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryXLightColor];
-}
+#pragma mark Arand Action
 
-#pragma mark Secondary
-
-- (UIColor*)secondaryXDarkColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryXDarkColor];
-}
-
-- (nonnull UIColor*)secondaryDarkColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryDarkColor];
-}
-
-- (nonnull UIColor*)secondaryBaseColor {
+- (UIColor*)secondaryBaseColor {
     return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryBaseColor];
 }
 
-- (nonnull UIColor*)secondaryLightColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryLightColor];
+- (UIColor*)secondaryDarkColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryDarkColor];
 }
 
-- (nonnull UIColor*)secondaryXLightColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryXLightColor];
+#pragma mark Accent Colors
+
+- (UIColor*)accentAColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersAccentAColor];
 }
 
-#pragma mark Neutral
+- (UIColor*)accentBColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersAccentBColor];
+}
+
+#pragma mark Neutral Dark
+
+- (UIColor*)neutralBlackT {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralBlackT];
+}
 
 - (UIColor*)neutralBlack {
     return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralBlack];
 }
 
-- (UIColor*)neutralBlackT {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralBlackT];
+- (UIColor*)neutralXXDark {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralXXDark];
 }
 
 - (UIColor*)neutralXDark {
@@ -172,75 +165,137 @@ static OEXStyles* sSharedStyles;
     return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralBase];
 }
 
-- (UIColor*)neutralLight {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralLight];
-}
+#pragma mark Neutral Light
 
-- (UIColor*)neutralXLight {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralXLight];
-}
-
-- (UIColor*)neutralXXLight {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralXXLight];
+- (UIColor*)neutralWhiteT {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralWhiteT];
 }
 
 - (UIColor*)neutralWhite {
     return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralWhite];
 }
 
-- (UIColor*)neutralWhiteT {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralWhiteT];
+- (UIColor*)neutralXLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralXLight];
 }
 
-
-#pragma mark Utility
-
-- (UIColor*)utilitySuccessDark {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersUtilitySuccessDark];
+- (UIColor*)neutralLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralLight];
 }
 
-- (UIColor*)utilitySuccessBase {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersUtilitySuccessBase];
+#pragma mark - Utility Colors
+#pragma mark Success Color
+
+- (UIColor*)successXXLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSuccessXXLight];
 }
 
-- (UIColor*)utilitySuccessLight {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersUtilitySuccessLight];
+- (UIColor*)successXLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSuccessXLight];
 }
 
-- (UIColor*)warningDark {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningDark];
+- (UIColor*)successLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSuccessLight];
 }
 
-- (UIColor*)warningBase {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningBase];
+- (UIColor*)successBase {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSuccessBase];
+}
+
+- (UIColor*)successDark {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSuccessDark];
+}
+
+- (UIColor*)successXDark {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSuccessXDark];
+}
+
+#pragma mark Warning Color
+
+- (UIColor*)warningXXLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningXXLight];
+}
+
+- (UIColor*)warningXLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningXLight];
 }
 
 - (UIColor*)warningLight {
     return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningLight];
 }
 
-- (UIColor*)errorDark {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorDark];
+- (UIColor*)warningBase {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningBase];
 }
 
-- (UIColor*)errorBase {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorBase];
+- (UIColor*)warningDark {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningDark];
+}
+
+- (UIColor*)warningXDark {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningXDark];
+}
+
+#pragma mark Error Color
+
+- (UIColor*)errorXXLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorXXLight];
+}
+
+- (UIColor*)errorXLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorXLight];
 }
 
 - (UIColor*)errorLight {
     return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorLight];
 }
 
-- (UIColor*)bannerColor {
-    return [self.oexColors colorForIdentifier:ColorsIdentifiersBannerColor];
+- (UIColor*)errorBase {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorBase];
 }
+
+- (UIColor*)errorDark {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorDark];
+}
+
+- (UIColor*)errorXDark {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorXDark];
+}
+
+#pragma mark Info Color
+
+-(UIColor*) infoXXLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersInfoXXLight];
+}
+
+-(UIColor*) infoXLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersInfoXLight];
+}
+
+-(UIColor*) infoLight {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersInfoLight];
+}
+
+-(UIColor*) infoBase {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersInfoBase];
+}
+
+-(UIColor*) infoDark {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersInfoDark];
+}
+
+-(UIColor*) infoXDark {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersInfoXDark];
+}
+
+#pragma mark Supportive Colors
 
 - (UIColor * __nonnull) disabledButtonColor
 {
-    return [UIColor grayColor];
+    return [self neutralXDark];
 }
 
-#pragma mark Fonts
+#pragma mark - Fonts
 
 - (UIFont*)regularFontOfSize:(CGFloat)size {
     return [self.oexFonts fontFor:FontIdentifiersRegular

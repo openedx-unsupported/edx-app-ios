@@ -26,7 +26,7 @@ private class StatusMessageView : UIView {
         messageLabel.accessibilityIdentifier = "StatusMessageView:message-label"
         addSubview(messageLabel)
         
-        self.backgroundColor = OEXStyles.shared().neutralDark().withAlphaComponent(0.75)
+        backgroundColor = OEXStyles.shared().neutralXDark().withAlphaComponent(0.75)
         messageLabel.attributedText = statusMessageStyle.attributedString(withText: message)
         messageLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(margin)

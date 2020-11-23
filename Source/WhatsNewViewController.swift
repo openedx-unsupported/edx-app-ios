@@ -21,15 +21,15 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     private var currentPageIndex: Int = 0 // This varibale will only be used for analytics
     
     private var headerStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .large, color: OEXStyles.shared().neutralWhite())
+        return OEXTextStyle(weight: .semiBold, size: .large, color: OEXStyles.shared().neutralWhiteT())
     }
     
     private var closeTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .large, color: OEXStyles.shared().neutralWhite())
+        return OEXTextStyle(weight: .semiBold, size: .large, color: OEXStyles.shared().neutralWhiteT())
     }
     
     private var doneButtonStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralWhite())
+        return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().accentAColor())
     }
     
     typealias Environment = OEXStylesProvider & OEXInterfaceProvider & OEXAnalyticsProvider

@@ -13,7 +13,7 @@
 #import "OEXTextStyle.h"
 #import "UIImage+OEXColors.h"
 
-static CGFloat OEXExternalAuthProviderButtonCornerRadius = 2;
+static CGFloat OEXExternalAuthProviderButtonCornerRadius = 0;
 static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
 
 @interface OEXExternalAuthProviderButton ()

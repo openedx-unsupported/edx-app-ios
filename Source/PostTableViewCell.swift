@@ -23,19 +23,19 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private var postUnreadStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().neutralXDark())
+        return OEXTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryBaseColor())
     }
     
     private var questionStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().secondaryDarkColor())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().errorDark())
     }
     
     private var answerStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().utilitySuccessDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().successDark())
     }
     
     private var infoTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -100,7 +100,7 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private var inactiveCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBase())
     }
     
     private var typeText : NSAttributedString? {

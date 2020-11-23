@@ -115,7 +115,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         case .unwatched, .partiallyWatched:
             content.leadingIconColor = OEXStyles.shared().primaryBaseColor()
         case .watched:
-            content.leadingIconColor = OEXStyles.shared().neutralDark()
+            content.leadingIconColor = OEXStyles.shared().neutralXDark()
         @unknown default:
             break
         }

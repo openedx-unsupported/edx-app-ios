@@ -100,8 +100,8 @@ class CourseCertificateView: UIView {
         guard let certificateItem = item else {return}
         certificateImageView.image = certificateItem.certificateImage
         
-        let titleStyle = OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().primaryXDarkColor())
-        let subtitleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        let titleStyle = OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().primaryBaseColor())
+        let subtitleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryXLightColor())
         
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.Certificates.courseCompletionTitle)
         subtitleLabel.attributedText = subtitleStyle.attributedString(withText: Strings.Certificates.courseCompletionSubtitle)

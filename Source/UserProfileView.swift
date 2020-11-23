@@ -178,7 +178,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             return
         }
         
-        let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: environment.styles.primaryXLightColor())
+        let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: environment.styles.neutralWhiteT())
         messageLabel.attributedText = messageStyle.attributedString(withText: message)
     }
 
@@ -203,11 +203,10 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
     func populateFields(profile: UserProfile, editable : Bool, networkManager : NetworkManager) {
         let usernameStyle = OEXTextStyle(weight : .normal, size: .xxLarge, color: environment.styles.neutralWhiteT())
-        let infoStyle = OEXTextStyle(weight: .light, size: .xSmall, color: environment.styles.primaryXLightColor())
+        let infoStyle = OEXTextStyle(weight: .light, size: .xSmall, color: environment.styles.neutralWhiteT())
         let bioStyle = environment.styles.textAreaBodyStyle
-        let messageStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.neutralDark())
+        let messageStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.neutralXDark())
         messageStyle.alignment = .center
-
 
         usernameLabel.attributedText = usernameStyle.attributedString(withText: profile.username)
         bioSystemMessage.isHidden = true
