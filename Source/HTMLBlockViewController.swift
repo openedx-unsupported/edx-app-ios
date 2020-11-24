@@ -119,9 +119,9 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
                 courseDateBannerView.bannerInfo = bannerModel.bannerInfo
                 courseDateBannerView.setupView()
                 height = courseDateBannerView.heightForView(width: view.frame.size.width)
-                if let bannerTypeEventName = bannerModel.bannerInfo.status?.bannerTypeEventName,
-                      let mode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
-                    environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: mode, event: bannerTypeEventName)
+                if let analyticsBannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
+                   let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
+                    environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: courseMode, bannerType: analyticsBannerType)
                 }
             }
         }
@@ -171,13 +171,13 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     }
     
     private func trackDatesShiftTapped() {
-        guard let mode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
-        environment.analytics.trackDatesShiftButtonTapped(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: mode)
+        guard let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesShiftButtonTapped(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: courseMode)
     }
     
     private func trackDatesShiftEvent(success: Bool) {
-        guard let mode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
-        environment.analytics.trackDatesShiftEvent(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: mode, success: success)
+        guard let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesShiftEvent(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: courseMode, success: success)
     }
     
     private func showSnackBar() {

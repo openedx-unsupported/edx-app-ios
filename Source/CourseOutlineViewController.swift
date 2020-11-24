@@ -362,13 +362,13 @@ public class CourseOutlineViewController :
     }
     
     private func trackDatesShiftTapped() {
-        guard let mode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
-        environment.analytics.trackDatesShiftButtonTapped(screenName: AnalyticsScreenName.CourseDashboard, courseMode: mode)
+        guard let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesShiftButtonTapped(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode)
     }
     
     private func trackDatesShiftEvent(success: Bool) {
-        guard let mode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
-        environment.analytics.trackDatesShiftEvent(screenName: AnalyticsScreenName.CourseDashboard, courseMode: mode, success: success)
+        guard let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesShiftEvent(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, success: success)
     }
     
     private func showSnackBar() {
