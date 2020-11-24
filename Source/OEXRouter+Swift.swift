@@ -368,6 +368,11 @@ extension OEXRouter {
         }
     }
     
+    func showUpgradeDetailView(controller: UIViewController? = nil) {
+        let upgradeDetailView = UpgradeCourseValuePropViewController(with: "Access to edX course features")
+        controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailView), animated: true, completion: nil)
+    }
+    
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true, modal: Bool = false) {
         OEXAnalytics.shared().trackProfileViewed(username: username)
         let editable = self.environment.session.currentUser?.username == username

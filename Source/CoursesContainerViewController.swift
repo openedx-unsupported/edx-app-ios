@@ -9,17 +9,75 @@
 import UIKit
 
 class CourseCardCell : UICollectionViewCell {
+    
     static let margin = StandardVerticalMargin
     
     fileprivate static let cellIdentifier = "CourseCardCell"
     fileprivate let courseView = CourseCardView(frame: CGRect.zero)
+    fileprivate let upgradeValuePropView = UpgradeValuePropView()
+    fileprivate let containerView = UIView()
+    fileprivate let bottomLine = UIView()
     fileprivate var course : OEXCourse?
+    fileprivate var upgrageValuePropViewEnabled: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-                
-        contentView.addSubview(courseView)
         
+        courseView.applyBorderStyle(style: BorderStyle())
+        contentView.backgroundColor = OEXStyles.shared().neutralXLight()
+        setAccessibilityIdentifiers()
+    }
+    
+    fileprivate func setUpView(upgrageValuePropViewEnabled: Bool) {
+        self.upgrageValuePropViewEnabled = upgrageValuePropViewEnabled
+        if upgrageValuePropViewEnabled {
+            configureAuditCourseCardView()
+        } else {
+            configureVerifiedCourseCardView()
+        }
+    }
+    
+    private func configureAuditCourseCardView() {
+        contentView.addSubview(containerView)
+        containerView.addSubview(courseView)
+        containerView.addSubview(upgradeValuePropView)
+        insertSubview(bottomLine, aboveSubview: upgradeValuePropView)
+        
+        bottomLine.backgroundColor = OEXStyles.shared().brandAccentColor()
+        upgradeValuePropView.applyBorderStyle(style: BorderStyle())
+        upgradeValuePropView.backgroundColor = OEXStyles.shared().brandAccentColor()
+        
+        containerView.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(CourseCardCell.margin)
+            make.bottom.equalTo(contentView)
+            make.leading.equalTo(contentView).offset(CourseCardCell.margin)
+            make.trailing.equalTo(contentView).offset(-CourseCardCell.margin)
+        }
+        
+        courseView.snp.makeConstraints { make in
+            make.top.equalTo(containerView)
+            make.leading.equalTo(containerView).offset(CourseCardCell.margin)
+            make.trailing.equalTo(containerView).offset(-CourseCardCell.margin)
+        }
+        
+        bottomLine.snp.makeConstraints { make in
+            make.top.equalTo(courseView.snp.bottom).offset(-4)
+            make.leading.equalTo(containerView).offset(CourseCardCell.margin)
+            make.trailing.equalTo(containerView).offset(-CourseCardCell.margin)
+            make.height.equalTo(12)
+        }
+        
+        upgradeValuePropView.snp.makeConstraints { make in
+            make.top.equalTo(courseView.snp.bottom)
+            make.leading.equalTo(containerView).offset(CourseCardCell.margin)
+            make.trailing.equalTo(containerView).offset(-CourseCardCell.margin)
+            make.height.equalTo(125)
+        }
+    }
+    
+    private func configureVerifiedCourseCardView() {
+        contentView.addSubview(courseView)
+        courseView.applyBorderStyle(style: BorderStyle())
         courseView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(CourseCardCell.margin)
             make.bottom.equalTo(contentView)
@@ -27,17 +85,12 @@ class CourseCardCell : UICollectionViewCell {
             make.trailing.equalTo(contentView).offset(-CourseCardCell.margin)
             make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
-        
-        courseView.applyBorderStyle(style: BorderStyle())
-        
-        contentView.backgroundColor = OEXStyles.shared().neutralXLight()
-
-        setAccessibilityIdentifiers()
     }
 
     private func setAccessibilityIdentifiers() {
         contentView.accessibilityIdentifier = "CourseCardCell:content-view"
         courseView.accessibilityIdentifier = "CourseCardCell:course-card-view"
+        upgradeValuePropView.accessibilityIdentifier = "CourseCardCell:course-upgrade-value-prop-view"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,6 +100,7 @@ class CourseCardCell : UICollectionViewCell {
 
 protocol CoursesContainerViewControllerDelegate : class {
     func coursesContainerChoseCourse(course : OEXCourse)
+    func showUpgradeCourseDetailView()
 }
 
 class CoursesContainerViewController: UICollectionViewController {
@@ -56,11 +110,16 @@ class CoursesContainerViewController: UICollectionViewController {
         case enrollmentList
     }
     
-    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider
+    enum EnrollmentMode {
+        case audit
+        case verified
+    }
+    
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXInterfaceProvider & OEXAnalyticsProvider
     
     private let environment : Environment
     private let context: Context
-    
+    private var mode: EnrollmentMode = .audit
     weak var delegate : CoursesContainerViewControllerDelegate?
     var courses : [OEXCourse] = []
     private let insetsController = ContentInsetsController()
@@ -71,6 +130,10 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private var shouldShowFooter: Bool {
         return context == .enrollmentList && isCourseDiscoveryEnabled
+    }
+    
+    private var shouldShowUpgradeValueProp: Bool {
+        return mode == .audit && environment.config.isUpgradeValuePropViewEnabled
     }
     
     init(environment : Environment, context: Context) {
@@ -147,6 +210,11 @@ class CoursesContainerViewController: UICollectionViewController {
             self?.delegate?.coursesContainerChoseCourse(course: course)
         }
         
+        cell.upgradeValuePropView.tapAction = { [weak self] view in
+            self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
+            self?.delegate?.showUpgradeCourseDetailView()
+        }
+        
         switch context {
         case .courseCatalog:
             CourseCardViewModel.onCourseCatalog(course: course, wrapTitle: true).apply(card: cell.courseView, networkManager: environment.networkManager)
@@ -156,6 +224,9 @@ class CoursesContainerViewController: UICollectionViewController {
             break
         }
         cell.course = course
+        let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
+        mode = (enrollment?.mode == "audit") ? .audit : .verified
+        cell.setUpView(upgrageValuePropViewEnabled: shouldShowUpgradeValueProp)
         
         return cell
     }
@@ -193,8 +264,8 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let widthPerItem = view.frame.width / itemsPerRow
-        let heightPerItem = widthPerItem * StandardImageAspectRatio
-        
+        let upgradeValuePropHeight: CGFloat = (shouldShowUpgradeValueProp == true) ?  125 : 0
+        let heightPerItem =  widthPerItem * StandardImageAspectRatio + upgradeValuePropHeight
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
 }

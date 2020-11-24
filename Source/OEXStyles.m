@@ -235,6 +235,10 @@ static OEXStyles* sSharedStyles;
     return [self.oexColors colorForIdentifier:ColorsIdentifiersBannerColor];
 }
 
+- (UIColor*)brandAccentColor {
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersBrandAccentColor];
+}
+
 - (UIColor * __nonnull) disabledButtonColor
 {
     return [UIColor grayColor];

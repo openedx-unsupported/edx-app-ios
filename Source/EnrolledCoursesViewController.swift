@@ -12,7 +12,7 @@ var isActionTakenOnUpgradeSnackBar: Bool = false
 
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider
     
     private let environment : Environment
     private let coursesContainer : CoursesContainerViewController
@@ -196,6 +196,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         else {
             preconditionFailure("course without a course id")
         }
+    }
+    
+    func showUpgradeCourseDetailView() {
+        environment.router?.showUpgradeDetailView(controller: self)
     }
     
     private func showWhatsNewIfNeeded() {

@@ -82,4 +82,8 @@ extension OEXConfig {
         }
         return false
     }
+    
+    var isUpgradeValuePropViewEnabled: Bool {
+        return bool(forKey: "UPGRADE_COURSE_VALUE_PROP_VIEW_ENABLED", defaultValue: true)
+    }
 }
