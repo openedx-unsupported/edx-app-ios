@@ -133,7 +133,6 @@ class CoursesContainerViewController: UICollectionViewController {
     weak var delegate : CoursesContainerViewControllerDelegate?
     var courses : [OEXCourse] = []
     private let insetsController = ContentInsetsController()
-    //let modes:[EnrollmentMode] = [.audit,.audit, .verified, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified]
     
     private var isCourseDiscoveryEnabled: Bool {
         return environment.config.discovery.course.isEnabled
@@ -238,7 +237,6 @@ class CoursesContainerViewController: UICollectionViewController {
 
         let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
         mode = (enrollment?.mode == "audit") ? .audit : .verified
-        //mode = modes[indexPath.row]
         cell.resetCellView()
         cell.setUpView(upgrageValuePropViewEnabled: shouldShowUpgradeValueProp)
         
@@ -280,7 +278,6 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
         let course = courses[indexPath.row]
         let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
         let shouldShowValuePropView = enrollment?.mode == "audit" && environment.config.isUpgradeValuePropViewEnabled
-//        let mode = modes[indexPath.row]
         let widthPerItem = view.frame.width / itemsPerRow
         let upgradeValuePropHeight: CGFloat = (shouldShowValuePropView) ?  125 : 0
         let heightPerItem =  widthPerItem * StandardImageAspectRatio + upgradeValuePropHeight
