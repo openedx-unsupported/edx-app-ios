@@ -97,7 +97,7 @@ class CourseCatalogViewController: UIViewController, CoursesContainerViewControl
         environment.router?.showCourseCatalogDetail(courseID: courseID, fromController:self)
     }
     
-    func showUpgradeCourseDetailView() {
+    func showUpgradeCourseDetailView(course: OEXCourse) {
         
     }
     

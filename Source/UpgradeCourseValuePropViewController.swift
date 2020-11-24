@@ -8,50 +8,64 @@
 
 import UIKit
 
+enum ValuePropModalType {
+    case courseEnrollment
+    case courseUnit
+}
+
 class UpgradeCourseValuePropViewController: UIViewController {
 
-    let titleLabel = UILabel()
-    let messageTitleLabel = UILabel()
-    let pointOneLabel = UILabel()
-    let pointTwoLabel = UILabel()
-    let pointThreeLabel = UILabel()
-    let pointFourLabel = UILabel()
-    let pointOneBulletImageView = UIImageView()
-    let pointTwoBulletImageView = UIImageView()
-    let pointThreeBulletImageView = UIImageView()
-    let pointFourBulletImageView = UIImageView()
-    let certificateImageView = UIImageView()
-    let messageContainer = UIView()
-    let pointOneMessageContainer = UIView()
-    let pointTwoMessageContainer = UIView()
-    let pointThreeMessageContainer = UIView()
-    let pointFourMessageContainer = UIView()
-    let contentView = UIView()
-    let scrollView = UIScrollView()
-    let titleLabelFontstyle = OEXMutableTextStyle(weight: .normal, size: .xxxLarge, color: OEXStyles.shared().primaryDarkColor())
+    private let titleLabel = UILabel()
+    private let messageTitleLabel = UILabel()
+    private let pointOneLabel = UILabel()
+    private let pointTwoLabel = UILabel()
+    private let pointThreeLabel = UILabel()
+    private let pointFourLabel = UILabel()
+    private let pointOneBulletImageView = UIImageView()
+    private let pointTwoBulletImageView = UIImageView()
+    private let pointThreeBulletImageView = UIImageView()
+    private let pointFourBulletImageView = UIImageView()
+    private let certificateImageView = UIImageView()
+    private let messageContainer = UIView()
+    private let pointOneMessageContainer = UIView()
+    private let pointTwoMessageContainer = UIView()
+    private let pointThreeMessageContainer = UIView()
+    private let pointFourMessageContainer = UIView()
+    private let contentView = UIView()
+    private let scrollView = UIScrollView()
+    private let titleLabelFontstyle = OEXMutableTextStyle(weight: .normal, size: .xxxLarge, color: OEXStyles.shared().primaryDarkColor())
+    private var type: ValuePropModalType
+    private var course: OEXCourse
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
-        
+        screenAnalytics()
         configureView()
     }
     
-    init(with title: String) {
+    init(type: ValuePropModalType, course: OEXCourse) {
+        self.type = type
+        self.course = course
         super.init(nibName: nil, bundle: nil)
-        
-        setTitle(with: title)
+        setTitle()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setTitle(with titleString: String) {
+    private func setTitle() {
         titleLabel.numberOfLines = 2
         titleLabelFontstyle.alignment = .center
+        let titleString = type == .courseEnrollment ? Strings.UpgradeCourseValueProp.detailViewTitle : ""
         titleLabel.attributedText = titleLabelFontstyle.attributedString(withText: titleString)
+    }
+    
+    private func screenAnalytics() {
+        let screenName = (type == .courseEnrollment) ? AnalyticsScreenName.ValuePropModalForCourseEnrollment : AnalyticsScreenName.ValuePropModalForCourseUnit
+        OEXAnalytics.shared().trackValueProModal(withName: screenName, courseId: course.course_id ?? "", userID: OEXSession.shared()?.currentUser?.userId?.intValue ?? 0)
     }
     
     private func configureView() {

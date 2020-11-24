@@ -368,8 +368,8 @@ extension OEXRouter {
         }
     }
     
-    func showUpgradeDetailView(controller: UIViewController? = nil) {
-        let upgradeDetailView = UpgradeCourseValuePropViewController(with: "Access to edX course features")
+    func showUpgradeDetailView(controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse) {
+        let upgradeDetailView = UpgradeCourseValuePropViewController(type: type, course: course)
         controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailView), animated: true, completion: nil)
     }
     

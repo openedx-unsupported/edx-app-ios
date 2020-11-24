@@ -253,10 +253,11 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
-    func trackValueProModal(withName: AnalyticsScreenName, courseId: String, userID:String, assignmentID: String? = nil) {
+    func trackValueProModal(withName: AnalyticsScreenName, courseId: String, userID:Int, assignmentID: String? = nil) {
         
         var info: [String:String] = [:]
         info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
+        info.setObjectOrNil("\(userID)", forKey: AnalyticsEventDataKey.UserID.rawValue)
         
         self.trackScreen(withName: withName.rawValue, courseID: courseId, value: nil, additionalInfo: info)
     }

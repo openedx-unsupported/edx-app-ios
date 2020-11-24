@@ -23,9 +23,15 @@ class CourseCardCell : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        courseView.applyBorderStyle(style: BorderStyle())
         contentView.backgroundColor = OEXStyles.shared().neutralXLight()
         setAccessibilityIdentifiers()
+    }
+    
+    fileprivate func resetCellView() {
+        let subviews = contentView.subviews
+        for view in subviews {
+            view.removeFromSuperview()
+        }
     }
     
     fileprivate func setUpView(upgrageValuePropViewEnabled: Bool) {
@@ -50,14 +56,15 @@ class CourseCardCell : UICollectionViewCell {
         containerView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(CourseCardCell.margin)
             make.bottom.equalTo(contentView)
-            make.leading.equalTo(contentView).offset(CourseCardCell.margin)
-            make.trailing.equalTo(contentView).offset(-CourseCardCell.margin)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
         }
         
         courseView.snp.makeConstraints { make in
             make.top.equalTo(containerView)
             make.leading.equalTo(containerView).offset(CourseCardCell.margin)
             make.trailing.equalTo(containerView).offset(-CourseCardCell.margin)
+            make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
         
         bottomLine.snp.makeConstraints { make in
@@ -71,18 +78,20 @@ class CourseCardCell : UICollectionViewCell {
             make.top.equalTo(courseView.snp.bottom)
             make.leading.equalTo(containerView).offset(CourseCardCell.margin)
             make.trailing.equalTo(containerView).offset(-CourseCardCell.margin)
+            make.bottom.equalTo(containerView)
             make.height.equalTo(125)
         }
     }
     
     private func configureVerifiedCourseCardView() {
-        contentView.addSubview(courseView)
         courseView.applyBorderStyle(style: BorderStyle())
+        contentView.addSubview(courseView)
+        
         courseView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(CourseCardCell.margin)
-            make.bottom.equalTo(contentView)
             make.leading.equalTo(contentView).offset(CourseCardCell.margin)
             make.trailing.equalTo(contentView).offset(-CourseCardCell.margin)
+            make.bottom.equalTo(contentView)
             make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
     }
@@ -100,7 +109,7 @@ class CourseCardCell : UICollectionViewCell {
 
 protocol CoursesContainerViewControllerDelegate : class {
     func coursesContainerChoseCourse(course : OEXCourse)
-    func showUpgradeCourseDetailView()
+    func showUpgradeCourseDetailView(course: OEXCourse)
 }
 
 class CoursesContainerViewController: UICollectionViewController {
@@ -113,16 +122,18 @@ class CoursesContainerViewController: UICollectionViewController {
     enum EnrollmentMode {
         case audit
         case verified
+        case none
     }
     
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXInterfaceProvider & OEXAnalyticsProvider
     
     private let environment : Environment
     private let context: Context
-    private var mode: EnrollmentMode = .audit
+    private var mode: EnrollmentMode = .none
     weak var delegate : CoursesContainerViewControllerDelegate?
     var courses : [OEXCourse] = []
     private let insetsController = ContentInsetsController()
+    //let modes:[EnrollmentMode] = [.audit,.audit, .verified, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified, .audit,.verified, .audit, .verified]
     
     private var isCourseDiscoveryEnabled: Bool {
         return environment.config.discovery.course.isEnabled
@@ -212,7 +223,7 @@ class CoursesContainerViewController: UICollectionViewController {
         
         cell.upgradeValuePropView.tapAction = { [weak self] view in
             self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
-            self?.delegate?.showUpgradeCourseDetailView()
+            self?.delegate?.showUpgradeCourseDetailView(course: course)
         }
         
         switch context {
@@ -224,8 +235,11 @@ class CoursesContainerViewController: UICollectionViewController {
             break
         }
         cell.course = course
+
         let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
         mode = (enrollment?.mode == "audit") ? .audit : .verified
+        //mode = modes[indexPath.row]
+        cell.resetCellView()
         cell.setUpView(upgrageValuePropViewEnabled: shouldShowUpgradeValueProp)
         
         return cell
@@ -263,8 +277,12 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let course = courses[indexPath.row]
+        let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
+        let shouldShowValuePropView = enrollment?.mode == "audit" && environment.config.isUpgradeValuePropViewEnabled
+//        let mode = modes[indexPath.row]
         let widthPerItem = view.frame.width / itemsPerRow
-        let upgradeValuePropHeight: CGFloat = (shouldShowUpgradeValueProp == true) ?  125 : 0
+        let upgradeValuePropHeight: CGFloat = (shouldShowValuePropView) ?  125 : 0
         let heightPerItem =  widthPerItem * StandardImageAspectRatio + upgradeValuePropHeight
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
