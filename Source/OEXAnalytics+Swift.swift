@@ -64,9 +64,9 @@ public enum AnalyticsEventName: String {
     case ChromecastConnected = "edx.bi.app.cast.connected"
     case ChromecastDisconnected = "edx.bi.app.cast.disconnected"
     case CourseDatesInfo = "info"
-    case CourseDatesUpgradeToParticipate = "upgrade_to_participate"
-    case CourseDatesUpgradeToShift = "upgrade_to_shift"
-    case CourseDatesShiftDates = "shift_dates"
+    case CourseDatesUpgradeToParticipate = "edx.bi.app.coursedates.upgrade.participate"
+    case CourseDatesUpgradeToShift = "edx.bi.app.coursedates.upgrade.shift"
+    case CourseDatesShiftDates = "edx.bi.app.coursedates.shift"
 }
 
 public enum AnalyticsScreenName: String {
