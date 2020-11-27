@@ -155,7 +155,7 @@ open class DateFormatting: NSObject {
         return abbreviatedKey
     }
     
-    // Get date formatted for Course Dates View Cell
+    // Get date formatted for Course Dates View Cell e.g. Wed, Oct 21, 2020
     open class func format(date: NSDate?) -> String {
         guard let date = date else { return "" }
         let formatter = DateFormatter()

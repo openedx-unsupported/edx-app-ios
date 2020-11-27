@@ -196,7 +196,6 @@ class CourseDateViewCell: UITableViewCell {
     
     /// Handles case when a block of consolidated dates have same badge status
     private func addBadge(for block: CourseDateBlock, isConsolidated: Bool) {
-        
         let dateText: String
         
         if block.isToday {
