@@ -154,4 +154,14 @@ open class DateFormatting: NSObject {
     
         return abbreviatedKey
     }
+    
+    // Get date formatted for Course Dates View Cell
+    open class func format(date: NSDate?) -> String {
+        guard let date = date else { return "" }
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "EE, MMM, d, yyyy"
+        
+        return formatter.string(from: date as Date)
+    }
 }
