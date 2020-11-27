@@ -113,10 +113,11 @@ extension VideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OEXClosedCaptionTableViewCell
         cell.selectionStyle = .none
         
-        cell.lbl_Title?.font = UIFont(name: "OpenSans", size: 12)
-        cell.viewDisable?.backgroundColor = UIColor.white
-        cell.layoutMargins = UIEdgeInsets.zero
-        cell.backgroundColor = UIColor.white
+        cell.lbl_Title?.font = OEXStyles.shared().regularFont(ofSize: 12)
+        cell.lbl_Title?.textColor = OEXStyles.shared().neutralBlack()
+        cell.viewDisable?.backgroundColor = OEXStyles.shared().neutralWhiteT()
+        cell.layoutMargins = .zero
+        cell.backgroundColor = OEXStyles.shared().neutralWhiteT()
      
         let setting = settings[indexPath.row]
         cell.lbl_Title?.text = setting.title

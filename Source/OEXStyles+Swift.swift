@@ -52,8 +52,10 @@ extension OEXStyles {
         UIToolbar.appearance().tintColor = navigationItemTintColor()
         
         let style = OEXTextStyle(weight: .normal, size : .small, color : neutralBlack())
+        let selectedStyle = OEXTextStyle(weight: .normal, size : .small, color : neutralWhiteT())
         let styleAttributes = style.attributes.attributedKeyDictionary()
-        UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, for: UIControl.State.selected)
+        let selectedStyleAttributes = selectedStyle.attributes.attributedKeyDictionary()
+        UISegmentedControl.appearance().setTitleTextAttributes(selectedStyleAttributes, for: UIControl.State.selected)
         UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, for: UIControl.State.normal)
         UISegmentedControl.appearance().tintColor = primaryXLightColor()
         

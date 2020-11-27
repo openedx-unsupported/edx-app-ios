@@ -10,10 +10,16 @@ import Foundation
 
 class OEXFontsDataFactory {
     
-    static let fonts = ["regular":"OpenSans",
-                        "semiBold":"OpenSans-Semibold",
-                        "bold":"OpenSans-Bold",
-                        "light":"OpenSans-Light",
-                        "irregular":"Zapfino"]
-    
+    static let fonts = [
+        "regular":"Inter-Regular",
+        "semiBold":"Inter-SemiBold",
+        "semiBoldItalic":"Inter-SemiboldItalic",
+        "bold":"Inter-Bold",
+        "boldItalic":"Inter-BoldItalic",
+        "extraBold":"Inter-ExtraBold",
+        "extraBoldItalic":"Inter-ExtraBoldItalic",
+        "light":"Inter-Light",
+        "lightItalic":"Inter-LightItalic",
+        "italic":"Inter-Italic"
+    ]
 }
