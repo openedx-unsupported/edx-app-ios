@@ -344,17 +344,31 @@ public class CourseOutlineViewController :
     }
     
     func resetCourseDate(controller: CourseOutlineTableController) {
+        trackDatesShiftTapped()
         hideCourseBannerView()
+        
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
             if let _ = result.error {
+                weakSelf.trackDatesShiftEvent(success: false)
                 weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
+                weakSelf.trackDatesShiftEvent(success: true)
                 weakSelf.showSnackBar()
                 weakSelf.postCourseDateResetNotification()
             }
         }
+    }
+    
+    private func trackDatesShiftTapped() {
+        guard let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesShiftButtonTapped(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode)
+    }
+    
+    private func trackDatesShiftEvent(success: Bool) {
+        guard let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesShiftEvent(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, success: success)
     }
     
     private func showSnackBar() {

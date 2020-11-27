@@ -43,7 +43,7 @@ class CourseDateViewCell: UITableViewCell {
     private let dateContainer = UIView()
     private let titleStackContainer = UIView()
     private let titleStackView = TZStackView()
-    
+        
     private var timelinePoint = TimelinePoint() {
         didSet {
             setNeedsDisplay()
@@ -196,7 +196,14 @@ class CourseDateViewCell: UITableViewCell {
     
     /// Handles case when a block of consolidated dates have same badge status
     private func addBadge(for block: CourseDateBlock, isConsolidated: Bool) {
-        let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
+        let dateText: String
+        
+        if block.isToday {
+            dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
+        } else {
+            dateText = DateFormatting.format(date: DateFormatting.date(withServerString: block.dateString))
+        }
+        
         let attributedString = dateStyle.attributedString(withText: dateText)
         
         let (textView, textStorage, layoutManager) = generateTextView(with: attributedString)
