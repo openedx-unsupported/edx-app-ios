@@ -36,6 +36,9 @@ class UpgradeCourseValuePropViewController: UIViewController {
     private let titleLabelFontstyle = OEXMutableTextStyle(weight: .normal, size: .xxxLarge, color: OEXStyles.shared().primaryDarkColor())
     private var type: ValuePropModalType
     private var course: OEXCourse
+    private let bulletImageSize:CGFloat = 28
+    private let titleLabelHeight:CGFloat = 300
+    private let bulletPointContainerHeight:CGFloat = 60
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,10 +74,10 @@ class UpgradeCourseValuePropViewController: UIViewController {
     private func configureView() {
         scrollView.contentSize = contentView.frame.size
         messageTitleLabel.attributedText = titleLabelFontstyle.attributedString(withText: Strings.UpgradeCourseValueProp.detailViewMessageHeading)
-        pointOneBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: 28)
-        pointTwoBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: 28)
-        pointThreeBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: 28)
-        pointFourBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: 28)
+        pointOneBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: bulletImageSize)
+        pointTwoBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: bulletImageSize)
+        pointThreeBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: bulletImageSize)
+        pointFourBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: bulletImageSize)
         
         let pointLabelFontstyle = OEXMutableTextStyle(weight: .light, size: .large, color: OEXStyles.shared().primaryDarkColor())
         
@@ -133,7 +136,7 @@ class UpgradeCourseValuePropViewController: UIViewController {
             make.edges.equalTo(safeEdges)
         }
         
-        contentView.snp.makeConstraints { (make) in
+        contentView.snp.makeConstraints { make in
             make.top.equalTo(scrollView)
             make.leading.equalTo(scrollView)
             make.trailing.equalTo(scrollView)
@@ -142,105 +145,105 @@ class UpgradeCourseValuePropViewController: UIViewController {
             make.width.equalTo(scrollView)
         }
         
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(contentView).offset(StandardHorizontalMargin*2)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(StandardHorizontalMargin * 2)
             make.centerX.equalTo(contentView)
-            make.width.equalTo(300)
+            make.width.equalTo(titleLabelHeight)
         }
         
-        certificateImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(StandardHorizontalMargin*2)
+        certificateImageView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardHorizontalMargin * 2)
             make.centerX.equalTo(contentView)
         }
         
-        messageContainer.snp.makeConstraints { (make) in
+        messageContainer.snp.makeConstraints { make in
             make.top.equalTo(certificateImageView.snp.bottom).offset(StandardHorizontalMargin*2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).offset(-StandardHorizontalMargin)
             make.bottom.equalTo(contentView)
         }
         
-        messageTitleLabel.snp.makeConstraints { (make) in
+        messageTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(messageContainer)
             make.leading.equalTo(messageContainer).offset(StandardVerticalMargin)
         }
         
-        pointOneMessageContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(messageTitleLabel.snp.bottom).offset(StandardHorizontalMargin*2)
+        pointOneMessageContainer.snp.makeConstraints { make in
+            make.top.equalTo(messageTitleLabel.snp.bottom).offset(StandardHorizontalMargin * 2)
             make.leading.equalTo(messageContainer)
             make.trailing.equalTo(messageContainer)
-            make.height.equalTo(60)
+            make.height.equalTo(bulletPointContainerHeight)
         }
         
-        pointTwoMessageContainer.snp.makeConstraints { (make) in
+        pointTwoMessageContainer.snp.makeConstraints { make in
             make.top.equalTo(pointOneMessageContainer.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(messageContainer)
             make.trailing.equalTo(messageContainer)
-            make.height.equalTo(60)
+            make.height.equalTo(bulletPointContainerHeight)
         }
         
-        pointThreeMessageContainer.snp.makeConstraints { (make) in
+        pointThreeMessageContainer.snp.makeConstraints { make in
             make.top.equalTo(pointTwoMessageContainer.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(messageContainer)
             make.trailing.equalTo(messageContainer)
-            make.height.equalTo(60)
+            make.height.equalTo(bulletPointContainerHeight)
         }
         
-        pointFourMessageContainer.snp.makeConstraints { (make) in
+        pointFourMessageContainer.snp.makeConstraints { make in
             make.top.equalTo(pointThreeMessageContainer.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(messageContainer)
             make.trailing.equalTo(messageContainer)
             make.bottom.equalTo(messageContainer)
-            make.height.equalTo(60)
+            make.height.equalTo(bulletPointContainerHeight)
         }
         
-        pointOneBulletImageView.snp.makeConstraints { (make) in
+        pointOneBulletImageView.snp.makeConstraints { make in
             make.top.equalTo(pointOneMessageContainer).offset(StandardVerticalMargin)
             make.leading.equalTo(pointOneMessageContainer).offset(StandardVerticalMargin)
-            make.width.equalTo(28)
-            make.height.equalTo(28)
+            make.width.equalTo(bulletImageSize)
+            make.height.equalTo(bulletImageSize)
         }
         
-        pointOneLabel.snp.makeConstraints { (make) in
+        pointOneLabel.snp.makeConstraints { make in
             make.top.equalTo(pointOneMessageContainer).offset(StandardVerticalMargin)
             make.leading.equalTo(pointOneBulletImageView.snp.trailing).offset(StandardVerticalMargin)
             make.trailing.equalTo(pointOneMessageContainer)
         }
     
-        pointTwoBulletImageView.snp.makeConstraints { (make) in
+        pointTwoBulletImageView.snp.makeConstraints { make in
             make.top.equalTo(pointTwoMessageContainer).offset(StandardVerticalMargin)
             make.leading.equalTo(pointTwoMessageContainer).offset(StandardVerticalMargin)
-            make.width.equalTo(28)
-            make.height.equalTo(28)
+            make.width.equalTo(bulletImageSize)
+            make.height.equalTo(bulletImageSize)
         }
         
-        pointTwoLabel.snp.makeConstraints { (make) in
+        pointTwoLabel.snp.makeConstraints { make in
             make.top.equalTo(pointTwoMessageContainer).offset(StandardVerticalMargin)
             make.leading.equalTo(pointTwoBulletImageView.snp.trailing).offset(StandardVerticalMargin)
             make.trailing.equalTo(pointTwoMessageContainer)
         }
         
-        pointThreeBulletImageView.snp.makeConstraints { (make) in
+        pointThreeBulletImageView.snp.makeConstraints { make in
             make.top.equalTo(pointThreeMessageContainer).offset(StandardVerticalMargin)
             make.leading.equalTo(pointThreeMessageContainer).offset(StandardVerticalMargin)
-            make.width.equalTo(28)
-            make.height.equalTo(28)
+            make.width.equalTo(bulletImageSize)
+            make.height.equalTo(bulletImageSize)
         }
         
-        pointThreeLabel.snp.makeConstraints { (make) in
+        pointThreeLabel.snp.makeConstraints { make in
             make.top.equalTo(pointThreeMessageContainer).offset(StandardVerticalMargin)
             make.leading.equalTo(pointThreeBulletImageView.snp.trailing).offset(StandardVerticalMargin)
             make.trailing.equalTo(pointThreeMessageContainer)
         }
         
-        pointFourBulletImageView.snp.makeConstraints { (make) in
+        pointFourBulletImageView.snp.makeConstraints { make in
             make.top.equalTo(pointFourMessageContainer).offset(StandardVerticalMargin)
             make.leading.equalTo(pointFourMessageContainer).offset(StandardVerticalMargin)
-            make.width.equalTo(28)
-            make.height.equalTo(28)
+            make.width.equalTo(bulletImageSize)
+            make.height.equalTo(bulletImageSize)
         }
         
-        pointFourLabel.snp.makeConstraints { (make) in
+        pointFourLabel.snp.makeConstraints { make in
             make.top.equalTo(pointFourMessageContainer).offset(StandardVerticalMargin)
             make.leading.equalTo(pointFourBulletImageView.snp.trailing).offset(StandardVerticalMargin)
             make.trailing.equalTo(pointFourMessageContainer)

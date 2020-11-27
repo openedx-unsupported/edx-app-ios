@@ -10,11 +10,12 @@ import UIKit
 
 class UpgradeValuePropView: UIView {
 
-    let messageContainer = UIView()
-    let iconContainer = UIView()
-    let messageLabel = UILabel()
-    let learnMoreButton = UIButton()
-    let trophyImage = UIImageView()
+    private let messageContainer = UIView()
+    private let iconContainer = UIView()
+    private let messageLabel = UILabel()
+    private let learnMoreButton = UIButton()
+    private let trophyImage = UIImageView()
+    private let trophyImageSize:CGFloat = 50
     var tapAction : ((UpgradeValuePropView) -> ())?
     
     override init(frame: CGRect) {
@@ -34,23 +35,23 @@ class UpgradeValuePropView: UIView {
         iconContainer.addSubview(trophyImage)
         
         learnMoreButton.layer.masksToBounds = true
-        let learnMoreButtonTextStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().primaryDarkColor())
+        let learnMoreButtonTextStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralWhiteT())
         learnMoreButton.setAttributedTitle(learnMoreButtonTextStyle.attributedString(withText: Strings.UpgradeCourseValueProp.learnMoreButtonTitle), for: .normal)
-        learnMoreButton.backgroundColor = OEXStyles.shared().neutralWhiteT()
+        learnMoreButton.backgroundColor = OEXStyles.shared().primaryBaseColor()
         
-        learnMoreButton.oex_addAction({[weak self] (action) in
+        learnMoreButton.oex_addAction({[weak self] action in
                 if let weakSelf = self {
                     weakSelf.tapAction?(weakSelf)
                 }
-            }, for: UIControl.Event.touchUpInside)
+            }, for: .touchUpInside)
         
         messageLabel.numberOfLines = 4
         messageLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
         messageLabel.adjustsFontSizeToFitWidth = true
-        let fontstyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().primaryDarkColor())
+        let fontstyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
         messageLabel.attributedText = fontstyle.attributedString(withText: Strings.UpgradeCourseValueProp.viewMessage)
 
-        trophyImage.image = Icon.Trophy.imageWithFontSize(size: 50)
+        trophyImage.image = Icon.Trophy.imageWithFontSize(size: trophyImageSize)
         setUpConstraints()
     }
     
@@ -59,7 +60,7 @@ class UpgradeValuePropView: UIView {
             make.leading.equalTo(self)
             make.top.equalTo(self)
             make.height.equalTo(self)
-            make.width.equalTo(40)
+            make.width.equalTo(StandardHorizontalMargin * 2 + 10)
         }
         
         messageContainer.snp.makeConstraints { make in
@@ -72,22 +73,22 @@ class UpgradeValuePropView: UIView {
         messageLabel.snp.makeConstraints { make in
             make.leading.equalTo(messageContainer).offset(StandardVerticalMargin)
             make.top.equalTo(messageContainer).offset(StandardVerticalMargin)
-            make.trailing.equalTo(messageContainer).offset(-StandardVerticalMargin)
+            make.trailing.equalTo(messageContainer).inset(StandardVerticalMargin)
         }
         
         learnMoreButton.snp.makeConstraints { make in
-            make.trailing.equalTo(messageContainer).offset(-StandardVerticalMargin)
             make.top.equalTo(messageLabel.snp.bottom)
             make.bottom.bottomMargin.equalTo(-StandardVerticalMargin)
-            make.height.equalTo(StandardHorizontalMargin*2)
-            make.width.equalTo(100)
+            make.trailing.equalTo(messageContainer).inset(StandardVerticalMargin)
+            make.height.equalTo(StandardHorizontalMargin * 2)
+            make.width.equalTo(StandardHorizontalMargin * 6 + 10)
         }
         
         trophyImage.snp.makeConstraints { make in
             make.leading.equalTo(iconContainer).offset(StandardVerticalMargin)
             make.top.equalTo(iconContainer).offset(StandardHorizontalMargin + 5)
-            make.height.equalTo(StandardHorizontalMargin*2)
-            make.width.equalTo(StandardHorizontalMargin*2)
+            make.height.equalTo(StandardHorizontalMargin * 2)
+            make.width.equalTo(StandardHorizontalMargin * 2)
         }
     }
 }
