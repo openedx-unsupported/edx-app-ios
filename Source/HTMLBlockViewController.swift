@@ -119,6 +119,10 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
                 courseDateBannerView.bannerInfo = bannerModel.bannerInfo
                 courseDateBannerView.setupView()
                 height = courseDateBannerView.heightForView(width: view.frame.size.width)
+                if let analyticsBannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
+                   let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
+                    environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: courseMode, bannerType: analyticsBannerType)
+                }
             }
         }
         
@@ -152,14 +156,28 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     }
     
     private func resetCourseDate() {
+        trackDatesShiftTapped()
+        
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             if let _ = result.error {
+                self?.trackDatesShiftEvent(success: false)
                 self?.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
+                self?.trackDatesShiftEvent(success: true)
                 self?.courseDatesResetSuccess()
             }
         }
+    }
+    
+    private func trackDatesShiftTapped() {
+        guard let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesShiftButtonTapped(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: courseMode)
+    }
+    
+    private func trackDatesShiftEvent(success: Bool) {
+        guard let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesShiftEvent(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: courseMode, success: success)
     }
     
     private func showSnackBar() {
