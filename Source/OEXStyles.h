@@ -47,7 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label leftIconButton:(nullable UIButton*) iconButton;
 ///Tints the imageView of the mock navigation item (UIButton*) to the specified color
 - (void) applyNavigationItemStyleToButton : (UIButton*) button;
-#pragma mark Colors
 
 #pragma mark Standard Usage
 
@@ -58,50 +57,81 @@ NS_ASSUME_NONNULL_BEGIN
 // Or from Swift use UIStatusBarStyle.init(barStyle:)
 - (UIStatusBarStyle)standardStatusBarStyle;
 
-- (UIColor*)brandActionColor;
-
+#pragma mark - Core Colors
 #pragma mark Primary
 
-- (UIColor*)primaryXDarkColor;
-- (UIColor*)primaryDarkColor;
-- (UIColor*)primaryBaseColor;
-- (UIColor*)primaryLightColor;
+- (UIColor*)primaryXXLightColor;
 - (UIColor*)primaryXLightColor;
+- (UIColor*)primaryLightColor;
+- (UIColor*)primaryBaseColor;
+- (UIColor*)primaryDarkColor;
 
-#pragma mark Secondary
+#pragma mark Secondary Action
 
-- (nonnull UIColor*)secondaryXDarkColor;
-- (nonnull UIColor*)secondaryDarkColor;
-- (nonnull UIColor*)secondaryBaseColor;
-- (nonnull UIColor*)secondaryLightColor;
-- (nonnull UIColor*)secondaryXLightColor;
+- (UIColor*)secondaryBaseColor;
+- (UIColor*)secondaryDarkColor;
 
-#pragma mark Neutral
+#pragma mark Accent
 
-- (UIColor*)neutralBlack;
+- (UIColor*)accentAColor;
+- (UIColor*)accentBColor;
+
+#pragma mark Neutral Dark
+
 - (UIColor*)neutralBlackT;
+- (UIColor*)neutralBlack;
+- (UIColor*)neutralXXDark;
 - (UIColor*)neutralXDark;
 - (UIColor*)neutralDark;
 - (UIColor*)neutralBase;
-- (UIColor*)neutralLight;
-- (UIColor*)neutralXLight;
-- (UIColor*)neutralXXLight;
-- (UIColor*)neutralWhite;
+
+#pragma mark Neutral Light
+
 - (UIColor*)neutralWhiteT;
+- (UIColor*)neutralWhite;
+- (UIColor*)neutralXLight;
+- (UIColor*)neutralLight;
 
-#pragma mark Utility
+#pragma mark - Utility Colors
 
-- (UIColor*)utilitySuccessDark;
-- (UIColor*)utilitySuccessBase;
-- (UIColor*)utilitySuccessLight;
-- (UIColor*)warningDark;
-- (UIColor*)warningBase;
+#pragma mark Success Color
+
+- (UIColor*)successXXLight;
+- (UIColor*)successXLight;
+- (UIColor*)successLight;
+- (UIColor*)successBase;
+- (UIColor*)successDark;
+- (UIColor*)successXDark;
+
+#pragma mark Warning Color
+
+- (UIColor*)warningXXLight;
+- (UIColor*)warningXLight;
 - (UIColor*)warningLight;
-- (UIColor*)errorDark;
-- (UIColor*)errorBase;
+- (UIColor*)warningBase;
+- (UIColor*)warningDark;
+- (UIColor*)warningXDark;
+
+#pragma mark Error Color
+
+- (UIColor*)errorXXLight;
+- (UIColor*)errorXLight;
 - (UIColor*)errorLight;
-- (UIColor*)bannerColor;
-- (UIColor*)brandAccentColor;
+- (UIColor*)errorBase;
+- (UIColor*)errorDark;
+- (UIColor*)errorXDark;
+
+#pragma mark Info Color
+
+- (UIColor*)infoXXLight;
+- (UIColor*)infoXLight;
+- (UIColor*)infoLight;
+- (UIColor*)infoBase;
+- (UIColor*)infoDark;
+- (UIColor*)infoXDark;
+
+#pragma mark Supportive Colors
+
 - (UIColor*)disabledButtonColor;
 
 @end

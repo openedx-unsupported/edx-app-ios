@@ -27,7 +27,7 @@ class IconMessageView : UIView {
     private var hasBottomButton = false
     
     private var buttonFontStyle : OEXTextStyle {
-        return OEXTextStyle(weight :.normal, size : .base, color : OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight :.normal, size : .base, color : OEXStyles.shared().primaryBaseColor())
     }
     
     private let iconView : UIImageView
@@ -112,7 +112,7 @@ class IconMessageView : UIView {
     }
     
     var messageStyle : OEXTextStyle  {
-        let style = OEXMutableTextStyle(weight: .semiBold, size: .base, color : OEXStyles.shared().neutralDark())
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .base, color : OEXStyles.shared().neutralXDark())
         style.alignment = .center
         
         return style
@@ -122,7 +122,7 @@ class IconMessageView : UIView {
         self.icon = icon
         self.message = message
         
-        iconView.tintColor = OEXStyles.shared().neutralLight()
+        iconView.tintColor = OEXStyles.shared().neutralXDark()
         
         messageView.numberOfLines = 0
         
@@ -212,9 +212,9 @@ class IconMessageView : UIView {
         hasBottomButton = true
         setNeedsUpdateConstraints()
         let bottomButtonLayer = bottomButton.layer
-        bottomButtonLayer.cornerRadius = 4.0
+        bottomButtonLayer.cornerRadius = 0.0
         bottomButtonLayer.borderWidth = 1.0
-        bottomButtonLayer.borderColor = OEXStyles.shared().neutralLight().cgColor
+        bottomButtonLayer.borderColor = OEXStyles.shared().neutralBase().cgColor
     }
     
     func rotateImageViewClockwise(imageView : UIImageView) {

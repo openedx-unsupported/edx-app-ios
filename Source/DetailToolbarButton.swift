@@ -88,8 +88,8 @@ class DetailToolbarButton: UIView {
     }
     
     private var destinationStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralBase())
-        style.alignment = self.textAlignment
+        let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
+        style.alignment = textAlignment
         style.dynamicTypeSupported = false
         return style
     }

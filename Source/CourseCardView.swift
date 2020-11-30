@@ -25,10 +25,10 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     var tapAction : ((CourseCardView) -> ())?
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .semiBold, size: .xLarge, color: OEXStyles.shared().neutralXDark())
+        return OEXTextStyle(weight : .semiBold, size: .xLarge, color: OEXStyles.shared().primaryBaseColor())
     }
     private var dateTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().primaryXLightColor())
     }
     private var coverImageAspectRatio : CGFloat {
         // Let the placeholder image aspect ratio determine the course card image aspect ratio.

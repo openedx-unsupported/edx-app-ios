@@ -39,11 +39,11 @@ class RatingContainerView: UIView {
     }
     
     private var enabledButtonStyle : ButtonStyle {
-        return ButtonStyle(textStyle: OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: environment.styles.neutralWhite()), backgroundColor: environment.styles.primaryBaseColor(), borderStyle: BorderStyle(cornerRadius: .Size(0), width: .Size(0), color: nil), contentInsets: nil, shadow: nil)
+        return ButtonStyle(textStyle: OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: environment.styles.neutralWhite()), backgroundColor: environment.styles.secondaryBaseColor(), borderStyle: BorderStyle(cornerRadius: .Size(0), width: .Size(0), color: nil), contentInsets: nil, shadow: nil)
     }
     
     private var closeButtonTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .xLarge, color: environment.styles.neutralDark())
+        return OEXTextStyle(weight: .normal, size: .xLarge, color: environment.styles.neutralBlack())
     }
     
     init(environment : Environment) {
@@ -66,7 +66,7 @@ class RatingContainerView: UIView {
         
         //Setup close button
         closeButton.layer.cornerRadius = 15
-        closeButton.layer.borderColor = environment.styles.neutralDark().cgColor
+        closeButton.layer.borderColor = environment.styles.neutralXDark().cgColor
         closeButton.layer.borderWidth = 1.0
         closeButton.layer.masksToBounds = true
         closeButton.setAttributedTitle(Icon.Close.attributedTextWithStyle(style: closeButtonTextStyle), for: UIControl.State.normal)

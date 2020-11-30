@@ -59,7 +59,7 @@ class RegistrationSelectOptionViewController: UIViewController {
     
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.backgroundColor = OEXStyles.shared().neutralXXLight()
+        searchController.searchBar.backgroundColor = OEXStyles.shared().neutralXLight()
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.searchBarStyle = .minimal

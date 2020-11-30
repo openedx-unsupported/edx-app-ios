@@ -51,7 +51,12 @@ class DiscussionHelper: NSObject {
         DispatchQueue.main.async {
             imageView.layer.cornerRadius = imageView.bounds.size.width / 2
             imageView.layer.borderWidth = 1
-            imageView.layer.borderColor = OEXStyles.shared().primaryBaseColor().cgColor
+            if OEXConfig.shared().profilesEnabled {
+                imageView.layer.borderColor = OEXStyles.shared().primaryBaseColor().cgColor
+            }
+            else {
+                imageView.layer.borderColor = OEXStyles.shared().neutralXDark().cgColor
+            }
             imageView.clipsToBounds = true
             imageView.layer.masksToBounds = true
         }
@@ -68,7 +73,7 @@ class DiscussionHelper: NSObject {
     }
     
     class func styleAuthorDetails(author: String?, authorLabel: String?, createdAt: NSDate?, hasProfileImage: Bool, imageURL: String?, authoNameLabel: UILabel, dateLabel: UILabel, authorButton: UIButton, imageView: UIImageView, viewController: UIViewController, router: OEXRouter?) {
-        let textStyle = OEXTextStyle(weight:.normal, size:.base, color: OEXStyles.shared().neutralXDark())
+        let textStyle = OEXTextStyle(weight:.normal, size:.base, color: OEXStyles.shared().primaryXLightColor())
         // formate author name
         let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
         if let _ = author, OEXConfig.shared().profilesEnabled {
@@ -76,14 +81,15 @@ class DiscussionHelper: NSObject {
             highlightStyle.weight = .bold
         }
         else {
-            highlightStyle.color = OEXStyles.shared().neutralXDark()
+            highlightStyle.color = OEXStyles.shared().primaryXLightColor()
             highlightStyle.weight = textStyle.weight
         }
         let authorName = highlightStyle.attributedString(withText: author ?? Strings.anonymous.oex_lowercaseStringInCurrentLocale())
         var attributedStrings = [NSAttributedString]()
         attributedStrings.append(authorName)
         if let authorLabel = authorLabel {
-            attributedStrings.append(textStyle.attributedString(withText: Strings.parenthesis(text: authorLabel)))
+            highlightStyle.weight = .normal
+            attributedStrings.append(highlightStyle.attributedString(withText: Strings.parenthesis(text: authorLabel)))
         }
         
         let formattedAuthorName = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)

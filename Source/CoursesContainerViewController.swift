@@ -47,9 +47,9 @@ class CourseCardCell : UICollectionViewCell {
         containerView.addSubview(courseView)
         containerView.addSubview(upgradeValuePropView)
         insertSubview(bottomLine, aboveSubview: upgradeValuePropView)
-        bottomLine.backgroundColor = UIColor(hexString: "#EFF8FA", alpha: 1.0)
+        bottomLine.backgroundColor = OEXStyles.shared().infoXXLight()
         upgradeValuePropView.applyBorderStyle(style: BorderStyle())
-        upgradeValuePropView.backgroundColor = UIColor(hexString: "#EFF8FA", alpha: 1.0)
+        upgradeValuePropView.backgroundColor = OEXStyles.shared().infoXXLight()
         
         containerView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(CourseCardCell.margin)

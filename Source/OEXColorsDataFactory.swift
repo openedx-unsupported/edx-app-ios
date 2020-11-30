@@ -10,38 +10,57 @@ import Foundation
 
 class OEXColorsDataFactory {
     
-    static let colors = ["primaryXDarkColor":"#003654",
-                         "primaryDarkColor":"#005483",
-                         "primaryBaseColor":"#0079BC",
-                         "primaryLightColor":"#4CA1D0",
-                         "primaryXLightColor":"#D9EBF5",
-                         
-                         "secondaryXDarkColor":"#5B283F",
-                         "secondaryDarkColor":"#8E3E62",
-                         "secondaryBaseColor":"#CB598D",
-                         "secondaryLightColor":"#DA8AAF",
-                         "secondaryXLightColor":"#EFCDDC",
-                         
-                         "neutralBlack":"#101010",
-                         "neutralBlackT":"#000000",
-                         "neutralXDark":"#424141",
-                         "neutralDark":"#646262",
-                         "neutralBase":"#A7A4A4",
-                         "neutralLight":"#D3D1D1",
-                         "neutralXLight":"#E9E8E8",
-                         "neutralXXLight":"#F2F2F2",
-                         "neutralWhite":"#FCFCFC",
-                         "neutralWhiteT":"#FFFFFF",
-                         
-                         "utilitySuccessDark":"#1E8142",
-                         "utilitySuccessBase":"#25B85A",
-                         "utilitySuccessLight":"#6CCF90",
-                         "warningDark":"#A97D39",
-                         "warningBase":"#FDBC56",
-                         "warningLight":"#FDD28D",
-                         "errorDark":"#77040A",
-                         "errorBase":"#B20610",
-                         "errorLight":"#CB585E",
-                         "banner":"#7DC88F"]
-    
+    static let colors = [
+        "primaryXXLightColor":"#475B65",
+        "primaryXLightColor":"#2D494E",
+        "primaryLightColor":"#0E3639",
+        "primaryBaseColor":"#00262B",
+        "primaryDarkColor":"#002121",
+
+        "secondaryBaseColor":"#D23228",
+        "secondaryDarkColor":"#D23228",
+
+        "accentAColor":"#03C7E8",
+        "accentBColor":"#F0CC00",
+
+        "neutralBlackT":"#000000",
+        "neutralBlack":"#101010",
+        "neutralXXDark":"#454545",
+        "neutralXDark":"#707070",
+        "neutralDark":"#D7D3D1",
+        "neutralBase":"#E1DDDB",
+
+        "neutralWhiteT":"#FFFFFF",
+        "neutralWhite":"#FBFAF9",
+        "neutralXLight":"#F2F0EF",
+        "neutralLight":"#EAE6E5",
+
+        "successXXLight":"#F2FAF7",
+        "successXLight":"#BBE6D7",
+        "successLight":"#30A171",
+        "successBase":"#0D7D4D",
+        "successDark":"#175B3C",
+        "successXDark":"#0F4D0F",
+
+        "warningXXLight":"#FFFADB",
+        "warningXLight":"#FFEA75",
+        "warningLight":"#F0CC00",
+        "warningBase":"#D6B600",
+        "warningDark":"#998200",
+        "warningXDark":"#7A6800",
+
+        "errorXXLight":"#FCF1F4",
+        "errorXLight":"#F3AEA9",
+        "errorLight":"#CA3A2F",
+        "errorBase":"#AB0D02",
+        "errorDark":"#951C13",
+        "errorXDark":"#690E07",
+
+        "infoXXLight":"#EFF8FA",
+        "infoXLight":"#9CD2E6",
+        "infoLight":"#1C8DBE",
+        "infoBase":"#0A7DA3",
+        "infoDark":"#004972",
+        "infoXDark":"#002F4A"
+    ]
 }
