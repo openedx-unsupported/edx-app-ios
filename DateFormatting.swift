@@ -41,14 +41,19 @@ open class DateFormatting: NSObject {
             formatter.timeZone = TimeZone(abbreviation: "GMT")
         }
         
-        var result = formatter.date(from: dateString)
-        if result == nil {
+        if let result = formatter.date(from: dateString) {
+            return result as NSDate?
+        } else {
             // Some APIs return fractional microseconds instead of seconds
             formatter.dateFormat = StandardDateFormatMicroseconds
-            result = formatter.date(from: dateString)
+            if let formattedDate = formatter.date(from: dateString) {
+                return formattedDate as NSDate?
+            } else if let isoDate = ISOParser.parse(dateString, options: nil) {
+                return isoDate as NSDate?
+            }
         }
         
-        return result as NSDate?
+        return nil
     }
     
     /// Format like April 11 or January 23
