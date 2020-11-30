@@ -20,7 +20,7 @@ class ProfileBanner: UIView {
             case .LightContent:
                 return OEXStyles.shared().neutralWhiteT()
             case .DarkContent:
-                return OEXStyles.shared().neutralBlackT()
+                return OEXStyles.shared().primaryBaseColor()
             }
         }
     }

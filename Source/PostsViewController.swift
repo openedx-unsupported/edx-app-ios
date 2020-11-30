@@ -112,7 +112,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var queryString : String?
     private var refineTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().primaryBaseColor())
     }
 
     private var filterTextStyle : OEXTextStyle {
@@ -351,9 +351,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         updateNewPostButtonStyle()
         
-        let style = OEXTextStyle(weight : .normal, size: .base, color: environment.styles.neutralWhite())
-        buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Create.attributedTextWithStyle(style: style.withSize(.xSmall)),
-            style.attributedString(withText: Strings.createANewPost)])
+        let createImage = Icon.Create.imageWithFontSize(size: 14).image(with: environment.styles.neutralWhiteT())
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = createImage
+        let imageOffsetY: CGFloat = -3.0
+        if let image = imageAttachment.image {
+            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
+        }
+        let attributedImageString = NSAttributedString(attachment: imageAttachment)
+        let style = OEXTextStyle(weight : .semiBold, size: .base, color: environment.styles.neutralWhiteT())
+        let attributedStrings = [
+            attributedImageString,
+            NSAttributedString(string: "\u{00a0}"),
+            style.attributedString(withText: Strings.createANewPost)
+        ]
+        buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
         newPostButton.setAttributedTitle(buttonTitle, for: .normal)
         
         newPostButton.contentVerticalAlignment = .center
@@ -365,7 +377,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func updateNewPostButtonStyle() {
-        newPostButton.backgroundColor = isDiscussionBlackedOut ? environment.styles.neutralBase() : environment.styles.primaryXDarkColor()
+        newPostButton.backgroundColor = environment.styles.secondaryBaseColor()
+        newPostButton.alpha = isDiscussionBlackedOut ? 0.5 : 1.0
         newPostButton.isEnabled = !isDiscussionBlackedOut
     }
     

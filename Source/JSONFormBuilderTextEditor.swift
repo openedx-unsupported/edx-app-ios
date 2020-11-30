@@ -21,8 +21,9 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.view = UIView()
-        self.view.backgroundColor = UIColor.white
-        
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        navigationItem.backBarButtonItem?.title = " "
+
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = OEXStyles.shared().standardTextViewInsets
         textView.typingAttributes = OEXStyles.shared().textAreaBodyStyle.attributes.attributedKeyDictionary()

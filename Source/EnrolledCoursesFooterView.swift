@@ -21,7 +21,7 @@ class EnrolledCoursesFooterView : UICollectionReusableView {
     var findCoursesAction : (() -> Void)?
     
     private var findCoursesTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
     }
     
     override init(frame: CGRect) {    

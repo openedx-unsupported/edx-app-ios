@@ -13,17 +13,16 @@ public class OEXColors: NSObject {
     //MARK: - Shared Instance
     @objc public static let sharedInstance = OEXColors()
     @objc public enum ColorsIdentifiers: Int {
-        case PrimaryXDarkColor = 1, PrimaryDarkColor, PrimaryBaseColor, PrimaryLightColor, PrimaryXLightColor,
-        SecondaryXDarkColor, SecondaryDarkColor, SecondaryBaseColor, SecondaryLightColor, SecondaryXLightColor,
-        NeutralBlack, NeutralBlackT, NeutralXDark, NeutralDark, NeutralBase,
-        NeutralLight, NeutralXLight, NeutralXXLight, NeutralWhite, NeutralWhiteT,
-        UtilitySuccessDark, UtilitySuccessBase, UtilitySuccessLight,
-        WarningDark, WarningBase, WarningLight,
-        ErrorDark, ErrorBase, ErrorLight,
-        BannerColor,
-        BrandActionColor,
-        BrandAccentColor,
-        RandomColor
+        case primaryXXLightColor, primaryXLightColor, primaryLightColor, primaryBaseColor, primaryDarkColor,
+        secondaryDarkColor, secondaryBaseColor,
+        accentAColor, accentBColor,
+        neutralBlackT, neutralBlack, neutralXXDark, neutralXDark, neutralDark, neutralBase,
+        neutralWhiteT, neutralWhite, neutralXLight, neutralLight,
+        successXXLight, successXLight, successLight, successBase, successXDark, successDark,
+        warningXXLight, warningXLight, warningLight, warningBase, warningDark, warningXDark,
+        errorXXLight, errorXLight, errorLight, errorBase, errorDark, errorXDark,
+        infoXXLight, infoXLight, infoLight, infoBase, infoDark, infoXDark,
+        randomColor
     }
     
     public var colorsDictionary = [String: AnyObject]()
@@ -34,15 +33,7 @@ public class OEXColors: NSObject {
     }
     
     private func initializeColorsDictionary() -> [String: AnyObject] {
-        var filePath: String = ""
-        
-        if let config = FirebaseRemoteConfiguration.shared.appTheme?.colorConfig,
-           let colorFileName = config.name?.components(separatedBy: ".").first, config.enabled,
-           let path = Bundle.main.path(forResource: colorFileName, ofType: "json") {
-            filePath = path
-        } else if let path = Bundle.main.path(forResource: "colors", ofType: "json") {
-            filePath = path
-        }
+        let filePath: String = Bundle.main.path(forResource: "colors", ofType: "json") ?? ""
         
         if filePath.isEmpty {
             return fallbackColors()
@@ -74,76 +65,96 @@ public class OEXColors: NSObject {
             return color
         }
 
-        return UIColor(hexString: getIdentifier(identifier: ColorsIdentifiers.RandomColor), alpha: 1.0)
+        return UIColor(hexString: getIdentifier(identifier: ColorsIdentifiers.randomColor), alpha: 1.0)
     }
     
     private func getIdentifier(identifier: ColorsIdentifiers) -> String {
         switch identifier {
-        case .BrandActionColor:
-            return "brandActionColor"
-        case .BrandAccentColor:
-            return "brandAccentColor"
-        case .PrimaryXDarkColor:
-            return "primaryXDarkColor"
-        case .PrimaryDarkColor:
-            return "primaryDarkColor"
-        case .PrimaryBaseColor:
-            return "primaryBaseColor"
-        case .PrimaryLightColor:
-            return "primaryLightColor"
-        case .PrimaryXLightColor:
+        case .primaryXXLightColor:
+            return "primaryXXLightColor"
+        case .primaryXLightColor:
             return "primaryXLightColor"
-        case .SecondaryXDarkColor:
-            return "secondaryXDarkColor"
-        case .SecondaryDarkColor:
-            return "secondaryDarkColor"
-        case .SecondaryBaseColor:
+        case .primaryLightColor:
+            return "primaryLightColor"
+        case .primaryBaseColor:
+            return "primaryBaseColor"
+        case .primaryDarkColor:
+            return "primaryDarkColor"
+        case .secondaryBaseColor:
             return "secondaryBaseColor"
-        case .SecondaryLightColor:
-            return "secondaryLightColor"
-        case .SecondaryXLightColor:
-            return "secondaryXLightColor"
-        case .NeutralBlack:
-            return "neutralBlack"
-        case .NeutralBlackT:
+        case .secondaryDarkColor:
+            return "secondaryDarkColor"
+        case .accentAColor:
+            return "accentAColor"
+        case .accentBColor:
+            return "accentBColor"
+        case .neutralBlackT:
             return "neutralBlackT"
-        case .NeutralXDark:
+        case .neutralBlack:
+            return "neutralBlack"
+        case .neutralXXDark:
+            return "neutralXXDark"
+        case .neutralXDark:
             return "neutralXDark"
-        case .NeutralDark:
+        case .neutralDark:
             return "neutralDark"
-        case .NeutralBase:
+        case .neutralBase:
             return "neutralBase"
-        case .NeutralLight:
-            return "neutralLight"
-        case .NeutralXLight:
-            return "neutralXLight"
-        case .NeutralXXLight:
-            return "neutralXXLight"
-        case .NeutralWhite:
-            return "neutralWhite"
-        case .NeutralWhiteT:
+        case .neutralWhiteT:
             return "neutralWhiteT"
-        case .UtilitySuccessDark:
-            return "utilitySuccessDark"
-        case .UtilitySuccessBase:
-            return "utilitySuccessBase"
-        case .UtilitySuccessLight:
-            return "utilitySuccessLight"
-        case .WarningDark:
-            return "warningDark"
-        case .WarningBase:
-            return "warningBase"
-        case .WarningLight:
+        case .neutralWhite:
+            return "neutralWhite"
+        case .neutralXLight:
+            return "neutralXLight"
+        case .neutralLight:
+            return "neutralLight"
+        case .successXXLight:
+            return "successXXLight"
+        case .successXLight:
+            return "successXLight"
+        case .successLight:
+            return "successLight"
+        case .successBase:
+            return "successBase"
+        case .successDark:
+            return "successDark"
+        case .warningXXLight:
+            return "warningXXLight"
+        case .warningXLight:
+            return "warningXLight"
+        case .warningLight:
             return "warningLight"
-        case .ErrorDark:
-            return "errorDark"
-        case .ErrorBase:
-            return "errorBase"
-        case .ErrorLight:
+        case .warningBase:
+            return "warningBase"
+        case .warningDark:
+            return "warningDark"
+        case .warningXDark:
+            return "warningXDark"
+        case .errorXXLight:
+            return "errorXXLight"
+        case .errorXLight:
+            return "errorXLight"
+        case .errorLight:
             return "errorLight"
-        case .BannerColor:
-            return "bannerColor"
-        case .RandomColor:
+        case .errorBase:
+            return "errorBase"
+        case .errorDark:
+            return "errorDark"
+        case .errorXDark:
+            return "errorXDark"
+        case .infoXXLight:
+            return "infoXXLight"
+        case .infoXLight:
+            return "infoXLight"
+        case .infoLight:
+            return "infoLight"
+        case .infoBase:
+            return "infoBase"
+        case .infoDark:
+            return "infoDark"
+        case .infoXDark:
+            return "infoXDark"
+        case .randomColor:
             fallthrough
         default:
             //Assert to crash on development, and return a random color for distribution

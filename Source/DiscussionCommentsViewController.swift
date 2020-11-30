@@ -9,15 +9,19 @@
 import UIKit
 
 private var commentTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralDark())
+    return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
 }
 
 private var smallTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralDark())
+    return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().primaryXLightColor())
+}
+
+private var reportTextStyle : OEXTextStyle {
+    return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().infoBase())
 }
 
 private var smallIconStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+    return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryXLightColor())
 }
 
 private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.shared().primaryBaseColor())
@@ -37,7 +41,7 @@ class DiscussionCommentCell: UITableViewCell {
     private let dateLabel = UILabel()
     
     fileprivate var endorsedTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().utilitySuccessBase())
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().successBase())
     }
     
     private func setEndorsed(endorsed : Bool) {
@@ -218,9 +222,8 @@ class DiscussionCommentCell: UITableViewCell {
     
     private func updateReportText(button: UIButton, report: Bool) {
         
-        let iconStyle = report ? smallIconSelectedStyle : smallIconStyle
-        let reportIcon = Icon.ReportFlag.attributedTextWithStyle(style: iconStyle)
-        let reportTitle = smallTextStyle.attributedString(withText: (report ? Strings.discussionUnreport : Strings.discussionReport ))
+        let reportIcon = Icon.ReportFlag.attributedTextWithStyle(style: reportTextStyle)
+        let reportTitle = reportTextStyle.attributedString(withText: (report ? Strings.discussionUnreport : Strings.discussionReport ))
         
         let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [reportIcon, reportTitle])
         button.setAttributedTitle(buttonTitle, for: .normal)
@@ -300,12 +303,25 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         didSet {
             let styles = OEXStyles.shared()
             
-            addCommentButton.backgroundColor = commentsClosed ? styles.neutralBase() : styles.primaryXDarkColor()
-            
-            let textStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralWhite())
+            addCommentButton.backgroundColor = commentsClosed ? styles.neutralBase() : styles.secondaryBaseColor()
+
             let icon = commentsClosed ? Icon.Closed : Icon.Create
-            let buttonText = commentsClosed ? Strings.commentsClosed : Strings.addAComment
-            let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedTextWithStyle(style: textStyle.withSize(.xSmall)), textStyle.attributedString(withText: buttonText)])
+
+            let createImage = icon.imageWithFontSize(size: 14).image(with: environment.styles.neutralWhiteT())
+            let imageAttachment = NSTextAttachment()
+            imageAttachment.image = createImage
+            let imageOffsetY: CGFloat = -3.0
+            if let image = imageAttachment.image {
+                imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
+            }
+            let attributedImageString = NSAttributedString(attachment: imageAttachment)
+            let style = OEXTextStyle(weight : .semiBold, size: .base, color: environment.styles.neutralWhiteT())
+            let attributedStrings = [
+                attributedImageString,
+                NSAttributedString(string: "\u{00a0}"),
+                style.attributedString(withText: Strings.addComment)
+            ]
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
             
             addCommentButton.setAttributedTitle(buttonTitle, for: .normal)
             addCommentButton.isEnabled = !commentsClosed
@@ -476,14 +492,15 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         addCommentButton.contentVerticalAlignment = .center
         
-        addCommentButton.backgroundColor = isDiscussionBlackedOut || commentsClosed ? environment.styles.neutralBase() : environment.styles.primaryXDarkColor()
+        addCommentButton.backgroundColor = environment.styles.primaryDarkColor()
+        addCommentButton.alpha = isDiscussionBlackedOut || commentsClosed ? 0.5 : 1.0
         addCommentButton.isEnabled = !(isDiscussionBlackedOut || commentsClosed)
        
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
     
     func toggleAddCommentButton(enabled: Bool){
-        addCommentButton.backgroundColor = enabled ? environment.styles.primaryXDarkColor() : environment.styles.neutralBase()
+        addCommentButton.backgroundColor = enabled ? environment.styles.primaryDarkColor() : environment.styles.neutralBase()
         addCommentButton.isEnabled = enabled
     }
     

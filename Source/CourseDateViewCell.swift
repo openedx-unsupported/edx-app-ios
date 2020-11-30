@@ -37,13 +37,13 @@ class CourseDateViewCell: UITableViewCell {
     }()
     
     private lazy var descriptionStyle: OEXMutableTextStyle = {
-        return OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralDark())
+        return OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXDark())
     }()
     
     private let dateContainer = UIView()
     private let titleStackContainer = UIView()
     private let titleStackView = TZStackView()
-    
+        
     private var timelinePoint = TimelinePoint() {
         didSet {
             setNeedsDisplay()
@@ -196,7 +196,14 @@ class CourseDateViewCell: UITableViewCell {
     
     /// Handles case when a block of consolidated dates have same badge status
     private func addBadge(for block: CourseDateBlock, isConsolidated: Bool) {
-        let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
+        let dateText: String
+        
+        if block.isToday {
+            dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
+        } else {
+            dateText = DateFormatting.format(date: DateFormatting.date(withServerString: block.dateString))
+        }
+        
         let attributedString = dateStyle.attributedString(withText: dateText)
         
         let (textView, textStorage, layoutManager) = generateTextView(with: attributedString)
@@ -210,8 +217,8 @@ class CourseDateViewCell: UITableViewCell {
         
         var messageText: [NSAttributedString] = [attributedString]
         
-        let todayBackgroundColor = OEXStyles.shared().warningBase()
-        let todayForegroundColor = OEXStyles.shared().neutralXDark()
+        let todayBackgroundColor = OEXStyles.shared().accentBColor()
+        let todayForegroundColor = OEXStyles.shared().primaryBaseColor()
         
         var todayAttributedText: NSAttributedString?
         
@@ -333,7 +340,7 @@ class CourseDateViewCell: UITableViewCell {
         case .completed:
             statusText = createBadge(with: status)
             
-            statusBackgroundColor = OEXStyles.shared().neutralXXLight()
+            statusBackgroundColor = OEXStyles.shared().neutralXLight()
             statusForegroundColor = OEXStyles.shared().neutralXDark()
             
             break
@@ -341,7 +348,7 @@ class CourseDateViewCell: UITableViewCell {
         case .pastDue:
             statusText = createBadge(with: status)
             
-            statusBackgroundColor = OEXStyles.shared().neutralLight()
+            statusBackgroundColor = OEXStyles.shared().neutralBase()
             statusForegroundColor = OEXStyles.shared().neutralXDark()
             
             break
@@ -350,7 +357,7 @@ class CourseDateViewCell: UITableViewCell {
             if setDueNext {
                 statusText = createBadge(with: status)
                 
-                statusBackgroundColor = OEXStyles.shared().neutralDark()
+                statusBackgroundColor = OEXStyles.shared().neutralXDark()
                 statusForegroundColor = OEXStyles.shared().neutralWhite()
                 
                 delegate?.didSetDueNext(with: index)
@@ -408,7 +415,7 @@ class CourseDateViewCell: UITableViewCell {
     /// Updates timeline point color based on appropirate state
     private func updateTimelinePoint(for block: CourseDateBlock) {
         if block.isToday {
-            timelinePoint.color = OEXStyles.shared().warningBase()
+            timelinePoint.color = OEXStyles.shared().accentBColor()
             timelinePoint.diameter = todayTimelinePointDiameter
         } else if block.isInPast {
             
@@ -454,6 +461,26 @@ extension CourseDateViewCell: NSLayoutManagerDelegate {
     
     func layoutManager(_ layoutManager: NSLayoutManager, paragraphSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
         return 10
+    }
+}
+
+extension UIImage {
+    func image(with color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        if let cgImage = cgImage {
+            context?.clip(to: rect, mask: cgImage)
+        }
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        
+        if let cgImage = UIGraphicsGetImageFromCurrentImageContext()?.cgImage {
+            UIGraphicsEndImageContext()
+            return UIImage(cgImage: cgImage, scale: 1, orientation: .downMirrored)
+        } else {
+            return self
+        }
     }
 }
 

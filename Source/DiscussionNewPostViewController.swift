@@ -51,7 +51,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private let tapButton = UIButton()
     
     var titleTextStyle: OEXTextStyle {
-        return OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().primaryXLightColor())
     }
     
     private var selectedThreadType: DiscussionThreadType = .Discussion {
@@ -140,7 +140,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         contentTextView.delegate = self
         titleTextField.accessibilityLabel = Strings.title
         
-        self.view.backgroundColor = OEXStyles.shared().neutralXXLight()
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
         configureSegmentControl()
         titleTextField.defaultTextAttributes = OEXStyles.shared().textAreaBodyStyle.attributes.attributedKeyDictionary()
@@ -241,7 +241,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
                 assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
             }
             }, for: UIControl.Event.valueChanged)
-        discussionQuestionSegmentedControl.tintColor = OEXStyles.shared().neutralDark()
+        discussionQuestionSegmentedControl.tintColor = OEXStyles.shared().primaryXLightColor()
         discussionQuestionSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: OEXStyles.shared().neutralWhite()], for: UIControl.State.selected)
         discussionQuestionSegmentedControl.selectedSegmentIndex = 0
         
@@ -258,7 +258,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             }
             else {
                 let view = subViews.object(at: i) as! UIView
-                view.tintColor = OEXStyles.shared().neutralDark()
+                view.tintColor = OEXStyles.shared().primaryXLightColor()
             }
         }
     }
@@ -289,7 +289,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private func setTopicsButtonTitle() {
         if let topic = selectedTopic, let name = topic.name {
             let title = Strings.topic(topic: name)
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralDark()).attributedString(withText: title), for: .normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().primaryXLightColor()).attributedString(withText: title), for: .normal)
         }
     }
     
