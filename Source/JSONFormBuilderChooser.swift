@@ -11,7 +11,7 @@ import Foundation
 private class JSONFormTableSelectionCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        tintColor = OEXStyles.shared().utilitySuccessBase()
+        tintColor = OEXStyles.shared().primaryBaseColor()
         contentView.accessibilityIdentifier = "JSONFormTableSelectionCell:content-view"
         textLabel?.accessibilityIdentifier = "JSONFormTableSelectionCell:title-label"
     }
@@ -50,7 +50,7 @@ class JSONFormViewController<T>: UIViewController {
             let headerStr = instructionStyle.attributedString(withText: instructions).mutableCopy() as! NSMutableAttributedString
             
             if let subInstructions = subInstructions {
-                let style = OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
+                let style = OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralXXDark())
                 let subStr = style.attributedString(withText: "\n" + subInstructions)
                 headerStr.append(subStr)
             }
@@ -77,7 +77,9 @@ class JSONFormViewController<T>: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+
         tableView.register(JSONFormTableSelectionCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource

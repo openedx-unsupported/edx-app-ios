@@ -176,7 +176,6 @@
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
 		5F0248C624AC9ED8000AF1FF /* CourseDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C524AC9ED8000AF1FF /* CourseDates.swift */; };
 		5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */; };
-		5F0F260E255BB6AF007665E6 /* colors_rebranded.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F0F260D255BB6AF007665E6 /* colors_rebranded.json */; };
 		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
@@ -237,16 +236,6 @@
 		69AD2B8D1E4B1CE500029B9B /* RatingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AD2B8B1E4B1CA000029B9B /* RatingViewControllerTests.swift */; };
 		69C12C661E07F5F8004E7261 /* VideoTranscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C12C651E07F5F8004E7261 /* VideoTranscript.swift */; };
 		69E1CD011D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */; };
-		69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */; };
-		69ECC5FF1D50D1170030CF87 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */; };
-		69ECC6001D50D1170030CF87 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A61D50D1170030CF87 /* OpenSans-ExtraBold.ttf */; };
-		69ECC6011D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A71D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf */; };
-		69ECC6021D50D1170030CF87 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A81D50D1170030CF87 /* OpenSans-Italic.ttf */; };
-		69ECC6031D50D1170030CF87 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A91D50D1170030CF87 /* OpenSans-Light.ttf */; };
-		69ECC6041D50D1170030CF87 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5AA1D50D1170030CF87 /* OpenSans-LightItalic.ttf */; };
-		69ECC6051D50D1170030CF87 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5AB1D50D1170030CF87 /* OpenSans-Regular.ttf */; };
-		69ECC6061D50D1170030CF87 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5AC1D50D1170030CF87 /* OpenSans-Semibold.ttf */; };
-		69ECC6071D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5AD1D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf */; };
 		69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5AF1D50D1170030CF87 /* Icon-29.png */; };
 		69ECC6091D50D1170030CF87 /* Icon-29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5B01D50D1170030CF87 /* Icon-29@2x.png */; };
 		69ECC60A1D50D1170030CF87 /* Icon-29@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5B11D50D1170030CF87 /* Icon-29@3x.png */; };
@@ -1213,7 +1202,6 @@
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
 		5F0248C524AC9ED8000AF1FF /* CourseDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDates.swift; sourceTree = "<group>"; };
 		5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesAPI.swift; sourceTree = "<group>"; };
-		5F0F260D255BB6AF007665E6 /* colors_rebranded.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = colors_rebranded.json; sourceTree = "<group>"; };
 		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
@@ -1269,16 +1257,6 @@
 		69C12C651E07F5F8004E7261 /* VideoTranscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTranscript.swift; sourceTree = "<group>"; };
 		69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RegistrationForm.json; sourceTree = "<group>"; };
 		69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXRegistrationViewController+Swift.swift"; sourceTree = "<group>"; };
-		69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
-		69ECC5A61D50D1170030CF87 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
-		69ECC5A71D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		69ECC5A81D50D1170030CF87 /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
-		69ECC5A91D50D1170030CF87 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
-		69ECC5AA1D50D1170030CF87 /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		69ECC5AB1D50D1170030CF87 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
-		69ECC5AC1D50D1170030CF87 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
-		69ECC5AD1D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		69ECC5AF1D50D1170030CF87 /* Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29.png"; sourceTree = "<group>"; };
 		69ECC5B01D50D1170030CF87 /* Icon-29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29@2x.png"; sourceTree = "<group>"; };
 		69ECC5B11D50D1170030CF87 /* Icon-29@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29@3x.png"; sourceTree = "<group>"; };
@@ -2516,23 +2494,6 @@
 			name = Timeline;
 			sourceTree = "<group>";
 		};
-		5F6F2B54255AAB6F00AA3708 /* OpenSans */ = {
-			isa = PBXGroup;
-			children = (
-				69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */,
-				69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */,
-				69ECC5A61D50D1170030CF87 /* OpenSans-ExtraBold.ttf */,
-				69ECC5A71D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf */,
-				69ECC5A81D50D1170030CF87 /* OpenSans-Italic.ttf */,
-				69ECC5A91D50D1170030CF87 /* OpenSans-Light.ttf */,
-				69ECC5AA1D50D1170030CF87 /* OpenSans-LightItalic.ttf */,
-				69ECC5AB1D50D1170030CF87 /* OpenSans-Regular.ttf */,
-				69ECC5AC1D50D1170030CF87 /* OpenSans-Semibold.ttf */,
-				69ECC5AD1D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf */,
-			);
-			path = OpenSans;
-			sourceTree = "<group>";
-		};
 		5F6F2B55255AAB7F00AA3708 /* Inter */ = {
 			isa = PBXGroup;
 			children = (
@@ -2571,7 +2532,6 @@
 			isa = PBXGroup;
 			children = (
 				6987A86C1D6C67DB00E9D183 /* colors.json */,
-				5F0F260D255BB6AF007665E6 /* colors_rebranded.json */,
 			);
 			path = Colors;
 			sourceTree = "<group>";
@@ -2600,7 +2560,6 @@
 				228E169B2136BC0E006FA184 /* FontAwesome.ttf */,
 				BD7C6C3F1DCA329A0004D135 /* fonts.json */,
 				5F6F2B55255AAB7F00AA3708 /* Inter */,
-				5F6F2B54255AAB6F00AA3708 /* OpenSans */,
 				5F6F2B6E255AABC400AA3708 /* inter_fonts.json */,
 			);
 			path = Fonts;
@@ -4517,17 +4476,13 @@
 				22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */,
 				B71AA1B420CEF64D00700C5E /* chemistry@2x.png in Resources */,
 				B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */,
-				69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */,
 				E0241785254043C400E397EA /* read-this-before-update.rtf in Resources */,
 				69ECC60F1D50D1170030CF87 /* arrow_next@2x.png in Resources */,
 				B7C5DB5C20BB4AAC00D80AD2 /* TestSubjects.json in Resources */,
 				69ECC6451D50D1170030CF87 /* separator.png in Resources */,
 				69ECC6131D50D1170030CF87 /* loginScreenImage.png in Resources */,
 				E0E27FC21EC469A800D1AEFE /* WhatsNew.json in Resources */,
-				69ECC6011D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				5F0F260E255BB6AF007665E6 /* colors_rebranded.json in Resources */,
 				69ECC6371D50D1170030CF87 /* ic_partiallywatched@3x.png in Resources */,
-				69ECC5FF1D50D1170030CF87 /* OpenSans-BoldItalic.ttf in Resources */,
 				69ECC6461D50D1170030CF87 /* separator1.png in Resources */,
 				B71AA19520CEF64D00700C5E /* language@3x.png in Resources */,
 				69ECC6491D50D1170030CF87 /* share.pdf in Resources */,
@@ -4617,7 +4572,6 @@
 				B71AA1C620CEF64D00700C5E /* health@2x.png in Resources */,
 				B71AA1B120CEF64D00700C5E /* business@2x.png in Resources */,
 				BD7C6C401DCA329A0004D135 /* fonts.json in Resources */,
-				69ECC6021D50D1170030CF87 /* OpenSans-Italic.ttf in Resources */,
 				69ECC6481D50D1170030CF87 /* separator5.png in Resources */,
 				69ECC6141D50D1170030CF87 /* bt_blue2.png in Resources */,
 				B71AA1BD20CEF64D00700C5E /* data_science@2x.png in Resources */,
@@ -4644,7 +4598,6 @@
 				5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */,
 				69ECC6361D50D1170030CF87 /* ic_partiallywatched@2x.png in Resources */,
 				69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */,
-				69ECC6041D50D1170030CF87 /* OpenSans-LightItalic.ttf in Resources */,
 				E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */,
 				69ECC64F1D50D1170030CF87 /* Default-Landscape@3x.png in Resources */,
 				5F6F2B65255AABA400AA3708 /* Inter-Light.ttf in Resources */,
@@ -4657,10 +4610,8 @@
 				B71AA1CE20CEF64D00700C5E /* history@2x.png in Resources */,
 				69ECC6511D50D1170030CF87 /* handouts-announcements.css in Resources */,
 				69ECC6431D50D1170030CF87 /* logo@3x.png in Resources */,
-				69ECC6031D50D1170030CF87 /* OpenSans-Light.ttf in Resources */,
 				5D836DC91B2FA12E00411CAB /* DiscussionNewCommentViewController.xib in Resources */,
 				69ECC6101D50D1170030CF87 /* profilePhotoPlaceholder.png in Resources */,
-				69ECC6051D50D1170030CF87 /* OpenSans-Regular.ttf in Resources */,
 				B71AA1C920CEF64D00700C5E /* science@2x.png in Resources */,
 				B71AA1A120CEF64D00700C5E /* design@3x.png in Resources */,
 				2212FD3921D4BE92007409C3 /* PrivacyPolicy.htm in Resources */,
@@ -4675,7 +4626,6 @@
 				69ECC61F1D50D1170030CF87 /* bt_signin_active.png in Resources */,
 				6960892B1D53935500EE66DD /* courseCertificate.png in Resources */,
 				5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */,
-				69ECC6071D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				69ECC60C1D50D1170030CF87 /* Icon-40@3x.png in Resources */,
 				2212FD3521D4BE84007409C3 /* MobileAppEula.htm in Resources */,
 				6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */,
@@ -4683,7 +4633,6 @@
 				B71AA19B20CEF64D00700C5E /* energy@3x.png in Resources */,
 				69ECC63A1D50D1170030CF87 /* ic_watched@2x.png in Resources */,
 				B71AA19D20CEF64D00700C5E /* electronics@3x.png in Resources */,
-				69ECC6061D50D1170030CF87 /* OpenSans-Semibold.ttf in Resources */,
 				B71AA1C320CEF64D00700C5E /* design@2x.png in Resources */,
 				B71AA1CD20CEF64D00700C5E /* literature@2x.png in Resources */,
 				E039A8031F74C0D80064ABDB /* loginScreenImage~ipad.png in Resources */,
@@ -4706,7 +4655,6 @@
 				B7CCC740209B1F9E00A66923 /* Default-375w-812h@3x.png in Resources */,
 				B71AA1A620CEF64D00700C5E /* education@3x.png in Resources */,
 				69ECC6311D50D1170030CF87 /* ic_download.png in Resources */,
-				69ECC6001D50D1170030CF87 /* OpenSans-ExtraBold.ttf in Resources */,
 				BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */,
 				BD837BBB1DC8D5DF00341EFD /* Icon-40.png in Resources */,
 				B71AA1B520CEF64D00700C5E /* music@2x.png in Resources */,

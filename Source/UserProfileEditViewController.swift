@@ -158,7 +158,8 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
         addSubViews()
         title = Strings.Profile.editTitle
-        navigationItem.backBarButtonItem?.title = " "
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
@@ -285,7 +286,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
             self?.tableView.reloadData()
             }, for: .valueChanged)
         if let under13 = profile.parentalConsent, under13 == true {
-            let descriptionStyle = OEXMutableTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().neutralDark())
+            let descriptionStyle = OEXMutableTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
             segmentCell.descriptionLabel.attributedText = descriptionStyle.attributedString(withText: Strings.Profile.ageLimit)
         }
         

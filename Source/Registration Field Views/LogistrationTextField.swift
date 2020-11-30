@@ -31,10 +31,17 @@ import UIKit
         super.init(coder: aDecoder)
         setupTextField()
     }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupTextField()
+    }
     
     private func setupTextField() {
         backgroundColor = .clear
-        borderStyle = .roundedRect
+        layer.borderWidth = 1.0
+        layer.borderColor = OEXStyles.shared().neutralBase().cgColor
+        layer.cornerRadius = 0.0
+        layer.masksToBounds = true
     }
 }
 

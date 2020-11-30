@@ -10,9 +10,9 @@ import Foundation
 
 private let GeneralPadding: CGFloat = 8.0
 
-private let cellButtonStyle = OEXTextStyle(weight:.normal, size:.base, color: OEXStyles.shared().neutralDark())
+private let cellButtonStyle = OEXTextStyle(weight:.normal, size:.base, color: OEXStyles.shared().infoBase())
 private let cellIconSelectedStyle = cellButtonStyle.withColor(OEXStyles.shared().primaryBaseColor())
-private let responseMessageStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+private let responseMessageStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryXLightColor())
 private let disabledCommentStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBase())
 
 class DiscussionCellButton: UIButton {
@@ -153,7 +153,7 @@ class DiscussionResponseCell: UITableViewCell {
             button.setAttributedTitle(buttonText, for:.normal)
         }
         
-        commentBox.backgroundColor = OEXStyles.shared().neutralXXLight()
+        commentBox.backgroundColor = OEXStyles.shared().neutralWhite()
         
         separatorLine.backgroundColor = OEXStyles.shared().standardDividerColor
         separatorLineHeightConstraint.constant = OEXStyles.dividerSize()
@@ -196,7 +196,7 @@ class DiscussionResponseCell: UITableViewCell {
     }
     
     var endorsedTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().utilitySuccessBase())
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().successBase())
     }
     
     override func updateConstraints() {
@@ -247,7 +247,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, DiscussionCommentsViewControllerDelegate, InterfaceOrientationOverriding {
-    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXAnalyticsProvider & DataManagerProvider
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXAnalyticsProvider & DataManagerProvider & OEXStylesProvider
 
     enum TableSection : Int {
         case Post = 0
@@ -278,18 +278,31 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         loadResponses()
         
         let styles = OEXStyles.shared()
-        let footerStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhite())
         
         let icon = postClosed ? Icon.Closed : Icon.Create
         let text = postClosed ? Strings.responsesClosed : Strings.addAResponse
-        
-        let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedTextWithStyle(style: footerStyle.withSize(.xSmall)),
-            footerStyle.attributedString(withText: text)])
+
+        let createImage = icon.imageWithFontSize(size: 14).image(with: environment.styles.neutralWhiteT())
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = createImage
+        let imageOffsetY: CGFloat = -3.0
+        if let image = imageAttachment.image {
+            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
+        }
+        let attributedImageString = NSAttributedString(attachment: imageAttachment)
+        let style = OEXTextStyle(weight : .semiBold, size: .base, color: environment.styles.neutralWhiteT())
+        let attributedStrings = [
+            attributedImageString,
+            NSAttributedString(string: "\u{00a0}"),
+            style.attributedString(withText: text)
+        ]
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
         
         addResponseButton.setAttributedTitle(buttonTitle, for: .normal)
         
         let postingEnabled = (postClosed || isDiscussionBlackedOut)
-        addResponseButton.backgroundColor = postingEnabled ? styles.neutralBase() : styles.primaryXDarkColor()
+        addResponseButton.backgroundColor = styles.secondaryBaseColor()
+        addResponseButton.alpha = postingEnabled ? 0.5 : 1.0
         addResponseButton.isEnabled = !postingEnabled
 
         addResponseButton.oex_removeAllActions()
@@ -309,15 +322,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralXDark())
+        return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralBlackT())
     }
     
     var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlack())
     }
     
     var infoTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
 
     }
     

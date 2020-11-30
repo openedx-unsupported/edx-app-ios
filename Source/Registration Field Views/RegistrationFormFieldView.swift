@@ -18,9 +18,9 @@ class RegistrationFormFieldView: UIView {
     }
     
     // MARK: - Properties -
-    let titleLabelStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
-    let instructionsLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().neutralDark())
-    let errorLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().errorLight())
+    let titleLabelStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlack())
+    let instructionsLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().neutralBlack())
+    let errorLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().errorBase())
     // This is to keep track of either user tapped out first time from the field or not
     // Show validation error first time on tap out and then while editing
     var tapout: Bool = false
@@ -42,7 +42,7 @@ class RegistrationFormFieldView: UIView {
     // Used in child class
     @objc lazy var textInputField: LogistrationTextField = {
         let textField = LogistrationTextField()
-        textField.defaultTextAttributes = OEXStyles.shared().textFieldStyle(with: .base).attributes.attributedKeyDictionary()
+        textField.defaultTextAttributes = OEXStyles.shared().textFieldStyle(with: .base, color: OEXStyles.shared().neutralBlack()).attributes.attributedKeyDictionary()
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.addTarget(self, action: #selector(RegistrationFormFieldView.valueDidChange), for: .editingChanged)

@@ -82,7 +82,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     private let thread: DiscussionThread?
     
     private var editingStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: .base, color: OEXStyles.shared().neutralDark())
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: .base, color: OEXStyles.shared().primaryXLightColor())
         style.lineBreakMode = .byWordWrapping
         return style
     }
@@ -132,15 +132,15 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     }
     
     private var responseTitleStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .normal, size : .large, color : OEXStyles.shared().neutralXDark())
+        return OEXTextStyle(weight : .normal, size : .large, color : OEXStyles.shared().neutralBlackT())
     }
     
     private var answerLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().utilitySuccessBase())
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().successBase())
     }
     
     private var responseTextViewStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlack())
     }
     
     private var personTimeLabelStyle : OEXTextStyle {
@@ -157,7 +157,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         contentTextView.textContainerInset = environment.styles.standardTextViewInsets
         contentTextView.typingAttributes = environment.styles.textAreaBodyStyle.attributes.attributedKeyDictionary()
         contentTextView.placeholderTextColor = environment.styles.neutralBase()
-        contentTextView.textColor = environment.styles.neutralDark()
+        contentTextView.textColor = environment.styles.primaryXLightColor()
         contentTextView.applyBorderStyle(style: environment.styles.entryFieldBorderStyle)
         contentTextView.delegate = self
         

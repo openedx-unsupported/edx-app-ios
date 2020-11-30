@@ -101,8 +101,8 @@ class JSONFormBuilder {
         }
         
         func applyData(field: JSONFormBuilder.Field, data: FormData) {
-            let titleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlackT())
-            let descriptionStyle = OEXMutableTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().neutralDark())
+            let titleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlack())
+            let descriptionStyle = OEXMutableTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().neutralXDark())
             descriptionStyle.lineBreakMode = .byTruncatingTail
             
             titleLabel.attributedText = titleStyle.attributedString(withText: field.title)
@@ -290,7 +290,7 @@ class JSONFormBuilder {
             let titleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlackT())
             let titleAttrStr = titleStyle.attributedString(withText: " " + title)
             
-            let valueStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+            let valueStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryXLightColor())
             let valAttrString = valueStyle.attributedString(withText: value)
             
             return  NSAttributedString.joinInNaturalLayout(attributedStrings: [icon, titleAttrStr, valAttrString])

@@ -34,7 +34,7 @@
         self.instructionsLabel.numberOfLines = 0;
         self.instructionsLabel.isAccessibilityElement = NO;
         [self addSubview:self.instructionsLabel];
-        self.instructionsLabelStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] neutralDark]];
+        self.instructionsLabelStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] neutralBlack]];
         self.instructionsLabelStyle.lineBreakMode = NSLineBreakByWordWrapping;
     }
     return self;

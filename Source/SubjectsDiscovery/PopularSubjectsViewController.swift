@@ -19,7 +19,7 @@ class PopularSubjectsViewController: UIViewController, SubjectsCollectionViewDel
         let label = UILabel()
         label.accessibilityIdentifier = "PopularSubjectsViewController:title-label"
         label.numberOfLines = 0
-        let titleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        let titleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
         label.attributedText = titleStyle.attributedString(withText: Strings.Discovery.browseBySubject)
         return label
     }()

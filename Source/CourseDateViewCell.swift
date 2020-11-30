@@ -37,7 +37,7 @@ class CourseDateViewCell: UITableViewCell {
     }()
     
     private lazy var descriptionStyle: OEXMutableTextStyle = {
-        return OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralDark())
+        return OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXDark())
     }()
     
     private let dateContainer = UIView()
@@ -217,8 +217,8 @@ class CourseDateViewCell: UITableViewCell {
         
         var messageText: [NSAttributedString] = [attributedString]
         
-        let todayBackgroundColor = OEXStyles.shared().warningBase()
-        let todayForegroundColor = OEXStyles.shared().neutralXDark()
+        let todayBackgroundColor = OEXStyles.shared().accentBColor()
+        let todayForegroundColor = OEXStyles.shared().primaryBaseColor()
         
         var todayAttributedText: NSAttributedString?
         
@@ -340,7 +340,7 @@ class CourseDateViewCell: UITableViewCell {
         case .completed:
             statusText = createBadge(with: status)
             
-            statusBackgroundColor = OEXStyles.shared().neutralXXLight()
+            statusBackgroundColor = OEXStyles.shared().neutralXLight()
             statusForegroundColor = OEXStyles.shared().neutralXDark()
             
             break
@@ -348,7 +348,7 @@ class CourseDateViewCell: UITableViewCell {
         case .pastDue:
             statusText = createBadge(with: status)
             
-            statusBackgroundColor = OEXStyles.shared().neutralLight()
+            statusBackgroundColor = OEXStyles.shared().neutralBase()
             statusForegroundColor = OEXStyles.shared().neutralXDark()
             
             break
@@ -357,7 +357,7 @@ class CourseDateViewCell: UITableViewCell {
             if setDueNext {
                 statusText = createBadge(with: status)
                 
-                statusBackgroundColor = OEXStyles.shared().neutralDark()
+                statusBackgroundColor = OEXStyles.shared().neutralXDark()
                 statusForegroundColor = OEXStyles.shared().neutralWhite()
                 
                 delegate?.didSetDueNext(with: index)
@@ -415,7 +415,7 @@ class CourseDateViewCell: UITableViewCell {
     /// Updates timeline point color based on appropirate state
     private func updateTimelinePoint(for block: CourseDateBlock) {
         if block.isToday {
-            timelinePoint.color = OEXStyles.shared().warningBase()
+            timelinePoint.color = OEXStyles.shared().accentBColor()
             timelinePoint.diameter = todayTimelinePointDiameter
         } else if block.isInPast {
             
@@ -464,7 +464,7 @@ extension CourseDateViewCell: NSLayoutManagerDelegate {
     }
 }
 
-fileprivate extension UIImage {
+extension UIImage {
     func image(with color: UIColor) -> UIImage {
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         UIGraphicsBeginImageContext(rect.size)

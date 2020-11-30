@@ -41,7 +41,7 @@
             [owner choseProvider:provider];
         }];
         self.authOptionsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.labelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+        self.labelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralBlack]];
         self.signUpHeading = [[UILabel alloc] initWithFrame:CGRectZero];
         self.signUpHeading.attributedText = [self.labelStyle attributedStringWithText:[Strings registrationRegisterPrompt]];
         self.signUpHeading.isAccessibilityElement = NO;

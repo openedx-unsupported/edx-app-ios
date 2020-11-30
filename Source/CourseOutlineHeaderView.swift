@@ -23,19 +23,19 @@ public class CourseOutlineHeaderView: UIView {
     private let subtitleLabel = UILabel(frame: CGRect.zero)
     
     private var contrastColor : UIColor {
-        return styles.primaryBaseColor()
+        return styles.neutralWhiteT()
     }
     
     private var labelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: contrastColor)
+        return OEXTextStyle(weight: .semiBold, size: .base, color: contrastColor)
     }
     
     private var subtitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
+        return OEXTextStyle(weight: .normal, size: .small, color : contrastColor)
     }
     
     private var viewButtonStyle : ButtonStyle {
-        let textStyle = OEXTextStyle(weight: .normal, size: .large, color : contrastColor)
+        let textStyle = OEXTextStyle(weight: .semiBold, size: .large, color : OEXStyles.shared().accentAColor())
         return ButtonStyle(textStyle: textStyle, backgroundColor: nil, borderStyle: nil)
     }
     
@@ -66,7 +66,7 @@ public class CourseOutlineHeaderView: UIView {
         messageView.attributedText = labelStyle.attributedString(withText: titleText)
         subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: subtitleText)
         
-        backgroundColor = styles.bannerColor()
+        backgroundColor = styles.primaryBaseColor()
         bottomDivider.backgroundColor = contrastColor
         
         bottomDivider.snp.makeConstraints { make in

@@ -89,29 +89,19 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>so you can select a profile image</string>
 	<key>UIAppFonts</key>
-    <array>
-        <string>FontAwesome.ttf</string>
-        <string>OpenSans-Italic.ttf</string>
-        <string>OpenSans-Regular.ttf</string>
-        <string>OpenSans-Semibold.ttf</string>
-        <string>OpenSans-SemiboldItalic.ttf</string>
-        <string>OpenSans-Bold.ttf</string>
-        <string>OpenSans-BoldItalic.ttf</string>
-        <string>OpenSans-Light.ttf</string>
-        <string>OpenSans-LightItalic.ttf</string>
-        <string>OpenSans-ExtraBold.ttf</string>
-        <string>OpenSans-ExtraBoldItalic.ttf</string>
-        <string>Inter-Italic.ttf</string>
-        <string>Inter-Regular.ttf</string>
-        <string>Inter-SemiBold.ttf</string>
-        <string>Inter-SemiBoldItalic.ttf</string>
-        <string>Inter-Bold.ttf</string>
-        <string>Inter-BoldItalic.ttf</string>
-        <string>Inter-Light.ttf</string>
-        <string>Inter-LightItalic.ttf</string>
-        <string>Inter-ExtraBold.ttf</string>
-        <string>Inter-ExtraBoldItalic.ttf</string>
-    </array>
+	<array>
+		<string>FontAwesome.ttf</string>
+		<string>Inter-Italic.ttf</string>
+		<string>Inter-Regular.ttf</string>
+		<string>Inter-SemiBold.ttf</string>
+		<string>Inter-SemiBoldItalic.ttf</string>
+		<string>Inter-Bold.ttf</string>
+		<string>Inter-BoldItalic.ttf</string>
+		<string>Inter-Light.ttf</string>
+		<string>Inter-LightItalic.ttf</string>
+		<string>Inter-ExtraBold.ttf</string>
+		<string>Inter-ExtraBoldItalic.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

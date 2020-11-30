@@ -52,10 +52,12 @@ extension OEXStyles {
         UIToolbar.appearance().tintColor = navigationItemTintColor()
         
         let style = OEXTextStyle(weight: .normal, size : .small, color : neutralBlack())
+        let selectedStyle = OEXTextStyle(weight: .normal, size : .small, color : neutralWhiteT())
         let styleAttributes = style.attributes.attributedKeyDictionary()
-        UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, for: UIControl.State.selected)
+        let selectedStyleAttributes = selectedStyle.attributes.attributedKeyDictionary()
+        UISegmentedControl.appearance().setTitleTextAttributes(selectedStyleAttributes, for: UIControl.State.selected)
         UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, for: UIControl.State.normal)
-        UISegmentedControl.appearance().tintColor = self.primaryXLightColor()
+        UISegmentedControl.appearance().tintColor = primaryXLightColor()
         
         UINavigationBar.appearance().isTranslucent = false
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.classForCoder() as! UIAppearanceContainer.Type]).defaultTextAttributes = searchBarTextStyle.attributes.attributedKeyDictionary()
@@ -93,12 +95,12 @@ extension OEXStyles {
 // Standard text Styles
     
     var textAreaBodyStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralDark())
+        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralBlack())
         style.lineBreakMode = .byWordWrapping
         return style
     }
     
-    func textFieldStyle(with size: OEXTextSize, color: UIColor = OEXStyles.shared().neutralDark()) -> OEXTextStyle {
+    func textFieldStyle(with size: OEXTextSize, color: UIColor = OEXStyles.shared().neutralXDark()) -> OEXTextStyle {
         return OEXMutableTextStyle(weight: .normal, size: size, color: color)
     }
     
@@ -106,13 +108,13 @@ extension OEXStyles {
 // Standard button styles
 
     @objc var filledPrimaryButtonStyle : ButtonStyle {
-        return filledButtonStyle(color: OEXStyles.shared().primaryBaseColor())
+        return filledButtonStyle(color: OEXStyles.shared().secondaryBaseColor())
     }
 
     func filledButtonStyle(color: UIColor) -> ButtonStyle {
         let buttonMargins : CGFloat = 8
-        let borderStyle = BorderStyle()
-        let textStyle = OEXTextStyle(weight: .semiBold, size: .base, color: self.neutralWhite())
+        let borderStyle = BorderStyle(cornerRadius: .Size(0), width: .Size(0), color: neutralBase())
+        let textStyle = OEXTextStyle(weight: .semiBold, size: .base, color: neutralWhiteT())
         return ButtonStyle(textStyle: textStyle, backgroundColor: color, borderStyle: borderStyle,
                            contentInsets : UIEdgeInsets.init(top: buttonMargins, left: buttonMargins, bottom: buttonMargins, right: buttonMargins))
     }
@@ -125,7 +127,7 @@ extension OEXStyles {
     var filledEmphasisButtonStyle : ButtonStyle {
         let buttonMargins : CGFloat = 12
         let result = filledPrimaryButtonStyle
-        result.backgroundColor = OEXStyles.shared().utilitySuccessBase()
+        result.backgroundColor = OEXStyles.shared().secondaryBaseColor()
         result.textStyle = result.textStyle.withSize(.xLarge)
         result.contentInsets = UIEdgeInsets.init(top: buttonMargins, left: buttonMargins, bottom: buttonMargins, right: buttonMargins)
         return result
@@ -133,7 +135,7 @@ extension OEXStyles {
     
 // Standard border styles
     var entryFieldBorderStyle : BorderStyle {
-        return BorderStyle(width: .Size(1), color: OEXStyles.shared().neutralLight())
+        return BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: OEXStyles.shared().neutralBase())
     }
     
 //Standard Divider styles

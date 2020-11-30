@@ -17,6 +17,11 @@
     [self.lbl_time setTextAlignment:NSTextAlignmentNatural];
     [self.lbl_totalSize setTextAlignment:NSTextAlignmentNatural];
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
+
+    [self.lbl_title setTextColor:[[OEXStyles sharedStyles] primaryBaseColor]];
+    [self.lbl_time setTextColor:[[OEXStyles sharedStyles] primaryXLightColor]];
+    [self.lbl_totalSize setTextColor:[[OEXStyles sharedStyles] primaryXLightColor]];
+    [self.progressView setProgressTintColor:[[OEXStyles sharedStyles] successBase]];
     [self tintCancelButton];
     [self setAccessibilityIdentifiers];
 }
@@ -33,7 +38,7 @@
 -(void) tintCancelButton {
     UIImage *image = [_btn_cancel.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [_btn_cancel setImage:image forState:UIControlStateNormal];
-    _btn_cancel.tintColor = [[OEXStyles sharedStyles] neutralBase];
+    _btn_cancel.tintColor = [[OEXStyles sharedStyles] neutralXDark];
 }
 
 @end
