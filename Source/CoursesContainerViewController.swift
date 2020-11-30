@@ -20,7 +20,6 @@ class CourseCardCell : UICollectionViewCell {
     fileprivate let containerView = UIView()
     fileprivate let bottomLine = UIView()
     fileprivate var course : OEXCourse?
-    fileprivate var upgradeValuePropViewEnabled: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,12 +32,9 @@ class CourseCardCell : UICollectionViewCell {
         for view in contentView.subviews {
             view.removeFromSuperview()
         }
-        
     }
     
     fileprivate func setUpView(upgradeValuePropViewEnabled: Bool) {
-        self.upgradeValuePropViewEnabled = upgradeValuePropViewEnabled
-        
         if upgradeValuePropViewEnabled {
             configureAuditCourseCardView()
         } else {
@@ -127,7 +123,7 @@ class CoursesContainerViewController: UICollectionViewController {
         case enrollmentList
     }
     
-    enum EnrollmentMode: String, RawStringExtractable {
+    enum EnrollmentMode: String {
         case audit = "audit"
         case verified = "verified"
         case none = "none"
@@ -228,7 +224,7 @@ class CoursesContainerViewController: UICollectionViewController {
             self?.delegate?.coursesContainerChoseCourse(course: course)
         }
         
-        cell.upgradeValuePropView.tapAction = { [weak self] view in
+        cell.upgradeValuePropView.tapAction = { [weak self] _ in
             self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
             self?.delegate?.showUpgradeCourseDetailView(course: course)
         }
@@ -254,7 +250,7 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if isiPad() {
             for course in courses {
                 let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
                 if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isUpgradeValuePropViewEnabled {
@@ -284,7 +280,7 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     private var itemsPerRow: CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 2 : 1
+        return isiPad() ? 2 : 1
     }
     
     private var minimumSpace: CGFloat {

@@ -273,7 +273,7 @@ extension OEXAnalytics {
         info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
         info.setObjectOrNil("\(userID)", forKey: AnalyticsEventDataKey.UserID.rawValue)
         
-        self.trackScreen(withName: withName.rawValue, courseID: courseId, value: nil, additionalInfo: info)
+        trackScreen(withName: withName.rawValue, courseID: courseId, value: nil, additionalInfo: info)
     }
     
     func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, bannerType: String) {

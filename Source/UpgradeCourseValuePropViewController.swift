@@ -67,7 +67,7 @@ class UpgradeCourseValuePropViewController: UIViewController {
     }
     
     private func screenAnalytics() {
-        let screenName = (type == .courseEnrollment) ? AnalyticsScreenName.ValuePropModalForCourseEnrollment : AnalyticsScreenName.ValuePropModalForCourseUnit
+        let screenName = type == .courseEnrollment ? AnalyticsScreenName.ValuePropModalForCourseEnrollment : AnalyticsScreenName.ValuePropModalForCourseUnit
         OEXAnalytics.shared().trackValueProModal(withName: screenName, courseId: course.course_id ?? "", userID: OEXSession.shared()?.currentUser?.userId?.intValue ?? 0)
     }
     
@@ -159,7 +159,7 @@ class UpgradeCourseValuePropViewController: UIViewController {
         messageContainer.snp.makeConstraints { make in
             make.top.equalTo(certificateImageView.snp.bottom).offset(StandardHorizontalMargin*2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(contentView).offset(-StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
             make.bottom.equalTo(contentView)
         }
         
