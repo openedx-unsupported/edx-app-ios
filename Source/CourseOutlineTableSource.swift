@@ -338,7 +338,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         if let eventName = bannerInfo.status?.analyticsEventName,
            let bannerType = bannerInfo.status?.analyticsBannerType,
               let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
-            environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.DatesScreen, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
+            environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
         }
     }
     
