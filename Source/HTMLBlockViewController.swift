@@ -119,9 +119,10 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
                 courseDateBannerView.bannerInfo = bannerModel.bannerInfo
                 courseDateBannerView.setupView()
                 height = courseDateBannerView.heightForView(width: view.frame.size.width)
-                if let analyticsBannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
-                   let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
-                    environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: courseMode, bannerType: analyticsBannerType)
+                if let eventName = bannerModel.bannerInfo.status?.analyticsEventName,
+                   let bannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
+                      let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
+                    environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.DatesScreen, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
                 }
             }
         }

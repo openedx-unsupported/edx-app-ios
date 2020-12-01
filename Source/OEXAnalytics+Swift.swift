@@ -247,8 +247,9 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: [key_play_medium: AnalyticsEventDataKey.PlayMediumChromecast.rawValue])
     }
     
-    func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, bannerType: String) {
+    func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, eventName: String, bannerType: String) {
         let event = OEXAnalyticsEvent()
+        event.name = eventName
         event.displayName = AnalyticsDisplayName.CourseDatesBanner.rawValue
         event.category = AnalyticsCategory.CourseDates.rawValue
         
