@@ -35,7 +35,7 @@ class UpgradeValuePropView: UIView {
         iconContainer.addSubview(trophyImage)
         
         learnMoreButton.layer.masksToBounds = true
-        let learnMoreButtonTextStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralWhiteT())
+        let learnMoreButtonTextStyle = OEXTextStyle(weight: .semiBold, size: .small, color : OEXStyles.shared().neutralWhiteT())
         learnMoreButton.setAttributedTitle(learnMoreButtonTextStyle.attributedString(withText: Strings.UpgradeCourseValueProp.learnMoreButtonTitle), for: .normal)
         learnMoreButton.backgroundColor = OEXStyles.shared().primaryBaseColor()
         
