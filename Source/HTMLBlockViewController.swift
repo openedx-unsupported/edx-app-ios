@@ -118,11 +118,8 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
                 courseDateBannerView.delegate = self
                 courseDateBannerView.bannerInfo = bannerModel.bannerInfo
                 courseDateBannerView.setupView()
+                trackDateBannerAppearanceEvent(bannerModel: bannerModel)
                 height = courseDateBannerView.heightForView(width: view.frame.size.width)
-                if let analyticsBannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
-                   let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
-                    environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: courseMode, bannerType: analyticsBannerType)
-                }
             }
         }
         
@@ -168,6 +165,13 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
                 self?.courseDatesResetSuccess()
             }
         }
+    }
+    
+    private func trackDateBannerAppearanceEvent(bannerModel: CourseDateBannerModel) {
+        guard let eventName = bannerModel.bannerInfo.status?.analyticsEventName,
+           let bannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
+           let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.AssignmentScreen, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
     }
     
     private func trackDatesShiftTapped() {

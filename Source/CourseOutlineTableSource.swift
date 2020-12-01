@@ -335,10 +335,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
         courseDateBannerView.bannerInfo = bannerInfo
         updateCourseDateBannerView(show: true)
-        if let analyticsBannerType = bannerInfo.status?.analyticsBannerType,
-              let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
-            environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, bannerType: analyticsBannerType)
-        }
     }
     
     func hideCourseDateBanner() {
@@ -354,6 +350,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             
             if show {
                 courseDateBannerView.setupView()
+                trackDateBannerAppearanceEvent()
                 height = courseDateBannerView.heightForView(width: headerContainer.frame.size.width)
             }
             
@@ -433,6 +430,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
             break
         }
+    }
+    
+    private func trackDateBannerAppearanceEvent() {
+        guard let eventName = courseDateBannerView.bannerInfo?.status?.analyticsEventName,
+           let bannerType = courseDateBannerView.bannerInfo?.status?.analyticsBannerType,
+           let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
     }
 }
 

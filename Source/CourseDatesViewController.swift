@@ -143,7 +143,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             }
         }
     }
-
+    
     private func loadCourseDateBannerView(bannerModel: CourseDateBannerModel) {
         let height: CGFloat
         if bannerModel.hasEnded {
@@ -152,11 +152,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             courseDateBannerView.delegate = self
             courseDateBannerView.bannerInfo = bannerModel.bannerInfo
             courseDateBannerView.setupView()
+            trackDateBannerAppearanceEvent(bannerModel: bannerModel)
             height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
-            if let analyticsBannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
-                  let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
-                environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.DatesScreen, courseMode: courseMode, bannerType: analyticsBannerType)
-            }
         }
         
         courseDateBannerView.snp.remakeConstraints { make in
@@ -253,6 +250,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 weakSelf.postCourseDateResetNotification()
             }
         }
+    }
+    
+    private func trackDateBannerAppearanceEvent(bannerModel: CourseDateBannerModel) {
+        guard let eventName = bannerModel.bannerInfo.status?.analyticsEventName,
+              let bannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
+              let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.DatesScreen, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
     }
     
     private func trackDatesShiftTapped() {
