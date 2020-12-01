@@ -152,7 +152,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             courseDateBannerView.delegate = self
             courseDateBannerView.bannerInfo = bannerModel.bannerInfo
             courseDateBannerView.setupView()
-            trackBannerEvent(bannerModel: bannerModel)
+            trackBannerAppearanceEvent(bannerModel: bannerModel)
             height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
         }
         
@@ -252,7 +252,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func trackBannerEvent(bannerModel: CourseDateBannerModel) {
+    private func trackBannerAppearanceEvent(bannerModel: CourseDateBannerModel) {
         guard let eventName = bannerModel.bannerInfo.status?.analyticsEventName,
               let bannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
               let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
