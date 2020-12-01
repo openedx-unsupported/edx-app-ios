@@ -350,7 +350,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             
             if show {
                 courseDateBannerView.setupView()
-                trackBannerAppearanceEvent()
+                trackDateBannerAppearanceEvent()
                 height = courseDateBannerView.heightForView(width: headerContainer.frame.size.width)
             }
             
@@ -432,7 +432,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
     }
     
-    private func trackBannerAppearanceEvent() {
+    private func trackDateBannerAppearanceEvent() {
         guard let eventName = courseDateBannerView.bannerInfo?.status?.analyticsEventName,
            let bannerType = courseDateBannerView.bannerInfo?.status?.analyticsBannerType,
            let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }

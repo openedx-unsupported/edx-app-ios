@@ -118,7 +118,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
                 courseDateBannerView.delegate = self
                 courseDateBannerView.bannerInfo = bannerModel.bannerInfo
                 courseDateBannerView.setupView()
-                trackBannerAppearanceEvent(bannerModel: bannerModel)
+                trackDateBannerAppearanceEvent(bannerModel: bannerModel)
                 height = courseDateBannerView.heightForView(width: view.frame.size.width)
             }
         }
@@ -167,7 +167,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         }
     }
     
-    private func trackBannerAppearanceEvent(bannerModel: CourseDateBannerModel) {
+    private func trackDateBannerAppearanceEvent(bannerModel: CourseDateBannerModel) {
         guard let eventName = bannerModel.bannerInfo.status?.analyticsEventName,
            let bannerType = bannerModel.bannerInfo.status?.analyticsBannerType,
            let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
