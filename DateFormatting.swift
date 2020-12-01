@@ -10,6 +10,7 @@ import Foundation
 
 private let StandardDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 private let SecondaryDateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
+// Some APIs return fractional microseconds instead of seconds
 private let StandardDateFormatMicroseconds = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
 
 /// Time zone set by UserPreferenceAPI
@@ -33,7 +34,6 @@ open class DateFormatting: NSObject {
         guard let dateString = dateString else { return nil }
         
         let formatter = DateFormatter()
-        formatter.dateFormat = StandardDateFormat
         
         if let timeZone = timeZone {
             formatter.timeZone = timeZone
@@ -41,14 +41,19 @@ open class DateFormatting: NSObject {
             formatter.timeZone = TimeZone(abbreviation: "GMT")
         }
         
-        var result = formatter.date(from: dateString)
-        if result == nil {
-            // Some APIs return fractional microseconds instead of seconds
-            formatter.dateFormat = StandardDateFormatMicroseconds
-            result = formatter.date(from: dateString)
+        let knownFormats = [StandardDateFormat, SecondaryDateFormat, StandardDateFormatMicroseconds]
+        
+        for format in knownFormats {
+            formatter.dateFormat = format
+            if let result = formatter.date(from: dateString) {
+                return result as NSDate?
+            }
         }
         
-        return result as NSDate?
+        if let isoDate = ISOParser.parse(dateString, options: nil) {
+            return isoDate as NSDate?
+        }
+        return nil
     }
     
     /// Format like April 11 or January 23
