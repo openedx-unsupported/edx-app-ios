@@ -350,12 +350,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             
             if show {
                 courseDateBannerView.setupView()
+                trackBannerEvent()
                 height = courseDateBannerView.heightForView(width: headerContainer.frame.size.width)
-                if let eventName = courseDateBannerView.bannerInfo?.status?.analyticsEventName,
-                   let bannerType = courseDateBannerView.bannerInfo?.status?.analyticsBannerType,
-                      let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode {
-                    environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
-                }
             }
             
             courseDateBannerView.snp.remakeConstraints { make in
@@ -434,6 +430,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
             break
         }
+    }
+    
+    private func trackBannerEvent() {
+        guard let eventName = courseDateBannerView.bannerInfo?.status?.analyticsEventName,
+           let bannerType = courseDateBannerView.bannerInfo?.status?.analyticsBannerType,
+           let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
+        environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
     }
 }
 
