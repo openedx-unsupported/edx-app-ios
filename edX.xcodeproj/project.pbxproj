@@ -844,6 +844,9 @@
 		E02F656A1E8B94CC000D1C4E /* TZStackViewDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02F65671E8B94CC000D1C4E /* TZStackViewDistribution.swift */; };
 		E03402211C7F1FC9003EB9B7 /* DiscussionResponsesDataControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */; };
 		E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */; };
+		E037C2A525762809003CE562 /* courseCertificate_large.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2A225762809003CE562 /* courseCertificate_large.png */; };
+		E037C2A625762809003CE562 /* courseCertificate_large@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2A325762809003CE562 /* courseCertificate_large@2x.png */; };
+		E037C2A725762809003CE562 /* courseCertificate_large@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2A425762809003CE562 /* courseCertificate_large@3x.png */; };
 		E039A8031F74C0D80064ABDB /* loginScreenImage~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E039A8011F74C0D80064ABDB /* loginScreenImage~ipad.png */; };
 		E039A8041F74C0D80064ABDB /* logo~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E039A8021F74C0D80064ABDB /* logo~ipad.png */; };
 		E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A141D38C91F00944AAA /* OfflineSupportViewController.swift */; };
@@ -1999,6 +2002,9 @@
 		E02F65671E8B94CC000D1C4E /* TZStackViewDistribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TZStackViewDistribution.swift; sourceTree = "<group>"; };
 		E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataControllerTests.swift; sourceTree = "<group>"; };
 		E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTestsDataFactory.swift; sourceTree = "<group>"; };
+		E037C2A225762809003CE562 /* courseCertificate_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate_large.png; sourceTree = "<group>"; };
+		E037C2A325762809003CE562 /* courseCertificate_large@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate_large@2x.png"; sourceTree = "<group>"; };
+		E037C2A425762809003CE562 /* courseCertificate_large@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate_large@3x.png"; sourceTree = "<group>"; };
 		E039A8011F74C0D80064ABDB /* loginScreenImage~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginScreenImage~ipad.png"; sourceTree = "<group>"; };
 		E039A8021F74C0D80064ABDB /* logo~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo~ipad.png"; sourceTree = "<group>"; };
 		E03E6A141D38C91F00944AAA /* OfflineSupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineSupportViewController.swift; sourceTree = "<group>"; };
@@ -2595,6 +2601,9 @@
 		69ECC5B61D50D1170030CF87 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E037C2A225762809003CE562 /* courseCertificate_large.png */,
+				E037C2A325762809003CE562 /* courseCertificate_large@2x.png */,
+				E037C2A425762809003CE562 /* courseCertificate_large@3x.png */,
 				22A970E324EECFAC008FCAF6 /* icon_apple@1x.png */,
 				22A970E424EECFAC008FCAF6 /* icon_apple@2x.png */,
 				2266C5612362F6AE00F96BCA /* icon_microsoft_white.png */,
@@ -4506,6 +4515,7 @@
 				6926CDAD1D59BE3600A16E22 /* ic_previous_press.png in Resources */,
 				B71AA1C420CEF64D00700C5E /* social_sciences@2x.png in Resources */,
 				69ECC6401D50D1170030CF87 /* iTunesArtwork in Resources */,
+				E037C2A625762809003CE562 /* courseCertificate_large@2x.png in Resources */,
 				69ECC6441D50D1170030CF87 /* loginScreenImage@2x.png in Resources */,
 				6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */,
 				69ECC61D1D50D1170030CF87 /* bt_logout_default.png in Resources */,
@@ -4513,6 +4523,8 @@
 				22DACEEE20E270A2007AD5D5 /* test-movie.mp4 in Resources */,
 				69ECC6501D50D1170030CF87 /* Default@2x.png in Resources */,
 				B71AA19C20CEF64D00700C5E /* law@3x.png in Resources */,
+				E037C2A525762809003CE562 /* courseCertificate_large.png in Resources */,
+				E037C2A725762809003CE562 /* courseCertificate_large@3x.png in Resources */,
 				2266C5622362F6AF00F96BCA /* icon_microsoft_white.png in Resources */,
 				69ECC6341D50D1170030CF87 /* ic_next_deactive.png in Resources */,
 				B71AA1BE20CEF64D00700C5E /* education@2x.png in Resources */,
