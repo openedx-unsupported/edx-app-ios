@@ -33,7 +33,8 @@ open class DateFormatting: NSObject {
         guard let dateString = dateString else { return nil }
         
         let formatter = DateFormatter()
-        formatter.dateFormat = StandardDateFormat
+        // Some APIs return fractional microseconds instead of seconds
+        let knownFormats = [StandardDateFormat, SecondaryDateFormat, StandardDateFormatMicroseconds]
         
         if let timeZone = timeZone {
             formatter.timeZone = timeZone
@@ -41,16 +42,15 @@ open class DateFormatting: NSObject {
             formatter.timeZone = TimeZone(abbreviation: "GMT")
         }
         
-        if let result = formatter.date(from: dateString) {
-            return result as NSDate?
-        } else {
-            // Some APIs return fractional microseconds instead of seconds
-            formatter.dateFormat = StandardDateFormatMicroseconds
-            if let formattedDate = formatter.date(from: dateString) {
-                return formattedDate as NSDate?
-            } else if let isoDate = ISOParser.parse(dateString, options: nil) {
-                return isoDate as NSDate?
+        for format in knownFormats {
+            formatter.dateFormat = format
+            if let result = formatter.date(from: dateString) {
+                return result as NSDate?
             }
+        }
+        
+        if let isoDate = ISOParser.parse(dateString, options: nil) {
+            return isoDate as NSDate?
         }
         
         return nil
