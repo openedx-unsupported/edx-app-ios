@@ -14,6 +14,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     private let environment : Environment
     
+    private let imageSize: CGFloat = 20
+    
     let blockID: CourseBlockID?
     let courseID: String
     private var block: CourseBlock? {
@@ -22,7 +24,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
     }
     private var messageView: IconMessageView?
-    private lazy var bannerErrorView = UIView(frame: .zero)
+    private lazy var valuePropView = UIView(frame: .zero)
     private lazy var container = UIView()
     private lazy var stackView = TZStackView()
     
@@ -114,7 +116,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         messageLabel.attributedText = messageTextStyle.attributedString(withText: Strings.courseContentGatedUpgradeToAccessGraded)
         
         let buttonLearnMore = UIButton()
-        buttonLearnMore.backgroundColor = OEXStyles.shared().neutralWhiteT()
+        buttonLearnMore.backgroundColor = environment.styles.neutralWhiteT()
         let buttonTextStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.primaryDarkColor())
         buttonLearnMore.setAttributedTitle(buttonTextStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
         
@@ -135,10 +137,10 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         container.addSubview(stackView)
-        bannerErrorView.addSubview(container)
-        view.addSubview(bannerErrorView)
+        valuePropView.addSubview(container)
+        view.addSubview(valuePropView)
         
-        imageView.image = Icon.Closed.imageWithFontSize(size: 20).image(with: OEXStyles.shared().primaryDarkColor())
+        imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
         imageView.snp.makeConstraints { make in
             make.top.equalTo(StandardVerticalMargin * 2.2)
             make.leading.equalTo(container).offset(StandardHorizontalMargin + 4)
@@ -178,7 +180,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             make.height.equalTo(bannerViewHeight / 3)
         }
                 
-        bannerErrorView.snp.makeConstraints { make in
+        valuePropView.snp.makeConstraints { make in
             make.top.equalTo(StandardHorizontalMargin * 2)
             make.leading.equalTo(view).offset(StandardVerticalMargin)
             make.trailing.equalTo(view).inset(StandardVerticalMargin)
@@ -186,10 +188,10 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
         
         container.snp.makeConstraints { make in
-            make.top.equalTo(bannerErrorView)
-            make.bottom.equalTo(bannerErrorView)
-            make.leading.equalTo(bannerErrorView)
-            make.trailing.equalTo(bannerErrorView)
+            make.top.equalTo(valuePropView)
+            make.bottom.equalTo(valuePropView)
+            make.leading.equalTo(valuePropView)
+            make.trailing.equalTo(valuePropView)
         }
         
         stackView.snp.makeConstraints { make in
@@ -204,7 +206,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.backgroundColor = environment.styles.standardBackgroundColor()
     }
     
     override func updateViewConstraints() {
