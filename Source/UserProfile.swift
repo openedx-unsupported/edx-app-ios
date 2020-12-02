@@ -91,7 +91,7 @@ public class UserProfile {
 
 extension UserProfile { //ViewModel
     func image(networkManager: NetworkManager) -> RemoteImage {
-        let placeholder = UIImage(named: "profilePhotoPlaceholder")
+        let placeholder = UIImage(named: "person_black")
         if let url = imageURL, hasProfileImage {
             return RemoteImageImpl(url: url, networkManager: networkManager, placeholder: placeholder, persist: true)
         }

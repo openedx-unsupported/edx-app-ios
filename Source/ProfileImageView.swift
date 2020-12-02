@@ -20,7 +20,8 @@ class ProfileImageView: UIImageView {
             borderStyle = BorderStyle(cornerRadius: borderStyle.cornerRadius, width: borderStyle.width, color: borderColor)
         }
         applyBorderStyle(style: borderStyle)
-        backgroundColor = OEXStyles.shared().profileImageBorderColor()
+        backgroundColor = OEXStyles.shared().profileImageBackgroundColor()
+        tintColor = OEXStyles.shared().profileImageTintColor()
     }
     
     convenience init() {
@@ -35,7 +36,7 @@ class ProfileImageView: UIImageView {
     override init (frame: CGRect) {
         super.init(frame: frame)
         let bundle = Bundle(for: type(of: self))
-        image = UIImage(named: "profilePhotoPlaceholder", in: bundle, compatibleWith: self.traitCollection)
+        image = UIImage(named: "person_black", in: bundle, compatibleWith: traitCollection)
         setup()
     }
     
@@ -48,7 +49,7 @@ class ProfileImageView: UIImageView {
         super.prepareForInterfaceBuilder()
         setup()
         let bundle = Bundle(for: type(of: self))
-        image = UIImage(named: "profilePhotoPlaceholder", in: bundle, compatibleWith: self.traitCollection)
+        image = UIImage(named: "person_black", in: bundle, compatibleWith: self.traitCollection)
     }
     
     func blurimate() -> Removable {
