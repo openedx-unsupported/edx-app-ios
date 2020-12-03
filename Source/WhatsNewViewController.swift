@@ -45,7 +45,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         else {
             self.dataModel = WhatsNewDataModel(environment: environment as? RouterEnvironment, version: Bundle.main.oex_buildVersionString())
         }
-        titleString = title ?? Strings.WhatsNew.headerText(appVersion: Bundle.main.oex_buildVersionString())
+        titleString = title ?? Strings.WhatsNew.headerText
         pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         environment.interface?.saveAppVersionOnWhatsNewAppear()
         super.init(nibName: nil, bundle: nil)
@@ -88,7 +88,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         view.backgroundColor = environment.styles.primaryBaseColor()
         doneButton.setAttributedTitle(doneButtonStyle.attributedString(withText: Strings.WhatsNew.done), for: .normal)
         doneButton.accessibilityIdentifier = "WhatsNewViewController:done-button"
-        headerLabel.accessibilityLabel = Strings.Accessibility.Whatsnew.headerLabel(appVersion: Bundle.main.oex_buildVersionString())
+        headerLabel.accessibilityLabel = Strings.Accessibility.Whatsnew.headerLabel
         headerLabel.accessibilityIdentifier = "WhatsNewViewController:header-label"
         closeButton.accessibilityLabel = Strings.Accessibility.Whatsnew.closeLabel
         closeButton.accessibilityHint = Strings.Accessibility.closeHint
