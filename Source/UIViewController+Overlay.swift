@@ -26,7 +26,7 @@ private class StatusMessageView : UIView {
         messageLabel.accessibilityIdentifier = "StatusMessageView:message-label"
         addSubview(messageLabel)
         
-        backgroundColor = OEXStyles.shared().neutralXDark().withAlphaComponent(0.75)
+        backgroundColor = OEXStyles.shared().infoXXLight()
         messageLabel.attributedText = statusMessageStyle.attributedString(withText: message)
         messageLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(margin)
@@ -41,7 +41,7 @@ private class StatusMessageView : UIView {
     }
     
     private var statusMessageStyle: OEXMutableTextStyle {
-        let style = OEXMutableTextStyle(weight: .normal, size: .base, color: UIColor.white)
+        let style = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlackT())
         style.alignment = .center;
         style.lineBreakMode = NSLineBreakMode.byWordWrapping;
         return style;
