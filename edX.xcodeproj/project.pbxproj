@@ -847,6 +847,7 @@
 		E037C2A525762809003CE562 /* courseCertificate_large.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2A225762809003CE562 /* courseCertificate_large.png */; };
 		E037C2A625762809003CE562 /* courseCertificate_large@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2A325762809003CE562 /* courseCertificate_large@2x.png */; };
 		E037C2A725762809003CE562 /* courseCertificate_large@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2A425762809003CE562 /* courseCertificate_large@3x.png */; };
+		E037C2B225774430003CE562 /* screen_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2B125774430003CE562 /* screen_3.png */; };
 		E039A8031F74C0D80064ABDB /* loginScreenImage~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E039A8011F74C0D80064ABDB /* loginScreenImage~ipad.png */; };
 		E039A8041F74C0D80064ABDB /* logo~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E039A8021F74C0D80064ABDB /* logo~ipad.png */; };
 		E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A141D38C91F00944AAA /* OfflineSupportViewController.swift */; };
@@ -2005,6 +2006,7 @@
 		E037C2A225762809003CE562 /* courseCertificate_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate_large.png; sourceTree = "<group>"; };
 		E037C2A325762809003CE562 /* courseCertificate_large@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate_large@2x.png"; sourceTree = "<group>"; };
 		E037C2A425762809003CE562 /* courseCertificate_large@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate_large@3x.png"; sourceTree = "<group>"; };
+		E037C2B125774430003CE562 /* screen_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_3.png; sourceTree = "<group>"; };
 		E039A8011F74C0D80064ABDB /* loginScreenImage~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginScreenImage~ipad.png"; sourceTree = "<group>"; };
 		E039A8021F74C0D80064ABDB /* logo~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo~ipad.png"; sourceTree = "<group>"; };
 		E03E6A141D38C91F00944AAA /* OfflineSupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineSupportViewController.swift; sourceTree = "<group>"; };
@@ -4200,6 +4202,7 @@
 		E08EFCCC1EC1E462008ECEC9 /* WhatsNew */ = {
 			isa = PBXGroup;
 			children = (
+				E037C2B125774430003CE562 /* screen_3.png */,
 				E0D9C59323FE76550085218B /* screen_2.png */,
 				E054B09E1EC3178200FACBA6 /* screen_1.png */,
 			);
@@ -4681,6 +4684,7 @@
 				BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */,
 				BD837BBB1DC8D5DF00341EFD /* Icon-40.png in Resources */,
 				B71AA1B520CEF64D00700C5E /* music@2x.png in Resources */,
+				E037C2B225774430003CE562 /* screen_3.png in Resources */,
 				69ECC60B1D50D1170030CF87 /* Icon-40@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5814,7 +5818,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				CURRENT_PROJECT_VERSION = 2.23.0;
+				CURRENT_PROJECT_VERSION = 2.24.0;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5836,7 +5840,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 2.23;
+				MARKETING_VERSION = 2.24;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
@@ -6273,7 +6277,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				CURRENT_PROJECT_VERSION = 2.23.0;
+				CURRENT_PROJECT_VERSION = 2.24.0;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6294,7 +6298,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 2.23;
+				MARKETING_VERSION = 2.24;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
@@ -6321,7 +6325,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				CURRENT_PROJECT_VERSION = 2.23.0;
+				CURRENT_PROJECT_VERSION = 2.24.0;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6343,7 +6347,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 2.23;
+				MARKETING_VERSION = 2.24;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;

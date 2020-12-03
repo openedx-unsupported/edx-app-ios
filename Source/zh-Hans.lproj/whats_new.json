@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.24",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"新外观",
+                "message":"注意到一些不同的东西了吗？我们已经对外观进行了现代化改造，并开始进行更新，以使您更轻松地实现学习目标。"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"所有课程日期一览",
+                "message":"在日期标签中一目了然地查看课程中所有重要的日期。您将永远不会错过另一个截止日期！"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"个性化学习时间表",
+                "message":"现在，当您注册自定进度的课程时，您现在可以在手机上看到带有截止日期的个性化学习时间表。如果您需要调整日程安排，也可以更改截止日期-您的课程，方式！"
+            }
+        ]
+    },
+    {
         "version":"2.23",
         "messages":[
             {

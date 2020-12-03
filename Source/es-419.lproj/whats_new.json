@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.24",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Nueva apariencia y sensación",
+                "message":"¿Notas algo diferente? Hemos modernizado nuestra apariencia y comenzamos a realizar actualizaciones que le facilitan alcanzar sus objetivos de aprendizaje."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Todas las fechas de los cursos de un vistazo",
+                "message":"Vea todas las fechas importantes de su curso de un vistazo en la pestaña de fechas. ¡Nunca perderás otra fecha límite!"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Horarios de aprendizaje personalizados",
+                "message":"Cuando está inscrito en un curso a su propio ritmo, ahora puede ver su programa de aprendizaje personalizado con fechas de entrega en su teléfono. También puede cambiar las fechas de vencimiento si necesita ajustar su horario, ¡su curso, a su manera!"
+            }
+        ]
+    },
+    {
         "version":"2.23",
         "messages":[
             {

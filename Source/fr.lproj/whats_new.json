@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.24",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Nouveau look et sensation",
+                "message":"Remarquez quelque chose de différent? Nous avons modernisé notre apparence et commencé à effectuer des mises à jour qui vous permettront d'atteindre plus facilement vos objectifs d'apprentissage."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Toutes les dates de cours en un coup d'œil",
+                "message":"Voir toutes les dates importantes de votre cours en un coup d'œil dans l'onglet dates. Vous ne manquerez plus jamais une autre date limite!"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Calendriers d'apprentissage personnalisés",
+                "message":"Lorsque vous êtes inscrit à un cours à votre rythme, vous pouvez désormais voir votre calendrier d'apprentissage personnalisé avec les dates d'échéance sur votre téléphone. Vous pouvez également changer les dates d'échéance si vous avez besoin d'ajuster votre emploi du temps - votre cours, à votre façon!"
+            }
+        ]
+    },
+    {
         "version":"2.23",
         "messages":[
             {

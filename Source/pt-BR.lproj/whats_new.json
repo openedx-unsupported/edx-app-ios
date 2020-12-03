@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.24",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Nova aparência e comportamento",
+                "message":"Observe algo diferente? Modernizamos nossa aparência e começamos a fazer atualizações que tornam mais fácil para você atingir seus objetivos de aprendizado."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Resumo de todas as datas de cursos",
+                "message":"Veja todas as datas importantes do seu curso rapidamente na guia de datas. Você nunca mais perderá um prazo!"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Cronogramas de aprendizagem personalizados",
+                "message":"Quando você está inscrito em um curso individualizado, agora você pode ver sua programação de aprendizado personalizada com datas de vencimento em seu telefone. Você também pode mudar as datas de vencimento se precisar ajustar sua programação - seu curso, do seu jeito!"
+            }
+        ]
+    },
+    {
         "version":"2.23",
         "messages":[
             {

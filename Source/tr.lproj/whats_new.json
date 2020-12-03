@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.24",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Yeni Görünüm ve His",
+                "message":"Farklı bir şey fark ettiniz mi? Görünümümüzü modernize ettik ve öğrenme hedeflerinize ulaşmanızı kolaylaştıracak güncellemeler yapmaya başladık."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Bir Bakışta Tüm Kurs Tarihleri",
+                "message":"Tarihler sekmesinde kursunuzun tüm önemli tarihlerini bir bakışta görün. Başka bir son tarihi asla kaçırmayacaksınız!"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Kişiselleştirilmiş Öğrenim Programları",
+                "message":"Kendi hızınızda bir kursa kaydolduğunuzda, artık kişiselleştirilmiş öğrenim programınızı son tarihlerle birlikte telefonunuzda görebilirsiniz. Programınızı - kursunuzu, kendi yönteminizi - ayarlamanız gerekirse, son tarihleri ​​de değiştirebilirsiniz!"
+            }
+        ]
+    },
+    {
         "version":"2.23",
         "messages":[
             {

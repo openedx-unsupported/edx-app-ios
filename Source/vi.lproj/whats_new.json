@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.24",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Giao diện mới",
+                "message":"Nhận thấy một cái gì đó khác nhau? Chúng tôi đã hiện đại hóa giao diện của mình và bắt đầu thực hiện các bản cập nhật giúp bạn đạt được mục tiêu học tập của mình dễ dàng hơn."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Xem qua tất cả các ngày khóa học",
+                "message":"Xem nhanh tất cả các ngày quan trọng trong khóa học của bạn trong tab ngày. Bạn sẽ không bao giờ bỏ lỡ thời hạn khác!"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Lịch trình học tập được cá nhân hóa",
+                "message":"Khi bạn đã đăng ký một khóa học theo nhịp độ riêng, giờ đây bạn có thể xem lịch trình học tập được cá nhân hóa của mình với các ngày đến hạn trên điện thoại. Bạn cũng có thể thay đổi ngày đến hạn nếu bạn cần điều chỉnh lịch trình của mình - khóa học của bạn, theo cách của bạn!"
+            }
+        ]
+    },
+    {
         "version":"2.23",
         "messages":[
             {

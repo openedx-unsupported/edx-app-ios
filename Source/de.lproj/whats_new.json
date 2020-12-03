@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.24",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Neues Aussehen und Gefühl",
+                "message":"Merken Sie etwas anderes? Wir haben unser Erscheinungsbild modernisiert und Aktualisierungen vorgenommen, die es Ihnen erleichtern, Ihre Lernziele zu erreichen."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Alle Kurstermine auf einen Blick",
+                "message":"Auf der Registerkarte \"Daten\" sehen Sie alle wichtigen Daten Ihres Kurses auf einen Blick. Sie werden nie wieder eine Frist verpassen!"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Personalisierte Lernpläne",
+                "message":"Wenn Sie sich für einen Kurs im eigenen Tempo angemeldet haben, können Sie jetzt Ihren persönlichen Lernplan mit Fälligkeitsterminen auf Ihrem Telefon anzeigen. Sie können auch Fälligkeitstermine verschieben, wenn Sie Ihren Zeitplan anpassen müssen - Ihren Kurs, Ihren Weg!"
+            }
+        ]
+    },
+    {
         "version":"2.23",
         "messages":[
             {
