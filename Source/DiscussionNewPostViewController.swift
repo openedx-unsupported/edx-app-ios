@@ -34,7 +34,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var backgroundView: UIView!
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
-    @IBOutlet private var titleTextField: UITextField!
+    @IBOutlet private var titleTextField: LogistrationTextField!
     @IBOutlet private var discussionQuestionSegmentedControl: UISegmentedControl!
     @IBOutlet private var bodyTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var topicButton: UIButton!
