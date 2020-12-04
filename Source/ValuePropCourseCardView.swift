@@ -12,8 +12,24 @@ class ValuePropCourseCardView: UIView {
 
     private let messageContainer = UIView()
     private let iconContainer = UIView()
-    private let messageLabel = UILabel()
-    private let learnMoreButton = UIButton()
+    
+    private lazy var messageLabel: UILabel = {
+        let message = UILabel()
+        message.numberOfLines = 0
+        message.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
+        message.adjustsFontSizeToFitWidth = true
+        let messageStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
+        message.attributedText = messageStyle.attributedString(withText: Strings.UpgradeCourseValueProp.viewMessage)
+        return message
+    }()
+    
+    private lazy var learnMoreButton: UIButton = {
+        let button = UIButton()
+        let buttonTextStyle = OEXTextStyle(weight: .semiBold, size: .small, color : OEXStyles.shared().neutralWhiteT())
+        button.setAttributedTitle(buttonTextStyle.attributedString(withText: Strings.UpgradeCourseValueProp.learnMoreButtonTitle), for: .normal)
+        button.backgroundColor = OEXStyles.shared().primaryBaseColor()
+        return button
+    }()
     private let trophyImage = UIImageView()
     private let trophyImageSize:CGFloat = 50
     var tapAction : ((ValuePropCourseCardView) -> ())?
@@ -34,22 +50,12 @@ class ValuePropCourseCardView: UIView {
         messageContainer.addSubview(learnMoreButton)
         iconContainer.addSubview(trophyImage)
         
-        let buttonTextStyle = OEXTextStyle(weight: .semiBold, size: .small, color : OEXStyles.shared().neutralWhiteT())
-        learnMoreButton.setAttributedTitle(buttonTextStyle.attributedString(withText: Strings.UpgradeCourseValueProp.learnMoreButtonTitle), for: .normal)
-        learnMoreButton.backgroundColor = OEXStyles.shared().primaryBaseColor()
-        
         learnMoreButton.oex_addAction({[weak self] action in
                 if let weakSelf = self {
                     weakSelf.tapAction?(weakSelf)
                 }
             }, for: .touchUpInside)
         
-        messageLabel.numberOfLines = 0
-        messageLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
-        messageLabel.adjustsFontSizeToFitWidth = true
-        let messageStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
-        messageLabel.attributedText = messageStyle.attributedString(withText: Strings.UpgradeCourseValueProp.viewMessage)
-
         trophyImage.image = Icon.Trophy.imageWithFontSize(size: trophyImageSize)
         setUpConstraints()
     }

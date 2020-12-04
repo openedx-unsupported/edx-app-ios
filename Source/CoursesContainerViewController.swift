@@ -16,15 +16,24 @@ class CourseCardCell : UICollectionViewCell {
     
     fileprivate static let cellIdentifier = "CourseCardCell"
     fileprivate let courseView = CourseCardView(frame: CGRect.zero)
-    fileprivate let upgradeValuePropView = UpgradeValuePropView()
-    fileprivate let containerView = UIView()
-    fileprivate let bottomLine = UIView()
+    fileprivate lazy var valuePropView: ValuePropCourseCardView = {
+        let valuePropView = ValuePropCourseCardView()
+        valuePropView.applyBorderStyle(style: BorderStyle())
+        valuePropView.backgroundColor = OEXStyles.shared().infoXXLight()
+        return valuePropView
+    }()
+    fileprivate lazy var containerView = UIView()
+    fileprivate lazy var bottomLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = OEXStyles.shared().infoXXLight()
+        return view
+    }()
     fileprivate var course : OEXCourse?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentView.backgroundColor = OEXStyles.shared().neutralXLight()
+        contentView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         setAccessibilityIdentifiers()
     }
     
@@ -34,8 +43,8 @@ class CourseCardCell : UICollectionViewCell {
         }
     }
     
-    fileprivate func setUpView(upgradeValuePropViewEnabled: Bool) {
-        if upgradeValuePropViewEnabled {
+    fileprivate func setUp(ValuePropViewEnabled: Bool) {
+        if ValuePropViewEnabled {
             configureAuditCourseCardView()
         } else {
             configureVerifiedCourseCardView()
@@ -45,11 +54,8 @@ class CourseCardCell : UICollectionViewCell {
     private func configureAuditCourseCardView() {
         contentView.addSubview(containerView)
         containerView.addSubview(courseView)
-        containerView.addSubview(upgradeValuePropView)
-        insertSubview(bottomLine, aboveSubview: upgradeValuePropView)
-        bottomLine.backgroundColor = OEXStyles.shared().infoXXLight()
-        upgradeValuePropView.applyBorderStyle(style: BorderStyle())
-        upgradeValuePropView.backgroundColor = OEXStyles.shared().infoXXLight()
+        containerView.addSubview(valuePropView)
+        insertSubview(bottomLine, aboveSubview: valuePropView)
         
         containerView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(CourseCardCell.margin)
@@ -72,7 +78,7 @@ class CourseCardCell : UICollectionViewCell {
             make.height.equalTo(12)
         }
         
-        upgradeValuePropView.snp.makeConstraints { make in
+        valuePropView.snp.makeConstraints { make in
             make.top.equalTo(courseView.snp.bottom)
             make.leading.equalTo(containerView).offset(CourseCardCell.margin)
             make.trailing.equalTo(containerView).inset(CourseCardCell.margin)
@@ -93,17 +99,11 @@ class CourseCardCell : UICollectionViewCell {
             make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
     }
-    
-    private func configureCourseCardForIPad() {
-        configureAuditCourseCardView()
-        upgradeValuePropView.alpha = 0.3
-        bottomLine.alpha = 0.3
-    }
 
     private func setAccessibilityIdentifiers() {
         contentView.accessibilityIdentifier = "CourseCardCell:content-view"
         courseView.accessibilityIdentifier = "CourseCardCell:course-card-view"
-        upgradeValuePropView.accessibilityIdentifier = "CourseCardCell:course-upgrade-value-prop-view"
+        valuePropView.accessibilityIdentifier = "CourseCardCell:course-upgrade-value-prop-view"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -113,7 +113,11 @@ class CourseCardCell : UICollectionViewCell {
 
 protocol CoursesContainerViewControllerDelegate : class {
     func coursesContainerChoseCourse(course : OEXCourse)
-    func showUpgradeCourseDetailView(course: OEXCourse)
+    func showValuePropDetailView(with course: OEXCourse)
+}
+
+extension CoursesContainerViewControllerDelegate {
+    func showValuePropDetailView(with course: OEXCourse) {}
 }
 
 class CoursesContainerViewController: UICollectionViewController {
@@ -146,7 +150,7 @@ class CoursesContainerViewController: UICollectionViewController {
         return context == .enrollmentList && isCourseDiscoveryEnabled
     }
     
-    private var shouldShowUpgradeValueProp: Bool {
+    private var shouldShowValuePropView: Bool {
         return mode == .audit && environment.config.isUpgradeValuePropViewEnabled
     }
     
@@ -224,9 +228,9 @@ class CoursesContainerViewController: UICollectionViewController {
             self?.delegate?.coursesContainerChoseCourse(course: course)
         }
         
-        cell.upgradeValuePropView.tapAction = { [weak self] _ in
+        cell.valuePropView.tapAction = { [weak self] _ in
             self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
-            self?.delegate?.showUpgradeCourseDetailView(course: course)
+            self?.delegate?.showValuePropDetailView(with: course)
         }
         
         switch context {
@@ -244,7 +248,7 @@ class CoursesContainerViewController: UICollectionViewController {
         }
 
         cell.resetCellView()
-        cell.setUpView(upgradeValuePropViewEnabled: shouldShowUpgradeValueProp)
+        cell.setUp(ValuePropViewEnabled: shouldShowValuePropView)
         
         return cell
     }

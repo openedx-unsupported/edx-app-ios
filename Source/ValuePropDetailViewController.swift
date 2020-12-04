@@ -1,5 +1,5 @@
 //
-//  UpgradeCourseValuePropViewController.swift
+//  ValuePropDetailViewController.swift
 //  edX
 //
 //  Created by Salman on 19/11/2020.
@@ -13,9 +13,14 @@ enum ValuePropModalType {
     case courseUnit
 }
 
-class UpgradeCourseValuePropViewController: UIViewController {
+class ValuePropDetailViewController: UIViewController {
 
-    private let titleLabel = UILabel()
+    private var titleLabel: UILabel = {
+       let title = UILabel()
+        title.numberOfLines = 0
+        return title
+    }()
+    
     private let messageTitleLabel = UILabel()
     private let pointOneLabel = UILabel()
     private let pointTwoLabel = UILabel()
@@ -33,11 +38,14 @@ class UpgradeCourseValuePropViewController: UIViewController {
     private let pointFourMessageContainer = UIView()
     private let contentView = UIView()
     private let scrollView = UIScrollView()
-    private let titleLabelFontstyle = OEXMutableTextStyle(weight: .normal, size: .xxxLarge, color: OEXStyles.shared().primaryDarkColor())
+    private var titleStyle: OEXMutableTextStyle = {
+        let style = OEXMutableTextStyle(weight: .normal, size: .xxxLarge, color: OEXStyles.shared().primaryBaseColor())
+        style.alignment = .center
+        return style
+    }()
     private var type: ValuePropModalType
     private var course: OEXCourse
     private let bulletImageSize:CGFloat = 28
-    private let titleLabelHeight:CGFloat = 300
     private let bulletPointContainerHeight:CGFloat = 60
     
     override func viewDidLoad() {
@@ -53,6 +61,7 @@ class UpgradeCourseValuePropViewController: UIViewController {
         self.course = course
         super.init(nibName: nil, bundle: nil)
         setTitle()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -60,10 +69,9 @@ class UpgradeCourseValuePropViewController: UIViewController {
     }
     
     private func setTitle() {
-        titleLabel.numberOfLines = 2
-        titleLabelFontstyle.alignment = .center
-        let titleString = type == .courseEnrollment ? Strings.UpgradeCourseValueProp.detailViewTitle : ""
-        titleLabel.attributedText = titleLabelFontstyle.attributedString(withText: titleString)
+        let title = type == .courseEnrollment ? Strings.UpgradeCourseValueProp.detailViewTitle : ""
+        titleLabel.attributedText = titleStyle.attributedString(withText: title)
+        
     }
     
     private func screenAnalytics() {
@@ -73,7 +81,7 @@ class UpgradeCourseValuePropViewController: UIViewController {
     
     private func configureView() {
         scrollView.contentSize = contentView.frame.size
-        messageTitleLabel.attributedText = titleLabelFontstyle.attributedString(withText: Strings.UpgradeCourseValueProp.detailViewMessageHeading)
+        messageTitleLabel.attributedText = titleStyle.attributedString(withText: Strings.UpgradeCourseValueProp.detailViewMessageHeading)
         pointOneBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: bulletImageSize)
         pointTwoBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: bulletImageSize)
         pointThreeBulletImageView.image = Icon.CheckCircleO.imageWithFontSize(size: bulletImageSize)
@@ -148,7 +156,8 @@ class UpgradeCourseValuePropViewController: UIViewController {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardHorizontalMargin * 2)
             make.centerX.equalTo(contentView)
-            make.width.equalTo(titleLabelHeight)
+            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
         
         certificateImageView.snp.makeConstraints { make in

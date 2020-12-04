@@ -198,8 +198,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
     }
     
-    func showUpgradeCourseDetailView(course: OEXCourse) {
-        environment.router?.showUpgradeDetailView(controller: self, type: .courseEnrollment, course: course)
+    func showValuePropDetailView(with course: OEXCourse) {
+        environment.router?.showValuePropDetailView(from: self, type: .courseEnrollment, course: course)
     }
     
     private func showWhatsNewIfNeeded() {

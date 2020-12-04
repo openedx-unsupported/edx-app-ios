@@ -97,10 +97,6 @@ class CourseCatalogViewController: UIViewController, CoursesContainerViewControl
         environment.router?.showCourseCatalogDetail(courseID: courseID, fromController:self)
     }
     
-    func showUpgradeCourseDetailView(course: OEXCourse) {
-        
-    }
-    
     func setupLoadingState(courses: [OEXCourse]) {
         if courses.count > 0 {
             loadController.state = .Loaded
