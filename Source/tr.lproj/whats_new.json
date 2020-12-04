@@ -8,8 +8,8 @@
                     "android"
                 ],
                 "image":"screen_1",
-                "title":"Yeni Görünüm ve His",
-                "message":"Farklı bir şey fark ettiniz mi? Görünümümüzü modernize ettik ve öğrenme hedeflerinize ulaşmanızı kolaylaştıracak güncellemeler yapmaya başladık."
+                "title":"Yeni Görünüş ve Hissiyat",
+                "message":"Farklı bir şeyler dikkatinizi çekti mi? Görünüşümüzü modern hale getirdik ve öğrenme hedeflerinizi başarmanızı daha kolay hale getirecek güncellemeler yapmaya başladık."
             },
             {
                 "platforms":[
@@ -17,8 +17,8 @@
                     "android"
                 ],
                 "image":"screen_2",
-                "title":"Bir Bakışta Tüm Kurs Tarihleri",
-                "message":"Tarihler sekmesinde kursunuzun tüm önemli tarihlerini bir bakışta görün. Başka bir son tarihi asla kaçırmayacaksınız!"
+                "title":"Bir Bakışta Tüm Ders Tarihleri",
+                "message":"Tarihler sekmesinde bir bakışta dersinize dair tüm önemli tarihleri görün. Bir daha hiçbir son teslim tarihini kaçırmayacaksınız!"
             },
             {
                 "platforms":[
@@ -26,8 +26,8 @@
                     "android"
                 ],
                 "image":"screen_3",
-                "title":"Kişiselleştirilmiş Öğrenim Programları",
-                "message":"Kendi hızınızda bir kursa kaydolduğunuzda, artık kişiselleştirilmiş öğrenim programınızı son tarihlerle birlikte telefonunuzda görebilirsiniz. Programınızı - kursunuzu, kendi yönteminizi - ayarlamanız gerekirse, son tarihleri ​​de değiştirebilirsiniz!"
+                "title":"Kişiselleştirilmiş Öğrenme Programları",
+                "message":"Kendi hızınıza uygun bir derse kayıt olduğunuzda, artık kişiselleştirilmiş öğrenme programınızı bitiş tarihleri ile birlikte telefonunuzda görebilirsiniz. Ayrıca programınızı düzenlemek isterseniz bitiş tarihlerini kaydırabilirsiniz; sizin dersiniz, sizin tarzınız!"
             }
         ]
     },

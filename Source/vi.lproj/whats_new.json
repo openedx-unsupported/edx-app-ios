@@ -8,8 +8,8 @@
                     "android"
                 ],
                 "image":"screen_1",
-                "title":"Giao diện mới",
-                "message":"Nhận thấy một cái gì đó khác nhau? Chúng tôi đã hiện đại hóa giao diện của mình và bắt đầu thực hiện các bản cập nhật giúp bạn đạt được mục tiêu học tập của mình dễ dàng hơn."
+                "title":"Giao diện và trải nghiệm mới",
+                "message":"Bạn có thấy điều gì khác biệt không? Chúng tôi đã hiện đại hóa giao diện và bắt đầu thực hiện các bản cập nhật giúp bạn đạt được mục tiêu học tập của mình dễ dàng hơn."
             },
             {
                 "platforms":[
@@ -17,8 +17,8 @@
                     "android"
                 ],
                 "image":"screen_2",
-                "title":"Xem qua tất cả các ngày khóa học",
-                "message":"Xem nhanh tất cả các ngày quan trọng trong khóa học của bạn trong tab ngày. Bạn sẽ không bao giờ bỏ lỡ thời hạn khác!"
+                "title":"Xem nhanh tất cả ngày tháng của khóa học",
+                "message":"Xem nhanh tất cả những ngày tháng quan trọng trong khóa học của bạn trong thẻ ngày tháng. Bạn sẽ không bao giờ bỏ lỡ một hạn chót nào nữa!"
             },
             {
                 "platforms":[
@@ -26,8 +26,8 @@
                     "android"
                 ],
                 "image":"screen_3",
-                "title":"Lịch trình học tập được cá nhân hóa",
-                "message":"Khi bạn đã đăng ký một khóa học theo nhịp độ riêng, giờ đây bạn có thể xem lịch trình học tập được cá nhân hóa của mình với các ngày đến hạn trên điện thoại. Bạn cũng có thể thay đổi ngày đến hạn nếu bạn cần điều chỉnh lịch trình của mình - khóa học của bạn, theo cách của bạn!"
+                "title":"Lịch học được cá nhân hóa",
+                "message":"Khi bạn tham gia vào một khóa học theo tiến độ của bản thân, giờ đây bạn có thể xem lịch học được cá nhân hóa của mình với ngày đến hạn trên điện thoại. Bạn cũng có thể thay đổi ngày đến hạn nếu bạn cần điều chỉnh lịch học của mình - khóa học của bạn, theo cách của bạn!"
             }
         ]
     },
