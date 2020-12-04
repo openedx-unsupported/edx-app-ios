@@ -19,9 +19,10 @@ open class DateFormatting: NSObject {
     
     /// Formats a time interval for display as a video duration like 23:35 or 01:14:33
     @objc open class func formatSeconds(asVideoLength totalSeconds: TimeInterval) -> String {
-        let seconds = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
-        let minutes = Int((totalSeconds / 60).truncatingRemainder(dividingBy: 60))
-        let hours = Int(totalSeconds / 3600)
+        let timeInterval = totalSeconds.isNaN ? 0 : totalSeconds
+        let seconds = Int(timeInterval.truncatingRemainder(dividingBy: 60))
+        let minutes = Int((timeInterval / 60).truncatingRemainder(dividingBy: 60))
+        let hours = Int(timeInterval / 3600)
         if hours == 0 {
             return String(format:"%02d:%02d", minutes, seconds)
         }
