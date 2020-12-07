@@ -31,7 +31,8 @@ class ValuePropCourseCardView: UIView {
         return button
     }()
     private let trophyImage = UIImageView()
-    private let trophyImageSize:CGFloat = 30
+    private let trophyImageSize:CGSize = CGSize(width: 30, height: 30)
+    private let learnMoreButtonSize:CGSize = CGSize(width: 100, height: 30)
     var tapAction : ((ValuePropCourseCardView) -> ())?
     
     override init(frame: CGRect) {
@@ -56,7 +57,7 @@ class ValuePropCourseCardView: UIView {
                 }
             }, for: .touchUpInside)
         
-        trophyImage.image = Icon.Trophy.imageWithFontSize(size: trophyImageSize)
+        trophyImage.image = Icon.Trophy.imageWithFontSize(size: trophyImageSize.height)
         setUpConstraints()
         setUpIdentifier()
     }
@@ -94,15 +95,15 @@ class ValuePropCourseCardView: UIView {
             make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(messageContainer).inset(StandardVerticalMargin)
             make.trailing.equalTo(messageContainer).inset(StandardVerticalMargin)
-            make.height.equalTo(StandardHorizontalMargin * 2)
-            make.width.equalTo(StandardHorizontalMargin * 6 + 10)
+            make.height.equalTo(learnMoreButtonSize.height)
+            make.width.equalTo(learnMoreButtonSize.width)
         }
         
         trophyImage.snp.makeConstraints { make in
             make.leading.equalTo(iconContainer).offset(StandardVerticalMargin)
             make.top.equalTo(iconContainer).offset(StandardVerticalMargin * 2)
-            make.height.equalTo(trophyImageSize)
-            make.width.equalTo(trophyImageSize)
+            make.height.equalTo(trophyImageSize.height)
+            make.width.equalTo(trophyImageSize.width)
         }
     }
 }
