@@ -31,7 +31,7 @@ class ValuePropCourseCardView: UIView {
         return button
     }()
     private let trophyImage = UIImageView()
-    private let trophyImageSize:CGFloat = 50
+    private let trophyImageSize:CGFloat = 30
     var tapAction : ((ValuePropCourseCardView) -> ())?
     
     override init(frame: CGRect) {
@@ -58,6 +58,15 @@ class ValuePropCourseCardView: UIView {
         
         trophyImage.image = Icon.Trophy.imageWithFontSize(size: trophyImageSize)
         setUpConstraints()
+        setUpIdentifier()
+    }
+    
+    private func setUpIdentifier() {
+        messageContainer.accessibilityIdentifier = "ValuePropView:message-container"
+        iconContainer.accessibilityIdentifier = "ValuePropView:icon-container"
+        messageLabel.accessibilityIdentifier = "ValuePropView:message-label"
+        trophyImage.accessibilityIdentifier = "ValuePropView:trophy-image"
+        learnMoreButton.accessibilityIdentifier = "ValuePropView:learn-more-button"
     }
     
     private func setUpConstraints() {
@@ -82,8 +91,8 @@ class ValuePropCourseCardView: UIView {
         }
         
         learnMoreButton.snp.makeConstraints { make in
-            make.top.equalTo(messageLabel.snp.bottom)
-            make.bottom.bottomMargin.equalTo(-StandardVerticalMargin)
+            make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.bottom.equalTo(messageContainer).inset(StandardVerticalMargin)
             make.trailing.equalTo(messageContainer).inset(StandardVerticalMargin)
             make.height.equalTo(StandardHorizontalMargin * 2)
             make.width.equalTo(StandardHorizontalMargin * 6 + 10)
@@ -92,8 +101,8 @@ class ValuePropCourseCardView: UIView {
         trophyImage.snp.makeConstraints { make in
             make.leading.equalTo(iconContainer).offset(StandardVerticalMargin)
             make.top.equalTo(iconContainer).offset(StandardVerticalMargin * 2)
-            make.height.equalTo(StandardHorizontalMargin * 2)
-            make.width.equalTo(StandardHorizontalMargin * 2)
+            make.height.equalTo(trophyImageSize)
+            make.width.equalTo(trophyImageSize)
         }
     }
 }
