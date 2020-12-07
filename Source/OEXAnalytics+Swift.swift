@@ -275,9 +275,10 @@ extension OEXAnalytics {
         
         trackScreen(withName: withName.rawValue, courseID: courseId, value: nil, additionalInfo: info)
     }
-    
-    func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, bannerType: String) {
+
+    func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, eventName: String, bannerType: String) {
         let event = OEXAnalyticsEvent()
+        event.name = eventName
         event.displayName = AnalyticsDisplayName.CourseDatesBanner.rawValue
         event.category = AnalyticsCategory.CourseDates.rawValue
         

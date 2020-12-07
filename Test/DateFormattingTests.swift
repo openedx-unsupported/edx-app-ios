@@ -31,6 +31,32 @@ class DateFormattingTests: XCTestCase {
         XCTAssertEqual("35:00:10", DateFormatting.formatSeconds(asVideoLength: 60 * 60 * 35 + 10))
     }
     
+    func testValidISODateStringTypeA() {
+        let date = DateFormatting.date(withServerString: "2020-10-20T23:59:00+00:00")
+        TimeZone.ReferenceType.default = TimeZone(abbreviation: "GMT")!
+        let components = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)?.components([NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day, NSCalendar.Unit.hour, NSCalendar.Unit.minute, NSCalendar.Unit.second], from: date! as Date)
+        
+        XCTAssertEqual(components?.year, 2020)
+        XCTAssertEqual(components?.month, 10)
+        XCTAssertEqual(components?.day, 20)
+        XCTAssertEqual(components?.hour, 23)
+        XCTAssertEqual(components?.minute, 59)
+        XCTAssertEqual(components?.second, 00)
+    }
+    
+    func testValidISODateStringTypeB() {
+        let date = DateFormatting.date(withServerString: "2020-10-20T23:59:00Z")
+        TimeZone.ReferenceType.default = TimeZone(abbreviation: "GMT")!
+        let components = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)?.components([NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day, NSCalendar.Unit.hour, NSCalendar.Unit.minute, NSCalendar.Unit.second], from: date! as Date)
+        
+        XCTAssertEqual(components?.year, 2020)
+        XCTAssertEqual(components?.month, 10)
+        XCTAssertEqual(components?.day, 20)
+        XCTAssertEqual(components?.hour, 23)
+        XCTAssertEqual(components?.minute, 59)
+        XCTAssertEqual(components?.second, 00)
+    }
+    
     func testValidDateString() {
         let date = DateFormatting.date(withServerString: "2014-11-06T20:16:45Z")
         TimeZone.ReferenceType.default = TimeZone(abbreviation: "GMT")!
@@ -79,7 +105,6 @@ class DateFormattingTests: XCTestCase {
         
         XCTAssertTrue(dateLesserThanSevenDaysOld.displayDate == localizedStringForSpan, "The dates \(dateLesserThanSevenDaysOld.displayDate),\(localizedStringForSpan ?? "") AND/OR format doesn't match")
         XCTAssertTrue(dateMoreThanSevenDaysOld.displayDate == DateFormatting.format(asDateMonthYearString: dateMoreThanSevenDaysOld), "The dates \(dateLesserThanSevenDaysOld.displayDate), \(DateFormatting.format(asDateMonthYearString: dateMoreThanSevenDaysOld)) AND/OR the formats don't match ")
-        
     }
     
     override func tearDown() {

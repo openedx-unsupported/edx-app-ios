@@ -188,7 +188,7 @@ enum BannerInfoStatus {
         }
     }
     
-    var analyticsBannerType: String {
+    var analyticsEventName: String {
         switch self {
         case .datesTabInfoBanner:
             return AnalyticsEventName.CourseDatesInfo.rawValue
@@ -201,6 +201,22 @@ enum BannerInfoStatus {
             
         case .resetDatesBanner:
             return AnalyticsEventName.CourseDatesShiftDates.rawValue
+        }
+    }
+    
+    var analyticsBannerType: String {
+        switch self {
+        case .datesTabInfoBanner:
+            return "info"
+            
+        case .upgradeToCompleteGradedBanner:
+            return "upgrade_to_participate"
+                        
+        case .upgradeToResetBanner:
+            return "upgrade_to_shift"
+            
+        case .resetDatesBanner:
+            return "shift_dates"
         }
     }
 }
