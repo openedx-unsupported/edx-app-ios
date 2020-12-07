@@ -30,13 +30,11 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
                     let download = DownloadsAccessoryView()
                     download.state = .Gated
                     content.trailingView = download
-                    content.leadingIconColor = OEXStyles.shared().neutralBase()
                     content.setDetailText(title: Strings.courseContentGatedLearnHowToUnlock, blockType: block?.type, underline: true)
                 } else {
-                    content.leadingIconColor = OEXStyles.shared().neutralBase()
                     content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
                 }
-                
+                content.leadingIconColor = OEXStyles.shared().neutralBase()
             }
             content.setTitleText(title: block?.displayName)
         }

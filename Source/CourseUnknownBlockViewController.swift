@@ -43,8 +43,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
                 self?.block = block
                 if let video = block.type.asVideo, video.isYoutubeVideo {
                     self?.showYoutubeMessage(buttonTitle: Strings.Video.viewOnYoutube, message: Strings.Video.onlyOnYoutube, icon: Icon.CourseVideos, videoUrl: video.videoURL)
-                }
-                else {
+                } else {
                     self?.showError()
                 }
             },
@@ -71,15 +70,25 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         if let block = block, block.isGated {
             if flag {
-                showValuePropErrorMessage()
-                return
+                showValuePropMessageView()
             } else {
-                messageView = IconMessageView(icon: Icon.Closed, message: Strings.courseContentGated)
+                showGatedContentMessageView()
             }
+        } else {
+            showCourseContentUnknownView()
         }
-        else {
-            messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown)
-        }
+    }
+    
+    private func showGatedContentMessageView() {
+        configureMessageView(iconView: IconMessageView(icon: Icon.Closed, message: Strings.courseContentGated))
+    }
+    
+    private func showCourseContentUnknownView() {
+        configureMessageView(iconView: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown))
+    }
+    
+    private func configureMessageView(iconView: IconMessageView) {
+        messageView = iconView
         
         messageView?.buttonInfo = MessageButtonInfo(title : Strings.openInBrowser) { [weak self] in
             guard let weakSelf = self else { return }
@@ -94,31 +103,33 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
     }
     
-    private func showValuePropErrorMessage() {
+    private func showValuePropMessageView() {
         container.backgroundColor = environment.styles.accentAColor()
         
-        let bannerViewHeight = StandardHorizontalMargin * 12
-        let leadingOffset = StandardHorizontalMargin * 4
-                
         let imageView = UIImageView()
         let titleContainer = UIView()
         let messageContainer = UIView()
         let buttonContainer = UIView()
         
+        let bannerViewHeight = StandardHorizontalMargin * 12
+        let leadingOffset = StandardHorizontalMargin * 4
+        let buttonHeight = StandardVerticalMargin * 4
+        let buttonMinimunWidth = StandardHorizontalMargin * 6
+        
         let titleLabel = UILabel()
         titleLabel.numberOfLines = 0
-        let titleTextStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.primaryDarkColor())
-        titleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.courseContentGatedLocked)
+        let titleStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.primaryDarkColor())
+        titleLabel.attributedText = titleStyle.attributedString(withText: Strings.courseContentGatedLocked)
         
         let messageLabel = UILabel()
         messageLabel.numberOfLines = 0
-        let messageTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.primaryDarkColor())
-        messageLabel.attributedText = messageTextStyle.attributedString(withText: Strings.courseContentGatedUpgradeToAccessGraded)
+        let messageStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.primaryDarkColor())
+        messageLabel.attributedText = messageStyle.attributedString(withText: Strings.courseContentGatedUpgradeToAccessGraded)
         
         let buttonLearnMore = UIButton()
         buttonLearnMore.backgroundColor = environment.styles.neutralWhiteT()
-        let buttonTextStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.primaryDarkColor())
-        buttonLearnMore.setAttributedTitle(buttonTextStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
+        let buttonStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.primaryDarkColor())
+        buttonLearnMore.setAttributedTitle(buttonStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
         
         titleContainer.addSubview(imageView)
         titleContainer.addSubview(titleLabel)
@@ -155,10 +166,10 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
 
         buttonLearnMore.snp.makeConstraints { make in
-            make.height.equalTo(StandardVerticalMargin * 4)
+            make.height.equalTo(buttonHeight)
             make.bottom.equalTo(buttonContainer).inset(StandardVerticalMargin * 2)
             make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
-            make.width.greaterThanOrEqualTo(StandardHorizontalMargin * 6)
+            make.width.greaterThanOrEqualTo(buttonMinimunWidth)
         }
         
         titleContainer.snp.makeConstraints { make in
@@ -236,7 +247,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        loader = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID, environment: environment).blockWithID(id: self.blockID).map { $0.webURL as URL? }.firstSuccess()
+        loader = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment).blockWithID(id: blockID).map { $0.webURL as URL? }.firstSuccess()
     }
     
     private func logOpenInBrowserEvent() {
