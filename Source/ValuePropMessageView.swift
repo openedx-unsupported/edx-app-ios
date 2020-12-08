@@ -42,11 +42,11 @@ class ValuePropMessageView: UIView {
     }()
     
     private let environment: Environment
-    private let tapAction: ValuePropButtonTapAction?
     
-    init(environment: Environment, tapAction: ValuePropButtonTapAction? = nil) {
+    var tapAction: ValuePropButtonTapAction?
+    
+    init(environment: Environment) {
         self.environment = environment
-        self.tapAction = tapAction
         super.init(frame: .zero)
         
         setupViews()
