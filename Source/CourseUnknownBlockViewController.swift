@@ -106,6 +106,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func showValuePropMessageView() {
         view.addSubview(valuePropView)
         
+        valuePropView.tapAction = { }
+        
         valuePropView.snp.makeConstraints { make in
             make.top.equalTo(StandardVerticalMargin * 2)
             make.leading.equalTo(view).offset(StandardVerticalMargin)
