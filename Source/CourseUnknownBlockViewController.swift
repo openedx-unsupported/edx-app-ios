@@ -80,15 +80,15 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showGatedContentMessageView() {
-        configureMessageView(iconView: IconMessageView(icon: Icon.Closed, message: Strings.courseContentGated))
+        configureIconMessage(with: IconMessageView(icon: Icon.Closed, message: Strings.courseContentGated))
     }
     
     private func showCourseContentUnknownView() {
-        configureMessageView(iconView: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown))
+        configureIconMessage(with: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown))
     }
     
-    private func configureMessageView(iconView: IconMessageView) {
-        messageView = iconView
+    private func configureIconMessage(with view: IconMessageView) {
+        messageView = view
         
         messageView?.buttonInfo = MessageButtonInfo(title : Strings.openInBrowser) { [weak self] in
             guard let weakSelf = self else { return }
@@ -106,7 +106,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func showValuePropMessageView() {
         container.backgroundColor = environment.styles.accentAColor()
         
-        let imageView = UIImageView()
         let titleContainer = UIView()
         let messageContainer = UIView()
         let buttonContainer = UIView()
@@ -116,26 +115,36 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         let buttonHeight = StandardVerticalMargin * 4
         let buttonMinimunWidth = StandardHorizontalMargin * 6
         
+        let imageView = UIImageView()
+        imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
+        imageView.accessibilityIdentifier = "ValueProp:image-view"
+        
         let titleLabel = UILabel()
+        titleLabel.accessibilityIdentifier = "ValueProp:label-title"
         titleLabel.numberOfLines = 0
         let titleStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.primaryDarkColor())
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.courseContentGatedLocked)
         
         let messageLabel = UILabel()
+        messageLabel.accessibilityIdentifier = "ValueProp:label-message"
         messageLabel.numberOfLines = 0
         let messageStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.primaryDarkColor())
         messageLabel.attributedText = messageStyle.attributedString(withText: Strings.courseContentGatedUpgradeToAccessGraded)
         
         let buttonLearnMore = UIButton()
+        buttonLearnMore.accessibilityIdentifier = "ValueProp:button-learn-more"
         buttonLearnMore.backgroundColor = environment.styles.neutralWhiteT()
         let buttonStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.primaryDarkColor())
         buttonLearnMore.setAttributedTitle(buttonStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
+        
+        valuePropView.accessibilityIdentifier = "ValueProp:view"
         
         titleContainer.addSubview(imageView)
         titleContainer.addSubview(titleLabel)
         messageContainer.addSubview(messageLabel)
         buttonContainer.addSubview(buttonLearnMore)
 
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .leading
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -145,13 +154,10 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         stackView.addArrangedSubview(messageContainer)
         stackView.addArrangedSubview(buttonContainer)
         
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
         container.addSubview(stackView)
         valuePropView.addSubview(container)
         view.addSubview(valuePropView)
         
-        imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
         imageView.snp.makeConstraints { make in
             make.top.equalTo(StandardVerticalMargin * 2.2)
             make.leading.equalTo(container).offset(StandardHorizontalMargin + 4)
