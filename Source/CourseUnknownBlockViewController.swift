@@ -12,9 +12,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider
     
-    private let environment : Environment
+    private let environment: Environment
     
-    private let imageSize: CGFloat = 20
+    private lazy var bannerViewHeight = StandardHorizontalMargin * 12
     
     let blockID: CourseBlockID?
     let courseID: String
@@ -24,9 +24,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
     }
     private var messageView: IconMessageView?
-    private lazy var valuePropView = UIView(frame: .zero)
-    private lazy var container = UIView()
-    private lazy var stackView = TZStackView()
+    private lazy var valuePropView: ValuePropMessageView = {
+        return ValuePropMessageView(environment: environment)
+    }()
     
     private var loader: OEXStream<URL?>?
     
@@ -66,6 +66,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showError() {
+        showValuePropMessageView()
+        return
+        
         let flag = true
         
         if let block = block, block.isGated {
@@ -104,115 +107,14 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showValuePropMessageView() {
-        container.backgroundColor = environment.styles.accentAColor()
-        
-        let titleContainer = UIView()
-        let messageContainer = UIView()
-        let buttonContainer = UIView()
-        
-        let bannerViewHeight = StandardHorizontalMargin * 12
-        let leadingOffset = StandardHorizontalMargin * 4
-        let buttonHeight = StandardVerticalMargin * 4
-        let buttonMinimunWidth = StandardHorizontalMargin * 6
-        
-        let imageView = UIImageView()
-        imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
-        imageView.accessibilityIdentifier = "ValueProp:image-view"
-        
-        let titleLabel = UILabel()
-        titleLabel.accessibilityIdentifier = "ValueProp:label-title"
-        titleLabel.numberOfLines = 0
-        let titleStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.primaryDarkColor())
-        titleLabel.attributedText = titleStyle.attributedString(withText: Strings.courseContentGatedLocked)
-        
-        let messageLabel = UILabel()
-        messageLabel.accessibilityIdentifier = "ValueProp:label-message"
-        messageLabel.numberOfLines = 0
-        let messageStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.primaryDarkColor())
-        messageLabel.attributedText = messageStyle.attributedString(withText: Strings.courseContentGatedUpgradeToAccessGraded)
-        
-        let buttonLearnMore = UIButton()
-        buttonLearnMore.accessibilityIdentifier = "ValueProp:button-learn-more"
-        buttonLearnMore.backgroundColor = environment.styles.neutralWhiteT()
-        let buttonStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.primaryDarkColor())
-        buttonLearnMore.setAttributedTitle(buttonStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
-        
-        valuePropView.accessibilityIdentifier = "ValueProp:view"
-        
-        titleContainer.addSubview(imageView)
-        titleContainer.addSubview(titleLabel)
-        messageContainer.addSubview(messageLabel)
-        buttonContainer.addSubview(buttonLearnMore)
-
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.alignment = .leading
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = StandardVerticalMargin / 2
-        
-        stackView.addArrangedSubview(titleContainer)
-        stackView.addArrangedSubview(messageContainer)
-        stackView.addArrangedSubview(buttonContainer)
-        
-        container.addSubview(stackView)
-        valuePropView.addSubview(container)
+        valuePropView.backgroundColor = environment.styles.accentAColor()
         view.addSubview(valuePropView)
         
-        imageView.snp.makeConstraints { make in
-            make.top.equalTo(StandardVerticalMargin * 2.2)
-            make.leading.equalTo(container).offset(StandardHorizontalMargin + 4)
-        }
-        
-        titleLabel.snp.makeConstraints { make in
-            make.edges.equalTo(titleContainer)
-        }
-        
-        messageLabel.snp.makeConstraints { make in
-            make.edges.equalTo(messageContainer)
-        }
-
-        buttonLearnMore.snp.makeConstraints { make in
-            make.height.equalTo(buttonHeight)
-            make.bottom.equalTo(buttonContainer).inset(StandardVerticalMargin * 2)
-            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
-            make.width.greaterThanOrEqualTo(buttonMinimunWidth)
-        }
-        
-        titleContainer.snp.makeConstraints { make in
-            make.leading.equalTo(container).offset(leadingOffset)
-            make.trailing.equalTo(container)
-            make.width.equalTo(container)
-            make.height.equalTo(bannerViewHeight / 3)
-        }
-        
-        messageContainer.snp.makeConstraints { make in
-            make.leading.equalTo(container).offset(leadingOffset)
-            make.trailing.equalTo(container).inset(StandardHorizontalMargin * 2)
-            make.height.equalTo(bannerViewHeight / 3)
-        }
-        
-        buttonContainer.snp.makeConstraints { make in
-            make.leading.equalTo(container).offset(leadingOffset)
-            make.trailing.equalTo(container)
-            make.height.equalTo(bannerViewHeight / 3)
-        }
-                
         valuePropView.snp.makeConstraints { make in
-            make.top.equalTo(StandardHorizontalMargin * 2)
+            make.top.equalTo(StandardVerticalMargin * 2)
             make.leading.equalTo(view).offset(StandardVerticalMargin)
             make.trailing.equalTo(view).inset(StandardVerticalMargin)
             make.height.greaterThanOrEqualTo(bannerViewHeight)
-        }
-        
-        container.snp.makeConstraints { make in
-            make.top.equalTo(valuePropView)
-            make.bottom.equalTo(valuePropView)
-            make.leading.equalTo(valuePropView)
-            make.trailing.equalTo(valuePropView)
-        }
-        
-        stackView.snp.makeConstraints { make in
-            make.edges.equalTo(container)
         }
     }
     
