@@ -43,11 +43,11 @@ class CourseCardCell : UICollectionViewCell {
         }
     }
     
-    fileprivate func setUp(ValuePropViewEnabled: Bool) {
-        if ValuePropViewEnabled {
+    fileprivate func setUp(ValuePropEnabled: Bool) {
+        if ValuePropEnabled {
             configureAuditCourseCardView()
         } else {
-            configureVerifiedCourseCardView()
+            configureCourseCardView()
         }
     }
     
@@ -75,7 +75,7 @@ class CourseCardCell : UICollectionViewCell {
             make.top.equalTo(courseView.snp.bottom).inset(4)
             make.leading.equalTo(containerView).offset(CourseCardCell.margin)
             make.trailing.equalTo(containerView).inset(CourseCardCell.margin)
-            make.height.equalTo(12)
+            make.height.equalTo(6)
         }
         
         valuePropView.snp.makeConstraints { make in
@@ -87,7 +87,7 @@ class CourseCardCell : UICollectionViewCell {
         }
     }
     
-    private func configureVerifiedCourseCardView() {
+    private func configureCourseCardView() {
         courseView.applyBorderStyle(style: BorderStyle())
         contentView.addSubview(courseView)
         
@@ -104,6 +104,8 @@ class CourseCardCell : UICollectionViewCell {
         contentView.accessibilityIdentifier = "CourseCardCell:content-view"
         courseView.accessibilityIdentifier = "CourseCardCell:course-card-view"
         valuePropView.accessibilityIdentifier = "CourseCardCell:course-upgrade-value-prop-view"
+        containerView.accessibilityIdentifier = "CourseCardCell:container-view"
+        bottomLine.accessibilityIdentifier = "CourseCardCell:bottom-line-view"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -151,7 +153,7 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     private var shouldShowValuePropView: Bool {
-        return mode == .audit && environment.config.isUpgradeValuePropViewEnabled
+        return mode == .audit && environment.config.isValuePropEnabled
     }
     
     init(environment : Environment, context: Context) {
@@ -248,7 +250,7 @@ class CoursesContainerViewController: UICollectionViewController {
         }
 
         cell.resetCellView()
-        cell.setUp(ValuePropViewEnabled: shouldShowValuePropView)
+        cell.setUp(ValuePropEnabled: shouldShowValuePropView)
         
         return cell
     }
@@ -257,7 +259,7 @@ class CoursesContainerViewController: UICollectionViewController {
         if isiPad() {
             for course in courses {
                 let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-                if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isUpgradeValuePropViewEnabled {
+                if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled {
                     return valuePropViewHeight
                 }
             }
@@ -266,7 +268,7 @@ class CoursesContainerViewController: UICollectionViewController {
         } else {
             let course = courses[indexPath.row]
             let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-            let shouldShowValuePropView = enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isUpgradeValuePropViewEnabled
+            let shouldShowValuePropView = enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled
             
             return shouldShowValuePropView ? valuePropViewHeight : 0
         }

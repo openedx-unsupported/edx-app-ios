@@ -45,11 +45,10 @@ class ValuePropCourseCardView: UIView {
     }
     
     private func configureView() {
-        addSubview(iconContainer)
         addSubview(messageContainer)
         messageContainer.addSubview(messageLabel)
         messageContainer.addSubview(learnMoreButton)
-        iconContainer.addSubview(trophyImage)
+        messageContainer.addSubview(trophyImage)
         
         learnMoreButton.oex_addAction({[weak self] action in
                 if let weakSelf = self {
@@ -64,29 +63,21 @@ class ValuePropCourseCardView: UIView {
     
     private func setUpIdentifier() {
         messageContainer.accessibilityIdentifier = "ValuePropView:message-container"
-        iconContainer.accessibilityIdentifier = "ValuePropView:icon-container"
         messageLabel.accessibilityIdentifier = "ValuePropView:message-label"
         trophyImage.accessibilityIdentifier = "ValuePropView:trophy-image"
         learnMoreButton.accessibilityIdentifier = "ValuePropView:learn-more-button"
     }
     
     private func setUpConstraints() {
-        iconContainer.snp.makeConstraints { make in
-            make.leading.equalTo(self)
-            make.top.equalTo(self)
-            make.height.equalTo(self)
-            make.width.equalTo(StandardHorizontalMargin * 2 + 10)
-        }
-        
         messageContainer.snp.makeConstraints { make in
-            make.leading.equalTo(iconContainer.snp.trailing)
+            make.leading.equalTo(self)
             make.top.equalTo(self)
             make.trailing.equalTo(self)
             make.height.equalTo(self)
         }
         
         messageLabel.snp.makeConstraints { make in
-            make.leading.equalTo(messageContainer).offset(StandardVerticalMargin)
+            make.leading.equalTo(trophyImage.snp.trailing).offset(StandardVerticalMargin)
             make.top.equalTo(messageContainer).offset(StandardVerticalMargin)
             make.trailing.equalTo(messageContainer).inset(StandardVerticalMargin)
         }
@@ -100,8 +91,8 @@ class ValuePropCourseCardView: UIView {
         }
         
         trophyImage.snp.makeConstraints { make in
-            make.leading.equalTo(iconContainer).offset(StandardVerticalMargin)
-            make.top.equalTo(iconContainer).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(messageContainer).offset(StandardVerticalMargin)
+            make.top.equalTo(messageContainer).offset(StandardVerticalMargin)
             make.height.equalTo(trophyImageSize.height)
             make.width.equalTo(trophyImageSize.width)
         }

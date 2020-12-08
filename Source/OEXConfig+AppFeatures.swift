@@ -83,7 +83,7 @@ extension OEXConfig {
         return false
     }
     
-    var isUpgradeValuePropViewEnabled: Bool {
-        return bool(forKey: "VALUE_PROP_ENABLED", defaultValue: false)
+    var isValuePropEnabled: Bool {
+        return bool(forKey: "VALUE_PROP_ENABLED", defaultValue: true)
     }
 }

@@ -15,6 +15,8 @@ enum ValuePropModalType {
 
 class ValuePropDetailViewController: UIViewController {
 
+    typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.rowHeight = UITableView.automaticDimension
@@ -23,6 +25,7 @@ class ValuePropDetailViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.register(ValuePropMessageCell.self, forCellReuseIdentifier: ValuePropMessageCell.identifier)
+        tableView.register(ValuePropMessageHeaderCell.self, forHeaderFooterViewReuseIdentifier: ValuePropMessageHeaderCell.identifier)
         tableView.accessibilityIdentifier = "ValuePropDetailView:tableView"
         return tableView
     }()
@@ -35,20 +38,21 @@ class ValuePropDetailViewController: UIViewController {
     
     private var type: ValuePropModalType
     private var course: OEXCourse
-    private let rowHeaderHeight:CGFloat = 260
-    private let messageOptions = [Strings.UpgradeCourseValueProp.detailViewMessagePointOne, Strings.UpgradeCourseValueProp.detailViewMessagePointTwo, Strings.UpgradeCourseValueProp.detailViewMessagePointThree, Strings.UpgradeCourseValueProp.detailViewMessagePointFour]
+    private let environment: Environment
+    private let infoMessages = [Strings.UpgradeCourseValueProp.detailViewMessagePointOne, Strings.UpgradeCourseValueProp.detailViewMessagePointTwo, Strings.UpgradeCourseValueProp.detailViewMessagePointThree, Strings.UpgradeCourseValueProp.detailViewMessagePointFour]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         screenAnalytics()
         configureView()
     }
     
-    init(type: ValuePropModalType, course: OEXCourse) {
+    init(type: ValuePropModalType, course: OEXCourse, environment: Environment) {
         self.type = type
         self.course = course
+        self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -58,7 +62,7 @@ class ValuePropDetailViewController: UIViewController {
 
     private func screenAnalytics() {
         let screenName = type == .courseEnrollment ? AnalyticsScreenName.ValuePropModalForCourseEnrollment : AnalyticsScreenName.ValuePropModalForCourseUnit
-        OEXAnalytics.shared().trackValueProModal(withName: screenName, courseId: course.course_id ?? "", userID: OEXSession.shared()?.currentUser?.userId?.intValue ?? 0)
+        environment.analytics.trackValueProModal(withName: screenName, courseId: course.course_id ?? "")
     }
     
     private func configureView() {
@@ -88,57 +92,6 @@ class ValuePropDetailViewController: UIViewController {
             make.edges.equalTo(safeEdges)
         }
     }
-    
-    func createHeader() -> UIView {
-        let titleLabel: UILabel = {
-           let title = UILabel()
-            title.numberOfLines = 0
-            title.accessibilityIdentifier = "ValuePropDetailView:title-label"
-            return title
-        }()
-        
-        let messageTitleLabel: UILabel = {
-            let label = UILabel()
-            label.attributedText = titleStyle.attributedString(withText: Strings.UpgradeCourseValueProp.detailViewMessageHeading)
-            label.accessibilityIdentifier = "ValuePropDetailView:message-title-label"
-            return label
-        }()
-        
-        let certificateImageView: UIImageView = {
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "courseCertificate.png")
-            imageView.accessibilityIdentifier = "ValuePropDetailView:certificate-image"
-            return imageView
-        }()
-        
-        let title = type == .courseEnrollment ? Strings.UpgradeCourseValueProp.detailViewTitle : ""
-        titleLabel.attributedText = titleStyle.attributedString(withText: title)
-        
-        let headerView = UIView(frame: CGRect.zero)
-        headerView.accessibilityIdentifier = "ValuePropDetailView:header-view"
-        headerView.addSubview(titleLabel)
-        headerView.addSubview(certificateImageView)
-        headerView.addSubview(messageTitleLabel)
-    
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(headerView).offset(StandardVerticalMargin*4)
-            make.centerX.equalTo(headerView)
-            make.leading.equalTo(headerView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(headerView).inset(StandardHorizontalMargin)
-        }
-        
-        certificateImageView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin*4)
-            make.centerX.equalTo(headerView)
-        }
-        
-        messageTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(certificateImageView.snp.bottom).offset(StandardVerticalMargin*4)
-            make.leading.equalTo(headerView).offset(StandardHorizontalMargin)
-        }
-
-        return headerView
-    }
 }
 
 extension ValuePropDetailViewController: UITableViewDataSource, UITableViewDelegate {
@@ -148,26 +101,31 @@ extension ValuePropDetailViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return createHeader()
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ValuePropMessageHeaderCell.identifier) as! ValuePropMessageHeaderCell
+        let title = type == .courseEnrollment ? Strings.UpgradeCourseValueProp.detailViewTitle : ""
+        header.titleLabel.attributedText = titleStyle.attributedString(withText: title)
+        header.messageTitleLabel.attributedText = titleStyle.attributedString(withText: Strings.UpgradeCourseValueProp.detailViewMessageHeading)
+        return header
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return rowHeaderHeight
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messageOptions.count
+        return infoMessages.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ValuePropMessageCell.identifier, for: indexPath) as! ValuePropMessageCell
-        cell.setMessage(message: messageOptions[indexPath.row])
+        cell.setMessage(message: infoMessages[indexPath.row])
         return cell
     }
 }
 
 class ValuePropMessageCell: UITableViewCell {
     static let identifier = "ValuePropMessageCell"
+    private let bulletImageSize: CGFloat = 20
     
     private lazy var messageLabel: UILabel = {
         let label = UILabel()
@@ -176,7 +134,7 @@ class ValuePropMessageCell: UITableViewCell {
     }()
     private lazy var bulletImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = Icon.CheckCircleO.imageWithFontSize(size: 28)
+        imageView.image = Icon.CheckCircleO.imageWithFontSize(size: bulletImageSize)
         return imageView
     }()
     private lazy var messageContainer = UIView()
@@ -219,8 +177,8 @@ class ValuePropMessageCell: UITableViewCell {
         bulletImage.snp.makeConstraints { make in
             make.top.equalTo(messageContainer).offset(StandardVerticalMargin)
             make.leading.equalTo(messageContainer).offset(StandardVerticalMargin)
-            make.width.equalTo(28)
-            make.height.equalTo(28)
+            make.width.equalTo(bulletImageSize)
+            make.height.equalTo(bulletImageSize)
         }
         
         messageLabel.snp.makeConstraints { make in
@@ -228,6 +186,62 @@ class ValuePropMessageCell: UITableViewCell {
             make.leading.equalTo(bulletImage.snp.trailing).offset(StandardVerticalMargin)
             make.trailing.equalTo(messageContainer)
             make.bottom.equalTo(messageContainer).inset(StandardVerticalMargin)
+        }
+    }
+}
+
+private class ValuePropMessageHeaderCell : UITableViewHeaderFooterView {
+    static let identifier = "ValuePropMessageHeaderCellIdentifier"
+
+    lazy var titleLabel: UILabel = {
+       let title = UILabel()
+        title.numberOfLines = 0
+        title.accessibilityIdentifier = "ValuePropDetailView:title-label"
+        return title
+    }()
+    
+    lazy var messageTitleLabel: UILabel = {
+        let label = UILabel()
+        label.accessibilityIdentifier = "ValuePropDetailView:message-title-label"
+        return label
+    }()
+    
+    lazy var certificateImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "courseCertificate.png")
+        imageView.accessibilityIdentifier = "ValuePropDetailView:certificate-image"
+        return imageView
+    }()
+    
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        addSubviews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addSubviews(){
+        addSubview(titleLabel)
+        addSubview(messageTitleLabel)
+        addSubview(certificateImageView)
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(self).offset(StandardVerticalMargin*4)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
+        }
+        
+        certificateImageView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin*4)
+            make.centerX.equalTo(self)
+        }
+        
+        messageTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(certificateImageView.snp.bottom).offset(StandardVerticalMargin*4)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.bottom.equalTo(self).inset(StandardVerticalMargin*2)
         }
     }
 }
