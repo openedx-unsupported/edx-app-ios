@@ -66,9 +66,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showError() {
-        showValuePropMessageView()
-        return
-        
         let flag = true
         
         if let block = block, block.isGated {
