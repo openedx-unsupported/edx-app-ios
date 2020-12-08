@@ -59,6 +59,8 @@ class ValuePropMessageView: UIView {
     }
     
     private func setupViews() {
+        backgroundColor = environment.styles.accentAColor()
+        
         imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
         
         titleLabel.numberOfLines = 0

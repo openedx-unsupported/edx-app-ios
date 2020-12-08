@@ -104,7 +104,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showValuePropMessageView() {
-        valuePropView.backgroundColor = environment.styles.accentAColor()
         view.addSubview(valuePropView)
         
         valuePropView.snp.makeConstraints { make in
