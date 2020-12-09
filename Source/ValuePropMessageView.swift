@@ -82,9 +82,7 @@ class ValuePropMessageView: UIView {
         messageContainer.addSubview(messageLabel)
         buttonContainer.addSubview(buttonLearnMore)
         addSubview(stackView)
-    }
-    
-    private func setConstraints() {
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .leading
         stackView.axis = .vertical
@@ -94,7 +92,9 @@ class ValuePropMessageView: UIView {
         stackView.addArrangedSubview(titleContainer)
         stackView.addArrangedSubview(messageContainer)
         stackView.addArrangedSubview(buttonContainer)
-                
+    }
+    
+    private func setConstraints() {
         imageView.snp.makeConstraints { make in
             make.top.equalTo(StandardVerticalMargin * 2.2)
             make.leading.equalTo(self).offset(StandardHorizontalMargin + 4)
