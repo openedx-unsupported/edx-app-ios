@@ -40,7 +40,7 @@ class ValuePropDetailViewController: UIViewController {
         style.alignment = .center
         return style
       }()
-    
+    private let crossButtonSize: CGFloat = 20
     private var type: ValuePropModalType
     private var course: OEXCourse
     private let environment: Environment
@@ -81,7 +81,7 @@ class ValuePropDetailViewController: UIViewController {
     }
     
     private func addCloseButton() {
-        let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: 20), style: .plain, target: nil, action: nil)
+        let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: crossButtonSize), style: .plain, target: nil, action: nil)
         closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
         closeButton.accessibilityHint = Strings.Accessibility.closeHint
         closeButton.accessibilityIdentifier = "ValuePropDetailView:close-button"
@@ -203,26 +203,25 @@ private class ValuePropDetailHeaderView : UITableViewHeaderFooterView {
     lazy var titleLabel: UILabel = {
        let title = UILabel()
         title.numberOfLines = 0
-        title.accessibilityIdentifier = "ValuePropDetailHeaderView:title-label"
         return title
     }()
     
     lazy var messageTitleLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "ValuePropDetailHeaderView:message-title-label"
         return label
     }()
     
     lazy var certificateImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "courseCertificate")
-        imageView.accessibilityIdentifier = "ValuePropDetailHeaderView:certificate-image"
         return imageView
     }()
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         addSubviews()
+        setConstraints()
+        setAccessibilityIdentifiers()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -233,7 +232,9 @@ private class ValuePropDetailHeaderView : UITableViewHeaderFooterView {
         addSubview(titleLabel)
         addSubview(messageTitleLabel)
         addSubview(certificateImageView)
-        
+    }
+    
+    private func setConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(StandardVerticalMargin*4)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
@@ -250,5 +251,11 @@ private class ValuePropDetailHeaderView : UITableViewHeaderFooterView {
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.bottom.equalTo(self).inset(StandardVerticalMargin*2)
         }
+    }
+    
+    private func setAccessibilityIdentifiers() {
+        titleLabel.accessibilityIdentifier = "ValuePropDetailHeaderView:title-label"
+        messageTitleLabel.accessibilityIdentifier = "ValuePropDetailHeaderView:message-title-label"
+        certificateImageView.accessibilityIdentifier = "ValuePropDetailHeaderView:certificate-image"
     }
 }

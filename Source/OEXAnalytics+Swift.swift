@@ -268,7 +268,6 @@ extension OEXAnalytics {
     }
     
     func trackValueProModal(withName: AnalyticsScreenName, courseId: String, assignmentID: String? = nil) {
-        
         var info: [String:String] = [:]
         info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
         
