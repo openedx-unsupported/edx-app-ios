@@ -168,9 +168,9 @@ private class ValuePropMessageCell: UITableViewCell {
     }
     
     private func setAccessibilityIdentifiers() {
-        containerView.accessibilityIdentifier = "ValuePropDetailView:container-view"
-        bulletImage.accessibilityIdentifier = "ValuePropDetailView:bullet-image"
-        bulletImage.accessibilityIdentifier = "ValuePropDetailView:message-label"
+        containerView.accessibilityIdentifier = "ValuePropMessageCell:container-view"
+        bulletImage.accessibilityIdentifier = "ValuePropMessageCell:bullet-image"
+        bulletImage.accessibilityIdentifier = "ValuePropMessageCell:message-label"
     }
     
     private func setConstraints() {
@@ -203,20 +203,20 @@ private class ValuePropDetailHeaderView : UITableViewHeaderFooterView {
     lazy var titleLabel: UILabel = {
        let title = UILabel()
         title.numberOfLines = 0
-        title.accessibilityIdentifier = "ValuePropDetailView:title-label"
+        title.accessibilityIdentifier = "ValuePropDetailHeaderView:title-label"
         return title
     }()
     
     lazy var messageTitleLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "ValuePropDetailView:message-title-label"
+        label.accessibilityIdentifier = "ValuePropDetailHeaderView:message-title-label"
         return label
     }()
     
     lazy var certificateImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "courseCertificate")
-        imageView.accessibilityIdentifier = "ValuePropDetailView:certificate-image"
+        imageView.accessibilityIdentifier = "ValuePropDetailHeaderView:certificate-image"
         return imageView
     }()
     
