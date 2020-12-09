@@ -18,7 +18,7 @@ class ValuePropCourseCardView: UIView {
         message.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
         message.adjustsFontSizeToFitWidth = true
         let messageStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
-        message.attributedText = messageStyle.attributedString(withText: Strings.ValueProp.viewMessage)
+        message.attributedText = messageStyle.attributedString(withText: Strings.ValueProp.courseCardMessage)
         return message
     }()
     
@@ -61,7 +61,7 @@ class ValuePropCourseCardView: UIView {
     }
     
     private func setAccessibilityIdentifiers() {
-        containerView.accessibilityIdentifier = "ValuePropView:message-container"
+        containerView.accessibilityIdentifier = "ValuePropView:container-view"
         messageLabel.accessibilityIdentifier = "ValuePropView:message-label"
         trophyImage.accessibilityIdentifier = "ValuePropView:trophy-image"
         learnMoreButton.accessibilityIdentifier = "ValuePropView:learn-more-button"
@@ -69,10 +69,7 @@ class ValuePropCourseCardView: UIView {
     
     private func setConstraints() {
         containerView.snp.makeConstraints { make in
-            make.leading.equalTo(self)
-            make.top.equalTo(self)
-            make.trailing.equalTo(self)
-            make.height.equalTo(self)
+            make.edges.equalTo(self)
         }
         
         messageLabel.snp.makeConstraints { make in

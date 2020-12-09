@@ -103,7 +103,7 @@ class CourseCardCell : UICollectionViewCell {
     private func setAccessibilityIdentifiers() {
         contentView.accessibilityIdentifier = "CourseCardCell:content-view"
         courseView.accessibilityIdentifier = "CourseCardCell:course-card-view"
-        valuePropView.accessibilityIdentifier = "CourseCardCell:course-upgrade-value-prop-view"
+        valuePropView.accessibilityIdentifier = "CourseCardCell:value-prop-view"
         containerView.accessibilityIdentifier = "CourseCardCell:container-view"
         bottomLine.accessibilityIdentifier = "CourseCardCell:bottom-line-view"
     }

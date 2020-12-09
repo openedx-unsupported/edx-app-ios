@@ -35,17 +35,22 @@ class ValuePropDetailViewController: UIViewController {
         style.alignment = .center
         return style
     }()
+    private var messageTitleStyle: OEXMutableTextStyle = {
+        let style = OEXMutableTextStyle(weight: .normal, size: .xxLarge, color: OEXStyles.shared().primaryBaseColor())
+        style.alignment = .center
+        return style
+      }()
     
     private var type: ValuePropModalType
     private var course: OEXCourse
     private let environment: Environment
-    private let infoMessages = [Strings.ValueProp.infoMessage1, Strings.ValueProp.infoMessage2, Strings.ValueProp.infoMessage3, String(format: Strings.ValueProp.infoMessage4, OEXConfig.shared().platformName())]
+    private let infoMessages = [Strings.ValueProp.infoMessage1, Strings.ValueProp.infoMessage2, Strings.ValueProp.infoMessage3, Strings.ValueProp.infoMessage4(platformName: OEXConfig.shared().platformName())]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = environment.styles.standardBackgroundColor()
-        screenAnalytics()
+        logScreenEvent()
         configureView()
     }
     
@@ -60,14 +65,14 @@ class ValuePropDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func screenAnalytics() {
+    private func logScreenEvent() {
         let screenName = type == .courseEnrollment ? AnalyticsScreenName.ValuePropModalForCourseEnrollment : AnalyticsScreenName.ValuePropModalForCourseUnit
         environment.analytics.trackValueProModal(withName: screenName, courseId: course.course_id ?? "")
     }
     
     private func configureView() {
         addSubviews()
-        setUpConstraint()
+        setConstraints()
     }
     
     private func addSubviews() {
@@ -87,7 +92,7 @@ class ValuePropDetailViewController: UIViewController {
         }
     }
     
-    private func setUpConstraint() {
+    private func setConstraints() {
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
@@ -104,7 +109,7 @@ extension ValuePropDetailViewController: UITableViewDataSource, UITableViewDeleg
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ValuePropDetailHeaderView.identifier) as! ValuePropDetailHeaderView
         let title = type == .courseEnrollment ? Strings.ValueProp.detailViewTitle : ""
         header.titleLabel.attributedText = titleStyle.attributedString(withText: title)
-        header.messageTitleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.detailViewMessageHeading)
+        header.messageTitleLabel.attributedText = messageTitleStyle.attributedString(withText: Strings.ValueProp.detailViewMessageTitle)
         return header
     }
     
@@ -138,7 +143,7 @@ private class ValuePropMessageCell: UITableViewCell {
         imageView.image = Icon.CheckCircleO.imageWithFontSize(size: bulletImageSize)
         return imageView
     }()
-    private lazy var messageContainer = UIView()
+    private lazy var containerView = UIView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -151,25 +156,25 @@ private class ValuePropMessageCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        contentView.addSubview(messageContainer)
-        messageContainer.addSubview(messageLabel)
-        messageContainer.addSubview(bulletImage)
+        contentView.addSubview(containerView)
+        containerView.addSubview(messageLabel)
+        containerView.addSubview(bulletImage)
         setConstraints()
     }
     
     func setMessage(message: String) {
-        let messageStyle = OEXMutableTextStyle(weight: .light, size: .large, color: OEXStyles.shared().primaryDarkColor())
+        let messageStyle = OEXMutableTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().primaryDarkColor())
         messageLabel.attributedText = messageStyle.attributedString(withText: message)
     }
     
     private func setAccessibilityIdentifiers() {
-        messageContainer.accessibilityIdentifier = "ValuePropDetailView:message-container"
+        containerView.accessibilityIdentifier = "ValuePropDetailView:container-view"
         bulletImage.accessibilityIdentifier = "ValuePropDetailView:bullet-image"
         bulletImage.accessibilityIdentifier = "ValuePropDetailView:message-label"
     }
     
     private func setConstraints() {
-        messageContainer.snp.makeConstraints { make in
+        containerView.snp.makeConstraints { make in
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
@@ -177,17 +182,17 @@ private class ValuePropMessageCell: UITableViewCell {
         }
 
         bulletImage.snp.makeConstraints { make in
-            make.top.equalTo(messageContainer).offset(StandardVerticalMargin)
-            make.leading.equalTo(messageContainer).offset(StandardVerticalMargin)
+            make.top.equalTo(containerView).offset(StandardVerticalMargin)
+            make.leading.equalTo(containerView).offset(StandardVerticalMargin)
             make.width.equalTo(bulletImageSize)
             make.height.equalTo(bulletImageSize)
         }
         
         messageLabel.snp.makeConstraints { make in
-            make.top.equalTo(messageContainer).offset(StandardVerticalMargin)
+            make.top.equalTo(containerView).offset(StandardVerticalMargin)
             make.leading.equalTo(bulletImage.snp.trailing).offset(StandardVerticalMargin)
-            make.trailing.equalTo(messageContainer)
-            make.bottom.equalTo(messageContainer).inset(StandardVerticalMargin)
+            make.trailing.equalTo(containerView)
+            make.bottom.equalTo(containerView).inset(StandardVerticalMargin)
         }
     }
 }

@@ -841,13 +841,13 @@
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "个人资料";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.VIEW_MESSAGE"="Get the most out of your course! Upgrade to get full access to the course material, unlock both graded and non-graded assignments, and earn a verified certificate to showcase on your resume.";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="Get the most out of your course! Upgrade to get full access to the course material, unlock both graded and non-graded assignments, and earn a verified certificate to showcase on your resume.";
 /* Value prop view's learn more button title on enrolled courses*/
 "VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
 /* Value prop detail view title*/
 "VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
 /* Value prop detail view message heading*/
-"VALUE_PROP.DETAIL_VIEW_MESSAGE_HEADING"="When you upgrade, you:";
+"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
 /* Value prop information message number one*/
 "VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resume";
 /* Value prop information message number two*/
@@ -855,7 +855,7 @@
 /* Value prop information message number three*/
 "VALUE_PROP.INFO_MESSAGE_3"="Full access to course content and material, even after the course ends";
 /* Value prop information message number four*/
-"VALUE_PROP.INFO_MESSAGE_4"="Support our non-profit mission at %@";
+"VALUE_PROP.INFO_MESSAGE_4"="Support our non-profit mission at {platform_name}";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "版本 {number} {environment}";
 /* Error shown when video download fails */
