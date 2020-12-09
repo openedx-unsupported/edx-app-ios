@@ -8,12 +8,16 @@
 
 import Foundation
 
+protocol ValuePropMessageViewDelegate {
+    func valuePropMessageViewLearnMoreAction()
+}
+
 class ValuePropMessageView: UIView {
     
     typealias Environment = OEXStylesProvider
     
-    typealias ValuePropButtonTapAction = (() -> ())
-    
+    var delegate: ValuePropMessageViewDelegate?
+        
     private let imageSize: CGFloat = 20
     private let bannerViewHeight = StandardHorizontalMargin * 12
     private let leadingOffset = StandardHorizontalMargin * 4
@@ -42,16 +46,14 @@ class ValuePropMessageView: UIView {
     }()
     
     private let environment: Environment
-    
-    var tapAction: ValuePropButtonTapAction?
-    
+        
     init(environment: Environment) {
         self.environment = environment
         super.init(frame: .zero)
         
         setupViews()
-        setupConstraints()
-        setupAccessibiltyIdentifiers()
+        setConstraints()
+        setAccessibilityIdentifiers()
     }
     
     required init?(coder: NSCoder) {
@@ -72,7 +74,7 @@ class ValuePropMessageView: UIView {
         buttonLearnMore.backgroundColor = environment.styles.neutralWhiteT()
         buttonLearnMore.setAttributedTitle(buttonStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
         buttonLearnMore.oex_addAction({ [weak self] _ in
-            self?.tapAction?()
+            self?.delegate?.valuePropMessageViewLearnMoreAction()
         }, for: .touchUpInside)
         
         titleContainer.addSubview(imageView)
@@ -82,7 +84,7 @@ class ValuePropMessageView: UIView {
         addSubview(stackView)
     }
     
-    private func setupConstraints() {
+    private func setConstraints() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .leading
         stackView.axis = .vertical
@@ -92,9 +94,7 @@ class ValuePropMessageView: UIView {
         stackView.addArrangedSubview(titleContainer)
         stackView.addArrangedSubview(messageContainer)
         stackView.addArrangedSubview(buttonContainer)
-        
-        let stackViewChildCount = CGFloat(stackView.subviews.count)
-        
+                
         imageView.snp.makeConstraints { make in
             make.top.equalTo(StandardVerticalMargin * 2.2)
             make.leading.equalTo(self).offset(StandardHorizontalMargin + 4)
@@ -119,19 +119,19 @@ class ValuePropMessageView: UIView {
             make.leading.equalTo(self).offset(leadingOffset)
             make.trailing.equalTo(self)
             make.width.equalTo(self)
-            make.height.equalTo(frame.size.height / stackViewChildCount)
+            make.height.equalTo(frame.size.height / CGFloat(stackView.subviews.count))
         }
         
         messageContainer.snp.makeConstraints { make in
             make.leading.equalTo(self).offset(leadingOffset)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin * 2)
-            make.height.equalTo(frame.size.height / stackViewChildCount)
+            make.height.equalTo(frame.size.height / CGFloat(stackView.subviews.count))
         }
         
         buttonContainer.snp.makeConstraints { make in
             make.leading.equalTo(self).offset(leadingOffset)
             make.trailing.equalTo(self)
-            make.height.equalTo(frame.size.height / stackViewChildCount)
+            make.height.equalTo(frame.size.height / CGFloat(stackView.subviews.count))
         }
         
         stackView.snp.makeConstraints { make in
@@ -139,7 +139,7 @@ class ValuePropMessageView: UIView {
         }
     }
     
-    private func setupAccessibiltyIdentifiers() {
+    private func setAccessibilityIdentifiers() {
         accessibilityIdentifier = "ValuePropMessageView:view"
         imageView.accessibilityIdentifier = "ValuePropMessageView:image-view"
         titleLabel.accessibilityIdentifier = "ValuePropMessageView:label-title"

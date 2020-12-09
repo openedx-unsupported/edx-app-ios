@@ -25,7 +25,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     private var messageView: IconMessageView?
     private lazy var valuePropView: ValuePropMessageView = {
-        return ValuePropMessageView(environment: environment)
+        let view = ValuePropMessageView(environment: environment)
+        view.delegate = self
+        return view
     }()
     
     private var loader: OEXStream<URL?>?
@@ -106,8 +108,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func showValuePropMessageView() {
         view.addSubview(valuePropView)
         
-        valuePropView.tapAction = { }
-        
         valuePropView.snp.makeConstraints { make in
             make.top.equalTo(StandardVerticalMargin * 2)
             make.leading.equalTo(view).offset(StandardVerticalMargin)
@@ -160,5 +160,11 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         guard let block = block else { return }
         
         environment.analytics.trackOpenInBrowser(withURL: block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
+    }
+}
+
+extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
+    func valuePropMessageViewLearnMoreAction() {
+        
     }
 }
