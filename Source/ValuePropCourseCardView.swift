@@ -10,8 +10,7 @@ import UIKit
 
 class ValuePropCourseCardView: UIView {
 
-    private let messageContainer = UIView()
-    private let iconContainer = UIView()
+    private let containerView = UIView()
     
     private lazy var messageLabel: UILabel = {
         let message = UILabel()
@@ -19,14 +18,14 @@ class ValuePropCourseCardView: UIView {
         message.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
         message.adjustsFontSizeToFitWidth = true
         let messageStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
-        message.attributedText = messageStyle.attributedString(withText: Strings.UpgradeCourseValueProp.viewMessage)
+        message.attributedText = messageStyle.attributedString(withText: Strings.ValueProp.viewMessage)
         return message
     }()
     
     private lazy var learnMoreButton: UIButton = {
         let button = UIButton()
         let buttonTextStyle = OEXTextStyle(weight: .semiBold, size: .small, color : OEXStyles.shared().neutralWhiteT())
-        button.setAttributedTitle(buttonTextStyle.attributedString(withText: Strings.UpgradeCourseValueProp.learnMoreButtonTitle), for: .normal)
+        button.setAttributedTitle(buttonTextStyle.attributedString(withText: Strings.ValueProp.learnMoreButtonTitle), for: .normal)
         button.backgroundColor = OEXStyles.shared().primaryBaseColor()
         return button
     }()
@@ -45,10 +44,10 @@ class ValuePropCourseCardView: UIView {
     }
     
     private func configureView() {
-        addSubview(messageContainer)
-        messageContainer.addSubview(messageLabel)
-        messageContainer.addSubview(learnMoreButton)
-        messageContainer.addSubview(trophyImage)
+        addSubview(containerView)
+        containerView.addSubview(messageLabel)
+        containerView.addSubview(learnMoreButton)
+        containerView.addSubview(trophyImage)
         
         learnMoreButton.oex_addAction({[weak self] action in
                 if let weakSelf = self {
@@ -57,19 +56,19 @@ class ValuePropCourseCardView: UIView {
             }, for: .touchUpInside)
         
         trophyImage.image = Icon.Trophy.imageWithFontSize(size: trophyImageSize.height)
-        setUpConstraints()
-        setUpIdentifier()
+        setConstraints()
+        setAccessibilityIdentifiers()
     }
     
-    private func setUpIdentifier() {
-        messageContainer.accessibilityIdentifier = "ValuePropView:message-container"
+    private func setAccessibilityIdentifiers() {
+        containerView.accessibilityIdentifier = "ValuePropView:message-container"
         messageLabel.accessibilityIdentifier = "ValuePropView:message-label"
         trophyImage.accessibilityIdentifier = "ValuePropView:trophy-image"
         learnMoreButton.accessibilityIdentifier = "ValuePropView:learn-more-button"
     }
     
-    private func setUpConstraints() {
-        messageContainer.snp.makeConstraints { make in
+    private func setConstraints() {
+        containerView.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.top.equalTo(self)
             make.trailing.equalTo(self)
@@ -78,21 +77,21 @@ class ValuePropCourseCardView: UIView {
         
         messageLabel.snp.makeConstraints { make in
             make.leading.equalTo(trophyImage.snp.trailing).offset(StandardVerticalMargin)
-            make.top.equalTo(messageContainer).offset(StandardVerticalMargin)
-            make.trailing.equalTo(messageContainer).inset(StandardVerticalMargin)
+            make.top.equalTo(containerView).offset(StandardVerticalMargin)
+            make.trailing.equalTo(containerView).inset(StandardVerticalMargin)
         }
         
         learnMoreButton.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin)
-            make.bottom.equalTo(messageContainer).inset(StandardVerticalMargin)
-            make.trailing.equalTo(messageContainer).inset(StandardVerticalMargin)
+            make.bottom.equalTo(containerView).inset(StandardVerticalMargin)
+            make.trailing.equalTo(containerView).inset(StandardVerticalMargin)
             make.height.equalTo(learnMoreButtonSize.height)
             make.width.equalTo(learnMoreButtonSize.width)
         }
         
         trophyImage.snp.makeConstraints { make in
-            make.leading.equalTo(messageContainer).offset(StandardVerticalMargin)
-            make.top.equalTo(messageContainer).offset(StandardVerticalMargin)
+            make.leading.equalTo(containerView).offset(StandardVerticalMargin)
+            make.top.equalTo(containerView).offset(StandardVerticalMargin)
             make.height.equalTo(trophyImageSize.height)
             make.width.equalTo(trophyImageSize.width)
         }

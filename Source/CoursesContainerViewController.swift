@@ -43,8 +43,8 @@ class CourseCardCell : UICollectionViewCell {
         }
     }
     
-    fileprivate func setUp(ValuePropEnabled: Bool) {
-        if ValuePropEnabled {
+    fileprivate func setUp(valuePropEnabled: Bool) {
+        if valuePropEnabled {
             configureAuditCourseCardView()
         } else {
             configureCourseCardView()
@@ -132,6 +132,11 @@ class CoursesContainerViewController: UICollectionViewController {
     enum EnrollmentMode: String {
         case audit = "audit"
         case verified = "verified"
+        case honor = "honor"
+        case noIDProfessional = "no-id-professional"
+        case professional = "professional"
+        case credit = "credit"
+        case masters = "masters"
         case none = "none"
     }
     
@@ -250,7 +255,7 @@ class CoursesContainerViewController: UICollectionViewController {
         }
 
         cell.resetCellView()
-        cell.setUp(ValuePropEnabled: shouldShowValuePropView)
+        cell.setUp(valuePropEnabled: shouldShowValuePropView)
         
         return cell
     }
@@ -307,8 +312,8 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let widthPerItem = view.frame.width / itemsPerRow
-        let upgradeValuePropHeight: CGFloat = calculateValuePropHeight(for: indexPath)
-        let heightPerItem =  widthPerItem * StandardImageAspectRatio + upgradeValuePropHeight
+        let valuePropHeight: CGFloat = calculateValuePropHeight(for: indexPath)
+        let heightPerItem =  widthPerItem * StandardImageAspectRatio + valuePropHeight
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
 }

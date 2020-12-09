@@ -25,7 +25,7 @@ class ValuePropDetailViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.register(ValuePropMessageCell.self, forCellReuseIdentifier: ValuePropMessageCell.identifier)
-        tableView.register(ValuePropMessageHeaderCell.self, forHeaderFooterViewReuseIdentifier: ValuePropMessageHeaderCell.identifier)
+        tableView.register(ValuePropDetailHeaderView.self, forHeaderFooterViewReuseIdentifier: ValuePropDetailHeaderView.identifier)
         tableView.accessibilityIdentifier = "ValuePropDetailView:tableView"
         return tableView
     }()
@@ -39,7 +39,7 @@ class ValuePropDetailViewController: UIViewController {
     private var type: ValuePropModalType
     private var course: OEXCourse
     private let environment: Environment
-    private let infoMessages = [Strings.UpgradeCourseValueProp.detailViewMessagePointOne, Strings.UpgradeCourseValueProp.detailViewMessagePointTwo, Strings.UpgradeCourseValueProp.detailViewMessagePointThree, Strings.UpgradeCourseValueProp.detailViewMessagePointFour]
+    private let infoMessages = [Strings.ValueProp.infoMessage1, Strings.ValueProp.infoMessage2, Strings.ValueProp.infoMessage3, String(format: Strings.ValueProp.infoMessage4, OEXConfig.shared().platformName())]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,17 +66,17 @@ class ValuePropDetailViewController: UIViewController {
     }
     
     private func configureView() {
-        addViews()
+        addSubviews()
         setUpConstraint()
     }
     
-    private func addViews() {
+    private func addSubviews() {
         view.addSubview(tableView)
         addCloseButton()
     }
     
     private func addCloseButton() {
-        let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: 30), style: .plain, target: nil, action: nil)
+        let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: 20), style: .plain, target: nil, action: nil)
         closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
         closeButton.accessibilityHint = Strings.Accessibility.closeHint
         closeButton.accessibilityIdentifier = "ValuePropDetailView:close-button"
@@ -101,10 +101,10 @@ extension ValuePropDetailViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ValuePropMessageHeaderCell.identifier) as! ValuePropMessageHeaderCell
-        let title = type == .courseEnrollment ? Strings.UpgradeCourseValueProp.detailViewTitle : ""
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ValuePropDetailHeaderView.identifier) as! ValuePropDetailHeaderView
+        let title = type == .courseEnrollment ? Strings.ValueProp.detailViewTitle : ""
         header.titleLabel.attributedText = titleStyle.attributedString(withText: title)
-        header.messageTitleLabel.attributedText = titleStyle.attributedString(withText: Strings.UpgradeCourseValueProp.detailViewMessageHeading)
+        header.messageTitleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.detailViewMessageHeading)
         return header
     }
     
@@ -119,11 +119,12 @@ extension ValuePropDetailViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ValuePropMessageCell.identifier, for: indexPath) as! ValuePropMessageCell
         cell.setMessage(message: infoMessages[indexPath.row])
+        cell.backgroundColor = .clear
         return cell
     }
 }
 
-class ValuePropMessageCell: UITableViewCell {
+private class ValuePropMessageCell: UITableViewCell {
     static let identifier = "ValuePropMessageCell"
     private let bulletImageSize: CGFloat = 20
     
@@ -141,18 +142,19 @@ class ValuePropMessageCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addViews()
+        addSubviews()
+        setAccessibilityIdentifiers()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addViews() {
+    private func addSubviews() {
         contentView.addSubview(messageContainer)
         messageContainer.addSubview(messageLabel)
         messageContainer.addSubview(bulletImage)
-        setUpConstraints()
+        setConstraints()
     }
     
     func setMessage(message: String) {
@@ -160,13 +162,13 @@ class ValuePropMessageCell: UITableViewCell {
         messageLabel.attributedText = messageStyle.attributedString(withText: message)
     }
     
-    private func setUpIdentifiers() {
+    private func setAccessibilityIdentifiers() {
         messageContainer.accessibilityIdentifier = "ValuePropDetailView:message-container"
         bulletImage.accessibilityIdentifier = "ValuePropDetailView:bullet-image"
         bulletImage.accessibilityIdentifier = "ValuePropDetailView:message-label"
     }
     
-    private func setUpConstraints() {
+    private func setConstraints() {
         messageContainer.snp.makeConstraints { make in
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
@@ -190,7 +192,7 @@ class ValuePropMessageCell: UITableViewCell {
     }
 }
 
-private class ValuePropMessageHeaderCell : UITableViewHeaderFooterView {
+private class ValuePropDetailHeaderView : UITableViewHeaderFooterView {
     static let identifier = "ValuePropMessageHeaderCellIdentifier"
 
     lazy var titleLabel: UILabel = {
@@ -208,7 +210,7 @@ private class ValuePropMessageHeaderCell : UITableViewHeaderFooterView {
     
     lazy var certificateImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "courseCertificate.png")
+        imageView.image = UIImage(named: "courseCertificate")
         imageView.accessibilityIdentifier = "ValuePropDetailView:certificate-image"
         return imageView
     }()
