@@ -14,7 +14,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     private let environment: Environment
     
-    private lazy var bannerViewHeight = StandardHorizontalMargin * 12
+    private let bannerViewHeight = StandardHorizontalMargin * 12
     
     let blockID: CourseBlockID?
     let courseID: String
@@ -164,7 +164,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 }
 
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
-    func valuePropMessageViewLearnMoreAction() {
+    func showValuePropDetailView() {
         
     }
 }

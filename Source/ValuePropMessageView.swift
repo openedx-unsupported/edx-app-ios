@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ValuePropMessageViewDelegate {
-    func valuePropMessageViewLearnMoreAction()
+    func showValuePropDetailView()
 }
 
 class ValuePropMessageView: UIView {
@@ -26,12 +26,20 @@ class ValuePropMessageView: UIView {
     
     private lazy var stackView = TZStackView()
     private lazy var titleContainer = UIView()
-    private lazy var titleLabel = UILabel()
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
     private lazy var messageContainer = UIView()
+    private lazy var messageLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
     private lazy var buttonContainer = UIView()
     private lazy var buttonLearnMore = UIButton()
     private lazy var imageView = UIImageView()
-    private lazy var messageLabel = UILabel()
     
     private lazy var titleStyle: OEXMutableTextStyle = {
         return OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.primaryDarkColor())
@@ -65,16 +73,14 @@ class ValuePropMessageView: UIView {
         
         imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
         
-        titleLabel.numberOfLines = 0
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.courseContentGatedLocked)
         
-        messageLabel.numberOfLines = 0
         messageLabel.attributedText = messageStyle.attributedString(withText: Strings.courseContentGatedUpgradeToAccessGraded)
         
         buttonLearnMore.backgroundColor = environment.styles.neutralWhiteT()
         buttonLearnMore.setAttributedTitle(buttonStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
         buttonLearnMore.oex_addAction({ [weak self] _ in
-            self?.delegate?.valuePropMessageViewLearnMoreAction()
+            self?.delegate?.showValuePropDetailView()
         }, for: .touchUpInside)
         
         titleContainer.addSubview(imageView)
