@@ -15,7 +15,7 @@ class ValuePropCourseCardView: UIView {
     private lazy var messageLabel: UILabel = {
         let message = UILabel()
         message.numberOfLines = 0
-        message.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
+        message.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         message.adjustsFontSizeToFitWidth = true
         let messageStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
         message.attributedText = messageStyle.attributedString(withText: Strings.ValueProp.courseCardMessage)
@@ -32,32 +32,30 @@ class ValuePropCourseCardView: UIView {
     private let trophyImage = UIImageView()
     private let trophyImageSize:CGSize = CGSize(width: 30, height: 30)
     private let learnMoreButtonSize:CGSize = CGSize(width: 100, height: 30)
-    var tapAction : ((ValuePropCourseCardView) -> ())?
+    var tapAction : (() -> ())?
     
     override init(frame: CGRect) {
         super.init(frame : frame)
-        configureView()
+        setupViews()
+        setConstraints()
+        setAccessibilityIdentifiers()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureView() {
+    private func setupViews() {
         addSubview(containerView)
         containerView.addSubview(messageLabel)
         containerView.addSubview(learnMoreButton)
         containerView.addSubview(trophyImage)
         
         learnMoreButton.oex_addAction({[weak self] action in
-                if let weakSelf = self {
-                    weakSelf.tapAction?(weakSelf)
-                }
+                self?.tapAction?()
             }, for: .touchUpInside)
         
         trophyImage.image = Icon.Trophy.imageWithFontSize(size: trophyImageSize.height)
-        setConstraints()
-        setAccessibilityIdentifiers()
     }
     
     private func setAccessibilityIdentifiers() {

@@ -144,9 +144,24 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private let environment : Environment
     private let context: Context
-    private var mode: EnrollmentMode = .none
     weak var delegate : CoursesContainerViewControllerDelegate?
-    var courses : [OEXCourse] = []
+    var isAuditModeCourseAvailable: Bool = false
+    var courses:[OEXCourse] = [] {
+        didSet {
+            if isiPad() {
+                let auditModeCourses = courses.filter { course -> Bool in
+                    let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
+                    if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled {
+                        
+                        return true
+                    }
+                    
+                    return false
+                }
+                isAuditModeCourseAvailable = !auditModeCourses.isEmpty
+            }
+        }
+    }
     private let insetsController = ContentInsetsController()
   
     private var isCourseDiscoveryEnabled: Bool {
@@ -155,10 +170,6 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private var shouldShowFooter: Bool {
         return context == .enrollmentList && isCourseDiscoveryEnabled
-    }
-    
-    private var shouldShowValuePropView: Bool {
-        return mode == .audit && environment.config.isValuePropEnabled
     }
     
     init(environment : Environment, context: Context) {
@@ -235,7 +246,7 @@ class CoursesContainerViewController: UICollectionViewController {
             self?.delegate?.coursesContainerChoseCourse(course: course)
         }
         
-        cell.valuePropView.tapAction = { [weak self] _ in
+        cell.valuePropView.tapAction = { [weak self] in
             self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
             self?.delegate?.showValuePropDetailView(with: course)
         }
@@ -250,32 +261,24 @@ class CoursesContainerViewController: UICollectionViewController {
         }
         cell.course = course
 
-        if let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id),  let enrollmentMode = enrollment.mode {
-            mode = EnrollmentMode(rawValue: enrollmentMode) ?? .none
-        }
-
         cell.resetCellView()
-        cell.setUp(valuePropEnabled: shouldShowValuePropView)
+        cell.setUp(valuePropEnabled: shouldShowValueProp(for: course))
         
         return cell
     }
     
+    private func shouldShowValueProp(for course: OEXCourse) -> Bool {
+        let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
+        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled
+    }
+    
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {
         if isiPad() {
-            for course in courses {
-                let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-                if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled {
-                    return valuePropViewHeight
-                }
-            }
-
-            return 0
+            return isAuditModeCourseAvailable ? valuePropViewHeight : 0
         } else {
             let course = courses[indexPath.row]
-            let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-            let shouldShowValuePropView = enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled
-            
-            return shouldShowValuePropView ? valuePropViewHeight : 0
+            let valuePropEnabled = shouldShowValueProp(for: course)
+            return valuePropEnabled ? valuePropViewHeight : 0
         }
     }
     
