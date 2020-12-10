@@ -22,8 +22,7 @@ class ValuePropMessageView: UIView {
         
     private let imageSize: CGFloat = 20
     private let leadingOffset = StandardHorizontalMargin * 4
-    private let buttonHeight = StandardVerticalMargin * 4
-    private let buttonMinimunWidth = StandardHorizontalMargin * 6
+    private let buttonSize = CGSize(width: StandardVerticalMargin * 6, height: StandardHorizontalMargin * 4)
     
     private lazy var stackView = TZStackView()
     private lazy var titleContainer = UIView()
@@ -114,10 +113,10 @@ class ValuePropMessageView: UIView {
         }
         
         buttonLearnMore.snp.makeConstraints { make in
-            make.height.equalTo(buttonHeight)
+            make.height.equalTo(buttonSize.height)
             make.bottom.equalTo(buttonContainer).inset(StandardVerticalMargin * 2)
             make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
-            make.width.greaterThanOrEqualTo(buttonMinimunWidth)
+            make.width.greaterThanOrEqualTo(buttonSize.width)
         }
         
         titleContainer.snp.makeConstraints { make in
