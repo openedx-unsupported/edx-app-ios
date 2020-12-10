@@ -27,6 +27,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private lazy var valuePropView: ValuePropMessageView = {
         let view = ValuePropMessageView(environment: environment)
         view.delegate = self
+        view.backgroundColor = environment.styles.infoXXLight()
         return view
     }()
     

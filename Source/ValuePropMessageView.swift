@@ -69,12 +69,8 @@ class ValuePropMessageView: UIView {
     }
     
     private func setupViews() {
-        backgroundColor = environment.styles.accentAColor()
-        
         imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
-        
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.courseContentGatedLocked)
-        
         messageLabel.attributedText = messageStyle.attributedString(withText: Strings.courseContentGatedUpgradeToAccessGraded)
         
         buttonLearnMore.backgroundColor = environment.styles.neutralWhiteT()
