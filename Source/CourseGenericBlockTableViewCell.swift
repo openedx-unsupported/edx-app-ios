@@ -30,7 +30,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
                     let download = DownloadsAccessoryView()
                     download.state = .Gated
                     content.trailingView = download
-                    content.setDetailText(title: Strings.courseContentGatedLearnHowToUnlock, blockType: block?.type, underline: true)
+                    content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block?.type, underline: true)
                 } else {
                     content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
                 }

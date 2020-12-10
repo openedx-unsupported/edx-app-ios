@@ -370,14 +370,6 @@
 "COURSE_CONTENT_UNKNOWN" = "Ce composant n'est pas encore disponible sur mobile. \n\nExplorer d'autres parties du cours ou le voir sur le web.";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Non disponible sur mobile";
-/* Message shown when course content is gated, propmt user how to unlock */
-"COURSE_CONTENT_GATED_LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
-/* Message shown when course content is gated, on button */
-"COURSE_CONTENT_GATED_LEARN_MORE"= "Learn more";
-/* Message shown when course content is gated, new message behind feature flag */
-"COURSE_CONTENT_GATED_LOCKED"= "Graded assignments are locked";
-/* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"COURSE_CONTENT_GATED_UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course.";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Aucune date de cours disponible.";
 /* Label for date when course starts */
@@ -863,6 +855,14 @@
 "USER_ACCOUNT"="Compte";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Profil";
+/* Message shown when course content is gated, prompt user how to unlock */
+"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
+/* Message shown when course content is gated, on button */
+"VALUE_PROP.LEARN_MORE"= "Learn more";
+/* Message shown when course content is gated, new message behind feature flag */
+"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
+/* Message shown when course content is gated, upgrade to access, new message behind feature flag */
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course.";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "Version {number} {environment}";
 /* Error shown when video download fails */

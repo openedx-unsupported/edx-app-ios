@@ -13,9 +13,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider
     
     private let environment: Environment
-    
-    private let bannerViewHeight = StandardHorizontalMargin * 12
-    
+        
     let blockID: CourseBlockID?
     let courseID: String
     private var block: CourseBlock? {
@@ -27,7 +25,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private lazy var valuePropView: ValuePropMessageView = {
         let view = ValuePropMessageView(environment: environment)
         view.delegate = self
-        view.backgroundColor = environment.styles.infoXXLight()
         return view
     }()
     
@@ -113,7 +110,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             make.top.equalTo(StandardVerticalMargin * 2)
             make.leading.equalTo(view).offset(StandardVerticalMargin)
             make.trailing.equalTo(view).inset(StandardVerticalMargin)
-            make.height.greaterThanOrEqualTo(bannerViewHeight)
+            make.height.greaterThanOrEqualTo(valuePropView.valuePropViewHeight)
         }
     }
     

@@ -16,10 +16,11 @@ class ValuePropMessageView: UIView {
     
     typealias Environment = OEXStylesProvider
     
+    let valuePropViewHeight = StandardHorizontalMargin * 12
+    
     var delegate: ValuePropMessageViewDelegate?
         
     private let imageSize: CGFloat = 20
-    private let bannerViewHeight = StandardHorizontalMargin * 12
     private let leadingOffset = StandardHorizontalMargin * 4
     private let buttonHeight = StandardVerticalMargin * 4
     private let buttonMinimunWidth = StandardHorizontalMargin * 6
@@ -69,12 +70,14 @@ class ValuePropMessageView: UIView {
     }
     
     private func setupViews() {
+        backgroundColor = environment.styles.infoXXLight()
+        
         imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
-        titleLabel.attributedText = titleStyle.attributedString(withText: Strings.courseContentGatedLocked)
-        messageLabel.attributedText = messageStyle.attributedString(withText: Strings.courseContentGatedUpgradeToAccessGraded)
+        titleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.assignmentsAreLocked)
+        messageLabel.attributedText = messageStyle.attributedString(withText: Strings.ValueProp.upgradeToAccessGraded)
         
         buttonLearnMore.backgroundColor = environment.styles.neutralWhiteT()
-        buttonLearnMore.setAttributedTitle(buttonStyle.attributedString(withText: Strings.courseContentGatedLearnMore), for: UIControl.State())
+        buttonLearnMore.setAttributedTitle(buttonStyle.attributedString(withText: Strings.ValueProp.learnMore), for: UIControl.State())
         buttonLearnMore.oex_addAction({ [weak self] _ in
             self?.delegate?.showValuePropDetailView()
         }, for: .touchUpInside)
