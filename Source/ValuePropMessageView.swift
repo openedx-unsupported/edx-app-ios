@@ -19,7 +19,6 @@ class ValuePropMessageView: UIView {
     var delegate: ValuePropMessageViewDelegate?
         
     private let imageSize: CGFloat = 20
-    private let learnMoreButtonSize = CGSize(width: StandardHorizontalMargin * 6, height: StandardVerticalMargin * 4)
     
     private lazy var container = UIView()
     private lazy var titleLabel: UILabel = {
@@ -110,9 +109,9 @@ class ValuePropMessageView: UIView {
         
         buttonLearnMore.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
-            make.height.equalTo(learnMoreButtonSize.height)
+            make.height.equalTo(StandardVerticalMargin * 4)
             make.trailing.equalTo(container).inset(StandardHorizontalMargin * 2)
-            make.width.equalTo(learnMoreButtonSize.width)
+            make.width.equalTo(StandardHorizontalMargin * 6)
         }
     }
     
