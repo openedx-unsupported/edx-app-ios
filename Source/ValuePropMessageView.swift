@@ -16,7 +16,7 @@ class ValuePropMessageView: UIView {
     
     typealias Environment = OEXStylesProvider
     
-    let valuePropViewHeight = StandardHorizontalMargin * 12
+    let valuePropViewHeight = StandardHorizontalMargin * 11
     
     var delegate: ValuePropMessageViewDelegate?
         
@@ -24,22 +24,18 @@ class ValuePropMessageView: UIView {
     private let leadingOffset = StandardHorizontalMargin * 4
     private let learnMoreButtonSize = CGSize(width: StandardHorizontalMargin * 6, height: StandardVerticalMargin * 4)
     
-    private lazy var stackView = TZStackView()
-    private lazy var titleContainer = UIView()
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         return label
     }()
-    private lazy var messageContainer = UIView()
     private lazy var messageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         return label
     }()
-    private lazy var buttonContainer = UIView()
     private lazy var buttonLearnMore = UIButton()
-    private lazy var imageView = UIImageView()
+    private lazy var lockImageView = UIImageView()
     
     private lazy var titleStyle: OEXMutableTextStyle = {
         return OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.primaryDarkColor())
@@ -71,7 +67,7 @@ class ValuePropMessageView: UIView {
     private func setupViews() {
         backgroundColor = environment.styles.infoXXLight()
         
-        imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
+        lockImageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.assignmentsAreLocked)
         messageLabel.attributedText = messageStyle.attributedString(withText: Strings.ValueProp.upgradeToAccessGraded)
 
@@ -81,71 +77,42 @@ class ValuePropMessageView: UIView {
             self?.delegate?.showValuePropDetailView()
         }, for: .touchUpInside)
         
-        titleContainer.addSubview(imageView)
-        titleContainer.addSubview(titleLabel)
-        messageContainer.addSubview(messageLabel)
-        buttonContainer.addSubview(buttonLearnMore)
-        addSubview(stackView)
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.alignment = .leading
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = StandardVerticalMargin / 2
-        
-        stackView.addArrangedSubview(titleContainer)
-        stackView.addArrangedSubview(messageContainer)
-        stackView.addArrangedSubview(buttonContainer)
+        addSubview(titleLabel)
+        addSubview(messageLabel)
+        addSubview(buttonLearnMore)
+        addSubview(lockImageView)
     }
     
     private func setConstraints() {
-        imageView.snp.makeConstraints { make in
+        lockImageView.snp.makeConstraints { make in
             make.top.equalTo(StandardVerticalMargin * 2.2)
             make.leading.equalTo(self).offset(StandardHorizontalMargin + 4)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.edges.equalTo(titleContainer)
-        }
-        
-        messageLabel.snp.makeConstraints { make in
-            make.edges.equalTo(messageContainer)
-        }
-        
-        buttonLearnMore.snp.makeConstraints { make in
-            make.height.equalTo(learnMoreButtonSize.height)
-            make.bottom.equalTo(buttonContainer).inset(StandardVerticalMargin * 2)
-            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
-            make.width.equalTo(learnMoreButtonSize.width)
-        }
-        
-        titleContainer.snp.makeConstraints { make in
+            make.top.equalTo(self).inset(StandardVerticalMargin * 2.2)
             make.leading.equalTo(self).offset(leadingOffset)
             make.trailing.equalTo(self)
             make.width.equalTo(self)
-            make.height.equalTo(frame.size.height / CGFloat(stackView.subviews.count))
         }
         
-        messageContainer.snp.makeConstraints { make in
+        messageLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(self).offset(leadingOffset)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin * 2)
-            make.height.equalTo(frame.size.height / CGFloat(stackView.subviews.count))
         }
         
-        buttonContainer.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(leadingOffset)
-            make.trailing.equalTo(self)
-            make.height.equalTo(frame.size.height / CGFloat(stackView.subviews.count))
-        }
-        
-        stackView.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+        buttonLearnMore.snp.makeConstraints { make in
+            make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.height.equalTo(learnMoreButtonSize.height)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin * 2)
+            make.width.equalTo(learnMoreButtonSize.width)
         }
     }
     
     private func setAccessibilityIdentifiers() {
         accessibilityIdentifier = "ValuePropMessageView:view"
-        imageView.accessibilityIdentifier = "ValuePropMessageView:image-view"
+        lockImageView.accessibilityIdentifier = "ValuePropMessageView:image-view-lock"
         titleLabel.accessibilityIdentifier = "ValuePropMessageView:label-title"
         messageLabel.accessibilityIdentifier = "ValuePropMessageView:label-message"
         buttonLearnMore.accessibilityIdentifier = "ValuePropMessageView:button-learn-more"
