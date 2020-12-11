@@ -11,7 +11,11 @@ import UIKit
 class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCell {
     fileprivate let content = CourseOutlineItemView()
     
-    private lazy var gatedAccessoryView = DownloadsAccessoryView()
+    private lazy var gatedAccessoryView: DownloadsAccessoryView = {
+        let view = DownloadsAccessoryView()
+        view.state = .Gated
+        return view
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -27,7 +31,6 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         didSet {
             if block?.isGated ?? false {
                 if OEXConfig.shared().isValuePropEnabled {
-                    gatedAccessoryView.state = .Gated
                     content.trailingView = gatedAccessoryView
                     content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block?.type, underline: true)
                 } else {
