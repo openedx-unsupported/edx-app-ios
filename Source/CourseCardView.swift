@@ -184,6 +184,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         set {
             titleLabel.attributedText = titleTextStyle.attributedString(withText: newValue)
             updateAcessibilityLabel()
+            updateConstraints()
         }
     }
     

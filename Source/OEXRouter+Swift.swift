@@ -368,6 +368,11 @@ extension OEXRouter {
         }
     }
     
+    func showValuePropDetailView(from controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse) {
+        let upgradeDetailView = ValuePropDetailViewController(type: type, course: course, environment: environment)
+        controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailView), animated: true, completion: nil)
+    }
+    
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true, modal: Bool = false) {
         OEXAnalytics.shared().trackProfileViewed(username: username)
         let editable = self.environment.session.currentUser?.username == username

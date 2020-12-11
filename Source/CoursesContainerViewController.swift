@@ -8,36 +8,104 @@
 
 import UIKit
 
+fileprivate let valuePropViewHeight:CGFloat = 125.0
+
 class CourseCardCell : UICollectionViewCell {
+    
     static let margin = StandardVerticalMargin
     
     fileprivate static let cellIdentifier = "CourseCardCell"
     fileprivate let courseView = CourseCardView(frame: CGRect.zero)
+    fileprivate lazy var valuePropView: ValuePropCourseCardView = {
+        let valuePropView = ValuePropCourseCardView()
+        valuePropView.applyBorderStyle(style: BorderStyle())
+        valuePropView.backgroundColor = OEXStyles.shared().infoXXLight()
+        return valuePropView
+    }()
+    fileprivate lazy var containerView = UIView()
+    fileprivate lazy var bottomLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = OEXStyles.shared().infoXXLight()
+        return view
+    }()
     fileprivate var course : OEXCourse?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-                
+        
+        contentView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        setAccessibilityIdentifiers()
+    }
+    
+    fileprivate func resetCellView() {
+        for view in contentView.subviews {
+            view.removeFromSuperview()
+        }
+    }
+    
+    fileprivate func setUp(valuePropEnabled: Bool) {
+        if valuePropEnabled {
+            configureAuditCourseCardView()
+        } else {
+            configureCourseCardView()
+        }
+    }
+    
+    private func configureAuditCourseCardView() {
+        contentView.addSubview(containerView)
+        containerView.addSubview(courseView)
+        containerView.addSubview(valuePropView)
+        insertSubview(bottomLine, aboveSubview: valuePropView)
+        
+        containerView.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(CourseCardCell.margin)
+            make.bottom.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+        }
+        
+        courseView.snp.makeConstraints { make in
+            make.top.equalTo(containerView)
+            make.leading.equalTo(containerView).offset(CourseCardCell.margin)
+            make.trailing.equalTo(containerView).inset(CourseCardCell.margin)
+            make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
+        }
+        
+        bottomLine.snp.makeConstraints { make in
+            make.top.equalTo(courseView.snp.bottom).inset(4)
+            make.leading.equalTo(containerView).offset(CourseCardCell.margin)
+            make.trailing.equalTo(containerView).inset(CourseCardCell.margin)
+            make.height.equalTo(6)
+        }
+        
+        valuePropView.snp.makeConstraints { make in
+            make.top.equalTo(courseView.snp.bottom)
+            make.leading.equalTo(containerView).offset(CourseCardCell.margin)
+            make.trailing.equalTo(containerView).inset(CourseCardCell.margin)
+            make.bottom.equalTo(containerView)
+            make.height.equalTo(valuePropViewHeight)
+        }
+    }
+    
+    private func configureCourseCardView() {
+        courseView.applyBorderStyle(style: BorderStyle())
         contentView.addSubview(courseView)
         
         courseView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(CourseCardCell.margin)
-            make.bottom.equalTo(contentView)
             make.leading.equalTo(contentView).offset(CourseCardCell.margin)
-            make.trailing.equalTo(contentView).offset(-CourseCardCell.margin)
+            make.trailing.equalTo(contentView).inset(CourseCardCell.margin)
+            make.bottom.equalTo(contentView)
             make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
-        
-        courseView.applyBorderStyle(style: BorderStyle())
-        
-        contentView.backgroundColor = OEXStyles.shared().neutralXLight()
-
-        setAccessibilityIdentifiers()
     }
 
     private func setAccessibilityIdentifiers() {
         contentView.accessibilityIdentifier = "CourseCardCell:content-view"
         courseView.accessibilityIdentifier = "CourseCardCell:course-card-view"
+        valuePropView.accessibilityIdentifier = "CourseCardCell:value-prop-view"
+        containerView.accessibilityIdentifier = "CourseCardCell:container-view"
+        bottomLine.accessibilityIdentifier = "CourseCardCell:bottom-line-view"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,6 +115,11 @@ class CourseCardCell : UICollectionViewCell {
 
 protocol CoursesContainerViewControllerDelegate : class {
     func coursesContainerChoseCourse(course : OEXCourse)
+    func showValuePropDetailView(with course: OEXCourse)
+}
+
+extension CoursesContainerViewControllerDelegate {
+    func showValuePropDetailView(with course: OEXCourse) {}
 }
 
 class CoursesContainerViewController: UICollectionViewController {
@@ -56,15 +129,41 @@ class CoursesContainerViewController: UICollectionViewController {
         case enrollmentList
     }
     
-    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider
+    enum EnrollmentMode: String {
+        case audit = "audit"
+        case verified = "verified"
+        case honor = "honor"
+        case noIDProfessional = "no-id-professional"
+        case professional = "professional"
+        case credit = "credit"
+        case masters = "masters"
+        case none = "none"
+    }
+    
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXInterfaceProvider & OEXAnalyticsProvider
     
     private let environment : Environment
     private let context: Context
-    
     weak var delegate : CoursesContainerViewControllerDelegate?
-    var courses : [OEXCourse] = []
+    var isAuditModeCourseAvailable: Bool = false
+    var courses:[OEXCourse] = [] {
+        didSet {
+            if isiPad() {
+                let auditModeCourses = courses.filter { course -> Bool in
+                    let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
+                    if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled {
+                        
+                        return true
+                    }
+                    
+                    return false
+                }
+                isAuditModeCourseAvailable = !auditModeCourses.isEmpty
+            }
+        }
+    }
     private let insetsController = ContentInsetsController()
-    
+  
     private var isCourseDiscoveryEnabled: Bool {
         return environment.config.discovery.course.isEnabled
     }
@@ -147,6 +246,11 @@ class CoursesContainerViewController: UICollectionViewController {
             self?.delegate?.coursesContainerChoseCourse(course: course)
         }
         
+        cell.valuePropView.tapAction = { [weak self] in
+            self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
+            self?.delegate?.showValuePropDetailView(with: course)
+        }
+        
         switch context {
         case .courseCatalog:
             CourseCardViewModel.onCourseCatalog(course: course, wrapTitle: true).apply(card: cell.courseView, networkManager: environment.networkManager)
@@ -156,8 +260,26 @@ class CoursesContainerViewController: UICollectionViewController {
             break
         }
         cell.course = course
+
+        cell.resetCellView()
+        cell.setUp(valuePropEnabled: shouldShowValueProp(for: course))
         
         return cell
+    }
+    
+    private func shouldShowValueProp(for course: OEXCourse) -> Bool {
+        let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
+        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled
+    }
+    
+    private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {
+        if isiPad() {
+            return isAuditModeCourseAvailable ? valuePropViewHeight : 0
+        } else {
+            let course = courses[indexPath.row]
+            let valuePropEnabled = shouldShowValueProp(for: course)
+            return valuePropEnabled ? valuePropViewHeight : 0
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -172,7 +294,7 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     private var itemsPerRow: CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 2 : 1
+        return isiPad() ? 2 : 1
     }
     
     private var minimumSpace: CGFloat {
@@ -193,8 +315,8 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let widthPerItem = view.frame.width / itemsPerRow
-        let heightPerItem = widthPerItem * StandardImageAspectRatio
-        
+        let valuePropHeight: CGFloat = calculateValuePropHeight(for: indexPath)
+        let heightPerItem =  widthPerItem * StandardImageAspectRatio + valuePropHeight
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
 }
