@@ -24,9 +24,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     var block : CourseBlock? = nil {
         didSet {
             if block?.isGated ?? false {
-                // check env for feature flag
-                let flag = true
-                if flag {
+                if OEXConfig.shared().isValuePropEnabled {
                     let download = DownloadsAccessoryView()
                     download.state = .Gated
                     content.trailingView = download
@@ -34,7 +32,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
                 } else {
                     content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
                 }
-                content.leadingIconColor = OEXStyles.shared().neutralBase()
+                content.leadingIconColor = OEXStyles.shared().neutralDark()
             }
             content.setTitleText(title: block?.displayName)
         }
@@ -57,7 +55,6 @@ class CourseHTMLTableViewCell: CourseGenericBlockTableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
@@ -72,7 +69,6 @@ class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
@@ -81,7 +77,7 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        content.leadingIconColor = OEXStyles.shared().neutralBase()
+        content.leadingIconColor = OEXStyles.shared().neutralDark()
         content.setContentIcon(icon: Icon.CourseUnknownContent)
         accessibilityIdentifier = "CourseUnknownTableViewCellIdentifier:view"
     }
@@ -89,7 +85,6 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 class DiscussionTableViewCell: CourseGenericBlockTableViewCell {
@@ -105,6 +100,5 @@ class DiscussionTableViewCell: CourseGenericBlockTableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 

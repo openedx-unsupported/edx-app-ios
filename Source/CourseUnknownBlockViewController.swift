@@ -10,7 +10,7 @@ import UIKit
 
 class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & DataManagerProvider
     
     private let environment: Environment
         
@@ -66,10 +66,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showError() {
-        let flag = true
-        
         if let block = block, block.isGated {
-            if flag {
+            if environment.config.isValuePropEnabled {
                 showValuePropMessageView()
             } else {
                 showGatedContentMessageView()
@@ -87,8 +85,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         configureIconMessage(with: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown))
     }
     
-    private func configureIconMessage(with view: IconMessageView) {
-        messageView = view
+    private func configureIconMessage(with iconView: IconMessageView) {
+        messageView = iconView
         
         messageView?.buttonInfo = MessageButtonInfo(title : Strings.openInBrowser) { [weak self] in
             guard let weakSelf = self else { return }
@@ -163,6 +161,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func showValuePropDetailView() {
-        
+        guard let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course else { return }
+        environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: AnalyticsScreenName.CourseUnit)
+        environment.router?.showValuePropDetailView(from: self, type: .courseUnit, course: course)
     }
 }

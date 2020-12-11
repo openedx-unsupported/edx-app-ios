@@ -14,7 +14,7 @@ enum ValuePropModalType {
 }
 
 class ValuePropDetailViewController: UIViewController {
-
+    
     typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
     
     private lazy var tableView: UITableView = {
@@ -39,7 +39,7 @@ class ValuePropDetailViewController: UIViewController {
         let style = OEXMutableTextStyle(weight: .normal, size: .xxLarge, color: OEXStyles.shared().primaryBaseColor())
         style.alignment = .center
         return style
-      }()
+    }()
     private let crossButtonSize: CGFloat = 20
     private var type: ValuePropModalType
     private var course: OEXCourse
@@ -64,7 +64,7 @@ class ValuePropDetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func logScreenEvent() {
         let screenName = type == .courseEnrollment ? AnalyticsScreenName.ValuePropModalForCourseEnrollment : AnalyticsScreenName.ValuePropModalForCourseUnit
         environment.analytics.trackValueProModal(withName: screenName, courseId: course.course_id ?? "")
@@ -107,7 +107,7 @@ extension ValuePropDetailViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ValuePropDetailHeaderView.identifier) as! ValuePropDetailHeaderView
-        let title = type == .courseEnrollment ? Strings.ValueProp.detailViewTitle : ""
+        let title = type == .courseEnrollment ? Strings.ValueProp.detailViewTitle : Strings.ValueProp.detailViewTitleLearnMore
         header.titleLabel.attributedText = titleStyle.attributedString(withText: title)
         header.messageTitleLabel.attributedText = messageTitleStyle.attributedString(withText: Strings.ValueProp.detailViewMessageTitle)
         return header
@@ -120,7 +120,7 @@ extension ValuePropDetailViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return infoMessages.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ValuePropMessageCell.identifier, for: indexPath) as! ValuePropMessageCell
         cell.setMessage(message: infoMessages[indexPath.row])
@@ -180,7 +180,7 @@ private class ValuePropMessageCell: UITableViewCell {
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)
         }
-
+        
         bulletImage.snp.makeConstraints { make in
             make.top.equalTo(containerView).offset(StandardVerticalMargin)
             make.leading.equalTo(containerView).offset(StandardVerticalMargin)
@@ -199,9 +199,9 @@ private class ValuePropMessageCell: UITableViewCell {
 
 private class ValuePropDetailHeaderView : UITableViewHeaderFooterView {
     static let identifier = "ValuePropMessageHeaderCellIdentifier"
-
+    
     lazy var titleLabel: UILabel = {
-       let title = UILabel()
+        let title = UILabel()
         title.numberOfLines = 0
         return title
     }()
@@ -227,7 +227,7 @@ private class ValuePropDetailHeaderView : UITableViewHeaderFooterView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func addSubviews(){
         addSubview(titleLabel)
         addSubview(messageTitleLabel)

@@ -152,10 +152,8 @@ class CoursesContainerViewController: UICollectionViewController {
                 let auditModeCourses = courses.filter { course -> Bool in
                     let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
                     if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled {
-                        
                         return true
                     }
-                    
                     return false
                 }
                 isAuditModeCourseAvailable = !auditModeCourses.isEmpty

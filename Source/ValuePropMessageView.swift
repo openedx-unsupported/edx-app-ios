@@ -22,7 +22,7 @@ class ValuePropMessageView: UIView {
         
     private let imageSize: CGFloat = 20
     private let leadingOffset = StandardHorizontalMargin * 4
-    private let buttonSize = CGSize(width: StandardVerticalMargin * 6, height: StandardHorizontalMargin * 4)
+    private let learnMoreButtonSize = CGSize(width: StandardHorizontalMargin * 6, height: StandardVerticalMargin * 4)
     
     private lazy var stackView = TZStackView()
     private lazy var titleContainer = UIView()
@@ -50,7 +50,7 @@ class ValuePropMessageView: UIView {
     }()
     
     private lazy var buttonStyle: OEXMutableTextStyle = {
-        return OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.primaryDarkColor())
+        return OEXMutableTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralWhiteT())
     }()
     
     private let environment: Environment
@@ -74,8 +74,8 @@ class ValuePropMessageView: UIView {
         imageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.assignmentsAreLocked)
         messageLabel.attributedText = messageStyle.attributedString(withText: Strings.ValueProp.upgradeToAccessGraded)
-        
-        buttonLearnMore.backgroundColor = environment.styles.neutralWhiteT()
+
+        buttonLearnMore.backgroundColor = environment.styles.primaryBaseColor()
         buttonLearnMore.setAttributedTitle(buttonStyle.attributedString(withText: Strings.ValueProp.learnMore), for: UIControl.State())
         buttonLearnMore.oex_addAction({ [weak self] _ in
             self?.delegate?.showValuePropDetailView()
@@ -113,10 +113,10 @@ class ValuePropMessageView: UIView {
         }
         
         buttonLearnMore.snp.makeConstraints { make in
-            make.height.equalTo(buttonSize.height)
+            make.height.equalTo(learnMoreButtonSize.height)
             make.bottom.equalTo(buttonContainer).inset(StandardVerticalMargin * 2)
             make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
-            make.width.greaterThanOrEqualTo(buttonSize.width)
+            make.width.equalTo(learnMoreButtonSize.width)
         }
         
         titleContainer.snp.makeConstraints { make in

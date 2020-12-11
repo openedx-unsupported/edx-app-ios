@@ -927,6 +927,8 @@
 "VALUE_PROP.COURSE_CARD_MESSAGE"="Get the most out of your course! Upgrade to get full access to the course material, unlock both graded and non-graded assignments, and earn a verified certificate to showcase on your resume.";
 /* Value prop view's learn more button title on enrolled courses*/
 "VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
+/* Value prop detail view title learn more*/
+"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="LEarn more about locked features";
 /* Value prop detail view title*/
 "VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
 /* Value prop detail view message heading*/
