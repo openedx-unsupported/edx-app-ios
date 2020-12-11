@@ -105,9 +105,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         view.addSubview(valuePropView)
         
         valuePropView.snp.makeConstraints { make in
-            make.top.equalTo(StandardVerticalMargin * 2)
-            make.leading.equalTo(view).offset(StandardVerticalMargin)
-            make.trailing.equalTo(view).inset(StandardVerticalMargin)
+            make.edges.equalTo(safeEdges)
         }
     }
     

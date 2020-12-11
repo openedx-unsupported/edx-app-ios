@@ -84,8 +84,8 @@ class ValuePropMessageView: UIView {
     private func setConstraints() {
         container.snp.makeConstraints { make in
             make.top.equalTo(self)
-            make.leading.equalTo(self)
-            make.trailing.equalTo(self)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
             make.bottom.equalTo(buttonLearnMore).offset(StandardVerticalMargin * 2)
         }
         
