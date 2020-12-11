@@ -15,14 +15,6 @@ enum ValuePropModalType {
 
 class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverriding {
     
-    override var shouldAutorotate: Bool {
-        return true
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .allButUpsideDown
-    }
-    
     typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
     
     private lazy var tableView: UITableView = {
@@ -99,6 +91,14 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             make.trailing.equalTo(view).inset(StandardVerticalMargin * 2)
             make.bottom.equalTo(view)
         }
+    }
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
 }
 
