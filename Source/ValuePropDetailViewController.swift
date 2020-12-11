@@ -13,7 +13,15 @@ enum ValuePropModalType {
     case courseUnit
 }
 
-class ValuePropDetailViewController: UIViewController {
+class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverriding {
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
+    }
     
     typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
     
@@ -42,7 +50,6 @@ class ValuePropDetailViewController: UIViewController {
     }()
     private let crossButtonSize: CGFloat = 20
     private var type: ValuePropModalType
-    private var course: OEXCourse
     private let environment: Environment
     private let infoMessages = [Strings.ValueProp.infoMessage1, Strings.ValueProp.infoMessage2, Strings.ValueProp.infoMessage3, Strings.ValueProp.infoMessage4(platformName: OEXConfig.shared().platformName())]
     
@@ -50,24 +57,17 @@ class ValuePropDetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = environment.styles.standardBackgroundColor()
-        logScreenEvent()
         configureView()
     }
     
-    init(type: ValuePropModalType, course: OEXCourse, environment: Environment) {
+    init(type: ValuePropModalType, environment: Environment) {
         self.type = type
-        self.course = course
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func logScreenEvent() {
-        let screenName = type == .courseEnrollment ? AnalyticsScreenName.ValuePropModalForCourseEnrollment : AnalyticsScreenName.ValuePropModalForCourseUnit
-        environment.analytics.trackValueProModal(withName: screenName, courseId: course.course_id ?? "")
     }
     
     private func configureView() {

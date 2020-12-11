@@ -11,7 +11,7 @@ import UIKit
 class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCell {
     fileprivate let content = CourseOutlineItemView()
     
-    private lazy var gatedAccessoryView: DownloadsAccessoryView = {
+    private lazy var valuePropAccessoryView: DownloadsAccessoryView = {
         let view = DownloadsAccessoryView()
         view.state = .Gated
         return view
@@ -31,7 +31,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         didSet {
             if block?.isGated ?? false {
                 if OEXConfig.shared().isValuePropEnabled {
-                    content.trailingView = gatedAccessoryView
+                    content.trailingView = valuePropAccessoryView
                     content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block?.type, underline: true)
                 } else {
                     content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)

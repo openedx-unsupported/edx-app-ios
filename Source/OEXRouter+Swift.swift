@@ -368,9 +368,9 @@ extension OEXRouter {
         }
     }
     
-    func showValuePropDetailView(from controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse) {
+    func showValuePropDetailView(from controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse, completion: (() -> Void)? = nil) {
         let upgradeDetailView = ValuePropDetailViewController(type: type, course: course, environment: environment)
-        controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailView), animated: true, completion: nil)
+        controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailView), animated: true, completion: completion)
     }
     
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true, modal: Bool = false) {

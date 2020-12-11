@@ -159,7 +159,11 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func showValuePropDetailView() {
         guard let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course else { return }
-        environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: AnalyticsScreenName.CourseUnit, assignmentID: blockID)
-        environment.router?.showValuePropDetailView(from: self, type: .courseUnit, course: course)
+        environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: .CourseUnit, assignmentID: blockID)
+        environment.router?.showValuePropDetailView(from: self, type: .courseUnit, course: course) { [weak self] in
+            if let weakSelf = self {
+                weakSelf.environment.analytics.trackValueProModal(with: .ValuePropModalForCourseUnit, courseId: weakSelf.courseID, assignmentID: weakSelf.blockID)
+            }
+        }
     }
 }

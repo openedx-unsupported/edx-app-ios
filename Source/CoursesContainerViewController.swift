@@ -245,7 +245,6 @@ class CoursesContainerViewController: UICollectionViewController {
         }
         
         cell.valuePropView.tapAction = { [weak self] in
-            self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
             self?.delegate?.showValuePropDetailView(with: course)
         }
         
