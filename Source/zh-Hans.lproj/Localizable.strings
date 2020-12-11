@@ -840,7 +840,6 @@
 "USER_ACCOUNT"="账号";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "个人资料";
-<<<<<<< HEAD
 /* Message shown when course content is gated, prompt user how to unlock */
 "VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
 /* Message shown when course content is gated, on button */

@@ -855,7 +855,6 @@
 "USER_ACCOUNT"="Compte";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Profil";
-<<<<<<< HEAD
 /* Message shown when course content is gated, prompt user how to unlock */
 "VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
 /* Message shown when course content is gated, on button */

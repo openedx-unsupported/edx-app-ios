@@ -108,7 +108,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             make.top.equalTo(StandardVerticalMargin * 2)
             make.leading.equalTo(view).offset(StandardVerticalMargin)
             make.trailing.equalTo(view).inset(StandardVerticalMargin)
-            make.height.greaterThanOrEqualTo(valuePropView.valuePropViewHeight)
         }
     }
     
@@ -162,7 +161,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func showValuePropDetailView() {
         guard let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course else { return }
-        environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: AnalyticsScreenName.CourseUnit)
+        environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: AnalyticsScreenName.CourseUnit, assignmentID: blockID)
         environment.router?.showValuePropDetailView(from: self, type: .courseUnit, course: course)
     }
 }

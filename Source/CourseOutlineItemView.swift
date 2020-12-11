@@ -46,9 +46,7 @@ public class CourseOutlineItemView: UIView {
             return !checkmark.isHidden
         }
         set {
-            if let newValue = newValue {
-                checkmark.isHidden = !newValue
-            }
+            checkmark.isHidden = !(newValue ?? false)
             setNeedsUpdateConstraints()
         }
     }

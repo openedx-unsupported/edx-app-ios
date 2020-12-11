@@ -94,7 +94,10 @@ class ValuePropDetailViewController: UIViewController {
     
     private func setConstraints() {
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(safeEdges)
+            make.leading.equalTo(view).offset(StandardVerticalMargin * 2)
+            make.top.equalTo(view)
+            make.trailing.equalTo(view).inset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(view)
         }
     }
 }

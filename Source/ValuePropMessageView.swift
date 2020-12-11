@@ -15,15 +15,13 @@ protocol ValuePropMessageViewDelegate {
 class ValuePropMessageView: UIView {
     
     typealias Environment = OEXStylesProvider
-    
-    let valuePropViewHeight = StandardHorizontalMargin * 11
-    
+        
     var delegate: ValuePropMessageViewDelegate?
         
     private let imageSize: CGFloat = 20
-    private let leadingOffset = StandardHorizontalMargin * 4
     private let learnMoreButtonSize = CGSize(width: StandardHorizontalMargin * 6, height: StandardVerticalMargin * 4)
     
+    private lazy var container = UIView()
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -65,7 +63,7 @@ class ValuePropMessageView: UIView {
     }
     
     private func setupViews() {
-        backgroundColor = environment.styles.infoXXLight()
+        container.backgroundColor = environment.styles.infoXXLight()
         
         lockImageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.assignmentsAreLocked)
@@ -77,35 +75,43 @@ class ValuePropMessageView: UIView {
             self?.delegate?.showValuePropDetailView()
         }, for: .touchUpInside)
         
-        addSubview(titleLabel)
-        addSubview(messageLabel)
-        addSubview(buttonLearnMore)
-        addSubview(lockImageView)
+        container.addSubview(titleLabel)
+        container.addSubview(messageLabel)
+        container.addSubview(buttonLearnMore)
+        container.addSubview(lockImageView)
+        addSubview(container)
     }
     
     private func setConstraints() {
+        container.snp.makeConstraints { make in
+            make.top.equalTo(self)
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(buttonLearnMore).offset(StandardVerticalMargin * 2)
+        }
+        
         lockImageView.snp.makeConstraints { make in
-            make.top.equalTo(StandardVerticalMargin * 2.2)
-            make.leading.equalTo(self).offset(StandardHorizontalMargin + 4)
+            make.top.equalTo(StandardVerticalMargin * 2)
+            make.leading.equalTo(container).offset(StandardHorizontalMargin + 4)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self).inset(StandardVerticalMargin * 2.2)
-            make.leading.equalTo(self).offset(leadingOffset)
-            make.trailing.equalTo(self)
-            make.width.equalTo(self)
+            make.top.equalTo(lockImageView)
+            make.leading.equalTo(container).offset(StandardHorizontalMargin * 4)
+            make.trailing.equalTo(container)
+            make.width.equalTo(container)
         }
         
         messageLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin * 2)
-            make.leading.equalTo(self).offset(leadingOffset)
-            make.trailing.equalTo(self).inset(StandardHorizontalMargin * 2)
+            make.leading.equalTo(titleLabel)
+            make.trailing.equalTo(container).inset(StandardHorizontalMargin * 2)
         }
         
         buttonLearnMore.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
             make.height.equalTo(learnMoreButtonSize.height)
-            make.trailing.equalTo(self).inset(StandardHorizontalMargin * 2)
+            make.trailing.equalTo(container).inset(StandardHorizontalMargin * 2)
             make.width.equalTo(learnMoreButtonSize.width)
         }
     }
