@@ -853,7 +853,7 @@
 /* Value prop view's learn more button title on enrolled courses*/
 "VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
 /* Value prop detail view title learn more*/
-"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="LEarn more about locked features";
+"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
 /* Value prop detail view title*/
 "VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
 /* Value prop detail view message heading*/
