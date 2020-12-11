@@ -41,12 +41,12 @@ public class CourseOutlineItemView: UIView {
         return leadingImageButton.image(for: .normal) != nil
     }
     
-    public var isGraded : Bool? {
+    public var isGraded : Bool {
         get {
             return !checkmark.isHidden
         }
         set {
-            checkmark.isHidden = !(newValue!)
+            checkmark.isHidden = !newValue
             setNeedsUpdateConstraints()
         }
     }
@@ -131,7 +131,7 @@ public class CourseOutlineItemView: UIView {
         
         attributedStrings.append(attributedString)
         
-        if isGraded == true {
+        if isGraded {
             let formattedDateString = formattedDueDateString(asMonthDay: DateFormatting.date(withServerString: dueDate))
             attributedStrings.append(CourseOutlineItemView.detailFontStyle.attributedString(withText: formattedDateString))
         }
