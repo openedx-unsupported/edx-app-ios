@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, OEXMySettingsAlertTag) {
     OEXMySettingsAlertTagWifiOnly
 };
 
-@interface OEXMySettingsViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface OEXMySettingsViewController () <UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding>
 
 @property (strong, nonatomic) IBOutlet UITableViewCell* wifiOnlyCell;
 @property (weak, nonatomic) IBOutlet UISwitch* wifiOnlySwitch;
@@ -83,6 +83,14 @@ typedef NS_ENUM(NSUInteger, OEXMySettingsAlertTag) {
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (BOOL) shouldAutorotate {
+    return true;
+}
+
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 @end
