@@ -84,6 +84,6 @@ extension OEXConfig {
     }
     
     var isValuePropEnabled: Bool {
-        return bool(forKey: "VALUE_PROP_ENABLED", defaultValue: true)
+        return bool(forKey: "VALUE_PROP_ENABLED", defaultValue: false)
     }
 }

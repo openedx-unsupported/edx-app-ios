@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let remoteConfigUserDefaultKey = "remote-config"
+
 protocol RemoteConfigProvider {
   var remoteConfig: FirebaseRemoteConfiguration { get }
 }
@@ -18,19 +20,41 @@ extension RemoteConfigProvider {
   }
 }
 
+fileprivate enum remoteConfigKeys: String, RawStringExtractable {
+    case valuePropEnabled = "VALUE_PROP_ENABLED"
+}
+
+enum ValuePropState: String {
+    case enable = "enable"
+    case disable = "disable"
+    case none = "none"
+}
+
 @objc class FirebaseRemoteConfiguration: NSObject {
     @objc static let shared =  FirebaseRemoteConfiguration()
+    var valuePropState: ValuePropState = .none
     
     private override init() {
         super.init()
     }
     
     @objc func initialize(remoteConfig: RemoteConfig) {
-        //TODO: Make the required changes here. Not using the Firebase Remote config at this moment
+        let allkeys = remoteConfig.allKeys(from: RemoteConfigSource.remote)
+        if allkeys.contains(remoteConfigKeys.valuePropEnabled.rawValue) {
+            let valuePropEnable = remoteConfig.configValue(forKey: remoteConfigKeys.valuePropEnabled.rawValue).boolValue
+            valuePropState = valuePropEnable ? ValuePropState.enable : ValuePropState.disable
+            UserDefaults.standard.set(valuePropState.rawValue, forKey: remoteConfigUserDefaultKey)
+            UserDefaults.standard.synchronize()
+        } else {
+            valuePropState = .none
+        }
     }
     
     @objc func initialize() {
-        //TODO: Make the required changes here. Not using the Firebase Remote config at this moment
+        guard let value = UserDefaults.standard.object(forKey: remoteConfigUserDefaultKey) as? String else {
+            return
+        }
+        
+        valuePropState = ValuePropState(rawValue: value) ?? .none
     }
 }
-
