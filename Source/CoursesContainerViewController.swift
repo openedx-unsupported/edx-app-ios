@@ -164,7 +164,7 @@ class CoursesContainerViewController: UICollectionViewController {
         super.viewDidLayoutSubviews()
         insetsController.updateInsets()
         
-        if UIDevice.isiOSVersionLess(than: 14) {
+        if UIDevice.isiOSVersionLess(than: 14) && environment.config.discovery.course.type != .native {
             collectionView.collectionViewLayout.invalidateLayout()
         }
     }
