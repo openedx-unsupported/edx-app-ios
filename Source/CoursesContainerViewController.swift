@@ -151,7 +151,7 @@ class CoursesContainerViewController: UICollectionViewController {
             if isiPad() {
                 let auditModeCourses = courses.filter { course -> Bool in
                     let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-                    if enrollment?.mode == EnrollmentMode.audit.rawValue && isValuePropEnabled {
+                    if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.isValuePropEnabled {
                         return true
                     }
                     return false
@@ -168,17 +168,6 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private var shouldShowFooter: Bool {
         return context == .enrollmentList && isCourseDiscoveryEnabled
-    }
-    
-    private var isValuePropEnabled: Bool {
-        switch environment.remoteConfig.valuePropState {
-            case .enable:
-                return true
-            case .disable:
-                return false
-            case .none:
-                return environment.config.isValuePropEnabled
-        }
     }
     
     init(environment : Environment, context: Context) {
@@ -277,7 +266,7 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private func shouldShowValueProp(for course: OEXCourse) -> Bool {
         let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-        return enrollment?.mode == EnrollmentMode.audit.rawValue && isValuePropEnabled
+        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.isValuePropEnabled
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {
