@@ -145,7 +145,7 @@
 /*Accessibility text for close button on whats new screen*/
 "ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="Kapat";
 /*Accessibility label for header on new screen*/
-"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Sürüm {app_version}, Yeni Özellikler";
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Ne var ne yok";
 /*Accessibility text for course share button on course dashboard*/
 "ACCESSIBILITY.SHARE_A_COURSE"="Bir ders paylaş";
 /*Accessibility text for close button*/
@@ -898,7 +898,7 @@
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Lütfen bekleyin....";
 /* Header of 'whats new screen'*/
-"WHATS_NEW.HEADER_TEXT"="Sürüm {app_version} Yeni Özellikler";
+"WHATS_NEW.HEADER_TEXT"="Ne var ne yok";
 /*Whats new screen done button title*/
 "WHATS_NEW.DONE"="Tamam";
 /*Title for wifi only switch at Settings screen*/

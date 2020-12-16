@@ -11,7 +11,7 @@ import Foundation
 private let GeneralPadding: CGFloat = 8.0
 
 private let cellButtonStyle = OEXTextStyle(weight:.normal, size:.base, color: OEXStyles.shared().infoBase())
-private let cellIconSelectedStyle = cellButtonStyle.withColor(OEXStyles.shared().primaryBaseColor())
+private let cellIconSelectedStyle = cellButtonStyle.withColor(OEXStyles.shared().infoBase())
 private let responseMessageStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryXLightColor())
 private let disabledCommentStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBase())
 

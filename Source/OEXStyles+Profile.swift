@@ -12,7 +12,15 @@ import Foundation
 extension OEXStyles {
     
     public func profileImageBorderColor() -> UIColor {
+        return neutralBase()
+    }
+
+    public func profileImageBackgroundColor() -> UIColor {
         return neutralWhite()
+    }
+
+    public func profileImageTintColor() -> UIColor {
+        return neutralXDark()
     }
     
     func profileImageViewBorder(width: CGFloat = 1.0) -> BorderStyle {

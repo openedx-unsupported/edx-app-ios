@@ -59,11 +59,12 @@ class DiscussionHelper: NSObject {
             }
             imageView.clipsToBounds = true
             imageView.layer.masksToBounds = true
+            imageView.tintColor = OEXStyles.shared().profileImageTintColor()
         }
     }
     
     class func profileImage(hasProfileImage: Bool, imageURL: String?) ->RemoteImage {
-        let placeholder = UIImage(named: "profilePhotoPlaceholder")
+        let placeholder = UIImage(named: "person_black")
         if let URL = imageURL, hasProfileImage {
             return RemoteImageImpl(url: URL, networkManager: OEXRouter.shared().environment.networkManager, placeholder: placeholder, persist: true)
         }

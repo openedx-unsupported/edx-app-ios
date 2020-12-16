@@ -142,7 +142,7 @@
 /*Accessibility text for close button on whats new screen*/
 "ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="Đóng";
 /*Accessibility label for header on new screen*/
-"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Phiên bản {app_version}, Tính năng mới";
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Có gì mới";
 /*Accessibility text for course share button on course dashboard*/
 "ACCESSIBILITY.SHARE_A_COURSE"="Chia sẻ khóa học";
 /*Accessibility text for close button*/
@@ -882,7 +882,7 @@
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Vui lòng đợi...";
 /* Header of 'whats new screen'*/
-"WHATS_NEW.HEADER_TEXT"="Phiên bản {app_version} Tính năng mới";
+"WHATS_NEW.HEADER_TEXT"="Có gì mới";
 /*Whats new screen done button title*/
 "WHATS_NEW.DONE"="Xong";
 /*Title for wifi only switch at Settings screen*/
