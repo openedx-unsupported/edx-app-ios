@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/NSDictionary+FIRMessaging.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/NSDictionary+FIRMessaging.h

@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/FIRMessagingContextManagerService.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingContextManagerService.h

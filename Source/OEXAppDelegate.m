@@ -276,8 +276,8 @@
 - (void)fetchRemoteConfig {
     [self.firebaseRemoteConfig fetchWithCompletionHandler:^(FIRRemoteConfigFetchStatus status, NSError *error) {
         if (status == FIRRemoteConfigFetchStatusSuccess) {
-            
-            [self.firebaseRemoteConfig activateWithCompletionHandler:^(NSError * _Nullable error) {
+
+            [self.firebaseRemoteConfig activateWithCompletion:^(BOOL changed, NSError * _Nullable error) {
                 [self.environment.remoteConfig initializeWithRemoteConfig:self.firebaseRemoteConfig];
             }];
             

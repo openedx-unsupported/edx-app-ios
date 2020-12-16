@@ -1,0 +1,1 @@
+../../../FirebaseInstanceID/FirebaseCore/Sources/Private/FIRComponentType.h

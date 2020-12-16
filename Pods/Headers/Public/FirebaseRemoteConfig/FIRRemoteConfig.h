@@ -1,1 +1,1 @@
-../../../FirebaseRemoteConfig/FirebaseRemoteConfig/Sources/Public/FIRRemoteConfig.h
+../../../FirebaseRemoteConfig/FirebaseRemoteConfig/Sources/Public/FirebaseRemoteConfig/FIRRemoteConfig.h

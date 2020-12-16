@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/FIRMessagingSecureSocket.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingSecureSocket.h

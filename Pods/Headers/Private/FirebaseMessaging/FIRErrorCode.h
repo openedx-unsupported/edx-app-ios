@@ -1,0 +1,1 @@
+../../../FirebaseMessaging/FirebaseCore/Sources/Private/FIRErrorCode.h

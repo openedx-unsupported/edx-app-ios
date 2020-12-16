@@ -1,1 +1,1 @@
-../../../FirebaseRemoteConfig/FirebaseRemoteConfig/Sources/RCNConfigFetch.h
+../../../FirebaseRemoteConfig/FirebaseRemoteConfig/Sources/Private/RCNConfigFetch.h

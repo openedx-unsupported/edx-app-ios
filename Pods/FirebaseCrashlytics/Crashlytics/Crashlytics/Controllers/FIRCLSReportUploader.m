@@ -12,32 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <FirebaseAnalyticsInterop/FIRAnalyticsInterop.h>
+#import "Interop/Analytics/Public/FIRAnalyticsInterop.h"
 
-#import "FIRCLSApplication.h"
-#import "FIRCLSDataCollectionArbiter.h"
-#import "FIRCLSDataCollectionToken.h"
-#import "FIRCLSDefines.h"
-#import "FIRCLSFCRAnalytics.h"
-#import "FIRCLSFileManager.h"
-#import "FIRCLSInstallIdentifierModel.h"
-#import "FIRCLSInternalReport.h"
-#import "FIRCLSNetworkClient.h"
-#import "FIRCLSPackageReportOperation.h"
-#import "FIRCLSProcessReportOperation.h"
-#import "FIRCLSReportAdapter.h"
-#import "FIRCLSReportUploader_Private.h"
-#import "FIRCLSSettings.h"
-#import "FIRCLSSymbolResolver.h"
+#import "Crashlytics/Crashlytics/Components/FIRCLSApplication.h"
+#import "Crashlytics/Crashlytics/Controllers/FIRCLSNetworkClient.h"
+#import "Crashlytics/Crashlytics/Controllers/FIRCLSReportUploader_Private.h"
+#import "Crashlytics/Crashlytics/DataCollection/FIRCLSDataCollectionArbiter.h"
+#import "Crashlytics/Crashlytics/DataCollection/FIRCLSDataCollectionToken.h"
+#import "Crashlytics/Crashlytics/Helpers/FIRCLSDefines.h"
+#import "Crashlytics/Crashlytics/Helpers/FIRCLSFCRAnalytics.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSFileManager.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSInstallIdentifierModel.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSInternalReport.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSSettings.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSSymbolResolver.h"
+#import "Crashlytics/Crashlytics/Models/Record/FIRCLSReportAdapter.h"
+#import "Crashlytics/Crashlytics/Operations/Reports/FIRCLSPackageReportOperation.h"
+#import "Crashlytics/Crashlytics/Operations/Reports/FIRCLSProcessReportOperation.h"
 
-#include "FIRCLSUtility.h"
+#include "Crashlytics/Crashlytics/Helpers/FIRCLSUtility.h"
 
-#import "FIRCLSConstants.h"
-#import "FIRCLSMultipartMimeStreamEncoder.h"
-#import "FIRCLSURLBuilder.h"
+#import "Crashlytics/Shared/FIRCLSConstants.h"
+#import "Crashlytics/Shared/FIRCLSNetworking/FIRCLSMultipartMimeStreamEncoder.h"
+#import "Crashlytics/Shared/FIRCLSNetworking/FIRCLSURLBuilder.h"
 
-#import <GoogleDataTransport/GDTCOREvent.h>
-#import <GoogleDataTransport/GDTCORTransport.h>
+#import "GoogleDataTransport/GDTCORLibrary/Internal/GoogleDataTransportInternal.h"
 
 @interface FIRCLSReportUploader () {
   id<FIRAnalyticsInterop> _analytics;
@@ -79,10 +78,11 @@
     return NO;
   }
 
-  if (!self.dataSource.settings.orgID) {
-    FIRCLSDebugLog(@"Skipping report with id '%@' this run of the app because Organization ID was "
-                   @"nil. Report will upload once settings are download successfully",
-                   report.identifier);
+  if (!self.dataSource.settings.orgID && !self.dataSource.settings.shouldUseNewReportEndpoint) {
+    FIRCLSDebugLog(
+        @"Skipping report with id '%@' this run of the app because Organization ID was "
+        @"nil. Report via the legacy endpoint will upload once settings are download successfully",
+        report.identifier);
     return YES;
   }
 
@@ -214,9 +214,7 @@
     }
 
     FIRCLSReportAdapter *adapter =
-        [[FIRCLSReportAdapter alloc] initWithPath:path
-                                      googleAppId:self.dataSource.googleAppID
-                                            orgId:self.dataSource.settings.orgID];
+        [[FIRCLSReportAdapter alloc] initWithPath:path googleAppId:self.dataSource.googleAppID];
 
     GDTCOREvent *event = [self.dataSource.googleTransport eventForTransport];
     event.dataObject = adapter;
