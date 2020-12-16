@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/FIRMessagingPersistentSyncMessage.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingPersistentSyncMessage.h

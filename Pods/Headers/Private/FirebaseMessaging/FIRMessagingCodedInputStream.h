@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/FIRMessagingCodedInputStream.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingCodedInputStream.h

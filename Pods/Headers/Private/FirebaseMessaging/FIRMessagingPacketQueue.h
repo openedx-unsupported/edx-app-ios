@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/FIRMessagingPacketQueue.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingPacketQueue.h

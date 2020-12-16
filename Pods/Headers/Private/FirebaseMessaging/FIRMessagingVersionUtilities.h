@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/FIRMessagingVersionUtilities.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingVersionUtilities.h

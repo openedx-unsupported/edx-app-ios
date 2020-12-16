@@ -38,36 +38,37 @@
 #import "FBLPromises.h"
 #endif
 
-#import "FIRCLSApplication.h"
-#import "FIRCLSDataCollectionArbiter.h"
-#import "FIRCLSDataCollectionToken.h"
-#import "FIRCLSDefines.h"
-#import "FIRCLSFeatures.h"
-#import "FIRCLSFileManager.h"
-#import "FIRCLSInternalReport.h"
-#import "FIRCLSLogger.h"
-#import "FIRCLSNetworkClient.h"
-#import "FIRCLSPackageReportOperation.h"
-#import "FIRCLSProcessReportOperation.h"
-#import "FIRCLSReportUploader.h"
-#import "FIRCLSSettings.h"
-#import "FIRCLSSymbolResolver.h"
-#import "FIRCLSUserLogging.h"
+#import "Crashlytics/Crashlytics/Components/FIRCLSApplication.h"
+#import "Crashlytics/Crashlytics/Components/FIRCLSUserLogging.h"
+#import "Crashlytics/Crashlytics/Controllers/FIRCLSNetworkClient.h"
+#import "Crashlytics/Crashlytics/Controllers/FIRCLSReportUploader.h"
+#import "Crashlytics/Crashlytics/DataCollection/FIRCLSDataCollectionArbiter.h"
+#import "Crashlytics/Crashlytics/DataCollection/FIRCLSDataCollectionToken.h"
+#import "Crashlytics/Crashlytics/Helpers/FIRCLSDefines.h"
+#import "Crashlytics/Crashlytics/Helpers/FIRCLSFeatures.h"
+#import "Crashlytics/Crashlytics/Helpers/FIRCLSLogger.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSFileManager.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSInternalReport.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSSettings.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSSymbolResolver.h"
+#import "Crashlytics/Crashlytics/Operations/Reports/FIRCLSPackageReportOperation.h"
+#import "Crashlytics/Crashlytics/Operations/Reports/FIRCLSProcessReportOperation.h"
 
-#include "FIRCLSGlobals.h"
-#include "FIRCLSUtility.h"
+#include "Crashlytics/Crashlytics/Components/FIRCLSGlobals.h"
+#include "Crashlytics/Crashlytics/Helpers/FIRCLSUtility.h"
 
-#import "FIRCLSConstants.h"
-#import "FIRCLSExecutionIdentifierModel.h"
-#import "FIRCLSInstallIdentifierModel.h"
-#import "FIRCLSSettingsOnboardingManager.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSExecutionIdentifierModel.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSInstallIdentifierModel.h"
+#import "Crashlytics/Crashlytics/Settings/FIRCLSSettingsOnboardingManager.h"
+#import "Crashlytics/Shared/FIRCLSConstants.h"
 
-#import "FIRCLSReportManager_Private.h"
+#import "Crashlytics/Crashlytics/Controllers/FIRCLSReportManager_Private.h"
 
-#include <FirebaseAnalyticsInterop/FIRAnalyticsInterop.h>
-#include <FirebaseAnalyticsInterop/FIRAnalyticsInteropListener.h>
-#include "FIRAEvent+Internal.h"
-#include "FIRCLSFCRAnalytics.h"
+#import "Interop/Analytics/Public/FIRAnalyticsInterop.h"
+#import "Interop/Analytics/Public/FIRAnalyticsInteropListener.h"
+
+#include "Crashlytics/Crashlytics/Helpers/FIRAEvent+Internal.h"
+#include "Crashlytics/Crashlytics/Helpers/FIRCLSFCRAnalytics.h"
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
@@ -305,7 +306,7 @@ static void (^reportSentCallback)(void);
   NSTimeInterval currentTimestamp = [NSDate timeIntervalSinceReferenceDate];
   [self.settings reloadFromCacheWithGoogleAppID:self.googleAppID currentTimestamp:currentTimestamp];
 
-  if (![self checkBundleIDExists]) {
+  if (![self validateAppIdentifiers]) {
     return [FBLPromise resolvedWith:@NO];
   }
 
@@ -323,12 +324,6 @@ static void (^reportSentCallback)(void);
     FIRCLSErrorLog(@"The new value can be overridden by calling: [[FIRCrashlytics "
                    @"crashlytics] setCrashlyticsCollectionEnabled:<isEnabled>]");
 
-    return [FBLPromise resolvedWith:@NO];
-  }
-
-  if (![self.settings crashReportingEnabled]) {
-    FIRCLSInfoLog(@"Reporting is disabled");
-    [_fileManager removeContentsOfAllPaths];
     return [FBLPromise resolvedWith:@NO];
   }
 
@@ -364,11 +359,13 @@ static void (^reportSentCallback)(void);
     FIRCLSDebugLog(@"Automatic data collection is enabled.");
     FIRCLSDebugLog(@"Unsent reports will be uploaded at startup");
     FIRCLSDataCollectionToken *dataCollectionToken = [FIRCLSDataCollectionToken validToken];
-    [self startNetworkRequestsWithToken:dataCollectionToken
-                 preexistingReportPaths:preexistingReportPaths
-                 waitForSettingsRequest:NO
-                           blockingSend:launchFailure
-                                 report:report];
+
+    [self beginSettingsAndOnboardingWithToken:dataCollectionToken waitForSettingsRequest:NO];
+
+    [self beginReportUploadsWithToken:dataCollectionToken
+               preexistingReportPaths:preexistingReportPaths
+                         blockingSend:launchFailure
+                               report:report];
 
     // If data collection is enabled, the SDK will not notify the user
     // when unsent reports are available, or respect Send / DeleteUnsentReports
@@ -395,16 +392,23 @@ static void (^reportSentCallback)(void);
                  FIRCLSDebugLog(@"Sending unsent reports.");
                  FIRCLSDataCollectionToken *dataCollectionToken =
                      [FIRCLSDataCollectionToken validToken];
-                 [self startNetworkRequestsWithToken:dataCollectionToken
-                              preexistingReportPaths:preexistingReportPaths
-                              waitForSettingsRequest:YES
-                                        blockingSend:NO
-                                              report:report];
+
+                 // For the new report endpoint, the orgID is not needed.
+                 // For the legacy report endpoint, wait on settings if orgID is not available.
+                 BOOL waitForSetting =
+                     !self.settings.shouldUseNewReportEndpoint && !self.settings.orgID;
+
+                 [self beginSettingsAndOnboardingWithToken:dataCollectionToken
+                                    waitForSettingsRequest:waitForSetting];
+
+                 [self beginReportUploadsWithToken:dataCollectionToken
+                            preexistingReportPaths:preexistingReportPaths
+                                      blockingSend:NO
+                                            report:report];
 
                } else if (action == FIRCLSReportActionDelete) {
                  FIRCLSDebugLog(@"Deleting unsent reports.");
-                 [self removeExistingReportPaths:preexistingReportPaths];
-                 [self removeContentsInOtherReportingDirectories];
+                 [self deleteUnsentReportsWithPreexisting:preexistingReportPaths];
                } else {
                  FIRCLSErrorLog(@"Unknown report action: %d", action);
                }
@@ -450,11 +454,8 @@ static void (^reportSentCallback)(void);
   }];
 }
 
-- (void)startNetworkRequestsWithToken:(FIRCLSDataCollectionToken *)token
-               preexistingReportPaths:(NSArray *)preexistingReportPaths
-               waitForSettingsRequest:(BOOL)waitForSettings
-                         blockingSend:(BOOL)blockingSend
-                               report:(FIRCLSInternalReport *)report {
+- (void)beginSettingsAndOnboardingWithToken:(FIRCLSDataCollectionToken *)token
+                     waitForSettingsRequest:(BOOL)waitForSettings {
   if (self.settings.isCacheExpired) {
     // This method can be called more than once if the user calls
     // SendUnsentReports again, so don't repeat the settings fetch
@@ -465,11 +466,22 @@ static void (^reportSentCallback)(void);
                                                                  waitForCompletion:waitForSettings];
     });
   }
+}
 
-  [self processExistingReportPaths:preexistingReportPaths
-               dataCollectionToken:token
-                          asUrgent:blockingSend];
-  [self handleContentsInOtherReportingDirectoriesWithToken:token];
+- (void)beginReportUploadsWithToken:(FIRCLSDataCollectionToken *)token
+             preexistingReportPaths:(NSArray *)preexistingReportPaths
+                       blockingSend:(BOOL)blockingSend
+                             report:(FIRCLSInternalReport *)report {
+  if (self.settings.collectReportsEnabled) {
+    [self processExistingReportPaths:preexistingReportPaths
+                 dataCollectionToken:token
+                            asUrgent:blockingSend];
+    [self handleContentsInOtherReportingDirectoriesWithToken:token];
+
+  } else {
+    FIRCLSInfoLog(@"Collect crash reports is disabled");
+    [self deleteUnsentReportsWithPreexisting:preexistingReportPaths];
+  }
 }
 
 - (BOOL)startCrashReporterWithProfilingMark:(FIRCLSProfileMark)mark
@@ -511,7 +523,20 @@ static void (^reportSentCallback)(void);
   });
 }
 
-- (BOOL)checkBundleIDExists {
+- (BOOL)validateAppIdentifiers {
+  // When the ApplicationIdentifierModel fails to initialize, it is usually due to
+  // failing computeExecutableInfo. This can happen if the user sets the
+  // Exported Symbols File in Build Settings, and leaves off the one symbol
+  // that Crashlytics needs, "__mh_execute_header" (wich is defined in mach-o/ldsyms.h as
+  // _MH_EXECUTE_SYM). From https://github.com/firebase/firebase-ios-sdk/issues/5020
+  if (!self.appIDModel) {
+    FIRCLSErrorLog(
+        @"Crashlytics could not find the symbol for the app's main function and cannot "
+        @"start up. This can happen when Exported Symbols File is set in Build Settings. To "
+        @"resolve this, add \"__mh_execute_header\" as a newline to your Exported Symbols File.");
+    return NO;
+  }
+
   if (self.appIDModel.bundleID.length == 0) {
     FIRCLSErrorLog(@"An application must have a valid bundle identifier in its Info.plist");
     return NO;
@@ -542,14 +567,6 @@ static void (^reportSentCallback)(void);
 
   return [[FIRCLSInternalReport alloc] initWithPath:reportPath
                                 executionIdentifier:executionIdentifier];
-}
-
-- (void)removeExistingReportPaths:(NSArray *)reportPaths {
-  [self.operationQueue addOperationWithBlock:^{
-    for (NSString *path in reportPaths) {
-      [self.fileManager removeItemAtPath:path];
-    }
-  }];
 }
 
 - (int)countSubmittableAndDeleteUnsubmittableReportPaths:(NSArray *)reportPaths {
@@ -615,17 +632,25 @@ static void (^reportSentCallback)(void);
   [self didSubmitReport];
 }
 
-- (void)removeReport:(FIRCLSInternalReport *)report {
-  [_fileManager removeItemAtPath:report.path];
-}
+// This is the side-effect of calling deleteUnsentReports, or collect_reports setting
+// being false
+- (void)deleteUnsentReportsWithPreexisting:(NSArray *)preexistingReportPaths {
+  [self removeExistingReportPaths:preexistingReportPaths];
 
-- (void)removeContentsInOtherReportingDirectories {
   [self removeExistingReportPaths:self.fileManager.processingPathContents];
   if (self.settings.shouldUseNewReportEndpoint) {
     [self removeExistingReportPaths:self.fileManager.preparedPathContents];
   } else {
     [self removeExistingReportPaths:self.fileManager.legacyPreparedPathContents];
   }
+}
+
+- (void)removeExistingReportPaths:(NSArray *)reportPaths {
+  [self.operationQueue addOperationWithBlock:^{
+    for (NSString *path in reportPaths) {
+      [self.fileManager removeItemAtPath:path];
+    }
+  }];
 }
 
 - (void)handleContentsInOtherReportingDirectoriesWithToken:(FIRCLSDataCollectionToken *)token {

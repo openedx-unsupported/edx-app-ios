@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/FIRMessagingLogger.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingLogger.h
