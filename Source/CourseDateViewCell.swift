@@ -21,7 +21,7 @@ class CourseDateViewCell: UITableViewCell {
     var delegate: CourseDateViewCellDelegate?
     
     private lazy var dateStyle: OEXMutableTextStyle = {
-        return OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().neutralXDark())
+        return OEXMutableTextStyle(weight: .bold, size: .large, color: OEXStyles.shared().neutralBlackT())
     }()
     
     private lazy var statusStyle: OEXMutableTextStyle = {
@@ -31,7 +31,7 @@ class CourseDateViewCell: UITableViewCell {
     }()
     
     private lazy var titleStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().neutralBlack())
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralBlack())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
@@ -341,7 +341,7 @@ class CourseDateViewCell: UITableViewCell {
             statusText = createBadge(with: status)
             
             statusBackgroundColor = OEXStyles.shared().neutralXLight()
-            statusForegroundColor = OEXStyles.shared().neutralXDark()
+            statusForegroundColor = OEXStyles.shared().neutralXXDark()
             
             break
             
@@ -349,7 +349,7 @@ class CourseDateViewCell: UITableViewCell {
             statusText = createBadge(with: status)
             
             statusBackgroundColor = OEXStyles.shared().neutralBase()
-            statusForegroundColor = OEXStyles.shared().neutralXDark()
+            statusForegroundColor = OEXStyles.shared().neutralBlack()
             
             break
             
@@ -372,7 +372,7 @@ class CourseDateViewCell: UITableViewCell {
             statusText = createBadge(with: status)
             
             statusBackgroundColor = OEXStyles.shared().neutralWhite()
-            statusForegroundColor = OEXStyles.shared().neutralXDark()
+            statusForegroundColor = OEXStyles.shared().neutralXXDark()
             statusBorderColor = OEXStyles.shared().neutralXDark()
             
             break

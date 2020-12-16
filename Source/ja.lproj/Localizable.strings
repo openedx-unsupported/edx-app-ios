@@ -142,7 +142,7 @@
 /*Accessibility text for close button on whats new screen*/
 "ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="閉じる";
 /*Accessibility label for header on new screen*/
-"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="バージョン {app_version} 新機能";
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="新着情報";
 /*Accessibility text for course share button on course dashboard*/
 "ACCESSIBILITY.SHARE_A_COURSE"="講座をシェア";
 /*Accessibility text for close button*/
@@ -908,7 +908,7 @@
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="お待ちください…";
 /* Header of 'whats new screen'*/
-"WHATS_NEW.HEADER_TEXT"="バージョン {app_version} 新機能";
+"WHATS_NEW.HEADER_TEXT"="新着情報";
 /*Whats new screen done button title*/
 "WHATS_NEW.DONE"="完了";
 /*Title for wifi only switch at Settings screen*/

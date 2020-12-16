@@ -145,7 +145,7 @@
 /*Accessibility text for close button on whats new screen*/
 "ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="Close";
 /*Accessibility label for header on new screen*/
-"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Version {app_version}, New Features";
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="What's New";
 /*Accessibility text for course share button on course dashboard*/
 "ACCESSIBILITY.SHARE_A_COURSE"="Share a course";
 /*Accessibility text for close button*/
@@ -924,7 +924,7 @@
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Header of 'whats new screen'*/
-"WHATS_NEW.HEADER_TEXT"="Version {app_version} New Features";
+"WHATS_NEW.HEADER_TEXT"="What's New";
 /*Whats new screen done button title*/
 "WHATS_NEW.DONE"="Done";
 /*Title for wifi only switch at Settings screen*/
