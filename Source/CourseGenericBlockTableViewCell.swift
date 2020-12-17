@@ -10,6 +10,12 @@ import UIKit
 
 class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCell {
     fileprivate let content = CourseOutlineItemView()
+    
+    private lazy var valuePropAccessoryView: DownloadsAccessoryView = {
+        let view = DownloadsAccessoryView()
+        view.state = .Gated
+        return view
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -24,8 +30,13 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     var block : CourseBlock? = nil {
         didSet {
             if block?.isGated ?? false {
-                content.leadingIconColor = OEXStyles.shared().neutralBase()
-                content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
+                if OEXConfig.shared().isValuePropEnabled {
+                    content.trailingView = valuePropAccessoryView
+                    content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block?.type, underline: true)
+                } else {
+                    content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
+                }
+                content.leadingIconColor = OEXStyles.shared().neutralDark()
             }
             content.setTitleText(title: block?.displayName)
         }
@@ -48,7 +59,6 @@ class CourseHTMLTableViewCell: CourseGenericBlockTableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
@@ -63,7 +73,6 @@ class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
@@ -72,7 +81,7 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        content.leadingIconColor = OEXStyles.shared().neutralBase()
+        content.leadingIconColor = OEXStyles.shared().neutralDark()
         content.setContentIcon(icon: Icon.CourseUnknownContent)
         accessibilityIdentifier = "CourseUnknownTableViewCellIdentifier:view"
     }
@@ -80,7 +89,6 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 class DiscussionTableViewCell: CourseGenericBlockTableViewCell {
@@ -96,6 +104,5 @@ class DiscussionTableViewCell: CourseGenericBlockTableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 

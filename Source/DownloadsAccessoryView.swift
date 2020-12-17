@@ -16,6 +16,7 @@ class DownloadsAccessoryView : UIView {
         case Downloading
         case Deleting
         case Done
+        case Gated
     }
     
     private let downloadButton = UIButton(type: .system)
@@ -152,6 +153,13 @@ class DownloadsAccessoryView : UIView {
                     accessibilityLabel = Strings.downloaded
                 }
                 accessibilityTraits = UIAccessibilityTraits.staticText
+            case .Gated:
+                useIcon(icon: .Closed)
+                downloadSpinner.isHidden = true
+                isUserInteractionEnabled = false
+                downloadButton.isHidden = false
+                countLabel.isHidden = true
+                downloadButton.tintColor = OEXStyles.shared().primaryDarkColor()
             }
         }
     }

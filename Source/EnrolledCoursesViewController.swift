@@ -12,7 +12,7 @@ var isActionTakenOnUpgradeSnackBar: Bool = false
 
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider
     
     private let environment : Environment
     private let coursesContainer : CoursesContainerViewController
@@ -195,6 +195,13 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
         else {
             preconditionFailure("course without a course id")
+        }
+    }
+    
+    func showValuePropDetailView(with course: OEXCourse) {
+        environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
+        environment.router?.showValuePropDetailView(from: self, type: .courseEnrollment, course: course) { [weak self] in
+            self?.environment.analytics.trackValueProModal(with: .ValuePropModalForCourseEnrollment, courseId: course.course_id ?? "")
         }
     }
     

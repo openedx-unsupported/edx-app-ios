@@ -24,6 +24,17 @@ extension NSAttributedString {
         
         return self
     }
+    
+    func addUnderline(foregroundColor: UIColor = OEXStyles.shared().primaryBaseColor()) -> NSAttributedString {
+            let mutableAttributedString = NSMutableAttributedString(attributedString: self)
+            let range = (string as NSString).range(of: string)
+            let attributes = [
+                NSAttributedString.Key.foregroundColor: foregroundColor,
+                NSAttributedString.Key.underlineStyle: true
+                ] as [NSAttributedString.Key : Any]
+            mutableAttributedString.addAttributes(attributes, range: range)
+            return mutableAttributedString
+    }
 }
 
 extension OEXTextStyle {

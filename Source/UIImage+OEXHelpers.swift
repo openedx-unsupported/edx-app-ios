@@ -57,4 +57,22 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return image ?? self
     }
+    
+    func image(with color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        if let cgImage = cgImage {
+            context?.clip(to: rect, mask: cgImage)
+        }
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        
+        if let cgImage = UIGraphicsGetImageFromCurrentImageContext()?.cgImage {
+            UIGraphicsEndImageContext()
+            return UIImage(cgImage: cgImage, scale: 1, orientation: .downMirrored)
+        } else {
+            return self
+        }
+    }
 }

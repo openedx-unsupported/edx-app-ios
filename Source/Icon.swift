@@ -138,6 +138,7 @@ public enum Icon {
     case StarFilled
     case Discovery
     case Transcript
+    case Trophy
     case UnknownError
     case UpVote
     case User
@@ -263,6 +264,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .List)
         case .NoSearchResults:
             return FontAwesomeRenderer(icon: .InfoCircle)
+        case .Trophy:
+            return FontAwesomeRenderer(icon: .Trophy)
         case .VideoFullscreen:
             return FontAwesomeRenderer(icon: .Expand)
         case .VideoPlay:
