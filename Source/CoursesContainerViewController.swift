@@ -73,6 +73,10 @@ class CoursesContainerViewController: UICollectionViewController {
         return context == .enrollmentList && isCourseDiscoveryEnabled
     }
     
+    private var isCourseDiscoveryNotNative: Bool {
+        return context == .courseCatalog && environment.config.discovery.course.type != .native
+    }
+    
     init(environment : Environment, context: Context) {
         self.environment = environment
         self.context = context
@@ -164,7 +168,7 @@ class CoursesContainerViewController: UICollectionViewController {
         super.viewDidLayoutSubviews()
         insetsController.updateInsets()
         
-        if UIDevice.isiOSVersionLess(than: 14) {
+        if UIDevice.isiOSVersionLess(than: 14) && isCourseDiscoveryNotNative {
             collectionView.collectionViewLayout.invalidateLayout()
         }
     }
@@ -176,11 +180,11 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     private var itemsPerRow: CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 2 : 1
+        return isiPad() ? 2 : 1
     }
     
     private var minimumSpace: CGFloat {
-        return 0
+        return .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
