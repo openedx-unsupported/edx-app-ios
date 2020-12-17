@@ -292,14 +292,6 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         loadController.state = .Loaded
-        
-        //Setting webView accessibilityValue for testing
-        webView.evaluateJavaScript("document.getElementsByClassName('discovery-card')[0].innerText", completionHandler: { [weak self] (result: Any?, error: Error?) in
-
-            if (error == nil) {
-                self?.webView.accessibilityValue = self?.discovryAccessibilityValue
-            }
-        })
 
         if let bar = bottomBar {
             bar.superview?.bringSubviewToFront(bar)
