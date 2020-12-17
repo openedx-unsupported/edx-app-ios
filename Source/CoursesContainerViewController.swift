@@ -140,7 +140,7 @@ class CoursesContainerViewController: UICollectionViewController {
         case none = "none"
     }
     
-    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXInterfaceProvider & OEXAnalyticsProvider
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXInterfaceProvider & OEXAnalyticsProvider & RemoteConfigProvider
     
     private let environment : Environment
     private let context: Context
@@ -151,7 +151,7 @@ class CoursesContainerViewController: UICollectionViewController {
             if isiPad() {
                 let auditModeCourses = courses.filter { course -> Bool in
                     let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-                    if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled {
+                    if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.isValuePropEnabled {
                         return true
                     }
                     return false
@@ -266,7 +266,7 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private func shouldShowValueProp(for course: OEXCourse) -> Bool {
         let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.config.isValuePropEnabled
+        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.isValuePropEnabled
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {

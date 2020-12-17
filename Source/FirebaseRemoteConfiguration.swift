@@ -1,5 +1,5 @@
 //
-//  RemoteConfig.swift
+//  FirebaseRemoteConfiguration.swift
 //  edX
 //
 //  Created by Salman on 04/11/2020.
@@ -7,6 +7,8 @@
 //
 
 import UIKit
+
+private let remoteConfigUserDefaultKey = "remote-config"
 
 protocol RemoteConfigProvider {
   var remoteConfig: FirebaseRemoteConfiguration { get }
@@ -18,19 +20,29 @@ extension RemoteConfigProvider {
   }
 }
 
+fileprivate enum remoteConfigKeys: String, RawStringExtractable {
+    case valuePropEnabled = "VALUE_PROP_ENABLED"
+}
+
 @objc class FirebaseRemoteConfiguration: NSObject {
     @objc static let shared =  FirebaseRemoteConfiguration()
+    var isValuePropEnabled: Bool = false
     
     private override init() {
         super.init()
     }
     
     @objc func initialize(remoteConfig: RemoteConfig) {
-        //TODO: Make the required changes here. Not using the Firebase Remote config at this moment
+        isValuePropEnabled = remoteConfig.configValue(forKey: remoteConfigKeys.valuePropEnabled.rawValue).boolValue
+        UserDefaults.standard.set(isValuePropEnabled, forKey: remoteConfigUserDefaultKey)
+        UserDefaults.standard.synchronize()
     }
     
     @objc func initialize() {
-        //TODO: Make the required changes here. Not using the Firebase Remote config at this moment
+        guard let value = UserDefaults.standard.object(forKey: remoteConfigUserDefaultKey) as? Bool else {
+            return
+        }
+        
+        isValuePropEnabled = value
     }
 }
-
