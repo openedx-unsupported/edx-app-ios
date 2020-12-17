@@ -59,7 +59,6 @@
 - (BOOL)moveItemAtPath:(NSString *)path toDirectory:(NSString *)destDir;
 - (void)enumerateFilesInDirectory:(NSString *)directory
                        usingBlock:(void (^)(NSString *filePath, NSString *extension))block;
-- (BOOL)moveItemsFromDirectory:(NSString *)srcDir toDirectory:(NSString *)destDir;
 - (NSNumber *)fileSizeAtPath:(NSString *)path;
 - (NSArray *)contentsOfDirectory:(NSString *)path;
 
@@ -67,19 +66,8 @@
 - (BOOL)createReportDirectories;
 - (NSString *)setupNewPathForExecutionIdentifier:(NSString *)identifier;
 
-- (void)enumerateFilesInActiveDirectoryUsingBlock:(void (^)(NSString *path,
-                                                            NSString *extension))block;
-- (void)enumerateReportsInProcessingDirectoryUsingBlock:(void (^)(FIRCLSInternalReport *report,
-                                                                  NSString *path))block;
-- (void)enumerateFilesInPreparedDirectoryUsingBlock:(void (^)(NSString *path,
-                                                              NSString *extension))block;
-
-- (BOOL)movePendingToProcessing;
-
-- (BOOL)removeContentsOfProcessingPath;
-- (BOOL)removeContentsOfPendingPath;
-- (BOOL)removeContentsOfAllPaths;
-
 - (BOOL)moveItemAtPath:(NSString *)srcPath toPath:(NSString *)dstPath error:(NSError **)error;
+
+- (NSData *)dataWithContentsOfFile:(NSString *)path;
 
 @end

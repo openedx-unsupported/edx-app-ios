@@ -2,8 +2,8 @@
 
 Firebase Performance is a free mobile app performance analytics service. It
 provides detailed information about the performance of your apps automatically,
-but works at its best with Timers set by you. For more information about app
-performance and many other cool mobile services, check out [Firebase]
+but works at its best with customized metrics set by you. For more information
+about app performance and many other cool mobile services, check out [Firebase]
 (https://firebase.google.com).
 
 ## Getting Started with Cocoapods

@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/FIRMessagingReceiver.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingReceiver.h

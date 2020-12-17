@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/Protos/GtalkCore.pbobjc.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/Protos/GtalkCore.pbobjc.h

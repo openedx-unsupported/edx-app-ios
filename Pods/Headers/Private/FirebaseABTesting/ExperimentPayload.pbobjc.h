@@ -1,1 +1,0 @@
-../../../FirebaseABTesting/FirebaseABTesting/Sources/Protos/developers/mobile/abt/proto/ExperimentPayload.pbobjc.h

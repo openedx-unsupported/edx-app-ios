@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/Firebase/Messaging/FIRMessagingRmqManager.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingRmqManager.h

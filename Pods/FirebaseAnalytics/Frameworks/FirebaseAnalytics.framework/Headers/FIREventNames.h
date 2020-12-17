@@ -160,6 +160,21 @@ static NSString *const kFIREventGenerateLead NS_SWIFT_NAME(AnalyticsEventGenerat
 /// </ul>
 static NSString *const kFIREventJoinGroup NS_SWIFT_NAME(AnalyticsEventJoinGroup) = @"join_group";
 
+/// Level End event. Log this event when the user finishes a level. Params:
+///
+/// <ul>
+///     <li>@c kFIRParameterLevelName (NSString)</li>
+///     <li>@c kFIRParameterSuccess (NSString)</li>
+/// </ul>
+static NSString *const kFIREventLevelEnd NS_SWIFT_NAME(AnalyticsEventLevelEnd) = @"level_end";
+
+/// Level Start event. Log this event when the user starts a new level. Params:
+///
+/// <ul>
+///     <li>@c kFIRParameterLevelName (NSString)</li>
+/// </ul>
+static NSString *const kFIREventLevelStart NS_SWIFT_NAME(AnalyticsEventLevelStart) = @"level_start";
+
 /// Level Up event. This event signifies that a player has leveled up in your gaming app. It can
 /// help you gauge the level distribution of your userbase and help you identify certain levels that
 /// are difficult to pass. Params:
@@ -231,6 +246,15 @@ static NSString *const kFIREventPurchaseRefund NS_SWIFT_NAME(AnalyticsEventPurch
 static NSString *const kFIREventRemoveFromCart NS_SWIFT_NAME(AnalyticsEventRemoveFromCart) =
     @"remove_from_cart";
 
+/// Screen View event. This event signifies a screen view. Use this when a screen transition occurs.
+/// This event can be logged irrespective of whether automatic screen tracking is enabled. Params:
+///
+/// <ul>
+///     <li>@c kFIRParameterScreenClass (NSString) (optional)</li>
+///     <li>@c kFIRParameterScreenName (NSString) (optional)</li>
+/// </ul>
+static NSString *const kFIREventScreenView NS_SWIFT_NAME(AnalyticsEventScreenView) = @"screen_view";
+
 /// Search event. Apps that support search features can use this event to contextualize search
 /// operations by supplying the appropriate, corresponding parameters. This event can help you
 /// identify the most popular content in your app. Params:
@@ -259,7 +283,6 @@ static NSString *const kFIREventSearch NS_SWIFT_NAME(AnalyticsEventSearch) = @"s
 ///     <li>@c kFIRParameterContentType (NSString)</li>
 ///     <li>@c kFIRParameterItemID (NSString)</li>
 /// </ul>
-/// <b>This constant has been deprecated. Use @c kFIREventSelectItem constant instead.</b>
 static NSString *const kFIREventSelectContent NS_SWIFT_NAME(AnalyticsEventSelectContent) =
     @"select_content";
 
@@ -352,24 +375,8 @@ static NSString *const kFIREventViewItemList NS_SWIFT_NAME(AnalyticsEventViewIte
 /// <ul>
 ///     <li>@c kFIRParameterSearchTerm (NSString)</li>
 /// </ul>
-/// <b>This constant has been deprecated.</b>
 static NSString *const kFIREventViewSearchResults NS_SWIFT_NAME(AnalyticsEventViewSearchResults) =
     @"view_search_results";
-
-/// Level Start event. Log this event when the user starts a new level. Params:
-///
-/// <ul>
-///     <li>@c kFIRParameterLevelName (NSString)</li>
-/// </ul>
-static NSString *const kFIREventLevelStart NS_SWIFT_NAME(AnalyticsEventLevelStart) = @"level_start";
-
-/// Level End event. Log this event when the user finishes a level. Params:
-///
-/// <ul>
-///     <li>@c kFIRParameterLevelName (NSString)</li>
-///     <li>@c kFIRParameterSuccess (NSString)</li>
-/// </ul>
-static NSString *const kFIREventLevelEnd NS_SWIFT_NAME(AnalyticsEventLevelEnd) = @"level_end";
 
 /// Add Shipping Info event. This event signifies that a user has submitted their shipping
 /// information. Note: If you supply the @c kFIRParameterValue parameter, you must also supply the

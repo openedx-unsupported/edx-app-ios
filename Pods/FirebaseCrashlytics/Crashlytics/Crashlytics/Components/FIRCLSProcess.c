@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "FIRCLSProcess.h"
-#include "FIRCLSDefines.h"
-#include "FIRCLSFeatures.h"
-#include "FIRCLSGlobals.h"
-#include "FIRCLSProfiling.h"
-#include "FIRCLSThreadState.h"
-#include "FIRCLSUnwind.h"
-#include "FIRCLSUtility.h"
+#include "Crashlytics/Crashlytics/Components/FIRCLSProcess.h"
+#include "Crashlytics/Crashlytics/Helpers/FIRCLSDefines.h"
+#include "Crashlytics/Crashlytics/Helpers/FIRCLSFeatures.h"
+#include "Crashlytics/Crashlytics/Components/FIRCLSGlobals.h"
+#include "Crashlytics/Crashlytics/Helpers/FIRCLSProfiling.h"
+#include "Crashlytics/Crashlytics/Helpers/FIRCLSThreadState.h"
+#include "Crashlytics/Crashlytics/Unwind/FIRCLSUnwind.h"
+#include "Crashlytics/Crashlytics/Helpers/FIRCLSUtility.h"
 
 #include <dispatch/dispatch.h>
 #include <objc/message.h>
@@ -485,6 +485,11 @@ bool FIRCLSProcessRecordAllThreads(FIRCLSProcess *process, FIRCLSFile *file) {
 
     FIRCLSSDKLogInfo("recording thread %d data\n", i);
     if (!FIRCLSProcessRecordThread(process, thread, file)) {
+      FIRCLSSDKLogError("Failed to record thread state. Closing threads JSON to prevent malformed crash report.");
+
+      FIRCLSFileWriteArrayEnd(file);
+
+      FIRCLSFileWriteSectionEnd(file);
       return false;
     }
   }
