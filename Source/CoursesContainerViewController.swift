@@ -73,10 +73,6 @@ class CoursesContainerViewController: UICollectionViewController {
         return context == .enrollmentList && isCourseDiscoveryEnabled
     }
     
-    private var isCourseDiscoveryNotNative: Bool {
-        return context == .courseCatalog && environment.config.discovery.course.type != .native
-    }
-    
     init(environment : Environment, context: Context) {
         self.environment = environment
         self.context = context
@@ -168,7 +164,7 @@ class CoursesContainerViewController: UICollectionViewController {
         super.viewDidLayoutSubviews()
         insetsController.updateInsets()
         
-        if UIDevice.isiOSVersionLess(than: 14) && isCourseDiscoveryNotNative {
+        if UIDevice.isiOSVersionLess(than: 14) && context == .enrollmentList {
             collectionView.collectionViewLayout.invalidateLayout()
         }
     }
