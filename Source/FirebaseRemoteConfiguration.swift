@@ -11,16 +11,16 @@ import UIKit
 private let remoteConfigUserDefaultKey = "remote-config"
 
 protocol RemoteConfigProvider {
-  var remoteConfig: FirebaseRemoteConfiguration { get }
+    var remoteConfig: FirebaseRemoteConfiguration { get }
 }
 
 extension RemoteConfigProvider {
-  var remoteConfig: FirebaseRemoteConfiguration {
-    return FirebaseRemoteConfiguration.shared
-  }
+    var remoteConfig: FirebaseRemoteConfiguration {
+        return FirebaseRemoteConfiguration.shared
+    }
 }
 
-fileprivate enum remoteConfigKeys: String, RawStringExtractable {
+fileprivate enum keys: String, RawStringExtractable {
     case valuePropEnabled = "VALUE_PROP_ENABLED"
 }
 
@@ -33,21 +33,22 @@ fileprivate enum remoteConfigKeys: String, RawStringExtractable {
     }
     
     @objc func initialize(remoteConfig: RemoteConfig) {
-        isValuePropEnabled = remoteConfig.configValue(forKey: remoteConfigKeys.valuePropEnabled.rawValue).boolValue
-        let dataDictionary:[String:Any] = [remoteConfigKeys.valuePropEnabled.rawValue:isValuePropEnabled]
-        setUserdefaults(dictionary: dataDictionary)
+        
+        isValuePropEnabled = remoteConfig.configValue(forKey: keys.valuePropEnabled.rawValue).boolValue
+        let dataDictionary: [String:Any] = [keys.valuePropEnabled.rawValue:isValuePropEnabled]
+        saveRemoteConfig(with: dataDictionary)
     }
     
     @objc func initialize() {
-        guard let value = UserDefaults.standard.object(forKey: remoteConfigUserDefaultKey) as? [String: Any] else {
+        guard let remoteConfig = UserDefaults.standard.object(forKey: remoteConfigUserDefaultKey) as? [String: Any], remoteConfig.count > 0 else {
             return
         }
     
-        isValuePropEnabled = value[remoteConfigKeys.valuePropEnabled] as? Bool ?? false
+        isValuePropEnabled = remoteConfig[keys.valuePropEnabled] as? Bool ?? false
     }
     
-    private func setUserdefaults(dictionary: [String: Any]) {
-        UserDefaults.standard.set(dictionary, forKey: remoteConfigUserDefaultKey)
+    private func saveRemoteConfig(with values: [String: Any]) {
+        UserDefaults.standard.set(values, forKey: remoteConfigUserDefaultKey)
         UserDefaults.standard.synchronize()
     }
 }
