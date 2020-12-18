@@ -30,7 +30,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     var block : CourseBlock? = nil {
         didSet {
             if block?.isGated ?? false {
-                if OEXConfig.shared().isValuePropEnabled {
+                if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
                     content.trailingView = valuePropAccessoryView
                     content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block?.type, underline: true)
                 } else {

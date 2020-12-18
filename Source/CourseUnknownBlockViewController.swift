@@ -10,7 +10,7 @@ import UIKit
 
 class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & DataManagerProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & DataManagerProvider & RemoteConfigProvider
     
     private let environment: Environment
         
@@ -67,7 +67,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     private func showError() {
         if let block = block, block.isGated {
-            if environment.config.isValuePropEnabled {
+            if environment.remoteConfig.isValuePropEnabled {
                 showValuePropMessageView()
             } else {
                 showGatedContentMessageView()
