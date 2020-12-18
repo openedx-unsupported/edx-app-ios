@@ -20,8 +20,4 @@ extension UIDevice {
     class func isOSVersionAtLeast9() -> Bool {
         return current.isOSVersionAtLeast(version: 9)
     }
-    
-    class func isiOSVersionLess(than version: Int) -> Bool {
-        return NSString(string: UIDevice.current.systemVersion).intValue < version
-    }
 }
