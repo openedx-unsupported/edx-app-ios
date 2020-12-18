@@ -34,9 +34,10 @@ fileprivate enum keys: String, RawStringExtractable {
     
     @objc func initialize(remoteConfig: RemoteConfig) {
         
-        let isValuePropEnabled = remoteConfig.configValue(forKey: keys.valuePropEnabled.rawValue).boolValue
-        let dataDictionary: [String:Any] = [keys.valuePropEnabled.rawValue:isValuePropEnabled]
-        saveRemoteConfig(with: dataDictionary)
+        let valueProp = remoteConfig.configValue(forKey: keys.valuePropEnabled.rawValue).boolValue
+        
+        let dictionary: [String:Any] = [keys.valuePropEnabled.rawValue:valueProp]
+        saveRemoteConfig(with: dictionary)
     }
     
     @objc func initialize() {
