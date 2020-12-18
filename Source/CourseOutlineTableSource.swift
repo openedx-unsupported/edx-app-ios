@@ -183,10 +183,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
-        if UIDevice.isiOSVersionLess(than: 14) {
-            updateViewConstraints()
-        }
     }
     
     override func updateViewConstraints() {

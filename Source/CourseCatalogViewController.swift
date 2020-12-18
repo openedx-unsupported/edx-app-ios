@@ -49,6 +49,12 @@ class CourseCatalogViewController: UIViewController, CoursesContainerViewControl
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenFindCourses)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        coursesContainer.collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
     private func setupView() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.accessibilityIdentifier = "CourseCatalogViewController:cancel-bar-button-item"

@@ -163,10 +163,6 @@ class CoursesContainerViewController: UICollectionViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         insetsController.updateInsets()
-        
-        if UIDevice.isiOSVersionLess(than: 14) && context == .enrollmentList {
-            collectionView.collectionViewLayout.invalidateLayout()
-        }
     }
 }
 
