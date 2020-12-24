@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserProfileViewController: OfflineSupportViewController, UserProfilePresenterDelegate, LoadStateViewReloadSupport, StatusBarOverriding {
+class UserProfileViewController: OfflineSupportViewController, UserProfilePresenterDelegate, LoadStateViewReloadSupport, StatusBarOverriding, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & OEXRouterProvider & ReachabilityProvider & OEXStylesProvider & OEXSessionProvider
     
@@ -162,6 +162,14 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle(barStyle: .black)
+    }
+    
+    override var shouldAutorotate: Bool {
+        return true
+      }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
 }
 

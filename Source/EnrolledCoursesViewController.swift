@@ -213,6 +213,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        coursesContainer.collectionView.collectionViewLayout.invalidateLayout()
     }
     
     //MARK:- PullRefreshControllerDelegate method

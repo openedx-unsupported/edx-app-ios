@@ -295,7 +295,7 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     private var minimumSpace: CGFloat {
-        return 0
+        return .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

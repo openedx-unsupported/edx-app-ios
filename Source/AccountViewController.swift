@@ -18,7 +18,7 @@ fileprivate enum AccountviewOptions : Int {
         static let accountOptions = [Profile, UserSettings, SubmitFeedback, Logout]
 }
 
-class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, InterfaceOrientationOverriding {
 
     private let contentView = UIView()
     private let tableView = UITableView()
@@ -177,6 +177,14 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         return nil
+    }
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
 }
 
