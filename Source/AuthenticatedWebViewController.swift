@@ -295,12 +295,11 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         
         if let httpResponse = navigationResponse.response as? HTTPURLResponse, let statusCode = OEXHTTPStatusCode(rawValue: httpResponse.statusCode), let errorGroup = statusCode.errorGroup, state == .LoadingContent {
-            
             switch errorGroup {
-            case HttpErrorGroup.http4xx:
+            case .http4xx:
                 state = .NeedingSession
                 break
-            case HttpErrorGroup.http5xx:
+            case .http5xx:
                 loadController.state = LoadState.failed()
                 decisionHandler(.cancel)
                 return
@@ -316,7 +315,6 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             if let request = contentRequest {
                 state = .LoadingContent
                 webController.loadURLRequest(request: request)
-                
             }
             else {
                 loadController.state = LoadState.failed()
@@ -375,5 +373,4 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
 
         present(alertController, animated: true, completion: nil)
     }
-
 }
