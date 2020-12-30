@@ -74,25 +74,25 @@ public struct CourseOutline {
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
-                    case CourseBlock.Category.Course:
+                    case .Course:
                         type = .Course
-                    case CourseBlock.Category.Chapter:
+                    case .Chapter:
                         type = .Chapter
-                    case CourseBlock.Category.Section:
+                    case .Section:
                         type = .Section
-                    case CourseBlock.Category.Unit:
+                    case .Unit:
                         type = .Unit
-                    case CourseBlock.Category.HTML:
+                    case .HTML:
                         type = .HTML
-                    case CourseBlock.Category.Problem:
+                    case .Problem:
                         type = .Problem
-                    case CourseBlock.Category.OpenAssesment:
+                    case .OpenAssesment:
                         type = .OpenAssesment
-                    case CourseBlock.Category.Video :
+                    case .Video :
                         let bodyData = (body[Fields.StudentViewData].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, unitURL: blockURL?.absoluteString, name : name ?? Strings.untitled)
                         type = .Video(summary)
-                    case CourseBlock.Category.Discussion:
+                    case .Discussion:
                         // Inline discussion is in progress feature. Will remove this code when it's ready to ship
                         type = .Unknown(typeName)
                         
