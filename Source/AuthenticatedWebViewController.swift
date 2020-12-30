@@ -360,11 +360,11 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
 
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: Strings.ok, style: .default, handler: { (action) in
+        alertController.addAction(UIAlertAction(title: Strings.ok, style: .default, handler: { action in
             completionHandler(true)
         }))
 
-        alertController.addAction(UIAlertAction(title: Strings.cancel, style: .cancel, handler: { (action) in
+        alertController.addAction(UIAlertAction(title: Strings.cancel, style: .cancel, handler: { action in
             completionHandler(false)
         }))
 
@@ -372,8 +372,11 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             presenter.sourceView = view
             presenter.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
         }
-
-        present(alertController, animated: true, completion: nil)
+        
+        if isViewVisible {
+            present(alertController, animated: true, completion: nil)
+        } else {
+            completionHandler(false)
+        }
     }
-
 }

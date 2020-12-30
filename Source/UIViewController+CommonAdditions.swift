@@ -9,6 +9,10 @@
 import Foundation
 
 extension UIViewController {
+    var isViewVisible: Bool {
+        return isViewLoaded && view.window != nil
+    }
+    
     func isVerticallyCompact() -> Bool {
         // In case of iPad vertical size class is always regular for both height and width
         if UIDevice.current.userInterfaceIdiom == .pad && UIDevice.current.orientation.isLandscape {
