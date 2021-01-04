@@ -23,6 +23,7 @@ public enum AnalyticsDisplayName : String {
     case ExploreCourses = "Explore Courses"
     case UserLogin = "User Login"
     case ValuePropLearnMoreClicked = "Value Prop: Learn More Clicked"
+    case ValuePropLockedContentClicked = "Value Prop Locked Content Clicked"
     case CreateAccount = "Create Account Clicked"
     case RegistrationSuccess = "Registration Success"
     case EnrolledCourseClicked = "Course Enroll Clicked"
@@ -48,6 +49,7 @@ public enum AnalyticsEventName: String {
     case UserRegistrationClick = "edx.bi.app.user.register.clicked"
     case UserRegistrationSuccess = "edx.bi.app.user.register.success"
     case ValuePropLearnMoreClicked = "edx.bi.app.value.prop.learn.more.clicked"
+    case ValuePropLockedContentClicked = "edx.bi.app.course.unit.locked.content.clicked"
     case ViewRating = "edx.bi.app.app_reviews.view_rating"
     case DismissRating = "edx.bi.app.app_reviews.dismiss_rating"
     case SubmitRating = "edx.bi.app.app_reviews.submit_rating"
@@ -262,12 +264,32 @@ extension OEXAnalytics {
         
         var info: [String:String] = [:]
         info.setObjectOrNil(screenName.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
+        if assignmentID != nil {
+            info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
+        }
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackLockedContentClicked(courseID: String, screenName: AnalyticsScreenName, assignmentID: String) {
+        let event = OEXAnalyticsEvent()
+        event.courseID = courseID
+        event.name = AnalyticsEventName.ValuePropLockedContentClicked.rawValue
+        event.displayName = AnalyticsDisplayName.ValuePropLockedContentClicked.rawValue
+        
+        var info: [String:String] = [:]
+        info.setObjectOrNil(screenName.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
         info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
         
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
     func trackValueProModal(with name: AnalyticsScreenName, courseId: String, assignmentID: String? = nil) {
+        guard let assignmentID = assignmentID else {
+            trackScreen(withName: name.rawValue, courseID: courseId, value: nil)
+            return
+        }
+        
         var info: [String:String] = [:]
         info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
         

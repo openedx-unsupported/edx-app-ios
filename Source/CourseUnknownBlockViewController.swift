@@ -68,6 +68,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func showError() {
         if let block = block, block.isGated {
             if environment.remoteConfig.isValuePropEnabled {
+                environment.analytics.trackLockedContentClicked(courseID: courseID, screenName: .CourseUnit, assignmentID: block.blockID)
                 showValuePropMessageView()
             } else {
                 showGatedContentMessageView()
