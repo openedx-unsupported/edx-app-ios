@@ -21,6 +21,7 @@ private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
 private let SubtitleOffsetCenterY = 10
 private let DownloadCountOffsetTrailing = -2
+private let SubtitleLeadingOffset = 20
 
 private let SmallIconSize : CGFloat = 15
 private let IconFontSize : CGFloat = 15
@@ -187,10 +188,8 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.snp.remakeConstraints{ make in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             if case CourseBlockType.Section = blockType {
-                make.leading.equalTo(checkmark.snp.leading).offset(20)
-            }
-            else
-            {
+                make.leading.equalTo(checkmark.snp.leading).offset(SubtitleLeadingOffset)
+            } else {
                 make.leading.equalTo(checkmark.snp.leading).offset(0)
             }
 
@@ -209,7 +208,7 @@ public class CourseOutlineItemView: UIView {
         // For performance only add the static constraints once
         
         checkmark.snp.makeConstraints { make in
-            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            make.bottom.equalTo(subtitleLabel)
             make.leading.equalTo(titleLabel)
             make.trailing.lessThanOrEqualTo(trailingContainer.snp.leading).offset(5)
             make.size.equalTo(CGSize(width: SmallIconSize, height: SmallIconSize))
@@ -219,9 +218,8 @@ public class CourseOutlineItemView: UIView {
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             
             if checkmark.isHidden {
-                make.leading.equalTo(checkmark.snp.leading).offset(20)
-            }else
-            {
+                make.leading.equalTo(checkmark.snp.leading).offset(SubtitleLeadingOffset)
+            } else {
                 make.leading.equalTo(checkmark.snp.leading).offset(0)
             }
         }
@@ -258,5 +256,4 @@ public class CourseOutlineItemView: UIView {
     private func setAccessibility() {
         subtitleLabel.isAccessibilityElement = false
     }
-    
 }

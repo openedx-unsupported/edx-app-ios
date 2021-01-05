@@ -107,6 +107,7 @@ public enum Icon {
     case CourseEffort
     case CourseEnd
     case CourseHTMLContent
+    case CourseOpenAssesmentContent
     case CourseModeFull
     case CourseVideos
     case CourseProblemContent
@@ -212,6 +213,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .ClockO)
         case .CourseHTMLContent:
             return FontAwesomeRenderer(icon: .Book)
+        case .CourseOpenAssesmentContent:
+            return FontAwesomeRenderer(icon: .Edit)
         case .CourseModeFull:
             return FontAwesomeRenderer(icon: .List)
         case .Recent:

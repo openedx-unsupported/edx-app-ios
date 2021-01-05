@@ -88,6 +88,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.register(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
         tableView.register(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)
         tableView.register(CourseHTMLTableViewCell.self, forCellReuseIdentifier: CourseHTMLTableViewCell.identifier)
+        tableView.register(CourseOpenAssesmentTableViewCell.self, forCellReuseIdentifier: CourseOpenAssesmentTableViewCell.identifier)
         tableView.register(CourseProblemTableViewCell.self, forCellReuseIdentifier: CourseProblemTableViewCell.identifier)
         tableView.register(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.register(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
@@ -235,6 +236,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             return cell
         case .HTML(.Problem):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseProblemTableViewCell.identifier, for: indexPath) as! CourseProblemTableViewCell
+            cell.block = block
+            return cell
+        case .HTML(.OpenAssesment):
+            let cell = tableView.dequeueReusableCell(withIdentifier: CourseOpenAssesmentTableViewCell.identifier, for: indexPath) as! CourseOpenAssesmentTableViewCell
             cell.block = block
             return cell
         case .Unknown:

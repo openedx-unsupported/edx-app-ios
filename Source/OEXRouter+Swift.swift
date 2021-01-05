@@ -18,6 +18,7 @@ import WebKit
 public enum CourseHTMLBlockSubkind {
     case Base
     case Problem
+    case OpenAssesment
 }
 
 enum CourseBlockDisplayType {
@@ -42,6 +43,7 @@ extension CourseBlock {
         switch self.type {
         case .Unknown(_), .HTML: return multiDevice ? .HTML(.Base) : .Unknown
         case .Problem: return multiDevice ? .HTML(.Problem) : .Unknown
+        case .OpenAssesment: return multiDevice ? .HTML(.OpenAssesment) : .Unknown
         case .Course: return .Outline
         case .Chapter: return .Outline
         case .Section: return .Outline

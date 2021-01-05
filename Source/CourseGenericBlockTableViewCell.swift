@@ -61,6 +61,20 @@ class CourseHTMLTableViewCell: CourseGenericBlockTableViewCell {
     }
 }
 
+class CourseOpenAssesmentTableViewCell: CourseGenericBlockTableViewCell {
+    static let identifier = "CourseOpenAssesmentTableViewCelldentifier"
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style : style, reuseIdentifier : reuseIdentifier)
+        content.setContentIcon(icon: Icon.CourseOpenAssesmentContent)
+        accessibilityIdentifier = "CourseOpenAssesmentTableViewCell:view"
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
     static let identifier = "CourseProblemTableViewCellIdentifier"
     
