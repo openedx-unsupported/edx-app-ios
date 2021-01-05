@@ -22,6 +22,7 @@ public enum AnalyticsDisplayName : String {
     case DiscoverCourses = "Discover Courses"
     case ExploreCourses = "Explore Courses"
     case UserLogin = "User Login"
+    case ValuePropModalView = "Value Prop: Modal View"
     case ValuePropLearnMoreClicked = "Value Prop: Learn More Clicked"
     case ValuePropLockedContentClicked = "Value Prop: Locked Content Clicked"
     case CreateAccount = "Create Account Clicked"
@@ -88,9 +89,8 @@ public enum AnalyticsScreenName: String {
     case DiscoverProgram = "Find Programs"
     case DiscoverDegree = "Find Degrees"
     case ProgramInfo = "Program Info"
-    case CourseEnrollment = "Course Enrollment"
-    case CourseUnit = "Course Unit"
-    case ValuePropModalView = "Value Prop: Modal View"
+    case CourseEnrollment = "course_enrollment"
+    case CourseUnit = "course_unit"
     case CourseDashboard = "course_dashboard"
     case DatesScreen = "dates_screen"
     case AssignmentScreen = "assignments_screen"
@@ -283,16 +283,14 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
-    func trackValueProModal(with name: AnalyticsScreenName, courseId: String, assignmentID: String? = nil) {
-        guard let assignmentID = assignmentID else {
-            trackScreen(withName: name.rawValue, courseID: courseId, value: nil)
-            return
-        }
-        
+    func trackValuePropModal(with name: AnalyticsScreenName, courseId: String, assignmentID: String? = nil) {
         var info: [String:String] = [:]
-        info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
+        if assignmentID != nil {
+            info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
+        }
+        info.setSafeObject(name.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
         
-        trackScreen(withName: name.rawValue, courseID: courseId, value: nil, additionalInfo: info)
+        trackScreen(withName: AnalyticsDisplayName.ValuePropModalView.rawValue, courseID: courseId, value: nil, additionalInfo: info)
     }
 
     func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, eventName: String, bannerType: String) {

@@ -163,7 +163,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: .CourseUnit, assignmentID: blockID)
         environment.router?.showValuePropDetailView(from: self, type: .courseUnit, course: course) { [weak self] in
             if let weakSelf = self {
-                weakSelf.environment.analytics.trackValueProModal(with: .ValuePropModalView, courseId: weakSelf.courseID, assignmentID: weakSelf.blockID)
+                weakSelf.environment.analytics.trackValuePropModal(with: .CourseUnit, courseId: weakSelf.courseID, assignmentID: weakSelf.blockID)
             }
         }
     }
