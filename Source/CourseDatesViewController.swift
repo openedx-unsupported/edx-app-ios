@@ -30,6 +30,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return tableView
     }()
     
+    private lazy var refreshController: PullRefreshController = {
+        let refreshController = PullRefreshController()
+        refreshController.delegate = self
+        return refreshController
+    }()
+    
     private lazy var loadController = LoadStateViewController()
     private lazy var courseDateBannerView = CourseDateBannerView(frame: .zero)
 
@@ -80,8 +86,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         tableView.setAndLayoutTableHeaderView(header: courseDateBannerView)
     }
     
-    private func loadStreams() {
-        loadController.state = .Initial
+    private func loadStreams(fromPullToRefresh: Bool = false) {
+        if !fromPullToRefresh {
+            loadController.state = .Initial
+        }
         loadCourseDates()
         loadCourseBannerStream()
     }
@@ -97,6 +105,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         view.addSubview(tableView)
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         loadController.setupInController(controller: self, contentView: tableView)
+        refreshController.setupInScrollView(scrollView: tableView)
     }
     
     private func loadCourseDates() {
@@ -320,6 +329,12 @@ extension CourseDatesViewController: UITableViewDataSource {
 }
 
 extension CourseDatesViewController: UITableViewDelegate { }
+
+extension CourseDatesViewController: PullRefreshControllerDelegate {
+    func refreshControllerActivated(controller: PullRefreshController) {
+        loadStreams(fromPullToRefresh: true)
+    }
+}
 
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLink(with url: URL) {
