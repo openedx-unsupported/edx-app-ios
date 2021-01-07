@@ -22,7 +22,9 @@ public enum AnalyticsDisplayName : String {
     case DiscoverCourses = "Discover Courses"
     case ExploreCourses = "Explore Courses"
     case UserLogin = "User Login"
+    case ValuePropModalView = "Value Prop: Modal View"
     case ValuePropLearnMoreClicked = "Value Prop: Learn More Clicked"
+    case ValuePropLockedContentClicked = "Value Prop: Locked Content Clicked"
     case CreateAccount = "Create Account Clicked"
     case RegistrationSuccess = "Registration Success"
     case EnrolledCourseClicked = "Course Enroll Clicked"
@@ -48,6 +50,7 @@ public enum AnalyticsEventName: String {
     case UserRegistrationClick = "edx.bi.app.user.register.clicked"
     case UserRegistrationSuccess = "edx.bi.app.user.register.success"
     case ValuePropLearnMoreClicked = "edx.bi.app.value.prop.learn.more.clicked"
+    case ValuePropLockedContentClicked = "edx.bi.app.course.unit.locked.content.clicked"
     case ViewRating = "edx.bi.app.app_reviews.view_rating"
     case DismissRating = "edx.bi.app.app_reviews.dismiss_rating"
     case SubmitRating = "edx.bi.app.app_reviews.submit_rating"
@@ -86,10 +89,8 @@ public enum AnalyticsScreenName: String {
     case DiscoverProgram = "Find Programs"
     case DiscoverDegree = "Find Degrees"
     case ProgramInfo = "Program Info"
-    case CourseEnrollment = "Course Enrollment"
-    case CourseUnit = "Course Unit"
-    case ValuePropModalForCourseEnrollment = "Value Prop: Modal Course Enrollment"
-    case ValuePropModalForCourseUnit = "Value Prop: Modal Course Unit"
+    case CourseEnrollment = "course_enrollment"
+    case CourseUnit = "course_unit"
     case CourseDashboard = "course_dashboard"
     case DatesScreen = "dates_screen"
     case AssignmentScreen = "assignments_screen"
@@ -262,16 +263,34 @@ extension OEXAnalytics {
         
         var info: [String:String] = [:]
         info.setObjectOrNil(screenName.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
+        if assignmentID != nil {
+            info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
+        }
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackLockedContentClicked(courseID: String, screenName: AnalyticsScreenName, assignmentID: String) {
+        let event = OEXAnalyticsEvent()
+        event.courseID = courseID
+        event.name = AnalyticsEventName.ValuePropLockedContentClicked.rawValue
+        event.displayName = AnalyticsDisplayName.ValuePropLockedContentClicked.rawValue
+        
+        var info: [String:String] = [:]
+        info.setObjectOrNil(screenName.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
         info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
         
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
-    func trackValueProModal(with name: AnalyticsScreenName, courseId: String, assignmentID: String? = nil) {
+    func trackValuePropModal(with name: AnalyticsScreenName, courseId: String, assignmentID: String? = nil) {
         var info: [String:String] = [:]
-        info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
+        if assignmentID != nil {
+            info.setObjectOrNil(assignmentID, forKey: AnalyticsEventDataKey.AssignmentID.rawValue)
+        }
+        info.setSafeObject(name.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
         
-        trackScreen(withName: name.rawValue, courseID: courseId, value: nil, additionalInfo: info)
+        trackScreen(withName: AnalyticsDisplayName.ValuePropModalView.rawValue, courseID: courseId, value: nil, additionalInfo: info)
     }
 
     func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, eventName: String, bannerType: String) {

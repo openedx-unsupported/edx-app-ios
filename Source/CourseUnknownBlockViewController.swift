@@ -68,6 +68,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func showError() {
         if let block = block, block.isGated {
             if environment.remoteConfig.isValuePropEnabled {
+                environment.analytics.trackLockedContentClicked(courseID: courseID, screenName: .CourseUnit, assignmentID: block.blockID)
                 showValuePropMessageView()
             } else {
                 showGatedContentMessageView()
@@ -162,7 +163,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: .CourseUnit, assignmentID: blockID)
         environment.router?.showValuePropDetailView(from: self, type: .courseUnit, course: course) { [weak self] in
             if let weakSelf = self {
-                weakSelf.environment.analytics.trackValueProModal(with: .ValuePropModalForCourseUnit, courseId: weakSelf.courseID, assignmentID: weakSelf.blockID)
+                weakSelf.environment.analytics.trackValuePropModal(with: .CourseUnit, courseId: weakSelf.courseID, assignmentID: weakSelf.blockID)
             }
         }
     }
