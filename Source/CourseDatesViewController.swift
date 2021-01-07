@@ -30,6 +30,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return tableView
     }()
     
+    private lazy var refreshController: PullRefreshController = {
+        let refreshController = PullRefreshController()
+        refreshController.delegate = self
+        return refreshController
+    }()
+    
     private lazy var loadController = LoadStateViewController()
     private lazy var courseDateBannerView = CourseDateBannerView(frame: .zero)
 
@@ -80,8 +86,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         tableView.setAndLayoutTableHeaderView(header: courseDateBannerView)
     }
     
-    private func loadStreams() {
-        loadController.state = .Initial
+    private func loadStreams(fromPullToRefresh: Bool = false) {
+        if !fromPullToRefresh {
+            loadController.state = .Initial
+        }
         loadCourseDates()
         loadCourseBannerStream()
     }
@@ -97,6 +105,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         view.addSubview(tableView)
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         loadController.setupInController(controller: self, contentView: tableView)
+        refreshController.setupInScrollView(scrollView: tableView)
     }
     
     private func loadCourseDates() {
@@ -134,7 +143,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             switch result {
             case .success(let courseBanner):
                 self?.loadCourseDateBannerView(bannerModel: courseBanner)
-                self?.setTableViewScrolling()
                 break
                 
             case .failure(let error):
@@ -204,7 +212,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         dateBlocksMapSortedKeys = dateBlocksMap.keys.sorted()
         tableView.reloadData()
-        setTableViewScrolling()
     }
     
     override func didReceiveMemoryWarning() {
@@ -228,11 +235,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             make.height.equalTo(0)
             make.width.equalTo(tableView)
         }
-    }
-    
-    private func setTableViewScrolling() {
-        let contentHeight = (CGFloat(dateBlocksMapSortedKeys.count) * tableView.rowHeight) + courseDateBannerView.frame.size.height
-        tableView.alwaysBounceVertical = contentHeight > tableView.frame.size.height
     }
     
     private func resetCourseDate() {
@@ -320,6 +322,12 @@ extension CourseDatesViewController: UITableViewDataSource {
 }
 
 extension CourseDatesViewController: UITableViewDelegate { }
+
+extension CourseDatesViewController: PullRefreshControllerDelegate {
+    func refreshControllerActivated(controller: PullRefreshController) {
+        loadStreams(fromPullToRefresh: true)
+    }
+}
 
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLink(with url: URL) {
