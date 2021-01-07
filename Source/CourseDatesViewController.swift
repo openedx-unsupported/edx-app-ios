@@ -143,7 +143,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             switch result {
             case .success(let courseBanner):
                 self?.loadCourseDateBannerView(bannerModel: courseBanner)
-                self?.setTableViewScrolling()
                 break
                 
             case .failure(let error):
@@ -213,7 +212,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         dateBlocksMapSortedKeys = dateBlocksMap.keys.sorted()
         tableView.reloadData()
-        setTableViewScrolling()
     }
     
     override func didReceiveMemoryWarning() {
@@ -237,11 +235,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             make.height.equalTo(0)
             make.width.equalTo(tableView)
         }
-    }
-    
-    private func setTableViewScrolling() {
-        let contentHeight = (CGFloat(dateBlocksMapSortedKeys.count) * tableView.rowHeight) + courseDateBannerView.frame.size.height
-        tableView.alwaysBounceVertical = contentHeight > tableView.frame.size.height
     }
     
     private func resetCourseDate() {
