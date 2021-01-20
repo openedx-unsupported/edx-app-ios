@@ -10,17 +10,27 @@ import Foundation
 import edXCore
 
 public struct CourseLastAccessed {
-    public let moduleId : String
+    public let moduleId: String
     public var modulePath = [String]() 
     //The name of the module
-    public var moduleName : String?
+    public var moduleName: String?
     
-    public init?(json:JSON) {
-        if let module_id = json["last_visited_module_id"].string, let modulePathArray = json["last_visited_module_path"].array?.mapOrFailIfNil({$0.string})  {
-            self.moduleId = module_id
-            self.modulePath = modulePathArray
-        }
-        else {
+    public var lastVisitedBlockID: String = ""
+    
+    private enum Keys: String, RawStringExtractable {
+        case moduleID = "last_visited_module_id"
+        case modulePath = "last_visited_module_path"
+        case lastVisitedBlockID = "last_visited_block_id"
+    }
+    
+    public init?(json: JSON) {
+        lastVisitedBlockID = json[Keys.lastVisitedBlockID].string ?? ""
+        
+        if let moduleID = json[Keys.moduleID].string,
+           let modulePath = json[Keys.modulePath].array?.mapOrFailIfNil({$0.string}) {
+            self.moduleId = moduleID
+            self.modulePath = modulePath
+        } else {
             return nil
         }
     }
@@ -29,5 +39,4 @@ public struct CourseLastAccessed {
         self.moduleId = moduleId
         self.moduleName = moduleName
     }
-    
 }

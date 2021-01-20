@@ -586,6 +586,8 @@
 "LARGE_DOWNLOAD_TITLE"="Descarga grande";
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "Último acceso";
+/* Title for Course Item for resuming course */
+"RESUME_COURSE" = "Resume Course";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Inicie sesión y comience a aprender";
 /* Prompt leading user to sign in screen */

@@ -58,13 +58,20 @@ public class CourseLastAccessedController: NSObject {
             return
         }
         
-        if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(courseID: self.courseID) {
+        if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(courseID: courseID) {
             let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad), forMode : mode)
             lastAccessedLoader.backWithStream(blockStream)
         }
-        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID)
-        let lastAccessed = self.networkManager.streamForRequest(request)
+        let apiVersion = OEXConfig.shared().apiUrlVersionConfig.resumeCourse
+        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID, version: apiVersion)
+        let lastAccessed = networkManager.streamForRequest(request)
         lastAccessedLoader.backWithStream(expandAccessStream(stream: lastAccessed, forMode : mode))
+    }
+    
+    private func markBlockAsComplete() {
+        guard let username = OEXSession.shared()?.currentUser?.username, let blockID = blockID else { return }
+        let networkRequest = VideoCompletionApi.videoCompletion(username: username, courseID: courseID, blockID: blockID)
+        networkManager.taskForRequest(networkRequest) { _ in }
     }
     
     public func saveLastAccessed() {
@@ -72,24 +79,8 @@ public class CourseLastAccessedController: NSObject {
             return
         }
         
-        if let currentCourseBlockID = self.blockID {
-            t_hasTriggeredSetLastAccessed = true
-            let request = UserAPI.setLastVisitedModuleForBlockID(blockID: self.courseID, module_id: currentCourseBlockID)
-            let courseID = self.courseID
-            expandAccessStream(stream: self.networkManager.streamForRequest(request)).extendLifetimeUntilFirstResult {[weak self] result in
-                result.ifSuccess() {info in
-                    let block = info.0
-                    let lastAccessedItem = info.1
-                    
-                    if let owner = self {
-                        owner.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: lastAccessedItem.moduleId,
-                            subsectionName: block.displayName,
-                            courseID: courseID,
-                            timeStamp: (DateFormatting.serverString(withDate: NSDate())) ?? "")
-                    }
-                }
-            }
-        }
+        t_hasTriggeredSetLastAccessed = true
+        markBlockAsComplete()
     }
 
     func addListener() {

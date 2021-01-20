@@ -8,14 +8,14 @@
 
 import UIKit
 
-private let lassAccessViewPortraitHeight:CGFloat = 72
-private let lassAccessViewLandscapeHeight:CGFloat = 52
+private let lassAccessViewPortraitHeight: CGFloat = 72
+private let lassAccessViewLandscapeHeight: CGFloat = 52
 
-protocol CourseOutlineTableControllerDelegate : class {
-    func outlineTableController(controller : CourseOutlineTableController, choseBlock:CourseBlock, withParentID:CourseBlockID)
-    func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideos videos:[OEXHelperVideoDownload], rootedAtBlock block: CourseBlock)
-    func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideoForBlock block:CourseBlock)
-    func outlineTableControllerChoseShowDownloads(controller : CourseOutlineTableController)
+protocol CourseOutlineTableControllerDelegate: class {
+    func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID, lastAccess item: CourseLastAccessed?)
+    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block: CourseBlock)
+    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock)
+    func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController)
     func outlineTableControllerReload(controller: CourseOutlineTableController)
     func resetCourseDate(controller: CourseOutlineTableController)
 }
@@ -24,24 +24,28 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
 
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
-    weak var delegate : CourseOutlineTableControllerDelegate?
-    private let environment : Environment
-    let courseQuerier : CourseOutlineQuerier
-    let courseID : String
+    weak var delegate: CourseOutlineTableControllerDelegate?
+    private let environment: Environment
+    let courseQuerier: CourseOutlineQuerier
+    let courseID: String
     private var courseOutlineMode: CourseOutlineMode
     
     private let courseDateBannerView = CourseDateBannerView(frame: .zero)
     private let courseCard = CourseCardView(frame: .zero)
-    private var courseCertificateView : CourseCertificateView?
+    private var courseCertificateView: CourseCertificateView?
     private let headerContainer = UIView()
-    private let lastAccessedView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
+    private lazy var lastAccessedView: CourseOutlineHeaderView = {
+        let lastAccessView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText: environment.config.isResumeCourseEnabled ? Strings.resumeCourse : Strings.lastAccessed, subtitleText: "Placeholder")
+        return lastAccessView
+    }()
+    
     var courseVideosHeaderView: CourseVideosHeaderView?
     private var lastAccess = false
     private var shouldHideTableViewHeader:Bool = false
     let refreshController = PullRefreshController()
-    private var courseBlockID : CourseBlockID?
+    private var courseBlockID: CourseBlockID?
     
-    init(environment : Environment, courseID : String, forMode mode: CourseOutlineMode, courseBlockID : CourseBlockID? = nil) {
+    init(environment: Environment, courseID: String, forMode mode: CourseOutlineMode, courseBlockID: CourseBlockID? = nil) {
         self.courseID = courseID
         self.courseBlockID = courseBlockID
         self.environment = environment
@@ -184,7 +188,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        updateViewConstraints()
+//        updateViewConstraints()
     }
     
     override func updateViewConstraints() {
@@ -275,7 +279,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let group = groups[indexPath.section]
         let chosenBlock = group.children[indexPath.row]
-        self.delegate?.outlineTableController(controller: self, choseBlock: chosenBlock, withParentID: group.block.blockID)
+        delegate?.outlineTableController(controller: self, choseBlock: chosenBlock, parent: group.block.blockID, lastAccess: nil)
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -307,25 +311,32 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
     }
     
-    func choseViewLastAccessedWithItem(item : CourseLastAccessed) {
+    func choseResumeCourse(with item: CourseLastAccessed, isResumeCourseEnabled: Bool = false) {
         for group in groups {
             let childNodes = group.children
             let currentLastViewedIndex = childNodes.firstIndexMatching({$0.blockID == item.moduleId})
             if let matchedIndex = currentLastViewedIndex {
-                self.delegate?.outlineTableController(controller: self, choseBlock: childNodes[matchedIndex], withParentID: group.block.blockID)
+                delegate?.outlineTableController(controller: self, choseBlock: childNodes[matchedIndex], parent: group.block.blockID, lastAccess: isResumeCourseEnabled ? item : nil)
                 break
             }
         }
     }
     
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
-    func showLastAccessedWithItem(item : CourseLastAccessed) {
-        lastAccessedView.subtitleText = item.moduleName
-        lastAccessedView.setViewButtonAction { [weak self] _ in
-            self?.choseViewLastAccessedWithItem(item: item)
+    func showLastAccessedWithItem(item: CourseLastAccessed) {
+        if environment.config.isResumeCourseEnabled && !item.lastVisitedBlockID.isEmpty {
+            lastAccessedView.subtitleText = item.moduleName
+            lastAccessedView.setViewButtonAction { [weak self] _ in
+                self?.choseResumeCourse(with: item, isResumeCourseEnabled: true)
+            }
+            refreshTableHeaderView(lastAccess: true)
+        } else {
+            lastAccessedView.subtitleText = item.moduleName
+            lastAccessedView.setViewButtonAction { [weak self] _ in
+                self?.choseResumeCourse(with: item)
+            }
+            refreshTableHeaderView(lastAccess: false)
         }
-        
-        refreshTableHeaderView(lastAccess: true)
     }
     
     func hideLastAccessed() {
