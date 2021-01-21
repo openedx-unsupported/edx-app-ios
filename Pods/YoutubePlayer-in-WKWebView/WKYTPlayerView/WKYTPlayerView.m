@@ -788,6 +788,11 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
 }
 
 - (BOOL)handleHttpNavigationToUrl:(NSURL *) url {
+    // https://github.com/youtube/youtube-ios-player-helper/issues/403
+    if ([[[url.path stringByReplacingOccurrencesOfString:@"/" withString:@""] lowercaseString] isEqualToString:@"ytscframe"]) {
+        return NO;
+    }
+    
     // Usually this means the user has clicked on the YouTube logo or an error message in the
     // player. Most URLs should open in the browser. The only http(s) URL that should open in this
     // WKWebView is the URL for the embed, which is of the format:
