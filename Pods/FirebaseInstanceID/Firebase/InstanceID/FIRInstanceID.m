@@ -132,7 +132,10 @@ typedef NS_ENUM(NSInteger, FIRInstanceIDAPNSTokenType) {
 @interface FIRInstanceID () <FIRInstanceIDInstanceProvider, FIRLibrary>
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation FIRInstanceIDResult
+#pragma clang diagnostic pop
 - (id)copyWithZone:(NSZone *)zone {
   FIRInstanceIDResult *result = [[[self class] allocWithZone:zone] init];
   result.instanceID = self.instanceID;
@@ -141,7 +144,10 @@ typedef NS_ENUM(NSInteger, FIRInstanceIDAPNSTokenType) {
 }
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation FIRInstanceID
+#pragma clang diagnostic pop
 
 // File static to support InstanceID tests that call [FIRInstanceID instanceID] after
 // [FIRInstanceID instanceIDForTests].
@@ -385,8 +391,11 @@ static FIRInstanceID *gInstanceID;
 
   FIRInstanceIDDeleteTokenHandler newHandler = ^(NSError *error) {
     // If a default token is deleted successfully, reset the defaultFCMToken too.
-    if (!error && [self isDefaultTokenWithAuthorizedEntity:authorizedEntity scope:scope]) {
-      self.defaultFCMToken = nil;
+    if (!error) {
+      if ([self isDefaultTokenWithAuthorizedEntity:authorizedEntity scope:scope] ||
+          [authorizedEntity isEqualToString:@"*"]) {
+        self.defaultFCMToken = nil;
+      }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
       handler(error);
@@ -523,7 +532,7 @@ static FIRInstanceID *gInstanceID;
         return;
       }
 
-      [self.tokenManager.authService resetCheckinWithHandler:^(NSError *error) {
+      [self deleteCheckinWithHandler:^(NSError *_Nullable error) {
         if (error) {
           if (handler) {
             handler(error);
@@ -549,6 +558,10 @@ static FIRInstanceID *gInstanceID;
 }
 
 #pragma mark - Checkin
+
+- (void)deleteCheckinWithHandler:(void (^)(NSError *error))handler {
+  [self.tokenManager.authService resetCheckinWithHandler:handler];
+}
 
 - (BOOL)tryToLoadValidCheckinInfo {
   FIRInstanceIDCheckinPreferences *checkinPreferences =
