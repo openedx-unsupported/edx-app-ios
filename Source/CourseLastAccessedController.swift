@@ -100,7 +100,9 @@ public class CourseLastAccessedController: NSObject {
                         
                         self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: DateFormatting.serverString(withDate: NSDate()) ?? "")
                         
-                    }, failure: <#T##(NSError) -> Void#>)
+                    }, failure: { _ in
+                        
+                    })
                     
                 } else {
                     item.moduleName = block.displayName
