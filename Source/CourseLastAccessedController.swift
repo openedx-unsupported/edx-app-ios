@@ -88,9 +88,26 @@ public class CourseLastAccessedController: NSObject {
             info.ifSuccess {
                 let block = $0.0
                 var item = $0.1
-                item.moduleName = block.displayName
                 
-                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: DateFormatting.serverString(withDate: NSDate()) ?? "")
+                if OEXConfig.shared().isResumeCourseEnabled && !item.lastVisitedBlockID.isEmpty {
+                    
+                   // let childBlock = self?.courseQuerier.
+                    
+                    
+                    
+                    self?.courseQuerier.blockWithID(id: item.lastVisitedBlockID).extendLifetimeUntilFirstResult(success: { block in
+                        let name = block.displayName
+                        
+                        self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: DateFormatting.serverString(withDate: NSDate()) ?? "")
+                        
+                    }, failure: <#T##(NSError) -> Void#>)
+                    
+                } else {
+                    item.moduleName = block.displayName
+                    
+                    self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: DateFormatting.serverString(withDate: NSDate()) ?? "")
+                }
+                
                 self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item: item)
             }
             
@@ -103,7 +120,12 @@ public class CourseLastAccessedController: NSObject {
 
     private func expandAccessStream(stream: OEXStream<CourseLastAccessed>, forMode mode: CourseOutlineMode = .full) -> OEXStream<(CourseBlock, CourseLastAccessed)> {
         return stream.transform {[weak self] lastAccessed in
-            return joinStreams((self?.courseQuerier.blockWithID(id: lastAccessed.moduleId, mode: mode)) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
+            
+            if OEXConfig.shared().isResumeCourseEnabled && !lastAccessed.lastVisitedBlockID.isEmpty {
+                return joinStreams((self?.courseQuerier.blockWithID(id: lastAccessed.lastVisitedBlockID, mode: mode)) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
+            } else {
+                return joinStreams((self?.courseQuerier.blockWithID(id: lastAccessed.moduleId, mode: mode)) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
+            }
         }
     }
 }

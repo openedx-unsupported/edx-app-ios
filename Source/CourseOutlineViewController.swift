@@ -432,28 +432,38 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
         
         let childBlockQuerier = courseQuerier.blockWithID(id: item.lastVisitedBlockID)
         let parentBlockQuerier = courseQuerier.parentOfBlockWithID(blockID: item.lastVisitedBlockID)
-
+        
         joinStreams(childBlockQuerier, parentBlockQuerier).listen(self) { [weak self] result in
             guard let weakSelf = self else { return }
             
             switch result {
             case .success((let childBlock, let parentBlockID)):
-                weakSelf.environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: weakSelf.courseQuerier.courseID, fromController: weakSelf) { [weak self] visibleController in
+                guard let parentBlockID = parentBlockID else { return }
+                
+                let grandParent = weakSelf.courseQuerier.parentOfBlockWithID(blockID: parentBlockID)
+                
+                grandParent.extendLifetimeUntilFirstResult { grandParentBlockID in
+                    guard let grandParentBlockID = grandParentBlockID.value else { return }
                     
-                    guard let weakSelf = self else { return }
-                    
-                    weakSelf.environment.router?.showContainerForBlockWithID(blockID: item.moduleId, type: childBlock.displayType, parentID: parentBlockID, courseID: weakSelf.courseQuerier.courseID, fromController: visibleController, forMode: weakSelf.courseOutlineMode) { [weak self] _ in
+                    weakSelf.environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: weakSelf.courseQuerier.courseID, fromController: weakSelf) { [weak self] visibleController in
                         
-                        switch childBlock.displayType {
-                        case .Discussion:
-                            self?.lastAccessedController.saveLastAccessed()
-                            break
+                        guard let weakSelf = self else { return }
+                        
+                        weakSelf.environment.router?.showContainerForBlockWithID(blockID: grandParentBlockID, type: childBlock.displayType, parentID: parentBlockID, courseID: weakSelf.courseQuerier.courseID, fromController: visibleController, forMode: weakSelf.courseOutlineMode) { [weak self] _ in
                             
-                        default:
-                            break
+                            switch childBlock.displayType {
+                            case .Discussion:
+                                self?.lastAccessedController.saveLastAccessed()
+                                break
+                                
+                            default:
+                                break
+                            }
                         }
                     }
+                    
                 }
+                
                 break
             case .failure:
                 Logger.logError("ANALYTICS", "Unable to load block: \(block.blockID)")
