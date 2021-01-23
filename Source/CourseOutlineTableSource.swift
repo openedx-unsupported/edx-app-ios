@@ -12,7 +12,8 @@ private let lassAccessViewPortraitHeight: CGFloat = 72
 private let lassAccessViewLandscapeHeight: CGFloat = 52
 
 protocol CourseOutlineTableControllerDelegate: class {
-    func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID, lastAccess item: CourseLastAccessed?)
+    func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID)
+    func outlineTableController(controller: CourseOutlineTableController, lastAccess item: CourseLastAccessed)
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block: CourseBlock)
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock)
     func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController)
@@ -279,7 +280,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let group = groups[indexPath.section]
         let chosenBlock = group.children[indexPath.row]
-        delegate?.outlineTableController(controller: self, choseBlock: chosenBlock, parent: group.block.blockID, lastAccess: nil)
+        delegate?.outlineTableController(controller: self, choseBlock: chosenBlock, parent: group.block.blockID)
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -311,34 +312,23 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
     }
     
-    func choseResumeCourse(with item: CourseLastAccessed, isResumeCourseEnabled: Bool = false) {
-        for group in groups {
-            let childNodes = group.children
-            let currentLastViewedIndex = childNodes.firstIndexMatching({$0.blockID == item.moduleId})
-            if let matchedIndex = currentLastViewedIndex {
-                delegate?.outlineTableController(controller: self, choseBlock: childNodes[matchedIndex], parent: group.block.blockID, lastAccess: isResumeCourseEnabled ? item : nil)
-                break
-            }
-        }
+    func resumeCourse(with item: CourseLastAccessed) {
+        delegate?.outlineTableController(controller: self, lastAccess: item)
     }
     
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
     func showLastAccessedWithItem(item: CourseLastAccessed) {
-        if environment.config.isResumeCourseEnabled && !item.lastVisitedBlockID.isEmpty {
+        if !item.lastVisitedBlockID.isEmpty {
             courseQuerier.blockWithID(id: item.lastVisitedBlockID).extendLifetimeUntilFirstResult { [weak self] block in
                 self?.lastAccessedView.subtitleText = block.displayName
                 self?.lastAccessedView.setViewButtonAction { [weak self] _ in
-                    self?.choseResumeCourse(with: item, isResumeCourseEnabled: true)
+                    self?.resumeCourse(with: item)
                 }
                 self?.refreshTableHeaderView(lastAccess: true)
             } failure: { [weak self] _ in
                 self?.refreshTableHeaderView(lastAccess: false)
             }
         } else {
-            lastAccessedView.subtitleText = item.moduleName
-            lastAccessedView.setViewButtonAction { [weak self] _ in
-                self?.choseResumeCourse(with: item)
-            }
             refreshTableHeaderView(lastAccess: false)
         }
     }

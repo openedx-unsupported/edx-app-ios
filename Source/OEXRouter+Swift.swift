@@ -64,6 +64,13 @@ extension OEXRouter {
         return contentPageController
     }
     
+    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, childBlock: CourseBlock, parentBlock: CourseBlock, grandParentBlock: CourseBlock, greatGrandParentBlock: CourseBlock, completion: UINavigationController.CompletionWithTopController? = nil) {
+        
+        showContainerForBlockWithID(blockID: grandParentBlock.blockID, type: grandParentBlock.displayType, parentID: greatGrandParentBlock.blockID, courseID: courseID, fromController: controller) { visibleController in
+            self.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: parentBlock.blockID, courseID: courseID, fromController: visibleController, completion: completion)
+        }
+    }
+    
     func showContainerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: UINavigationController.CompletionWithTopController? = nil) {
         switch type {
         case .Outline:
@@ -86,7 +93,7 @@ extension OEXRouter {
             if let delegate = controller as? CourseContentPageViewControllerDelegate {
                 pageController.navigationDelegate = delegate
             }
-            controller.navigationController?.pushViewController(pageController, animated: true)
+            controller.navigationController?.pushViewController(pageController, animated: true, completion: completion)
         }
     }
     

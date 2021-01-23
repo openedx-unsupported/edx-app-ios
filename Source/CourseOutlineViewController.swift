@@ -291,7 +291,7 @@ public class CourseOutlineViewController :
         loadBackedStreams()
     }
     
-    private func canDownload() -> Bool {
+    private var canDownload: Bool {
         return environment.dataManager.interface?.canDownload() ?? false
     }
     
@@ -362,6 +362,17 @@ public class CourseOutlineViewController :
     func loadStateViewReload() {
         reload()
     }
+    
+    private func saveLastAccessed(block: CourseBlock) {
+        switch block.displayType {
+        case .Discussion:
+            lastAccessedController.saveLastAccessed()
+            break
+            
+        default:
+            break
+        }
+    }
 }
 
 //MARK: LastAccessedControllerDeleagte
@@ -386,7 +397,7 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
-        if canDownload() {
+        if canDownload {
             environment.dataManager.interface?.downloadVideos(videos)
             
             let courseID = self.courseID
@@ -404,7 +415,7 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
-        if canDownload() {
+        if canDownload {
             environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
             environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
         } else {
@@ -412,63 +423,23 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
         }
     }
     
-    func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID, lastAccess item: CourseLastAccessed?) {
-        
-        guard environment.config.isResumeCourseEnabled,
-              let item = item, !item.lastVisitedBlockID.isEmpty else {
-            environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode) { [weak self] _ in
-                
-                switch block.displayType {
-                case .Discussion:
-                    self?.lastAccessedController.saveLastAccessed()
-                    break
-                    
-                default:
-                    break
-                }
-            }
+    func outlineTableController(controller: CourseOutlineTableController, lastAccess item: CourseLastAccessed) {
+        guard let childBlock = courseQuerier.blockWithID(id: item.lastVisitedBlockID).firstSuccess().value,
+              let parentBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID).firstSuccess().value,
+              let grandParentBlock = courseQuerier.parentOfBlockWith(id: parentBlock.blockID).firstSuccess().value,
+              let greatGrandParentBlock = courseQuerier.parentOfBlockWith(id: grandParentBlock.blockID).firstSuccess().value else {
+            Logger.logError("ANALYTICS", "Unable to load block: \(item.lastVisitedBlockID)")
             return
         }
         
-        let childBlockQuerier = courseQuerier.blockWithID(id: item.lastVisitedBlockID)
-        let parentBlockQuerier = courseQuerier.parentOfBlockWithID(blockID: item.lastVisitedBlockID)
-        
-        joinStreams(childBlockQuerier, parentBlockQuerier).listen(self) { [weak self] result in
-            guard let weakSelf = self else { return }
-            
-            switch result {
-            case .success((let childBlock, let parentBlockID)):
-                guard let parentBlockID = parentBlockID else { return }
-                
-                let grandParent = weakSelf.courseQuerier.parentOfBlockWithID(blockID: parentBlockID)
-                
-                grandParent.extendLifetimeUntilFirstResult { grandParentBlockID in
-                    guard let grandParentBlockID = grandParentBlockID.value else { return }
-                    
-                    weakSelf.environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: weakSelf.courseQuerier.courseID, fromController: weakSelf) { [weak self] visibleController in
-                        
-                        guard let weakSelf = self else { return }
-                        
-                        weakSelf.environment.router?.showContainerForBlockWithID(blockID: grandParentBlockID, type: childBlock.displayType, parentID: parentBlockID, courseID: weakSelf.courseQuerier.courseID, fromController: visibleController, forMode: weakSelf.courseOutlineMode) { [weak self] _ in
-                            
-                            switch childBlock.displayType {
-                            case .Discussion:
-                                self?.lastAccessedController.saveLastAccessed()
-                                break
-                                
-                            default:
-                                break
-                            }
-                        }
-                    }
-                    
-                }
-                
-                break
-            case .failure:
-                Logger.logError("ANALYTICS", "Unable to load block: \(block.blockID)")
-                break
-            }
+        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, childBlock: childBlock, parentBlock: parentBlock, grandParentBlock: grandParentBlock, greatGrandParentBlock: greatGrandParentBlock) { [weak self] _ in
+            self?.saveLastAccessed(block: childBlock)
+        }
+    }
+    
+    func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID) {
+        environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode) { [weak self] _ in
+            self?.saveLastAccessed(block: block)
         }
     }
     

@@ -271,6 +271,19 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
+    public func parentOfBlockWith(id blockID: CourseBlockID) -> OEXStream<CourseBlock> {
+        loadOutlineIfNecessary()
+        
+        return parentOfBlockWithID(blockID: blockID).flatMap { id -> Result<CourseBlock> in
+            let block = self.blockWithID(id: id)
+            if let value = block.firstSuccess().value {
+                return Success(v: value)
+            } else {
+                return Failure(e: NSError.oex_courseContentLoadError())
+            }
+        }
+    }
+    
     public func parentOfBlockWithID(blockID: CourseBlockID) -> OEXStream<CourseBlockID?> {
         loadOutlineIfNecessary()
         

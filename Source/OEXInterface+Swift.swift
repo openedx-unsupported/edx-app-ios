@@ -8,16 +8,18 @@
 
 import Foundation
 
-extension OEXInterface : LastAccessedProvider {
+extension OEXInterface: LastAccessedProvider {
     
-    public func getLastAccessedSectionForCourseID(courseID : String) -> CourseLastAccessed? {
-        guard  let lastAccessed = storage?.lastAccessedData(forCourseID: courseID) else { return  nil }
-        guard let moduleId = lastAccessed.subsection_id, let moduleName = lastAccessed.subsection_name else { return nil }
-        return CourseLastAccessed(moduleId: moduleId, moduleName: moduleName)
+    public func getLastAccessedBlock(for courseID: String) -> CourseLastAccessed? {
+        guard let lastAccessedItem = storage?.lastAccessedData(forCourseID: courseID),
+              let blockID = lastAccessedItem.subsection_id,
+              let blockName = lastAccessedItem.subsection_name else { return  nil }
+        return CourseLastAccessed(lastVisitedBlockID: blockID, lastVisitedBlockName: blockName)
     }
-
-    @objc public func setLastAccessedSubSectionWithID(subsectionID: String, subsectionName: String, courseID: String?, timeStamp: String) {
-        self.storage?.setLastAccessedSubsection(subsectionID, andSubsectionName: subsectionName, forCourseID: courseID, onTimeStamp: timeStamp)
+    
+    @objc public func setLastAccessedBlock(with lastVisitedBlockID: String, lastVisitedBlockName: String, courseID: String?, timeStamp: String) {
+        
+        storage?.setLastAccessedSubsection(lastVisitedBlockID, andSubsectionName: lastVisitedBlockName, forCourseID: courseID, onTimeStamp: timeStamp)
     }
     
     public func downloadableVideos(of course: OEXCourse) -> [OEXHelperVideoDownload] {
