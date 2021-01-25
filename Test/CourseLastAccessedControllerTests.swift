@@ -67,16 +67,17 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
     }
     
     func testLastAccessedItemRecieved() {
-        self.lastAccessedItem = CourseLastAccessed(moduleId: "unit3", moduleName: "Unit 3")
+        self.lastAccessedItem = CourseLastAccessed(lastVisitedBlockID: "block2", lastVisitedBlockName: "Block 2")
         let delegate = MockLastAccessedDelegate()
         rootController?.delegate = delegate
         sectionController?.saveLastAccessed()
         rootController?.loadLastAccessed(forMode: .full)
         let expectations = self.expectation(description: "Item Fetched")
         delegate.didFetchAction = { item in
-            if item?.moduleName == "Unit 3" {
+            if item?.lastVisitedBlockName == "Block 2" {
                 expectations.fulfill()
-            }        }
+            }
+        }
         self.waitForExpectations()
     }
     
@@ -84,13 +85,13 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         let delegate = MockLastAccessedDelegate()
         rootController?.delegate = delegate
 
-        self.lastAccessedItem = CourseLastAccessed(moduleId: "unit3", moduleName: "Unit 3")
+        self.lastAccessedItem = CourseLastAccessed(lastVisitedBlockID: "block2", lastVisitedBlockName: "Block 2")
         
         sectionController?.saveLastAccessed()
-        let expectations = self.expectation(description: "Set Last Accessed to Unit 3")
+        let expectations = self.expectation(description: "Set Last Accessed to Block 2")
         rootController?.loadLastAccessed(forMode: .full)
         delegate.didFetchAction = { item in
-            if (item?.moduleName == "Unit 3") {
+            if (item?.lastVisitedBlockName == "Block 2") {
                 expectations.fulfill()
             }
         }
@@ -103,5 +104,4 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         XCTAssertFalse(videoSectionController.t_canShowLastAccessed())
         XCTAssertFalse(videoSectionController.t_canUpdateLastAccessed())
     }
-    
 }

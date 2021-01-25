@@ -10,19 +10,19 @@ import UIKit
 
 public class MockLastAccessedProvider: LastAccessedProvider {
    
-    private var mockLastAccessedItem : CourseLastAccessed?
+    private var mockLastAccessedItem: CourseLastAccessed?
     
     public init() { }
     
-    public func getLastAccessedSectionForCourseID(courseID: String) -> CourseLastAccessed? {
-        return self.mockLastAccessedItem
+    public func getLastAccessedBlock(for courseID: String) -> CourseLastAccessed? {
+        return mockLastAccessedItem
     }
     
-    public func setLastAccessedSubSectionWithID(subsectionID: String, subsectionName: String, courseID: String?, timeStamp: String) {
-        self.mockLastAccessedItem = CourseLastAccessed(moduleId: subsectionID, moduleName: subsectionName)
+    public func setLastAccessedBlock(with lastVisitedBlockID: String, lastVisitedBlockName: String, courseID: String?, timeStamp: String) {
+        mockLastAccessedItem = CourseLastAccessed(lastVisitedBlockID: lastVisitedBlockID, lastVisitedBlockName: lastVisitedBlockName)
     }
     
     public func resetLastAccessedItem() {
-        self.mockLastAccessedItem = nil
+        mockLastAccessedItem = nil
     }
 }

@@ -62,8 +62,8 @@ public class CourseLastAccessedController: NSObject {
             let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad), forMode : mode)
             lastAccessedLoader.backWithStream(blockStream)
         }
-        let apiVersion = OEXConfig.shared().apiUrlVersionConfig.resumeCourse
-        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID, version: apiVersion)
+        // let apiVersion = OEXConfig.shared().apiUrlVersionConfig.resumeCourse
+        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID, version: "v1")
         let lastAccessed = networkManager.streamForRequest(request)
         lastAccessedLoader.backWithStream(expandAccessStream(stream: lastAccessed, forMode : mode))
     }
