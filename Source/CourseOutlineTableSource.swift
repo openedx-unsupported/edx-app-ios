@@ -316,15 +316,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
     func showLastAccessedWithItem(item: CourseLastAccessed) {
         if !item.lastVisitedBlockID.isEmpty {
-            courseQuerier.blockWithID(id: item.lastVisitedBlockID).extendLifetimeUntilFirstResult { [weak self] block in
+            courseQuerier.blockWithID(id: item.lastVisitedBlockID).extendLifetimeUntilFirstResult (success: { [weak self] block in
                 self?.lastAccessedView.subtitleText = block.displayName
                 self?.lastAccessedView.setViewButtonAction { [weak self] _ in
                     self?.resumeCourse(with: item)
                 }
                 self?.refreshTableHeaderView(lastAccess: true)
-            } failure: { [weak self] _ in
+            }, failure: { [weak self] _ in
                 self?.refreshTableHeaderView(lastAccess: false)
-            }
+            })
         } else {
             refreshTableHeaderView(lastAccess: false)
         }
