@@ -425,14 +425,14 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     
     func outlineTableController(controller: CourseOutlineTableController, lastAccess item: CourseLastAccessed) {
         guard let childBlock = courseQuerier.blockWithID(id: item.lastVisitedBlockID).firstSuccess().value,
-              let parentBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID).firstSuccess().value,
-              let grandParentBlock = courseQuerier.parentOfBlockWith(id: parentBlock.blockID).firstSuccess().value,
-              let greatGrandParentBlock = courseQuerier.parentOfBlockWith(id: grandParentBlock.blockID).firstSuccess().value else {
+              let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
+              let sectionBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Section).firstSuccess().value,
+              let chapterBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Chapter).firstSuccess().value else {
             Logger.logError("ANALYTICS", "Unable to load block: \(item.lastVisitedBlockID)")
             return
         }
         
-        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, childBlock: childBlock, parentBlock: parentBlock, grandParentBlock: grandParentBlock, greatGrandParentBlock: greatGrandParentBlock) { [weak self] _ in
+        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, childBlock: childBlock, unitBlock: unitBlock, sectionBlock: sectionBlock, chapterBlock: chapterBlock) { [weak self] _ in
             self?.saveLastAccessed(block: childBlock)
         }
     }

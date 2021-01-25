@@ -18,7 +18,6 @@ extension OEXInterface: LastAccessedProvider {
     }
     
     @objc public func setLastAccessedBlock(with lastVisitedBlockID: String, lastVisitedBlockName: String, courseID: String?, timeStamp: String) {
-        
         storage?.setLastAccessedSubsection(lastVisitedBlockID, andSubsectionName: lastVisitedBlockName, forCourseID: courseID, onTimeStamp: timeStamp)
     }
     

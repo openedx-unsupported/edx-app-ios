@@ -64,10 +64,10 @@ extension OEXRouter {
         return contentPageController
     }
     
-    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, childBlock: CourseBlock, parentBlock: CourseBlock, grandParentBlock: CourseBlock, greatGrandParentBlock: CourseBlock, completion: UINavigationController.CompletionWithTopController? = nil) {
-        
-        showContainerForBlockWithID(blockID: grandParentBlock.blockID, type: grandParentBlock.displayType, parentID: greatGrandParentBlock.blockID, courseID: courseID, fromController: controller) { visibleController in
-            self.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: parentBlock.blockID, courseID: courseID, fromController: visibleController, completion: completion)
+    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, childBlock: CourseBlock, unitBlock: CourseBlock, sectionBlock: CourseBlock, chapterBlock: CourseBlock, completion: UINavigationController.CompletionWithTopController? = nil) {
+
+        showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: controller) { [weak self] visibleController in
+            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: completion)
         }
     }
     
