@@ -379,13 +379,12 @@ public class CourseOutlineViewController :
 extension CourseOutlineViewController: CourseLastAccessedControllerDelegate {
     public func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
         if let lastAccessedItem = item {
-            if environment.config.isResumeCourseEnabled && lastAccessedItem.lastVisitedBlockID.isEmpty {
+            if lastAccessedItem.lastVisitedBlockID.isEmpty {
                 tableController.hideLastAccessed()
             } else {
                 tableController.showLastAccessedWithItem(item: lastAccessedItem)
             }
-        }
-        else {
+        } else {
             tableController.hideLastAccessed()
         }
     }

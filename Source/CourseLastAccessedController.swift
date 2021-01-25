@@ -62,15 +62,14 @@ public class CourseLastAccessedController: NSObject {
             let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad), forMode : mode)
             lastAccessedLoader.backWithStream(blockStream)
         }
-        // let apiVersion = OEXConfig.shared().apiUrlVersionConfig.resumeCourse
-        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID, version: "v1")
+        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID)
         let lastAccessed = networkManager.streamForRequest(request)
         lastAccessedLoader.backWithStream(expandAccessStream(stream: lastAccessed, forMode : mode))
     }
     
     private func markBlockAsComplete() {
         guard let username = OEXSession.shared()?.currentUser?.username, let blockID = blockID else { return }
-        let networkRequest = VideoCompletionApi.videoCompletion(username: username, courseID: courseID, blockID: blockID)
+        let networkRequest = UserAPI.setBlockCompletionRequest(username: username, courseID: courseID, blockID: blockID)
         networkManager.taskForRequest(networkRequest) { _ in }
     }
     

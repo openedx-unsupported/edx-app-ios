@@ -29,14 +29,14 @@ public struct UserAPI {
         return CourseLastAccessed(json: json).toResult()
     }
     
-    public static func requestLastVisitedModuleForCourseID(courseID: String, version: String) -> NetworkRequest<CourseLastAccessed> {
+    public static func requestLastVisitedModuleForCourseID(courseID: String) -> NetworkRequest<CourseLastAccessed> {
         let paremeters = [
-            "version": version,
             "courseID": courseID,
-            "username": OEXSession.shared()?.currentUser?.username ?? ""]
+            "username": OEXSession.shared()?.currentUser?.username ?? ""
+        ]
         return NetworkRequest(
             method: .GET,
-            path : "/api/mobile/{version}/users/{username}/course_status_info/{courseID}".oex_format(withParameters: paremeters),
+            path : "/api/mobile/v1/users/{username}/course_status_info/{courseID}".oex_format(withParameters: paremeters),
             requiresAuth : true,
             deserializer: .jsonResponse(lastAccessedDeserializer))
     }

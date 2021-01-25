@@ -82,9 +82,4 @@ extension OEXConfig {
         }
         return false
     }
-    
-    // Last Access will be replaced with Resume Course
-    var isResumeCourseEnabled: Bool {
-        return bool(forKey: "RESUME_COURSE_ENABLED")
-    }
 }
