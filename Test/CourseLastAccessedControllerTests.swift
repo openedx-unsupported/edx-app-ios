@@ -66,36 +66,15 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         lastAccessedProvider.resetLastAccessedItem()
     }
     
-    func testLastAccessedItemRecieved() {
-        self.lastAccessedItem = CourseLastAccessed(lastVisitedBlockID: "block2", lastVisitedBlockName: "Block 2")
-        let delegate = MockLastAccessedDelegate()
-        rootController?.delegate = delegate
-        sectionController?.saveLastAccessed()
-        rootController?.loadLastAccessed(forMode: .full)
-        let expectations = self.expectation(description: "Item Fetched")
-        delegate.didFetchAction = { item in
-            if item?.lastVisitedBlockName == "Block 2" {
-                expectations.fulfill()
-            }
-        }
-        self.waitForExpectations()
-    }
-    
     func testSetLastAccessedItem() {
-        let delegate = MockLastAccessedDelegate()
-        rootController?.delegate = delegate
-
-        self.lastAccessedItem = CourseLastAccessed(lastVisitedBlockID: "block2", lastVisitedBlockName: "Block 2")
+        lastAccessedItem = CourseLastAccessed(lastVisitedBlockID: "block2", lastVisitedBlockName: "Block 2")
         
-        sectionController?.saveLastAccessed()
-        let expectations = self.expectation(description: "Set Last Accessed to Block 2")
-        rootController?.loadLastAccessed(forMode: .full)
-        delegate.didFetchAction = { item in
-            if (item?.lastVisitedBlockName == "Block 2") {
-                expectations.fulfill()
-            }
-        }
-        self.waitForExpectations()
+        sectionController!.t_saveLastAccess(item: lastAccessedItem)
+        let item = sectionController!.t_getLastAccessFor(courseID: outline.root)!
+        
+        let found = item.lastVisitedBlockID == "block2" && item.lastVisitedBlockName == "Block 2"
+        
+        XCTAssertTrue(found, "Set Last Accessed Success")
     }
     
     func testVideoMode() {

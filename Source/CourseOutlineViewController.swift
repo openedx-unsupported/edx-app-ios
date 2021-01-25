@@ -366,7 +366,7 @@ public class CourseOutlineViewController :
     private func saveLastAccessed(block: CourseBlock) {
         switch block.displayType {
         case .Discussion:
-            lastAccessedController.saveLastAccessed()
+            lastAccessedController.saveLastAccessed(block: block)
             break
             
         default:
@@ -378,14 +378,20 @@ public class CourseOutlineViewController :
 //MARK: LastAccessedControllerDeleagte
 extension CourseOutlineViewController: CourseLastAccessedControllerDelegate {
     public func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
-        if let lastAccessedItem = item {
-            if lastAccessedItem.lastVisitedBlockID.isEmpty {
-                tableController.hideLastAccessed()
-            } else {
-                tableController.showLastAccessedWithItem(item: lastAccessedItem)
-            }
-        } else {
+        guard let lastAccessedItem = item, !lastAccessedItem.lastVisitedBlockID.isEmpty else {
             tableController.hideLastAccessed()
+            return
+        }
+        
+        courseQuerier.blockWithID(id: lastAccessedItem.lastVisitedBlockID).extendLifetimeUntilFirstResult { [weak self] block in
+            switch block.type {
+            case .Course, .Chapter, .Unit, .Section:
+                self?.tableController.hideLastAccessed()
+            default:
+                self?.tableController.showLastAccessedWithItem(item: lastAccessedItem)
+            }
+        } failure: { [weak self] _ in
+            self?.tableController.hideLastAccessed()
         }
     }
 }

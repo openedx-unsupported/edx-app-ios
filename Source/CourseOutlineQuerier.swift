@@ -273,6 +273,11 @@ public class CourseOutlineQuerier : NSObject {
     public func parentOfBlockWith(id blockID: CourseBlockID, type: CourseBlockType) -> OEXStream<CourseBlock> {
         loadOutlineIfNecessary()
         
+        if let block = blockWithID(id: blockID).firstSuccess().value, block.type == type {
+            // type of current block is the type which is passed as parameter
+            return OEXStream(error: NSError.oex_courseContentLoadError())
+        }
+                
         guard let parentBlockID = parentOfBlockWithID(blockID: blockID).firstSuccess().value else {
             return OEXStream(error: NSError.oex_courseContentLoadError())
         }

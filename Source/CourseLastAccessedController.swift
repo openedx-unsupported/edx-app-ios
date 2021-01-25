@@ -67,19 +67,18 @@ public class CourseLastAccessedController: NSObject {
         lastAccessedLoader.backWithStream(expandAccessStream(stream: lastAccessed, forMode : mode))
     }
     
-    private func markBlockAsComplete() {
-        guard let username = OEXSession.shared()?.currentUser?.username, let blockID = blockID else { return }
-        let networkRequest = UserAPI.setBlockCompletionRequest(username: username, courseID: courseID, blockID: blockID)
+    private func markBlockAsComplete(block: CourseBlock) {
+        guard let username = OEXSession.shared()?.currentUser?.username else { return }
+        let networkRequest = UserAPI.setBlockCompletionRequest(username: username, courseID: courseID, blockID: block.blockID)
         networkManager.taskForRequest(networkRequest) { _ in }
     }
     
-    public func saveLastAccessed() {
+    public func saveLastAccessed(block: CourseBlock) {
         if !canUpdateLastAccessed {
             return
         }
         
-        t_hasTriggeredSetLastAccessed = true
-        markBlockAsComplete()
+        markBlockAsComplete(block: block)
     }
 
     func addListener() {
@@ -107,6 +106,15 @@ public class CourseLastAccessedController: NSObject {
 
 extension CourseLastAccessedController {
 
+    public func t_saveLastAccess(item: CourseLastAccessed) {
+        lastAccessedProvider?.setLastAccessedBlock(with: item.lastVisitedBlockID, lastVisitedBlockName: item.lastVisitedBlockName, courseID: courseID, timeStamp: DateFormatting.serverString(withDate: NSDate()) ?? "")
+        t_hasTriggeredSetLastAccessed = true
+    }
+    
+    public func t_getLastAccessFor(courseID: String) -> CourseLastAccessed? {
+        return lastAccessedProvider?.getLastAccessedBlock(for: courseID)
+    }
+    
     public func t_canShowLastAccessed() -> Bool{
         return canShowLastAccessed
     }
