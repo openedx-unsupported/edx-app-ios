@@ -309,7 +309,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
     }
     
-    func resumeCourse(with item: CourseLastAccessed) {
+    private func resumeCourse(with item: CourseLastAccessed) {
         delegate?.outlineTableController(controller: self, lastAccess: item)
     }
     
