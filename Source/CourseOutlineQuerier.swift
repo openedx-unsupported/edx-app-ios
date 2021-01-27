@@ -269,9 +269,13 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    /// for value of CourseBlockType, expected papameters are Course, Chapter, Section or Unit to iterate recursive to find parent of that type
+    /// for value of CourseBlockType, expected parameters are Course, Chapter, Section or Unit to iterate recursively to find parent of that type
     public func parentOfBlockWith(id blockID: CourseBlockID, type: CourseBlockType) -> OEXStream<CourseBlock> {
         loadOutlineIfNecessary()
+        
+        guard type == .Course || type == .Chapter || type == .Section || type == .Unit else {
+            return OEXStream(error: NSError.oex_courseContentLoadError())
+        }
         
         if let block = blockWithID(id: blockID).firstSuccess().value, block.type == type {
             // type of current block is the type which is passed as parameter
