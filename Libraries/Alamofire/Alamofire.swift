@@ -79,7 +79,7 @@ public enum ParameterEncoding {
             return (urlRequest.urlRequest, nil)
         }
 
-        var mutableURLRequest: NSMutableURLRequest! = (urlRequest.urlRequest as NSURLRequest).mutableCopy() as? NSMutableURLRequest
+        let mutableURLRequest: NSMutableURLRequest! = (urlRequest.urlRequest as NSURLRequest).mutableCopy() as? NSMutableURLRequest
         var error: NSError? = nil
 
         switch self {
@@ -126,7 +126,7 @@ public enum ParameterEncoding {
             catch let e as NSError {
                 error = e
             }
-        case .propertyList(let (format, options)):
+        case .propertyList(let format, let options):
             do {
                 let data = try PropertyListSerialization.data(fromPropertyList: parameters!, format: format, options: options)
                 mutableURLRequest.setValue("application/x-plist", forHTTPHeaderField: "Content-Type")

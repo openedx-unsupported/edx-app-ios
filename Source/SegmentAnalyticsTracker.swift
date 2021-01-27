@@ -28,12 +28,12 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
             if let username = user?.username {
                 traits[key_username] = username as AnyObject
             }
-            SEGAnalytics.shared().identify(userID.description, traits:traits)
+            Analytics.shared().identify(userID.description, traits:traits)
         }
     }
     
     func clearIdentifiedUser() {
-        SEGAnalytics.shared().reset()
+        Analytics.shared().reset()
     }
     
     func trackEvent(_ event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : Any]) {
@@ -63,7 +63,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
             info[AnalyticsEventDataKey.UserID.rawValue] = userID
         }
         
-        SEGAnalytics.shared().track(event.displayName, properties: info)
+        Analytics.shared().track(event.displayName, properties: info)
     }
     
     func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
@@ -81,7 +81,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
             properties[AnalyticsEventDataKey.UserID.rawValue] = userID
         }
         
-        SEGAnalytics.shared().screen(screenName, properties: properties)
+        Analytics.shared().screen(screenName, properties: properties)
 
         // remove used id from properties because custom event will add it again
         if let _ = OEXSession.shared()?.currentUser?.userId {

@@ -1,1 +1,1 @@
-../../../Analytics/Analytics/Classes/Integrations/SEGPayload.h
+../../../Analytics/Segment/Classes/SEGPayload.h

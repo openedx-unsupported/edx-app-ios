@@ -16,19 +16,49 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <FBSDKCoreKit/FBSDKSettings.h>
+#if SWIFT_PACKAGE
+ #import "FBSDKSettings.h"
+#else
+ #import <FBSDKCoreKit/FBSDKSettings.h>
+#endif
 
-@protocol FBSDKAccessTokenCaching;
+#import "FBSDKCoreKit+Internal.h"
 
-@interface FBSDKSettings(Internal)
+#define DATA_PROCESSING_OPTIONS         @"data_processing_options"
+#define DATA_PROCESSING_OPTIONS_COUNTRY @"data_processing_options_country"
+#define DATA_PROCESSING_OPTIONS_STATE   @"data_processing_options_state"
 
-+ (NSObject<FBSDKAccessTokenCaching> *)accessTokenCache;
+@protocol FBSDKTokenCaching;
 
-+ (void)setAccessTokenCache:(NSObject<FBSDKAccessTokenCaching> *)accessTokenCache;
+@interface FBSDKSettings (Internal)
 
-@property (class, nonatomic, copy, readonly) NSString *graphAPIDebugParamValue;
++ (nullable NSObject<FBSDKTokenCaching> *)tokenCache;
+
++ (void)setTokenCache:(nullable NSObject<FBSDKTokenCaching> *)tokenCache;
+
++ (FBSDKAdvertisingTrackingStatus)getAdvertisingTrackingStatus;
+
++ (void)setAdvertiserTrackingStatus:(FBSDKAdvertisingTrackingStatus)status;
+
++ (nullable NSDictionary<NSString *, id> *)dataProcessingOptions;
+
++ (BOOL)isDataProcessingRestricted;
+
++ (void)recordInstall;
+
++ (void)recordSetAdvertiserTrackingEnabled;
+
++ (BOOL)isEventDelayTimerExpired;
+
++ (BOOL)isSetATETimeExceedsInstallTime;
+
++ (NSDate *_Nullable)getInstallTimestamp;
+
++ (NSDate *_Nullable)getSetAdvertiserTrackingEnabledTimestamp;
+
+@property (class, nullable, nonatomic, readonly, copy) NSString *graphAPIDebugParamValue;
 
 // used by Unity.
-@property (class, nonatomic, copy) NSString *userAgentSuffix;
+@property (class, nullable, nonatomic, copy) NSString *userAgentSuffix;
 
 @end

@@ -16,14 +16,20 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FBSDKCodelessParameterComponent.h"
+#import "TargetConditionals.h"
 
-#import "FBSDKCodelessMacros.h"
-#import "FBSDKCodelessPathComponent.h"
+#if !TARGET_OS_TV
+
+ #import "FBSDKCodelessParameterComponent.h"
+
+ #import "FBSDKCodelessPathComponent.h"
+ #import "FBSDKInternalUtility.h"
+ #import "FBSDKViewHierarchyMacros.h"
 
 @implementation FBSDKCodelessParameterComponent
 
-- (instancetype)initWithJSON:(NSDictionary *)dict {
+- (instancetype)initWithJSON:(NSDictionary *)dict
+{
   if (self = [super init]) {
     _name = [dict[CODELESS_MAPPING_PARAMETER_NAME_KEY] copy];
     _value = [dict[CODELESS_MAPPING_PARAMETER_VALUE_KEY] copy];
@@ -33,7 +39,7 @@
     NSMutableArray *mut = [NSMutableArray array];
     for (NSDictionary *info in ary) {
       FBSDKCodelessPathComponent *component = [[FBSDKCodelessPathComponent alloc] initWithJSON:info];
-      [mut addObject:component];
+      [FBSDKTypeUtility array:mut addObject:component];
     }
     _path = [mut copy];
   }
@@ -41,4 +47,34 @@
   return self;
 }
 
+- (BOOL)isEqualToParameter:(FBSDKCodelessParameterComponent *)parameter
+{
+  if (_path.count != parameter.path.count) {
+    return NO;
+  }
+
+  NSString *current = [NSString stringWithFormat:@"%@|%@|%@",
+                       _name ?: @"",
+                       _value ?: @"",
+                       _pathType ?: @""];
+  NSString *compared = [NSString stringWithFormat:@"%@|%@|%@",
+                        parameter.name ?: @"",
+                        parameter.value ?: @"",
+                        parameter.pathType ?: @""];
+
+  if (![current isEqualToString:compared]) {
+    return NO;
+  }
+
+  for (int i = 0; i < _path.count; i++) {
+    if (![[FBSDKTypeUtility array:_path objectAtIndex:i] isEqualToPath:[FBSDKTypeUtility array:parameter.path objectAtIndex:i]]) {
+      return NO;
+    }
+  }
+
+  return YES;
+}
+
 @end
+
+#endif

@@ -4,6 +4,8 @@
 [![Version](https://img.shields.io/cocoapods/v/Segment-google-analytics.svg?style=flat)](http://cocoapods.org/pods/Segment-googleanalytics)
 [![License](https://img.shields.io/cocoapods/l/Segment-google-analytics.svg?style=flat)](http://cocoapods.org/pods/Segment-googleanalytics)
 
+**WARNING**: This SDK has been deprecated. On September 17th, 2019 this repository will be archived as read-only and no longer actively maintained. [Google is sunsetting their Google Analytics mobile SDKs on October 31st.](https://support.google.com/firebase/answer/9167112?hl=en). Please [see our migration tutorial](https://segment.com/docs/destinations/google-analytics/#migrating-deprecated-google-analytics-mobile-sdks-to-firebase) to learn more about migrating to our Firebase SDKs for iOS. 
+
 Google Analytics integration for analytics-ios.
 
 ## Installation

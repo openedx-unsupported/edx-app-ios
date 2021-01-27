@@ -1,0 +1,6 @@
+
+framework module NewRelic {
+    umbrella header "Agent.h"
+    export *
+    module * { export * }
+}

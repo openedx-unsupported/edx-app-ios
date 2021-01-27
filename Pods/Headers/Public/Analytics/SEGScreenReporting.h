@@ -1,0 +1,1 @@
+../../../Analytics/Segment/Classes/SEGScreenReporting.h

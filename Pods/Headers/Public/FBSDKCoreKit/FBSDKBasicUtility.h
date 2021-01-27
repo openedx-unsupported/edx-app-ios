@@ -1,1 +1,1 @@
-../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/Basics/FBSDKBasicUtility.h
+../../../FBSDKCoreKit/Sources/FBSDKCoreKit_Basics/include/FBSDKBasicUtility.h

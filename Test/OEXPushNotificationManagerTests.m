@@ -33,7 +33,7 @@
     self.registered = true;
 }
 
-- (void)registerUserNotificationSettings:(UIUserNotificationSettings*)settings {
+- (void)registerUserNotificationSettings:(UNNotificationSettings*)settings {
     // Do nothing
 }
 

@@ -16,7 +16,11 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FBSDKAppLink_Internal.h"
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
+ #import "FBSDKAppLink_Internal.h"
 
 NSString *const FBSDKAppLinkDataParameterName = @"al_applink_data";
 NSString *const FBSDKAppLinkTargetKeyName = @"target_url";
@@ -34,7 +38,7 @@ NSString *const FBSDKAppLinkVersion = @"1.0";
 @property (nonatomic, copy) NSArray<FBSDKAppLinkTarget *> *targets;
 @property (nonatomic, strong) NSURL *webURL;
 
-@property (nonatomic, assign, getter=isBackToReferrer) BOOL backToReferrer;
+@property (nonatomic, getter = isBackToReferrer, assign) BOOL backToReferrer;
 
 @end
 
@@ -43,28 +47,33 @@ NSString *const FBSDKAppLinkVersion = @"1.0";
 + (instancetype)appLinkWithSourceURL:(NSURL *)sourceURL
                              targets:(NSArray<FBSDKAppLinkTarget *> *)targets
                               webURL:(NSURL *)webURL
-                    isBackToReferrer:(BOOL)isBackToReferrer {
-    FBSDKAppLink *link = [[self alloc] initWithIsBackToReferrer:isBackToReferrer];
-    link.sourceURL = sourceURL;
-    link.targets = [targets copy];
-    link.webURL = webURL;
-    return link;
+                    isBackToReferrer:(BOOL)isBackToReferrer
+{
+  FBSDKAppLink *link = [[self alloc] initWithIsBackToReferrer:isBackToReferrer];
+  link.sourceURL = sourceURL;
+  link.targets = [targets copy];
+  link.webURL = webURL;
+  return link;
 }
 
 + (instancetype)appLinkWithSourceURL:(NSURL *)sourceURL
                              targets:(NSArray<FBSDKAppLinkTarget *> *)targets
-                              webURL:(NSURL *)webURL {
-    return [self appLinkWithSourceURL:sourceURL
-                              targets:targets
-                               webURL:webURL
-                     isBackToReferrer:NO];
+                              webURL:(NSURL *)webURL
+{
+  return [self appLinkWithSourceURL:sourceURL
+                            targets:targets
+                             webURL:webURL
+                   isBackToReferrer:NO];
 }
 
-- (FBSDKAppLink *)initWithIsBackToReferrer:(BOOL)backToReferrer {
-    if ((self = [super init])) {
-        _backToReferrer = backToReferrer;
-    }
-    return self;
+- (FBSDKAppLink *)initWithIsBackToReferrer:(BOOL)backToReferrer
+{
+  if ((self = [super init])) {
+    _backToReferrer = backToReferrer;
+  }
+  return self;
 }
 
 @end
+
+#endif

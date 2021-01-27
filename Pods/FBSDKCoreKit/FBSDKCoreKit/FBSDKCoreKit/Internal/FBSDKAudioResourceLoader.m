@@ -16,11 +16,16 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FBSDKAudioResourceLoader.h"
+#import "TargetConditionals.h"
 
-#import "FBSDKDynamicFrameworkLoader.h"
-#import "FBSDKLogger.h"
-#import "FBSDKSettings.h"
+#if !TARGET_OS_TV
+
+ #import "FBSDKAudioResourceLoader.h"
+
+ #import "FBSDKDynamicFrameworkLoader.h"
+ #import "FBSDKInternalUtility.h"
+ #import "FBSDKLogger.h"
+ #import "FBSDKSettings.h"
 
 @implementation FBSDKAudioResourceLoader
 {
@@ -29,7 +34,7 @@
   SystemSoundID _systemSoundID;
 }
 
-#pragma mark - Class Methods
+ #pragma mark - Class Methods
 
 + (instancetype)sharedLoader
 {
@@ -47,7 +52,7 @@
       loader = [[self alloc] init];
       NSError *error = nil;
       if ([loader loadSound:&error]) {
-        _loaderCache[name] = loader;
+        [FBSDKTypeUtility dictionary:_loaderCache setObject:loader forKey:name];
       } else {
         [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
                            formatString:@"%@ error: %@", self, error];
@@ -58,7 +63,7 @@
   return loader;
 }
 
-#pragma mark - Object Lifecycle
+ #pragma mark - Object Lifecycle
 
 - (instancetype)init
 {
@@ -73,7 +78,7 @@
   fbsdkdfl_AudioServicesDisposeSystemSoundID(_systemSoundID);
 }
 
-#pragma mark - Public API
+ #pragma mark - Public API
 
 - (BOOL)loadSound:(NSError **)errorRef
 {
@@ -98,7 +103,7 @@
   fbsdkdfl_AudioServicesPlaySystemSound(_systemSoundID);
 }
 
-#pragma mark - Helper Methods
+ #pragma mark - Helper Methods
 
 - (NSURL *)_fileURL:(NSError **)errorRef
 {
@@ -131,7 +136,7 @@
 
 @implementation FBSDKAudioResourceLoader (Subclass)
 
-#pragma mark - Subclass Methods
+ #pragma mark - Subclass Methods
 
 + (NSString *)name
 {
@@ -149,3 +154,5 @@
 }
 
 @end
+
+#endif

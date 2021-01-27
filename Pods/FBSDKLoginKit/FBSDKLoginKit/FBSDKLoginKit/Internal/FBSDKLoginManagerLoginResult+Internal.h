@@ -16,11 +16,15 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "TargetConditionals.h"
 
-#import <FBSDKLoginKit/FBSDKLoginManagerLoginResult.h>
+#if !TARGET_OS_TV
 
-@interface FBSDKLoginManagerLoginResult()
+ #import <Foundation/Foundation.h>
+
+ #import "FBSDKLoginManagerLoginResult.h"
+
+@interface FBSDKLoginManagerLoginResult ()
 
 @property (nonatomic, readonly) NSDictionary *loggingExtras;
 
@@ -28,5 +32,7 @@
 @property (nonatomic, assign) BOOL isSkipped;
 
 // adds additional logging entry to extras - only sent as part of `endLoginWithResult:`
--(void)addLoggingExtra:(id)object forKey:(id<NSCopying>)key;
+- (void)addLoggingExtra:(id)object forKey:(id<NSCopying>)key;
 @end
+
+#endif

@@ -1,0 +1,6 @@
+module Pods_edX {
+  umbrella header "Pods-edX-umbrella.h"
+
+  export *
+  module * { export * }
+}
