@@ -383,16 +383,16 @@ extension CourseOutlineViewController: CourseLastAccessedControllerDelegate {
             return
         }
         
-        courseQuerier.blockWithID(id: lastAccessedItem.lastVisitedBlockID).extendLifetimeUntilFirstResult { [weak self] block in
+        courseQuerier.blockWithID(id: lastAccessedItem.lastVisitedBlockID).extendLifetimeUntilFirstResult(success: { [weak self] block in
             switch block.type {
             case .Course, .Chapter, .Unit, .Section:
                 self?.tableController.hideLastAccessed()
             default:
                 self?.tableController.showLastAccessedWithItem(item: lastAccessedItem)
             }
-        } failure: { [weak self] _ in
+        }, failure: {[weak self] _ in
             self?.tableController.hideLastAccessed()
-        }
+        })
     }
 }
 
