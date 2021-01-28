@@ -98,6 +98,7 @@
 		2212FD3D21D4BEA0007409C3 /* TermsOfServices.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2212FD3F21D4BEA0007409C3 /* TermsOfServices.htm */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
+		2227A3F825C1E9BA008CB570 /* CelebratoryModalViewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2227A3F725C1E9BA008CB570 /* CelebratoryModalViewAPI.swift */; };
 		222C39202167761F0038E388 /* DeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222C391F2167761F0038E388 /* DeepLinkTests.swift */; };
 		223895CF1F25CF76005B9C15 /* SwipeableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CB1F25CF76005B9C15 /* SwipeableCell.swift */; };
 		223895D01F25CF76005B9C15 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */; };
@@ -1097,6 +1098,7 @@
 		2212FD4021D4BEA2007409C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
+		2227A3F725C1E9BA008CB570 /* CelebratoryModalViewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebratoryModalViewAPI.swift; sourceTree = "<group>"; };
 		222C391F2167761F0038E388 /* DeepLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkTests.swift; sourceTree = "<group>"; };
 		223895CB1F25CF76005B9C15 /* SwipeableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeableCell.swift; sourceTree = "<group>"; };
 		223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
@@ -4156,6 +4158,7 @@
 				5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */,
 				5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */,
 				5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */,
+				2227A3F725C1E9BA008CB570 /* CelebratoryModalViewAPI.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -5292,6 +5295,7 @@
 				77D5F43F1C1F1C8F0079E228 /* OEXCourse+TestData.swift in Sources */,
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
 				1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */,
+				2227A3F825C1E9BA008CB570 /* CelebratoryModalViewAPI.swift in Sources */,
 				7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */,
 				77092C731B421BD0004AA1A1 /* ContainerNavigationController.swift in Sources */,
 				B7CCC73C209B16B100A66923 /* ConstraintLayoutGuide+Extensions.swift in Sources */,

@@ -286,7 +286,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     fileprivate func moveInDirection(direction : UIPageViewController.NavigationDirection) {
-        OEXRouter.shared().showCelebratoryModal(fromController: self)
+        OEXRouter.shared().showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
         return
         
         if let currentController = viewControllers?.first,

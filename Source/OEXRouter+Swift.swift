@@ -90,8 +90,8 @@ extension OEXRouter {
         }
     }
     
-    func showCelebratoryModal(fromController controller : UIViewController) {
-        let modalView = CelebratoryModalViewController()
+    func showCelebratoryModal(fromController controller : UIViewController, courseID: String) {
+        let modalView = CelebratoryModalViewController(courseID: courseID, environment: environment)
         modalView.modalPresentationStyle = .overCurrentContext
         modalView.modalTransitionStyle = .crossDissolve
         controller.present(modalView, animated: false, completion: nil)

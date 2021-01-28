@@ -9,9 +9,13 @@
 import UIKit
 
 class CelebratoryModalViewController: UIViewController {
+    
+    typealias Environment = NetworkManagerProvider
+    
+    private let environment: Environment
 
+    private var courseID: String
     private let modalView = UIView()
-    var clappingImage:UIImageView? = nil
     
     private lazy var congratulationImageView: UIImageView = {
         let gifImage = UIImage.gifImageWithName("CelebrateClaps")
@@ -52,6 +56,19 @@ class CelebratoryModalViewController: UIViewController {
     private lazy var buttonView = UIView()
     
     
+    init(courseID: String, environment: Environment) {
+        self.courseID = courseID
+        self.environment = environment
+        
+        super.init(nibName: nil, bundle: nil)
+
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -64,19 +81,21 @@ class CelebratoryModalViewController: UIViewController {
     func setupView() {
         modalView.backgroundColor = UIColor.white
         modalView.layer.cornerRadius = 10.0
-        let jeremyGif = UIImage.gifImageWithName("CelebrateClaps")
-        let imageView = UIImageView(image: jeremyGif)
-        imageView.frame = CGRect(x: 20.0, y: 50.0, width: self.view.frame.size.width - 40, height: 150.0)
-        clappingImage = imageView
-        //modalView.addSubview(imageView)
-
+        
         
         keepGoingButton.backgroundColor = OEXStyles.shared().primaryBaseColor()
         keepGoingButton.layer.cornerRadius = 20.0
         let buttonStyle = OEXMutableTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralWhiteT())
         keepGoingButton.setAttributedTitle(buttonStyle.attributedString(withText: "Keep going"), for: UIControl.State())
         keepGoingButton.oex_addAction({ [weak self] _ in
-            self?.dismiss(animated: false, completion: nil)
+            //self?.dismiss(animated: false, completion: nil)
+            
+            let networkRequest = CelebratoryModalViewAPI.celebratoryModalViewed(courseID: self?.courseID ?? "", isFirstSectionViewed: false)
+            self?.environment.networkManager.taskForRequest(networkRequest) { _ in }
+            
+//        let networkRequest = VideoCompletionApi.videoCompletion(username: username, courseID: courseID, blockID: blockID)
+//        environment.networkManager.taskForRequest(networkRequest) { _ in }
+            
         }, for: .touchUpInside)
         
         buttonView.backgroundColor = UIColor.gray
