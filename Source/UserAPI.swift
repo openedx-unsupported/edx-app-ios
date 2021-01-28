@@ -25,11 +25,11 @@ public struct UserAPI {
         }
 }
 
-    private static func lastAccessedDeserializer(response : HTTPURLResponse, json : JSON) -> Result<CourseLastAccessed> {
-        return CourseLastAccessed(json: json).toResult()
+    private static func resumeCourseDeserializer(response : HTTPURLResponse, json : JSON) -> Result<ResumeCourse> {
+        return ResumeCourse(json: json).toResult()
     }
     
-    public static func requestLastVisitedModuleForCourseID(courseID: String) -> NetworkRequest<CourseLastAccessed> {
+    public static func requestResumeCourseBlock(for courseID: String) -> NetworkRequest<ResumeCourse> {
         let paremeters = [
             "courseID": courseID,
             "username": OEXSession.shared()?.currentUser?.username ?? ""
@@ -38,18 +38,7 @@ public struct UserAPI {
             method: .GET,
             path : "/api/mobile/v1/users/{username}/course_status_info/{courseID}".oex_format(withParameters: paremeters),
             requiresAuth : true,
-            deserializer: .jsonResponse(lastAccessedDeserializer))
-    }
-    
-    public static func setLastVisitedModuleForBlockID(blockID:String, module_id:String) -> NetworkRequest<CourseLastAccessed> {
-        let requestParams = UserStatusParameters(courseVisitedModuleId: module_id)
-        
-        return NetworkRequest(
-            method: .PATCH,
-            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_format(withParameters: ["course_id" : blockID, "username": OEXSession.shared()?.currentUser?.username ?? ""]),
-            requiresAuth : true,
-            body : .jsonBody(requestParams.jsonBody),
-            deserializer: .jsonResponse(lastAccessedDeserializer))
+            deserializer: .jsonResponse(resumeCourseDeserializer))
     }
     
     private static func setBlockCompletionDeserializer(response : HTTPURLResponse) -> Result<()> {

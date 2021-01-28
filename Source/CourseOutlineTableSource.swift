@@ -13,7 +13,7 @@ private let lassAccessViewLandscapeHeight: CGFloat = 52
 
 protocol CourseOutlineTableControllerDelegate: class {
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID)
-    func outlineTableController(controller: CourseOutlineTableController, lastAccess item: CourseLastAccessed)
+    func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourse)
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block: CourseBlock)
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock)
     func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController)
@@ -35,10 +35,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let courseCard = CourseCardView(frame: .zero)
     private var courseCertificateView: CourseCertificateView?
     private let headerContainer = UIView()
-    private lazy var lastAccessedView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText: Strings.resumeCourse, subtitleText: "Placeholder")
+    private lazy var resumeCourseView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText: Strings.resumeCourse, subtitleText: "Placeholder")
     
     var courseVideosHeaderView: CourseVideosHeaderView?
-    private var lastAccess = false
+    private var isResumeCourse = false
     private var shouldHideTableViewHeader:Bool = false
     let refreshController = PullRefreshController()
     private var courseBlockID: CourseBlockID?
@@ -79,7 +79,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         headerContainer.accessibilityIdentifier = "CourseOutlineTableController:header-container"
         courseVideosHeaderView?.accessibilityIdentifier = "CourseOutlineTableController:course-videos-header-view"
         courseCertificateView?.accessibilityIdentifier = "CourseOutlineTableController:certificate-view"
-        lastAccessedView.accessibilityIdentifier = "CourseOutlineTableController:last-access-view"
+        resumeCourseView.accessibilityIdentifier = "CourseOutlineTableController:last-access-view"
         courseCard.accessibilityIdentifier = "CourseOutlineTableController:course-card"
     }
     
@@ -106,7 +106,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             courseDateBannerView.delegate = self
             headerContainer.addSubview(courseDateBannerView)
             headerContainer.addSubview(courseCard)
-            headerContainer.addSubview(lastAccessedView)
+            headerContainer.addSubview(resumeCourseView)
             addCertificateView()
             
             courseDateBannerView.snp.remakeConstraints { make in
@@ -135,7 +135,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 }
                 break
             }
-            refreshTableHeaderView(lastAccess: false)
+            refreshTableHeaderView(resumeCourse: false)
         }
     }
     
@@ -146,7 +146,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             headerContainer.addSubview(headerView)
         }
         
-        refreshTableHeaderView(lastAccess: false)
+        refreshTableHeaderView(resumeCourse: false)
     }
     
     func courseVideosHeaderViewTapped() {
@@ -191,7 +191,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
-        refreshTableHeaderView(lastAccess: lastAccess)
+        refreshTableHeaderView(resumeCourse: isResumeCourse)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -309,29 +309,29 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
     }
     
-    private func resumeCourse(with item: CourseLastAccessed) {
-        delegate?.outlineTableController(controller: self, lastAccess: item)
+    private func resumeCourse(with item: ResumeCourse) {
+        delegate?.outlineTableController(controller: self, resumeCourse: item)
     }
     
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
-    func showLastAccessedWithItem(item: CourseLastAccessed) {
+    func showResumeCourse(item: ResumeCourse) {
         if !item.lastVisitedBlockID.isEmpty {
             courseQuerier.blockWithID(id: item.lastVisitedBlockID).extendLifetimeUntilFirstResult (success: { [weak self] block in
-                self?.lastAccessedView.subtitleText = block.displayName
-                self?.lastAccessedView.setViewButtonAction { [weak self] _ in
+                self?.resumeCourseView.subtitleText = block.displayName
+                self?.resumeCourseView.setViewButtonAction { [weak self] _ in
                     self?.resumeCourse(with: item)
                 }
-                self?.refreshTableHeaderView(lastAccess: true)
+                self?.refreshTableHeaderView(resumeCourse: true)
             }, failure: { [weak self] _ in
-                self?.refreshTableHeaderView(lastAccess: false)
+                self?.refreshTableHeaderView(resumeCourse: false)
             })
         } else {
-            refreshTableHeaderView(lastAccess: false)
+            refreshTableHeaderView(resumeCourse: false)
         }
     }
     
-    func hideLastAccessed() {
-        refreshTableHeaderView(lastAccess: false)
+    func hideResumeCourse() {
+        refreshTableHeaderView(resumeCourse: false)
     }
     
     func hideTableHeaderView() {
@@ -400,20 +400,20 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             constraintView = courseCertificateView
         }
         
-        lastAccessedView.snp.remakeConstraints { make in
+        resumeCourseView.snp.remakeConstraints { make in
             make.trailing.equalTo(courseCard)
             make.leading.equalTo(courseCard)
             make.top.equalTo(constraintView.snp.bottom)
-            let height = lastAccess ? (isVerticallyCompact() ? lassAccessViewLandscapeHeight : lassAccessViewPortraitHeight) : 0
+            let height = isResumeCourse ? (isVerticallyCompact() ? lassAccessViewLandscapeHeight : lassAccessViewPortraitHeight) : 0
             make.height.equalTo(height)
             make.bottom.equalTo(headerContainer)
         }
         tableView.setAndLayoutTableHeaderView(header: headerContainer)
     }
     
-    private func refreshTableHeaderView(lastAccess: Bool) {
-        self.lastAccess = lastAccess
-        lastAccessedView.isHidden = !lastAccess
+    private func refreshTableHeaderView(resumeCourse: Bool) {
+        self.isResumeCourse = resumeCourse
+        resumeCourseView.isHidden = !resumeCourse
         
         switch courseOutlineMode {
         case .full:

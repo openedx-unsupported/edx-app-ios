@@ -8,16 +8,16 @@
 
 import Foundation
 
-extension OEXInterface: LastAccessedProvider {
+extension OEXInterface: ResumeCourseProvider {
     
-    public func getLastAccessedBlock(for courseID: String) -> CourseLastAccessed? {
-        guard let lastAccessedItem = storage?.lastAccessedData(forCourseID: courseID),
-              let blockID = lastAccessedItem.subsection_id,
-              let blockName = lastAccessedItem.subsection_name else { return  nil }
-        return CourseLastAccessed(lastVisitedBlockID: blockID, lastVisitedBlockName: blockName)
+    public func getResumeCourseBlock(for courseID: String) -> ResumeCourse? {
+        guard let resumeCourseItem = storage?.lastAccessedData(forCourseID: courseID),
+              let blockID = resumeCourseItem.subsection_id,
+              let blockName = resumeCourseItem.subsection_name else { return  nil }
+        return ResumeCourse(lastVisitedBlockID: blockID, lastVisitedBlockName: blockName)
     }
     
-    @objc public func setLastAccessedBlock(with lastVisitedBlockID: String, lastVisitedBlockName: String, courseID: String?, timeStamp: String) {
+    @objc public func setResumeCourseBlock(with lastVisitedBlockID: String, lastVisitedBlockName: String, courseID: String?, timeStamp: String) {
         storage?.setLastAccessedSubsection(lastVisitedBlockID, andSubsectionName: lastVisitedBlockName, forCourseID: courseID, onTimeStamp: timeStamp)
     }
     

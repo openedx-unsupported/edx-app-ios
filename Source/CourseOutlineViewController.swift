@@ -38,11 +38,11 @@ public class CourseOutlineViewController :
 
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
-    private var lastAccessedController : CourseLastAccessedController
+    private var resumeCourseController : ResumeCoursseController
     private(set) var courseOutlineMode: CourseOutlineMode
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
-    fileprivate var t_hasTriggeredSetLastAccessed = false
+    fileprivate var t_hasTriggeredSetResumeCourse = false
     
     public var blockID : CourseBlockID? {
         return blockIDStream.value ?? nil
@@ -61,12 +61,12 @@ public class CourseOutlineViewController :
         insetsController = ContentInsetsController()
         courseOutlineMode = mode ?? .full
         tableController = CourseOutlineTableController(environment: environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: rootID)
-        lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
+        resumeCourseController = ResumeCoursseController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
         addObserver()
-        lastAccessedController.delegate = self
+        resumeCourseController.delegate = self
         
         addChild(tableController)
         tableController.didMove(toParent: self)
@@ -99,7 +99,7 @@ public class CourseOutlineViewController :
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
+        resumeCourseController.loadResumeCourse(forMode: courseOutlineMode)
         loadCourseStream()
         
         if courseOutlineMode == .video {
@@ -363,10 +363,10 @@ public class CourseOutlineViewController :
         reload()
     }
     
-    private func saveLastAccessed(block: CourseBlock) {
+    private func saveResumeCourse(block: CourseBlock) {
         switch block.displayType {
         case .Discussion:
-            lastAccessedController.saveLastAccessed(block: block)
+            resumeCourseController.saveResumeCourse(block: block)
             break
             
         default:
@@ -375,23 +375,23 @@ public class CourseOutlineViewController :
     }
 }
 
-//MARK: LastAccessedControllerDeleagte
-extension CourseOutlineViewController: CourseLastAccessedControllerDelegate {
-    public func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
-        guard let lastAccessedItem = item, !lastAccessedItem.lastVisitedBlockID.isEmpty else {
-            tableController.hideLastAccessed()
+//MARK: ResumeCourseControllerDelegate
+extension CourseOutlineViewController: ResumeCourseControllerDelegate {
+    public func resumeCourseControllerDidFetchResumeCourseItem(item: ResumeCourse?) {
+        guard let resumeCourseItem = item, !resumeCourseItem.lastVisitedBlockID.isEmpty else {
+            tableController.hideResumeCourse()
             return
         }
         
-        courseQuerier.blockWithID(id: lastAccessedItem.lastVisitedBlockID).extendLifetimeUntilFirstResult(success: { [weak self] block in
+        courseQuerier.blockWithID(id: resumeCourseItem.lastVisitedBlockID).extendLifetimeUntilFirstResult(success: { [weak self] block in
             switch block.type {
             case .Course, .Chapter, .Unit, .Section:
-                self?.tableController.hideLastAccessed()
+                self?.tableController.hideResumeCourse()
             default:
-                self?.tableController.showLastAccessedWithItem(item: lastAccessedItem)
+                self?.tableController.showResumeCourse(item: resumeCourseItem)
             }
         }, failure: {[weak self] _ in
-            self?.tableController.hideLastAccessed()
+            self?.tableController.hideResumeCourse()
         })
     }
 }
@@ -428,7 +428,7 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
         }
     }
     
-    func outlineTableController(controller: CourseOutlineTableController, lastAccess item: CourseLastAccessed) {
+    func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourse) {
         guard let childBlock = courseQuerier.blockWithID(id: item.lastVisitedBlockID).firstSuccess().value,
               let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
               let sectionBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Section).firstSuccess().value,
@@ -438,13 +438,13 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
         }
         
         environment.router?.navigateToComponentScreen(from: self, courseID: courseID, childBlock: childBlock, unitBlock: unitBlock, sectionBlock: sectionBlock, chapterBlock: chapterBlock) { [weak self] _ in
-            self?.saveLastAccessed(block: childBlock)
+            self?.saveResumeCourse(block: childBlock)
         }
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID) {
         environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode) { [weak self] _ in
-            self?.saveLastAccessed(block: block)
+            self?.saveResumeCourse(block: block)
         }
     }
     
@@ -465,14 +465,14 @@ extension CourseOutlineViewController {
         return tableController.groups.count
     }
     
-    public func t_populateLastAccessedItem(item : CourseLastAccessed) -> Bool {
-        tableController.showLastAccessedWithItem(item: item)
+    public func t_populateResumeCourseItem(item : ResumeCourse) -> Bool {
+        tableController.showResumeCourse(item: item)
         return tableController.tableView.tableHeaderView != nil
         
     }
     
-    public func t_didTriggerSetLastAccessed() -> Bool {
-        return t_hasTriggeredSetLastAccessed
+    public func t_didTriggerSetResumeCourse() -> Bool {
+        return t_hasTriggeredSetResumeCourse
     }
     
     public func t_tableView() -> UITableView {
