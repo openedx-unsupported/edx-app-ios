@@ -76,6 +76,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 @property (nonatomic, copy) NSString* subscription_id;
 @property (nonatomic, copy) NSString* number;
 @property (nonatomic, copy) NSString* effort;
+@property (nonatomic) Boolean isSelfPaced;
 @property (nonatomic, copy) NSString* short_description;
 @property (nonatomic, copy) NSString* overview_html;
 @property (nonatomic, copy) NSString* course_updates;         //  ANNOUNCEMENTS
@@ -109,6 +110,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         self.root_block_usage_key = [info objectForKey:@"root_block_usage_key"];
         self.number = [info objectForKey:@"number"];
         self.effort = [info objectForKey:@"effort"];
+        self.isSelfPaced = [[info objectForKey:@"is_self_paced"] boolValue];
         self.short_description = [info objectForKey:@"short_description"];
         self.overview_html = [info objectForKey:@"overview"];
         self.course_updates = [info objectForKey:@"course_updates"];

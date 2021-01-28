@@ -140,9 +140,26 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseDateBannerLoader.backWithStream(courseBannerStream)
         
         courseBannerStream.listen(self) { [weak self] result in
+            guard let weakSelf = self else { return }
+            
             switch result {
             case .success(let courseBanner):
-                self?.loadCourseDateBannerView(bannerModel: courseBanner)
+                
+                if let isSelfPaced = weakSelf.environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: weakSelf.courseID)?.course.isSelfPaced {
+                    
+                    if isSelfPaced {
+                        weakSelf.loadCourseDateBannerView(bannerModel: courseBanner)
+                    } else {
+                        if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
+                            weakSelf.loadCourseDateBannerView(bannerModel: courseBanner)
+                        } else {
+                            weakSelf.showHideBanner(height: 0)
+                        }
+                    }
+                } else {
+                    weakSelf.showHideBanner(height: 0)
+                }
+                
                 break
                 
             case .failure(let error):
@@ -164,6 +181,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
         }
         
+        showHideBanner(height: height)
+    }
+    
+    private func showHideBanner(height: CGFloat) {
         courseDateBannerView.snp.remakeConstraints { make in
             make.trailing.equalTo(tableView)
             make.leading.equalTo(tableView)

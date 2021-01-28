@@ -188,9 +188,24 @@ public class CourseOutlineViewController :
         courseDateBannerLoader.backWithStream(courseBannerStream)
         
         courseBannerStream.listen(self) { [weak self] result in
+            guard let weakSelf = self else { return }
+            
             switch result {
             case .success(let courseBanner):
-                self?.loadCourseDateBannerView(courseBanner: courseBanner)
+                if let isSelfPaced = weakSelf.environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: weakSelf.courseID)?.course.isSelfPaced {
+                    if isSelfPaced {
+                        self?.loadCourseDateBannerView(courseBanner: courseBanner)
+                    } else {
+                        if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
+                            self?.loadCourseDateBannerView(courseBanner: courseBanner)
+                        } else {
+                            self?.hideCourseBannerView()
+                        }
+                    }
+                } else {
+                    self?.tableController.hideCourseDateBanner()
+                }
+                
                 break
                 
             case .failure(let error):
