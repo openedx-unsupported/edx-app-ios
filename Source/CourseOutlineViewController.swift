@@ -190,13 +190,30 @@ public class CourseOutlineViewController :
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.loadCourseDateBannerView(courseBanner: courseBanner)
+                self?.handleDatesBanner(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
                 self?.hideCourseBannerView()
                 Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
                 break
+            }
+        }
+    }
+    
+    private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
+        guard let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced else {
+            hideCourseBannerView()
+            return
+        }
+        
+        if isSelfPaced {
+            loadCourseDateBannerView(courseBanner: courseBanner)
+        } else {
+            if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
+                loadCourseDateBannerView(courseBanner: courseBanner)
+            } else {
+                hideCourseBannerView()
             }
         }
     }

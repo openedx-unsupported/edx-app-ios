@@ -142,12 +142,29 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.loadCourseDateBannerView(bannerModel: courseBanner)
+                self?.handleDatesBanner(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
                 Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
                 break
+            }
+        }
+    }
+    
+    private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
+        guard let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced else {
+            updateDatesBannerVisibility(with: 0)
+            return
+        }
+        
+        if isSelfPaced {
+            loadCourseDateBannerView(bannerModel: courseBanner)
+        } else {
+            if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
+                loadCourseDateBannerView(bannerModel: courseBanner)
+            } else {
+                updateDatesBannerVisibility(with: 0)
             }
         }
     }
@@ -164,6 +181,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
         }
         
+        updateDatesBannerVisibility(with: height)
+    }
+    
+    private func updateDatesBannerVisibility(with height: CGFloat) {
         courseDateBannerView.snp.remakeConstraints { make in
             make.trailing.equalTo(tableView)
             make.leading.equalTo(tableView)
