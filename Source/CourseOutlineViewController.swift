@@ -203,7 +203,7 @@ public class CourseOutlineViewController :
                         }
                     }
                 } else {
-                    self?.tableController.hideCourseDateBanner()
+                    self?.hideCourseBannerView()
                 }
                 
                 break
