@@ -8,8 +8,8 @@
 
 import UIKit
 
-private let lassAccessViewPortraitHeight: CGFloat = 72
-private let lassAccessViewLandscapeHeight: CGFloat = 52
+private let resumeCourseViewPortraitHeight: CGFloat = 72
+private let resumeCourseViewLandscapeHeight: CGFloat = 52
 
 protocol CourseOutlineTableControllerDelegate: class {
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID)
@@ -404,7 +404,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             make.trailing.equalTo(courseCard)
             make.leading.equalTo(courseCard)
             make.top.equalTo(constraintView.snp.bottom)
-            let height = isResumeCourse ? (isVerticallyCompact() ? lassAccessViewLandscapeHeight : lassAccessViewPortraitHeight) : 0
+            let height = isResumeCourse ? (isVerticallyCompact() ? resumeCourseViewLandscapeHeight : resumeCourseViewPortraitHeight) : 0
             make.height.equalTo(height)
             make.bottom.equalTo(headerContainer)
         }
