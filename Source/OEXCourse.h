@@ -69,8 +69,7 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @property (readonly, nonatomic, assign) BOOL isStartDateOld;
 @property (readonly, nonatomic, assign) BOOL isEndDateOld;
 @property (readonly, nonatomic, assign) BOOL isAuditExpired;
-
-
+@property (readonly, nonatomic) BOOL isSelfPaced;
 
 @end
 
