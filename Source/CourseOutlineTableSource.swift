@@ -184,6 +184,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        updateViewConstraints()
     }
     
     override func updateViewConstraints() {
