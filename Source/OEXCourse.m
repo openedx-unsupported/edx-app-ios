@@ -76,7 +76,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 @property (nonatomic, copy) NSString* subscription_id;
 @property (nonatomic, copy) NSString* number;
 @property (nonatomic, copy) NSString* effort;
-@property (nonatomic) Boolean isSelfPaced;
+@property (nonatomic) BOOL isSelfPaced;
 @property (nonatomic, copy) NSString* short_description;
 @property (nonatomic, copy) NSString* overview_html;
 @property (nonatomic, copy) NSString* course_updates;         //  ANNOUNCEMENTS
