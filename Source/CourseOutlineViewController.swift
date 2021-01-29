@@ -188,30 +188,32 @@ public class CourseOutlineViewController :
         courseDateBannerLoader.backWithStream(courseBannerStream)
         
         courseBannerStream.listen(self) { [weak self] result in
-            guard let weakSelf = self else { return }
-            
             switch result {
             case .success(let courseBanner):
-                if let isSelfPaced = weakSelf.environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: weakSelf.courseID)?.course.isSelfPaced {
-                    if isSelfPaced {
-                        self?.loadCourseDateBannerView(courseBanner: courseBanner)
-                    } else {
-                        if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
-                            self?.loadCourseDateBannerView(courseBanner: courseBanner)
-                        } else {
-                            self?.hideCourseBannerView()
-                        }
-                    }
-                } else {
-                    self?.hideCourseBannerView()
-                }
-                
+                self?.handleCourseBanner(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
                 self?.hideCourseBannerView()
                 Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
                 break
+            }
+        }
+    }
+    
+    private func handleCourseBanner(courseBanner: CourseDateBannerModel) {
+        guard let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced else {
+            hideCourseBannerView()
+            return
+        }
+        
+        if isSelfPaced {
+            loadCourseDateBannerView(courseBanner: courseBanner)
+        } else {
+            if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
+                loadCourseDateBannerView(courseBanner: courseBanner)
+            } else {
+                hideCourseBannerView()
             }
         }
     }

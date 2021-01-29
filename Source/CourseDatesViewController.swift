@@ -140,31 +140,31 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseDateBannerLoader.backWithStream(courseBannerStream)
         
         courseBannerStream.listen(self) { [weak self] result in
-            guard let weakSelf = self else { return }
-            
             switch result {
             case .success(let courseBanner):
-                
-                if let isSelfPaced = weakSelf.environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: weakSelf.courseID)?.course.isSelfPaced {
-                    
-                    if isSelfPaced {
-                        weakSelf.loadCourseDateBannerView(bannerModel: courseBanner)
-                    } else {
-                        if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
-                            weakSelf.loadCourseDateBannerView(bannerModel: courseBanner)
-                        } else {
-                            weakSelf.showHideBanner(height: 0)
-                        }
-                    }
-                } else {
-                    weakSelf.showHideBanner(height: 0)
-                }
-                
+                self?.handleCourseBanner(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
                 Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
                 break
+            }
+        }
+    }
+    
+    private func handleCourseBanner(courseBanner: CourseDateBannerModel) {
+        guard let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced else {
+            showHideBanner(height: 0)
+            return
+        }
+        
+        if isSelfPaced {
+            loadCourseDateBannerView(bannerModel: courseBanner)
+        } else {
+            if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
+                loadCourseDateBannerView(bannerModel: courseBanner)
+            } else {
+                showHideBanner(height: 0)
             }
         }
     }
