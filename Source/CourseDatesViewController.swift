@@ -154,7 +154,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
         guard let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced else {
-            updateDatesBannerVisibility(height: 0)
+            updateDatesBannerVisibility(with: 0)
             return
         }
         
@@ -164,7 +164,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
                 loadCourseDateBannerView(bannerModel: courseBanner)
             } else {
-                updateDatesBannerVisibility(height: 0)
+                updateDatesBannerVisibility(with: 0)
             }
         }
     }
@@ -181,10 +181,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
         }
         
-        updateDatesBannerVisibility(height: height)
+        updateDatesBannerVisibility(with: height)
     }
     
-    private func updateDatesBannerVisibility(height: CGFloat) {
+    private func updateDatesBannerVisibility(with height: CGFloat) {
         courseDateBannerView.snp.remakeConstraints { make in
             make.trailing.equalTo(tableView)
             make.leading.equalTo(tableView)
