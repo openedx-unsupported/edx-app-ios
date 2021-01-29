@@ -142,7 +142,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.handleCourseBanner(courseBanner: courseBanner)
+                self?.handleDatesBanner(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
@@ -152,7 +152,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func handleCourseBanner(courseBanner: CourseDateBannerModel) {
+    private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
         guard let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced else {
             showHideBanner(height: 0)
             return
