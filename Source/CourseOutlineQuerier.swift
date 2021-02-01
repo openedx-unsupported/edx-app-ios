@@ -295,6 +295,7 @@ public class CourseOutlineQuerier : NSObject {
         return value.type == type ? blockStream : parentOfBlockWith(id: value.blockID, type: type)
     }
     
+    /// parentOfBlockWith  returns Stream containing CourseBlock
     public func parentOfBlockWith(id blockID: CourseBlockID) -> OEXStream<CourseBlock> {
         loadOutlineIfNecessary()
         
@@ -307,6 +308,7 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
+    /// parentOfBlockWithID returns Stream containing CourseBlockID
     public func parentOfBlockWithID(blockID: CourseBlockID) -> OEXStream<CourseBlockID?> {
         loadOutlineIfNecessary()
         
