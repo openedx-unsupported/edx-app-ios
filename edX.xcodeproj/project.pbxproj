@@ -5903,7 +5903,6 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
 					"$(PROJECT_DIR)/Libraries/Cast",
-					"$(PROJECT_DIR)/MSAL",
 					"$(PROJECT_DIR)/Libraries/MSAL",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -6403,7 +6402,6 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
 					"$(PROJECT_DIR)/Libraries/Cast",
-					"$(PROJECT_DIR)/MSAL",
 					"$(PROJECT_DIR)/Libraries/MSAL",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6490,7 +6488,6 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
 					"$(PROJECT_DIR)/Libraries/Cast",
-					"$(PROJECT_DIR)/MSAL",
 					"$(PROJECT_DIR)/Libraries/MSAL",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
