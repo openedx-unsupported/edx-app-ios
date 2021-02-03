@@ -182,15 +182,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
     }
     
-//    override func viewWillLayoutSubviews() {
-//        super.viewWillLayoutSubviews()
-//        updateViewConstraints()
-//    }
-//    
-//    override func updateViewConstraints() {
-//        super.updateViewConstraints()
-//        refreshTableHeaderView(lastAccess: lastAccess)
-//    }
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        refreshTableHeaderView(lastAccess: lastAccess)
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return groups.count

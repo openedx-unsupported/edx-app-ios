@@ -10,7 +10,7 @@ pod 'Analytics', '= 4.1.2'
 pod 'Segment-GoogleAnalytics', '= 1.3.2'
 pod 'DateTools', '= 2.0.0'
 pod 'GoogleSignIn', '~> 5.0.2'
-pod 'Masonry'
+pod 'Masonry', '= 1.1.0'
 pod 'NewRelicAgent', '= 7.2.1'
 pod 'FBSDKCoreKit', '= 9.0.0'
 pod 'FBSDKLoginKit', '= 9.0.0'
@@ -34,11 +34,6 @@ end
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
-#      puts "#{target.name}"
-#        for i in 0..target.headers_build_phase.files.length - 1
-#            build_file = target.headers_build_phase.files[i]
-#            build_file.settings = { 'ATTRIBUTES' => ['Public']}
-#        end
         target.build_configurations.each do |config|
             config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
             config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
