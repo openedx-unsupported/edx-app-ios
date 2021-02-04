@@ -1,5 +1,5 @@
 //
-//  ResumeCourse.swift
+//  ResumeCourseItem.swift
 //  edX
 //
 //  Created by Ehmad Zubair Chughtai on 11/06/2015.
@@ -9,7 +9,7 @@
 import Foundation
 import edXCore
 
-public struct ResumeCourse {
+public struct ResumeCourseItem {
     public var lastVisitedBlockID: String = ""
     public var lastVisitedBlockName: String = ""
     

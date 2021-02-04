@@ -25,11 +25,11 @@ public struct UserAPI {
         }
 }
 
-    private static func resumeCourseDeserializer(response : HTTPURLResponse, json : JSON) -> Result<ResumeCourse> {
-        return ResumeCourse(json: json).toResult()
+    private static func resumeCourseDeserializer(response : HTTPURLResponse, json : JSON) -> Result<ResumeCourseItem> {
+        return ResumeCourseItem(json: json).toResult()
     }
     
-    public static func requestResumeCourseBlock(for courseID: String) -> NetworkRequest<ResumeCourse> {
+    public static func requestResumeCourseBlock(for courseID: String) -> NetworkRequest<ResumeCourseItem> {
         let paremeters = [
             "courseID": courseID,
             "username": OEXSession.shared()?.currentUser?.username ?? ""
@@ -39,29 +39,5 @@ public struct UserAPI {
             path : "/api/mobile/v1/users/{username}/course_status_info/{courseID}".oex_format(withParameters: paremeters),
             requiresAuth : true,
             deserializer: .jsonResponse(resumeCourseDeserializer))
-    }
-    
-    private static func setBlockCompletionDeserializer(response : HTTPURLResponse) -> Result<()> {
-        guard response.httpStatusCode.is2xx else {
-            return Failure()
-        }
-
-        return Success(v: ())
-    }
-
-    public static func setBlockCompletionRequest(username: String, courseID: String, blockID: String) -> NetworkRequest<()> {
-        let body = RequestBody.jsonBody(JSON([
-            "username": username,
-            "course_key": courseID,
-            "blocks" : [ blockID: 1.0]
-            ]))
-
-        return NetworkRequest(
-            method: .POST,
-            path: "/api/completion/v1/completion-batch",
-            requiresAuth: true,
-            body: body,
-            deserializer: .noContent(setBlockCompletionDeserializer)
-        )
     }
 }

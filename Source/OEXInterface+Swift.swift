@@ -10,11 +10,11 @@ import Foundation
 
 extension OEXInterface: ResumeCourseProvider {
     
-    public func getResumeCourseBlock(for courseID: String) -> ResumeCourse? {
+    public func getResumeCourseBlock(for courseID: String) -> ResumeCourseItem? {
         guard let resumeCourseItem = storage?.lastAccessedData(forCourseID: courseID),
               let blockID = resumeCourseItem.subsection_id,
               let blockName = resumeCourseItem.subsection_name else { return  nil }
-        return ResumeCourse(lastVisitedBlockID: blockID, lastVisitedBlockName: blockName)
+        return ResumeCourseItem(lastVisitedBlockID: blockID, lastVisitedBlockName: blockName)
     }
     
     @objc public func setResumeCourseBlock(with lastVisitedBlockID: String, lastVisitedBlockName: String, courseID: String?, timeStamp: String) {

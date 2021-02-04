@@ -15,7 +15,7 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
     var outline : CourseOutline!
     var router : OEXRouter!
     var environment : TestRouterEnvironment!
-    let lastAccessedItem = CourseOutlineTestDataFactory.knownResumeCourseItem
+    let resumeCourseItem = CourseOutlineTestDataFactory.resumeCourseItem
     let networkManager = MockNetworkManager(baseURL: URL(string: "www.example.com")!)
     
     override func setUp() {

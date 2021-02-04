@@ -10,16 +10,16 @@ import UIKit
 
 public class MockResumeCourseProvider: ResumeCourseProvider {
    
-    private var mockResumeCourseItem: ResumeCourse?
+    private var mockResumeCourseItem: ResumeCourseItem?
     
     public init() { }
     
-    public func getResumeCourseBlock(for courseID: String) -> ResumeCourse? {
+    public func getResumeCourseBlock(for courseID: String) -> ResumeCourseItem? {
         return mockResumeCourseItem
     }
     
     public func setResumeCourseBlock(with lastVisitedBlockID: String, lastVisitedBlockName: String, courseID: String?, timeStamp: String) {
-        mockResumeCourseItem = ResumeCourse(lastVisitedBlockID: lastVisitedBlockID, lastVisitedBlockName: lastVisitedBlockName)
+        mockResumeCourseItem = ResumeCourseItem(lastVisitedBlockID: lastVisitedBlockID, lastVisitedBlockName: lastVisitedBlockName)
     }
     
     public func resetResumeCourseItem() {

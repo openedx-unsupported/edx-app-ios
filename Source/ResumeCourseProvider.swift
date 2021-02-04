@@ -9,6 +9,6 @@
 import UIKit
 
 public protocol ResumeCourseProvider: class {
-    func getResumeCourseBlock(for courseID: String) -> ResumeCourse?
+    func getResumeCourseBlock(for courseID: String) -> ResumeCourseItem?
     func setResumeCourseBlock(with lastVisitedBlockID: String, lastVisitedBlockName: String, courseID: String?, timeStamp: String)
 }

@@ -1,5 +1,5 @@
 //
-//  VideoCompletionApi.swift
+//  BlockCompletionApi.swift
 //  edX
 //
 //  Created by Saeed Bashir on 7/17/18.
@@ -8,9 +8,9 @@
 
 import Foundation
 
-public struct VideoCompletionApi {
+public struct BlockCompletionApi {
 
-    private static func videoCompletionDeserializer(response : HTTPURLResponse) -> Result<()> {
+    private static func blockCompletionDeserializer(response : HTTPURLResponse) -> Result<()> {
         guard response.httpStatusCode.is2xx else {
             return Failure()
         }
@@ -18,7 +18,7 @@ public struct VideoCompletionApi {
         return Success(v: ())
     }
 
-    public static func videoCompletion(username: String, courseID: String, blockID: String) -> NetworkRequest<()> {
+    public static func blockCompletionRequest(username: String, courseID: String, blockID: String) -> NetworkRequest<()> {
         let body = RequestBody.jsonBody(JSON([
             "username": username,
             "course_key": courseID,
@@ -30,7 +30,7 @@ public struct VideoCompletionApi {
             path: "/api/completion/v1/completion-batch",
             requiresAuth: true,
             body: body,
-            deserializer: .noContent(videoCompletionDeserializer)
+            deserializer: .noContent(blockCompletionDeserializer)
         )
     }
 }

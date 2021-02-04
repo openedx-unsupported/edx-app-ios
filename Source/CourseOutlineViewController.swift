@@ -38,7 +38,7 @@ public class CourseOutlineViewController :
 
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
-    private var resumeCourseController : ResumeCoursseController
+    private var resumeCourseController : ResumeCourseController
     private(set) var courseOutlineMode: CourseOutlineMode
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
@@ -61,7 +61,7 @@ public class CourseOutlineViewController :
         insetsController = ContentInsetsController()
         courseOutlineMode = mode ?? .full
         tableController = CourseOutlineTableController(environment: environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: rootID)
-        resumeCourseController = ResumeCoursseController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
+        resumeCourseController = ResumeCourseController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
@@ -362,22 +362,11 @@ public class CourseOutlineViewController :
     func loadStateViewReload() {
         reload()
     }
-    
-    private func saveResumeCourse(block: CourseBlock) {
-        switch block.displayType {
-        case .Discussion:
-            resumeCourseController.saveResumeCourse(block: block)
-            break
-            
-        default:
-            break
-        }
-    }
 }
 
 //MARK: ResumeCourseControllerDelegate
 extension CourseOutlineViewController: ResumeCourseControllerDelegate {
-    public func resumeCourseControllerDidFetchResumeCourseItem(item: ResumeCourse?) {
+    public func resumeCourseControllerDidFetchResumeCourseItem(item: ResumeCourseItem?) {
         guard let resumeCourseItem = item, !resumeCourseItem.lastVisitedBlockID.isEmpty else {
             tableController.hideResumeCourse()
             return
@@ -428,7 +417,7 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
         }
     }
     
-    func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourse) {
+    func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourseItem) {
         guard let childBlock = courseQuerier.blockWithID(id: item.lastVisitedBlockID).firstSuccess().value,
               let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
               let sectionBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Section).firstSuccess().value,
@@ -437,15 +426,11 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
             return
         }
         
-        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, childBlock: childBlock, unitBlock: unitBlock, sectionBlock: sectionBlock, chapterBlock: chapterBlock) { [weak self] _ in
-            self?.saveResumeCourse(block: childBlock)
-        }
+        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, childBlock: childBlock, unitBlock: unitBlock, sectionBlock: sectionBlock, chapterBlock: chapterBlock)
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID) {
-        environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode) { [weak self] _ in
-            self?.saveResumeCourse(block: block)
-        }
+        environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode)
     }
     
     func outlineTableControllerReload(controller: CourseOutlineTableController) {
@@ -465,7 +450,7 @@ extension CourseOutlineViewController {
         return tableController.groups.count
     }
     
-    public func t_populateResumeCourseItem(item : ResumeCourse) -> Bool {
+    public func t_populateResumeCourseItem(item : ResumeCourseItem) -> Bool {
         tableController.showResumeCourse(item: item)
         return tableController.tableView.tableHeaderView != nil
         

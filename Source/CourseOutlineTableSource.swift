@@ -13,7 +13,7 @@ private let resumeCourseViewLandscapeHeight: CGFloat = 52
 
 protocol CourseOutlineTableControllerDelegate: class {
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID)
-    func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourse)
+    func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourseItem)
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block: CourseBlock)
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock)
     func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController)
@@ -79,7 +79,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         headerContainer.accessibilityIdentifier = "CourseOutlineTableController:header-container"
         courseVideosHeaderView?.accessibilityIdentifier = "CourseOutlineTableController:course-videos-header-view"
         courseCertificateView?.accessibilityIdentifier = "CourseOutlineTableController:certificate-view"
-        resumeCourseView.accessibilityIdentifier = "CourseOutlineTableController:last-access-view"
+        resumeCourseView.accessibilityIdentifier = "CourseOutlineTableController:resume-course-view"
         courseCard.accessibilityIdentifier = "CourseOutlineTableController:course-card"
     }
     
@@ -135,7 +135,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 }
                 break
             }
-            refreshTableHeaderView(resumeCourse: false)
+            refreshTableHeaderView(isResumeCourse: false)
         }
     }
     
@@ -146,7 +146,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             headerContainer.addSubview(headerView)
         }
         
-        refreshTableHeaderView(resumeCourse: false)
+        refreshTableHeaderView(isResumeCourse: false)
     }
     
     func courseVideosHeaderViewTapped() {
@@ -191,7 +191,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
-        refreshTableHeaderView(resumeCourse: isResumeCourse)
+        refreshTableHeaderView(isResumeCourse: isResumeCourse)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -309,29 +309,29 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
     }
     
-    private func resumeCourse(with item: ResumeCourse) {
+    private func resumeCourse(with item: ResumeCourseItem) {
         delegate?.outlineTableController(controller: self, resumeCourse: item)
     }
     
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
-    func showResumeCourse(item: ResumeCourse) {
+    func showResumeCourse(item: ResumeCourseItem) {
         if !item.lastVisitedBlockID.isEmpty {
             courseQuerier.blockWithID(id: item.lastVisitedBlockID).extendLifetimeUntilFirstResult (success: { [weak self] block in
                 self?.resumeCourseView.subtitleText = block.displayName
                 self?.resumeCourseView.setViewButtonAction { [weak self] _ in
                     self?.resumeCourse(with: item)
                 }
-                self?.refreshTableHeaderView(resumeCourse: true)
+                self?.refreshTableHeaderView(isResumeCourse: true)
             }, failure: { [weak self] _ in
-                self?.refreshTableHeaderView(resumeCourse: false)
+                self?.refreshTableHeaderView(isResumeCourse: false)
             })
         } else {
-            refreshTableHeaderView(resumeCourse: false)
+            refreshTableHeaderView(isResumeCourse: false)
         }
     }
     
     func hideResumeCourse() {
-        refreshTableHeaderView(resumeCourse: false)
+        refreshTableHeaderView(isResumeCourse: false)
     }
     
     func hideTableHeaderView() {
@@ -411,9 +411,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.setAndLayoutTableHeaderView(header: headerContainer)
     }
     
-    private func refreshTableHeaderView(resumeCourse: Bool) {
-        self.isResumeCourse = resumeCourse
-        resumeCourseView.isHidden = !resumeCourse
+    private func refreshTableHeaderView(isResumeCourse: Bool) {
+        self.isResumeCourse = isResumeCourse
+        resumeCourseView.isHidden = !isResumeCourse
         
         switch courseOutlineMode {
         case .full:

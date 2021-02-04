@@ -18,8 +18,8 @@ class ResumeCourseBlockTests: XCTestCase {
         
         let json = JSON(resourceNamed : "CourseStatusInfo")
         
-        if let lastAccessed = ResumeCourse(json : json) {
-            let passingCondition = lastAccessed.lastVisitedBlockID == "i4x://edX/DemoX/html/6018785795994726950614ce7d0f38c5"
+        if let resumeCourseItem = ResumeCourseItem(json : json) {
+            let passingCondition = resumeCourseItem.lastVisitedBlockID == "i4x://edX/DemoX/html/6018785795994726950614ce7d0f38c5"
             XCTAssertTrue(passingCondition, "Parsing Failed")
         }
     }

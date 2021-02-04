@@ -1,5 +1,5 @@
 //
-//  ResumeCoursseController.swift
+//  ResumeCourseController.swift
 //  edX
 //
 //  Created by Ehmad Zubair Chughtai on 03/07/2015.
@@ -9,12 +9,12 @@
 import UIKit
 
 public protocol ResumeCourseControllerDelegate : class {
-    func resumeCourseControllerDidFetchResumeCourseItem(item : ResumeCourse?)
+    func resumeCourseControllerDidFetchResumeCourseItem(item : ResumeCourseItem?)
 }
 
-public class ResumeCoursseController: NSObject {
+public class ResumeCourseController: NSObject {
    
-    private let resumeCourseLoader = BackedStream<(CourseBlock, ResumeCourse)>()
+    private let resumeCourseLoader = BackedStream<(CourseBlock, ResumeCourseItem)>()
     private let blockID : CourseBlockID?
     private let dataManager : DataManager
     private let networkManager : NetworkManager
@@ -59,28 +59,14 @@ public class ResumeCoursseController: NSObject {
         }
                 
         if let firstLoad = resumeCourseProvider?.getResumeCourseBlock(for: courseID) {
-            let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad), forMode : mode)
+            let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad), forMode: mode)
             resumeCourseLoader.backWithStream(blockStream)
         }
         let request = UserAPI.requestResumeCourseBlock(for: courseID)
         let resumeCourse = networkManager.streamForRequest(request)
-        resumeCourseLoader.backWithStream(expandAccessStream(stream: resumeCourse, forMode : mode))
+        resumeCourseLoader.backWithStream(expandAccessStream(stream: resumeCourse, forMode: mode))
     }
     
-    private func markBlockAsComplete(block: CourseBlock) {
-        guard let username = OEXSession.shared()?.currentUser?.username else { return }
-        let networkRequest = UserAPI.setBlockCompletionRequest(username: username, courseID: courseID, blockID: block.blockID)
-        networkManager.taskForRequest(networkRequest) { _ in }
-    }
-    
-    public func saveResumeCourse(block: CourseBlock) {
-        if !canUpdateResumeCourse {
-            return
-        }
-        
-        markBlockAsComplete(block: block)
-    }
-
     func addListener() {
         resumeCourseLoader.listen(self) { [weak self] info in
             switch info {
@@ -97,21 +83,21 @@ public class ResumeCoursseController: NSObject {
         }
     }
 
-    private func expandAccessStream(stream: OEXStream<ResumeCourse>, forMode mode: CourseOutlineMode = .full) -> OEXStream<(CourseBlock, ResumeCourse)> {
+    private func expandAccessStream(stream: OEXStream<ResumeCourseItem>, forMode mode: CourseOutlineMode = .full) -> OEXStream<(CourseBlock, ResumeCourseItem)> {
         return stream.transform { [weak self] resumeCourse in
             return joinStreams((self?.courseQuerier.blockWithID(id: resumeCourse.lastVisitedBlockID, mode: mode)) ?? OEXStream<CourseBlock>(), OEXStream(value: resumeCourse))
         }
     }
 }
 
-extension ResumeCoursseController {
+extension ResumeCourseController {
 
-    public func t_saveResumeCourse(item: ResumeCourse) {
+    public func t_saveResumeCourse(item: ResumeCourseItem) {
         resumeCourseProvider?.setResumeCourseBlock(with: item.lastVisitedBlockID, lastVisitedBlockName: item.lastVisitedBlockName, courseID: courseID, timeStamp: DateFormatting.serverString(withDate: NSDate()) ?? "")
         t_hasTriggeredSetResumeCourse = true
     }
     
-    public func t_getResumeCourseFor(courseID: String) -> ResumeCourse? {
+    public func t_getResumeCourseFor(courseID: String) -> ResumeCourseItem? {
         return resumeCourseProvider?.getResumeCourseBlock(for: courseID)
     }
     

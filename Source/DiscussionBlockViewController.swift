@@ -35,12 +35,9 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
-        addChild(postsController)
-        postsController.didMove(toParent: self)
-        
-        view.addSubview(postsController.view)
+        setupView()
+        markBlockAsComplete()
     }
     
     override func updateViewConstraints() {
@@ -53,5 +50,19 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
             let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
             make.bottom.equalTo(safeBottom).offset(-barHeight)
         }
+    }
+    
+    private func setupView() {
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        addChild(postsController)
+        postsController.didMove(toParent: self)
+        view.addSubview(postsController.view)
+    }
+    
+    private func markBlockAsComplete() {
+        guard let blockID = blockID,
+              let username = OEXSession.shared()?.currentUser?.username else { return }
+        let networkRequest = BlockCompletionApi.blockCompletionRequest(username: username, courseID: courseID, blockID: blockID)
+        environment.networkManager.taskForRequest(networkRequest) { _ in }
     }
 }
