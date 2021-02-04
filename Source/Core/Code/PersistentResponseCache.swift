@@ -118,7 +118,6 @@ open class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverD
         unarchiver?.delegate = self
         unarchiver?.requiresSecureCoding = false
         let result = unarchiver?.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? ResponseCacheEntry
-        print(result.debugDescription)
         return result
     }
     

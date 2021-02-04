@@ -1,10 +1,10 @@
-////
-////  MicrosoftSocial.swift
-////  edX
-////
-////  Created by Salman on 07/08/2018.
-////  Copyright © 2018 edX. All rights reserved.
-////
+//
+//  MicrosoftSocial.swift
+//  edX
+//
+//  Created by Salman on 07/08/2018.
+//  Copyright © 2018 edX. All rights reserved.
+//
 //
 import UIKit
 import MSAL
