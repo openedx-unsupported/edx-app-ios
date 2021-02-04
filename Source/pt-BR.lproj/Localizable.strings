@@ -587,7 +587,7 @@
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "Último acesso";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "Resume Course";
+"RESUME_COURSE" = "Retomar curso";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Assinar e começar a aprender";
 /* Prompt leading user to sign in screen */

@@ -587,7 +587,7 @@
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "Son Erişim";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "Resume Course";
+"RESUME_COURSE" = "Kursu Devam Ettir";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Üye ol ve öğrenmeye başla";
 /* Prompt leading user to sign in screen */

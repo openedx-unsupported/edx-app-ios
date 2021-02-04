@@ -575,7 +575,7 @@
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "Lần truy cập cuối";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "Resume Course";
+"RESUME_COURSE" = "Tiếp tục khóa học";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Đăng ký và bắt đầu học";
 /* Prompt leading user to sign in screen */

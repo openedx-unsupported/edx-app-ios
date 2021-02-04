@@ -575,7 +575,7 @@
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "上次访问";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "Resume Course";
+"RESUME_COURSE" = "简历课程";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="注册并开始学习";
 /* Prompt leading user to sign in screen */

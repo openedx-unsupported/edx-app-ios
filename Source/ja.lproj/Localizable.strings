@@ -575,7 +575,7 @@
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "最新アクセス";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "Resume Course";
+"RESUME_COURSE" = "コース再開";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="登録申込をして学習を始める";
 /* Prompt leading user to sign in screen */
