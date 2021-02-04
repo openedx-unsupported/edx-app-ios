@@ -10,8 +10,8 @@
 @import FirebaseAnalytics;
 @import GoogleCast;
 @import NewRelic;
+@import FBSDKCoreKit;
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <Analytics/SEGAnalytics.h>
 #import <Branch/Branch.h>
