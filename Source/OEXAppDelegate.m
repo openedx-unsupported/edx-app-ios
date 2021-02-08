@@ -11,7 +11,7 @@
 @import GoogleCast;
 @import NewRelic;
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+@import FBSDKCoreKit;
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <Analytics/SEGAnalytics.h>
 #import <Branch/Branch.h>
