@@ -37,6 +37,10 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
         super.viewDidLoad()
         
         setupView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         markBlockAsComplete()
     }
     
