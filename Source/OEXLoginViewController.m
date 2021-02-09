@@ -422,6 +422,9 @@
         else if (httpResp.statusCode == OEXHTTPStatusCode403Forbidden && self.authProvider != nil) {
             [self showDisabledUserMessage];
         }
+        else if (httpResp.statusCode == OEXHTTPStatusCode429TooManyRequests && self.authProvider != nil) {
+            [self showDisabledUserMessage];
+        }
         else if(httpResp.statusCode >= 400 && httpResp.statusCode < 500) {
                 [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
         }
