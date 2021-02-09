@@ -374,7 +374,7 @@ extension CourseOutlineViewController: ResumeCourseControllerDelegate {
         
         courseQuerier.blockWithID(id: resumeCourseItem.lastVisitedBlockID).extendLifetimeUntilFirstResult(success: { [weak self] block in
             switch block.type {
-            case .Course, .Chapter, .Unit, .Section, .Unknown:
+            case .Course, .Chapter, .Unit, .Section:
                 self?.tableController.hideResumeCourse()
             default:
                 self?.tableController.showResumeCourse(item: resumeCourseItem)
