@@ -311,6 +311,20 @@ extension CourseDashboardViewController {
 
 extension UITabBarController {
     
+    var currentVisibleController: UIViewController? {
+        guard let viewControllers = viewControllers else {
+            return nil
+        }
+        
+        for (index, controller) in viewControllers.enumerated() {
+            if index == selectedIndex {
+                return controller
+            }
+        }
+        
+        return nil
+    }
+    
     func tabBarViewControllerIndex(with controller: AnyClass, courseOutlineMode: CourseOutlineMode? = .full) -> Int {
         guard let viewControllers = viewControllers else {
             return 0

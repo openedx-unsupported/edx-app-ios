@@ -159,6 +159,15 @@ extension OEXRouter {
         }
     }
     
+    func showCourseOutlineForComponent(from controller: UIViewController, componentID: String) {
+        if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
+            dashboardController.switchTab(with: .courseDashboard)
+            if let outlineController = dashboardController.currentVisibleController as? CourseOutlineViewController {
+                outlineController.navigateToComponentScreen(componentID: componentID)
+            }
+        }
+    }
+    
     // MARK: Deep Linking
     //Method can be use to navigate on particular tab of course dashboard with deep link type
     func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController) {
