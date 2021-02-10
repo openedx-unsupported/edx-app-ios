@@ -40,13 +40,13 @@
     },
     {
               "name" : "language_proficiencies",
-              "label" : "Primary language",
+              "label" : "Langue parlée",
               "type" : "select",
               "data_type" : "language",
               "options" : {
                 "reference" : "languages",
                 "allows_none" : true,
-                "none_label" : "No primary language"
+                "none_label" : "Pas de langue parlée"
               }
     },
     {
