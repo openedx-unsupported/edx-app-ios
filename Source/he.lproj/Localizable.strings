@@ -606,6 +606,8 @@
 "LARGE_DOWNLOAD_TITLE"="הורדה גדולה";
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "כניסה אחרונה";
+/* Title for Course Item for resuming course */
+"RESUME_COURSE" = "קורס קורות חיים";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="הירשם והתחל ללמוד";
 /* Prompt leading user to sign in screen */

@@ -94,9 +94,10 @@ extension UINavigationController {
     struct AssociatedKeys {
         static var completionHandler = "completionHandletObject"
     }
-    typealias Completion = ()->Void
     
-    var completionHandler:Completion {
+    typealias Completion = () -> Void
+    
+    var completionHandler: Completion {
         get {
             guard let value = objc_getAssociatedObject(self, &AssociatedKeys.completionHandler) as? Completion else { return {} }
             return value
@@ -112,6 +113,28 @@ extension UINavigationController {
     }
 }
 
+/// https://stackoverflow.com/a/33767837
+/// https://iganin.hatenablog.com/entry/2019/07/27/172911
+extension UINavigationController {
+    public typealias CompletionWithTopController = (UIViewController) -> Void
+    
+    public func pushViewController(_ viewController: UIViewController, animated: Bool, completion: UINavigationController.CompletionWithTopController? = nil) {
+        pushViewController(viewController, animated: animated)
+        guard animated, let coordinator = transitionCoordinator else {
+            DispatchQueue.main.async { [weak self] in
+                if let visibleController = self?.visibleViewController {
+                    completion?(visibleController)
+                }
+            }
+            return
+        }
+        coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+            if let visibleController = self?.visibleViewController {
+                completion?(visibleController)
+            }
+        }
+    }
+}
 
 extension ForwardingNavigationController {
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {

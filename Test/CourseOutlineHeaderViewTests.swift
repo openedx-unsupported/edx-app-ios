@@ -12,7 +12,7 @@ import Foundation
 class CourseOutlineHeaderViewTests : SnapshotTestCase {
     
     func testHeaderInfoView() {
-        let headerInfoView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles(), titleText: Strings.lastAccessed, subtitleText : "This is a very long subtitle which should not overlap the button")
+        let headerInfoView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles(), titleText: Strings.resumeCourse, subtitleText : "This is a very long subtitle which should not overlap the button")
         
         let size = headerInfoView.systemLayoutSizeFitting(self.screenSize)
         // Using 380 to make sure that the subtitle truncates

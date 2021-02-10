@@ -76,8 +76,6 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 #define NOTIFICATION_VALUE_URL_STATUS_FAILED @"Falied"
 #define NOTIFICATION_VALUE_URL_STATUS_SUCCESS @"Success"
 
-#define NOTIFICATION_VALUE_URL_LASTACCESSED @"LastAccessedURL"
-
 // Closed Captioning
 #define CC_TRANSCRIPT_OBJECT @"TranscriptObject"
 #define CC_SELECTED_INDEX @"SelectedIndex"

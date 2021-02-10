@@ -1,5 +1,5 @@
 //
-//  CourseLastAccessedTests.swift
+//  ResumeCourseBlockTests.swift
 //  edX
 //
 //  Created by Ehmad Zubair Chughtai on 17/06/2015.
@@ -12,17 +12,15 @@ import XCTest
 import edXCore
 import edX
 
-class CourseLastAccessedTests: XCTestCase {
+class ResumeCourseBlockTests: XCTestCase {
 
     func testExample() {
         
         let json = JSON(resourceNamed : "CourseStatusInfo")
         
-        if let lastAccessed = CourseLastAccessed(json : json) {
-        
-        let passingCondition = lastAccessed.moduleId == "i4x://edX/DemoX/html/6018785795994726950614ce7d0f38c5" && lastAccessed.modulePath.count == 5
+        if let resumeCourseItem = ResumeCourseItem(json : json) {
+            let passingCondition = resumeCourseItem.lastVisitedBlockID == "i4x://edX/DemoX/html/6018785795994726950614ce7d0f38c5"
             XCTAssertTrue(passingCondition, "Parsing Failed")
         }
-        
     }
 }

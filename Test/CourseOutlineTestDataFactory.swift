@@ -44,7 +44,7 @@ open class CourseOutlineTestDataFactory {
     }
     
 
-    static let knownLastAccessedItem = CourseLastAccessed(moduleId: "unit2", moduleName: "unit2")
+    static let resumeCourseItem = ResumeCourseItem(lastVisitedBlockID: "block2", lastVisitedBlockName: "Block 2")
     static let knownParentIDWithMultipleChildren = "unit2"
     static let knownSection = "section1.1"
     static let knownEmptySection = "section2.1"
