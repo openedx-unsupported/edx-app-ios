@@ -9,7 +9,14 @@
 import UIKit
 
 public struct CelebratoryModalViewAPI {
-
+    
+    private static func celebratoryModalViewStatusDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseCelebrationModel> {
+        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {
+            return Success(v: CourseCelebrationModel(json: json))
+        }
+        return Failure()
+    }
+    
     private static func celebratoryModalViewDeserializer(response : HTTPURLResponse) -> Result<()> {
         guard response.httpStatusCode.is2xx else {
             return Failure()
@@ -18,10 +25,10 @@ public struct CelebratoryModalViewAPI {
         return Success(v: ())
     }
 
-    public static func celebratoryModalViewed(courseID: String, isFirstSectionViewed: Bool) -> NetworkRequest<()> {
+     static func celebratoryModalViewed(username: String, courseID: String, isFirstSectionViewed: Bool) -> NetworkRequest<()> {
         let body = RequestBody.jsonBody(JSON([
-            "first_section": isFirstSectionViewed,
-            ]))
+        "first_section": isFirstSectionViewed,
+        ]))
 
         return NetworkRequest(
             method: .POST,
@@ -29,6 +36,15 @@ public struct CelebratoryModalViewAPI {
             requiresAuth: true,
             body: body,
             deserializer: .noContent(celebratoryModalViewDeserializer)
+        )
+    }
+    
+    static func celebrationModalViewedStatus(courseID: String) -> NetworkRequest<CourseCelebrationModel> {
+        return NetworkRequest(
+            method: .GET,
+            path: "/api/courseware/course/\(courseID)",
+            requiresAuth: true,
+            deserializer: .jsonResponse(celebratoryModalViewStatusDeserializer)
         )
     }
 }

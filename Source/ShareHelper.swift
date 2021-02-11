@@ -18,6 +18,33 @@ func shareHashtaggedTextAndALink(textBuilder: @escaping (_ hashtagOrPlatform: St
     return controllerWithItems(items: items, analyticsCallback: analyticsCallback)
 }
 
+func shareHashtaggedTextAndALinka(textBuilder: @escaping (_ hashtagOrPlatform: String) -> String, url: NSURL, utmParams:CourseShareUtmParameters, analyticsCallback:((String) -> Void)?) -> UIActivityViewController {
+    
+    let completionHandler: (UIActivity.ActivityType?) -> () = { activityType in
+      if let type = activityType {
+        var analyticsType: String = "other"
+        if type == UIActivity.ActivityType.postToFacebook {
+            analyticsType = "facebook"
+        }
+        else if type == UIActivity.ActivityType.postToTwitter {
+              analyticsType = "twitter"
+        }
+            
+        else if type == UIActivity.ActivityType.mail {
+            analyticsType = "email"
+        }
+            
+        else if type.rawValue == ActivityType.linkedin.rawValue {
+            analyticsType = "linkedin"
+        }
+        analyticsCallback?(analyticsType)
+      }
+    }
+    
+    let items = [PlatformHashTag(textBuilder: textBuilder), CourseShareURL(url: url, utmParams: utmParams)]
+    return controllerWithItems(items: items, completionHandler: completionHandler)
+}
+
 private func controllerWithItems(items: [AnyObject], analyticsCallback:((String) -> Void)?) -> UIActivityViewController{
     let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
     controller.excludedActivityTypes = [UIActivity.ActivityType.assignToContact, UIActivity.ActivityType.print, UIActivity.ActivityType.saveToCameraRoll]
@@ -38,6 +65,19 @@ private func controllerWithItems(items: [AnyObject], analyticsCallback:((String)
     return controller
 
 }
+
+private func controllerWithItems(items: [AnyObject], completionHandler:((UIActivity.ActivityType) -> Void)?) -> UIActivityViewController{
+    let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
+    controller.excludedActivityTypes = [UIActivity.ActivityType.assignToContact, UIActivity.ActivityType.print, UIActivity.ActivityType.saveToCameraRoll]
+    controller.completionWithItemsHandler = {activityType, completed, _, error in
+        if let type = activityType, completed {
+            completionHandler?(type)
+        }
+    }
+    return controller
+
+}
+
 
 private class PlatformHashTag: NSObject, UIActivityItemSource {
 
@@ -87,6 +127,14 @@ private class CourseShareURL: NSObject, UIActivityItemSource {
             shareURL = String(format:"%@?%@",courseShareURL, utmParams)
         }
         else if activityType == UIActivity.ActivityType.postToTwitter, let utmParams = courseShareUtmParams.twitter{
+            shareURL = String(format:"%@?%@",courseShareURL, utmParams)
+        }
+            
+        else if activityType == UIActivity.ActivityType.mail, let utmParams = courseShareUtmParams.mail {
+            shareURL = String(format:"%@?%@",courseShareURL, utmParams)
+        }
+            
+        else if activityType?.rawValue == ActivityType.linkedin.rawValue, let utmParams = courseShareUtmParams.linkedin {
             shareURL = String(format:"%@?%@",courseShareURL, utmParams)
         }
         

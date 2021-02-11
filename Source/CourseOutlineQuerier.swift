@@ -42,6 +42,7 @@ public class CourseOutlineQuerier : NSObject {
     private let networkManager : NetworkManager?
     private let session : OEXSession?
     private let courseOutline : BackedStream<CourseOutline> = BackedStream()
+    let courseCelebrationModalStream = BackedStream<(CourseCelebrationModel)>()
     public var needsRefresh : Bool = false
     
     
@@ -123,6 +124,10 @@ public class CourseOutlineQuerier : NSObject {
                 if let loader = networkManager?.streamForRequest(request, persistResponse: true) {
                     courseOutline.backWithStream(loader)
                 }
+            }
+            let courseCelebrationModalRequest = CelebratoryModalViewAPI.celebrationModalViewedStatus(courseID: courseID)
+            if let celebrationModalStream = networkManager?.streamForRequest(courseCelebrationModalRequest) {
+                courseCelebrationModalStream.backWithStream(celebrationModalStream)
             }
         }
     }

@@ -37,6 +37,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return courseQuerier.courseID
     }
     
+    var isCelebratoryEnable: Bool? = false
+    
     private var openURLButtonItem : UIBarButtonItem?
     
     fileprivate var contentLoader = BackedStream<ListCursor<CourseOutlineQuerier.GroupItem>>()
@@ -144,6 +146,17 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
              self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
             }
         )
+        
+        courseQuerier.courseCelebrationModalStream.listen(self) { [weak self] (result) in
+            switch result {
+            case .success(let courseCelebrationModel) :
+                    self?.isCelebratoryEnable = courseCelebrationModel.fistSection
+                break
+            case .failure(let error):
+                Logger.logError("CelebratoryModal", "Unable to load celebratory modal: \(error.localizedDescription)")
+                break
+            }
+        }
     }
     
     private func addObservers() {
@@ -286,15 +299,28 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     fileprivate func moveInDirection(direction : UIPageViewController.NavigationDirection) {
-        OEXRouter.shared().showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
-        return
-        
         if let currentController = viewControllers?.first,
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
                 self?.updateTransitionState(is: false)
+                //if self?.isCelebratoryEnable ?? true {
+                    self?.ShowCelebratoryModa(direction: direction)
+                //}
             })
+        }
+    }
+    
+    private func ShowCelebratoryModa(direction:UIPageViewController.NavigationDirection) {
+        if direction == .forward {
+            let cursor = contentLoader.value
+            let currentItem = cursor?.current
+            let prevItem = cursor?.peekPrev()
+            if prevItem != nil && currentItem?.prevGroup != nil {
+                if currentItem?.parent != prevItem?.parent {
+                    OEXRouter.shared().showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
+                }
+            }
         }
     }
     

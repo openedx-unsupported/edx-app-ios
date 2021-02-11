@@ -153,6 +153,7 @@
 		22B58A502566C734007664FC /* ValuePropDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
 		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
+		22CF27D025D3CC87008D5F7A /* CourseCelebrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF27CF25D3CC87008D5F7A /* CourseCelebrationModel.swift */; };
 		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
 		22D9BE5621945B4300FE1EB5 /* UIApplication+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */; };
 		22DACEEE20E270A2007AD5D5 /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22DACEED20E270A1007AD5D5 /* test-movie.mp4 */; };
@@ -1188,6 +1189,7 @@
 		22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropDetailViewController.swift; sourceTree = "<group>"; };
 		22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardLoadStateViewController.swift; sourceTree = "<group>"; };
 		22B85A33203EEE1E0071AD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		22CF27CF25D3CC87008D5F7A /* CourseCelebrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCelebrationModel.swift; sourceTree = "<group>"; };
 		22D73B5C1ED575C000220280 /* course-dates.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "course-dates.js"; sourceTree = "<group>"; };
 		22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+UIViewController.swift"; sourceTree = "<group>"; };
 		22DACEED20E270A1007AD5D5 /* test-movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = "test-movie.mp4"; path = "Data/test-movie.mp4"; sourceTree = "<group>"; };
@@ -3140,6 +3142,7 @@
 				228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */,
 				5F0248C524AC9ED8000AF1FF /* CourseDates.swift */,
 				5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */,
+				22CF27CF25D3CC87008D5F7A /* CourseCelebrationModel.swift */,
 			);
 			name = "Course Structure";
 			sourceTree = "<group>";
@@ -5399,6 +5402,7 @@
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */,
+				22CF27D025D3CC87008D5F7A /* CourseCelebrationModel.swift in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,
 				220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
