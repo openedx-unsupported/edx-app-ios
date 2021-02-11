@@ -435,7 +435,7 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     }
     
     func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourseItem) {
-        navigateToComponentScreen(componentID: item.lastVisitedBlockID)
+        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: item.lastVisitedBlockID)
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID) {
@@ -445,18 +445,6 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     func outlineTableControllerReload(controller: CourseOutlineTableController) {
         courseQuerier.needsRefresh = true
         reload()
-    }
-    
-    func navigateToComponentScreen(componentID: String) {
-        guard let childBlock = courseQuerier.blockWithID(id: componentID).firstSuccess().value,
-              let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
-              let sectionBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Section).firstSuccess().value,
-              let chapterBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Chapter).firstSuccess().value else {
-            Logger.logError("ANALYTICS", "Unable to load block: \(componentID)")
-            return
-        }
-        
-        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, childBlock: childBlock, unitBlock: unitBlock, sectionBlock: sectionBlock, chapterBlock: chapterBlock)
     }
 }
 

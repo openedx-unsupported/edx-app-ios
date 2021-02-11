@@ -64,10 +64,29 @@ extension OEXRouter {
         return contentPageController
     }
     
-    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, childBlock: CourseBlock, unitBlock: CourseBlock, sectionBlock: CourseBlock, chapterBlock: CourseBlock, completion: UINavigationController.CompletionWithTopController? = nil) {
-
-        showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: controller) { [weak self] visibleController in
-            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: completion)
+    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID) {
+        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
+        guard let childBlock = courseQuerier.blockWithID(id: componentID).firstSuccess().value,
+              let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
+              let sectionBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Section).firstSuccess().value,
+              let chapterBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Chapter).firstSuccess().value else {
+            Logger.logError("ANALYTICS", "Unable to load block: \(componentID)")
+            return
+        }
+        
+        var outlineViewController: UIViewController
+        
+        if controller is CourseOutlineViewController {
+            outlineViewController = controller
+        } else {
+            guard let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController else { return }
+            dashboardController.switchTab(with: .courseDashboard)
+            guard let outlineController = dashboardController.currentVisibleController as? CourseOutlineViewController else { return }
+            outlineViewController = outlineController
+        }
+        
+        showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: outlineViewController) { [weak self] visibleController in
+            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: nil)
         }
     }
     
@@ -156,15 +175,6 @@ extension OEXRouter {
         } else if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
             controller.navigationController?.popToViewController(dashboardController, animated: false)
             dashboardController.switchTab(with: .courseDates)
-        }
-    }
-    
-    func showCourseOutlineForComponent(from controller: UIViewController, componentID: String) {
-        if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
-            dashboardController.switchTab(with: .courseDashboard)
-            if let outlineController = dashboardController.currentVisibleController as? CourseOutlineViewController {
-                outlineController.navigateToComponentScreen(componentID: componentID)
-            }
         }
     }
     

@@ -352,7 +352,7 @@ extension CourseDatesViewController: PullRefreshControllerDelegate {
 
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLink(with url: URL) {
-        environment.router?.showCourseOutlineForComponent(from: self, componentID: url.URLString)
+        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: url.URLString)
     }
     
     func didSetDueNext(with index: Int) {
