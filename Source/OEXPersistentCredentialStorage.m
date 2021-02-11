@@ -92,7 +92,9 @@
     if(SecItemCopyMatching((__bridge CFDictionaryRef)keychainQuery, (CFTypeRef*)&keyData) == noErr) {
         // TODO: Replace this with code that doesn't raise and swallow exceptions
         @try {
-            ret = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSString class] fromData:(__bridge NSData*)keyData error:nil];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:(__bridge NSData*)keyData error:nil];
+            unarchiver.requiresSecureCoding = NO;
+            ret = [unarchiver decodeObjectOfClass:[NSString class] forKey:NSKeyedArchiveRootObjectKey];
         }
         @catch(NSException* e) {
             OEXLogInfo(@"STORAGE", @"Unarchive of %@ failed: %@", service, e);
