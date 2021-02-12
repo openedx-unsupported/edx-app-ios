@@ -305,6 +305,7 @@ struct CourseDateBlock {
     var dateString: String = ""
     var userTimeZone: String?
     var preferenceTimeZone: String?
+    var componentExistsInCourse: Bool = false
     
     var today: Date {
         return Date().stripTimeStamp(timeZone: timeZone)
@@ -468,7 +469,7 @@ fileprivate extension Date {
     }
 }
 
-fileprivate extension Array {
+extension Array {
     mutating func modifyForEach(_ body: (_ element: inout Element) -> ()) {
         for index in indices {
             modifyElement(atIndex: index) { body(&$0) }

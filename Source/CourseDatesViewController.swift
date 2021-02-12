@@ -219,6 +219,15 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             blocks.append(contentsOf: future)
         }
         
+        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
+        blocks.modifyForEach { block in
+            if let _ = courseQuerier.blockWithID(id: block.firstComponentBlockID).firstSuccess().value {
+                block.componentExistsInCourse = true
+            } else {
+                block.componentExistsInCourse = false
+            }
+        }
+        
         for block in blocks {
             let key = block.blockDate
             if dateBlocksMap.keys.contains(key) {
@@ -352,7 +361,14 @@ extension CourseDatesViewController: PullRefreshControllerDelegate {
 
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLink(with url: URL) {
-        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: url.URLString)
+        if UIApplication.shared.canOpenURL(url) {
+            let alertController = UIAlertController().showAlert(withTitle: title, message: Strings.openInBrowser, cancelButtonTitle: Strings.cancel, onViewController: self)
+            alertController.addButton(withTitle: Strings.ok) { _ in
+                UIApplication.shared.openURL(url)
+            }
+        } else {
+            environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: url.URLString)
+        }
     }
     
     func didSetDueNext(with index: Int) {
