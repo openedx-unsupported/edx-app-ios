@@ -362,8 +362,9 @@ extension CourseDatesViewController: PullRefreshControllerDelegate {
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLink(with url: URL) {
         if UIApplication.shared.canOpenURL(url) {
-            let alertController = UIAlertController().showAlert(withTitle: title, message: Strings.openInBrowser, cancelButtonTitle: Strings.cancel, onViewController: self)
-            alertController.addButton(withTitle: Strings.ok) { _ in
+            let message = Strings.courseContentUnknown.components(separatedBy: ".").first ?? ""
+            let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self)
+            alertController.addButton(withTitle: Strings.openInBrowser) { _ in
                 UIApplication.shared.openURL(url)
             }
         } else {
