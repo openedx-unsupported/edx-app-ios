@@ -221,11 +221,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         blocks.modifyForEach { block in
-            if let _ = courseQuerier.blockWithID(id: block.firstComponentBlockID).firstSuccess().value {
-                block.componentExistsInCourse = true
-            } else {
-                block.componentExistsInCourse = false
-            }
+            block.componentExistsInCourse = courseQuerier.blockWithID(id: block.firstComponentBlockID).firstSuccess().value != nil
         }
         
         for block in blocks {
