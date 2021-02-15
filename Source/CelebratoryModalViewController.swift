@@ -38,16 +38,16 @@ private enum ShareButtonType {
     var parameter: String {
         switch self {
         case .linkedin:
-            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=linkedin"
+            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
             
         case .twitter:
-            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=twitter"
+            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
             
         case .facebook:
-            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=facebook"
+            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
             
         case .email:
-            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=email"
+            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
             
         default:
             return "utm_campaign=edxmilestone&utm_medium=social&utm_source=other"
