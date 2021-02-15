@@ -305,20 +305,20 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
                 self?.updateTransitionState(is: false)
                 //if self?.isCelebratoryEnable ?? true {
-                    self?.ShowCelebratoryModa(direction: direction)
+                    self?.showCelebratoryModa(direction: direction)
                 //}
             })
         }
     }
     
-    private func ShowCelebratoryModa(direction:UIPageViewController.NavigationDirection) {
+    private func showCelebratoryModa(direction: UIPageViewController.NavigationDirection) {
         if direction == .forward {
             let cursor = contentLoader.value
             let currentItem = cursor?.current
             let prevItem = cursor?.peekPrev()
             if prevItem != nil && currentItem?.prevGroup != nil {
                 if currentItem?.parent != prevItem?.parent {
-                    OEXRouter.shared().showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
+                    environment.router?.showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
                 }
             }
         }

@@ -13,9 +13,13 @@ extension UIViewController {
         return isViewLoaded && view.window != nil
     }
     
+    var isLandscape: Bool {
+        return UIDevice.current.orientation.isLandscape
+    }
+    
     func isVerticallyCompact() -> Bool {
         // In case of iPad vertical size class is always regular for both height and width
-        if UIDevice.current.userInterfaceIdiom == .pad && UIDevice.current.orientation.isLandscape {
+        if UIDevice.current.userInterfaceIdiom == .pad && isLandscape {
             return true
         }
         return self.traitCollection.verticalSizeClass == .compact

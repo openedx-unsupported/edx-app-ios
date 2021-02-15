@@ -13,8 +13,7 @@ import UIKit
     let facebook: String?
     let twitter: String?
     var linkedin: String? = nil
-    var mail:String? = nil
-    
+    var email: String? = nil
     
     @objc init?(params: [String: Any]) {
         facebook = params["facebook"] as? String
@@ -25,7 +24,6 @@ import UIKit
     @objc convenience init?(utmParams: [String: Any]) {
         self.init(params: utmParams)
         linkedin = utmParams["linkedin"] as? String
-        mail = utmParams["email"] as? String
+        email = utmParams["email"] as? String
     }
-    
 }

@@ -21,24 +21,19 @@ func shareHashtaggedTextAndALink(textBuilder: @escaping (_ hashtagOrPlatform: St
 func shareHashtaggedTextAndALinka(textBuilder: @escaping (_ hashtagOrPlatform: String) -> String, url: NSURL, utmParams:CourseShareUtmParameters, analyticsCallback:((String) -> Void)?) -> UIActivityViewController {
     
     let completionHandler: (UIActivity.ActivityType?) -> () = { activityType in
-      if let type = activityType {
-        var analyticsType: String = "other"
-        if type == UIActivity.ActivityType.postToFacebook {
-            analyticsType = "facebook"
+        if let type = activityType {
+            var analyticsType = "other"
+            if type == UIActivity.ActivityType.postToFacebook {
+                analyticsType = "facebook"
+            } else if type == UIActivity.ActivityType.postToTwitter {
+                analyticsType = "twitter"
+            } else if type == UIActivity.ActivityType.mail {
+                analyticsType = "email"
+            } else if type.rawValue == ActivityType.linkedin.rawValue {
+                analyticsType = "linkedin"
+            }
+            analyticsCallback?(analyticsType)
         }
-        else if type == UIActivity.ActivityType.postToTwitter {
-              analyticsType = "twitter"
-        }
-            
-        else if type == UIActivity.ActivityType.mail {
-            analyticsType = "email"
-        }
-            
-        else if type.rawValue == ActivityType.linkedin.rawValue {
-            analyticsType = "linkedin"
-        }
-        analyticsCallback?(analyticsType)
-      }
     }
     
     let items = [PlatformHashTag(textBuilder: textBuilder), CourseShareURL(url: url, utmParams: utmParams)]
@@ -63,7 +58,6 @@ private func controllerWithItems(items: [AnyObject], analyticsCallback:((String)
         }
     }
     return controller
-
 }
 
 private func controllerWithItems(items: [AnyObject], completionHandler:((UIActivity.ActivityType) -> Void)?) -> UIActivityViewController{
@@ -75,17 +69,15 @@ private func controllerWithItems(items: [AnyObject], completionHandler:((UIActiv
         }
     }
     return controller
-
 }
 
-
 private class PlatformHashTag: NSObject, UIActivityItemSource {
-
+    
     var config: OEXConfig { return OEXConfig.shared() }
     var platformName : String { return config.platformName() }
-
+    
     let textBuilder: (_ hashtagOrPlatform: String) -> String
-
+    
     init(textBuilder: @escaping (_ hashtagOrPlatform: String) -> String) {
         self.textBuilder = textBuilder
         super.init()
@@ -94,14 +86,14 @@ private class PlatformHashTag: NSObject, UIActivityItemSource {
     fileprivate func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         return textBuilder(platformName)
     }
-
+    
     //If this is going to Twitter and the hashtag has been defined in the configuration, use it otherwise use the platform name
     fileprivate func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         var item = platformName
         if let hashTag = config.twitterConfiguration?.hashTag, activityType == UIActivity.ActivityType.postToTwitter {
             item = hashTag
         }
-
+        
         return textBuilder(item)
     }
 }
@@ -124,18 +116,18 @@ private class CourseShareURL: NSObject, UIActivityItemSource {
         
         var shareURL: String = courseShareURL.absoluteString ?? ""
         if activityType == UIActivity.ActivityType.postToFacebook, let utmParams = courseShareUtmParams.facebook {
-            shareURL = String(format:"%@?%@",courseShareURL, utmParams)
+            shareURL = String(format:"%@?%@", courseShareURL, utmParams)
         }
         else if activityType == UIActivity.ActivityType.postToTwitter, let utmParams = courseShareUtmParams.twitter{
-            shareURL = String(format:"%@?%@",courseShareURL, utmParams)
+            shareURL = String(format:"%@?%@", courseShareURL, utmParams)
         }
-            
-        else if activityType == UIActivity.ActivityType.mail, let utmParams = courseShareUtmParams.mail {
-            shareURL = String(format:"%@?%@",courseShareURL, utmParams)
+        
+        else if activityType == UIActivity.ActivityType.mail, let utmParams = courseShareUtmParams.email {
+            shareURL = String(format:"%@?%@", courseShareURL, utmParams)
         }
-            
+        
         else if activityType?.rawValue == ActivityType.linkedin.rawValue, let utmParams = courseShareUtmParams.linkedin {
-            shareURL = String(format:"%@?%@",courseShareURL, utmParams)
+            shareURL = String(format:"%@?%@", courseShareURL, utmParams)
         }
         
         return NSURL(string: shareURL)
