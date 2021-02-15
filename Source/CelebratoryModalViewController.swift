@@ -74,7 +74,8 @@ class CelebratoryModalViewController: UIViewController {
     
     private lazy var titleLable: UILabel = {
         let title = UILabel()
-        let style = OEXTextStyle(weight: .semiBold, size: .xxxLarge, color : OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .xxxLarge, color : OEXStyles.shared().neutralBlackT())
+        style.alignment = .center
         title.attributedText = style.attributedString(withText: "Congratulations!")
         return title
     }()
@@ -174,7 +175,6 @@ class CelebratoryModalViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -190,10 +190,83 @@ class CelebratoryModalViewController: UIViewController {
         view.addSubview(modalView)
     }
     
+    let insideContainer = UIView()
+    let insideStackView = UIStackView()
+    
     func setupContraints() {
+        insideContainer.backgroundColor = OEXStyles.shared().infoXXLight()
+        stackView.alignment = .fill
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = StandardVerticalMargin
+        
+        stackView.addArrangedSubview(titleLable)
+        stackView.addArrangedSubview(titleMessageLable)
+        stackView.addArrangedSubview(congratulationImageView)
+        stackView.addArrangedSubview(insideContainer)
+        stackView.addArrangedSubview(keepGoingButton)
+                
+        insideStackView.alignment = .fill
+        insideStackView.axis = .horizontal
+        insideStackView.distribution = .equalSpacing
+        insideStackView.spacing = StandardHorizontalMargin / 2
+        
+        let buttonContainer = UIView()
+        
+        let textContainer = UIView()
+        
+        insideStackView.addArrangedSubview(buttonContainer)
+        insideStackView.addArrangedSubview(textContainer)
+ 
+        insideContainer.addSubview(insideStackView)
+        
+        textContainer.addSubview(celebrationMessageLabel)
+        buttonContainer.addSubview(shareButton)
+        
+        shareButton.snp.remakeConstraints { make in
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
+            make.top.equalTo(buttonContainer).offset(StandardVerticalMargin)
+        }
+        
+        celebrationMessageLabel.snp.remakeConstraints { make in
+            make.edges.equalTo(textContainer)
+        }
+        
+        buttonContainer.snp.remakeConstraints { make in
+            make.width.equalTo(80)
+        }
+        
+        textContainer.snp.remakeConstraints { make in
+            make.height.equalTo(insideStackView)
+            make.leading.equalTo(buttonContainer.snp.trailing).inset(StandardHorizontalMargin / 2)
+            make.trailing.equalTo(insideStackView).inset(StandardHorizontalMargin)
+        }
+        
+        insideStackView.snp.remakeConstraints { make in
+            make.edges.equalTo(insideContainer)
+        }
+        
+        titleLable.snp.remakeConstraints { make in
+            make.height.equalTo(30)
+        }
+        
+        titleMessageLable.snp.remakeConstraints { make in
+            make.height.equalTo(40)
+        }
+        
+        insideContainer.snp.remakeConstraints { make in
+            make.height.equalTo(100)
+        }
+        
+        keepGoingButton.snp.remakeConstraints { (make) in
+            make.height.equalTo(44)
+        }
+
         modalView.backgroundColor = .white
         
-        modalView.snp.makeConstraints { make in
+        modalView.snp.remakeConstraints { make in
             make.leading.equalTo(view).offset(20)
             make.trailing.equalTo(view).inset(20)
             make.top.equalTo(view).offset((view.frame.size.height / 4) / 2)
@@ -202,8 +275,8 @@ class CelebratoryModalViewController: UIViewController {
             make.centerY.equalTo(view)
         }
         
-        stackView.snp.makeConstraints { make in
-            make.edges.equalTo(modalView)
+        stackView.snp.remakeConstraints { make in
+            make.edges.equalTo(modalView).inset(20)
         }
     }
     
