@@ -160,6 +160,8 @@ class CelebratoryModalViewController: UIViewController {
         return encodedMessage
     }()
     
+    private lazy var stackView = UIStackView()
+    
     init(courseID: String, environment: Environment) {
         self.courseID = courseID
         self.environment = environment
@@ -176,162 +178,34 @@ class CelebratoryModalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
         view.setNeedsUpdateConstraints()
+        
         addViews()
         setupContraints()
     }
     
     private func addViews() {
-        modalView.addSubview(titleLable)
-        modalView.addSubview(titleMessageLable)
-        modalView.addSubview(congratulationImageView)
-        modalView.addSubview(shareButtonView)
-        modalView.addSubview(keepGoingButton)
-        
-        shareButtonView.addSubview(celebrationMessageLabel)
-        shareButtonView.addSubview(shareButton)
+        modalView.addSubview(stackView)
         view.addSubview(modalView)
     }
     
-    func removeConstraints() {
-        modalView.snp.removeConstraints()
-        titleLable.snp.removeConstraints()
-        titleMessageLable.snp.removeConstraints()
-        congratulationImageView.snp.removeConstraints()
-        shareButtonView.snp.removeConstraints()
-        keepGoingButton.snp.removeConstraints()
-        celebrationMessageLabel.snp.removeConstraints()
-        shareButton.snp.removeConstraints()
-    }
-    
     func setupContraints() {
-        modalView.snp.makeConstraints { (make) in
+        modalView.backgroundColor = .white
+        
+        modalView.snp.makeConstraints { make in
             make.leading.equalTo(view).offset(20)
             make.trailing.equalTo(view).inset(20)
-            make.top.equalTo(view).offset((view.frame.size.height/4)/2)
-            make.bottom.equalTo(view).offset(-(view.frame.size.height/4)/2)
+            make.top.equalTo(view).offset((view.frame.size.height / 4) / 2)
+            make.bottom.equalTo(view).inset((view.frame.size.height / 4) / 2)
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
         }
-
-        titleLable.snp.makeConstraints { (make) in
-            make.top.equalTo(modalView).offset(40)
-            make.centerX.equalTo(modalView)
-            make.height.equalTo(30)
-        }
-
-        titleMessageLable.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLable.snp.bottom).offset(13)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/2.8)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/2.8)
-            make.height.equalTo(40)
-        }
         
-        congratulationImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleMessageLable.snp.bottom).offset(24)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-        }
-        
-        celebrationMessageLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(shareButtonView).offset(StandardVerticalMargin*2)
-//            make.centerX.equalTo(shareButtonView)
-            make.leading.equalTo(shareButton.snp.trailing).offset(StandardHorizontalMargin-5)
-            //make.trailing.equalTo(shareButtonView).inset(StandardHorizontalMargin*2)
-            make.width.equalTo(shareButtonView).offset(-StandardHorizontalMargin*4)
-            make.bottom.equalTo(shareButtonView).inset(24)
-        }
-
-        shareButtonView.snp.makeConstraints { (make) in
-            make.top.equalTo(congratulationImageView.snp.bottom).offset(StandardVerticalMargin*2)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-        }
-
-        keepGoingButton.snp.makeConstraints { (make) in
-            make.top.equalTo(shareButtonView.snp.bottom).offset(StandardVerticalMargin*2)
-            make.bottom.equalTo(modalView).inset(20)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-            make.height.equalTo(44)
-        }
-        
-        shareButton.snp.makeConstraints { make in
-            make.top.equalTo(shareButtonView).offset(StandardVerticalMargin*2)
-            make.leading.equalTo(shareButtonView).offset(StandardHorizontalMargin*2)
-            make.height.equalTo(22)
-            make.width.equalTo(22)
+        stackView.snp.makeConstraints { make in
+            make.edges.equalTo(modalView)
         }
     }
-
-    func setupLandscapeContraints() {
-        
-        modalView.snp.updateConstraints { (make) in
-            make.leading.equalTo(view).offset((view.frame.size.height/4)/2)
-            make.trailing.equalTo(view).offset(-(view.frame.size.height/4)/2)
-            make.top.equalTo(view).offset(20)
-            make.bottom.equalTo(view).inset(20)
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view)
-        }
-
-        titleLable.snp.makeConstraints { (make) in
-            make.top.equalTo(modalView).offset(40)
-            make.centerX.equalTo(modalView)
-            make.height.equalTo(30)
-        }
-
-        titleMessageLable.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLable.snp.bottom).offset(13)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/2.8)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/2.8)
-            make.height.equalTo(40)
-        }
-        
-        congratulationImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleMessageLable.snp.bottom).offset(24)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-        }
-        
-        celebrationMessageLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(shareButtonView).offset(StandardVerticalMargin*2)
-            make.centerX.equalTo(shareButtonView)
-            make.leading.equalTo(shareButtonView).offset(StandardHorizontalMargin*2)
-            make.trailing.equalTo(shareButtonView).inset(20)
-            make.bottom.equalTo(shareButtonView).inset(24)
-        }
-
-        shareButtonView.snp.makeConstraints { (make) in
-            make.top.equalTo(congratulationImageView.snp.bottom).offset(StandardVerticalMargin*2)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-        }
-
-        keepGoingButton.snp.makeConstraints { (make) in
-            make.top.equalTo(shareButtonView.snp.bottom).offset(StandardVerticalMargin*2)
-            make.bottom.equalTo(modalView).inset(20)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-            make.height.equalTo(44)
-        }
-        
-        shareButton.snp.makeConstraints { make in
-            make.top.equalTo(shareButtonView).offset(StandardVerticalMargin*2)
-            make.leading.equalTo(shareButtonView).offset(StandardHorizontalMargin)
-            make.height.equalTo(22)
-            make.width.equalTo(22)
-        }
-    }
-
     
     private func shareCourse(url: String, utmParameters: CourseShareUtmParameters) {
         if let url = NSURL(string: url) {
@@ -348,22 +222,22 @@ class CelebratoryModalViewController: UIViewController {
         }
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        if UIDevice.current.orientation.isLandscape {
-            print("Landscape")
-            removeConstraints()
-            modalView.removeFromSuperview()
-            addViews()
-            setupLandscapeContraints()
-        } else {
-            print("Portrait")
-            removeConstraints()
-            modalView.removeFromSuperview()
-            modalView.updateConstraints()
-            addViews()
-            setupContraints()
-        }
-    }
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransition(to: size, with: coordinator)
+//        if UIDevice.current.orientation.isLandscape {
+//            print("Landscape")
+//            removeConstraints()
+//            modalView.removeFromSuperview()
+//            addViews()
+//            setupLandscapeContraints()
+//        } else {
+//            print("Portrait")
+//            removeConstraints()
+//            modalView.removeFromSuperview()
+//            modalView.updateConstraints()
+//            addViews()
+//            setupContraints()
+//        }
+//    }
     
 }
