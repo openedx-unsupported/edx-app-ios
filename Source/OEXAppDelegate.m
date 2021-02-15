@@ -12,7 +12,8 @@
 @import NewRelic;
 
 @import FBSDKCoreKit;
-#import <GoogleSignIn/GoogleSignIn.h>
+@import GoogleSignIn;
+
 #import <Analytics/SEGAnalytics.h>
 #import <Branch/Branch.h>
 #import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
