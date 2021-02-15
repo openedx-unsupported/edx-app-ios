@@ -305,13 +305,13 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
                 self?.updateTransitionState(is: false)
                 //if self?.isCelebratoryEnable ?? true {
-                    self?.showCelebratoryModa(direction: direction)
+                    self?.showCelebratoryModal(direction: direction)
                 //}
             })
         }
     }
     
-    private func showCelebratoryModa(direction: UIPageViewController.NavigationDirection) {
+    private func showCelebratoryModal(direction: UIPageViewController.NavigationDirection) {
         if direction == .forward {
             let cursor = contentLoader.value
             let currentItem = cursor?.current
