@@ -296,7 +296,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
             make.height.equalTo(100)
         }
         
-        keepGoingButton.snp.remakeConstraints { (make) in
+        keepGoingButton.snp.remakeConstraints { make in
             make.height.equalTo(44)
         }
                 
