@@ -67,27 +67,24 @@ private enum ShareButtonType {
 
 class CelebratoryModalViewController: UIViewController, InterfaceOrientationOverriding {
     
-    typealias Environment = NetworkManagerProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXAnalyticsProvider
+    typealias Environment = NetworkManagerProvider & OEXInterfaceProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXAnalyticsProvider
     
     private let environment: Environment
     private var courseID: String
     private let type: ShareButtonType = .none
     
-    private let modalView: UIView = {
+    private lazy var modalView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = environment.styles.neutralWhite()
         view.layer.cornerRadius = 8.0
         return view
     }()
     
-    private lazy var congratulationImageView: UIImageView = {
-        let gifImage = UIImage.gifImageWithName("CelebrateClaps")
-        return UIImageView(image: gifImage)
-    }()
+    private lazy var congratulationImageView = UIImageView(image: UIImage.gifImageWithName("CelebrateClaps"))
     
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
-        let style = OEXMutableTextStyle(weight: .semiBold, size: .xxxLarge, color : OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .xxxLarge, color: environment.styles.neutralBlackT())
         style.alignment = .center
         title.attributedText = style.attributedString(withText: "Congratulations!")
         return title
@@ -98,7 +95,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         message.numberOfLines = 0
         message.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         //message.adjustsFontSizeToFitWidth = true
-        let style = OEXMutableTextStyle(weight: .normal, size: .large, color : OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .normal, size: .large, color: environment.styles.neutralBlackT())
         style.alignment = .center
         message.attributedText = style.attributedString(withText: "You just completed the first section of your course!")
         return message
@@ -109,7 +106,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         message.numberOfLines = 0
         //message.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         //message.adjustsFontSizeToFitWidth = true
-        let style = OEXMutableTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.neutralBlackT())
         style.alignment = .center
         let string = "You earned it! Take a moment to celebrate and share your progress"
         let range = (string as NSString).range(of: "You earned it!")
@@ -123,9 +120,9 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     
     private lazy var keepGoingButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = OEXStyles.shared().primaryBaseColor()
+        button.backgroundColor = environment.styles.primaryBaseColor()
         button.layer.cornerRadius = 5.0
-        let buttonStyle = OEXMutableTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralWhiteT())
+        let buttonStyle = OEXMutableTextStyle(weight: .semiBold, size: .small, color: environment.styles.neutralWhiteT())
         button.setAttributedTitle(buttonStyle.attributedString(withText: "Keep going"), for: UIControl.State())
         button.oex_addAction({ [weak self] _ in
             self?.dismiss(animated: false, completion: nil)
@@ -155,14 +152,14 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         return button
     }()
     
-    private lazy var courseURL:String = {
-        let enrollment = OEXInterface.shared().enrollmentForCourse(withID: courseID)
+    private lazy var courseURL: String = {
+        let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
         let courseURL = enrollment?.course.course_about ?? ""
         return courseURL
     }()
     
     private lazy var shareTextMessage: String = {
-        let enrollment = OEXInterface.shared().enrollmentForCourse(withID: courseID)
+        let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
         let courseName = enrollment?.course.name ?? ""
         let message = String(format: "I'm on my way to completing %@ online with @edxonline. What are you spending your time learning?", courseName)
         let encodedMessage = message.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? ""
@@ -247,10 +244,10 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         insideStackView.addArrangedSubview(buttonContainer)
         insideStackView.addArrangedSubview(textContainer)
         
+        insideContainer.backgroundColor = environment.styles.infoXXLight()
         insideContainer.addSubview(insideStackView)
-        insideContainer.backgroundColor = OEXStyles.shared().infoXXLight()
-        
         insideContainer.addSubview(shareButtonView)
+        
         shareButtonView.superview?.bringSubviewToFront(shareButtonView)
         
         textContainer.addSubview(celebrationMessageLabel)
@@ -302,9 +299,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         keepGoingButton.snp.remakeConstraints { (make) in
             make.height.equalTo(44)
         }
-        
-        modalView.backgroundColor = .white
-        
+                
         modalView.snp.remakeConstraints { make in
             make.leading.equalTo(view).offset(20)
             make.trailing.equalTo(view).inset(20)
@@ -320,7 +315,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     }
     
     private func setupLandscapeConstraints() {
-        let landscapeStackView = UIStackView()
+        let stackView = UIStackView()
         let rightStackView = UIStackView()
         let rightContainer = UIView()
         let insideContainer = UIView()
@@ -328,9 +323,14 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         let buttonContainer = UIView()
         let textContainer = UIView()
         
-        modalView.addSubview(landscapeStackView)
+        modalView.addSubview(stackView)
         
-        insideContainer.backgroundColor = OEXStyles.shared().infoXXLight()
+        stackView.alignment = .center
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = StandardVerticalMargin * 2
+        
+        insideContainer.backgroundColor = environment.styles.infoXXLight()
         
         textContainer.addSubview(celebrationMessageLabel)
         buttonContainer.addSubview(shareImageView)
@@ -346,12 +346,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         insideContainer.addSubview(shareButtonView)
         
         shareButtonView.superview?.bringSubviewToFront(shareButtonView)
-        
-        landscapeStackView.alignment = .center
-        landscapeStackView.axis = .horizontal
-        landscapeStackView.distribution = .fillEqually
-        landscapeStackView.spacing = StandardVerticalMargin * 2
-        
+                
         rightStackView.alignment = .fill
         rightStackView.axis = .vertical
         rightStackView.distribution = .equalSpacing
@@ -362,8 +357,8 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         rightStackView.addArrangedSubview(insideContainer)
         rightStackView.addArrangedSubview(keepGoingButton)
         
-        landscapeStackView.addArrangedSubview(congratulationImageView)
-        landscapeStackView.addArrangedSubview(rightContainer)
+        stackView.addArrangedSubview(congratulationImageView)
+        stackView.addArrangedSubview(rightContainer)
         
         rightContainer.addSubview(rightStackView)
         
@@ -372,7 +367,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
         
         rightContainer.snp.remakeConstraints { make in
-            make.height.equalTo(landscapeStackView)
+            make.height.equalTo(stackView)
         }
         
         titleLabel.snp.remakeConstraints { make in
@@ -434,7 +429,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
             make.centerY.equalTo(view)
         }
         
-        landscapeStackView.snp.remakeConstraints { make in
+        stackView.snp.remakeConstraints { make in
             make.edges.equalTo(modalView).inset(20)
         }
     }
