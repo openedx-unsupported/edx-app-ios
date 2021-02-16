@@ -301,8 +301,8 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
                 
         modalView.snp.remakeConstraints { make in
-            make.leading.equalTo(view).offset(20)
-            make.trailing.equalTo(view).inset(20)
+            make.leading.equalTo(view).offset(isiPad() ? 100 : 20)
+            make.trailing.equalTo(view).inset(isiPad() ? 100 : 20)
             make.top.equalTo(view).offset((view.frame.size.height / 4) / 2)
             make.bottom.equalTo(view).inset((view.frame.size.height / 4) / 2)
             make.centerX.equalTo(view)
@@ -416,15 +416,18 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
             make.trailing.equalTo(insideStackView).inset(StandardHorizontalMargin)
         }
         
-        keepGoingButton.snp.remakeConstraints { (make) in
+        keepGoingButton.snp.remakeConstraints { make in
             make.height.equalTo(44)
         }
         
         modalView.snp.remakeConstraints { make in
-            make.leading.equalTo(view).offset(40)
-            make.trailing.equalTo(view).inset(40)
-            make.top.equalTo(view).offset((view.frame.size.height / 4) / 2)
-            make.bottom.equalTo(view).inset((view.frame.size.height / 4) / 2)
+            make.leading.equalTo(view).offset(isiPad() ? 100 : 40)
+            make.trailing.equalTo(view).inset(isiPad() ? 100 : 40)
+            
+            let top = isiPad() ? ((view.frame.size.height / 2.5 ) / 2) : ((view.frame.size.height / 4) / 2)
+            let bottom = isiPad() ? ((view.frame.size.width / 2.5 ) / 2) : ((view.frame.size.height / 4) / 2)
+            make.top.equalTo(view).offset(top)
+            make.bottom.equalTo(view).inset(bottom)
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
         }
