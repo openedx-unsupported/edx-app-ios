@@ -23,26 +23,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     fileprivate let environment: Environment
     private let bottomBar: BottomBarView
 
-    private var placeholderText: String {
-        get {
-            let discovery = environment.config.discovery
-            let courseDiscoveryEnabled = discovery.course.isEnabled
-            let programDiscoveryEnabled = discovery.program.isEnabled
-
-            if courseDiscoveryEnabled && programDiscoveryEnabled {
-                return Strings.Startup.searchPlaceholderText
-            }
-            else if courseDiscoveryEnabled {
-                return Strings.searchCoursesPlaceholderText
-            }
-            else if programDiscoveryEnabled {
-                return Strings.searchProgramsPlaceholderText
-            }
-
-            return Strings.searchCoursesPlaceholderText
-        }
-    }
-
     private var infoMessage: String {
         get {
             let programDiscoveryEnabled = environment.config.discovery.program.isEnabled
@@ -72,6 +52,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         setupMessageLabel()
         setupSearchView()
         setupBottomBar()
+        setupExploreCoursesButton()
 
         view.backgroundColor = environment.styles.standardBackgroundColor()
         
@@ -180,12 +161,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let borderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment.styles.neutralLight())
         searchView.applyBorderStyle(style: borderStyle)
 
-        searchViewTitle.snp.makeConstraints { make in
-            make.top.equalTo(messageLabel.snp.bottom).offset(6 * StandardVerticalMargin)
-            make.leading.equalTo(messageLabel)
-            make.trailing.equalTo(messageLabel)
-        }
-
         searchView.snp.makeConstraints { make in
             make.top.equalTo(searchViewTitle.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(messageLabel)
@@ -211,7 +186,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let searchTextField = UITextField()
         searchTextField.accessibilityIdentifier = "StartUpViewController:search-textfield"
         searchTextField.delegate = self
-        searchTextField.attributedPlaceholder = textStyle.attributedString(withText: placeholderText)
+        searchTextField.attributedPlaceholder = textStyle.attributedString(withText: Strings.Startup.searchPlaceholderText)
         searchTextField.textColor = environment.styles.primaryBaseColor()
         searchTextField.returnKeyType = .search
         searchTextField.defaultTextAttributes = environment.styles.textFieldStyle(with: .large, color: environment.styles.primaryBaseColor()).attributes.attributedKeyDictionary()
@@ -225,12 +200,63 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
         let labelStyle = OEXTextStyle(weight: .semiBold, size: .large, color: environment.styles.primaryBaseColor())
         searchViewTitle.attributedText = labelStyle.attributedString(withText: Strings.Startup.searchTitleText)
+
+        setConstraints()
+    }
+
+    private func setConstraints() {
+        let offSet: CGFloat = isVerticallyCompact() ? 2 : 6
+
+        searchViewTitle.snp.remakeConstraints { make in
+            make.top.equalTo(messageLabel.snp.bottom).offset(offSet * StandardVerticalMargin)
+            make.leading.equalTo(messageLabel)
+            make.trailing.equalTo(messageLabel)
+        }
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateViewConstraints()
+    }
+
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        setConstraints()
+    }
+
+    private func setupExploreCoursesButton() {
+        let style = OEXTextStyle(weight: .normal, size: .large, color: environment.styles.primaryBaseColor())
+
+        let exploreButton = UIButton(type: .system)
+        exploreButton.setAttributedTitle(style.attributedString(withText: "Explore all courses"), for: .normal)
+        exploreButton.oex_addAction({ [weak self] _ in
+            self?.showCourses(with: nil)
+            self?.environment.analytics.trackExploreAllCourses()
+        }, for: .touchUpInside)
+        view.addSubview(exploreButton)
+
+        exploreButton.snp.makeConstraints { make in
+            make.leading.equalTo(searchView)
+            make.top.equalTo(searchView.snp.bottom).offset(StandardVerticalMargin/2)
+        }
+
+        let lineView = UIView()
+        lineView.backgroundColor = environment.styles.primaryBaseColor()
+        lineView.isAccessibilityElement = false
+        view.addSubview(lineView)
+
+        lineView.snp.makeConstraints { make in
+            make.top.equalTo(exploreButton.snp.bottom).offset(-StandardVerticalMargin/2)
+            make.height.equalTo(1)
+            make.leading.equalTo(exploreButton)
+            make.width.equalTo(exploreButton)
+        }
     }
 
     private func setupBottomBar() {
         view.addSubview(bottomBar)
         bottomBar.snp.makeConstraints { make in
-            make.bottom.equalTo(safeBottom)
+            make.bottom.equalTo(view)
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
         }

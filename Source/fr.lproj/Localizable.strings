@@ -804,7 +804,9 @@
 /*Label text for seach field on startup screen */
 "STARTUP.SEARCH_TITLE_TEXT"="What do you want to learn?";
 /*Place holder text for search field on startup screen*/
-"STARTUP.SEARCH_PLACEHOLDER_TEXT"="Search courses and programs";
+"STARTUP.SEARCH_PLACEHOLDER_TEXT"="Search our 3000+ courses";
+/*Explore all course button title*/
+"STARTUP.EXPLORE_COURSE_TITLE"="Explore all courses";
 /* Explore Subjects button text on the first screen */
 "STARTUP_EXPLORE_SUBJECTS"="Explorer les sujets";
 /* Button allowing user to submit feedback about the app via email */
