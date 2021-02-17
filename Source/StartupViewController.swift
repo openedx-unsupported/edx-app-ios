@@ -153,8 +153,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     
     private func setupSearchView() {
         let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
-        guard courseEnrollmentEnabled ||
-            environment.config.discovery.program.isEnabled else { return }
+        guard courseEnrollmentEnabled else { return }
         
         view.addSubview(searchView)
         view.addSubview(searchViewTitle)
@@ -205,6 +204,9 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     private func setConstraints() {
+        let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
+        guard courseEnrollmentEnabled else { return }
+        
         let offSet: CGFloat = isVerticallyCompact() ? 2 : 6
 
         searchViewTitle.snp.remakeConstraints { make in
@@ -225,6 +227,9 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     private func setupExploreCoursesButton() {
+        let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
+        guard courseEnrollmentEnabled else { return }
+
         let style = OEXTextStyle(weight: .normal, size: .large, color: environment.styles.primaryBaseColor())
 
         let exploreButton = UIButton(type: .system)
