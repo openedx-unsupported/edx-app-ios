@@ -278,16 +278,20 @@ class DiscoveryWebViewHelper: NSObject {
 extension DiscoveryWebViewHelper: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         let request = navigationAction.request
-        let capturedLink = navigationAction.navigationType == .linkActivated && (delegate?.webView(webView, shouldLoad: request) ?? true)
         
-        let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
-        if let URL = request.url, outsideLink || capturedLink {
-            UIApplication.shared.open(URL, options: [:], completionHandler: nil)
+        let isWebViewDelegateHandled = !(delegate?.webView(webView, shouldLoad: request) ?? true)
+        if isWebViewDelegateHandled {
             decisionHandler(.cancel)
-            return
+        } else {
+            let capturedLink = navigationAction.navigationType == .linkActivated
+            let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
+            if let URL = request.url, outsideLink || capturedLink {
+                UIApplication.shared.open(URL, options: [:], completionHandler: nil)
+                decisionHandler(.cancel)
+            } else {
+                decisionHandler(.allow)
+            }
         }
-        
-        decisionHandler(.allow)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
