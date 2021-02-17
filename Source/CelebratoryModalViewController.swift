@@ -13,14 +13,14 @@ enum ActivityType:String {
     case linkedin = "com.linkedin.LinkedIn.ShareExtension"
 }
 
-private enum shareButtonType {
+private enum ShareButtonType {
     case linkedin
     case twitter
     case facebook
-    case mail
+    case email
     case none
     
-    func source() -> String {
+    var source: String {
         switch self {
         case .linkedin:
             return "linkedin"
@@ -28,91 +28,97 @@ private enum shareButtonType {
             return "twitter"
         case .facebook:
             return "facebook"
-        case .mail:
+        case .email:
             return "email"
         default:
-            return ""
+            return "other"
         }
     }
     
-    func utmParameter() -> String {
-        return String(format: "utm_campaign=edxmilestone&utm_medium=social&utm_source=%@", source())
+    var parameter: String {
+        switch self {
+        case .linkedin:
+            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
+            
+        case .twitter:
+            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
+            
+        case .facebook:
+            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
+            
+        case .email:
+            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
+            
+        default:
+            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=other"
+        }
+    }
+    
+    static var utmParameters: CourseShareUtmParameters? {
+        let parameters: [String: String] = [
+            ShareButtonType.facebook.source: ShareButtonType.facebook.parameter,
+            ShareButtonType.twitter.source: ShareButtonType.twitter.parameter,
+            ShareButtonType.linkedin.source: ShareButtonType.linkedin.parameter,
+            ShareButtonType.email.source: ShareButtonType.email.parameter,
+        ]
+        return CourseShareUtmParameters(utmParams: parameters)
     }
 }
 
-private let facebookShareURL = "https://www.facebook.com/sharer.php?u=%@?%@&quote=%@"
-private let twitterShareURL = "https://twitter.com/intent/tweet?url=%@?%@&text=%@"
-private let linkedinShareURL = "https://www.linkedin.com/shareArticle?mini=true&url=%@?%@&titlt=%@"
-
-class CelebratoryModalViewController: UIViewController {
+class CelebratoryModalViewController: UIViewController, InterfaceOrientationOverriding {
     
-    typealias Environment = NetworkManagerProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXAnalyticsProvider
+    typealias Environment = NetworkManagerProvider & OEXInterfaceProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXAnalyticsProvider
     
     private let environment: Environment
     private var courseID: String
-    private let type: shareButtonType = .none
-    private let socialButtonSize =  CGSize(width: 30, height: 30)
-    private let socialButtonImageSize: CGFloat =  20
+    private let type: ShareButtonType = .none
     
-    private let modalView: UIView = {
+    private lazy var modalView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 8.0
+        view.backgroundColor = environment.styles.neutralWhite()
         return view
     }()
     
-    private lazy var shareButtonView: UIView = {
-        let view = UIView()
-        view.backgroundColor = OEXStyles.shared().infoXXLight()
-        return view
-    }()
+    private lazy var congratulationImageView = UIImageView(image: UIImage.gifImageWithName("CelebrateClaps"))
     
-    private lazy var congratulationImageView: UIImageView = {
-        let gifImage = UIImage.gifImageWithName("CelebrateClaps")
-        return UIImageView(image: gifImage)
-    }()
-    
-    private lazy var titleLable: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let title = UILabel()
-        let style = OEXTextStyle(weight: .semiBold, size: .xxxLarge, color : OEXStyles.shared().neutralBlackT())
-        title.attributedText = style.attributedString(withText: "Congratulations!")
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .xxxLarge, color: environment.styles.neutralBlackT())
+        style.alignment = .center
+        title.attributedText = style.attributedString(withText: Strings.celebrationModalTitle)
         return title
     }()
     
-    private lazy var titleMessageLable: UILabel = {
+    private lazy var titleMessageLabel: UILabel = {
         let message = UILabel()
         message.numberOfLines = 0
-        message.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        //message.adjustsFontSizeToFitWidth = true
-        let style = OEXMutableTextStyle(weight: .normal, size: .large, color : OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .normal, size: .large, color: environment.styles.neutralBlackT())
         style.alignment = .center
-        message.attributedText = style.attributedString(withText: "You just completed the first section of your course!")
+        message.attributedText = style.attributedString(withText: Strings.celebrationModalTitleMessage)
         return message
     }()
     
     private lazy var celebrationMessageLabel: UILabel = {
         let message = UILabel()
         message.numberOfLines = 0
-        //message.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        //message.adjustsFontSizeToFitWidth = true
-        let style = OEXMutableTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.neutralBlackT())
         style.alignment = .center
-        let string = "You earned it! Take a moment to celebrate and share your progress"
+        message.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        message.adjustsFontSizeToFitWidth = true
+        let string = Strings.celebrationModalInfoMessage
         let range = (string as NSString).range(of: "You earned it!")
         let attributedString = NSMutableAttributedString(string: string)
         attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.boldSystemFont(ofSize: message.font.pointSize), range: range)
-
-        message.attributedText =  attributedString// style.attributedString(withText: "You earned it! Take a moment to celebrate and share your progress")
-    
+        message.attributedText =  attributedString
+        
         return message
     }()
     
     private lazy var keepGoingButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = OEXStyles.shared().primaryBaseColor()
-        button.layer.cornerRadius = 5.0
-        let buttonStyle = OEXMutableTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralWhiteT())
-        button.setAttributedTitle(buttonStyle.attributedString(withText: "Keep going"), for: UIControl.State())
+        button.backgroundColor = environment.styles.primaryBaseColor()
+        let buttonStyle = OEXMutableTextStyle(weight: .normal, size: .xLarge, color: environment.styles.neutralWhiteT())
+        button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.celebrationKeepGoingButtonTitle), for: UIControl.State())
         button.oex_addAction({ [weak self] _ in
             self?.dismiss(animated: false, completion: nil)
         }, for: .touchUpInside)
@@ -120,44 +126,31 @@ class CelebratoryModalViewController: UIViewController {
         return button
     }()
     
-    private lazy var shareButton: UIButton = {
-        let button = UIButton()
+    private lazy var shareImageView: UIImageView = {
         let shareImage = UIImage(named: "shareCourse")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(shareImage, for: .normal)
-        button.tintColor = environment.styles.primaryBaseColor()
+        let imageView = UIImageView(image: shareImage)
+        return imageView
+    }()
+    
+    private lazy var shareButtonView: UIButton = {
+        let button = UIButton()
         button.accessibilityLabel = Strings.Accessibility.shareACourse
         button.oex_removeAllActions()
-        button.oex_addAction({[weak self] _ in
-                if let shateUtmParameters = self?.shareUtmParameters {
-                    self?.shareCourse(url: self?.courseURL ?? "", utmParameters: shateUtmParameters)
-                }
-            }, for: .touchUpInside)
+        button.oex_addAction({ [weak self] _ in
+            if let courseID = self?.courseID,
+               let courseURL = self?.courseURL,
+               let shareUtmParameters = ShareButtonType.utmParameters {
+                self?.shareCourse(courseID: courseID, courseURL: courseURL, utmParameters: shareUtmParameters)
+            }
+        }, for: .touchUpInside)
         
         return button
     }()
-
-    private lazy var courseURL:String = {
-        let enrollment = OEXInterface.shared().enrollmentForCourse(withID: courseID)
+    
+    private lazy var courseURL: String = {
+        let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
         let courseURL = enrollment?.course.course_about ?? ""
         return courseURL
-    }()
-    
-    private lazy var shareUtmParameters: CourseShareUtmParameters? = {
-        var parameters:[String:Any] = [:]
-        parameters["facebook"] = "utm_campaign=edxmilestone&utm_medium=social&utm_source=facebook"
-        parameters["twitter"] = "utm_campaign=edxmilestone&utm_medium=social&utm_source=twitter"
-        parameters["linkedin"] = "utm_campaign=edxmilestone&utm_medium=social&utm_source=linkedin"
-        parameters["email"] = "utm_campaign=edxmilestone&utm_medium=social&utm_source=email"
-        
-        return CourseShareUtmParameters(utmParams: parameters)
-    }()
-    
-    private lazy var shareTextMessage: String = {
-        let enrollment = OEXInterface.shared().enrollmentForCourse(withID: courseID)
-        let courseName = enrollment?.course.name ?? ""
-        let message = String(format: "I'm on my way to completing %@ online with @edxonline. What are you spending your time learning?", courseName)
-        let encodedMessage = message.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? ""
-        return encodedMessage
     }()
     
     init(courseID: String, environment: Environment) {
@@ -165,205 +158,292 @@ class CelebratoryModalViewController: UIViewController {
         self.environment = environment
         
         super.init(nibName: nil, bundle: nil)
-
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
         view.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
         view.setNeedsUpdateConstraints()
-        addViews()
-        setupContraints()
-    }
-    
-    private func addViews() {
-        modalView.addSubview(titleLable)
-        modalView.addSubview(titleMessageLable)
-        modalView.addSubview(congratulationImageView)
-        modalView.addSubview(shareButtonView)
-        modalView.addSubview(keepGoingButton)
-        
-        shareButtonView.addSubview(celebrationMessageLabel)
-        shareButtonView.addSubview(shareButton)
         view.addSubview(modalView)
+        
+        setupViews()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
-    func removeConstraints() {
-        modalView.snp.removeConstraints()
-        titleLable.snp.removeConstraints()
-        titleMessageLable.snp.removeConstraints()
-        congratulationImageView.snp.removeConstraints()
-        shareButtonView.snp.removeConstraints()
-        keepGoingButton.snp.removeConstraints()
-        celebrationMessageLabel.snp.removeConstraints()
-        shareButton.snp.removeConstraints()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        environment.analytics.trackCourseCelebrationFirstSection(courseID: courseID)
     }
     
-    func setupContraints() {
-        modalView.snp.makeConstraints { (make) in
-            make.leading.equalTo(view).offset(20)
-            make.trailing.equalTo(view).inset(20)
-            make.top.equalTo(view).offset((view.frame.size.height/4)/2)
-            make.bottom.equalTo(view).offset(-(view.frame.size.height/4)/2)
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view)
-        }
-
-        titleLable.snp.makeConstraints { (make) in
-            make.top.equalTo(modalView).offset(40)
-            make.centerX.equalTo(modalView)
-            make.height.equalTo(30)
-        }
-
-        titleMessageLable.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLable.snp.bottom).offset(13)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/2.8)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/2.8)
-            make.height.equalTo(40)
-        }
-        
-        congratulationImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleMessageLable.snp.bottom).offset(24)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-        }
-        
-        celebrationMessageLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(shareButtonView).offset(StandardVerticalMargin*2)
-//            make.centerX.equalTo(shareButtonView)
-            make.leading.equalTo(shareButton.snp.trailing).offset(StandardHorizontalMargin-5)
-            //make.trailing.equalTo(shareButtonView).inset(StandardHorizontalMargin*2)
-            make.width.equalTo(shareButtonView).offset(-StandardHorizontalMargin*4)
-            make.bottom.equalTo(shareButtonView).inset(24)
-        }
-
-        shareButtonView.snp.makeConstraints { (make) in
-            make.top.equalTo(congratulationImageView.snp.bottom).offset(StandardVerticalMargin*2)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-        }
-
-        keepGoingButton.snp.makeConstraints { (make) in
-            make.top.equalTo(shareButtonView.snp.bottom).offset(StandardVerticalMargin*2)
-            make.bottom.equalTo(modalView).inset(20)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-            make.height.equalTo(44)
-        }
-        
-        shareButton.snp.makeConstraints { make in
-            make.top.equalTo(shareButtonView).offset(StandardVerticalMargin*2)
-            make.leading.equalTo(shareButtonView).offset(StandardHorizontalMargin*2)
-            make.height.equalTo(22)
-            make.width.equalTo(22)
-        }
-    }
-
-    func setupLandscapeContraints() {
-        
-        modalView.snp.updateConstraints { (make) in
-            make.leading.equalTo(view).offset((view.frame.size.height/4)/2)
-            make.trailing.equalTo(view).offset(-(view.frame.size.height/4)/2)
-            make.top.equalTo(view).offset(20)
-            make.bottom.equalTo(view).inset(20)
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view)
-        }
-
-        titleLable.snp.makeConstraints { (make) in
-            make.top.equalTo(modalView).offset(40)
-            make.centerX.equalTo(modalView)
-            make.height.equalTo(30)
-        }
-
-        titleMessageLable.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLable.snp.bottom).offset(13)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/2.8)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/2.8)
-            make.height.equalTo(40)
-        }
-        
-        congratulationImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleMessageLable.snp.bottom).offset(24)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-        }
-        
-        celebrationMessageLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(shareButtonView).offset(StandardVerticalMargin*2)
-            make.centerX.equalTo(shareButtonView)
-            make.leading.equalTo(shareButtonView).offset(StandardHorizontalMargin*2)
-            make.trailing.equalTo(shareButtonView).inset(20)
-            make.bottom.equalTo(shareButtonView).inset(24)
-        }
-
-        shareButtonView.snp.makeConstraints { (make) in
-            make.top.equalTo(congratulationImageView.snp.bottom).offset(StandardVerticalMargin*2)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-        }
-
-        keepGoingButton.snp.makeConstraints { (make) in
-            make.top.equalTo(shareButtonView.snp.bottom).offset(StandardVerticalMargin*2)
-            make.bottom.equalTo(modalView).inset(20)
-            make.centerX.equalTo(modalView)
-            make.leading.equalTo(modalView).offset((view.frame.size.width/4)/3.5)
-            make.trailing.equalTo(modalView).inset((view.frame.size.width/4)/3.5)
-            make.height.equalTo(44)
-        }
-        
-        shareButton.snp.makeConstraints { make in
-            make.top.equalTo(shareButtonView).offset(StandardVerticalMargin*2)
-            make.leading.equalTo(shareButtonView).offset(StandardHorizontalMargin)
-            make.height.equalTo(22)
-            make.width.equalTo(22)
-        }
-    }
-
-    
-    private func shareCourse(url: String, utmParameters: CourseShareUtmParameters) {
-        if let url = NSURL(string: url) {
-            let analytics = environment.analytics
-            let courseID = self.courseID
-            
-            let controller = shareHashtaggedTextAndALinka(textBuilder: { hashtagOrPlatform in
-                Strings.shareACourse(platformName: hashtagOrPlatform)
-            }, url: url, utmParams: utmParameters, analyticsCallback: { analyticsType in
-                analytics.trackCourseCelebrationSocialShareClicked(courseID: courseID, type: analyticsType)
-            })
-            controller.configurePresentationController(withSourceView: shareButton)
-            present(controller, animated: true, completion: nil)
-        }
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        if UIDevice.current.orientation.isLandscape {
-            print("Landscape")
-            removeConstraints()
-            modalView.removeFromSuperview()
-            addViews()
-            setupLandscapeContraints()
+    private func removeViews() {
+        modalView.subviews.forEach { $0.removeFromSuperview() }
+    }
+    
+    private func setupViews() {
+        if isLandscape {
+            removeViews()
+            setupLandscapeView()
         } else {
-            print("Portrait")
-            removeConstraints()
-            modalView.removeFromSuperview()
-            modalView.updateConstraints()
-            addViews()
-            setupContraints()
+            removeViews()
+            setupPortraitView()
         }
     }
     
+    private func setupPortraitView() {
+        let stackView = UIStackView()
+        let insideContainer = UIView()
+        let keepGoingButtonContainer = UIView()
+        let buttonContainer = UIView()
+        let textContainer = UIView()
+        modalView.addSubview(stackView)
+        
+        stackView.alignment = .fill
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = StandardVerticalMargin * 2
+        
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(titleMessageLabel)
+        stackView.addArrangedSubview(congratulationImageView)
+        stackView.addArrangedSubview(insideContainer)
+        stackView.addArrangedSubview(keepGoingButtonContainer)
+        
+        insideContainer.backgroundColor =  environment.styles.infoXXLight()
+        insideContainer.addSubview(buttonContainer)
+        insideContainer.addSubview(textContainer)
+        insideContainer.addSubview(shareButtonView)
+        
+        shareButtonView.superview?.bringSubviewToFront(shareButtonView)
+        
+        textContainer.addSubview(celebrationMessageLabel)
+        buttonContainer.addSubview(shareImageView)
+        keepGoingButtonContainer.addSubview(keepGoingButton)
+        
+        shareImageView.snp.remakeConstraints { make in
+            make.height.equalTo(25)
+            make.width.equalTo(21)
+            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
+            make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin*2)
+            let topOffsetMargin = isiPad() ? 10 : 0
+            make.top.equalTo(buttonContainer).offset(topOffsetMargin)
+        }
+        
+        celebrationMessageLabel.snp.remakeConstraints { make in
+            let topOffSetMargin = isiPad() ? -StandardVerticalMargin : 0
+            make.top.equalTo(textContainer).offset(topOffSetMargin)
+            make.leading.equalTo(textContainer)
+            make.trailing.equalTo(textContainer)
+            make.bottom.equalTo(textContainer)
+        }
+        
+        buttonContainer.snp.remakeConstraints { make in
+            make.height.equalTo(25)
+            make.leading.equalTo(insideContainer)
+            make.top.equalTo(insideContainer).offset(StandardVerticalMargin*2)
+        }
+
+        textContainer.snp.remakeConstraints { make in
+            make.top.equalTo(insideContainer).offset(StandardVerticalMargin*2)
+            make.leading.equalTo(buttonContainer.snp.trailing).inset(StandardHorizontalMargin / 2)
+            make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin*2)
+            make.bottom.equalTo(insideContainer).inset(StandardVerticalMargin*2)
+        }
+
+        shareButtonView.snp.makeConstraints { make in
+            make.edges.equalTo(insideContainer)
+        }
+        
+        titleLabel.snp.remakeConstraints { make in
+            make.height.equalTo(30)
+        }
+        
+        titleMessageLabel.snp.remakeConstraints { make in
+            make.height.equalTo(40)
+        }
+        
+        insideContainer.snp.remakeConstraints { make in
+            make.height.equalTo(100)
+        }
+        
+        keepGoingButtonContainer.snp.remakeConstraints { make in
+            make.height.equalTo(40)
+        }
+        
+        keepGoingButton.snp.remakeConstraints { make in
+            make.leading.equalTo(keepGoingButtonContainer).offset(StandardHorizontalMargin*4)
+            make.trailing.equalTo(keepGoingButtonContainer).inset(StandardHorizontalMargin*4)
+            make.height.equalTo(keepGoingButtonContainer)
+        }
+                
+        modalView.snp.remakeConstraints { make in
+            make.leading.equalTo(view).offset(isiPad() ? 100 : 20)
+            make.trailing.equalTo(view).inset(isiPad() ? 100 : 20)
+            make.top.equalTo(view).offset((view.frame.size.height / 4) / 2)
+            make.bottom.equalTo(view).inset((view.frame.size.height / 4) / 2)
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view)
+        }
+        
+        stackView.snp.remakeConstraints { make in
+            make.edges.equalTo(modalView).inset(20)
+        }
+    }
+    
+    private func setupLandscapeView() {
+        let stackView = UIStackView()
+        let rightStackView = UIStackView()
+        let rightContainer = UIView()
+        let insideContainer = UIView()
+        let buttonContainer = UIView()
+        let textContainer = UIView()
+        let keepGoingButtonContainer = UIView()
+        
+        stackView.alignment = .center
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = StandardVerticalMargin * 2
+        insideContainer.backgroundColor = environment.styles.infoXXLight()
+        
+        modalView.addSubview(stackView)
+        textContainer.addSubview(celebrationMessageLabel)
+        buttonContainer.addSubview(shareImageView)
+        insideContainer.addSubview(shareButtonView)
+        insideContainer.addSubview(buttonContainer)
+        insideContainer.addSubview(textContainer)
+        
+        shareButtonView.superview?.bringSubviewToFront(shareButtonView)
+                
+        rightStackView.alignment = .fill
+        rightStackView.axis = .vertical
+        rightStackView.distribution = .equalSpacing
+        rightStackView.spacing = StandardVerticalMargin
+        
+        rightStackView.addArrangedSubview(titleLabel)
+        rightStackView.addArrangedSubview(titleMessageLabel)
+        rightStackView.addArrangedSubview(insideContainer)
+        rightStackView.addArrangedSubview(keepGoingButtonContainer)
+        
+        stackView.addArrangedSubview(congratulationImageView)
+        stackView.addArrangedSubview(rightContainer)
+        
+        rightContainer.addSubview(rightStackView)
+        keepGoingButtonContainer.addSubview(keepGoingButton)
+        
+        rightStackView.snp.makeConstraints { make in
+            make.edges.equalTo(rightContainer)
+        }
+        
+        rightContainer.snp.remakeConstraints { make in
+            make.height.equalTo(stackView)
+        }
+        
+        titleLabel.snp.remakeConstraints { make in
+            make.height.equalTo(30)
+        }
+        
+        titleMessageLabel.snp.remakeConstraints { make in
+            make.height.equalTo(40)
+        }
+        
+        insideContainer.snp.remakeConstraints { make in
+            make.height.equalTo(100)
+        }
+        
+        shareImageView.snp.remakeConstraints { make in
+            make.height.equalTo(25)
+            make.width.equalTo(21)
+            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
+            make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin*2)
+            let topOffsetMargin = isiPad() ? 20 : 10
+            make.top.equalTo(buttonContainer).offset(topOffsetMargin)
+            make.bottom.equalTo(buttonContainer)
+        }
+
+        celebrationMessageLabel.snp.remakeConstraints { make in
+            let topOffSetMargin = isiPad() ? -StandardVerticalMargin : 0
+            make.top.equalTo(textContainer).offset(topOffSetMargin)
+            make.leading.equalTo(textContainer)
+            make.trailing.equalTo(textContainer)
+            make.bottom.equalTo(textContainer)
+        }
+
+        shareButtonView.snp.makeConstraints { make in
+            make.edges.equalTo(insideContainer)
+        }
+        
+         buttonContainer.snp.remakeConstraints { make in
+            let HeightsetMargin = isiPad() ? 40 : 30
+            make.height.equalTo(HeightsetMargin)
+            make.leading.equalTo(insideContainer)
+            make.top.equalTo(insideContainer).offset(StandardVerticalMargin)
+        }
+            
+        textContainer.snp.remakeConstraints { make in
+            make.top.equalTo(insideContainer).offset(StandardVerticalMargin)
+            make.leading.equalTo(buttonContainer.snp.trailing).inset(StandardHorizontalMargin / 2)
+            make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin*2)
+            make.bottom.equalTo(insideContainer).inset(StandardVerticalMargin)
+        }
+        
+        keepGoingButtonContainer.snp.remakeConstraints { make in
+            make.height.equalTo(40)
+        }
+        
+        keepGoingButton.snp.remakeConstraints { make in
+            make.leading.equalTo(keepGoingButtonContainer).offset((view.frame.size.height / 4) / 2)
+            make.trailing.equalTo(keepGoingButtonContainer).inset((view.frame.size.height / 4) / 2)
+            make.height.equalTo(keepGoingButtonContainer)
+        }
+        
+        modalView.snp.remakeConstraints { make in
+            make.leading.equalTo(view).offset(isiPad() ? 100 : 40)
+            make.trailing.equalTo(view).inset(isiPad() ? 100 : 40)
+            
+            let top = isiPad() ? ((view.frame.size.height / 2.5 ) / 2) : ((view.frame.size.height / 4) / 2)
+            let bottom = isiPad() ? ((view.frame.size.width / 2.5 ) / 2) : ((view.frame.size.height / 4) / 2)
+            make.top.equalTo(view).offset(top)
+            make.bottom.equalTo(view).inset(bottom)
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view)
+        }
+        
+        stackView.snp.remakeConstraints { make in
+            make.edges.equalTo(modalView).inset(20)
+        }
+    }
+    
+    @objc func orientationDidChanged() {
+        setupViews()
+    }
+    
+    private func shareCourse(courseID: String, courseURL: String, utmParameters: CourseShareUtmParameters) {
+        guard let courseURL = NSURL(string: courseURL) else { return }
+        let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
+        let courseName = enrollment?.course.name ?? ""
+        let controller = shareHashtaggedTextAndALinkForCelebration(textBuilder: { hashtagOrPlatform in
+            Strings.celebrationShareMessage(courseName: courseName, platformName: hashtagOrPlatform)
+        }, url: courseURL, utmParams: utmParameters, analyticsCallback: { [weak self] analyticsType in
+            self?.environment.analytics.trackCourseCelebrationSocialShareClicked(courseID: courseID, type: analyticsType)
+        })
+        controller.configurePresentationController(withSourceView: shareImageView)
+        present(controller, animated: true, completion: nil)
+    }
 }

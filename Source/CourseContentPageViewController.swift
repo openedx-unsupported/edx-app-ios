@@ -37,7 +37,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return courseQuerier.courseID
     }
     
-    var isCelebratoryEnable: Bool? = false
+    var isCelebratoryModalEnable: Bool? = false
     
     private var openURLButtonItem : UIBarButtonItem?
     
@@ -150,7 +150,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         courseQuerier.courseCelebrationModalStream.listen(self) { [weak self] (result) in
             switch result {
             case .success(let courseCelebrationModel) :
-                    self?.isCelebratoryEnable = courseCelebrationModel.fistSection
+                    self?.isCelebratoryModalEnable = courseCelebrationModel.fistSection
                 break
             case .failure(let error):
                 Logger.logError("CelebratoryModal", "Unable to load celebratory modal: \(error.localizedDescription)")
@@ -304,21 +304,21 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         {
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
                 self?.updateTransitionState(is: false)
-                //if self?.isCelebratoryEnable ?? true {
-                    self?.ShowCelebratoryModa(direction: direction)
-                //}
+                if self?.isCelebratoryModalEnable ?? true {
+                    self?.showCelebratoryModal(direction: direction)
+                }
             })
         }
     }
     
-    private func ShowCelebratoryModa(direction:UIPageViewController.NavigationDirection) {
+    private func showCelebratoryModal(direction: UIPageViewController.NavigationDirection) {
         if direction == .forward {
             let cursor = contentLoader.value
             let currentItem = cursor?.current
             let prevItem = cursor?.peekPrev()
             if prevItem != nil && currentItem?.prevGroup != nil {
                 if currentItem?.parent != prevItem?.parent {
-                    OEXRouter.shared().showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
+                    environment.router?.showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
                 }
             }
         }

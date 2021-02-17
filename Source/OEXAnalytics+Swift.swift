@@ -237,10 +237,11 @@ extension OEXAnalytics {
     }
     
     func trackCourseCelebrationFirstSection(courseID: String) {
-        var info: [String:String] = [:]
-        //info.setSafeObject(AnalyticsEventName.cele, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
-        
-        trackScreen(withName: AnalyticsDisplayName.CelebrationModalView.rawValue, courseID: courseID, value: nil, additionalInfo: info)
+        let event = OEXAnalyticsEvent()
+        event.courseID = courseID;
+        event.name = AnalyticsEventName.CelebrationModalView.rawValue
+        event.displayName = AnalyticsDisplayName.CelebrationModalView.rawValue
+        trackEvent(event, forComponent: nil, withInfo: nil)
     }
     
     func trackSubjectDiscovery(subjectID: String) {
