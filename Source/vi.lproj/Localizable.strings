@@ -574,6 +574,8 @@
 "LARGE_DOWNLOAD_TITLE"="Tải xuống dung lượng lớn";
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "Lần truy cập cuối";
+/* Title for Course Item for resuming course */
+"RESUME_COURSE" = "Tiếp tục khóa học";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Đăng ký và bắt đầu học";
 /* Prompt leading user to sign in screen */

@@ -17,9 +17,7 @@ public enum CourseOutlineMode {
 public class CourseOutlineViewController :
     OfflineSupportViewController,
     CourseBlockViewController,
-    CourseOutlineTableControllerDelegate,
     CourseContentPageViewControllerDelegate,
-    CourseLastAccessedControllerDelegate,
     PullRefreshControllerDelegate,
     LoadStateViewReloadSupport,
     InterfaceOrientationOverriding
@@ -40,11 +38,11 @@ public class CourseOutlineViewController :
 
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
-    private var lastAccessedController : CourseLastAccessedController
+    private var resumeCourseController : ResumeCourseController
     private(set) var courseOutlineMode: CourseOutlineMode
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
-    fileprivate var t_hasTriggeredSetLastAccessed = false
+    fileprivate var t_hasTriggeredSetResumeCourse = false
     
     public var blockID : CourseBlockID? {
         return blockIDStream.value ?? nil
@@ -63,12 +61,12 @@ public class CourseOutlineViewController :
         insetsController = ContentInsetsController()
         courseOutlineMode = mode ?? .full
         tableController = CourseOutlineTableController(environment: environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: rootID)
-        lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
+        resumeCourseController = ResumeCourseController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
         addObserver()
-        lastAccessedController.delegate = self
+        resumeCourseController.delegate = self
         
         addChild(tableController)
         tableController.didMove(toParent: self)
@@ -101,8 +99,7 @@ public class CourseOutlineViewController :
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
-        lastAccessedController.saveLastAccessed()
+        resumeCourseController.loadResumeCourse(forMode: courseOutlineMode)
         loadCourseStream()
         
         if courseOutlineMode == .video {
@@ -190,13 +187,30 @@ public class CourseOutlineViewController :
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.loadCourseDateBannerView(courseBanner: courseBanner)
+                self?.handleDatesBanner(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
                 self?.hideCourseBannerView()
                 Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
                 break
+            }
+        }
+    }
+    
+    private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
+        guard let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced else {
+            hideCourseBannerView()
+            return
+        }
+        
+        if isSelfPaced {
+            loadCourseDateBannerView(courseBanner: courseBanner)
+        } else {
+            if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
+                loadCourseDateBannerView(courseBanner: courseBanner)
+            } else {
+                hideCourseBannerView()
             }
         }
     }
@@ -294,53 +308,8 @@ public class CourseOutlineViewController :
         loadBackedStreams()
     }
     
-    private func canDownload() -> Bool {
+    private var canDownload: Bool {
         return environment.dataManager.interface?.canDownload() ?? false
-    }
-    
-    // MARK: Outline Table Delegate
-    
-    func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController) {
-        environment.router?.showDownloads(from: self)
-    }
-    
-    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
-        if canDownload() {
-            environment.dataManager.interface?.downloadVideos(videos)
-            
-            let courseID = self.courseID
-            let analytics = environment.analytics
-            
-            courseQuerier.parentOfBlockWithID(blockID: block.blockID).listenOnce(self, success:
-                { parentID in
-                    analytics.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
-            }, failure: {error in
-                Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
-            })
-        }
-        else {
-            showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
-        }
-    }
-    
-    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
-        
-        if canDownload() {
-            environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
-            environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
-        }
-        else {
-            showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
-        }
-    }
-    
-    func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
-        environment.router?.showContainerForBlockWithID(blockID: block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self, forMode: courseOutlineMode)
-    }
-    
-    func outlineTableControllerReload(controller: CourseOutlineTableController) {
-        courseQuerier.needsRefresh = true
-        reload()
     }
     
     func resetCourseDate(controller: CourseOutlineTableController) {
@@ -406,19 +375,83 @@ public class CourseOutlineViewController :
         tableController.highlightedBlockID = blockID
     }
     
-    //MARK: LastAccessedControllerDeleagte
-    public func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
-        if let lastAccessedItem = item {
-            tableController.showLastAccessedWithItem(item: lastAccessedItem)
-        }
-        else {
-            tableController.hideLastAccessed()
-        }
-        
-    }
-    
     //MARK:- LoadStateViewReloadSupport method
     func loadStateViewReload() {
+        reload()
+    }
+}
+
+//MARK: ResumeCourseControllerDelegate
+extension CourseOutlineViewController: ResumeCourseControllerDelegate {
+    public func resumeCourseControllerDidFetchResumeCourseItem(item: ResumeCourseItem?) {
+        guard let resumeCourseItem = item, !resumeCourseItem.lastVisitedBlockID.isEmpty else {
+            tableController.hideResumeCourse()
+            return
+        }
+        
+        courseQuerier.blockWithID(id: resumeCourseItem.lastVisitedBlockID).extendLifetimeUntilFirstResult(success: { [weak self] block in
+            switch block.type {
+            case .Course, .Chapter, .Unit, .Section:
+                self?.tableController.hideResumeCourse()
+            default:
+                self?.tableController.showResumeCourse(item: resumeCourseItem)
+            }
+        }, failure: { [weak self] _ in
+            self?.tableController.hideResumeCourse()
+        })
+    }
+}
+
+extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
+    func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController) {
+        environment.router?.showDownloads(from: self)
+    }
+    
+    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
+        if canDownload {
+            environment.dataManager.interface?.downloadVideos(videos)
+            
+            let courseID = self.courseID
+            let analytics = environment.analytics
+            
+            courseQuerier.parentOfBlockWithID(blockID: block.blockID).listenOnce(self, success:
+                { parentID in
+                    analytics.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
+            }, failure: {error in
+                Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
+            })
+        } else {
+            showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
+        }
+    }
+    
+    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
+        if canDownload {
+            environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
+            environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
+        } else {
+            showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
+        }
+    }
+    
+    func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourseItem) {
+        guard let childBlock = courseQuerier.blockWithID(id: item.lastVisitedBlockID).firstSuccess().value,
+              let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
+              let sectionBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Section).firstSuccess().value,
+              let chapterBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Chapter).firstSuccess().value else {
+            Logger.logError("ANALYTICS", "Unable to load block: \(item.lastVisitedBlockID)")
+            return
+        }
+        
+        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, childBlock: childBlock, unitBlock: unitBlock, sectionBlock: sectionBlock, chapterBlock: chapterBlock)
+    }
+    
+    func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID) {
+        environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode)
+    }
+    
+    func outlineTableControllerReload(controller: CourseOutlineTableController) {
+        courseQuerier.needsRefresh = true
         reload()
     }
 }
@@ -434,14 +467,14 @@ extension CourseOutlineViewController {
         return tableController.groups.count
     }
     
-    public func t_populateLastAccessedItem(item : CourseLastAccessed) -> Bool {
-        tableController.showLastAccessedWithItem(item: item)
+    public func t_populateResumeCourseItem(item : ResumeCourseItem) -> Bool {
+        tableController.showResumeCourse(item: item)
         return tableController.tableView.tableHeaderView != nil
         
     }
     
-    public func t_didTriggerSetLastAccessed() -> Bool {
-        return t_hasTriggeredSetLastAccessed
+    public func t_didTriggerSetResumeCourse() -> Bool {
+        return t_hasTriggeredSetResumeCourse
     }
     
     public func t_tableView() -> UITableView {

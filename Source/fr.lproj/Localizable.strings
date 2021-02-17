@@ -586,6 +586,8 @@
 "LARGE_DOWNLOAD_TITLE"="Téléchargement volumineux";
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "Dernier accès";
+/* Title for Course Item for resuming course */
+"RESUME_COURSE" = "Reprendre le cours";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Inscrivez-vous et commencez à apprendre";
 /* Prompt leading user to sign in screen */

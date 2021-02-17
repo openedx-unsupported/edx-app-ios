@@ -584,7 +584,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
 extension VideoBlockViewController {
     func markVideoComplete() {
         guard let username = environment.session.currentUser?.username, let blockID = blockID else { return }
-        let networkRequest = VideoCompletionApi.videoCompletion(username: username, courseID: courseID, blockID: blockID)
+        let networkRequest = BlockCompletionApi.blockCompletionRequest(username: username, courseID: courseID, blockID: blockID)
         environment.networkManager.taskForRequest(networkRequest) { _ in }
     }
 }

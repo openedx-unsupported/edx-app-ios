@@ -107,19 +107,17 @@ public class CourseOutlineQuerier : NSObject {
             }
         }
         
-        self.interface?.addVideos(videos, forCourseWithID: courseID)
+        interface?.addVideos(videos, forCourseWithID: courseID)
     }
     
     private func loadOutlineIfNecessary() {
         if (courseOutline.value == nil || needsRefresh) && !courseOutline.active {
             needsRefresh = false
-            if let enrollment = self.enrollmentManager?.enrolledCourseWithID(courseID: courseID),
-                let access = enrollment.course.courseware_access, !access.has_access
-            {
+            if let enrollment = enrollmentManager?.enrolledCourseWithID(courseID: courseID),
+                let access = enrollment.course.courseware_access, !access.has_access {
                 let stream = OEXStream<CourseOutline>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: enrollment.course.start_display_info))
                 courseOutline.backWithStream(stream)
-            }
-            else {
+            } else {
                 let request = CourseOutlineAPI.requestWithCourseID(courseID: courseID, username : session?.currentUser?.username, environment: environment as? RouterEnvironment)
                 if let loader = networkManager?.streamForRequest(request, persistResponse: true) {
                     courseOutline.backWithStream(loader)
@@ -132,14 +130,14 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    public var rootID : OEXStream<CourseBlockID> {
+    public var rootID: OEXStream<CourseBlockID> {
         loadOutlineIfNecessary()
         return courseOutline.map { return $0.root }
     }
     
     public func spanningCursorForBlockWithID(blockID: CourseBlockID?, initialChildID: CourseBlockID?, forMode mode: CourseOutlineMode) -> OEXStream<ListCursor<GroupItem>> {
         loadOutlineIfNecessary()
-        return courseOutline.flatMap {[weak self] outline in
+        return courseOutline.flatMap { [weak self] outline in
             if let blockID = blockID,
                 let child = initialChildID ?? self?.blockWithID(id: blockID, inOutline: outline)?.children.first,
                 let groupCursor = self?.cursorForLeafGroupsAdjacentToBlockWithID(blockID: blockID, forMode: mode, inOutline: outline),
@@ -276,6 +274,46 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
+    /// for value of CourseBlockType, expected parameters are Course, Chapter, Section or Unit to iterate recursively to find parent of that type
+    public func parentOfBlockWith(id blockID: CourseBlockID, type: CourseBlockType) -> OEXStream<CourseBlock> {
+        loadOutlineIfNecessary()
+        
+        guard type == .Course || type == .Chapter || type == .Section || type == .Unit else {
+            return OEXStream(error: NSError.oex_courseContentLoadError())
+        }
+        
+        if let block = blockWithID(id: blockID).firstSuccess().value, block.type == type {
+            // type of current block is the type which is passed as parameter
+            return OEXStream(error: NSError.oex_courseContentLoadError())
+        }
+                
+        guard let parentBlockID = parentOfBlockWithID(blockID: blockID).firstSuccess().value else {
+            return OEXStream(error: NSError.oex_courseContentLoadError())
+        }
+        
+        let blockStream = blockWithID(id: parentBlockID).firstSuccess()
+        
+        guard let value = blockStream.value else {
+            return OEXStream(error: NSError.oex_courseContentLoadError())
+        }
+        
+        return value.type == type ? blockStream : parentOfBlockWith(id: value.blockID, type: type)
+    }
+    
+    /// parentOfBlockWith  returns Stream containing CourseBlock
+    public func parentOfBlockWith(id blockID: CourseBlockID) -> OEXStream<CourseBlock> {
+        loadOutlineIfNecessary()
+        
+        return parentOfBlockWithID(blockID: blockID).flatMap {  [weak self]  id -> Result<CourseBlock> in
+            if let block = self?.blockWithID(id: id).firstSuccess().value {
+                return Success(v: block)
+            } else {
+                return Failure(e: NSError.oex_courseContentLoadError())
+            }
+        }
+    }
+    
+    /// parentOfBlockWithID returns Stream containing CourseBlockID
     public func parentOfBlockWithID(blockID: CourseBlockID) -> OEXStream<CourseBlockID?> {
         loadOutlineIfNecessary()
         
@@ -286,11 +324,9 @@ public class CourseOutlineQuerier : NSObject {
             else {
                 if let blockID = outline.parentOfBlockWithID(blockID: blockID) {
                     return Success(v: blockID)
-                }
-                else {
+                } else {
                     return Failure(e: NSError.oex_courseContentLoadError())
                 }
-                
             }
         }
     }
@@ -300,7 +336,7 @@ public class CourseOutlineQuerier : NSObject {
     public func childrenOfBlockWithID(blockID: CourseBlockID?, forMode mode: CourseOutlineMode) -> OEXStream<BlockGroup> {
         loadOutlineIfNecessary()
         
-        return courseOutline.flatMap {[weak self] (outline : CourseOutline) -> Result<BlockGroup> in
+        return courseOutline.flatMap { [weak self] (outline : CourseOutline) -> Result<BlockGroup> in
             let children = self?.childrenOfBlockWithID(blockID: blockID, forMode: mode, inOutline: outline)
             return children.toResult(NSError.oex_courseContentLoadError())
         }
@@ -330,7 +366,7 @@ public class CourseOutlineQuerier : NSObject {
     }
 
     private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, transform : (CourseBlock) -> [A], accumulator : inout [A]) {
-        if let block = self.blockWithID(id: id, inOutline: outline) {
+        if let block = blockWithID(id: id, inOutline: outline) {
             accumulator.append(contentsOf: transform(block))
             for child in block.children {
                 flatMapRootedAtBlockWithID(id: child, inOutline: outline, transform: transform, accumulator: &accumulator)
@@ -371,9 +407,9 @@ public class CourseOutlineQuerier : NSObject {
     /// nil means use the course root.
     public func blockWithID(id: CourseBlockID?, mode: CourseOutlineMode = .full) -> OEXStream<CourseBlock> {
         loadOutlineIfNecessary()
-        return courseOutline.flatMap {outline in
+        return courseOutline.flatMap {  [weak self]  outline in
             let blockID = id ?? outline.root
-            let block = self.blockWithID(id: blockID, inOutline: outline, forMode: mode)
+            let block = self?.blockWithID(id: blockID, inOutline: outline, forMode: mode)
             return block.toResult(NSError.oex_courseContentLoadError())
         }
     }

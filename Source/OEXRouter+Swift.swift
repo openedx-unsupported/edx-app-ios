@@ -64,13 +64,20 @@ extension OEXRouter {
         return contentPageController
     }
     
-    func showContainerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, parentID : CourseBlockID?, courseID : CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full) {
+    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, childBlock: CourseBlock, unitBlock: CourseBlock, sectionBlock: CourseBlock, chapterBlock: CourseBlock, completion: UINavigationController.CompletionWithTopController? = nil) {
+
+        showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: controller) { [weak self] visibleController in
+            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: completion)
+        }
+    }
+    
+    func showContainerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: UINavigationController.CompletionWithTopController? = nil) {
         switch type {
         case .Outline:
             fallthrough
         case .Unit:
             let outlineController = controllerForBlockWithID(blockID: blockID, type: type, courseID: courseID, forMode: mode)
-            controller.navigationController?.pushViewController(outlineController, animated: true)
+            controller.navigationController?.pushViewController(outlineController, animated: true, completion: completion)
         case .HTML:
             fallthrough
         case .Video:
@@ -80,13 +87,13 @@ extension OEXRouter {
             if let delegate = controller as? CourseContentPageViewControllerDelegate {
                 pageController.navigationDelegate = delegate
             }
-            controller.navigationController?.pushViewController(pageController, animated: true)
+            controller.navigationController?.pushViewController(pageController, animated: true, completion: completion)
         case .Discussion:
             let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID)
             if let delegate = controller as? CourseContentPageViewControllerDelegate {
                 pageController.navigationDelegate = delegate
             }
-            controller.navigationController?.pushViewController(pageController, animated: true)
+            controller.navigationController?.pushViewController(pageController, animated: true, completion: completion)
         }
     }
     
@@ -96,9 +103,9 @@ extension OEXRouter {
         modalView.modalTransitionStyle = .crossDissolve
         controller.present(modalView, animated: false, completion: nil)
     }
-    
-    private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String, forMode mode: CourseOutlineMode? = .full, gated: Bool? = false) -> UIViewController {
-        
+
+    private func controllerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, courseID: String, forMode mode: CourseOutlineMode? = .full, gated: Bool? = false) -> UIViewController {
+
         if gated ?? false {
             return CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
         }

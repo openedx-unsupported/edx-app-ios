@@ -136,7 +136,7 @@ public struct CourseOutline {
     }
 }
 
-public enum CourseBlockType {
+public enum CourseBlockType: Equatable {
     case Unknown(String)
     case Course
     case Chapter // child of course

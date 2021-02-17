@@ -25,31 +25,19 @@ public struct UserAPI {
         }
 }
 
-    static func lastAccessedDeserializer(response : HTTPURLResponse, json : JSON) -> Result<CourseLastAccessed> {
-        return CourseLastAccessed(json: json).toResult()
+    private static func resumeCourseDeserializer(response : HTTPURLResponse, json : JSON) -> Result<ResumeCourseItem> {
+        return ResumeCourseItem(json: json).toResult()
     }
     
-    public static func requestLastVisitedModuleForCourseID(courseID: String) -> NetworkRequest<CourseLastAccessed> {
-
+    public static func requestResumeCourseBlock(for courseID: String) -> NetworkRequest<ResumeCourseItem> {
+        let paremeters = [
+            "courseID": courseID,
+            "username": OEXSession.shared()?.currentUser?.username ?? ""
+        ]
         return NetworkRequest(
-            method: HTTPMethod.GET,
-            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_format(withParameters: ["course_id" : courseID, "username":OEXSession.shared()?.currentUser?.username ?? ""]),
+            method: .GET,
+            path : "/api/mobile/v1/users/{username}/course_status_info/{courseID}".oex_format(withParameters: paremeters),
             requiresAuth : true,
-            deserializer: .jsonResponse(lastAccessedDeserializer))
+            deserializer: .jsonResponse(resumeCourseDeserializer))
     }
-    
-    public static func setLastVisitedModuleForBlockID(blockID:String, module_id:String) -> NetworkRequest<CourseLastAccessed> {
-        let requestParams = UserStatusParameters(courseVisitedModuleId: module_id)
-        
-        return NetworkRequest(
-            method: HTTPMethod.PATCH,
-            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_format(withParameters: ["course_id" : blockID, "username":OEXSession.shared()?.currentUser?.username ?? ""]),
-            requiresAuth : true,
-            body : RequestBody.jsonBody(requestParams.jsonBody),
-            deserializer: .jsonResponse(lastAccessedDeserializer))
-    }
-    
-
-
-
 }

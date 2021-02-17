@@ -634,6 +634,8 @@
 "LARGE_DOWNLOAD_TITLE"="حجم ملفات التنزيل كبير";
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "آخر زيارة - ";
+/* Title for Course Item for resuming course */
+"RESUME_COURSE" = "استئناف الدورة";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="اشترك معنا وابدأ التعلم";
 /* Prompt leading user to sign in screen */

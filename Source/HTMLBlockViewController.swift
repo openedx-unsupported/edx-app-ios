@@ -94,7 +94,9 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     }
     
     private func loadBannerStream() {
-        guard subkind == .Problem else { return }
+        guard subkind == .Problem,
+              let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced,
+              isSelfPaced else { return }
         
         let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
         let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
