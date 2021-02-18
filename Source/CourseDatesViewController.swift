@@ -218,12 +218,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             blocks.append(todayBlock)
             blocks.append(contentsOf: future)
         }
-        
-        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
-        blocks.modifyForEach { block in
-            block.componentExistsInCourse = courseQuerier.blockWithID(id: block.firstComponentBlockID).firstSuccess().value != nil
-        }
-        
+                
         for block in blocks {
             let key = block.blockDate
             if dateBlocksMap.keys.contains(key) {
@@ -357,14 +352,20 @@ extension CourseDatesViewController: PullRefreshControllerDelegate {
 
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLink(with url: URL) {
-        if UIApplication.shared.canOpenURL(url) {
+        let componentID = url.URLString
+        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
+        
+        if let _ = courseQuerier.blockWithID(id: componentID).firstSuccess().value {
+            environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
+        } else if let block = courseDateModel?.dateBlocks.first(where: { $0.firstComponentBlockID == componentID }),
+                  let blockURL = URL(string: block.link) {
             let message = Strings.courseContentUnknown.components(separatedBy: "\n").first ?? ""
             let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self)
             alertController.addButton(withTitle: Strings.openInBrowser) { _ in
-                UIApplication.shared.openURL(url)
+                if UIApplication.shared.canOpenURL(blockURL) {
+                    UIApplication.shared.openURL(blockURL)
+                }
             }
-        } else {
-            environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: url.URLString)
         }
     }
     

@@ -305,7 +305,6 @@ struct CourseDateBlock {
     var dateString: String = ""
     var userTimeZone: String?
     var preferenceTimeZone: String?
-    var componentExistsInCourse: Bool = false
     
     var today: Date {
         return Date().stripTimeStamp(timeZone: timeZone)

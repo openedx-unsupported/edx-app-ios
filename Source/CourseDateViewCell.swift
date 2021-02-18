@@ -271,12 +271,8 @@ class CourseDateViewCell: UITableViewCell {
             let blockTitle = block.assignmentType.isEmpty ? block.title : "\(block.assignmentType): \(block.title)"
             var attributedString = titleStyle.attributedString(withText: blockTitle)
             
-            if block.canShowLink {
-                if block.componentExistsInCourse {
-                    attributedString = attributedString.addLink(on: block.title, value: block.firstComponentBlockID, foregroundColor: color, underline: true)
-                } else if let url = URL(string: block.link) {
-                    attributedString = attributedString.addLink(on: block.title, value: url, foregroundColor: color, underline: true)
-                }
+            if block.canShowLink, !block.firstComponentBlockID.isEmpty {
+                attributedString = attributedString.addLink(on: block.title, value: block.firstComponentBlockID, foregroundColor: color, underline: true)
             }
             
             var messageText: [NSAttributedString] = [attributedString]
