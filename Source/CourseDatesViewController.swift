@@ -353,7 +353,7 @@ extension CourseDatesViewController: PullRefreshControllerDelegate {
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLink(with url: URL) {
         if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     

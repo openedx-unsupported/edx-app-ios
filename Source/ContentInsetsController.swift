@@ -64,8 +64,8 @@ public class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
     }
     
     private var controllerInsets : UIEdgeInsets {
-        let topGuideHeight = self.owner?.topLayoutGuide.length ?? 0
-        let bottomGuideHeight = self.owner?.bottomLayoutGuide.length ?? 0
+        let topGuideHeight = self.owner?.view.safeAreaInsets.top ?? 0
+        let bottomGuideHeight = self.owner?.view.safeAreaInsets.bottom ?? 0
         return UIEdgeInsets(top : topGuideHeight, left : 0, bottom : bottomGuideHeight, right : 0)
     }
     

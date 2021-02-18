@@ -1,4 +1,5 @@
 #import "FIRAnalytics+AppDelegate.h"
+#import "FIRAnalytics+Consent.h"
 #import "FIRAnalytics.h"
 #import "FIREventNames.h"
 #import "FIRParameterNames.h"

@@ -125,7 +125,7 @@ public class CourseOutlineViewController :
     }
     
     override public func updateViewConstraints() {
-        loadController.insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0, bottom: bottomLayoutGuide.length, right : 0)
+        loadController.insets = UIEdgeInsets(top: view.safeAreaInsets.top, left: 0, bottom: view.safeAreaInsets.bottom, right : 0)
         
         tableController.view.snp.remakeConstraints { make in
             make.edges.equalTo(safeEdges)

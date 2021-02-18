@@ -72,8 +72,9 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
                                 self?.showLoadedBlock(block: block, forVideo: video)
                             }
                             else {
-                                let url = block.blockURL
-                                self?.showYoutubeMessage(url: url!)
+                                if let url = block.blockURL {
+                                    self?.showYoutubeMessage(url: url as URL)
+                                }
                             }
                         }
                         else if block.type.asVideo?.preferredEncoding != nil {
@@ -114,7 +115,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
         
-        NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibilityVoiceOverStatusChanged) { (_, observer, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibility.voiceOverStatusDidChangeNotification.rawValue) { (_, observer, _) in
             observer.setAccessibility()
         }
         chromeCastManager.viewExpanded = false
@@ -349,10 +350,10 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         loadController.state = LoadState.failed(error: error, icon: .UnknownError, message: Strings.videoContentNotAvailable)
     }
     
-    private func showYoutubeMessage(url: NSURL) {
+    private func showYoutubeMessage(url: URL) {
         let buttonInfo = MessageButtonInfo(title: Strings.Video.viewOnYoutube) {
-            if UIApplication.shared.canOpenURL(url as URL){
-                UIApplication.shared.openURL(url as URL)
+            if UIApplication.shared.canOpenURL(url){
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
         loadController.state = LoadState.empty(icon: .CourseVideos, message: Strings.Video.onlyOnYoutube, attributedMessage: nil, accessibilityMessage: nil, buttonInfo: buttonInfo)

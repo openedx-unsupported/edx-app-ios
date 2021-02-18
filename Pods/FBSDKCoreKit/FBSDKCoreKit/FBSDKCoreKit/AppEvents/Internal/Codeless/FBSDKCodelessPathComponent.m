@@ -16,19 +16,23 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FBSDKCodelessPathComponent.h"
+#import "TargetConditionals.h"
 
-#import "FBSDKCodelessMacros.h"
+#if !TARGET_OS_TV
+
+ #import "FBSDKCodelessPathComponent.h"
+
+ #import "FBSDKViewHierarchyMacros.h"
 
 @implementation FBSDKCodelessPathComponent
 
-- (instancetype)initWithJSON:(NSDictionary *)dict {
+- (instancetype)initWithJSON:(NSDictionary *)dict
+{
   if (self = [super init]) {
     _className = [dict[CODELESS_MAPPING_CLASS_NAME_KEY] copy];
     _text = [dict[CODELESS_MAPPING_TEXT_KEY] copy];
     _hint = [dict[CODELESS_MAPPING_HINT_KEY] copy];
     _desc = [dict[CODELESS_MAPPING_DESC_KEY] copy];
-
 
     if (dict[CODELESS_MAPPING_INDEX_KEY]) {
       _index = [dict[CODELESS_MAPPING_INDEX_KEY] intValue];
@@ -55,4 +59,23 @@
   return self;
 }
 
+- (BOOL)isEqualToPath:(FBSDKCodelessPathComponent *)path
+{
+  NSString *current = [NSString stringWithFormat:@"%@|%@|%@|%@|%d|%d|%d|%d|%d",
+                       _className ?: @"",
+                       _text ?: @"",
+                       _hint ?: @"",
+                       _desc ?: @"",
+                       _index, _section, _row, _tag, _matchBitmask];
+  NSString *compared = [NSString stringWithFormat:@"%@|%@|%@|%@|%d|%d|%d|%d|%d",
+                        path.className ?: @"",
+                        path.text ?: @"",
+                        path.hint ?: @"",
+                        path.desc ?: @"",
+                        path.index, path.section, path.row, path.tag, path.matchBitmask];
+  return [current isEqualToString:compared];
+}
+
 @end
+
+#endif

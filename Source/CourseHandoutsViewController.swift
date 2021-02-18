@@ -125,7 +125,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
     }
     
     override public func updateViewConstraints() {
-        loadController.insets = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: self.bottomLayoutGuide.length, right: 0)
+        loadController.insets = UIEdgeInsets(top: view.safeAreaInsets.top, left: 0, bottom: view.safeAreaInsets.bottom, right: 0)
         super.updateViewConstraints()
     }
     
@@ -140,7 +140,7 @@ extension CourseHandoutsViewController: WKNavigationDelegate {
         switch navigationAction.navigationType {
         case .linkActivated, .formSubmitted, .formResubmitted:
             if let URL = navigationAction.request.url, UIApplication.shared.canOpenURL(URL){
-                UIApplication.shared.openURL(URL)
+                UIApplication.shared.open(URL, options: [:], completionHandler: nil)
             }
             decisionHandler(.cancel)
         default:

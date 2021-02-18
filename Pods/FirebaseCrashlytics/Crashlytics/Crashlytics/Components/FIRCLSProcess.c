@@ -216,9 +216,14 @@ static bool FIRCLSProcessGetThreadState(FIRCLSProcess *process,
 #if !TARGET_OS_WATCH
   // try to get the value by querying the thread state
   mach_msg_type_number_t stateCount = FIRCLSThreadStateCount;
-  if (thread_get_state(thread, FIRCLSThreadState, (thread_state_t)(&(context->__ss)),
-                       &stateCount) != KERN_SUCCESS) {
-    FIRCLSSDKLogError("failed to get thread state\n");
+
+  // For unknown reasons, thread_get_state returns this value on Rosetta,
+  // but still succeeds.
+  const int ROSETTA_SUCCESS = 268435459;
+  kern_return_t status = thread_get_state(thread, FIRCLSThreadState, (thread_state_t)(&(context->__ss)),
+                                   &stateCount);
+  if (status != KERN_SUCCESS && status != ROSETTA_SUCCESS) {
+    FIRCLSSDKLogError("Failed to get thread state via thread_get_state for thread: %i\n", thread);
     return false;
   }
 
@@ -546,6 +551,11 @@ void FIRCLSProcessRecordDispatchQueueNames(FIRCLSProcess *process, FIRCLSFile *f
 
     name = FIRCLSProcessGetThreadDispatchQueueName(process, thread);
 
+    // Apple Report Converter will fail to parse this when "name" is null,
+    // so we will use an empty string instead.
+    if (name == NULL) {
+      name = "";
+    }
     FIRCLSFileWriteArrayEntryString(file, name);
   }
 
@@ -799,6 +809,12 @@ static void FIRCLSProcessRecordCrashInfo(FIRCLSFile *file) {
       FIRCLSSDKLogError("Failed to copy crash info string\n");
       continue;
     }
+
+    // The crash_info_t's message may contain the device's UDID, in this case,
+    // make sure that we do our best to redact that information before writing the
+    // rest of the message to disk. This also has the effect of not uploading that
+    // information in the subsequent crash report.
+    FIRCLSRedactUUID(string);
 
     FIRCLSFileWriteArrayEntryHexEncodedString(file, string);
   }

@@ -165,7 +165,8 @@ class PersistentResponseCacheTests: XCTestCase {
         objc_registerClassPair(klass)
         autoreleasepool {
             let object = OEXMetaClassHelpers.instance(ofClassNamed: "FakeClass")
-            NSKeyedArchiver.archiveRootObject(object!, toFile: path!.path)
+            let data = try? NSKeyedArchiver.archivedData(withRootObject: object!, requiringSecureCoding: false)
+            try? data?.write(to: URL(fileURLWithPath: path!.path), options: .atomic)
         }
         objc_disposeClassPair(klass)
 
@@ -197,7 +198,8 @@ class PersistentResponseCacheTests: XCTestCase {
         autoreleasepool {
             let entry = ResponseCacheEntry(data: "test".data(using: String.Encoding.utf8), response: HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
             object_setClass(entry, klass)
-            NSKeyedArchiver.archiveRootObject(entry, toFile: path!.path)
+            let data = try? NSKeyedArchiver.archivedData(withRootObject: entry, requiringSecureCoding: false)
+            try? data?.write(to: URL(fileURLWithPath: path!.path), options: .atomic)
         }
         objc_disposeClassPair(klass)
 

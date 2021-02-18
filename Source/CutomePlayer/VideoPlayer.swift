@@ -202,7 +202,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 observer.controls?.setPlayPauseButtonState(isSelected: true)
             }
             
-            NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibilityVoiceOverStatusChanged, action: { (_, observer, _) in
+            NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibility.voiceOverStatusDidChangeNotification.rawValue, action: { (_, observer, _) in
                 observer.voiceOverStatusChanged()
             })
         }

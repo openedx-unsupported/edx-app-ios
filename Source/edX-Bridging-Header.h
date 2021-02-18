@@ -2,12 +2,12 @@
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
-#import <Analytics/SEGAnalytics.h>
 #import <FirebaseCore/FirebaseCore.h>
-#import <YoutubePlayer-in-WKWebView/WKYTPlayerView.h>
 #import <FirebaseMessaging/FIRMessaging.h>
 #import <FirebaseCrashlytics/FIRCrashlytics.h>
 #import <FirebaseRemoteConfig/FIRRemoteConfig.h>
+#import <Analytics/SEGAnalytics.h>
+#import <YoutubePlayer-in-WKWebView/WKYTPlayerView.h>
 
 #import "DACircularProgressView.h"
 #import <DateTools/NSDate+DateTools.h>

@@ -16,8 +16,12 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FBSDKBridgeAPIProtocol.h"
-#import "FBSDKBridgeAPIRequest.h"
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
+ #import "FBSDKBridgeAPIProtocol.h"
+ #import "FBSDKBridgeAPIRequest.h"
 
 @interface FBSDKBridgeAPIRequest ()
 
@@ -28,8 +32,10 @@
                    methodVersion:(NSString *)methodVersion
                       parameters:(NSDictionary *)parameters
                         userInfo:(NSDictionary *)userInfo
-NS_DESIGNATED_INITIALIZER;
+  NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, strong, readonly) id<FBSDKBridgeAPIProtocol> protocol;
+@property (nonatomic, readwrite, strong) id<FBSDKBridgeAPIProtocol> protocol;
 
 @end
+
+#endif

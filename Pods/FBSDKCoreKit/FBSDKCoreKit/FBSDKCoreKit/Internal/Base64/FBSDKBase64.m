@@ -53,6 +53,14 @@ static FBSDKBase64 *_encoder;
   return [_encoder encodeString:string];
 }
 
++ (NSString *)base64FromBase64Url:(NSString *)base64Url
+{
+  NSString *base64 = [base64Url stringByReplacingOccurrencesOfString:@"-" withString:@"+"];
+  base64 = [base64 stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
+
+  return base64;
+}
+
 #pragma mark - Object Lifecycle
 
 #pragma mark - Implementation Methods
@@ -67,7 +75,7 @@ static FBSDKBase64 *_encoder;
   int needPadding = string.length % 4;
   if (needPadding > 0) {
     needPadding = 4 - needPadding;
-    string = [string stringByPaddingToLength:string.length+needPadding withString:@"=" startingAtIndex:0];
+    string = [string stringByPaddingToLength:string.length + needPadding withString:@"=" startingAtIndex:0];
   }
 
   return [[NSData alloc] initWithBase64EncodedString:string options:NSDataBase64DecodingIgnoreUnknownCharacters];

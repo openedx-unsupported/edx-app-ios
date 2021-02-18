@@ -57,7 +57,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         messageView = IconMessageView(icon: icon, message: message)
         messageView?.buttonInfo = MessageButtonInfo(title : buttonTitle) {
             guard let videoURL = videoUrl, let url = URL(string: videoURL), UIApplication.shared.canOpenURL(url) else { return }
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
         
         if let messageView = messageView {
@@ -93,7 +93,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             guard let weakSelf = self else { return }
             weakSelf.loader?.listen(weakSelf, success : { url in
                 guard let url = url, UIApplication.shared.canOpenURL(url) else { return }
-                UIApplication.shared.openURL(url)
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 weakSelf.logOpenInBrowserEvent()
             }, failure : { _ in })
         }

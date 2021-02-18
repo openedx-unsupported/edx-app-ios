@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/FirebaseMessaging/Sources/Public/FIRMessagingExtensionHelper.h
+../../../FirebaseMessaging/FirebaseMessaging/Sources/Public/FirebaseMessaging/FIRMessagingExtensionHelper.h

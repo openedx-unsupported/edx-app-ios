@@ -9,9 +9,11 @@
 @import edXCore;
 @import FirebaseAnalytics;
 @import GoogleCast;
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <GoogleSignIn/GoogleSignIn.h>
-#import <NewRelicAgent/NewRelic.h>
+@import NewRelic;
+
+@import FBSDKCoreKit;
+@import GoogleSignIn;
+
 #import <Analytics/SEGAnalytics.h>
 #import <Branch/Branch.h>
 #import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
@@ -140,10 +142,6 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     [self.environment.pushNotificationManager didReceiveRemoteNotificationWithUserInfo:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
-}
-
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    [self.environment.pushNotificationManager didReceiveLocalNotificationWithUserInfo:notification.userInfo];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

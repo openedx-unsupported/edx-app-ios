@@ -270,7 +270,6 @@
 }
 
 - (void)setToDefaultProperties {
-    self.automaticallyAdjustsScrollViewInsets = NO;
     self.usernameTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings usernameTitleText],[Strings asteric]]];
     self.passwordTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings passwordTitleText],[Strings asteric]]];
     self.tf_EmailID.text = @"";
@@ -553,7 +552,7 @@
     [alertController addButtonWithTitle:[Strings versionUpgradeUpdate] actionBlock:^(UIAlertAction * _Nonnull action) {
         NSURL *url = _environment.config.appUpgradeConfig.iOSAppStoreURL;
         if (url && [[UIApplication sharedApplication] canOpenURL:url]) {
-            [[UIApplication sharedApplication] openURL:url];
+            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
         }
     }];
 }
