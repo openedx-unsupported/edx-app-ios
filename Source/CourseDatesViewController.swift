@@ -359,13 +359,15 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
             environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
         } else if let block = courseDateModel?.dateBlocks.first(where: { $0.firstComponentBlockID == componentID }),
                   let blockURL = URL(string: block.link) {
-            let message = Strings.courseContentUnknown.components(separatedBy: "\n").first ?? ""
+            let message = Strings.courseContentNotAvailable
             let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self)
             alertController.addButton(withTitle: Strings.openInBrowser) { _ in
                 if UIApplication.shared.canOpenURL(blockURL) {
                     UIApplication.shared.openURL(blockURL)
                 }
             }
+        } else {
+            Logger.logError("ANALYTICS", "Unable to load block from course dates: \(componentID)")
         }
     }
     

@@ -369,7 +369,7 @@
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Ce composant n'est pas encore disponible sur mobile. \n\nExplorer d'autres parties du cours ou le voir sur le web.";
 /* Message shown when attempting to display content not available on the app, from dates tab */
-"COURSE_CONTENT_NOT_AVAILEBLE" = "Ce composant interactif n'est pas encore disponible sur mobile";
+"COURSE_CONTENT_NOT_AVAILABLE" = "Ce composant interactif n'est pas encore disponible sur mobile";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Non disponible sur mobile";
 /* Message shown when there is no course dates */
