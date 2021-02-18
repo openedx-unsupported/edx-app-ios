@@ -10,7 +10,8 @@ import Foundation
 
 private let CornerRadius:CGFloat = 0.0
 private let BottomBarMargin:CGFloat = 20.0
-private let BottomBarHeight:CGFloat = 90.0
+private let PortraitBottomBarHeight:CGFloat = 90.0
+private let LandscapeBottomBarHeight:CGFloat = 75.0
 
 class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
@@ -22,6 +23,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private lazy var searchViewTitle = UILabel()
     fileprivate let environment: Environment
     private let bottomBar: BottomBarView
+    private let imageContainer = UIView()
 
     private var infoMessage: String {
         get {
@@ -115,7 +117,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         
         // In iOS 13+ voice over trying to read the possible text of the accessibility element when the accessibility element is the image.
         // To overcome this issue, the logo image is placed in a container and accessibility set on that container
-        let imageContainer = UIView()
         imageContainer.addSubview(logoImageView)
         imageContainer.accessibilityLabel = environment.config.platformName()
         imageContainer.isAccessibilityElement = true
@@ -123,17 +124,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         imageContainer.accessibilityHint = Strings.accessibilityImageVoiceOverHint
         
         view.addSubview(imageContainer)
-        
-        imageContainer.snp.makeConstraints { make in
-            make.leading.equalTo(safeLeading).offset(2*StandardHorizontalMargin)
-            make.centerY.equalTo(view.snp.bottom).dividedBy(6.0)
-            make.width.equalTo((logo?.size.width ?? 0) / 2)
-            make.height.equalTo((logo?.size.height ?? 0) / 2)
-        }
-        
-        logoImageView.snp.remakeConstraints { make in
-            make.center.edges.equalTo(imageContainer)
-        }
     }
 
     private func setupMessageLabel() {
@@ -204,9 +194,27 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     private func setConstraints() {
+        let isiPhone5OrLess = isVerticallyCompact() && UIScreen.main.bounds.height <= 320
+
+        imageContainer.snp.remakeConstraints { make in
+            make.leading.equalTo(safeLeading).offset(2*StandardHorizontalMargin)
+            if isiPhone5OrLess {
+                make.top.equalTo(view).offset(2*StandardVerticalMargin)
+            }
+            else {
+                make.centerY.equalTo(view.snp.bottom).dividedBy(6.0)
+            }
+            make.width.equalTo((logoImageView.image?.size.width ?? 0) / 2)
+            make.height.equalTo((logoImageView.image?.size.height ?? 0) / 2)
+        }
+
+        logoImageView.snp.remakeConstraints { make in
+            make.center.edges.equalTo(imageContainer)
+        }
+
         let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
         guard courseEnrollmentEnabled else { return }
-        
+
         let offSet: CGFloat = isVerticallyCompact() ? 2 : 6
 
         searchViewTitle.snp.remakeConstraints { make in
@@ -337,19 +345,24 @@ public class BottomBarView: UIView, NSCopying {
     
     fileprivate func updateContraints() {
         bottomBar.axis = .horizontal
-        bottomBar.snp.makeConstraints { make in
+        bottomBar.snp.remakeConstraints { make in
             make.edges.equalTo(self)
-            make.height.equalTo(BottomBarHeight)
+            if UIDevice.current.orientation.isLandscape {
+                make.height.equalTo(LandscapeBottomBarHeight)
+            }
+            else {
+                make.height.equalTo(PortraitBottomBarHeight)
+            }
         }
 
-        signInButton.snp.makeConstraints { make in
+        signInButton.snp.remakeConstraints { make in
             make.top.equalTo(bottomBar).offset(BottomBarMargin)
             make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
             make.trailing.equalTo(bottomBar).offset(-BottomBarMargin)
             make.width.equalTo(95)
         }
 
-        registerButton.snp.makeConstraints { make in
+        registerButton.snp.remakeConstraints { make in
             make.top.equalTo(bottomBar).offset(BottomBarMargin)
             make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
             make.leading.equalTo(bottomBar).offset(BottomBarMargin)
