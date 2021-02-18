@@ -396,6 +396,8 @@
 "COURSE_VIDEO_UNAVAILABLE"="هذا المساق لا يتضمن أي مقاطع فيديو";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "هذا المكوّن التفاعلي غير متوفر بعد على الأجهزة المحمولة\n\nاستكشف أجزاء المساق الأخرى أو استعرض هذا المكوّن باستخدام الويب.";
+/* Message shown when attempting to display content not available on the app, from dates tab */
+"COURSE_CONTENT_NOT_AVAILEBLE" = "هذا المكون التفاعلي غير متاح بعد على الهاتف المحمول";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */

@@ -368,6 +368,8 @@
 "COURSE_VIDEO_UNAVAILABLE"="Dieser Kurs beinhaltet keine Videos";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Diese Interaktive Komponente ist derzeit nicht für Mobile Endgeräte verfügbar.\n\nErkunden Sie andere Komponenten dieses Kurses oder nutzen Sie den Browser.";
+/* Message shown when attempting to display content not available on the app, from dates tab */
+"COURSE_CONTENT_NOT_AVAILEBLE" = "Diese interaktive Komponente ist auf Mobilgeräten noch nicht verfügbar";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Nicht auf dem Smartphone verfügbar";
 /* Message shown when there is no course dates */
