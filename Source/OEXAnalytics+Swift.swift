@@ -73,7 +73,7 @@ public enum AnalyticsEventName: String {
     case CourseDatesUpgradeToParticipate = "edx.bi.app.coursedates.upgrade.participate"
     case CourseDatesUpgradeToShift = "edx.bi.app.coursedates.upgrade.shift"
     case CourseDatesShiftDates = "edx.bi.app.coursedates.shift"
-    case ExploreAllCourses = "edx.bi.app.explore.all.courses"
+    case ExploreAllCourses = "edx.bi.app.discovery.explore.all.courses"
 }
 
 public enum AnalyticsScreenName: String {
