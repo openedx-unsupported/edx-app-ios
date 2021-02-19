@@ -16,23 +16,36 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FBSDKAppLinkUtility.h"
+#import "TargetConditionals.h"
 
-#import "FBSDKAppEventsUtility.h"
-#import "FBSDKGraphRequest.h"
-#import "FBSDKInternalUtility.h"
-#import "FBSDKSettings.h"
-#import "FBSDKURL.h"
-#import "FBSDKUtility.h"
+#if !TARGET_OS_TV
+
+ #import "FBSDKAppLinkUtility.h"
+
+ #import "FBSDKAppEventsUtility.h"
+ #import "FBSDKGraphRequest.h"
+ #import "FBSDKInternalUtility.h"
+ #import "FBSDKSettings.h"
+ #import "FBSDKURL.h"
+ #import "FBSDKUtility.h"
 
 static NSString *const FBSDKLastDeferredAppLink = @"com.facebook.sdk:lastDeferredAppLink%@";
 static NSString *const FBSDKDeferredAppLinkEvent = @"DEFERRED_APP_LINK";
 
-@implementation FBSDKAppLinkUtility {}
+@implementation FBSDKAppLinkUtility
+{}
 
 + (void)fetchDeferredAppLink:(FBSDKURLBlock)handler
 {
   NSAssert([NSThread isMainThread], @"FBSDKAppLink fetchDeferredAppLink: must be invoked from main thread.");
+
+  if ([FBSDKAppEventsUtility shouldDropAppEvent]) {
+    if (handler) {
+      NSError *error = [[NSError alloc] initWithDomain:@"AdvertiserTrackingEnabled must be enabled" code:-1 userInfo:nil];
+      handler(nil, error);
+    }
+    return;
+  }
 
   NSString *appID = [FBSDKSettings appID];
 
@@ -41,7 +54,6 @@ static NSString *const FBSDKDeferredAppLinkEvent = @"DEFERRED_APP_LINK";
   // before we make this call.
   NSMutableDictionary *deferredAppLinkParameters =
   [FBSDKAppEventsUtility activityParametersDictionaryForEvent:FBSDKDeferredAppLinkEvent
-                                           implicitEventsOnly:NO
                                     shouldAccessAdvertisingID:YES];
 
   FBSDKGraphRequest *deferredAppLinkRequest = [[FBSDKGraphRequest alloc] initWithGraphPath:[NSString stringWithFormat:@"%@/activities", appID, nil]
@@ -53,30 +65,30 @@ static NSString *const FBSDKDeferredAppLinkEvent = @"DEFERRED_APP_LINK";
   [deferredAppLinkRequest startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
                                                        id result,
                                                        NSError *error) {
-    NSURL *applinkURL = nil;
-    if (!error) {
-      NSString *appLinkString = result[@"applink_url"];
-      if (appLinkString) {
-        applinkURL = [NSURL URLWithString:appLinkString];
+                                                         NSURL *applinkURL = nil;
+                                                         if (!error) {
+                                                           NSString *appLinkString = result[@"applink_url"];
+                                                           if (appLinkString) {
+                                                             applinkURL = [NSURL URLWithString:appLinkString];
 
-        NSString *createTimeUtc = result[@"click_time"];
-        if (createTimeUtc) {
-          // append/translate the create_time_utc so it can be used by clients
-          NSString *modifiedURLString = [applinkURL.absoluteString
-                                         stringByAppendingFormat:@"%@fb_click_time_utc=%@",
-                                         (applinkURL.query) ? @"&" : @"?" ,
-                                         createTimeUtc];
-          applinkURL = [NSURL URLWithString:modifiedURLString];
-        }
-      }
-    }
+                                                             NSString *createTimeUtc = result[@"click_time"];
+                                                             if (createTimeUtc) {
+                                                               // append/translate the create_time_utc so it can be used by clients
+                                                               NSString *modifiedURLString = [applinkURL.absoluteString
+                                                                                              stringByAppendingFormat:@"%@fb_click_time_utc=%@",
+                                                                                              (applinkURL.query) ? @"&" : @"?",
+                                                                                              createTimeUtc];
+                                                               applinkURL = [NSURL URLWithString:modifiedURLString];
+                                                             }
+                                                           }
+                                                         }
 
-    if (handler) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        handler(applinkURL, error);
-      });
-    }
-  }];
+                                                         if (handler) {
+                                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                                             handler(applinkURL, error);
+                                                           });
+                                                         }
+                                                       }];
 }
 
 + (NSString *)appInvitePromotionCodeFromURL:(NSURL *)url
@@ -97,6 +109,23 @@ static NSString *const FBSDKDeferredAppLinkEvent = @"DEFERRED_APP_LINK";
   }
 
   return nil;
-
 }
+
++ (BOOL)isMatchURLScheme:(NSString *)scheme
+{
+  if (!scheme) {
+    return NO;
+  }
+  for (NSDictionary *urlType in [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"]) {
+    for (NSString *urlScheme in urlType[@"CFBundleURLSchemes"]) {
+      if ([urlScheme caseInsensitiveCompare:scheme] == NSOrderedSame) {
+        return YES;
+      }
+    }
+  }
+  return NO;
+}
+
 @end
+
+#endif

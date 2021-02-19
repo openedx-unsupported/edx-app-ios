@@ -94,7 +94,7 @@
         WKNavigationTypeFormSubmitted:
         WKNavigationTypeFormResubmitted:
             if ([[UIApplication sharedApplication] canOpenURL:URL]) {
-                [[UIApplication sharedApplication] openURL:URL];
+                [[UIApplication sharedApplication] openURL:URL options:@{} completionHandler:nil];
             }
             decisionHandler(WKNavigationActionPolicyCancel);
             break;

@@ -233,9 +233,9 @@ extension CourseCatalogDetailView {
             {[weak self] _ in
                 if let
                     path = course.courseVideoMediaInfo?.uri,
-                    let url = NSURL(string: path, relativeTo: self?.environment.networkManager.baseURL)
+                    let url = URL(string: path, relativeTo: self?.environment.networkManager.baseURL)
                 {
-                    UIApplication.shared.openURL(url as URL)
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
             }, for: .touchUpInside)
     }
@@ -252,7 +252,7 @@ extension CourseCatalogDetailView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if navigationAction.navigationType != .other {
             if let URL = navigationAction.request.url, UIApplication.shared.canOpenURL(URL){
-                UIApplication.shared.openURL(URL)
+                UIApplication.shared.open(URL, options: [:], completionHandler: nil)
             }
             decisionHandler(.cancel)
             return

@@ -18,7 +18,8 @@
 
 #import "FBSDKAppEventsState.h"
 
-#import "FBSDKBasicUtility+Internal.h"
+#import "FBSDKEventDeactivationManager.h"
+#import "FBSDKInternalUtility.h"
 #import "FBSDKRestrictiveDataFilterManager.h"
 
 #define FBSDK_APPEVENTSTATE_ISIMPLICIT_KEY @"isImplicit"
@@ -107,30 +108,32 @@
 }
 
 - (void)addEvent:(NSDictionary *)eventDictionary
-      isImplicit:(BOOL)isImplicit {
+      isImplicit:(BOOL)isImplicit
+{
   if (_mutableEvents.count >= FBSDK_APPEVENTSSTATE_MAX_EVENTS) {
     _numSkipped++;
   } else {
-    [_mutableEvents addObject:@{
-                                @"event" : [eventDictionary mutableCopy],
-                                FBSDK_APPEVENTSTATE_ISIMPLICIT_KEY : @(isImplicit)
-                                }];
+    [FBSDKTypeUtility array:_mutableEvents addObject:@{
+       @"event" : [eventDictionary mutableCopy],
+       FBSDK_APPEVENTSTATE_ISIMPLICIT_KEY : @(isImplicit)
+     }];
   }
 }
 
-- (NSString *)extractReceiptData {
+- (NSString *)extractReceiptData
+{
   NSMutableString *receipts_string = [NSMutableString string];
   NSInteger transactionId = 1;
-  for (NSMutableDictionary* events in _mutableEvents) {
+  for (NSMutableDictionary *events in _mutableEvents) {
     NSMutableDictionary *event = events[@"event"];
 
-    NSString* receipt = event[@"receipt_data"];
+    NSString *receipt = event[@"receipt_data"];
     // Add receipt id as the identifier for receipt data in event parameter.
     // Receipt data will be sent as post parameter rather than the event parameter
     if (receipt) {
-      NSString* idKey = [NSString stringWithFormat:@"receipt_%ld", (long)transactionId];
-      event[FBSDK_APPEVENTSTATE_RECEIPTID_KEY] = idKey;
-      NSString* receiptWithId = [NSString stringWithFormat:@"%@::%@;;;", idKey, receipt];
+      NSString *idKey = [NSString stringWithFormat:@"receipt_%ld", (long)transactionId];
+      [FBSDKTypeUtility dictionary:event setObject:idKey forKey:FBSDK_APPEVENTSTATE_RECEIPTID_KEY];
+      NSString *receiptWithId = [NSString stringWithFormat:@"%@::%@;;;", idKey, receipt];
       [receipts_string appendString:receiptWithId];
       transactionId++;
     }
@@ -156,14 +159,15 @@
 - (BOOL)isCompatibleWithTokenString:(NSString *)tokenString appID:(NSString *)appID
 {
   // token strings can be nil (e.g., no user token) but appIDs should not.
-  BOOL tokenCompatible = ([self.tokenString isEqualToString:tokenString] ||
-                          (self.tokenString == nil && tokenString == nil));
-  return (tokenCompatible &&
-          [self.appID isEqualToString:appID]);
+  BOOL tokenCompatible = ([self.tokenString isEqualToString:tokenString]
+    || (self.tokenString == nil && tokenString == nil));
+  return (tokenCompatible
+    && [self.appID isEqualToString:appID]);
 }
 
 - (NSString *)JSONStringForEvents:(BOOL)includeImplicitEvents
 {
+  [FBSDKEventDeactivationManager processEvents:_mutableEvents];
   [FBSDKRestrictiveDataFilterManager processEvents:_mutableEvents];
 
   NSMutableArray *events = [[NSMutableArray alloc] initWithCapacity:_mutableEvents.count];
@@ -175,7 +179,7 @@
     NSAssert(event != nil, @"event cannot be nil");
     [event removeObjectForKey:FBSDK_APPEVENTSTATE_RECEIPTDATA_KEY];
 
-    [events addObject:event];
+    [FBSDKTypeUtility array:events addObject:event];
   }
 
   return [FBSDKBasicUtility JSONStringForObject:events error:NULL invalidObjectHandler:NULL];

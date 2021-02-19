@@ -86,19 +86,6 @@ NS_SWIFT_NAME(Settings)
 NS_SWIFT_NAME(jpegCompressionQuality);
 
 /**
- Controls sdk auto initailization.
- If not explicitly set, the default is true
- */
-@property (class, nonatomic, assign, getter=isAutoInitEnabled) BOOL autoInitEnabled;
-
-/**
- Controls sdk crash report
- If not explicitly set, the default is true
- */
-@property (class, nonatomic, assign, getter=isInstrumentEnabled) BOOL instrumentEnabled
-__attribute((deprecated("This attribute is no longer used, use autoLogAppEventsEnabled instead.")));
-
-/**
  Controls the auto logging of basic app events, such as activateApp and deactivateApp.
  If not explicitly set, the default is true
  */
@@ -111,7 +98,7 @@ __attribute((deprecated("This attribute is no longer used, use autoLogAppEventsE
 @property (class, nonatomic, assign, getter=isCodelessDebugLogEnabled) BOOL codelessDebugLogEnabled;
 
 /**
- Controls the fb_codeless_debug logging event
+ Controls the access to IDFA
  If not explicitly set, the default is true
  */
 @property (class, nonatomic, assign, getter=isAdvertiserIDCollectionEnabled) BOOL advertiserIDCollectionEnabled;
@@ -133,14 +120,14 @@ __attribute((deprecated("This attribute is no longer used, use autoLogAppEventsE
 
  If not explicitly set, the default will be read from the application's plist (FacebookAppID).
  */
-@property (class, nonatomic, copy, null_resettable) NSString *appID;
+@property (class, nonatomic, copy, nullable) NSString *appID;
 
 /**
   The default url scheme suffix used for sessions.
 
  If not explicitly set, the default will be read from the application's plist (FacebookUrlSchemeSuffix).
  */
-@property (class, nonatomic, copy, null_resettable) NSString *appURLSchemeSuffix;
+@property (class, nonatomic, copy, nullable) NSString *appURLSchemeSuffix;
 
 /**
   The Client Token that has been set via [FBSDKSettings setClientToken].
@@ -151,7 +138,7 @@ __attribute((deprecated("This attribute is no longer used, use autoLogAppEventsE
 
  If not explicitly set, the default will be read from the application's plist (FacebookClientToken).
  */
-@property (class, nonatomic, copy, null_resettable) NSString *clientToken;
+@property (class, nonatomic, copy, nullable) NSString *clientToken;
 
 /**
   The Facebook Display Name used by the SDK.
@@ -161,7 +148,7 @@ __attribute((deprecated("This attribute is no longer used, use autoLogAppEventsE
 
  If not explicitly set, the default will be read from the application's plist (FacebookDisplayName).
  */
-@property (class, nonatomic, copy, null_resettable) NSString *displayName;
+@property (class, nonatomic, copy, nullable) NSString *displayName;
 
 /**
  The Facebook domain part. This can be used to change the Facebook domain
@@ -169,7 +156,7 @@ __attribute((deprecated("This attribute is no longer used, use autoLogAppEventsE
 
  If not explicitly set, the default will be read from the application's plist (FacebookDomainPart).
  */
-@property (class, nonatomic, copy, null_resettable) NSString *facebookDomainPart;
+@property (class, nonatomic, copy, nullable) NSString *facebookDomainPart;
 
 /**
   The current Facebook SDK logging behavior. This should consist of strings
@@ -193,6 +180,38 @@ NS_REFINED_FOR_SWIFT;
  Defaults to `FBSDK_TARGET_PLATFORM_VERSION`.
 */
 @property (class, nonatomic, copy, null_resettable) NSString *graphAPIVersion;
+
+/**
+ The value of the flag advertiser_tracking_enabled that controls the advertiser tracking status of the data sent to Facebook
+ If not explicitly set in iOS14 or above, the default is false in iOS14 or above.
+ */
++ (BOOL)isAdvertiserTrackingEnabled;
+
+/**
+Set the advertiser_tracking_enabled flag. It only works in iOS14 and above.
+ 
+@param advertiserTrackingEnabled the value of the flag
+@return Whether the the value is set successfully. It will always return NO in iOS 13 and below.
+ */
++ (BOOL)setAdvertiserTrackingEnabled:(BOOL)advertiserTrackingEnabled;
+
+/**
+Set the data processing options.
+
+@param options list of options
+*/
++ (void)setDataProcessingOptions:(nullable NSArray<NSString *> *)options;
+
+/**
+Set the data processing options.
+
+@param options list of the options
+@param country code of the country
+@param state code of the state
+*/
++ (void)setDataProcessingOptions:(nullable NSArray<NSString *> *)options
+                         country:(int)country
+                           state:(int)state;
 
 /**
  Enable a particular Facebook SDK logging behavior.

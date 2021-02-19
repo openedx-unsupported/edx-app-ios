@@ -1,0 +1,1 @@
+../../../FirebasePerformance/FirebaseRemoteConfig/Sources/Private/RCNConfigSettings.h

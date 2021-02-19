@@ -76,7 +76,7 @@
     OSStatus result;
     NSMutableDictionary* keychainQuery = [self getKeychainQuery:service];
     SecItemDelete((__bridge CFDictionaryRef)keychainQuery);
-    [keychainQuery setObject:[NSKeyedArchiver archivedDataWithRootObject:data] forKey:(__bridge id)kSecValueData];
+    [keychainQuery setObject:[NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:nil] forKey:(__bridge id)kSecValueData];
     result = SecItemAdd((__bridge CFDictionaryRef)keychainQuery, NULL);
 #ifdef DEBUG
     NSAssert(result == noErr, @"Could not add credential to keychain");
@@ -92,7 +92,9 @@
     if(SecItemCopyMatching((__bridge CFDictionaryRef)keychainQuery, (CFTypeRef*)&keyData) == noErr) {
         // TODO: Replace this with code that doesn't raise and swallow exceptions
         @try {
-            ret = [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge NSData*)keyData];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:(__bridge NSData*)keyData error:nil];
+            unarchiver.requiresSecureCoding = NO;
+            ret = [unarchiver decodeObjectOfClass:[NSString class] forKey:NSKeyedArchiveRootObjectKey];
         }
         @catch(NSException* e) {
             OEXLogInfo(@"STORAGE", @"Unarchive of %@ failed: %@", service, e);

@@ -1,1 +1,1 @@
-../../../Analytics/Analytics/Classes/Internal/SEGUtils.h
+../../../Analytics/Segment/Internal/SEGUtils.h

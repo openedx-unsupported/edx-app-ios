@@ -1,0 +1,6 @@
+framework module Segment_GoogleAnalytics {
+  umbrella header "Segment-GoogleAnalytics-umbrella.h"
+
+  export *
+  module * { export * }
+}

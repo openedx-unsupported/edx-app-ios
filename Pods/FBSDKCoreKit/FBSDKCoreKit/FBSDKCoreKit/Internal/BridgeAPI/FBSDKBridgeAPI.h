@@ -16,10 +16,17 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import <UIKit/UIKit.h>
 
+#if SWIFT_PACKAGE
+#import "FBSDKCoreKit.h"
+#else
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#endif
 
 #import "FBSDKBridgeAPIProtocol.h"
 #import "FBSDKBridgeAPIProtocolType.h"
@@ -32,21 +39,25 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^FBSDKBridgeAPIResponseBlock)(FBSDKBridgeAPIResponse *response)
 NS_SWIFT_NAME(BridgeAPIResponseBlock);
 
+typedef void (^FBSDKAuthenticationCompletionHandler)(NSURL *_Nullable callbackURL, NSError *_Nullable error);
+
 @interface FBSDKBridgeAPI : NSObject
 
-- (void)openBridgeAPIRequest:(FBSDKBridgeAPIRequest *)request
+- (void)openBridgeAPIRequest:(NSObject<FBSDKBridgeAPIRequestProtocol> *)request
      useSafariViewController:(BOOL)useSafariViewController
           fromViewController:(nullable UIViewController *)fromViewController
              completionBlock:(FBSDKBridgeAPIResponseBlock)completionBlock;
 
 - (void)openURLWithSafariViewController:(NSURL *)url
                                  sender:(nullable id<FBSDKURLOpening>)sender
-                     fromViewController:(UIViewController *)fromViewController
+                     fromViewController:(nullable UIViewController *)fromViewController
                                 handler:(FBSDKSuccessBlock)handler;
 
 - (void)openURL:(NSURL *)url
          sender:(nullable id<FBSDKURLOpening>)sender
         handler:(FBSDKSuccessBlock)handler;
+
+- (FBSDKAuthenticationCompletionHandler)sessionCompletionHandler;
 
 @property (class, nonatomic, readonly, strong) FBSDKBridgeAPI *sharedInstance
 NS_SWIFT_NAME(shared);
@@ -56,3 +67,5 @@ NS_SWIFT_NAME(shared);
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
