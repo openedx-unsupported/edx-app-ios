@@ -197,9 +197,9 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let isiPhone5OrLess = isVerticallyCompact() && UIScreen.main.bounds.height <= 320
 
         imageContainer.snp.remakeConstraints { make in
-            make.leading.equalTo(safeLeading).offset(2*StandardHorizontalMargin)
+            make.leading.equalTo(safeLeading).offset(2 * StandardHorizontalMargin)
             if isiPhone5OrLess {
-                make.top.equalTo(view).offset(2*StandardVerticalMargin)
+                make.top.equalTo(view).offset(2 * StandardVerticalMargin)
             }
             else {
                 make.centerY.equalTo(view.snp.bottom).dividedBy(6.0)
@@ -241,7 +241,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let style = OEXTextStyle(weight: .normal, size: .large, color: environment.styles.primaryBaseColor())
 
         let exploreButton = UIButton(type: .system)
-        exploreButton.setAttributedTitle(style.attributedString(withText: "Explore all courses"), for: .normal)
+        exploreButton.setAttributedTitle(style.attributedString(withText: Strings.Startup.exploreCourseTitle), for: .normal)
         exploreButton.oex_addAction({ [weak self] _ in
             self?.showCourses(with: nil)
             self?.environment.analytics.trackExploreAllCourses()
@@ -250,7 +250,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
         exploreButton.snp.makeConstraints { make in
             make.leading.equalTo(searchView)
-            make.top.equalTo(searchView.snp.bottom).offset(StandardVerticalMargin/2)
+            make.top.equalTo(searchView.snp.bottom).offset(StandardVerticalMargin / 2)
         }
 
         let lineView = UIView()
@@ -259,7 +259,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         view.addSubview(lineView)
 
         lineView.snp.makeConstraints { make in
-            make.top.equalTo(exploreButton.snp.bottom).offset(-StandardVerticalMargin/2)
+            make.top.equalTo(exploreButton.snp.bottom).inset(StandardVerticalMargin/2)
             make.height.equalTo(1)
             make.leading.equalTo(exploreButton)
             make.width.equalTo(exploreButton)
