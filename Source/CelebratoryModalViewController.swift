@@ -79,7 +79,11 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         return view
     }()
     
-    private lazy var congratulationImageView = UIImageView(image: UIImage.gifImageWithName("CelebrateClaps"))
+    private lazy var congratulationImageView :UIImageView = {
+        let imageView = UIImageView(image: UIImage.gifImageWithName("CelebrateClaps"))
+        return imageView
+        
+    }()
     
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
@@ -266,7 +270,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
             make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin*2)
             make.bottom.equalTo(insideContainer).inset(StandardVerticalMargin*2)
         }
-
+        
         shareButtonView.snp.makeConstraints { make in
             make.edges.equalTo(insideContainer)
         }
@@ -296,8 +300,10 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         modalView.snp.remakeConstraints { make in
             make.leading.equalTo(view).offset(isiPad() ? 100 : 20)
             make.trailing.equalTo(view).inset(isiPad() ? 100 : 20)
-            make.top.equalTo(view).offset((view.frame.size.height / 4) / 2)
-            make.bottom.equalTo(view).inset((view.frame.size.height / 4) / 2)
+            let isiPhone7OrLess = UIScreen.main.bounds.height < 670.0
+            let topAndBottomOffsetMargins = isiPhone7OrLess ? ((view.frame.size.height / 5) / 2) : ((view.frame.size.height / 3.2) / 2)
+            make.top.equalTo(view).offset(topAndBottomOffsetMargins)
+            make.bottom.equalTo(view).inset(topAndBottomOffsetMargins)
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
         }
