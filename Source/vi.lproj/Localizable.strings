@@ -361,6 +361,8 @@
 "COURSE_VIDEO_UNAVAILABLE"="Khóa học này không có video";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Thành phần tương tác này chưa sẵn sàng trên di động.\n\nKhám phá những phần khác của khóa học hoặc xem phần này trên web.";
+/* Message shown when attempting to display content not available on the app, from dates tab */
+"COURSE_CONTENT_NOT_AVAILABLE" = "Thành phần tương tác này chưa khả dụng trên thiết bị di động";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */

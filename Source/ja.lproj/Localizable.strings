@@ -361,6 +361,8 @@
 "COURSE_VIDEO_UNAVAILABLE"="この講座は動画がありません。";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "この内容はモバイルでは使えません。\n\n他の内容を見るか、ウェブ上でこの内容をご覧ください。";
+/* Message shown when attempting to display content not available on the app, from dates tab */
+"COURSE_CONTENT_NOT_AVAILABLE" = "このインタラクティブコンポーネントはまだモバイルでは利用できません";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */

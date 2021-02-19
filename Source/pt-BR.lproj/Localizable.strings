@@ -368,6 +368,8 @@
 "COURSE_VIDEO_UNAVAILABLE"="Este curso não inclui nenhum vídeo";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Este componente interativo ainda não está disponível para celulares\n\nExplore outras partes deste curso ou acesse na internet";
+/* Message shown when attempting to display content not available on the app, from dates tab */
+"COURSE_CONTENT_NOT_AVAILABLE" = "Este componente interativo ainda não está disponível no celular";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */

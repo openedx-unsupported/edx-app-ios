@@ -367,6 +367,8 @@
 "COURSE.STARTING" = "开始于 {start_date}";
 /* Label for date when course end */
 "COURSE.ENDING" = "结束于 {end_date}";
+/* Message shown when attempting to display content not available on the app, from dates tab */
+"COURSE_CONTENT_NOT_AVAILABLE" = "该互动组件尚无法在移动设备上使用";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Label indicated that a course has ended */

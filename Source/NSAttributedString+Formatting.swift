@@ -9,7 +9,7 @@
 import Foundation
 
 extension NSAttributedString {
-    func addLink(on subString: String, value: URL, foregroundColor: UIColor = OEXStyles.shared().primaryBaseColor(), underline: Bool = false) -> NSAttributedString {
+    func addLink(on subString: String, value: Any, foregroundColor: UIColor = OEXStyles.shared().primaryBaseColor(), underline: Bool = false) -> NSAttributedString {
         if string.contains(find: subString) {
             let mutableAttributedString = NSMutableAttributedString(attributedString: self)
             let range = (string as NSString).range(of: subString)
