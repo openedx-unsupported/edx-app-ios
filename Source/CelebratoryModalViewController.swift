@@ -39,22 +39,6 @@ private enum ShareButtonType {
     
     var parameter: String {
         return String(format: UTM_ParameterString, source)
-//        switch self {
-//        case .linkedin:
-//            return String(format: UTM_ParameterString, source)
-//
-//        case .twitter:
-//            return String(format: UTM_ParameterString, source)
-//
-//        case .facebook:
-//            return String(format: UTM_ParameterString, source)
-//
-//        case .email:
-//            return String(format: UTM_ParameterString, source)
-//
-//        default:
-//            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=other"
-//        }
     }
     
     static var utmParameters: CourseShareUtmParameters? {
