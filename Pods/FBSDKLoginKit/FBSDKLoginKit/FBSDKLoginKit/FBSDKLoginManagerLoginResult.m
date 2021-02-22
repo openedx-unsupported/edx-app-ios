@@ -16,31 +16,44 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FBSDKLoginManagerLoginResult+Internal.h"
+#import "TargetConditionals.h"
 
-#import "FBSDKCoreKit+Internal.h"
+#if !TARGET_OS_TV
 
-@implementation FBSDKLoginManagerLoginResult {
+ #import "FBSDKLoginManagerLoginResult+Internal.h"
+
+ #ifdef FBSDKCOCOAPODS
+  #import <FBSDKCoreKit/FBSDKCoreKit+Internal.h>
+ #else
+  #import "FBSDKCoreKit+Internal.h"
+ #endif
+
+@implementation FBSDKLoginManagerLoginResult
+{
   NSMutableDictionary *_mutableLoggingExtras;
 }
 
 - (instancetype)initWithToken:(FBSDKAccessToken *)token
+          authenticationToken:(FBSDKAuthenticationToken *)authenticationToken
                   isCancelled:(BOOL)isCancelled
            grantedPermissions:(NSSet *)grantedPermissions
-          declinedPermissions:(NSSet *)declinedPermissions {
+          declinedPermissions:(NSSet *)declinedPermissions
+{
   if ((self = [super init])) {
     _mutableLoggingExtras = [NSMutableDictionary dictionary];
     _token = token ? [token copy] : nil;
+    _authenticationToken = authenticationToken;
     _isCancelled = isCancelled;
     _grantedPermissions = [grantedPermissions copy];
     _declinedPermissions = [declinedPermissions copy];
-  };
+  }
+  ;
   return self;
 }
 
 - (void)addLoggingExtra:(id)object forKey:(id<NSCopying>)key
 {
-  [FBSDKBasicUtility dictionary:_mutableLoggingExtras setObject:object forKey:key];
+  [FBSDKTypeUtility dictionary:_mutableLoggingExtras setObject:object forKey:key];
 }
 
 - (NSDictionary *)loggingExtras
@@ -49,3 +62,5 @@
 }
 
 @end
+
+#endif

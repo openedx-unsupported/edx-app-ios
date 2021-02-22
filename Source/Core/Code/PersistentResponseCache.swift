@@ -112,11 +112,12 @@ open class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverD
         
         return DummyCodeableObject.classForKeyedUnarchiver()
     }
-    
+
     fileprivate func unarchiveEntryWithData(_ data : Data) -> ResponseCacheEntry? {
-        let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
-        unarchiver.delegate = self
-        let result = unarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? ResponseCacheEntry
+        let unarchiver = try? NSKeyedUnarchiver(forReadingFrom: data)
+        unarchiver?.delegate = self
+        unarchiver?.requiresSecureCoding = false
+        let result = unarchiver?.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? ResponseCacheEntry
         return result
     }
     
@@ -138,14 +139,14 @@ open class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverD
             
         }
     }
-    
+
     open func setCacheResponse(_ response : HTTPURLResponse, withData data : Data?, forRequest request : URLRequest, completion : (() -> Void)? = nil) {
         let entry = ResponseCacheEntry(data: data, response: response)
         let path = self.pathProvider.pathForRequestKey(responseCacheKeyForRequest(request))
         queue.async {
-            let archive = NSKeyedArchiver.archivedData(withRootObject: entry)
+            let archive = try? NSKeyedArchiver.archivedData(withRootObject: entry, requiringSecureCoding: false)
             if let path = path {
-                try? archive.write(to: path, options: [.atomic])
+                try? archive?.write(to: path, options: [.atomic])
                 DispatchQueue.main.async {
                     completion?()
                 }

@@ -368,6 +368,8 @@
 "COURSE_VIDEO_UNAVAILABLE"="Este curso no incluye ningún video.";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Este componente interactivo aún no está disponible desde dispositivos móviles.\n\nExplore otras partes de este curso o véalo en línea.";
+/* Message shown when attempting to display content not available on the app, from dates tab */
+"COURSE_CONTENT_NOT_AVAILABLE" = "In mobili non est tamen haec pars interactive";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
@@ -818,7 +820,9 @@
 /*Label text for seach field on startup screen */
 "STARTUP.SEARCH_TITLE_TEXT"="What do you want to learn?";
 /*Place holder text for search field on startup screen*/
-"STARTUP.SEARCH_PLACEHOLDER_TEXT"="Search courses and programs";
+"STARTUP.SEARCH_PLACEHOLDER_TEXT"="Search our 3000+ courses";
+/*Explore all course button title*/
+"STARTUP.EXPLORE_COURSE_TITLE"="Explore all courses";
 /* Explore Subjects button text on the first screen */
 "STARTUP_EXPLORE_SUBJECTS"="Explorar temas";
 /* Button allowing user to submit feedback about the app via email */

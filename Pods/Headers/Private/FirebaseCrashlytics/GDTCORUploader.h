@@ -1,0 +1,1 @@
+../../../FirebaseCrashlytics/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORUploader.h

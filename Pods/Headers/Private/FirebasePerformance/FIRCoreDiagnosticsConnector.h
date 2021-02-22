@@ -1,0 +1,1 @@
+../../../FirebasePerformance/FirebaseCore/Sources/Private/FIRCoreDiagnosticsConnector.h

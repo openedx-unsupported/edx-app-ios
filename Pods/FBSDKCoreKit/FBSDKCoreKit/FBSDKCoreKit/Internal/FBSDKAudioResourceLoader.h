@@ -16,7 +16,11 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
+ #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,10 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FBSDKAudioResourceLoader (Subclass)
 
-@property (class, nonatomic, copy, nullable, readonly) NSString *name;
-@property (class, nonatomic, copy, nullable, readonly) NSData *data;
-@property (class, nonatomic, assign, readonly) NSUInteger version;
+@property (class, nullable, nonatomic, readonly, copy) NSString *name;
+@property (class, nullable, nonatomic, readonly, copy) NSData *data;
+@property (class, nonatomic, readonly, assign) NSUInteger version;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

@@ -61,7 +61,7 @@ class RegistrationSelectOptionViewController: UIViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.backgroundColor = OEXStyles.shared().neutralXLight()
         searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.searchBarStyle = .minimal
         searchController.searchBar.textField?.textColor = OEXStyles.shared().neutralBlackT()
         searchController.searchBar.textField?.clearButtonMode = .whileEditing

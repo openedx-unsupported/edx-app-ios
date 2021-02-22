@@ -16,9 +16,17 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import <Foundation/Foundation.h>
 
+#if SWIFT_PACKAGE
+#import "FBSDKCopying.h"
+#else
 #import <FBSDKCoreKit/FBSDKCopying.h>
+#endif
 
 #import "FBSDKBridgeAPIRequest.h"
 
@@ -28,16 +36,18 @@ NS_SWIFT_NAME(BridgeAPIResponse)
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-+ (instancetype)bridgeAPIResponseWithRequest:(FBSDKBridgeAPIRequest *)request error:(NSError *)error;
-+ (instancetype)bridgeAPIResponseWithRequest:(FBSDKBridgeAPIRequest *)request
++ (instancetype)bridgeAPIResponseWithRequest:(NSObject<FBSDKBridgeAPIRequestProtocol> *)request error:(NSError *)error;
++ (instancetype)bridgeAPIResponseWithRequest:(NSObject<FBSDKBridgeAPIRequestProtocol> *)request
                                  responseURL:(NSURL *)responseURL
                            sourceApplication:(NSString *)sourceApplication
                                        error:(NSError *__autoreleasing *)errorRef;
-+ (instancetype)bridgeAPIResponseCancelledWithRequest:(FBSDKBridgeAPIRequest *)request;
++ (instancetype)bridgeAPIResponseCancelledWithRequest:(NSObject<FBSDKBridgeAPIRequestProtocol> *)request;
 
 @property (nonatomic, assign, readonly, getter=isCancelled) BOOL cancelled;
 @property (nonatomic, copy, readonly) NSError *error;
-@property (nonatomic, copy, readonly) FBSDKBridgeAPIRequest *request;
+@property (nonatomic, copy, readonly) NSObject<FBSDKBridgeAPIRequestProtocol> *request;
 @property (nonatomic, copy, readonly) NSDictionary *responseParameters;
 
 @end
+
+#endif

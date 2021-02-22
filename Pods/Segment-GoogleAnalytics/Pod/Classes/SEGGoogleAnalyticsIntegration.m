@@ -115,7 +115,7 @@
                                                action:payload.event
                                                 label:label
                                                 value:value];
-    NSDictionary *hit = [self setCustomDimensionsAndMetricsAndCampaignData:payload.properties context:payload.context onHit:hitBuilder];
+    NSDictionary *hit = [self setCustomDimensionsAndMetricsAndCampaignData:payload.properties context:payload.context event:payload.event onHit:hitBuilder];
     [self.tracker send:hit];
     SEGLog(@"[[[GAI sharedInstance] defaultTracker] send:%@];", hit);
 }
@@ -127,7 +127,7 @@
 
     GAIDictionaryBuilder *hitBuilder = [GAIDictionaryBuilder createScreenView];
 
-    NSDictionary *hit = [self setCustomDimensionsAndMetricsAndCampaignData:payload.properties context:payload.context onHit:hitBuilder];
+    NSDictionary *hit = [self setCustomDimensionsAndMetricsAndCampaignData:payload.properties context:payload.context event:payload.name onHit:hitBuilder];
 
     [self.tracker send:hit];
     SEGLog(@"[[[GAI sharedInstance] defaultTracker] send:%@];", hit);
@@ -178,7 +178,7 @@
 
 // event and screen properties are generall hit-scoped dimensions, so we want
 // to set them on the hits, not the tracker
-- (NSDictionary *)setCustomDimensionsAndMetricsAndCampaignData:(NSDictionary *)properties context:(NSDictionary *)context onHit:(GAIDictionaryBuilder *)hit
+- (NSDictionary *)setCustomDimensionsAndMetricsAndCampaignData:(NSDictionary *)properties context:(NSDictionary *)context  event:(NSString *)event onHit:(GAIDictionaryBuilder *)hit
 {
     NSDictionary *customDimensions = self.settings[@"dimensions"];
     NSDictionary *customMetrics = self.settings[@"metrics"];
@@ -197,6 +197,7 @@
             [hit set:[properties objectForKey:key]
                 forKey:[GAIFields customMetricForIndex:metric]];
         }
+
     }
 
     NSDictionary *campaign = context[@"campaign"];
@@ -221,6 +222,11 @@
         // kGAICampaignId
         // kGAICampaignAdNetworkClickId
         // kGAICampaignAdNetworkId
+    }
+
+    if ([event isEqualToString:@"Deep Link Opened"]) {
+        [hit setCampaignParametersFromUrl:[properties valueForKey:@"url"]];
+        SEGLog(@"[hit setCampaignParametersFromUrl: %@]", [properties valueForKey:@"url"]);
     }
 
     return [hit build];

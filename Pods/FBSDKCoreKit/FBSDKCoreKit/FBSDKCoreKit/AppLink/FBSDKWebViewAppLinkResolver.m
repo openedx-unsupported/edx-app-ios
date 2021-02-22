@@ -16,6 +16,10 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import "FBSDKWebViewAppLinkResolver.h"
 
 #import <UIKit/UIKit.h>
@@ -23,6 +27,7 @@
 
 #import "FBSDKAppLink.h"
 #import "FBSDKAppLinkTarget.h"
+#import "FBSDKInternalUtility.h"
 
 /**
  Describes the callback for appLinkFromURLInBackground.
@@ -183,17 +188,10 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
       };
       webView.navigationDelegate = listener;
       webView.hidden = YES;
-      if (@available(iOS 9.0, *)) {
-        [webView loadData:responseData
-                 MIMEType:response.MIMEType
-    characterEncodingName:response.textEncodingName
-                  baseURL:response.URL];
-      } else {
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setValue:FBSDKWebViewAppLinkResolverMetaTagPrefix forHTTPHeaderField:FBSDKWebViewAppLinkResolverPreferHeader];
-        [webView loadRequest:request];
-      }
-
+      [webView loadData:responseData
+               MIMEType:response.MIMEType
+  characterEncodingName:response.textEncodingName
+                baseURL:response.URL];
       UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
       [window addSubview:webView];
     }];
@@ -213,25 +211,25 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
             continue;
         }
         NSArray<NSString *> *nameComponents = [name componentsSeparatedByString:@":"];
-        if (![nameComponents[0] isEqualToString:FBSDKWebViewAppLinkResolverMetaTagPrefix]) {
+        if (![[FBSDKTypeUtility array:nameComponents objectAtIndex:0] isEqualToString:FBSDKWebViewAppLinkResolverMetaTagPrefix]) {
             continue;
         }
         NSMutableDictionary<NSString *, id> *root = al;
         for (NSUInteger i = 1; i < nameComponents.count; i++) {
-            NSMutableArray<NSMutableDictionary<NSString *, id> *> *children = root[nameComponents[i]];
+            NSMutableArray<NSMutableDictionary<NSString *, id> *> *children = root[[FBSDKTypeUtility array:nameComponents objectAtIndex:i]];
             if (!children) {
                 children = [NSMutableArray array];
-                root[nameComponents[i]] = children;
+                [FBSDKTypeUtility dictionary:root setObject:children forKey:[FBSDKTypeUtility array:nameComponents objectAtIndex:i]];
             }
             NSMutableDictionary<NSString *, id> *child = children.lastObject;
             if (!child || i == nameComponents.count - 1) {
                 child = [NSMutableDictionary dictionary];
-                [children addObject:child];
+                [FBSDKTypeUtility array:children addObject:child];
             }
             root = child;
         }
         if (tag[@"content"]) {
-            root[FBSDKWebViewAppLinkResolverDictionaryValueKey] = tag[@"content"];
+            [FBSDKTypeUtility dictionary:root setObject:tag[@"content"] forKey:FBSDKWebViewAppLinkResolverDictionaryValueKey];
         }
     }
     return al;
@@ -246,7 +244,7 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
               NSString *jsonString = [evaluateResult isKindOfClass:[NSString class]] ? evaluateResult : nil;
               error = nil;
               NSArray<NSDictionary<NSString *, id> *> *arr =
-              [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]
+              [FBSDKTypeUtility JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]
                                               options:0
                                                 error:&error];
               handler([self parseALData:arr]);
@@ -260,8 +258,7 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
     NSMutableArray<FBSDKAppLinkTarget *> *linkTargets = [NSMutableArray array];
 
     NSArray *platformData = nil;
-
-    const UIUserInterfaceIdiom idiom = UI_USER_INTERFACE_IDIOM();
+    const UIUserInterfaceIdiom idiom = UIDevice.currentDevice.userInterfaceIdiom;
     if (idiom == UIUserInterfaceIdiomPad) {
         platformData = @[ appLinkDict[FBSDKWebViewAppLinkResolverIPadKey] ?: @{},
                           appLinkDict[FBSDKWebViewAppLinkResolverIOSKey] ?: @{} ];
@@ -285,14 +282,14 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
             NSUInteger maxCount = MAX(urls.count, MAX(appStoreIds.count, appNames.count));
 
             for (NSUInteger i = 0; i < maxCount; i++) {
-                NSString *urlString = urls[i][FBSDKWebViewAppLinkResolverDictionaryValueKey];
+                NSString *urlString = [FBSDKTypeUtility array:urls objectAtIndex:i][FBSDKWebViewAppLinkResolverDictionaryValueKey];
                 NSURL *url = urlString ? [NSURL URLWithString:urlString] : nil;
-                NSString *appStoreId = appStoreIds[i][FBSDKWebViewAppLinkResolverDictionaryValueKey];
-                NSString *appName = appNames[i][FBSDKWebViewAppLinkResolverDictionaryValueKey];
+                NSString *appStoreId = [FBSDKTypeUtility array:appStoreIds objectAtIndex:i][FBSDKWebViewAppLinkResolverDictionaryValueKey];
+                NSString *appName = [FBSDKTypeUtility array:appNames objectAtIndex:i][FBSDKWebViewAppLinkResolverDictionaryValueKey];
                 FBSDKAppLinkTarget *target = [FBSDKAppLinkTarget appLinkTargetWithURL:url
                                                                            appStoreId:appStoreId
                                                                               appName:appName];
-                [linkTargets addObject:target];
+                [FBSDKTypeUtility array:linkTargets addObject:target];
             }
         }
     }
@@ -317,3 +314,5 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
 }
 
 @end
+
+#endif

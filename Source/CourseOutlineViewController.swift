@@ -125,7 +125,7 @@ public class CourseOutlineViewController :
     }
     
     override public func updateViewConstraints() {
-        loadController.insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0, bottom: bottomLayoutGuide.length, right : 0)
+        loadController.insets = UIEdgeInsets(top: view.safeAreaInsets.top, left: 0, bottom: view.safeAreaInsets.bottom, right : 0)
         
         tableController.view.snp.remakeConstraints { make in
             make.edges.equalTo(safeEdges)
@@ -435,15 +435,7 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     }
     
     func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourseItem) {
-        guard let childBlock = courseQuerier.blockWithID(id: item.lastVisitedBlockID).firstSuccess().value,
-              let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
-              let sectionBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Section).firstSuccess().value,
-              let chapterBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Chapter).firstSuccess().value else {
-            Logger.logError("ANALYTICS", "Unable to load block: \(item.lastVisitedBlockID)")
-            return
-        }
-        
-        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, childBlock: childBlock, unitBlock: unitBlock, sectionBlock: sectionBlock, chapterBlock: chapterBlock)
+        environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: item.lastVisitedBlockID)
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID) {

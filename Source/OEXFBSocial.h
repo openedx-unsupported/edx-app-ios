@@ -6,7 +6,7 @@
 //  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+@import FBSDKCoreKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

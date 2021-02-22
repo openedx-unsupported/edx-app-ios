@@ -1,1 +1,1 @@
-../../../Analytics/Analytics/Classes/Internal/SEGSegmentIntegrationFactory.h
+../../../Analytics/Segment/Classes/SEGSegmentIntegrationFactory.h

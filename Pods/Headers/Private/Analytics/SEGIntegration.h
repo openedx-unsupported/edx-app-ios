@@ -1,1 +1,1 @@
-../../../Analytics/Analytics/Classes/Integrations/SEGIntegration.h
+../../../Analytics/Segment/Classes/SEGIntegration.h

@@ -72,8 +72,8 @@ static BOOL isErrorReportEnabled = NO;
              underlyingError:(NSError *)underlyingError
 {
   NSMutableDictionary *fullUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
-  [FBSDKBasicUtility dictionary:fullUserInfo setObject:message forKey:FBSDKErrorDeveloperMessageKey];
-  [FBSDKBasicUtility dictionary:fullUserInfo setObject:underlyingError forKey:NSUnderlyingErrorKey];
+  [FBSDKTypeUtility dictionary:fullUserInfo setObject:message forKey:FBSDKErrorDeveloperMessageKey];
+  [FBSDKTypeUtility dictionary:fullUserInfo setObject:underlyingError forKey:NSUnderlyingErrorKey];
   userInfo = fullUserInfo.count ? [fullUserInfo copy] : nil;
   if (isErrorReportEnabled) {
     [FBSDKErrorReport saveError:code errorDomain:domain message:message];
@@ -106,6 +106,7 @@ static BOOL isErrorReportEnabled = NO;
                                       message:message
                               underlyingError:underlyingError];
 }
+
 + (NSError *)invalidArgumentErrorWithDomain:(NSErrorDomain)domain
                                        name:(NSString *)name
                                       value:(id)value
@@ -116,8 +117,8 @@ static BOOL isErrorReportEnabled = NO;
     message = [[NSString alloc] initWithFormat:@"Invalid value for %@: %@", name, value];
   }
   NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
-  [FBSDKBasicUtility dictionary:userInfo setObject:name forKey:FBSDKErrorArgumentNameKey];
-  [FBSDKBasicUtility dictionary:userInfo setObject:value forKey:FBSDKErrorArgumentValueKey];
+  [FBSDKTypeUtility dictionary:userInfo setObject:name forKey:FBSDKErrorArgumentNameKey];
+  [FBSDKTypeUtility dictionary:userInfo setObject:value forKey:FBSDKErrorArgumentValueKey];
   return [self errorWithDomain:domain
                           code:FBSDKErrorInvalidArgument
                       userInfo:userInfo
@@ -141,12 +142,12 @@ static BOOL isErrorReportEnabled = NO;
 {
   if (!message) {
     message =
-        [[NSString alloc] initWithFormat:@"Invalid item (%@) found in collection for %@: %@", item, name, collection];
+    [[NSString alloc] initWithFormat:@"Invalid item (%@) found in collection for %@: %@", item, name, collection];
   }
   NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
-  [FBSDKBasicUtility dictionary:userInfo setObject:name forKey:FBSDKErrorArgumentNameKey];
-  [FBSDKBasicUtility dictionary:userInfo setObject:item forKey:FBSDKErrorArgumentValueKey];
-  [FBSDKBasicUtility dictionary:userInfo setObject:collection forKey:FBSDKErrorArgumentCollectionKey];
+  [FBSDKTypeUtility dictionary:userInfo setObject:name forKey:FBSDKErrorArgumentNameKey];
+  [FBSDKTypeUtility dictionary:userInfo setObject:item forKey:FBSDKErrorArgumentValueKey];
+  [FBSDKTypeUtility dictionary:userInfo setObject:collection forKey:FBSDKErrorArgumentCollectionKey];
   return [self errorWithCode:FBSDKErrorInvalidArgument
                     userInfo:userInfo
                      message:message

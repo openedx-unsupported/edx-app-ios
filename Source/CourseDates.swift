@@ -289,6 +289,7 @@ struct CourseDateBlock {
         case linkText = "link_text"
         case title = "title"
         case extraInfo = "extra_info"
+        case firstComponentBlockID = "first_component_block_id"
     }
     
     var assignmentType: String = ""
@@ -300,6 +301,7 @@ struct CourseDateBlock {
     var linkText: String = ""
     var title: String = ""
     var extraInfo: String = ""
+    var firstComponentBlockID: String = ""
     var dateString: String = ""
     var userTimeZone: String?
     var preferenceTimeZone: String?
@@ -323,6 +325,7 @@ struct CourseDateBlock {
         linkText = json[Keys.linkText].string ?? ""
         title = json[Keys.title].string ?? ""
         extraInfo = json[Keys.extraInfo].string ?? ""
+        firstComponentBlockID = json[Keys.firstComponentBlockID].string ?? ""
         userTimeZone = timeZone
     }
     
@@ -465,7 +468,7 @@ fileprivate extension Date {
     }
 }
 
-fileprivate extension Array {
+extension Array {
     mutating func modifyForEach(_ body: (_ element: inout Element) -> ()) {
         for index in indices {
             modifyElement(atIndex: index) { body(&$0) }
