@@ -9,6 +9,8 @@
 import UIKit
 import MessageUI
 
+private let UTM_ParameterString = "utm_campaign=edxmilestone&utm_medium=social&utm_source="
+
 enum ActivityType:String {
     case linkedin = "com.linkedin.LinkedIn.ShareExtension"
 }
@@ -36,22 +38,23 @@ private enum ShareButtonType {
     }
     
     var parameter: String {
-        switch self {
-        case .linkedin:
-            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
-            
-        case .twitter:
-            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
-            
-        case .facebook:
-            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
-            
-        case .email:
-            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=\(source)"
-            
-        default:
-            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=other"
-        }
+        return String(format: UTM_ParameterString, source)
+//        switch self {
+//        case .linkedin:
+//            return String(format: UTM_ParameterString, source)
+//
+//        case .twitter:
+//            return String(format: UTM_ParameterString, source)
+//
+//        case .facebook:
+//            return String(format: UTM_ParameterString, source)
+//
+//        case .email:
+//            return String(format: UTM_ParameterString, source)
+//
+//        default:
+//            return "utm_campaign=edxmilestone&utm_medium=social&utm_source=other"
+//        }
     }
     
     static var utmParameters: CourseShareUtmParameters? {
@@ -151,10 +154,8 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         return button
     }()
     
-    private lazy var courseURL: String = {
-        let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
-        let courseURL = enrollment?.course.course_about ?? ""
-        return courseURL
+    private lazy var courseURL: String? = {
+        return environment.interface?.enrollmentForCourse(withID: courseID)?.course.course_about
     }()
     
     init(courseID: String, environment: Environment) {
@@ -185,7 +186,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         
         setupViews()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -246,13 +247,11 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
             make.width.equalTo(21)
             make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
             make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin*2)
-            let topOffsetMargin = isiPad() ? 10 : 0
-            make.top.equalTo(buttonContainer).offset(topOffsetMargin)
+            make.top.equalTo(buttonContainer).offset(isiPad() ? 10 : 0)
         }
         
         celebrationMessageLabel.snp.remakeConstraints { make in
-            let topOffSetMargin = isiPad() ? -StandardVerticalMargin : 0
-            make.top.equalTo(textContainer).offset(topOffSetMargin)
+            make.top.equalTo(textContainer).offset(isiPad() ? -StandardVerticalMargin : 0)
             make.leading.equalTo(textContainer)
             make.trailing.equalTo(textContainer)
             make.bottom.equalTo(textContainer)
@@ -378,14 +377,12 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
             make.width.equalTo(21)
             make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
             make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin*2)
-            let topOffsetMargin = isiPad() ? 20 : 10
-            make.top.equalTo(buttonContainer).offset(topOffsetMargin)
+            make.top.equalTo(buttonContainer).offset(isiPad() ? 20 : 10)
             make.bottom.equalTo(buttonContainer)
         }
 
         celebrationMessageLabel.snp.remakeConstraints { make in
-            let topOffSetMargin = isiPad() ? -StandardVerticalMargin : 0
-            make.top.equalTo(textContainer).offset(topOffSetMargin)
+            make.top.equalTo(textContainer).offset(isiPad() ? -StandardVerticalMargin : 0)
             make.leading.equalTo(textContainer)
             make.trailing.equalTo(textContainer)
             make.bottom.equalTo(textContainer)
@@ -395,9 +392,8 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
             make.edges.equalTo(insideContainer)
         }
         
-         buttonContainer.snp.remakeConstraints { make in
-            let HeightsetMargin = isiPad() ? 40 : 30
-            make.height.equalTo(HeightsetMargin)
+        buttonContainer.snp.remakeConstraints { make in
+            make.height.equalTo(isiPad() ? 40 : 30)
             make.leading.equalTo(insideContainer)
             make.top.equalTo(insideContainer).offset(StandardVerticalMargin)
         }
@@ -436,14 +432,15 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
     }
     
-    @objc func orientationDidChanged() {
+    @objc func orientationDidChange() {
         setupViews()
     }
     
     private func shareCourse(courseID: String, courseURL: String, utmParameters: CourseShareUtmParameters) {
-        guard let courseURL = NSURL(string: courseURL) else { return }
-        let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
-        let courseName = enrollment?.course.name ?? ""
+        guard let courseURL = NSURL(string: courseURL),
+            let enrollment = environment.interface?.enrollmentForCourse(withID: courseID),
+            let courseName = enrollment.course.name else { return }
+        
         let controller = shareHashtaggedTextAndALinkForCelebration(textBuilder: { hashtagOrPlatform in
             Strings.celebrationShareMessage(courseName: courseName, platformName: hashtagOrPlatform)
         }, url: courseURL, utmParams: utmParameters, analyticsCallback: { [weak self] analyticsType in

@@ -793,6 +793,8 @@
 "CELEBRATION_MODAL_TITLE_MESSAGE"="You just completed the first section of your course!";
 /*Celebration information message for celebratory modal*/
 "CELEBRATION_MODAL_INFO_MESSAGE"="You earned it! Take a moment to celebrate and share your progress";
+/*Celebration 'earned-it' text message for celebratory modal*/
+"CELEBRATION_MODAL_EARNED_IT_TEXT"="You earned it!";
 /*Button title for celebratory modal*/
 "CELEBRATION_KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */

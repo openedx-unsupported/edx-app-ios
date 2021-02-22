@@ -95,7 +95,6 @@ public enum Icon {
     case ArrowDown
     case Camera
     case Close
-    case Circle
     case CircleO
     case CheckCircleO
     case Closed
@@ -119,15 +118,12 @@ public enum Icon {
     case Calendar
     case Discussions
     case Dropdown
-    case Envelope
     case Filter
-    case Facebook
     case Recent
     case FollowStar
     case Graded
     case Handouts
     case InternetError
-    case Linkedin
     case Menu
     case NoTopics
     case NoSearchResults
@@ -144,7 +140,6 @@ public enum Icon {
     case Discovery
     case Transcript
     case Trophy
-    case Twitter
     case UnknownError
     case UpVote
     case User
@@ -190,8 +185,6 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .CheckSquareO)
         case .Filter:
             return FontAwesomeRenderer(icon: .Filter)
-        case .Facebook:
-            return FontAwesomeRenderer(icon: .Facebook)
         case .User:
             return FontAwesomeRenderer(icon: .User)
         case .Create:
@@ -204,8 +197,6 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Trash)
         case .Announcements:
             return FontAwesomeRenderer(icon: .Bullhorn)
-        case .Circle:
-            return FontAwesomeRenderer(icon: .Circle)
         case .CircleO:
             return FontAwesomeRenderer(icon: .CircleO)
         case .CheckCircleO:
@@ -240,10 +231,6 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Laptop)
         case .CourseVideoContent:
             return FontAwesomeRenderer(icon: .Film)
-        case .Envelope:
-            return FontAwesomeRenderer(icon: .Envelope)
-        case .Linkedin:
-            return FontAwesomeRenderer(icon: .LinkedIn)
         case .Menu:
             return FontAwesomeRenderer(icon: .Bars)
         case .ReportFlag:
@@ -282,8 +269,6 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .InfoCircle)
         case .Trophy:
             return FontAwesomeRenderer(icon: .Trophy)
-        case .Twitter:
-            return FontAwesomeRenderer(icon: .Twitter)
         case .VideoFullscreen:
             return FontAwesomeRenderer(icon: .Expand)
         case .VideoPlay:

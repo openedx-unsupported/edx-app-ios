@@ -15,8 +15,7 @@ enum CelebratoryModelDataKeys: String, RawStringExtractable {
 class CourseCelebrationModel: NSObject {
     let fistSection: Bool
     
-    init(dictionary:[String:Any]) {
-        //let celebrationDictionary = dictionary["celebrations"] as? [String: Any]
+    init(dictionary: [String : Any]) {
         fistSection = dictionary[CelebratoryModelDataKeys.firstSection] as? Bool ?? true
         super.init()
     }

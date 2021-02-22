@@ -1,5 +1,5 @@
 //
-//  CelebratoryModalViewAPI.swift
+//  CelebratoryAPI.swift
 //  edX
 //
 //  Created by Salman on 27/01/2021.
