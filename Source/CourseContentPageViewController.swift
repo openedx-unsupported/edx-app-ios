@@ -304,9 +304,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         {
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
                 self?.updateTransitionState(is: false)
-                if self?.isCelebratoryModalEnable ?? true {
+                //if self?.isCelebratoryModalEnable ?? true {
                     self?.showCelebratoryModal(direction: direction)
-                }
+                //}
             })
         }
     }

@@ -59,7 +59,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     private let environment: Environment
     private var courseID: String
     private let type: ShareButtonType = .none
-    
+    private let keepGoingButtonSize = CGSize(width: 140, height: 40)
     private lazy var modalView: UIView = {
         let view = UIView()
         view.backgroundColor = environment.styles.neutralWhite()
@@ -97,7 +97,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         message.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         message.adjustsFontSizeToFitWidth = true
         let string = Strings.celebrationModalInfoMessage
-        let range = (string as NSString).range(of: "You earned it!")
+        let range = (string as NSString).range(of: Strings.celebrationModalEarnedItText)
         let attributedString = NSMutableAttributedString(string: string)
         attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.boldSystemFont(ofSize: message.font.pointSize), range: range)
         message.attributedText =  attributedString
@@ -271,13 +271,13 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
         
         keepGoingButtonContainer.snp.remakeConstraints { make in
-            make.height.equalTo(40)
+            make.height.equalTo(keepGoingButtonSize.height)
         }
         
         keepGoingButton.snp.remakeConstraints { make in
-            make.leading.equalTo(keepGoingButtonContainer).offset(StandardHorizontalMargin*4)
-            make.trailing.equalTo(keepGoingButtonContainer).inset(StandardHorizontalMargin*4)
+            make.centerX.equalTo(keepGoingButtonContainer)
             make.height.equalTo(keepGoingButtonContainer)
+            make.width.equalTo(keepGoingButtonSize.width)
         }
                 
         modalView.snp.remakeConstraints { make in
@@ -390,13 +390,13 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
         
         keepGoingButtonContainer.snp.remakeConstraints { make in
-            make.height.equalTo(40)
+            make.height.equalTo(keepGoingButtonSize.height)
         }
         
         keepGoingButton.snp.remakeConstraints { make in
-            make.leading.equalTo(keepGoingButtonContainer).offset((view.frame.size.height / 4) / 2)
-            make.trailing.equalTo(keepGoingButtonContainer).inset((view.frame.size.height / 4) / 2)
+            make.centerX.equalTo(keepGoingButtonContainer)
             make.height.equalTo(keepGoingButtonContainer)
+            make.width.equalTo(keepGoingButtonSize.width)
         }
         
         modalView.snp.remakeConstraints { make in
