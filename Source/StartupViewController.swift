@@ -10,7 +10,8 @@ import Foundation
 
 private let CornerRadius:CGFloat = 0.0
 private let BottomBarMargin:CGFloat = 20.0
-private let BottomBarHeight:CGFloat = 90.0
+private let PortraitBottomBarHeight:CGFloat = 90.0
+private let LandscapeBottomBarHeight:CGFloat = 75.0
 
 class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
@@ -22,26 +23,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private lazy var searchViewTitle = UILabel()
     fileprivate let environment: Environment
     private let bottomBar: BottomBarView
-
-    private var placeholderText: String {
-        get {
-            let discovery = environment.config.discovery
-            let courseDiscoveryEnabled = discovery.course.isEnabled
-            let programDiscoveryEnabled = discovery.program.isEnabled
-
-            if courseDiscoveryEnabled && programDiscoveryEnabled {
-                return Strings.Startup.searchPlaceholderText
-            }
-            else if courseDiscoveryEnabled {
-                return Strings.searchCoursesPlaceholderText
-            }
-            else if programDiscoveryEnabled {
-                return Strings.searchProgramsPlaceholderText
-            }
-
-            return Strings.searchCoursesPlaceholderText
-        }
-    }
+    private let imageContainer = UIView()
 
     private var infoMessage: String {
         get {
@@ -72,6 +54,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         setupMessageLabel()
         setupSearchView()
         setupBottomBar()
+        setupExploreCoursesButton()
 
         view.backgroundColor = environment.styles.standardBackgroundColor()
         
@@ -134,7 +117,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         
         // In iOS 13+ voice over trying to read the possible text of the accessibility element when the accessibility element is the image.
         // To overcome this issue, the logo image is placed in a container and accessibility set on that container
-        let imageContainer = UIView()
         imageContainer.addSubview(logoImageView)
         imageContainer.accessibilityLabel = environment.config.platformName()
         imageContainer.isAccessibilityElement = true
@@ -142,17 +124,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         imageContainer.accessibilityHint = Strings.accessibilityImageVoiceOverHint
         
         view.addSubview(imageContainer)
-        
-        imageContainer.snp.makeConstraints { make in
-            make.leading.equalTo(safeLeading).offset(2*StandardHorizontalMargin)
-            make.centerY.equalTo(view.snp.bottom).dividedBy(6.0)
-            make.width.equalTo((logo?.size.width ?? 0) / 2)
-            make.height.equalTo((logo?.size.height ?? 0) / 2)
-        }
-        
-        logoImageView.snp.remakeConstraints { make in
-            make.center.edges.equalTo(imageContainer)
-        }
     }
 
     private func setupMessageLabel() {
@@ -172,19 +143,12 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     
     private func setupSearchView() {
         let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
-        guard courseEnrollmentEnabled ||
-            environment.config.discovery.program.isEnabled else { return }
+        guard courseEnrollmentEnabled else { return }
         
         view.addSubview(searchView)
         view.addSubview(searchViewTitle)
         let borderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment.styles.neutralLight())
         searchView.applyBorderStyle(style: borderStyle)
-
-        searchViewTitle.snp.makeConstraints { make in
-            make.top.equalTo(messageLabel.snp.bottom).offset(6 * StandardVerticalMargin)
-            make.leading.equalTo(messageLabel)
-            make.trailing.equalTo(messageLabel)
-        }
 
         searchView.snp.makeConstraints { make in
             make.top.equalTo(searchViewTitle.snp.bottom).offset(StandardVerticalMargin)
@@ -211,7 +175,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let searchTextField = UITextField()
         searchTextField.accessibilityIdentifier = "StartUpViewController:search-textfield"
         searchTextField.delegate = self
-        searchTextField.attributedPlaceholder = textStyle.attributedString(withText: placeholderText)
+        searchTextField.attributedPlaceholder = textStyle.attributedString(withText: Strings.Startup.searchPlaceholderText)
         searchTextField.textColor = environment.styles.primaryBaseColor()
         searchTextField.returnKeyType = .search
         searchTextField.defaultTextAttributes = environment.styles.textFieldStyle(with: .large, color: environment.styles.primaryBaseColor()).attributes.attributedKeyDictionary()
@@ -225,12 +189,87 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
         let labelStyle = OEXTextStyle(weight: .semiBold, size: .large, color: environment.styles.primaryBaseColor())
         searchViewTitle.attributedText = labelStyle.attributedString(withText: Strings.Startup.searchTitleText)
+
+        setConstraints()
+    }
+
+    private func setConstraints() {
+        let isiPhone5OrLess = isVerticallyCompact() && UIScreen.main.bounds.height <= 320
+
+        imageContainer.snp.remakeConstraints { make in
+            make.leading.equalTo(safeLeading).offset(2 * StandardHorizontalMargin)
+            if isiPhone5OrLess {
+                make.top.equalTo(view).offset(2 * StandardVerticalMargin)
+            }
+            else {
+                make.centerY.equalTo(view.snp.bottom).dividedBy(6.0)
+            }
+            make.width.equalTo((logoImageView.image?.size.width ?? 0) / 2)
+            make.height.equalTo((logoImageView.image?.size.height ?? 0) / 2)
+        }
+
+        logoImageView.snp.remakeConstraints { make in
+            make.center.edges.equalTo(imageContainer)
+        }
+
+        let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
+        guard courseEnrollmentEnabled else { return }
+
+        let offSet: CGFloat = isVerticallyCompact() ? 2 : 6
+
+        searchViewTitle.snp.remakeConstraints { make in
+            make.top.equalTo(messageLabel.snp.bottom).offset(offSet * StandardVerticalMargin)
+            make.leading.equalTo(messageLabel)
+            make.trailing.equalTo(messageLabel)
+        }
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateViewConstraints()
+    }
+
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        setConstraints()
+    }
+
+    private func setupExploreCoursesButton() {
+        let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
+        guard courseEnrollmentEnabled else { return }
+
+        let style = OEXTextStyle(weight: .normal, size: .large, color: environment.styles.primaryBaseColor())
+
+        let exploreButton = UIButton(type: .system)
+        exploreButton.setAttributedTitle(style.attributedString(withText: Strings.Startup.exploreCourseTitle), for: .normal)
+        exploreButton.oex_addAction({ [weak self] _ in
+            self?.showCourses(with: nil)
+            self?.environment.analytics.trackExploreAllCourses()
+        }, for: .touchUpInside)
+        view.addSubview(exploreButton)
+
+        exploreButton.snp.makeConstraints { make in
+            make.leading.equalTo(searchView)
+            make.top.equalTo(searchView.snp.bottom).offset(StandardVerticalMargin / 2)
+        }
+
+        let lineView = UIView()
+        lineView.backgroundColor = environment.styles.primaryBaseColor()
+        lineView.isAccessibilityElement = false
+        view.addSubview(lineView)
+
+        lineView.snp.makeConstraints { make in
+            make.top.equalTo(exploreButton.snp.bottom).inset(StandardVerticalMargin/2)
+            make.height.equalTo(1)
+            make.leading.equalTo(exploreButton)
+            make.width.equalTo(exploreButton)
+        }
     }
 
     private func setupBottomBar() {
         view.addSubview(bottomBar)
         bottomBar.snp.makeConstraints { make in
-            make.bottom.equalTo(safeBottom)
+            make.bottom.equalTo(view)
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
         }
@@ -306,19 +345,24 @@ public class BottomBarView: UIView, NSCopying {
     
     fileprivate func updateContraints() {
         bottomBar.axis = .horizontal
-        bottomBar.snp.makeConstraints { make in
+        bottomBar.snp.remakeConstraints { make in
             make.edges.equalTo(self)
-            make.height.equalTo(BottomBarHeight)
+            if UIDevice.current.orientation.isLandscape {
+                make.height.equalTo(LandscapeBottomBarHeight)
+            }
+            else {
+                make.height.equalTo(PortraitBottomBarHeight)
+            }
         }
 
-        signInButton.snp.makeConstraints { make in
+        signInButton.snp.remakeConstraints { make in
             make.top.equalTo(bottomBar).offset(BottomBarMargin)
             make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
             make.trailing.equalTo(bottomBar).offset(-BottomBarMargin)
             make.width.equalTo(95)
         }
 
-        registerButton.snp.makeConstraints { make in
+        registerButton.snp.remakeConstraints { make in
             make.top.equalTo(bottomBar).offset(BottomBarMargin)
             make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
             make.leading.equalTo(bottomBar).offset(BottomBarMargin)

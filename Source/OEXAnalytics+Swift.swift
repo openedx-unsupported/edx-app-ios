@@ -39,6 +39,7 @@ public enum AnalyticsDisplayName : String {
     case CourseDatesBanner = "PLS Banner Viewed"
     case CourseDatesShiftButtonTapped = "PLS Shift Button Tapped"
     case CourseDatesShift = "PLS Shift Dates"
+    case ExploreAllCourses = "Explore All Courses"
 }
 
 public enum AnalyticsEventName: String {
@@ -72,6 +73,7 @@ public enum AnalyticsEventName: String {
     case CourseDatesUpgradeToParticipate = "edx.bi.app.coursedates.upgrade.participate"
     case CourseDatesUpgradeToShift = "edx.bi.app.coursedates.upgrade.shift"
     case CourseDatesShiftDates = "edx.bi.app.coursedates.shift"
+    case ExploreAllCourses = "edx.bi.app.discovery.explore.all.courses"
 }
 
 public enum AnalyticsScreenName: String {
@@ -330,6 +332,16 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Success.rawValue: success
         ]
         trackEvent(event, forComponent: nil, withInfo: info)
+    }
+
+    func trackExploreAllCourses() {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.ExploreAllCourses.rawValue
+        event.name = AnalyticsEventName.ExploreAllCourses.rawValue
+        event.category = OEXAnalyticsCategoryUserEngagement
+        event.label = AnalyticsCategory.Discovery.rawValue
+
+        trackEvent(event, forComponent: nil, withInfo: ["action":"landing_screen","app_version": Bundle.main.oex_buildVersionString()])
     }
 }
 
