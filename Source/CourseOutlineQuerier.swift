@@ -124,6 +124,7 @@ public class CourseOutlineQuerier : NSObject {
                 }
             }
             let courseCelebrationModalRequest = CelebratoryAPI.celebrationModalViewedStatus(courseID: courseID)
+            
             if let celebrationModalStream = networkManager?.streamForRequest(courseCelebrationModalRequest) {
                 courseCelebrationModalStream.backWithStream(celebrationModalStream)
             }

@@ -428,7 +428,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    fileprivate func pause() {
+    func pause() {
         player.pause()
         playerState = .paused
         savePlayedTime()

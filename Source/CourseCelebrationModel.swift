@@ -6,8 +6,6 @@
 //  Copyright © 2021 edX. All rights reserved.
 //
 
-import UIKit
-
 enum CelebratoryModelDataKeys: String, RawStringExtractable {
     case firstSection = "first_section"
 }

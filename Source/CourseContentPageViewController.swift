@@ -37,7 +37,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return courseQuerier.courseID
     }
     
-    var isCelebratoryModalEnable: Bool? = false
+    var isCelebratoryModalEnable: Bool = false
     
     private var openURLButtonItem : UIBarButtonItem?
     
@@ -304,23 +304,22 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         {
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
                 self?.updateTransitionState(is: false)
-                //if self?.isCelebratoryModalEnable ?? true {
-                    self?.showCelebratoryModal(direction: direction)
-                //}
+                if let _ = self?.isCelebratoryModalEnable {
+                    self?.showCelebratoryModal(direction: direction, overController: nextController)
+                }
             })
         }
     }
-    
-    private func showCelebratoryModal(direction: UIPageViewController.NavigationDirection) {
-        if direction == .forward {
-            let cursor = contentLoader.value
-            let currentItem = cursor?.current
-            let prevItem = cursor?.peekPrev()
-            if prevItem != nil && currentItem?.prevGroup != nil {
-                if currentItem?.parent != prevItem?.parent {
-                    environment.router?.showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
-                }
-            }
+   
+    private func showCelebratoryModal(direction: UIPageViewController.NavigationDirection, overController: UIViewController) {
+        guard direction == .forward,
+              let cursor = contentLoader.value,
+              let prevItem = cursor.peekPrev(),
+              cursor.current.parent != prevItem.parent else { return }
+            
+        let celebratoryModalView = environment.router?.showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
+        if let videoBlockViewController = overController as? VideoBlockViewController {
+            celebratoryModalView?.delegate = videoBlockViewController
         }
     }
     

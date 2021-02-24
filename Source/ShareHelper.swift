@@ -63,7 +63,7 @@ private func controllerWithItems(items: [AnyObject], analyticsCallback:((String)
 private func controllerWithItems(items: [AnyObject], completionHandler:((UIActivity.ActivityType) -> Void)?) -> UIActivityViewController{
     let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
     controller.excludedActivityTypes = [UIActivity.ActivityType.assignToContact, UIActivity.ActivityType.print, UIActivity.ActivityType.saveToCameraRoll]
-    controller.completionWithItemsHandler = {activityType, completed, _, error in
+    controller.completionWithItemsHandler = { activityType, completed, _, error in
         if let type = activityType, completed {
             completionHandler?(type)
         }

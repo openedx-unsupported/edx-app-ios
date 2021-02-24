@@ -6,8 +6,6 @@
 //  Copyright © 2021 edX. All rights reserved.
 //
 
-import UIKit
-
 public struct CelebratoryAPI {
     
     private static func celebratoryModalViewStatusDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseCelebrationModel> {

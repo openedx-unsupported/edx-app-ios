@@ -232,7 +232,7 @@ extension OEXAnalytics {
     
     func trackCourseCelebrationSocialShareClicked(courseID: String, type: String) {
         let event = OEXAnalyticsEvent()
-        event.courseID = courseID;
+        event.courseID = courseID
         event.name = AnalyticsEventName.CelebrationModalSocialShareClicked.rawValue
         event.displayName = AnalyticsDisplayName.CelebrationModalSocialShareClicked.rawValue
         trackEvent(event, forComponent: nil, withInfo: [AnalyticsEventDataKey.Service.rawValue: type])
@@ -240,7 +240,7 @@ extension OEXAnalytics {
     
     func trackCourseCelebrationFirstSection(courseID: String) {
         let event = OEXAnalyticsEvent()
-        event.courseID = courseID;
+        event.courseID = courseID
         event.name = AnalyticsEventName.CelebrationModalView.rawValue
         event.displayName = AnalyticsDisplayName.CelebrationModalView.rawValue
         trackEvent(event, forComponent: nil, withInfo: nil)

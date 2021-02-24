@@ -792,7 +792,7 @@
 /*Title for celebratory modal*/
 "CELEBRATION_MODAL_TITLE"="Congratulations!";
 /*Title message for celebratory modal*/
-"CELEBRATION_MODAL_TITLE_MESSAGE"="You just completed the first section of your course!";
+"CELEBRATION_MODAL_TITLE_MESSAGE"="You just completed the first section of your course.";
 /*Celebration information message for celebratory modal*/
 "CELEBRATION_MODAL_INFO_MESSAGE"="You earned it! Take a moment to celebrate and share your progress.";
 /*Celebration 'earned-it' text message for celebratory modal*/

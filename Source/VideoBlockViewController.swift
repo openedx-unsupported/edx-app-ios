@@ -30,6 +30,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     private var chromeCastMiniPlayer: ChromeCastMiniPlayer?
     private var playOverlayButton: UIButton?
     private var overlayLabel: UILabel?
+    var isCelebratoryModalEnable: Bool = false
     
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
         self.blockID = blockID
@@ -47,6 +48,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         addChild(videoPlayer)
         videoPlayer.didMove(toParent: self)
         videoPlayer.playerDelegate = self
+        addCelebratoryModalListner()
         addLoadListener()
     }
     
@@ -58,6 +60,19 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func addCelebratoryModalListner() {
+        courseQuerier.courseCelebrationModalStream.listen(self) { [weak self] (result) in
+            switch result {
+            case .success(let courseCelebrationModel) :
+                    self?.isCelebratoryModalEnable = courseCelebrationModel.fistSection
+                break
+            case .failure(let error):
+                Logger.logError("CelebratoryModal", "Unable to load celebratory modal: \(error.localizedDescription)")
+                break
+            }
+        }
     }
     
     func addLoadListener() {
@@ -365,7 +380,11 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         videoPlayer.videoTitle = block.displayName
         DispatchQueue.main.async {[weak self] in
             self?.loadController.state = .Loaded
-            self?.play(video: video)
+        }
+        if !isCelebratoryModalEnable {
+            DispatchQueue.main.async {[weak self] in
+                self?.play(video: video)
+            }
         }
     }
     
@@ -625,5 +644,15 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
     func chromeCastDidFinishPlaying() {
         createOverlayPlayButton()
         videoPlayer.savePlayedTime(time: .zero)
+    }
+}
+
+extension VideoBlockViewController: CelebratoryModalViewControllerDelegate {
+    func modalDidFinishDismis() {
+        if let video = self.video {
+            DispatchQueue.main.async {[weak self] in
+                self?.play(video: video)
+            }
+        }
     }
 }
