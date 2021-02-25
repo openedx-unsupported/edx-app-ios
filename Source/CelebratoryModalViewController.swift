@@ -104,16 +104,15 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     private lazy var celebrationMessageLabel: UILabel = {
         let message = UILabel()
         message.numberOfLines = 0
-        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.neutralBlackT())
-        style.alignment = .center
         message.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         message.adjustsFontSizeToFitWidth = true
-        let string = Strings.celebrationModalInfoMessage
-        let earnedTextRange = string.nsString.range(of: Strings.celebrationModalEarnedItText)
-        let attributedString = NSMutableAttributedString(string: string)
-        attributedString.addAttribute(NSAttributedString.Key.font, value: OEXFonts.sharedInstance.font(for: .Bold, size: message.font.pointSize), range: earnedTextRange)
-        message.attributedText =  attributedString
-        
+        let earneditTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: environment.styles.neutralBlackT())
+        let earneditAttributedString = earneditTextStyle.attributedString(withText: Strings.celebrationModalEarnedItText)
+        let messageStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.neutralBlackT())
+        let messageattributedString = messageStyle.attributedString(withText: Strings.celebrationModalInfoMessage)
+        let compiledMessage = NSAttributedString.joinInNaturalLayout(attributedStrings: [earneditAttributedString, messageattributedString])
+        message.sizeToFit()
+        message.attributedText = compiledMessage
         return message
     }()
     
@@ -251,7 +250,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
 
         titleMessageLabel.snp.remakeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin*2)
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin * 2)
             make.centerX.equalTo(modalView)
             make.width.equalTo(imageContainer.snp.width).inset(10)
             make.height.equalTo(titleLabelMessageHeight)
@@ -262,44 +261,45 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
 
         imageContainer.snp.remakeConstraints { make in
-            make.top.equalTo(titleMessageLabel.snp.bottom).offset(StandardVerticalMargin*2)
+            make.top.equalTo(titleMessageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
             make.centerX.equalTo(modalView)
             make.width.equalTo(CelebrationImageSize.width)
             make.height.equalTo(CelebrationImageSize.height)
         }
-        
+
         insideContainer.snp.remakeConstraints { make in
-            make.top.equalTo(imageContainer.snp.bottom).offset(StandardVerticalMargin*2)
+            make.top.equalTo(imageContainer.snp.bottom).offset(StandardVerticalMargin * 2)
             make.centerX.equalTo(modalView)
             make.width.equalTo(imageContainer.snp.width)
             make.height.equalTo(shareButtonContainerHeight)
         }
-        
-        celebrationMessageLabel.snp.remakeConstraints { make in
-            make.top.equalTo(textContainer).offset(isiPad() ? -StandardVerticalMargin : 0)
-            make.leading.equalTo(textContainer)
-            make.trailing.equalTo(textContainer)
-            make.bottom.equalTo(textContainer)
-        }
-        
+
         buttonContainer.snp.remakeConstraints { make in
             make.leading.equalTo(insideContainer)
-            make.top.equalTo(insideContainer).offset(StandardVerticalMargin*2)
+            make.top.equalTo(insideContainer).offset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(insideContainer)
         }
 
         textContainer.snp.remakeConstraints { make in
-            make.top.equalTo(insideContainer).offset(StandardVerticalMargin*2)
+            make.top.equalTo(insideContainer).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(buttonContainer.snp.trailing).inset(StandardHorizontalMargin / 2)
-            make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin*2)
-            make.bottom.equalTo(insideContainer).inset(StandardVerticalMargin*2)
+            make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin * 2)
+            make.bottom.equalTo(insideContainer).inset(StandardVerticalMargin * 2)
         }
-        
+
         shareImageView.snp.remakeConstraints { make in
-            make.top.equalTo(buttonContainer).offset(isiPad() ? 10 : 0)
-            make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin*2)
+            make.top.equalTo(celebrationMessageLabel.snp.top)
+            make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin * 2)
             make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
             make.width.equalTo(shareImageSize.width)
             make.height.equalTo(shareImageSize.height)
+        }
+
+        celebrationMessageLabel.snp.remakeConstraints { make in
+            make.centerX.equalTo(textContainer)
+            make.centerY.equalTo(textContainer)
+            make.leading.equalTo(textContainer)
+            make.trailing.equalTo(textContainer)
         }
         
         shareButtonView.snp.makeConstraints { make in
@@ -307,7 +307,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
         
         keepGoingButtonContainer.snp.remakeConstraints { make in
-            make.top.equalTo(insideContainer.snp.bottom).offset(StandardVerticalMargin*3)
+            make.top.equalTo(insideContainer.snp.bottom).offset(StandardVerticalMargin * 3)
             make.leading.equalTo(modalView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(modalView).inset(StandardHorizontalMargin)
             make.height.equalTo(keepGoingButtonSize.height)
@@ -320,12 +320,11 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
                 
         modalView.snp.remakeConstraints { make in
-            make.leading.equalTo(view).offset(isiPad() ? 100 : 20)
-            make.trailing.equalTo(view).inset(isiPad() ? 100 : 20)
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
-            let height = titleLabelHeight + titleLabelMessageHeight + CelebrationImageSize.height + shareButtonContainerHeight + keepGoingButtonSize.height + StandardVerticalMargin*15
+            let height = titleLabelHeight + titleLabelMessageHeight + CelebrationImageSize.height + shareButtonContainerHeight + keepGoingButtonSize.height + (StandardVerticalMargin * 15)
             make.height.equalTo(height)
+            make.width.equalTo(CelebrationImageSize.width + StandardVerticalMargin * 5)
         }
     }
     
@@ -390,19 +389,19 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
         
         shareImageView.snp.remakeConstraints { make in
+            make.top.equalTo(celebrationMessageLabel.snp.top)
+            make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin * 2)
+            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
             make.width.equalTo(shareImageSize.width)
             make.height.equalTo(shareImageSize.height)
-            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
-            make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin*2)
-            make.top.equalTo(buttonContainer).offset(isiPad() ? 20 : 10)
-            make.bottom.equalTo(buttonContainer)
         }
 
         celebrationMessageLabel.snp.remakeConstraints { make in
-            make.top.equalTo(textContainer).offset(isiPad() ? -StandardVerticalMargin : 0)
+            make.centerX.equalTo(textContainer)
+            make.centerY.equalTo(textContainer)
             make.leading.equalTo(textContainer)
             make.trailing.equalTo(textContainer)
-            make.bottom.equalTo(textContainer)
+            make.height.lessThanOrEqualTo(textContainer)
         }
 
         shareButtonView.snp.makeConstraints { make in
@@ -410,13 +409,13 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
         
         buttonContainer.snp.remakeConstraints { make in
-            make.height.equalTo(isiPad() ? 40 : 32)
             make.leading.equalTo(insideContainer)
-            make.top.equalTo(insideContainer).offset(StandardVerticalMargin)
+            make.top.equalTo(insideContainer)
+            make.bottom.equalTo(insideContainer)
         }
             
         textContainer.snp.remakeConstraints { make in
-            make.top.equalTo(insideContainer).offset(StandardVerticalMargin)
+            make.top.equalTo(insideContainer)
             make.leading.equalTo(buttonContainer.snp.trailing).inset(StandardHorizontalMargin / 2)
             make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin*2)
             make.bottom.equalTo(insideContainer).inset(StandardVerticalMargin)
