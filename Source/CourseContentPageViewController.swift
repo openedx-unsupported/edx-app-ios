@@ -303,9 +303,11 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
-                self?.updateTransitionState(is: false)
-                if let _ = self?.isCelebratoryModalEnable {
-                    self?.showCelebratoryModal(direction: direction, overController: nextController)
+                if let weakSelf = self {
+                    weakSelf.updateTransitionState(is: false)
+                    if weakSelf.isCelebratoryModalEnable {
+                        weakSelf.showCelebratoryModal(direction: direction, overController: nextController)
+                    }
                 }
             })
         }

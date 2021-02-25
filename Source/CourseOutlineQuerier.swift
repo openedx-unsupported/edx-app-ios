@@ -123,11 +123,22 @@ public class CourseOutlineQuerier : NSObject {
                     courseOutline.backWithStream(loader)
                 }
             }
-            let courseCelebrationModalRequest = CelebratoryAPI.celebrationModalViewedStatus(courseID: courseID)
             
-            if let celebrationModalStream = networkManager?.streamForRequest(courseCelebrationModalRequest) {
-                courseCelebrationModalStream.backWithStream(celebrationModalStream)
-            }
+            loadCelebrationStream()
+        }
+    }
+    
+    func loadCelebrationStream() {
+        let courseCelebrationModalRequest = CelebratoryAPI.celebrationModalViewedStatus(courseID: courseID)
+        if let celebrationModalStream = networkManager?.streamForRequest(courseCelebrationModalRequest) {
+            courseCelebrationModalStream.backWithStream(celebrationModalStream)
+        }
+    }
+    
+    func updateCelebrationModalStatus(firstSection: Bool) {
+        let networkRequest = CelebratoryAPI.celebratoryModalViewed(username: session?.currentUser?.username ?? "", courseID: courseID, isFirstSectionViewed: false)
+        networkManager?.taskForRequest(networkRequest) {[weak self] _ in
+            self?.loadCelebrationStream()
         }
     }
     

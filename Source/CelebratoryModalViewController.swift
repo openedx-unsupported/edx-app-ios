@@ -59,7 +59,7 @@ private enum ShareButtonType {
 
 class CelebratoryModalViewController: UIViewController, InterfaceOrientationOverriding {
     
-    typealias Environment = NetworkManagerProvider & OEXInterfaceProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXAnalyticsProvider
+    typealias Environment = NetworkManagerProvider & OEXInterfaceProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXAnalyticsProvider & DataManagerProvider
     
     private let environment: Environment
     private var courseID: String
@@ -123,6 +123,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.celebrationKeepGoingButtonTitle), for: UIControl.State())
         button.oex_addAction({ [weak self] _ in
             self?.dismiss(animated: false, completion: nil)
+            self?.markCelebratoryModalAsViewed()
             self?.delegate?.modalDidFinishDismis()
         }, for: .touchUpInside)
         
@@ -464,5 +465,10 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         })
         controller.configurePresentationController(withSourceView: shareImageView)
         present(controller, animated: true, completion: nil)
+    }
+    
+    private func markCelebratoryModalAsViewed() {
+        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
+        courseQuerier.updateCelebrationModalStatus(firstSection: false)
     }
 }
