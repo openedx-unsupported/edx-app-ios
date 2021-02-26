@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, CourseBlockCompletionDelegate, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
+class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, CourseBlockCompletionController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider & NetworkManagerProvider
     

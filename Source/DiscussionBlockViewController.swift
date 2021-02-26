@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DiscussionBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionDelegate {
+class DiscussionBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionController {
     
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & DataManagerProvider & OEXConfigProvider
     

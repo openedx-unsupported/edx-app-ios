@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionDelegate {
+class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionController {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & DataManagerProvider & RemoteConfigProvider
     

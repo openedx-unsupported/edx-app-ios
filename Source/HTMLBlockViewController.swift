@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HTMLBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionDelegate, PreloadableBlockController {
+class HTMLBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionController, PreloadableBlockController {
     
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
     

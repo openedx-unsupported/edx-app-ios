@@ -355,7 +355,8 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
         let componentID = url.URLString
         let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         
-        if let _ = courseQuerier.blockWithID(id: componentID).firstSuccess().value {
+        if let block = courseQuerier.blockWithID(id: componentID).firstSuccess().value {
+            block.displayType
             environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
         } else if let block = courseDateModel?.dateBlocks.first(where: { $0.firstComponentBlockID == componentID }),
                   let blockURL = URL(string: block.link) {

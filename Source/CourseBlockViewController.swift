@@ -14,12 +14,12 @@ public protocol CourseBlockViewController {
     var courseID: CourseBlockID { get }
 }
 
-protocol CourseBlockCompletionDelegate {
+protocol CourseBlockCompletionController {
     var block: CourseBlock? { get }
     func markBlockAsComplete()
 }
 
-extension CourseBlockCompletionDelegate where Self: UIViewController {
+extension CourseBlockCompletionController where Self: UIViewController & CourseBlockViewController {
     func markBlockAsComplete() {
         block?.completion = true
     }
