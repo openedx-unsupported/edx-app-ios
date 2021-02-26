@@ -275,10 +275,7 @@ public class CourseOutlineViewController :
     private func loadHeaderStream() {
         headersLoader.listen(self, success: { [weak self] headers in
                 self?.setupNavigationItem(block: headers.block)
-            }, failure: {[weak self] error in
-                self?.showErrorIfNecessary(error: error)
-            }
-        )
+        }, failure: { _ in })
     }
     
     private func loadRowsStream() {
