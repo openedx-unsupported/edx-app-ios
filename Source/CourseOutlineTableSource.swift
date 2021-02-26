@@ -59,11 +59,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     var groups : [CourseOutlineQuerier.BlockGroup] = [] {
         didSet {
             groups.forEach { group in
-                let observer = SomeObserver(blockID: group.block.blockID, delegate: self)
-                courseQuerier.addObserver(observer: observer)
+                let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, delegate: self)
+                courseQuerier.add(observer: observer)
             }            
         }
     }
+    
     var highlightedBlockID : CourseBlockID? = nil
     private var videos: [OEXHelperVideoDownload]?
     
@@ -447,6 +448,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
            let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
         environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
     }
+    
+    deinit {
+        courseQuerier.remove(observer: self)
+    }
 }
 
 extension CourseOutlineTableController: CourseDateBannerViewDelegate {
@@ -455,7 +460,7 @@ extension CourseOutlineTableController: CourseDateBannerViewDelegate {
     }
 }
 
-extension CourseOutlineTableController: MyElementObserver {
+extension CourseOutlineTableController: BlockCompletionDelegate {
     func didChangeProperty(group: CourseOutlineQuerier.BlockGroup) {
         if let index = groups.firstIndex(where: { $0.block.blockID == group.block.blockID }) {            
             if tableView.isValidSection(index: index) {

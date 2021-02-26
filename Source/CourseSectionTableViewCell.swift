@@ -138,9 +138,11 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
 
     var block : CourseBlock? = nil {
         didSet {
-            content.setTitleText(title: block?.displayName)
-            content.isGraded = block?.graded
-            content.setDetailText(title: block?.format ?? "", dueDate: block?.dueDate, blockType: block?.type)
+            guard let block = block else { return }
+            content.backgroundColor = block.completion ? OEXStyles.shared().successXXLight() : OEXStyles.shared().neutralWhite()
+            content.setTitleText(title: block.displayName)
+            content.isGraded = block.graded
+            content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
         }
     }
     

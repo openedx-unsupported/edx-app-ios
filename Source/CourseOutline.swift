@@ -329,30 +329,3 @@ public final class Observable<T>: ObservableProtocol {
         observers = filtered
     }
 }
-
-//public struct Observable<T> {
-//    typealias Observer = String
-//
-//    private var handlers: [Observer: (T) -> Void] = [:]
-//
-//    var value: T {
-//        didSet {
-//            handlers.forEach { $0.value(value) }
-//        }
-//    }
-//
-//    init(_ value: T) {
-//        self.value = value
-//    }
-//
-//    @discardableResult
-//    mutating func subscribe(_ handler: @escaping (T) -> Void) -> Observer {
-//        let key = UUID().uuidString as Observer
-//        handlers[key] = handler
-//        return key
-//    }
-//
-//    mutating func remove(_ key: Observer) {
-//        handlers.removeValue(forKey: key)
-//    }
-//}

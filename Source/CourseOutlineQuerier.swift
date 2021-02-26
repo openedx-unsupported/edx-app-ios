@@ -8,12 +8,13 @@
 
 import UIKit
 
-struct SomeObserver {
+struct BlockCompletionObserver {
+    var controller: UIViewController
     var blockID: CourseBlockID
-    var delegate: MyElementObserver
+    var delegate: BlockCompletionDelegate
 }
 
-protocol MyElementObserver {
+protocol BlockCompletionDelegate {
     func didChangeProperty(group: CourseOutlineQuerier.BlockGroup)
 }
 
@@ -53,10 +54,16 @@ public class CourseOutlineQuerier : NSObject {
     private let courseOutline : BackedStream<CourseOutline> = BackedStream()
     public var needsRefresh : Bool = false
     
-    var observers: [SomeObserver] = []
+    var observers: [BlockCompletionObserver] = []
     
-    func addObserver(observer: SomeObserver) {
+    func add(observer: BlockCompletionObserver) {
         observers.append(observer)
+    }
+    
+    func remove(observer: UIViewController) {
+        let objectIndex = observers.firstIndexMatching { $0.controller === observer }
+        guard let index = objectIndex else { return }
+        observers.remove(at: index)
     }
     
     private var blocks: [CourseBlockID : CourseBlock] = [:] {
@@ -65,11 +72,8 @@ public class CourseOutlineQuerier : NSObject {
                 let block = item.value
                 
                 block.isCompleted.subscribe(observer: self) { [weak self] value, _ in
-                    print("value: \(value)")
-                    
-                    guard let weakSelf = self else { return }
-                    
-                    guard let parent = weakSelf.parentOfBlockWith(id: block.blockID).firstSuccess().value else { return }
+                    guard let weakSelf = self,
+                          let parent = weakSelf.parentOfBlockWith(id: block.blockID).firstSuccess().value else { return }
                     
                     let allCompleted = parent.children.allSatisfy { [weak self] childID in
                         return self?.blockWithID(id: childID).firstSuccess().value?.completion ?? false
@@ -77,29 +81,18 @@ public class CourseOutlineQuerier : NSObject {
                     
                     if allCompleted {
                         parent.completion = true
-                        for observer in weakSelf.observers {
+                        weakSelf.observers.forEach { observer in
                             if observer.blockID == parent.blockID {
-                                let children = parent.children.map { [weak self] childID in
-                                    return self!.blockWithID(id: childID).firstSuccess().value!
+                                let children = parent.children.compactMap { [weak self] childID in
+                                    return self?.blockWithID(id: childID).firstSuccess().value
                                 }
                                 
-                                let item = BlockGroup.init(block: parent, children: children)
+                                let item = BlockGroup(block: parent, children: children)
                                 observer.delegate.didChangeProperty(group: item)
                             }
                         }
                     }
-                    
-//                    parent.children.forEach { [weak self] childID in
-//                        guard childID != block.blockID,
-//                              let childBlock = self?.blockWithID(id: childID).firstSuccess().value else { return }
-//
-//                        print("child: \(childBlock.blockID) -> isCompleted: \(childBlock.completion)")
-//                    }
                 }
-                
-//                block.isCompleted.subscribe { [weak self] value in
-//
-//                }
             }
         }
     }

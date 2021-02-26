@@ -272,7 +272,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func updateNavigationForEnteredController(controller : UIViewController?) {
-        
         if let controller = controller as? CourseBlockCompletionDelegate {
             controller.markBlockAsComplete()
         }
