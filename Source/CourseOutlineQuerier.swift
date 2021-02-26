@@ -15,7 +15,7 @@ struct BlockCompletionObserver {
 }
 
 protocol BlockCompletionDelegate {
-    func didChangeProperty(group: CourseOutlineQuerier.BlockGroup)
+    func didChangeCompletion(in blockGroup: CourseOutlineQuerier.BlockGroup)
 }
 
 private enum TraversalDirection {
@@ -54,7 +54,7 @@ public class CourseOutlineQuerier : NSObject {
     private let courseOutline : BackedStream<CourseOutline> = BackedStream()
     public var needsRefresh : Bool = false
     
-    var observers: [BlockCompletionObserver] = []
+    private var observers: [BlockCompletionObserver] = []
     
     func add(observer: BlockCompletionObserver) {
         observers.append(observer)
@@ -68,32 +68,7 @@ public class CourseOutlineQuerier : NSObject {
     
     private var blocks: [CourseBlockID : CourseBlock] = [:] {
         didSet {
-            blocks.forEach { item in
-                let block = item.value
-                
-                block.isCompleted.subscribe(observer: self) { [weak self] value, _ in
-                    guard let weakSelf = self,
-                          let parent = weakSelf.parentOfBlockWith(id: block.blockID).firstSuccess().value else { return }
-                    
-                    let allCompleted = parent.children.allSatisfy { [weak self] childID in
-                        return self?.blockWithID(id: childID).firstSuccess().value?.completion ?? false
-                    }
-                    
-                    if allCompleted {
-                        parent.completion = true
-                        weakSelf.observers.forEach { observer in
-                            if observer.blockID == parent.blockID {
-                                let children = parent.children.compactMap { [weak self] childID in
-                                    return self?.blockWithID(id: childID).firstSuccess().value
-                                }
-                                
-                                let item = BlockGroup(block: parent, children: children)
-                                observer.delegate.didChangeProperty(group: item)
-                            }
-                        }
-                    }
-                }
-            }
+            subscribeToCompletionPropertyOnBlocks()
         }
     }
         
@@ -130,6 +105,35 @@ public class CourseOutlineQuerier : NSObject {
     convenience public init(courseID : String, interface : OEXInterface?, outline : CourseOutline) {
         self.init(courseID: courseID, outline: outline)
         self.interface = interface
+    }
+    
+    private func subscribeToCompletionPropertyOnBlocks() {
+        blocks.forEach { item in
+            let block = item.value
+            
+            block.isCompleted.subscribe(observer: self) { [weak self] value, _ in
+                guard let weakSelf = self,
+                      let parent = weakSelf.parentOfBlockWith(id: block.blockID).firstSuccess().value else { return }
+                
+                let allCompleted = parent.children.allSatisfy { [weak self] childID in
+                    return self?.blockWithID(id: childID).firstSuccess().value?.completion ?? false
+                }
+                
+                if allCompleted {
+                    parent.completion = true
+                    weakSelf.observers.forEach { observer in
+                        if observer.blockID == parent.blockID {
+                            let children = parent.children.compactMap { [weak self] childID in
+                                return self?.blockWithID(id: childID).firstSuccess().value
+                            }
+                            
+                            let blockGroup = BlockGroup(block: parent, children: children)
+                            observer.delegate.didChangeCompletion(in: blockGroup)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     private func addObservers() {

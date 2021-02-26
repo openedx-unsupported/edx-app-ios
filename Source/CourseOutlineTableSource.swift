@@ -461,12 +461,11 @@ extension CourseOutlineTableController: CourseDateBannerViewDelegate {
 }
 
 extension CourseOutlineTableController: BlockCompletionDelegate {
-    func didChangeProperty(group: CourseOutlineQuerier.BlockGroup) {
-        if let index = groups.firstIndex(where: { $0.block.blockID == group.block.blockID }) {            
-            if tableView.isValidSection(index: index) {
-                groups[index] = group
-                tableView.reloadSections([index], with: .none)
-            }
+    func didChangeCompletion(in blockGroup: CourseOutlineQuerier.BlockGroup) {
+        guard let index = groups.firstIndex(where: { $0.block.blockID == blockGroup.block.blockID }) else { return }
+        if tableView.isValidSection(with: index) {
+            groups[index] = blockGroup
+            tableView.reloadSections([index], with: .none)
         }
     }
 }
@@ -481,7 +480,7 @@ extension UITableView {
         tableHeaderView = header
     }
     
-    func isValidSection(index: Int) -> Bool {
+    func isValidSection(with index: Int) -> Bool {
         return index < numberOfSections
     }
 }
