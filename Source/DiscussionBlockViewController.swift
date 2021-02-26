@@ -8,21 +8,29 @@
 
 import Foundation
 
-class DiscussionBlockViewController: UIViewController,CourseBlockViewController {
+class DiscussionBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionDelegate {
     
-    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & DataManagerProvider & OEXConfigProvider
     
     let courseID: String
     let blockID : CourseBlockID?
-    private let topicID: String?
-    private let environment : Environment
-    private let postsController:PostsViewController
     
+    var block: CourseBlock? {
+        return courseQuerier.blockWithID(id: blockID).firstSuccess().value
+    }
+    
+    private let courseQuerier: CourseOutlineQuerier
+    
+    private let topicID: String?
+    private let environment: Environment
+    private let postsController: PostsViewController
+
     init(blockID: CourseBlockID?, courseID : String, topicID: String?, environment : Environment) {
         self.blockID = blockID
         self.courseID = courseID
         self.topicID = topicID
         self.environment = environment
+        self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         
         self.postsController = PostsViewController(environment: self.environment, courseID: self.courseID, topicID: self.topicID)
         
@@ -63,7 +71,9 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
         view.addSubview(postsController.view)
     }
     
-    private func markBlockAsComplete() {
+    func markBlockAsComplete() {
+        block?.completion = true
+        
         guard let blockID = blockID,
               let username = OEXSession.shared()?.currentUser?.username else { return }
         let networkRequest = BlockCompletionApi.blockCompletionRequest(username: username, courseID: courseID, blockID: blockID)

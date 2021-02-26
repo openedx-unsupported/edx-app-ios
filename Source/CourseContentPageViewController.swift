@@ -32,7 +32,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var initialChildID : CourseBlockID?
     
     public private(set) var blockID : CourseBlockID?
-    
+        
     public var courseID : String {
         return courseQuerier.courseID
     }
@@ -79,7 +79,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public override func viewWillAppear(_ animated : Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setToolbarHidden(false, animated: animated)
+        navigationController?.setToolbarHidden(false, animated: animated)
         courseQuerier.blockWithID(id: blockID).extendLifetimeUntilFirstResult (success:
             {[weak self] block in
                 self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenUnitDetail, courseID: self?.courseID ?? "", value: block.internalName)
@@ -273,21 +273,24 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func updateNavigationForEnteredController(controller : UIViewController?) {
         
+        if let controller = controller as? CourseBlockCompletionDelegate {
+            controller.markBlockAsComplete()
+        }
+        
         if let blockController = controller as? CourseBlockViewController,
-            let cursor = contentLoader.value
-        {
+            let cursor = contentLoader.value {
             cursor.updateCurrentToItemMatching {
                 blockController.blockID == $0.block.blockID
             }
             environment.analytics.trackViewedComponentForCourse(withID: courseID, blockID: cursor.current.block.blockID, minifiedBlockID: cursor.current.block.minifiedBlockID ?? "")
-            self.navigationDelegate?.courseContentPageViewController(controller: self, enteredBlockWithID: cursor.current.block.blockID, parentID: cursor.current.parent)
+            navigationDelegate?.courseContentPageViewController(controller: self, enteredBlockWithID: cursor.current.block.blockID, parentID: cursor.current.parent)
         }
-        self.updateNavigationBars()
+        updateNavigationBars()
     }
     
     fileprivate func moveInDirection(direction : UIPageViewController.NavigationDirection) {
         if let currentController = viewControllers?.first,
-            let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
+            let nextController = siblingWithDirection(direction: direction, fromController: currentController)
         {
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
                 self?.updateTransitionState(is: false)
@@ -329,7 +332,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        self.updateNavigationForEnteredController(controller: pageViewController.viewControllers?.first)
+        updateNavigationForEnteredController(controller: pageViewController.viewControllers?.first)
         updateTransitionState(is: false)
     }
     
@@ -338,15 +341,15 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
     }
     
-    func controllerForBlock(block : CourseBlock) -> UIViewController? {
+    func controllerForBlock(block: CourseBlock) -> UIViewController? {
         let blockViewController : UIViewController?
         
-        if let cachedViewController = self.cacheManager.getCachedViewControllerForBlockID(blockID: block.blockID) {
+        if let cachedViewController = cacheManager.getCachedViewControllerForBlockID(blockID: block.blockID) {
             blockViewController = cachedViewController
         }
         else {
             // Instantiate a new VC from the router if not found in cache already
-            if let viewController = self.environment.router?.controllerForBlock(block: block, courseID: courseQuerier.courseID) {
+            if let viewController = environment.router?.controllerForBlock(block: block, courseID: courseQuerier.courseID) {
                 blockViewController = viewController
             }
             else {
@@ -369,7 +372,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     override public var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle(barStyle : self.navigationController?.navigationBar.barStyle)
+        return UIStatusBarStyle(barStyle : navigationController?.navigationBar.barStyle)
     }
     
     override public var shouldAutorotate: Bool {
@@ -380,14 +383,14 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return [.portrait , .landscapeLeft , .landscapeRight]
     }
     
-    private func preloadBlock(block : CourseBlock) {
+    private func preloadBlock(block: CourseBlock) {
         guard !cacheManager.cacheHitForBlockID(blockID: block.blockID) else {
             return
         }
         guard block.displayType.isCacheable else {
             return
         }
-        guard let controller = self.environment.router?.controllerForBlock(block: block, courseID: courseQuerier.courseID) else {
+        guard let controller = environment.router?.controllerForBlock(block: block, courseID: courseQuerier.courseID) else {
             return
         }
         cacheManager.addToCache(viewController: controller, blockID: block.blockID)

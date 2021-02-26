@@ -38,11 +38,11 @@ public class CourseOutlineItemView: UIView {
     private let checkmark = UIImageView()
     private let trailingContainer = UIView()
     
-    var hasLeadingImageIcon :Bool {
+    var hasLeadingImageIcon: Bool {
         return leadingImageButton.image(for: .normal) != nil
     }
     
-    public var isGraded : Bool? {
+    public var isGraded: Bool? {
         get {
             return !checkmark.isHidden
         }
@@ -52,7 +52,7 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
-    var leadingIconColor : UIColor? {
+    var leadingIconColor: UIColor? {
         get {
             return leadingImageButton.tintColor
         }
@@ -61,7 +61,7 @@ public class CourseOutlineItemView: UIView {
         }
     }
 
-    func imageForIcon(icon : Icon?) -> UIImage? {
+    func image(for icon: Icon?) -> UIImage? {
         return icon?.imageWithFontSize(size: IconFontSize)
     }
     
@@ -104,7 +104,6 @@ public class CourseOutlineItemView: UIView {
     }
     
     func formattedDueDateString(asMonthDay date: NSDate?) -> String {
-        
         guard let date = date else { return "" }
         
         let dateString = DateFormatting.format(asMinHourOrMonthDayYearString: date)

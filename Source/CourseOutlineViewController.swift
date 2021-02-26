@@ -94,7 +94,7 @@ public class CourseOutlineViewController :
         insetsController.setupInController(owner: self, scrollView : tableController.tableView)
         view.setNeedsUpdateConstraints()
         addListeners()
-        setAccessibilityIdentifiers()
+        setAccessibilityIdentifiers()        
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -276,7 +276,7 @@ public class CourseOutlineViewController :
         headersLoader.listen(self, success: { [weak self] headers in
                 self?.setupNavigationItem(block: headers.block)
             }, failure: {[weak self] error in
-                self?.showErrorIfNecessary(error: error)
+                //self?.showErrorIfNecessary(error: error)
             }
         )
     }

@@ -8,6 +8,15 @@
 
 import UIKit
 
+struct SomeObserver {
+    var blockID: CourseBlockID
+    var delegate: MyElementObserver
+}
+
+protocol MyElementObserver {
+    func didChangeProperty(group: CourseOutlineQuerier.BlockGroup)
+}
+
 private enum TraversalDirection {
     case Forward
     case Reverse
@@ -44,7 +53,57 @@ public class CourseOutlineQuerier : NSObject {
     private let courseOutline : BackedStream<CourseOutline> = BackedStream()
     public var needsRefresh : Bool = false
     
+    var observers: [SomeObserver] = []
     
+    func addObserver(observer: SomeObserver) {
+        observers.append(observer)
+    }
+    
+    private var blocks: [CourseBlockID : CourseBlock] = [:] {
+        didSet {
+            blocks.forEach { item in
+                let block = item.value
+                
+                block.isCompleted.subscribe(observer: self) { [weak self] value, _ in
+                    print("value: \(value)")
+                    
+                    guard let weakSelf = self else { return }
+                    
+                    guard let parent = weakSelf.parentOfBlockWith(id: block.blockID).firstSuccess().value else { return }
+                    
+                    let allCompleted = parent.children.allSatisfy { [weak self] childID in
+                        return self?.blockWithID(id: childID).firstSuccess().value?.completion ?? false
+                    }
+                    
+                    if allCompleted {
+                        parent.completion = true
+                        for observer in weakSelf.observers {
+                            if observer.blockID == parent.blockID {
+                                let children = parent.children.map { [weak self] childID in
+                                    return self!.blockWithID(id: childID).firstSuccess().value!
+                                }
+                                
+                                let item = BlockGroup.init(block: parent, children: children)
+                                observer.delegate.didChangeProperty(group: item)
+                            }
+                        }
+                    }
+                    
+//                    parent.children.forEach { [weak self] childID in
+//                        guard childID != block.blockID,
+//                              let childBlock = self?.blockWithID(id: childID).firstSuccess().value else { return }
+//
+//                        print("child: \(childBlock.blockID) -> isCompleted: \(childBlock.completion)")
+//                    }
+                }
+                
+//                block.isCompleted.subscribe { [weak self] value in
+//
+//                }
+            }
+        }
+    }
+        
     public init(courseID : String, interface : OEXInterface?, enrollmentManager: EnrollmentManager?, networkManager : NetworkManager?, session : OEXSession?, environment: Environment) {
         self.courseID = courseID
         self.interface = interface
@@ -96,6 +155,8 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     private func loadedNodes(blocks: [CourseBlockID : CourseBlock]) {
+        self.blocks = blocks
+
         var videos : [OEXVideoSummary] = []
         for (_, block) in blocks {
             switch block.type {

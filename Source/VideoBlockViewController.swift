@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
+class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, CourseBlockCompletionDelegate, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider & NetworkManagerProvider
     
@@ -52,6 +52,10 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     
     var courseID : String {
         return courseQuerier.courseID
+    }
+    
+    var block: CourseBlock? {
+        return courseQuerier.blockWithID(id: blockID).firstSuccess().value
     }
     
     required init?(coder aDecoder: NSCoder) {

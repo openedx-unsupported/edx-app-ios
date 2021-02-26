@@ -31,6 +31,7 @@ public struct CourseOutline {
         case MinifiedBlockID = "block_id"
         case AuthorizationDenialReason = "authorization_denial_reason"
         case AuthorizationDenialMessage = "authorization_denial_message"
+        case Completion = "completion"
     }
     
     public let root : CourseBlockID
@@ -70,6 +71,8 @@ public struct CourseOutline {
                 let minifiedBlockID = body[Fields.MinifiedBlockID].string
                 let authorizationDenialReason = body[Fields.AuthorizationDenialReason].string
                 let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
+                let completion = body[Fields.Completion].boolValue
+                print("completion: \(completion) -> name: \(name ?? "")")
                 
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
@@ -121,7 +124,8 @@ public struct CourseOutline {
                     multiDevice : multiDevice,
                     graded : graded,
                     authorizationDenialReason: authorizationDenialReason,
-                    authorizationDenialMessage: authorizationDenialMessage
+                    authorizationDenialMessage: authorizationDenialMessage,
+                    completion: completion
                 )
             }
             self = CourseOutline(root: root, blocks: validBlocks)
@@ -158,7 +162,7 @@ public enum CourseBlockType: Equatable {
     }
 }
 
-public class CourseBlock {
+public class CourseBlock: NSObject {
     
     /// Simple list of known block categories strings
     public enum Category : String {
@@ -235,6 +239,15 @@ public class CourseBlock {
     /// Authorization Denial Message if the block content is gated
     public let authorizationDenialMessage: String?
     
+    /// Status of block completion
+    dynamic public var isCompleted: Observable<Bool> = Observable(false)
+    
+    public var completion: Bool {
+        didSet {
+            isCompleted.value = completion
+        }
+    }
+    
     /// Property to represent gated content
     public var isGated: Bool {
         return authorizationDenialReason == .featureBasedEnrollment
@@ -253,7 +266,8 @@ public class CourseBlock {
         multiDevice : Bool,
         graded : Bool = false,
         authorizationDenialReason: String? = nil,
-        authorizationDenialMessage: String? = nil) {
+        authorizationDenialMessage: String? = nil,
+        completion: Bool = false) {
         self.type = type
         self.children = children
         self.name = name
@@ -268,6 +282,77 @@ public class CourseBlock {
         self.multiDevice = multiDevice
         self.authorizationDenialReason = AuthorizationDenialReason(rawValue: authorizationDenialReason ?? AuthorizationDenialReason.none.rawValue) ?? AuthorizationDenialReason.none
         self.authorizationDenialMessage = authorizationDenialMessage
+        self.completion = completion
     }
 }
 
+// https://colindrake.me/post/an-observable-pattern-implementation-in-swift/
+// https://github.com/cfdrake/swift-observables-example/blob/master/Swift%20Observation.playground/Contents.swift
+
+protocol ObservableProtocol {
+    associatedtype T
+    var value: T { get set }
+    func subscribe(observer: AnyObject, block: @escaping (_ newValue: T, _ oldValue: T) -> ())
+    func unsubscribe(observer: AnyObject)
+}
+
+public final class Observable<T>: ObservableProtocol {
+    typealias ObserverBlock = (_ newValue: T, _ oldValue: T) -> ()
+    typealias ObserversEntry = (observer: AnyObject, block: ObserverBlock)
+    private var observers: Array<ObserversEntry>
+    
+    init(_ value: T) {
+        self.value = value
+        observers = []
+    }
+    
+    var value: T {
+        didSet {
+            observers.forEach { (entry: ObserversEntry) in
+                let (_, block) = entry
+                block(value, oldValue)
+            }
+        }
+    }
+    
+    func subscribe(observer: AnyObject, block: @escaping ObserverBlock) {
+        let entry: ObserversEntry = (observer: observer, block: block)
+        observers.append(entry)
+    }
+    
+    func unsubscribe(observer: AnyObject) {
+        let filtered = observers.filter { entry in
+            let (owner, _) = entry
+            return owner !== observer
+        }
+        
+        observers = filtered
+    }
+}
+
+//public struct Observable<T> {
+//    typealias Observer = String
+//
+//    private var handlers: [Observer: (T) -> Void] = [:]
+//
+//    var value: T {
+//        didSet {
+//            handlers.forEach { $0.value(value) }
+//        }
+//    }
+//
+//    init(_ value: T) {
+//        self.value = value
+//    }
+//
+//    @discardableResult
+//    mutating func subscribe(_ handler: @escaping (T) -> Void) -> Observer {
+//        let key = UUID().uuidString as Observer
+//        handlers[key] = handler
+//        return key
+//    }
+//
+//    mutating func remove(_ key: Observer) {
+//        handlers.removeValue(forKey: key)
+//    }
+//}

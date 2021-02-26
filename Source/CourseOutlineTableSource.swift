@@ -56,7 +56,14 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         fatalError("init(coder:) has not been implemented")
     }
     
-    var groups : [CourseOutlineQuerier.BlockGroup] = []
+    var groups : [CourseOutlineQuerier.BlockGroup] = [] {
+        didSet {
+            groups.forEach { group in
+                let observer = SomeObserver(blockID: group.block.blockID, delegate: self)
+                courseQuerier.addObserver(observer: observer)
+            }            
+        }
+    }
     var highlightedBlockID : CourseBlockID? = nil
     private var videos: [OEXHelperVideoDownload]?
     
@@ -448,6 +455,17 @@ extension CourseOutlineTableController: CourseDateBannerViewDelegate {
     }
 }
 
+extension CourseOutlineTableController: MyElementObserver {
+    func didChangeProperty(group: CourseOutlineQuerier.BlockGroup) {
+        if let index = groups.firstIndex(where: { $0.block.blockID == group.block.blockID }) {            
+            if tableView.isValidSection(index: index) {
+                groups[index] = group
+                tableView.reloadSections([index], with: .none)
+            }
+        }
+    }
+}
+
 extension UITableView {
     //set the tableHeaderView so that the required height can be determined, update the header's frame and set it again
     func setAndLayoutTableHeaderView(header: UIView) {
@@ -456,6 +474,10 @@ extension UITableView {
         let size = header.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         header.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         tableHeaderView = header
+    }
+    
+    func isValidSection(index: Int) -> Bool {
+        return index < numberOfSections
     }
 }
 

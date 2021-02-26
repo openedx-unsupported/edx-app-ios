@@ -27,18 +27,23 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         content.accessibilityIdentifier = "CourseGenericBlockTableViewCell:content-view"
     }
     
-    var block : CourseBlock? = nil {
+    var block: CourseBlock? {
         didSet {
-            if block?.isGated ?? false {
+            guard let block = block else { return }
+            content.backgroundColor = block.completion ? OEXStyles.shared().successXXLight() : OEXStyles.shared().neutralWhite()
+            
+            content.setTitleText(title: block.displayName)
+            
+            if block.isGated {
+                content.leadingIconColor = OEXStyles.shared().neutralDark()
+                
                 if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
                     content.trailingView = valuePropAccessoryView
-                    content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block?.type, underline: true)
+                    content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block.type, underline: true)
                 } else {
-                    content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
+                    content.setDetailText(title: Strings.courseContentGated, blockType: block.type)
                 }
-                content.leadingIconColor = OEXStyles.shared().neutralDark()
             }
-            content.setTitleText(title: block?.displayName)
         }
     }
 
@@ -90,7 +95,6 @@ class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
 }
 
 class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
-    
     static let identifier = "CourseUnknownTableViewCellIdentifier"
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -106,7 +110,6 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
 }
 
 class DiscussionTableViewCell: CourseGenericBlockTableViewCell {
-    
     static let identifier = "DiscussionTableViewCellIdentifier"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

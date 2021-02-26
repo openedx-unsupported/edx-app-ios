@@ -8,12 +8,17 @@
 
 import UIKit
 
-public class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
+class HTMLBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionDelegate, PreloadableBlockController {
     
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
     
     public let courseID: String
     public let blockID: CourseBlockID?
+    
+    var block: CourseBlock? {
+        return courseQuerier.blockWithID(id: blockID).firstSuccess().value
+    }
+    
     private let environment: Environment
     private let subkind: CourseHTMLBlockSubkind
     
@@ -32,7 +37,6 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         
         webController = AuthenticatedWebViewController(environment: environment)
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
-        
         super.init(nibName : nil, bundle : nil)
 
         webController.delegate = self
@@ -44,6 +48,10 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     private func addObserver() {
