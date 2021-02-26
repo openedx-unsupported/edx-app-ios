@@ -72,7 +72,6 @@ public struct CourseOutline {
                 let authorizationDenialReason = body[Fields.AuthorizationDenialReason].string
                 let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
                 let completion = body[Fields.Completion].boolValue
-                print("completion: \(completion) -> name: \(name ?? "")")
                 
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
@@ -162,7 +161,7 @@ public enum CourseBlockType: Equatable {
     }
 }
 
-public class CourseBlock: NSObject {
+public class CourseBlock {
     
     /// Simple list of known block categories strings
     public enum Category : String {
@@ -240,7 +239,7 @@ public class CourseBlock: NSObject {
     public let authorizationDenialMessage: String?
     
     /// Status of block completion
-    dynamic public var isCompleted: Observable<Bool> = Observable(false)
+    public private(set) var isCompleted: Observable<Bool> = Observable(false)
     
     public var completion: Bool {
         didSet {
