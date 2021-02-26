@@ -136,7 +136,11 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     func updateCelebrationModalStatus(firstSection: Bool) {
-        let networkRequest = CelebratoryAPI.celebratoryModalViewed(username: session?.currentUser?.username ?? "", courseID: courseID, isFirstSectionViewed: false)
+        guard let username =  session?.currentUser?.username else {
+            return
+        }
+        
+        let networkRequest = CelebratoryAPI.celebratoryModalViewed(username: username, courseID: courseID, isFirstSectionViewed: false)
         networkManager?.taskForRequest(networkRequest) {[weak self] _ in
             self?.loadCelebrationStream()
         }

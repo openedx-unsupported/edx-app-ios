@@ -16,9 +16,8 @@ enum ActivityType:String {
 }
 
 protocol CelebratoryModalViewControllerDelegate: class {
-    func modalDidFinishDismis()
+    func modalDidDismiss()
 }
-
 
 private enum ShareButtonType {
     case linkedin
@@ -109,8 +108,8 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         let earneditTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: environment.styles.neutralBlackT())
         let earneditAttributedString = earneditTextStyle.attributedString(withText: Strings.celebrationModalEarnedItText)
         let messageStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.neutralBlackT())
-        let messageattributedString = messageStyle.attributedString(withText: Strings.celebrationModalInfoMessage)
-        let compiledMessage = NSAttributedString.joinInNaturalLayout(attributedStrings: [earneditAttributedString, messageattributedString])
+        let messageAttributedString = messageStyle.attributedString(withText: Strings.celebrationModalInfoMessage)
+        let compiledMessage = NSAttributedString.joinInNaturalLayout(attributedStrings: [earneditAttributedString, messageAttributedString])
         message.sizeToFit()
         message.attributedText = compiledMessage
         return message
@@ -123,8 +122,10 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.celebrationKeepGoingButtonTitle), for: UIControl.State())
         button.oex_addAction({ [weak self] _ in
             self?.dismiss(animated: false, completion: nil)
-            self?.markCelebratoryModalAsViewed()
-            self?.delegate?.modalDidFinishDismis()
+            self?.dismiss(animated: false, completion: { [weak self] in
+                self?.markCelebratoryModalAsViewed()
+                self?.delegate?.modalDidDismiss()
+            })
         }, for: .touchUpInside)
         
         return button
@@ -155,11 +156,11 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         return environment.interface?.enrollmentForCourse(withID: courseID)?.course.course_about
     }()
     
-    private lazy var CelebrationImageSize: CGSize = {
-        let margin:CGFloat = isiPad() ? 240.0 : 80.0
-        let width = (view.frame.size.width-margin)
-        let imageAspectRatio:CGFloat = 1.37
-        return CGSize(width: width, height: width/imageAspectRatio)
+    private lazy var celebrationImageSize: CGSize = {
+        let margin: CGFloat = isiPad() ? 240 : 80
+        let width = view.frame.size.width - margin
+        let imageAspectRatio: CGFloat = 1.37
+        return CGSize(width: width, height: width / imageAspectRatio)
     }()
     
     init(courseID: String, environment: Environment) {
@@ -184,7 +185,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
+        view.backgroundColor = environment.styles.neutralWhite().withAlphaComponent(0.7)
         view.setNeedsUpdateConstraints()
         view.addSubview(modalView)
         
@@ -264,8 +265,8 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         imageContainer.snp.remakeConstraints { make in
             make.top.equalTo(titleMessageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
             make.centerX.equalTo(modalView)
-            make.width.equalTo(CelebrationImageSize.width)
-            make.height.equalTo(CelebrationImageSize.height)
+            make.width.equalTo(celebrationImageSize.width)
+            make.height.equalTo(celebrationImageSize.height)
         }
 
         insideContainer.snp.remakeConstraints { make in
@@ -323,9 +324,9 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         modalView.snp.remakeConstraints { make in
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
-            let height = titleLabelHeight + titleLabelMessageHeight + CelebrationImageSize.height + shareButtonContainerHeight + keepGoingButtonSize.height + (StandardVerticalMargin * 15)
+            let height = titleLabelHeight + titleLabelMessageHeight + celebrationImageSize.height + shareButtonContainerHeight + keepGoingButtonSize.height + (StandardVerticalMargin * 15)
             make.height.equalTo(height)
-            make.width.equalTo(CelebrationImageSize.width + StandardVerticalMargin * 5)
+            make.width.equalTo(celebrationImageSize.width + StandardVerticalMargin * 5)
         }
     }
     
@@ -418,7 +419,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         textContainer.snp.remakeConstraints { make in
             make.top.equalTo(insideContainer)
             make.leading.equalTo(buttonContainer.snp.trailing).inset(StandardHorizontalMargin / 2)
-            make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin*2)
+            make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin * 2)
             make.bottom.equalTo(insideContainer).inset(StandardVerticalMargin)
         }
         
@@ -433,6 +434,9 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         }
         
         modalView.snp.remakeConstraints { make in
+            // For iPad the modal is streching to the end of the screen so we restricted the modal top, bottom, leading
+            // and trailing margin for iPad
+            
             make.leading.equalTo(view).offset(isiPad() ? 100 : 40)
             make.trailing.equalTo(view).inset(isiPad() ? 100 : 40)
             

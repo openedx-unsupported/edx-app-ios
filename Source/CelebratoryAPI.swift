@@ -23,11 +23,11 @@ public struct CelebratoryAPI {
         return Success(v: ())
     }
 
-     static func celebratoryModalViewed(username: String, courseID: String, isFirstSectionViewed: Bool) -> NetworkRequest<()> {
+    static func celebratoryModalViewed(username: String, courseID: String, isFirstSectionViewed: Bool) -> NetworkRequest<()> {
         let body = RequestBody.jsonBody(JSON([
-                "first_section": isFirstSectionViewed,
-            ]))
-
+            "first_section": isFirstSectionViewed,
+        ]))
+        
         return NetworkRequest(
             method: .POST,
             path: "/api/courseware/celebration/{courseID}".oex_format(withParameters: ["courseID" : courseID]),

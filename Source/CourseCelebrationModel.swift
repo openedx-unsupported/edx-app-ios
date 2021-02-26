@@ -6,20 +6,23 @@
 //  Copyright © 2021 edX. All rights reserved.
 //
 
-enum CelebratoryModelDataKeys: String, RawStringExtractable {
-    case firstSection = "first_section"
-}
 
 class CourseCelebrationModel: NSObject {
-    let fistSection: Bool
+
+    enum Keys: String, RawStringExtractable {
+        case firstSection = "first_section"
+        case celebrations = "celebrations"
+    }
+
+    let firstSection: Bool
     
     init(dictionary: [String : Any]) {
-        fistSection = dictionary[CelebratoryModelDataKeys.firstSection] as? Bool ?? true
+        firstSection = dictionary[Keys.firstSection] as? Bool ?? true
         super.init()
     }
     
     convenience init(json: JSON) {
-        let celebrationJson = json["celebrations"]
+        let celebrationJson = json[Keys.celebrations]
         
         self.init(dictionary: celebrationJson.dictionaryObject ?? [:])
     }

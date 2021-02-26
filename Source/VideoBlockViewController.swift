@@ -66,7 +66,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         courseQuerier.courseCelebrationModalStream.listen(self) { [weak self] (result) in
             switch result {
             case .success(let courseCelebrationModel) :
-                    self?.isCelebratoryModalEnable = courseCelebrationModel.fistSection
+                    self?.isCelebratoryModalEnable = courseCelebrationModel.firstSection
                 break
             case .failure(let error):
                 Logger.logError("CelebratoryModal", "Unable to load celebratory modal: \(error.localizedDescription)")
@@ -378,11 +378,11 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         self.video = video
         navigationItem.title = block.displayName
         videoPlayer.videoTitle = block.displayName
-        DispatchQueue.main.async {[weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.loadController.state = .Loaded
         }
         if !isCelebratoryModalEnable {
-            DispatchQueue.main.async {[weak self] in
+            DispatchQueue.main.async { [weak self] in
                 self?.play(video: video)
             }
         }
@@ -648,9 +648,9 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
 }
 
 extension VideoBlockViewController: CelebratoryModalViewControllerDelegate {
-    func modalDidFinishDismis() {
+    func modalDidDismiss() {
         if let video = self.video {
-            DispatchQueue.main.async {[weak self] in
+            DispatchQueue.main.async { [weak self] in
                 self?.play(video: video)
             }
         }

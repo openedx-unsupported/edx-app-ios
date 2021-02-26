@@ -150,7 +150,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         courseQuerier.courseCelebrationModalStream.listen(self) { [weak self] (result) in
             switch result {
             case .success(let courseCelebrationModel) :
-                    self?.isCelebratoryModalEnable = courseCelebrationModel.fistSection
+                    self?.isCelebratoryModalEnable = courseCelebrationModel.firstSection
                 break
             case .failure(let error):
                 Logger.logError("CelebratoryModal", "Unable to load celebratory modal: \(error.localizedDescription)")
