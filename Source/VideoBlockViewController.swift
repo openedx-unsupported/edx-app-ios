@@ -66,7 +66,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         courseQuerier.courseCelebrationModalStream.listen(self) { [weak self] (result) in
             switch result {
             case .success(let courseCelebrationModel) :
-                    self?.isCelebratoryModalEnable = courseCelebrationModel.firstSection
+                    self?.isCelebratoryModalEnable = courseCelebrationModel.isFirstSection
                 break
             case .failure(let error):
                 Logger.logError("CelebratoryModal", "Unable to load celebratory modal: \(error.localizedDescription)")

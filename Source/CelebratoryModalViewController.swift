@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MessageUI
 
 private let UTM_ParameterString = "utm_campaign=edxmilestone&utm_medium=social&utm_source=%@"
 
@@ -26,7 +25,7 @@ private enum ShareButtonType {
     case email
     case none
     
-    var source: String {
+    private var source: String {
         switch self {
         case .linkedin:
             return "linkedin"
@@ -41,11 +40,11 @@ private enum ShareButtonType {
         }
     }
     
-    var parameter: String {
+    private var parameter: String {
         return String(format: UTM_ParameterString, source)
     }
     
-    static var utmParameters: CourseShareUtmParameters? {
+    fileprivate static var utmParameters: CourseShareUtmParameters? {
         let parameters: [String: String] = [
             ShareButtonType.facebook.source: ShareButtonType.facebook.parameter,
             ShareButtonType.twitter.source: ShareButtonType.twitter.parameter,
@@ -87,7 +86,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         let title = UILabel()
         let style = OEXMutableTextStyle(weight: .bold, size: .xxxxLarge, color: environment.styles.neutralBlackT())
         style.alignment = .center
-        title.attributedText = style.attributedString(withText: Strings.celebrationModalTitle)
+        title.attributedText = style.attributedString(withText: Strings.Celebration.title)
         return title
     }()
     
@@ -96,7 +95,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         message.numberOfLines = 0
         let style = OEXMutableTextStyle(weight: .normal, size: .large, color: environment.styles.neutralBlackT())
         style.alignment = .center
-        message.attributedText = style.attributedString(withText: Strings.celebrationModalTitleMessage)
+        message.attributedText = style.attributedString(withText: Strings.Celebration.titleMessage)
         return message
     }()
     
@@ -106,9 +105,9 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         message.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         message.adjustsFontSizeToFitWidth = true
         let earneditTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: environment.styles.neutralBlackT())
-        let earneditAttributedString = earneditTextStyle.attributedString(withText: Strings.celebrationModalEarnedItText)
+        let earneditAttributedString = earneditTextStyle.attributedString(withText: Strings.Celebration.earnedItText)
         let messageStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.neutralBlackT())
-        let messageAttributedString = messageStyle.attributedString(withText: Strings.celebrationModalInfoMessage)
+        let messageAttributedString = messageStyle.attributedString(withText: Strings.Celebration.infoMessage)
         let compiledMessage = NSAttributedString.joinInNaturalLayout(attributedStrings: [earneditAttributedString, messageAttributedString])
         message.sizeToFit()
         message.attributedText = compiledMessage
@@ -119,11 +118,9 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         let button = UIButton()
         button.backgroundColor = environment.styles.primaryBaseColor()
         let buttonStyle = OEXMutableTextStyle(weight: .normal, size: .xLarge, color: environment.styles.neutralWhiteT())
-        button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.celebrationKeepGoingButtonTitle), for: UIControl.State())
+        button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.Celebration.keepGoingButtonTitle), for: UIControl.State())
         button.oex_addAction({ [weak self] _ in
-            self?.dismiss(animated: false, completion: nil)
             self?.dismiss(animated: false, completion: { [weak self] in
-                self?.markCelebratoryModalAsViewed()
                 self?.delegate?.modalDidDismiss()
             })
         }, for: .touchUpInside)
@@ -185,7 +182,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = environment.styles.neutralWhite().withAlphaComponent(0.7)
+        view.backgroundColor = environment.styles.neutralXXDark().withAlphaComponent(0.5)
         view.setNeedsUpdateConstraints()
         view.addSubview(modalView)
         
@@ -197,6 +194,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackCourseCelebrationFirstSection(courseID: courseID)
+        markCelebratoryModalAsViewed()
     }
     
     deinit {
@@ -209,15 +207,14 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     
     private func setupViews() {
         if isLandscape {
-            removeViews()
             setupLandscapeView()
         } else {
-            removeViews()
             setupPortraitView()
         }
     }
     
     private func setupPortraitView() {
+        removeViews()
         let imageContainer = UIView()
         let insideContainer = UIView()
         let keepGoingButtonContainer = UIView()
@@ -331,6 +328,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     }
     
     private func setupLandscapeView() {
+        removeViews()
         let stackView = UIStackView()
         let rightStackView = UIStackView()
         let rightContainer = UIView()
@@ -463,7 +461,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
             let courseName = enrollment.course.name else { return }
         
         let controller = shareHashtaggedTextAndALinkForCelebration(textBuilder: { hashtagOrPlatform in
-            Strings.celebrationShareMessage(courseName: courseName, platformName: hashtagOrPlatform)
+            Strings.Celebration.shareMessage(courseName: courseName, platformName: hashtagOrPlatform, hashtagPlatformName: hashtagOrPlatform)
         }, url: courseURL, utmParams: utmParameters, analyticsCallback: { [weak self] analyticsType in
             self?.environment.analytics.trackCourseCelebrationSocialShareClicked(courseID: courseID, type: analyticsType)
         })

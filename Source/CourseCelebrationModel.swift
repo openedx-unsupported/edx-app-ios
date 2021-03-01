@@ -14,10 +14,10 @@ class CourseCelebrationModel: NSObject {
         case celebrations = "celebrations"
     }
 
-    let firstSection: Bool
+    let isFirstSection: Bool
     
     init(dictionary: [String : Any]) {
-        firstSection = dictionary[Keys.firstSection] as? Bool ?? true
+        isFirstSection = dictionary[Keys.firstSection] as? Bool ?? true
         super.init()
     }
     

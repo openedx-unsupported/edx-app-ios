@@ -788,17 +788,17 @@
 /* Text for a Twitter or Facebook post to a course about page */
 "SHARE_A_COURSE"="I'm taking a course on {platform_name}! Check it out:";
 /*Text for Twitter, Facebook, Linkedin and email for celebration modal sharing*/
-"CELEBRATION_SHARE_MESSAGE"="I'm on my way to completing {course_name} online with {platform_name}. What are you spending your time learning? #myedxjourney";
+"CELEBRATION.SHARE_MESSAGE"="I'm on my way to completing {course_name} online with {platform_name}online. What are you spending your time learning? #my{hashtag_platform_name}journey";
 /*Title for celebratory modal*/
-"CELEBRATION_MODAL_TITLE"="Congratulations!";
+"CELEBRATION.TITLE"="Congratulations!";
 /*Title message for celebratory modal*/
-"CELEBRATION_MODAL_TITLE_MESSAGE"="You just completed the first section of your course.";
+"CELEBRATION.TITLE_MESSAGE"="You just completed the first section of your course.";
 /*Celebration information message for celebratory modal*/
-"CELEBRATION_MODAL_INFO_MESSAGE"="Take a moment to celebrate and share your progress.";
+"CELEBRATION.INFO_MESSAGE"="Take a moment to celebrate and share your progress.";
 /*Celebration 'earned-it' text message for celebratory modal*/
-"CELEBRATION_MODAL_EARNED_IT_TEXT"="You earned it!";
+"CELEBRATION.EARNED_IT_TEXT"="You earned it!";
 /*Button title for celebratory modal*/
-"CELEBRATION_KEEP_GOING_BUTTON_TITLE"="Keep going";
+"CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="Sign In";
 /* Message shown while user waits for response to a sign in request */
