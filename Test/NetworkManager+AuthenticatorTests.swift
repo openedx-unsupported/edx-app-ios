@@ -58,14 +58,14 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         XCTAssertTrue(result.isAuthenticate)
     }
 
-    func testLogoutForInvalidGrantAccessToken() {
+    func testInvalidGrantAccessToken() {
         let router = MockRouter()
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"invalid_grant\"}".data(using: String.Encoding.utf8)!
-        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: true)
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
         XCTAssertTrue(result.isProceed)
-        XCTAssertTrue(router.logoutCalled)
+        XCTAssertFalse(router.logoutCalled)
     }
     
     func testLogoutWithNonJSONData() {
