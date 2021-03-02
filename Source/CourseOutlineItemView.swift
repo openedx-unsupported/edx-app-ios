@@ -38,8 +38,22 @@ public class CourseOutlineItemView: UIView {
     private let checkmark = UIImageView()
     private let trailingContainer = UIView()
     
-    var hasLeadingImageIcon: Bool {
-        return leadingImageButton.image(for: .normal) != nil
+    private var shouldShowLeadingView: Bool = true
+    
+    private var trailingIcon: Icon?
+    private let attributedUnicodeSpace = NSAttributedString(string: "\u{3000}")
+    
+    private var attributedTrailingImage: NSAttributedString {
+        let image = trailingIcon?.imageWithFontSize(size: IconFontSize)
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = image
+        
+        let imageOffsetY: CGFloat = -4.0
+        if let image = imageAttachment.image {
+            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
+        }
+        
+        return NSAttributedString(attachment: imageAttachment)
     }
     
     public var isGraded: Bool? {
@@ -68,18 +82,15 @@ public class CourseOutlineItemView: UIView {
     init() {
         super.init(frame: CGRect.zero)
         
-        leadingImageButton.tintColor = OEXStyles.shared().primaryBaseColor()
-        leadingImageButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
-        trailingContainer.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
-        
+        leadingImageButton.tintColor = OEXStyles.shared().primaryBaseColor()        
         leadingImageButton.accessibilityTraits = UIAccessibilityTraits.image
-        titleLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
         
         checkmark.image = Icon.Graded.imageWithFontSize(size: 10)
         checkmark.tintColor = OEXStyles.shared().primaryBaseColor()
         
         isGraded = false
         addSubviews()
+        setConstraints()
         setAccessibility()
         setAccessibilityIdentifiers()
     }
@@ -100,7 +111,20 @@ public class CourseOutlineItemView: UIView {
     }
     
     func setTitleText(title : String?) {
+        let attributedTitle = fontStyle.attributedString(withText: title)
+        
+        let attributedString = NSMutableAttributedString()
+        attributedString.append(attributedTitle)
+        attributedString.append(attributedUnicodeSpace)
+        attributedString.append(attributedTrailingImage)
+        
+        titleLabel.attributedText = attributedString
+        setConstraints()
+    }
+    
+    func setTitleText(title : String?, with image: Icon) {
         titleLabel.attributedText = fontStyle.attributedString(withText: title)
+        setConstraints()
     }
     
     func formattedDueDateString(asMonthDay date: NSDate?) -> String {
@@ -113,7 +137,6 @@ public class CourseOutlineItemView: UIView {
     }
     
     func getAttributedString(withBlockType type: CourseBlockType?, withText text: String) -> NSAttributedString {
-        
         guard let blockType = type, case CourseBlockType.Section = blockType else {
             return CourseOutlineItemView.detailFontStyle.attributedString(withText: text)
         }
@@ -140,25 +163,35 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.minimumScaleFactor = 0.6
         subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
         videoSizeLabel.attributedText = CourseOutlineItemView.detailFontStyle.attributedString(withText: videoSize)
-        resetContraints(withBlockType: blockType)
-        setNeedsUpdateConstraints()
+        setConstraints()
     }
     
-    func setContentIcon(icon : Icon?) {
-        leadingImageButton.setImage(icon?.imageWithFontSize(size: IconFontSize), for: .normal)
-        setNeedsUpdateConstraints()
+    func setContentIcon(icon: Icon?, color: UIColor) {
+        shouldShowLeadingView = true
+        let image = icon?.imageWithFontSize(size: IconFontSize).image(with: color)
+        leadingImageButton.setImage(image, for: .normal)
         if let accessibilityText = icon?.accessibilityText {
             leadingImageButton.accessibilityLabel = accessibilityText
         }
+        setConstraints()
     }
     
-    override public func updateConstraints() {
+    func hideLeadingView() {
+        shouldShowLeadingView = false
+        setConstraints()
+    }
+    
+    func setTitleTrailingIcon(icon: Icon?) {
+        trailingIcon = icon
+        setConstraints()
+    }
+    
+    private func setConstraints() {
         leadingImageButton.snp.remakeConstraints { make in
-            make.centerY.equalTo(self)
-            if hasLeadingImageIcon {
-                make.leading.equalTo(self).offset(StandardHorizontalMargin)
-            }
-            else {
+            make.centerY.equalTo(titleLabel)
+            if shouldShowLeadingView {
+                make.leading.equalTo(self).offset(StandardHorizontalMargin / 2)
+            } else {
                 make.leading.equalTo(self)
             }
             make.size.equalTo(IconSize)
@@ -168,30 +201,17 @@ public class CourseOutlineItemView: UIView {
         titleLabel.snp.remakeConstraints { make in
             let titleOffset = shouldOffsetTitle ? TitleOffsetCenterY : 0
             make.centerY.equalTo(self).offset(titleOffset)
-            if hasLeadingImageIcon {
-                make.leading.equalTo(leadingImageButton.snp.trailing).offset(StandardHorizontalMargin)
-            }
-            else {
+            if shouldShowLeadingView {
+                make.leading.equalTo(leadingImageButton.snp.trailing).offset(StandardHorizontalMargin / 2)
+            } else {
                 make.leading.equalTo(self).offset(StandardHorizontalMargin)
             }
             make.trailing.lessThanOrEqualTo(trailingContainer.snp.leading).offset(TitleOffsetTrailing)
         }
         
-        super.updateConstraints()
-    }
-    
-    
-    private func resetContraints(withBlockType type: CourseBlockType?){
-        guard let blockType = type else { return }
-        
-        subtitleLabel.snp.remakeConstraints{ make in
+        subtitleLabel.snp.remakeConstraints { make in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
-            if case CourseBlockType.Section = blockType {
-                make.leading.equalTo(checkmark.snp.leading).offset(SubtitleLeadingOffset)
-            } else {
-                make.leading.equalTo(checkmark.snp.leading).offset(0)
-            }
-
+            make.leading.equalTo(checkmark.snp.leading).offset(SubtitleLeadingOffset)
             make.trailing.lessThanOrEqualTo(self).offset(-StandardHorizontalMargin)
         }
     }

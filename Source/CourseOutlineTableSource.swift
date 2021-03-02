@@ -253,6 +253,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             return cell
         case .Outline, .Unit:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
+            cell.courseOutlineMode = courseOutlineMode
             cell.block = nodes[indexPath.row]
             let courseID = courseQuerier.courseID
             cell.videos = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)

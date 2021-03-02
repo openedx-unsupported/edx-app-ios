@@ -33,6 +33,8 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             if let video = block?.type.asVideo {
                 downloadView.isHidden = !video.isDownloadableVideo
             }
+            
+            content.hideLeadingView()
         }
     }
     
@@ -63,7 +65,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
-        content.setContentIcon(icon: Icon.CourseVideoContent)
+        content.setTitleTrailingIcon(icon: Icon.CourseVideoContent)
         
         downloadView.downloadAction = {[weak self] in
             if let owner = self, let block = owner.block {

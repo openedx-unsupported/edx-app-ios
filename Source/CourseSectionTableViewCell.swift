@@ -24,28 +24,19 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     weak var delegate : CourseSectionTableViewCellDelegate?
     fileprivate var spinnerTimer = Timer()
     var courseID: String?
+    var courseOutlineMode: CourseOutlineMode = .full
+    
+    var videos : OEXStream<[OEXHelperVideoDownload]> = OEXStream() {
+        didSet {
+            videosStream.backWithStream(videos)
+        }
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
         content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
-        }
-
-        downloadView.downloadAction = {[weak self] in
-            if let owner = self, let block = owner.block, let videos = owner.videosStream.value {
-                owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
-            }
-        }
-        videosStream.listen(self) {[weak self] downloads in
-            if let downloads = downloads.value, let state = self?.downloadStateForDownloads(videos: downloads) {
-                self?.downloadView.state = state
-                self?.content.trailingView = self?.downloadView
-                self?.downloadView.itemCount = downloads.count
-            }
-            else {
-                self?.content.trailingView = nil
-            }
         }
         
         for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
@@ -75,9 +66,25 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         downloadView.accessibilityIdentifier = "CourseSectionTableViewCell:download-view"
     }
     
-    var videos : OEXStream<[OEXHelperVideoDownload]> = OEXStream() {
-        didSet {
-            videosStream.backWithStream(videos)
+    func hideLeadingView() {
+        content.hideLeadingView()
+    }
+    
+    private func setupDownloadView() {
+        downloadView.downloadAction = {[weak self] in
+            if let owner = self, let block = owner.block, let videos = owner.videosStream.value {
+                owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
+            }
+        }
+        videosStream.listen(self) {[weak self] downloads in
+            if let downloads = downloads.value, let state = self?.downloadStateForDownloads(videos: downloads) {
+                self?.downloadView.state = state
+                self?.content.trailingView = self?.downloadView
+                self?.downloadView.itemCount = downloads.count
+            }
+            else {
+                self?.content.trailingView = nil
+            }
         }
     }
     
@@ -139,10 +146,26 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     var block : CourseBlock? = nil {
         didSet {
             guard let block = block else { return }
-            content.backgroundColor = block.completion ? OEXStyles.shared().successXXLight() : OEXStyles.shared().neutralWhite()
             content.setTitleText(title: block.displayName)
             content.isGraded = block.graded
             content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
+            
+            if block.completion {
+                content.backgroundColor = OEXStyles.shared().successXXLight()
+                content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+            } else {
+                content.backgroundColor = OEXStyles.shared().neutralWhite()
+                if case CourseBlockDisplayType.Video = block.displayType {
+                    content.hideLeadingView()
+                } else {
+                    content.setContentIcon(icon: nil, color: .clear)
+                }
+            }
+            
+            if courseOutlineMode == .video {
+                hideLeadingView()
+            }
+            setupDownloadView()
         }
     }
     
