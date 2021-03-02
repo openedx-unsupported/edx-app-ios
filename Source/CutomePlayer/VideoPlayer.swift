@@ -53,6 +53,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private let playerTimeOutInterval:TimeInterval = 60.0
     private let preferredTimescale:Int32 = 100
     fileprivate var fullScreenContainerView: UIView?
+    var isCelebratoryModalEnable: Bool = false
     
     // UIPageViewController keep multiple viewControllers simultanously for smooth switching
     // on view transitioning this method calls for every viewController which cause framing issue for fullscreen mode
@@ -338,7 +339,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isVisible = true
-        if !ChromeCastManager.shared.isMiniPlayerAdded {
+        if !ChromeCastManager.shared.isMiniPlayerAdded  && !isCelebratoryModalEnable {
             applyScreenOrientation()
         }
         if playerState == .paused {

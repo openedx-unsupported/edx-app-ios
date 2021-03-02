@@ -67,6 +67,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
             switch result {
             case .success(let courseCelebrationModel) :
                     self?.isCelebratoryModalEnable = courseCelebrationModel.isFirstSection
+                    self?.videoPlayer.isCelebratoryModalEnable = courseCelebrationModel.isFirstSection
                 break
             case .failure(let error):
                 Logger.logError("CelebratoryModal", "Unable to load celebratory modal: \(error.localizedDescription)")
@@ -432,7 +433,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
                         weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
                     }
                 }
-                else if newCollection.verticalSizeClass == .compact {
+                else if newCollection.verticalSizeClass == .compact && !weakSelf.isCelebratoryModalEnable {
                     weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
                 }
             }
@@ -651,7 +652,12 @@ extension VideoBlockViewController: CelebratoryModalViewControllerDelegate {
     func modalDidDismiss() {
         if let video = self.video {
             DispatchQueue.main.async { [weak self] in
-                self?.play(video: video)
+                if let weakSelf = self {
+                    weakSelf.play(video: video)
+                    if weakSelf.isVerticallyCompact() {
+                        self?.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: .portrait, forceRotate: false)
+                    }
+                }
             }
         }
     }

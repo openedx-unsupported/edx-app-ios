@@ -773,7 +773,7 @@
 /* Text for a Twitter or Facebook post to a course about page */
 "SHARE_A_COURSE"="Tôi đang tham gia khóa học ở {platform_name}! Tham gia cùng tôi ở:";
 /*Text for Twitter, Facebook, Linkedin and email for celebration modal sharing*/
-"CELEBRATION.SHARE_MESSAGE"="I'm on my way to completing {course_name} online with {platform_name}online. What are you spending your time learning? #my{hashtag_platform_name}journey";
+"CELEBRATION.SHARE_MESSAGE"="I'm on my way to completing {course_name} online with @{platform_name}online. What are you spending your time learning? #my{hashtag_platform_name}journey";
 /*Title for celebratory modal*/
 "CELEBRATION.TITLE"="Congratulations!";
 /*Title message for celebratory modal*/

@@ -198,7 +198,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func removeViews() {

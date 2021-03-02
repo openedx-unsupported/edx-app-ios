@@ -23,11 +23,11 @@ func shareHashtaggedTextAndALinkForCelebration(textBuilder: @escaping (_ hashtag
     let completionHandler: (UIActivity.ActivityType?) -> () = { activityType in
         if let type = activityType {
             var analyticsType = "other"
-            if type == UIActivity.ActivityType.postToFacebook {
+            if type == .postToFacebook {
                 analyticsType = "facebook"
-            } else if type == UIActivity.ActivityType.postToTwitter {
+            } else if type == .postToTwitter {
                 analyticsType = "twitter"
-            } else if type == UIActivity.ActivityType.mail {
+            } else if type == .mail {
                 analyticsType = "email"
             } else if type.rawValue == ActivityType.linkedin.rawValue {
                 analyticsType = "linkedin"
