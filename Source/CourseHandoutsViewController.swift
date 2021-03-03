@@ -11,7 +11,7 @@ import WebKit
 
 public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
     
-    public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider & OEXStylesProvider
+    public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXConfigProvider
 
     let courseID : String
     let environment : Environment
@@ -22,7 +22,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
     init(environment : Environment, courseID : String) {
         self.environment = environment
         self.courseID = courseID
-        self.webView = WKWebView()
+        self.webView = WKWebView(frame: .zero, configuration: environment.config.webViewConfiguration())
         self.loadController = LoadStateViewController()
         
         super.init(env: environment)

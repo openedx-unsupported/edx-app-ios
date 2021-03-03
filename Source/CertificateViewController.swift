@@ -15,12 +15,13 @@ class CertificateViewController: UIViewController, InterfaceOrientationOverridin
     private let environment: Environment
 
     private let loadController = LoadStateViewController()
-    let webView = WKWebView()
+    let webView: WKWebView
     var request: NSURLRequest?
     private let shareButton = UIButton(frame: CGRect(x: 0, y: 0, width: 26, height: 26))
 
     init(environment : Environment) {
         self.environment = environment
+        webView = WKWebView(frame: .zero, configuration: environment.config.webViewConfiguration())
 
         super.init(nibName: nil, bundle: nil)
 
