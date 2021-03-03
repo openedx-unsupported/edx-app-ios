@@ -30,11 +30,12 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     private var chromeCastMiniPlayer: ChromeCastMiniPlayer?
     private var playOverlayButton: UIButton?
     private var overlayLabel: UILabel?
-    var isCelebratoryModalEnable: Bool = false
+    var shouldCelebrationAppear: Bool
     
-    init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
+    init(environment : Environment, blockID : CourseBlockID?, courseID: String, isCelebrationEnable: Bool = false) {
         self.blockID = blockID
         self.environment = environment
+        self.shouldCelebrationAppear = isCelebrationEnable
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         loadController = LoadStateViewController()
         let block = courseQuerier.blockWithID(id: blockID)
@@ -48,7 +49,6 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         addChild(videoPlayer)
         videoPlayer.didMove(toParent: self)
         videoPlayer.playerDelegate = self
-        addCelebratoryModalListner()
         addLoadListener()
     }
     
@@ -60,20 +60,6 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func addCelebratoryModalListner() {
-        courseQuerier.courseCelebrationModalStream.listen(self) { [weak self] (result) in
-            switch result {
-            case .success(let courseCelebrationModel) :
-                    self?.isCelebratoryModalEnable = courseCelebrationModel.isFirstSection
-                    self?.videoPlayer.isCelebratoryModalEnable = courseCelebrationModel.isFirstSection
-                break
-            case .failure(let error):
-                Logger.logError("CelebratoryModal", "Unable to load celebratory modal: \(error.localizedDescription)")
-                break
-            }
-        }
     }
     
     func addLoadListener() {
@@ -382,7 +368,8 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         DispatchQueue.main.async { [weak self] in
             self?.loadController.state = .Loaded
         }
-        if !isCelebratoryModalEnable {
+        
+        if !shouldCelebrationAppear {
             DispatchQueue.main.async { [weak self] in
                 self?.play(video: video)
             }
@@ -433,7 +420,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
                         weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
                     }
                 }
-                else if newCollection.verticalSizeClass == .compact && !weakSelf.isCelebratoryModalEnable {
+                else if newCollection.verticalSizeClass == .compact && !weakSelf.shouldCelebrationAppear {
                     weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
                 }
             }
@@ -650,6 +637,7 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
 
 extension VideoBlockViewController: CelebratoryModalViewControllerDelegate {
     func modalDidDismiss() {
+        shouldCelebrationAppear = false
         if let video = self.video {
             DispatchQueue.main.async { [weak self] in
                 if let weakSelf = self {

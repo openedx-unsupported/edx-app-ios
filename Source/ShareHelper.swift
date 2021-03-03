@@ -62,7 +62,7 @@ private func controllerWithItems(items: [AnyObject], analyticsCallback:((String)
 
 private func controllerWithItems(items: [AnyObject], completionHandler:((UIActivity.ActivityType) -> Void)?) -> UIActivityViewController{
     let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
-    controller.excludedActivityTypes = [UIActivity.ActivityType.assignToContact, UIActivity.ActivityType.print, UIActivity.ActivityType.saveToCameraRoll]
+    controller.excludedActivityTypes = [.assignToContact, .print, .saveToCameraRoll]
     controller.completionWithItemsHandler = { activityType, completed, _, error in
         if let type = activityType, completed {
             completionHandler?(type)
@@ -115,14 +115,14 @@ private class CourseShareURL: NSObject, UIActivityItemSource {
     fileprivate func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         
         var shareURL: String = courseShareURL.absoluteString ?? ""
-        if activityType == UIActivity.ActivityType.postToFacebook, let utmParams = courseShareUtmParams.facebook {
+        if activityType == .postToFacebook, let utmParams = courseShareUtmParams.facebook {
             shareURL = String(format:"%@?%@", courseShareURL, utmParams)
         }
-        else if activityType == UIActivity.ActivityType.postToTwitter, let utmParams = courseShareUtmParams.twitter{
+        else if activityType == .postToTwitter, let utmParams = courseShareUtmParams.twitter{
             shareURL = String(format:"%@?%@", courseShareURL, utmParams)
         }
         
-        else if activityType == UIActivity.ActivityType.mail, let utmParams = courseShareUtmParams.email {
+        else if activityType == .mail, let utmParams = courseShareUtmParams.email {
             shareURL = String(format:"%@?%@", courseShareURL, utmParams)
         }
         

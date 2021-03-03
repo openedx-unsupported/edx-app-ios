@@ -38,6 +38,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     var isCelebratoryModalEnable: Bool = false
+    var shouldCelebrationAppear: Bool = false
     
     private var openURLButtonItem : UIBarButtonItem?
     
@@ -280,7 +281,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             break
         }
         return item.flatMap {
-            controllerForBlock(block: $0.block)
+            controllerForBlock(block: $0.block, isCelebrationEnable: shouldCelebrationAppear(direction: direction, item: item))
         }
     }
     
@@ -305,7 +306,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
                 if let weakSelf = self {
                     weakSelf.updateTransitionState(is: false)
-                    if weakSelf.isCelebratoryModalEnable {
+                    if weakSelf.shouldCelebrationAppear {
                         weakSelf.showCelebratoryModal(direction: direction, overController: nextController)
                     }
                 }
@@ -314,15 +315,21 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
    
     private func showCelebratoryModal(direction: UIPageViewController.NavigationDirection, overController: UIViewController) {
-        guard direction == .forward,
-              let cursor = contentLoader.value,
-              let prevItem = cursor.peekPrev(),
-              cursor.current.parent != prevItem.parent else { return }
-            
         let celebratoryModalView = environment.router?.showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
         if let videoBlockViewController = overController as? VideoBlockViewController {
             celebratoryModalView?.delegate = videoBlockViewController
         }
+    }
+    
+    private func shouldCelebrationAppear(direction: UIPageViewController.NavigationDirection, item: CourseOutlineQuerier.GroupItem?) -> Bool {
+        guard direction == .forward,
+              let cursor = contentLoader.value,
+              cursor.current.parent != item?.parent  else {
+            shouldCelebrationAppear = false
+            return shouldCelebrationAppear
+        }
+        shouldCelebrationAppear = isCelebratoryModalEnable
+        return shouldCelebrationAppear
     }
     
     private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewController.NavigationDirection, animated:Bool, completion: ((Bool) -> Void)? = nil) {
@@ -368,7 +375,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
     }
     
-    func controllerForBlock(block : CourseBlock) -> UIViewController? {
+    func controllerForBlock(block : CourseBlock, isCelebrationEnable: Bool = false) -> UIViewController? {
         let blockViewController : UIViewController?
         
         if let cachedViewController = self.cacheManager.getCachedViewControllerForBlockID(blockID: block.blockID) {
@@ -376,7 +383,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         else {
             // Instantiate a new VC from the router if not found in cache already
-            if let viewController = self.environment.router?.controllerForBlock(block: block, courseID: courseQuerier.courseID) {
+            if let viewController = self.environment.router?.controllerForBlock(block: block, courseID: courseQuerier.courseID, isCelebrationEnable: isCelebrationEnable) {
                 blockViewController = viewController
             }
             else {
