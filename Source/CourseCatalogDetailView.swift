@@ -19,7 +19,7 @@ class CourseCatalogDetailView : UIView {
         let icon : Icon
     }
     
-    typealias Environment = NetworkManagerProvider & OEXStylesProvider & OEXAnalyticsProvider
+    typealias Environment = NetworkManagerProvider & OEXStylesProvider & OEXAnalyticsProvider & OEXConfigProvider
     
     fileprivate let environment : Environment
     
@@ -28,7 +28,7 @@ class CourseCatalogDetailView : UIView {
     private let actionButton = SpinnerButton(type: .system)
     private let container : TZStackView
     private let insetContainer : TZStackView
-    private let descriptionView = WKWebView()
+    private let descriptionView: WKWebView
     fileprivate let fieldsList = TZStackView()
     fileprivate let playButton = UIButton(type: .system)
     
@@ -48,6 +48,7 @@ class CourseCatalogDetailView : UIView {
         self.insetContainer = TZStackView(arrangedSubviews: [blurbLabel, actionButton, fieldsList])
         self.container = TZStackView(arrangedSubviews: [courseCard, insetContainer])
         self.environment = environment
+        self.descriptionView = WKWebView(frame: .zero, configuration: environment.config.webViewConfiguration())
         
         super.init(frame: frame)
         

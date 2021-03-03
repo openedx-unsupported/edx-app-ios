@@ -42,7 +42,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
     @objc init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
-        self.webView = WKWebView()
+        self.webView = WKWebView(frame: .zero, configuration: environment.config.webViewConfiguration())
         self.notificationBar = UIView(frame: CGRect.zero)
         self.notificationBar.clipsToBounds = true
         self.notificationLabel = UILabel(frame: CGRect.zero)
