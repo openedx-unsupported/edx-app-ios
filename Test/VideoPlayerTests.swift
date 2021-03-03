@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import CoreMedia
 @testable import edX
 
 class VideoPlayerTests: XCTestCase {
@@ -46,6 +47,17 @@ class VideoPlayerTests: XCTestCase {
             stopPlayer()
     }
     
+    func loadVideoPlayerAndSeek(to seekTime: Double, completion: ( (_ videoPlayer : VideoPlayer) -> Void)? = nil) {
+        let expectations = expectation(description: "player seek completed")
+        loadVideoPlayer { videoPlayer in
+            XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
+            videoPlayer.seek(to: seekTime) { _ in
+                completion?(videoPlayer)
+                expectations.fulfill()
+            }
+        }
+    }
+    
     func stopPlayer() {
         videoPlayer?.t_stop()
     }
@@ -73,10 +85,9 @@ class VideoPlayerTests: XCTestCase {
     }
     
     // Test the video is resume successfully
+    // FIXME: This is not actually testing anything, since resume() is an async call and we are not waiting for it to complete
     func testVideoResume() {
-        loadVideoPlayer { videoPlayer in
-            XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
-            videoPlayer.seek(to: 10.168155555555558)
+        loadVideoPlayerAndSeek(to: 10.168155555555558){ videoPlayer in
             videoPlayer.t_controls?.durationSliderValue = 1.01
             let  pauseTime = videoPlayer.currentTime
             XCTAssertGreaterThan(videoPlayer.rate, 0)
@@ -90,33 +101,41 @@ class VideoPlayerTests: XCTestCase {
     
     // Test the backward seek functionality
     func testSeekBackword() {
-        loadVideoPlayer { videoPlayer in
-            XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
-            videoPlayer.seek(to: 34.168155555555558)
-            videoPlayer.t_controls?.durationSliderValue = 1.01
-            videoPlayer.seekVideo(playerControls: videoPlayer.t_controls!, skipDuration: 10, type: .rewind)
-            let currentTime = videoPlayer.currentTime
-            XCTAssertGreaterThanOrEqual(currentTime, 23.93)
+        let expectations = expectation(description: "player seek video completed")
+        loadVideoPlayerAndSeek(to: 34.168155555555558) { videoPlayer in
+            // We are performing another seek inside the completion block of the first seek, so we must dispatch async.
+            DispatchQueue.main.async {
+                videoPlayer.t_controls?.durationSliderValue = Float(34.168155555555558/CMTimeGetSeconds(videoPlayer.duration))
+                videoPlayer.seekVideo(playerControls: videoPlayer.t_controls!, skipDuration: 10, type: .rewind) { _ in
+                    let currentTime = videoPlayer.currentTime
+                    XCTAssertGreaterThanOrEqual(currentTime, 23.93)
+                    XCTAssertLessThanOrEqual(currentTime, 25.93)
+                    expectations.fulfill()
+                }
+            }
         }
     }
     
     // Test the forward seek functionality
     func testSeekForword() {
-        loadVideoPlayer { videoPlayer in
-            XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
-            videoPlayer.seek(to: 34.168155555555558)
-            videoPlayer.t_controls?.durationSliderValue = 1.01
-            videoPlayer.seekVideo(playerControls: videoPlayer.t_controls!, skipDuration: 15, type: .forward)
-            let currentTime = videoPlayer.currentTime
-            XCTAssertGreaterThanOrEqual(currentTime, 23.93)
+        let expectations = expectation(description: "player seek video completed")
+        loadVideoPlayerAndSeek(to: 14.168155555555558) { videoPlayer in
+            // We are performing another seek inside the completion block of the first seek, so we must dispatch async.
+            DispatchQueue.main.async {
+                videoPlayer.t_controls?.durationSliderValue = Float(14.168155555555558/CMTimeGetSeconds(videoPlayer.duration))
+                videoPlayer.seekVideo(playerControls: videoPlayer.t_controls!, skipDuration: 10, type: .forward) { _ in
+                    let currentTime = videoPlayer.currentTime
+                    XCTAssertGreaterThanOrEqual(currentTime, 23.93)
+                    XCTAssertLessThanOrEqual(currentTime, 25.93)
+                    expectations.fulfill()
+                }
+            }
         }
     }
     
     // Test the seeking functionality 
     func testSeeking() {
-        loadVideoPlayer { videoPlayer in
-            XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
-            videoPlayer.seek(to: 34.168155555555558)
+        loadVideoPlayerAndSeek(to: 34.168155555555558) { videoPlayer in
             videoPlayer.t_controls?.durationSliderValue = 1.01
             let currentTime = videoPlayer.currentTime
             XCTAssertGreaterThanOrEqual(currentTime, 33.934)

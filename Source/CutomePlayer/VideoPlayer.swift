@@ -567,7 +567,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
         
-    func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType) {
+    func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType, completion: ((Bool)->())? = nil) {
         let oldTime = currentTime
         let videoDuration = CMTimeGetSeconds(duration)
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
@@ -576,7 +576,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let estimatedSliderValue = Float(updatedElapseTime / duration.seconds)
         playerControls.durationSliderValue = estimatedSliderValue
         playerControls.updateTimeLabel(elapsedTime: updatedElapseTime, duration: CMTimeGetSeconds(self.duration))
-        seek(to: elapsedTime + requestedDuration)
+        seek(to: elapsedTime + requestedDuration, completion: completion)
         
         if let videoId = video?.summary?.videoID,
             let courseId = video?.course_id,
@@ -617,17 +617,22 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
 
-    func seek(to time: Double) {
+    func seek(to time: Double, completion: ((Bool)->())? = nil) {
         if player.currentItem?.status != .readyToPlay { return }
         let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale)
         lastElapsedTime = time
-        player.currentItem?.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self]
+        guard let currentItem = player.currentItem else {
+            completion?(false)
+            return
+        }
+        currentItem.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self]
             (completed: Bool) -> Void in
                 if self?.playerState == .playing {
                     self?.controls?.autoHide()
                     self?.player.play()
                 }
                 self?.savePlayedTime(time: time)
+                completion?(completed)
         }
     }
     

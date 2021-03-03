@@ -127,8 +127,9 @@ class YoutubeVideoPlayer: VideoPlayer {
         }
     }
 
-    override func seek(to time: Double) {
+    override func seek(to time: Double, completion: ((Bool)->())? = nil) {
         playerView.seek(toSeconds: Float(time), allowSeekAhead: true)
+        completion?(true)
     }
     
     private func showErrorMessage(message : String) {
