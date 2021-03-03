@@ -280,14 +280,19 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     // MARK: WKWebView delegate
 
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        switch navigationAction.navigationType {
-        case .linkActivated, .formSubmitted, .formResubmitted:
-            if let URL = navigationAction.request.url, webViewDelegate?.webView(webView, shouldLoad: navigationAction.request) ?? true {
-                UIApplication.shared.open(URL, options: [:], completionHandler: nil)
-            }
+        let isWebViewDelegateHandled = !(webViewDelegate?.webView(webView, shouldLoad: navigationAction.request) ?? true)
+        if isWebViewDelegateHandled {
             decisionHandler(.cancel)
-        default:
-            decisionHandler(.allow)
+        } else {
+            switch navigationAction.navigationType {
+            case .linkActivated, .formSubmitted, .formResubmitted:
+                if let url = navigationAction.request.url, UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+                decisionHandler(.cancel)
+            default:
+                decisionHandler(.allow)
+            }
         }
     }
     
