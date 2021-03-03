@@ -16,12 +16,19 @@ enum SeekType {
 protocol VideoPlayerControlsDelegate: class {
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool)
     func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType)
+    func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType, completion: ((Bool)->())?)
     func fullscreenPressed(playerControls: VideoPlayerControls)
     func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed)
     func sliderValueChanged(playerControls: VideoPlayerControls)
     func sliderTouchBegan(playerControls: VideoPlayerControls)
     func sliderTouchEnded(playerControls: VideoPlayerControls)
     func captionUpdate(playerControls: VideoPlayerControls, language: String)
+}
+
+extension VideoPlayerControlsDelegate {
+    func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType) {
+        seekVideo(playerControls: playerControls, skipDuration: skipDuration, type: type, completion: nil)
+    }
 }
 
 class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecognizerDelegate {
