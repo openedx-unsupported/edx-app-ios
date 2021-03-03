@@ -55,7 +55,7 @@ extension NetworkManager {
                 }
                 if error.isAPIError(code: .OAuth2InvalidGrant) {
                     //TODO: Handle invalid_grant gracefully,
-                    //Most if the times it's happening because of hitting /oauth2/access_token/ multiple times with refresh_token
+                    //Most of the times it's happening because of hitting /oauth2/access_token/ multiple times with refresh_token
                     //Only send one request for /oauth2/access_token/
                     Logger.logError("Network Authenticator", "invalid_grant: " + response.debugDescription)
                 }
