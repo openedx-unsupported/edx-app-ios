@@ -156,6 +156,10 @@ public enum CourseBlockType: Equatable {
             return nil
         }
     }
+
+    var name: String {
+        get { return String(describing: self) }
+    }
 }
 
 public class CourseBlock {

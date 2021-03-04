@@ -39,6 +39,8 @@ public enum AnalyticsDisplayName : String {
     case CourseDatesBanner = "PLS Banner Viewed"
     case CourseDatesShiftButtonTapped = "PLS Shift Button Tapped"
     case CourseDatesShift = "PLS Shift Dates"
+    case CourseComponentTapped = "Dates: Course Component Tapped"
+    case CourseUnsupportedComponentTapped = "Dates: Unsupported Component Tapped"
     case ExploreAllCourses = "Explore All Courses"
 }
 
@@ -73,6 +75,8 @@ public enum AnalyticsEventName: String {
     case CourseDatesUpgradeToParticipate = "edx.bi.app.coursedates.upgrade.participate"
     case CourseDatesUpgradeToShift = "edx.bi.app.coursedates.upgrade.shift"
     case CourseDatesShiftDates = "edx.bi.app.coursedates.shift"
+    case CourseComponentTapped = "edx.bi.app.coursedates.component.tapped"
+    case CourseUnsupportedComponentTapped = "edx.bi.app.coursedates.unsupported.component.tapped"
     case ExploreAllCourses = "edx.bi.app.discovery.explore.all.courses"
 }
 
@@ -116,6 +120,8 @@ public enum AnalyticsEventDataKey: String {
     case ScreenName = "screen_name"
     case BannerEventType = "banner_type"
     case Success = "success"
+    case BlockType = "block_type"
+    case Link = "link"
 }
 
 
@@ -326,10 +332,40 @@ extension OEXAnalytics {
         event.displayName = AnalyticsDisplayName.CourseDatesShift.rawValue
         event.category = AnalyticsCategory.CourseDates.rawValue
         
-        let info: [AnyHashable: Any] = [
+        let info = [
             AnalyticsEventDataKey.CourseMode.rawValue: courseMode,
             AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue,
             AnalyticsEventDataKey.Success.rawValue: success
+        ] as [String : Any]
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+
+    func trackCourseComponentTapped(courseID: String, blockID: String, blockType: CourseBlockType, link: String) {
+        let event = OEXAnalyticsEvent()
+        event.courseID = courseID
+        event.displayName = AnalyticsDisplayName.CourseComponentTapped.rawValue
+        event.category = AnalyticsCategory.CourseDates.rawValue
+        event.name = AnalyticsEventName.CourseComponentTapped.rawValue
+
+        let info: [AnyHashable: Any] = [
+            OEXAnalyticsKeyBlockID: blockID,
+            AnalyticsEventDataKey.BlockType.rawValue: blockType.name,
+            AnalyticsEventDataKey.Link.rawValue: link,
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+
+    func trackCourseUnsupportedComponentTapped(courseID: String, blockID: String, link: String) {
+        let event = OEXAnalyticsEvent()
+        event.courseID = courseID
+        event.displayName = AnalyticsDisplayName.CourseUnsupportedComponentTapped.rawValue
+        event.category = AnalyticsCategory.CourseDates.rawValue
+        event.name = AnalyticsEventName.CourseUnsupportedComponentTapped.rawValue
+
+        let info: [AnyHashable: Any] = [
+            OEXAnalyticsKeyBlockID: blockID,
+            AnalyticsEventDataKey.Link.rawValue: link,
         ]
         trackEvent(event, forComponent: nil, withInfo: info)
     }
