@@ -342,7 +342,6 @@ extension OEXAnalytics {
 
     func trackCourseComponentTapped(courseID: String, blockID: String, blockType: CourseBlockType, link: String) {
         let event = OEXAnalyticsEvent()
-        event.courseID = courseID
         event.displayName = AnalyticsDisplayName.CourseComponentTapped.rawValue
         event.category = AnalyticsCategory.CourseDates.rawValue
         event.name = AnalyticsEventName.CourseComponentTapped.rawValue
@@ -351,6 +350,7 @@ extension OEXAnalytics {
             OEXAnalyticsKeyBlockID: blockID,
             AnalyticsEventDataKey.BlockType.rawValue: blockType.name,
             AnalyticsEventDataKey.Link.rawValue: link,
+            key_course_id:courseID
         ]
         
         trackEvent(event, forComponent: nil, withInfo: info)
@@ -366,6 +366,7 @@ extension OEXAnalytics {
         let info: [AnyHashable: Any] = [
             OEXAnalyticsKeyBlockID: blockID,
             AnalyticsEventDataKey.Link.rawValue: link,
+            key_course_id:courseID
         ]
         trackEvent(event, forComponent: nil, withInfo: info)
     }
