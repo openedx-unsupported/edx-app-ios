@@ -360,7 +360,7 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
 
             if let block = courseQuerier.blockWithID(id: componentID).firstSuccess().value,let dateBlock = courseDateModel?.dateBlocks.first(where: { $0.firstComponentBlockID == componentID }),
                let blockURL = URL(string: dateBlock.link) {
-                environment.analytics.trackCourseComponentTapped(courseID: courseID, blockID: componentID, blockType: block.type, link: blockURL.absoluteString)
+                environment.analytics.trackCourseComponentTapped(courseID: courseID, blockID: componentID, blockType: block.category ?? "", link: blockURL.absoluteString)
             }
 
         } else if let block = courseDateModel?.dateBlocks.first(where: { $0.firstComponentBlockID == componentID }),

@@ -70,7 +70,8 @@ public struct CourseOutline {
                 let minifiedBlockID = body[Fields.MinifiedBlockID].string
                 let authorizationDenialReason = body[Fields.AuthorizationDenialReason].string
                 let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
-                
+                let category = CourseBlock.Category(rawValue: typeName)?.name
+
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
@@ -121,7 +122,8 @@ public struct CourseOutline {
                     multiDevice : multiDevice,
                     graded : graded,
                     authorizationDenialReason: authorizationDenialReason,
-                    authorizationDenialMessage: authorizationDenialMessage
+                    authorizationDenialMessage: authorizationDenialMessage,
+                    category: category
                 )
             }
             self = CourseOutline(root: root, blocks: validBlocks)
@@ -156,10 +158,6 @@ public enum CourseBlockType: Equatable {
             return nil
         }
     }
-
-    var name: String {
-        get { return String(describing: self) }
-    }
 }
 
 public class CourseBlock {
@@ -175,6 +173,10 @@ public class CourseBlock {
         case Unit = "vertical"
         case Video = "video"
         case Discussion = "discussion"
+
+        var name: String {
+            get { return String(describing: self) }
+        }
     }
     
     public enum AuthorizationDenialReason : String {
@@ -243,6 +245,8 @@ public class CourseBlock {
     public var isGated: Bool {
         return authorizationDenialReason == .featureBasedEnrollment
     }
+    /// Text type of the block type aslo known as category
+    public var category: String?
     
     public init(type : CourseBlockType,
         children : [CourseBlockID],
@@ -257,7 +261,8 @@ public class CourseBlock {
         multiDevice : Bool,
         graded : Bool = false,
         authorizationDenialReason: String? = nil,
-        authorizationDenialMessage: String? = nil) {
+        authorizationDenialMessage: String? = nil,
+        category: String? = nil) {
         self.type = type
         self.children = children
         self.name = name
@@ -272,6 +277,7 @@ public class CourseBlock {
         self.multiDevice = multiDevice
         self.authorizationDenialReason = AuthorizationDenialReason(rawValue: authorizationDenialReason ?? AuthorizationDenialReason.none.rawValue) ?? AuthorizationDenialReason.none
         self.authorizationDenialMessage = authorizationDenialMessage
+        self.category = category
     }
 }
 
