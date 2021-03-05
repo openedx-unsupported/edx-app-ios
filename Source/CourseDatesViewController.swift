@@ -358,7 +358,7 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
         if let _ = courseQuerier.blockWithID(id: componentID).firstSuccess().value {
             environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
 
-            if let block = courseQuerier.blockWithID(id: componentID).firstSuccess().value,let dateBlock = courseDateModel?.dateBlocks.first(where: { $0.firstComponentBlockID == componentID }),
+            if let block = courseQuerier.blockWithID(id: componentID).firstSuccess().value, let dateBlock = courseDateModel?.dateBlocks.first(where: { $0.firstComponentBlockID == componentID }),
                let blockURL = URL(string: dateBlock.link) {
                 environment.analytics.trackCourseComponentTapped(courseID: courseID, blockID: componentID, blockType: block.category ?? "", link: blockURL.absoluteString)
             }
