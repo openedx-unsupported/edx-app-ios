@@ -130,10 +130,8 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
         NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
         for(NSHTTPCookie* cookie in cookies) {
             [userInfo setObjectOrNil:cookie.name forKey:cookie.name];
-            NSLog(@"cookie: %@", cookie.name);
         }
         NSError *error = [NSError errorWithDomain:@"org.edx.error" code:-100001 userInfo:userInfo];
-        NSLog(@"error: %@", error);
         [[FIRCrashlytics crashlytics] recordError:error];
 
         //Although this isn't required in normal cases
