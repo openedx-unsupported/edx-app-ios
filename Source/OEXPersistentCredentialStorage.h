@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface OEXPersistentCredentialStorage : NSObject <OEXCredentialStorage>
-
++ (instancetype)sharedKeychainAccess;
 @end
 
 NS_ASSUME_NONNULL_END
