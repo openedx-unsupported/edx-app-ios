@@ -72,6 +72,14 @@ public class ListCursor<A> {
         }
     }
     
+    public func listCount() -> Int {
+        return list.count
+    }
+    
+    public func currentIndex() -> Int {
+        return index
+    }
+    
     /// Return the previous value if available and decrement the index
     public func prev() -> A? {
         if hasPrev {

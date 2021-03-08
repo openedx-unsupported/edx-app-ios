@@ -32,10 +32,10 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     private var overlayLabel: UILabel?
     var shouldCelebrationAppear: Bool
     
-    init(environment : Environment, blockID : CourseBlockID?, courseID: String, isCelebrationEnable: Bool = false) {
+    init(environment : Environment, blockID : CourseBlockID?, courseID: String, shouldCelebrationAppear: Bool = false) {
         self.blockID = blockID
         self.environment = environment
-        self.shouldCelebrationAppear = isCelebrationEnable
+        self.shouldCelebrationAppear = shouldCelebrationAppear
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         loadController = LoadStateViewController()
         let block = courseQuerier.blockWithID(id: blockID)
@@ -49,7 +49,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         addChild(videoPlayer)
         videoPlayer.didMove(toParent: self)
         videoPlayer.playerDelegate = self
-        addLoadListener()
+        //addLoadListener()
     }
     
     var courseID : String {
@@ -122,6 +122,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         }
         chromeCastManager.viewExpanded = false
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        addLoadListener()
     }
     
     private func configureChromecast() {

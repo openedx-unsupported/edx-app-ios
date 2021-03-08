@@ -461,7 +461,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
             let courseName = enrollment.course.name else { return }
         
         let controller = shareHashtaggedTextAndALinkForCelebration(textBuilder: { hashtagOrPlatform in
-            Strings.Celebration.shareMessage(courseName: courseName, platformName: hashtagOrPlatform, hashtagPlatformName: hashtagOrPlatform)
+            Strings.Celebration.shareMessage(courseName: courseName, platformName: hashtagOrPlatform, hashtagPlatformName: self.environment.config.platformName())
         }, url: courseURL, utmParams: utmParameters, analyticsCallback: { [weak self] analyticsType in
             self?.environment.analytics.trackCourseCelebrationSocialShareClicked(courseID: courseID, type: analyticsType)
         })
