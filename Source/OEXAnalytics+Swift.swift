@@ -332,11 +332,11 @@ extension OEXAnalytics {
         event.displayName = AnalyticsDisplayName.CourseDatesShift.rawValue
         event.category = AnalyticsCategory.CourseDates.rawValue
         
-        let info = [
+        let info:[String : Any] = [
             AnalyticsEventDataKey.CourseMode.rawValue: courseMode,
             AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue,
             AnalyticsEventDataKey.Success.rawValue: success
-        ] as [String : Any]
+        ]
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
@@ -346,7 +346,7 @@ extension OEXAnalytics {
         event.category = AnalyticsCategory.CourseDates.rawValue
         event.name = AnalyticsEventName.CourseComponentTapped.rawValue
 
-        let info: [AnyHashable: Any] = [
+        let info: [String: Any] = [
             OEXAnalyticsKeyBlockID: blockID,
             AnalyticsEventDataKey.BlockType.rawValue: blockType,
             AnalyticsEventDataKey.Link.rawValue: link,
