@@ -45,7 +45,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
                     observer.downloadView.state = state
                 }
                 else {
-                    observer.content.trailingView = nil
+                    observer.content.hideTrailingView()
                 }
             }
         }
@@ -77,13 +77,15 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
             }
         }
         videosStream.listen(self) {[weak self] downloads in
-            if let downloads = downloads.value, let state = self?.downloadStateForDownloads(videos: downloads) {
+            if let downloads = downloads.value,
+               let downloadView = self?.downloadView,
+               let state = self?.downloadStateForDownloads(videos: downloads) {
                 self?.downloadView.state = state
-                self?.content.trailingView = self?.downloadView
+                self?.content.trailingView = downloadView
                 self?.downloadView.itemCount = downloads.count
             }
             else {
-                self?.content.trailingView = nil
+                self?.content.hideTrailingView()
             }
         }
     }
@@ -143,10 +145,16 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         return (videosState == .Done)
     }
 
-    var block : CourseBlock? = nil {
+    var block: CourseBlock? = nil {
         didSet {
             guard let block = block else { return }
-            content.setTitleText(title: block.displayName)
+            if block.isGated {
+                content.leadingIconColor = OEXStyles.shared().neutralXLight()
+            } else {
+                content.leadingIconColor = OEXStyles.shared().neutralXDark()
+            }
+            
+            content.setTitleText(title: block.displayName, elipsis: false)
             content.isGraded = block.graded
             content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
             
@@ -161,7 +169,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
                     content.setContentIcon(icon: nil, color: .clear)
                 }
             }
-            
+                        
             if courseOutlineMode == .video {
                 hideLeadingView()
             }

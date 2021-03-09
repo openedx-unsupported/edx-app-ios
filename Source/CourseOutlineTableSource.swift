@@ -192,6 +192,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        tableView.reloadData()
+    }
+    
     override func updateViewConstraints() {
         super.updateViewConstraints()
         refreshTableHeaderView(isResumeCourse: isResumeCourse)
@@ -229,6 +233,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         switch nodes[indexPath.row].displayType {
         case .Video:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseVideoTableViewCell.identifier, for: indexPath as IndexPath) as! CourseVideoTableViewCell
+            cell.courseOutlineMode = courseOutlineMode
             cell.block = block
             cell.courseID = courseID
             cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)

@@ -30,6 +30,17 @@ open class DateFormatting: NSObject {
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
     
+    @objc open class func formatMinutes(asVideoLength totalSeconds: TimeInterval) -> String {
+        let timeInterval = totalSeconds.isNaN ? 0 : totalSeconds
+        let minutes = Int(((timeInterval / 60).truncatingRemainder(dividingBy: 60)).rounded())
+        let hours = Int((timeInterval / 3600).rounded())
+        if hours == 0 {
+            return "\(minutes)"
+        }
+        
+        return "\(hours)"
+    }
+    
     /// Converts a string in standard ISO8601 format to a date
     @objc open class func date(withServerString dateString: String?, timeZone: TimeZone? = nil) -> NSDate? {
         guard let dateString = dateString else { return nil }

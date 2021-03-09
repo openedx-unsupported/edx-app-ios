@@ -47,11 +47,9 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
             content.backgroundColor = OEXStyles.shared().neutralWhite()
             content.setContentIcon(icon: nil, color: .clear)
         }
-        
-        content.setTitleText(title: block.displayName)
-        
+                
         if block.isGated {
-            content.leadingIconColor = OEXStyles.shared().neutralDark()
+            content.leadingIconColor = OEXStyles.shared().neutralXLight()
             
             if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
                 content.trailingView = valuePropAccessoryView
@@ -59,7 +57,11 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
             } else {
                 content.setDetailText(title: Strings.courseContentGated, blockType: block.type)
             }
+        } else {
+            content.leadingIconColor = OEXStyles.shared().neutralXXDark()
         }
+        
+        content.setTitleText(title: block.displayName)
     }
 }
 
@@ -110,7 +112,7 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        content.leadingIconColor = OEXStyles.shared().neutralDark()
+        content.leadingIconColor = OEXStyles.shared().neutralXLight()
         content.setTitleTrailingIcon(icon: Icon.CourseUnknownContent)
         accessibilityIdentifier = "CourseUnknownTableViewCellIdentifier:view"
     }

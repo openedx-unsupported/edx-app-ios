@@ -23,18 +23,26 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     weak var delegate : CourseVideoTableViewCellDelegate?
     
     private let content = CourseOutlineItemView()
-    fileprivate let downloadView = DownloadsAccessoryView()
-    fileprivate var spinnerTimer = Timer()
+    private let downloadView = DownloadsAccessoryView()
+    private var spinnerTimer = Timer()
+    
+    var courseOutlineMode: CourseOutlineMode = .full
+    
     var courseID: String?
     
     var block : CourseBlock? = nil {
         didSet {
-            content.setTitleText(title: block?.displayName)
-            if let video = block?.type.asVideo {
+            guard let block = block else { return }
+            
+            content.setTitleText(title: block.displayName)
+                        
+            if let video = block.type.asVideo {
                 downloadView.isHidden = !video.isDownloadableVideo
             }
             
-            content.hideLeadingView()
+            if courseOutlineMode == .video {
+                content.hideLeadingView()
+            }
         }
     }
     
@@ -64,6 +72,11 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         contentView.addSubview(content)
         content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
+        }
+        if block?.isGated ?? false {
+            content.leadingIconColor = OEXStyles.shared().neutralXLight()
+        } else {
+            content.leadingIconColor = OEXStyles.shared().neutralXDark()
         }
         content.setTitleTrailingIcon(icon: Icon.CourseVideoContent)
         
@@ -123,10 +136,9 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         }
         
         guard !(self.localState?.summary?.onlyOnWeb ?? false) else {
-            content.trailingView = nil
+            content.hideTrailingView()
             return
         }
-        
         content.trailingView = downloadView
         downloadView.state = downloadState
     }
