@@ -72,10 +72,6 @@ public class ListCursor<A> {
         }
     }
     
-    public func listCount() -> Int {
-        return list.count
-    }
-    
     public func currentIndex() -> Int {
         return index
     }

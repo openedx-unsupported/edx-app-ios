@@ -49,7 +49,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         addChild(videoPlayer)
         videoPlayer.didMove(toParent: self)
         videoPlayer.playerDelegate = self
-        //addLoadListener()
+        addLoadListener()
     }
     
     var courseID : String {
@@ -122,7 +122,6 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         }
         chromeCastManager.viewExpanded = false
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        addLoadListener()
     }
     
     private func configureChromecast() {

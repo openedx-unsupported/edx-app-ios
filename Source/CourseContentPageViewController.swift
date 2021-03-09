@@ -37,7 +37,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return courseQuerier.courseID
     }
     
-    var isCelebratoryModalEnable: Bool = false
+    var isFirstSection: Bool = false
     var shouldCelebrationAppear: Bool = false
     var currentPageItemIndex: Int = 0
     
@@ -152,7 +152,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         courseQuerier.courseCelebrationModalStream.listen(self) { [weak self] (result) in
             switch result {
             case .success(let courseCelebrationModel) :
-                    self?.isCelebratoryModalEnable = courseCelebrationModel.isFirstSection
+                    self?.isFirstSection = courseCelebrationModel.isFirstSection
                 break
             case .failure(let error):
                 Logger.logError("CelebratoryModal", "Unable to load celebratory modal: \(error.localizedDescription)")
@@ -331,7 +331,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             shouldCelebrationAppear = false
             return shouldCelebrationAppear
         }
-        shouldCelebrationAppear = isCelebratoryModalEnable
+        shouldCelebrationAppear = isFirstSection
         return shouldCelebrationAppear
     }
     

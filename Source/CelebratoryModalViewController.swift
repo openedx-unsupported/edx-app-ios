@@ -206,7 +206,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     }
     
     private func setupViews() {
-        if isLandscape {
+        if isVerticallyCompact() {
             setupLandscapeView()
         } else {
             setupPortraitView()
