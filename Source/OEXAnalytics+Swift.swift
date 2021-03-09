@@ -363,7 +363,7 @@ extension OEXAnalytics {
         event.category = AnalyticsCategory.CourseDates.rawValue
         event.name = AnalyticsEventName.CourseUnsupportedComponentTapped.rawValue
 
-        let info: [AnyHashable: Any] = [
+        let info: [String: Any] = [
             OEXAnalyticsKeyBlockID: blockID,
             AnalyticsEventDataKey.Link.rawValue: link,
             key_course_id:courseID
