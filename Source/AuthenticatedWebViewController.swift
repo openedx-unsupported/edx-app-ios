@@ -50,7 +50,7 @@ protocol AuthenticatedWebViewControllerDelegate {
 }
 
 private class WKWebViewContentController : WebContentController {
-    fileprivate let webView = WKWebView(frame: CGRect.zero)
+    fileprivate let webView: WKWebView
     
     var view : UIView {
         return webView
@@ -60,13 +60,11 @@ private class WKWebViewContentController : WebContentController {
         return webView.scrollView
     }
     
-    func loadURLRequest(request: NSURLRequest) {
-        // If the view initialize before registering userAgent the request goes without the required userAgent,
-        // to solve this we are setting customeUserAgent here.
-        if let userAgent = UserDefaults.standard.string(forKey: "UserAgent"), webView.customUserAgent?.isEmpty ?? false {
-            webView.customUserAgent = userAgent
-        }
+    init(configuration: WKWebViewConfiguration) {
+        webView = WKWebView(frame: .zero, configuration: configuration)
+    }
     
+    func loadURLRequest(request: NSURLRequest) {
         webView.load(request as URLRequest)
     }
     
@@ -109,7 +107,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     weak var webViewDelegate: WebViewNavigationDelegate?
     
     private lazy var webController : WebContentController = {
-        let controller = WKWebViewContentController()
+        let controller = WKWebViewContentController(configuration: environment.config.webViewConfiguration())
         controller.webView.navigationDelegate = self
         controller.webView.uiDelegate = self
         return controller

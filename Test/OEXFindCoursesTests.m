@@ -34,8 +34,51 @@
 
 @implementation OEXFindCoursesTests
 
+// TODO: Find a way to use TestRouterEnvironment instead.
+// The issue is that this is only available for Swift tests, and trying to import `edXTests-Swift.h` does not work correctly.
+-(RouterEnvironment *)mockRouterEnvironment {    
+    InternetReachability *reachability = [[InternetReachability alloc] init];
+    OEXConfig *config = [[OEXConfig alloc] init];
+    OEXSession *session = [[OEXSession alloc] init];
+    NetworkManager *mockNetworkManager = [[NetworkManager alloc]
+                                          initWithAuthorizationHeaderProvider:NULL
+                                          credentialProvider:NULL
+                                          baseURL:[[NSURL alloc] init]
+                                          cache:[[PersistentResponseCache alloc] initWithProvider:[[SessionUsernameProvider alloc] initWithSession:session]]];
+    EnrollmentManager *mockEnrollmentManager = [[EnrollmentManager alloc]
+                                                initWithInterface:NULL
+                                                networkManager:mockNetworkManager
+                                                config:config];
+    OEXAnalytics *analytics = [[OEXAnalytics alloc] init];
+    CourseDataManager *mockCourseDataManager = [[CourseDataManager alloc]
+                                                initWithAnalytics:analytics
+                                                enrollmentManager:mockEnrollmentManager
+                                                interface:NULL
+                                                networkManager:mockNetworkManager
+                                                session:session];
+    DataManager *dataManager = [[DataManager alloc]
+                                initWithCourseDataManager:mockCourseDataManager
+                                enrollmentManager:mockEnrollmentManager
+                                interface:NULL
+                                pushSettings:[[OEXPushSettingsManager alloc] init]
+                                userProfileManager:[[UserProfileManager alloc] initWithNetworkManager:mockNetworkManager session:session]
+                                userPreferenceManager:[[UserPreferenceManager alloc] initWithNetworkManager:mockNetworkManager]];
+    
+    return [[RouterEnvironment alloc]
+            initWithAnalytics:analytics
+            config:config
+            dataManager:dataManager
+            interface:NULL
+            networkManager:mockNetworkManager
+            reachability:reachability
+            session:session
+            styles:[[OEXStyles alloc] init]
+            remoteConfig:[FirebaseRemoteConfiguration shared]];
+}
+
 -(void)testFindCoursesURLRecognition{
-    DiscoveryWebViewHelper* helper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:nil delegate:nil bottomBar:nil showSearch:YES searchQuery:nil showSubjects:YES discoveryType: DiscoveryTypeCourse];
+    RouterEnvironment *environment = [self mockRouterEnvironment];
+    DiscoveryWebViewHelper* helper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:environment delegate:nil bottomBar:nil showSearch:YES searchQuery:nil showSubjects:YES discoveryType: DiscoveryTypeCourse];
     OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
     NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
     BOOL successCorrect = ![findCoursesViewController webView:helper.t_webView shouldLoad:testURLRequestCorrect];

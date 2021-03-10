@@ -201,8 +201,6 @@
 }
 
 - (void)setupGlobalEnvironment {
-    [UserAgentOverrideOperation overrideUserAgentWithCompletion:nil];
-    
     self.environment = [[OEXEnvironment alloc] init];
     [self.environment setupEnvironment];
 
