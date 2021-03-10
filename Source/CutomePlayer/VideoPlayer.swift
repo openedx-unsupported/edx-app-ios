@@ -81,9 +81,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         get {
             return player.rate
         }
-        set {
-            player.rate = newValue
-        }
     }
     
     var duration: CMTime {
@@ -298,9 +295,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber, let newStatus = AVPlayerItem.Status(rawValue: newStatusAsNumber.intValue) {
                 switch newStatus {
                 case .readyToPlay:
-                    let speed = OEXInterface.getCCSelectedPlaybackSpeed()
-                    rate = OEXInterface.getOEXVideoSpeed(speed)
-                    
                     //This notification call specifically for test cases in readyToPlay state
                     perform(#selector(t_postNotification))
                     
@@ -392,7 +386,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     private func play(at timeInterval: TimeInterval) {
-        player.play()
+        playAtSelectedPlaybackSpeed()
         lastElapsedTime = timeInterval
         var resumeObserver: AnyObject?
         resumeObserver = player.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 3), queue: DispatchQueue.main) { [weak self]
@@ -405,6 +399,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 }
             }
             } as AnyObject
+    }
+    
+    private func playAtSelectedPlaybackSpeed() {
+        player.rate = OEXInterface.getOEXVideoSpeed(OEXInterface.getCCSelectedPlaybackSpeed())
     }
     
     @objc private func movieTimedOut() {
@@ -421,7 +419,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if player.currentItem?.status == .readyToPlay {
             player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) { [weak self]
                 (completed: Bool) -> Void in
-                self?.player.play()
+                self?.playAtSelectedPlaybackSpeed()
                 self?.playerState = .playing
                 self?.controls?.setPlayPauseButtonState(isSelected: false)
             }
@@ -625,7 +623,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             (completed: Bool) -> Void in
                 if self?.playerState == .playing {
                     self?.controls?.autoHide()
-                    self?.player.play()
+                    self?.playAtSelectedPlaybackSpeed()
                 }
                 self?.savePlayedTime(time: time)
         }
