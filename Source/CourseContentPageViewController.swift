@@ -325,8 +325,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func shouldCelebrationAppear(direction: UIPageViewController.NavigationDirection, isNavigationModeSwipe: Bool = false) -> Bool {
         guard direction == .forward,
-                  let cursor = contentLoader.value,
-                  let item = isNavigationModeSwipe ? cursor.peekPrev() : cursor.peekNext(),
+              courseOutlineMode == .full,
+              let cursor = contentLoader.value,
+              let item = isNavigationModeSwipe ? cursor.peekPrev() : cursor.peekNext(),
               cursor.current.parent != item.parent  else {
             shouldCelebrationAppear = false
             return shouldCelebrationAppear

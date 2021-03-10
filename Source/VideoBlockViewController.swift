@@ -643,7 +643,7 @@ extension VideoBlockViewController: CelebratoryModalViewControllerDelegate {
                 if let weakSelf = self {
                     weakSelf.play(video: video)
                     if weakSelf.isVerticallyCompact() {
-                        self?.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: .portrait, forceRotate: false)
+                        weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: .portrait, forceRotate: false)
                     }
                 }
             }
