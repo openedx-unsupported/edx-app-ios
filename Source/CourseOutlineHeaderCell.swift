@@ -41,14 +41,14 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     }
 
     //MARK: Helper Methods
-    private func addSubviews(){
+    private func addSubviews() {
         addSubview(headerLabel)
         addSubview(horizontalTopLine)
     }
     
     private func setStyles() {
         //Using CGRectZero size because the backgroundView automatically resizes.
-        backgroundView = UIView(frame: CGRect.zero)
+        backgroundView = UIView(frame: .zero)
         
         if let block = block {
             backgroundView?.backgroundColor = block.completion ? OEXStyles.shared().successXXLight() : OEXStyles.shared().neutralWhite()

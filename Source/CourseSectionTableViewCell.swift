@@ -161,15 +161,18 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
             if block.completion {
                 content.backgroundColor = OEXStyles.shared().successXXLight()
                 content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
             } else {
                 content.backgroundColor = OEXStyles.shared().neutralWhite()
+                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+
                 if case CourseBlockDisplayType.Video = block.displayType {
                     content.hideLeadingView()
                 } else {
                     content.setContentIcon(icon: nil, color: .clear)
                 }
             }
-                        
+            
             if courseOutlineMode == .video {
                 hideLeadingView()
             }

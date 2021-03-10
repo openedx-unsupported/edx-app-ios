@@ -1,5 +1,5 @@
 //
-//  CourseHTMLTableViewCell.swift
+//  CourseGenericBlockTableViewCell.swift
 //  edX
 //
 //  Created by Ehmad Zubair Chughtai on 14/05/2015.
@@ -27,41 +27,39 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         content.accessibilityIdentifier = "CourseGenericBlockTableViewCell:content-view"
     }
     
+    override func layoutSubviews() {
+        
+    }
+    
+    var block: CourseBlock? = nil {
+        didSet {
+            guard let block = block else { return }
+            
+            if block.completion {
+                content.backgroundColor = OEXStyles.shared().successXXLight()
+                content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+            } else {
+                content.backgroundColor = OEXStyles.shared().neutralWhite()
+                content.setContentIcon(icon: nil, color: .clear)
+                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+            }
+            
+            if block.isGated {
+                if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
+                    content.trailingView = valuePropAccessoryView
+                    content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block.type, underline: true)
+                } else {
+                    content.setDetailText(title: Strings.courseContentGated, blockType: block.type)
+                }
+                content.leadingIconColor = OEXStyles.shared().neutralDark()
+            }
+            content.setTitleText(title: block.displayName)
+        }
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    var block: CourseBlock? {
-        didSet {
-            setupCell()
-        }
-    }
-    
-    private func setupCell() {
-        guard let block = block else { return }
-        
-        if block.completion {
-            content.backgroundColor = OEXStyles.shared().successXXLight()
-            content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
-        } else {
-            content.backgroundColor = OEXStyles.shared().neutralWhite()
-            content.setContentIcon(icon: nil, color: .clear)
-        }
-                
-        if block.isGated {
-            content.leadingIconColor = OEXStyles.shared().neutralXLight()
-            
-            if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
-                content.trailingView = valuePropAccessoryView
-                content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block.type, underline: true)
-            } else {
-                content.setDetailText(title: Strings.courseContentGated, blockType: block.type)
-            }
-        } else {
-            content.leadingIconColor = OEXStyles.shared().neutralXXDark()
-        }
-        
-        content.setTitleText(title: block.displayName)
     }
 }
 

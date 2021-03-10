@@ -94,6 +94,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     override func viewDidLoad() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.separatorStyle = .none
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.register(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
         tableView.register(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)

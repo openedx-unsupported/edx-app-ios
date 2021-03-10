@@ -37,6 +37,7 @@ public class CourseOutlineItemView: UIView {
     private let leadingImageButton = UIButton(type: UIButton.ButtonType.system)
     private let checkmark = UIImageView()
     private let trailingContainer = UIView()
+    private let separator = UIView()
     
     private var shouldShowLeadingView: Bool = true
     
@@ -197,6 +198,10 @@ public class CourseOutlineItemView: UIView {
         setConstraints()
     }
     
+    func setSeperatorColor(color: UIColor) {
+        separator.backgroundColor = color
+    }
+    
     func hideLeadingView() {
         shouldShowLeadingView = false
         setConstraints()
@@ -248,6 +253,13 @@ public class CourseOutlineItemView: UIView {
             }
             make.trailing.lessThanOrEqualTo(self).offset(-StandardHorizontalMargin)
         }
+        
+        separator.snp.remakeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(self)
+            make.height.equalTo(1)
+        }
     }
     
     private func addSubviews() {
@@ -257,6 +269,7 @@ public class CourseOutlineItemView: UIView {
         addSubview(subtitleLabel)
         addSubview(videoSizeLabel)
         addSubview(checkmark)
+        addSubview(separator)
         
         // For performance only add the static constraints once
         
