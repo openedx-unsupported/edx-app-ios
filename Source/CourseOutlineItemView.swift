@@ -16,15 +16,15 @@ protocol CourseBlockContainerCell {
 private let TitleOffsetTrailing = -10
 private let SubtitleOffsetTrailing = -10
 private let IconSize = CGSize(width: 25, height: 25)
-private let CellOffsetTrailing : CGFloat = -10
+private let CellOffsetTrailing: CGFloat = 25
 private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
 private let SubtitleOffsetCenterY = 10
 private let DownloadCountOffsetTrailing = -2
 private let SubtitleLeadingOffset = 20
 
-private let SmallIconSize : CGFloat = 15
-private let IconFontSize : CGFloat = 15
+private let SmallIconSize: CGFloat = 15
+private let IconFontSize: CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
     static let detailFontStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBlack())
@@ -296,7 +296,7 @@ public class CourseOutlineItemView: UIView {
         }
         
         trailingContainer.snp.remakeConstraints { make in
-            make.trailing.equalTo(self.snp.trailing).offset(CellOffsetTrailing)
+            make.trailing.equalTo(self.snp.trailing).inset(CellOffsetTrailing)
             make.centerY.equalTo(self)
             make.width.greaterThanOrEqualTo(IconSize.width)
         }
@@ -324,9 +324,9 @@ public class CourseOutlineItemView: UIView {
     }
     
     private func getFormattedText(with text: String) -> String {
-        let width = text.widthOfString(usingFont: titleLabel.font)
-        let abc: CGFloat = CGFloat(StandardHorizontalMargin * 5.5) + (IconSize.width + IconFontSize)
-        if width > UIScreen.main.bounds.width - abc {
+        let width = text.widthOfString(using: titleLabel.font)
+        let offset: CGFloat = CGFloat(StandardHorizontalMargin * 6.6) + (IconSize.width + IconFontSize)
+        if width > UIScreen.main.bounds.width - offset {
             let formattedText = text.components(separatedBy: " ").dropLast().joined(separator: " ")
             return getFormattedText(with: formattedText)
         }
@@ -335,8 +335,8 @@ public class CourseOutlineItemView: UIView {
 }
 
 fileprivate extension String {
-    func widthOfString(usingFont font: UIFont) -> CGFloat {
-        let size = self.size(withAttributes: [NSAttributedString.Key.font: font])
+    func widthOfString(using font: UIFont) -> CGFloat {
+        let size = self.size(withAttributes: [.font: font])
         return size.width
     }
 }

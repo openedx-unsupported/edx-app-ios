@@ -34,7 +34,23 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         didSet {
             guard let block = block else { return }
             
+            if block.isGated {
+                content.leadingIconColor = OEXStyles.shared().neutralXLight()
+            } else {
+                content.leadingIconColor = OEXStyles.shared().neutralXDark()
+            }
+            
             content.setTitleText(title: block.displayName)
+            
+            if block.completion {
+                content.backgroundColor = OEXStyles.shared().successXXLight()
+                content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+            } else {
+                content.backgroundColor = OEXStyles.shared().neutralWhite()
+                content.setContentIcon(icon: nil, color: .clear)
+                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+            }
             
             if let video = block.type.asVideo {
                 downloadView.isHidden = !video.isDownloadableVideo
@@ -50,19 +66,34 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         didSet {
             updateDownloadViewForVideoState()
             
-            guard let hasVideoDuration = localState?.summary?.hasVideoDuration, let hasVideoSize = localState?.summary?.hasVideoSize else {
+            guard let hasVideoDuration = localState?.summary?.hasVideoDuration,
+                  let duration = localState?.summary?.duration else {
                 return
             }
             
-            if (hasVideoDuration && hasVideoSize) {
-                content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type, videoSize: localState?.summary?.videoSize())
-            }
-            else if(hasVideoDuration) {
-                content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type)
-            }
-            else if(hasVideoSize)
-            {
-                content.setDetailText(title: localState?.summary?.videoSize() ?? "", blockType: block?.type)
+            if hasVideoDuration {
+                let (hours, mins) = DateFormatting.formatVideoDuration(totalSeconds: duration)
+                
+                var detailText = ""
+                
+                if hours == 0 {
+                    if mins == 1 {
+                        detailText = "\(mins) min"
+                    } else {
+                        detailText = "\(mins) mins"
+                    }
+                } else {
+                    if mins == 0 {
+                        if hours == 1 {
+                            detailText = "\(hours) hour"
+                        } else {
+                            detailText = "\(hours) hours"
+                        }
+                    } else if hours > 1 && mins > 1 {
+                        detailText = "\(hours) hours, \(mins) mins"
+                    }
+                }
+                content.setDetailText(title: detailText, blockType: block?.type)
             }
         }
     }
@@ -73,11 +104,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
-        if block?.isGated ?? false {
-            content.leadingIconColor = OEXStyles.shared().neutralXLight()
-        } else {
-            content.leadingIconColor = OEXStyles.shared().neutralXDark()
-        }
+        
         content.setTitleTrailingIcon(icon: Icon.CourseVideoContent)
         
         downloadView.downloadAction = {[weak self] in

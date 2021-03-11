@@ -27,10 +27,6 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         content.accessibilityIdentifier = "CourseGenericBlockTableViewCell:content-view"
     }
     
-    override func layoutSubviews() {
-        
-    }
-    
     var block: CourseBlock? = nil {
         didSet {
             guard let block = block else { return }

@@ -30,18 +30,21 @@ class DownloadsAccessoryView : UIView {
         
         super.init(frame: frame)
         
+        downloadButton.backgroundColor = OEXStyles.shared().neutralLight()
         downloadButton.tintColor = OEXStyles.shared().primaryXLightColor()
-        downloadButton.contentEdgeInsets = UIEdgeInsets.init(top: 15, left: 10, bottom: 15, right: 10)
-        downloadButton.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
-        countLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
-        downloadSpinner.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         
-        self.addSubview(downloadButton)
-        self.addSubview(downloadSpinner)
-        self.addSubview(countLabel)
+        //downloadButton.contentEdgeInsets = UIEdgeInsets.init(top: 15, left: 10, bottom: 15, right: 10)
+        downloadButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+        countLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        downloadSpinner.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        addSubview(downloadButton)
+        addSubview(downloadSpinner)
+        addSubview(countLabel)
         
         // This view is atomic from an accessibility point of view
-        self.isAccessibilityElement = true
+        isAccessibilityElement = true
+        
         downloadSpinner.accessibilityTraits = UIAccessibilityTraits.notEnabled;
         countLabel.accessibilityTraits = UIAccessibilityTraits.notEnabled;
         downloadButton.accessibilityTraits = UIAccessibilityTraits.notEnabled;
@@ -54,18 +57,26 @@ class DownloadsAccessoryView : UIView {
         
         downloadButton.snp.makeConstraints { make in
             make.trailing.equalTo(self)
-            make.top.equalTo(self)
-            make.bottom.equalTo(self)
+            make.centerY.equalTo(self)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
         }
         
         countLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self)
             make.centerY.equalTo(self)
-            make.trailing.equalTo(downloadButton.imageView!.snp.leading).offset(-6)
+            make.leading.equalTo(downloadButton.snp.trailing).offset(6)
+            make.width.equalTo(10)
+            make.height.equalTo(10)
         }
 
         setAccessibilityIdentifiers()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
+        downloadButton.layer.masksToBounds = true
+        downloadButton.layer.cornerRadius = downloadButton.frame.size.width / 2
     }
 
     private func setAccessibilityIdentifiers() {
