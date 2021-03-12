@@ -217,6 +217,12 @@ public class CourseOutlineItemView: UIView {
     }
     
     private func setConstraints(with blockType: CourseBlockType? = nil) {
+        if shouldShowLeadingView {
+            leadingImageButton.isHidden = false
+        } else {
+            leadingImageButton.isHidden = true
+        }
+        
         leadingImageButton.snp.remakeConstraints { make in
             make.centerY.equalTo(titleLabel)
             if shouldShowLeadingView {
@@ -298,7 +304,7 @@ public class CourseOutlineItemView: UIView {
         trailingContainer.snp.remakeConstraints { make in
             make.trailing.equalTo(self.snp.trailing).inset(CellOffsetTrailing)
             make.centerY.equalTo(self)
-            make.width.greaterThanOrEqualTo(IconSize.width)
+            make.width.equalTo(IconFontSize * 2)
         }
     }
     
@@ -307,7 +313,7 @@ public class CourseOutlineItemView: UIView {
             oldValue.removeFromSuperview()
             trailingView.isHidden = false
             trailingContainer.addSubview(trailingView)
-            trailingView.snp.makeConstraints { make in
+            trailingView.snp.remakeConstraints { make in
                 // required to prevent long titles from compressing this
                 make.edges.equalTo(trailingContainer).priority(.required)
             }

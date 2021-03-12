@@ -13,6 +13,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     
     private lazy var valuePropAccessoryView: DownloadsAccessoryView = {
         let view = DownloadsAccessoryView()
+        view.backgroundColor = .black
         view.state = .Gated
         return view
     }()
@@ -32,6 +33,16 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
             guard let block = block else { return }
             
             if block.completion {
+                if case CourseBlockDisplayType.Unknown = block.displayType  {
+                    content.backgroundColor = OEXStyles.shared().neutralWhite()
+                    content.setContentIcon(icon: nil, color: .clear)
+                    content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+                } else {
+                    content.backgroundColor = OEXStyles.shared().successXXLight()
+                    content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                    content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+                }
+            } else if block.isGated {
                 content.backgroundColor = OEXStyles.shared().successXXLight()
                 content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
                 content.setSeperatorColor(color: OEXStyles.shared().successXLight())

@@ -21,16 +21,16 @@ class DownloadsAccessoryView : UIView {
     
     private let downloadButton = UIButton(type: .system)
     private let downloadSpinner = SpinnerView(size: .Medium, color: .Primary)
-    private let iconFontSize : CGFloat = 15
-    private let countLabel : UILabel = UILabel()
+    private let iconFontSize: CGFloat = 15
+    private let countLabel: UILabel = UILabel()
+    private let downloadButtonSize = 30
     
-    override init(frame : CGRect) {
+    override init(frame: CGRect) {
         state = .Available
         itemCount = nil
         
         super.init(frame: frame)
         
-        //downloadButton.contentEdgeInsets = UIEdgeInsets.init(top: 15, left: 10, bottom: 15, right: 10)
         downloadButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         countLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         downloadSpinner.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -54,16 +54,15 @@ class DownloadsAccessoryView : UIView {
         
         downloadButton.snp.makeConstraints { make in
             make.trailing.equalTo(self)
-            make.centerY.equalTo(self)
-            make.height.equalTo(30)
-            make.width.equalTo(30)
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
+            make.height.equalTo(downloadButtonSize)
+            make.width.equalTo(downloadButtonSize)
         }
         
         countLabel.snp.makeConstraints { make in
+            make.leading.equalTo(downloadButton.snp.trailing).offset(StandardHorizontalMargin/3)
             make.centerY.equalTo(self)
-            make.leading.equalTo(downloadButton.snp.trailing).offset(6)
-            make.width.equalTo(10)
-            make.height.equalTo(10)
         }
 
         setAccessibilityIdentifiers()
@@ -71,13 +70,8 @@ class DownloadsAccessoryView : UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        downloadButton.backgroundColor = .clear
-        downloadButton.tintColor = OEXStyles.shared().primaryXLightColor()
-        downloadButton.layer.masksToBounds = true
-        downloadButton.layer.cornerRadius = downloadButton.frame.size.width / 2
-        downloadButton.layer.borderWidth = 1
-        downloadButton.layer.borderColor = OEXStyles.shared().neutralLight().cgColor
+
+        styleDownloadButton()
     }
 
     private func setAccessibilityIdentifiers() {
@@ -89,6 +83,10 @@ class DownloadsAccessoryView : UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func styleDownloadButton() {
+        
     }
     
     private func useIcon(icon : Icon?) {

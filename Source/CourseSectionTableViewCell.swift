@@ -148,20 +148,17 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     var block: CourseBlock? = nil {
         didSet {
             guard let block = block else { return }
-            if block.isGated {
-                content.leadingIconColor = OEXStyles.shared().neutralXLight()
-            } else {
-                content.leadingIconColor = OEXStyles.shared().neutralXDark()
-            }
-            
+            print(block.displayName)
             content.setTitleText(title: block.displayName, elipsis: false)
             content.isGraded = block.graded
             content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
             
-            if block.completion {
+            if block.completion && !block.isGated {
                 content.backgroundColor = OEXStyles.shared().successXXLight()
                 content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
                 content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+            } else if block.isGated {
+                content.setContentIcon(icon: nil, color: .clear)
             } else {
                 content.backgroundColor = OEXStyles.shared().neutralWhite()
                 content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
