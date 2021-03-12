@@ -70,7 +70,7 @@ public struct CourseOutline {
                 let minifiedBlockID = body[Fields.MinifiedBlockID].string
                 let authorizationDenialReason = body[Fields.AuthorizationDenialReason].string
                 let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
-                
+
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
@@ -121,7 +121,8 @@ public struct CourseOutline {
                     multiDevice : multiDevice,
                     graded : graded,
                     authorizationDenialReason: authorizationDenialReason,
-                    authorizationDenialMessage: authorizationDenialMessage
+                    authorizationDenialMessage: authorizationDenialMessage,
+                    typeName: typeName
                 )
             }
             self = CourseOutline(root: root, blocks: validBlocks)
@@ -239,6 +240,8 @@ public class CourseBlock {
     public var isGated: Bool {
         return authorizationDenialReason == .featureBasedEnrollment
     }
+    /// Text type of the block
+    public var typeName: String?
     
     public init(type : CourseBlockType,
         children : [CourseBlockID],
@@ -253,7 +256,8 @@ public class CourseBlock {
         multiDevice : Bool,
         graded : Bool = false,
         authorizationDenialReason: String? = nil,
-        authorizationDenialMessage: String? = nil) {
+        authorizationDenialMessage: String? = nil,
+        typeName: String? = nil) {
         self.type = type
         self.children = children
         self.name = name
@@ -268,6 +272,7 @@ public class CourseBlock {
         self.multiDevice = multiDevice
         self.authorizationDenialReason = AuthorizationDenialReason(rawValue: authorizationDenialReason ?? AuthorizationDenialReason.none.rawValue) ?? AuthorizationDenialReason.none
         self.authorizationDenialMessage = authorizationDenialMessage
+        self.typeName = typeName
     }
 }
 
