@@ -30,9 +30,6 @@ class DownloadsAccessoryView : UIView {
         
         super.init(frame: frame)
         
-        downloadButton.backgroundColor = OEXStyles.shared().neutralLight()
-        downloadButton.tintColor = OEXStyles.shared().primaryXLightColor()
-        
         //downloadButton.contentEdgeInsets = UIEdgeInsets.init(top: 15, left: 10, bottom: 15, right: 10)
         downloadButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         countLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -75,8 +72,12 @@ class DownloadsAccessoryView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        downloadButton.backgroundColor = .clear
+        downloadButton.tintColor = OEXStyles.shared().primaryXLightColor()
         downloadButton.layer.masksToBounds = true
         downloadButton.layer.cornerRadius = downloadButton.frame.size.width / 2
+        downloadButton.layer.borderWidth = 1
+        downloadButton.layer.borderColor = OEXStyles.shared().neutralLight().cgColor
     }
 
     private func setAccessibilityIdentifiers() {
