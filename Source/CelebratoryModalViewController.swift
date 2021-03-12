@@ -206,13 +206,13 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     }
     
     private func setIdentifiers() {
-        modalView.accessibilityIdentifier = "CelebratoryModalView: modal-container-view"
-        titleLabel.accessibilityIdentifier = "CelebratoryModalView: label-title"
-        titleMessageLabel.accessibilityIdentifier = "CelebratoryModalView: label-title-message"
-        celebrationMessageLabel.accessibilityIdentifier = "CelebratoryModalView: label-celebration-message"
-        congratulationImageView.accessibilityIdentifier = "CelebratoryModalView: congratulation-image-view"
-        shareButtonView.accessibilityIdentifier = "CelebratoryModalView: share-button-view"
-        shareImageView.accessibilityIdentifier = "CelebratoryModalView: share-image-view"
+        modalView.accessibilityIdentifier = "CelebratoryModalView:modal-container-view"
+        titleLabel.accessibilityIdentifier = "CelebratoryModalView:label-title"
+        titleMessageLabel.accessibilityIdentifier = "CelebratoryModalView:label-title-message"
+        celebrationMessageLabel.accessibilityIdentifier = "CelebratoryModalView:label-celebration-message"
+        congratulationImageView.accessibilityIdentifier = "CelebratoryModalView:congratulation-image-view"
+        shareButtonView.accessibilityIdentifier = "CelebratoryModalView:share-button-view"
+        shareImageView.accessibilityIdentifier = "CelebratoryModalView:share-image-view"
     }
     
     private func setupViews() {
@@ -238,11 +238,11 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         modalView.addSubview(insideContainer)
         modalView.addSubview(keepGoingButtonContainer)
         
-        imageContainer.accessibilityIdentifier = "CelebratoryModalView: image-cotainer-view"
-        insideContainer.accessibilityIdentifier = "CelebratoryModalView: share-inside-container-view"
-        keepGoingButtonContainer.accessibilityIdentifier = "CelebratoryModalView: keep-going-button-container-view"
-        buttonContainer.accessibilityIdentifier = "CelebratoryModalView: share-button-container-view"
-        textContainer.accessibilityIdentifier = "CelebratoryModalView: share-text-container-view"
+        imageContainer.accessibilityIdentifier = "CelebratoryModalView:image-cotainer-view"
+        insideContainer.accessibilityIdentifier = "CelebratoryModalView:share-inside-container-view"
+        keepGoingButtonContainer.accessibilityIdentifier = "CelebratoryModalView:keep-going-button-container-view"
+        buttonContainer.accessibilityIdentifier = "CelebratoryModalView:share-button-container-view"
+        textContainer.accessibilityIdentifier = "CelebratoryModalView:share-text-container-view"
         
         insideContainer.backgroundColor = environment.styles.infoXXLight()
         insideContainer.addSubview(buttonContainer)
@@ -353,13 +353,13 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         let textContainer = UIView()
         let keepGoingButtonContainer = UIView()
         
-        stackView.accessibilityIdentifier = "CelebratoryModalView: stack-view"
-        rightStackView.accessibilityIdentifier = "CelebratoryModalView: stack-right-view"
-        rightContainer.accessibilityIdentifier = "CelebratoryModalView: stack-cotainer-right-view"
-        insideContainer.accessibilityIdentifier = "CelebratoryModalView: share-inside-container-view"
-        keepGoingButtonContainer.accessibilityIdentifier = "CelebratoryModalView: keep-going-button-container-view"
-        buttonContainer.accessibilityIdentifier = "CelebratoryModalView: share-button-container-view"
-        textContainer.accessibilityIdentifier = "CelebratoryModalView: share-text-container-view"
+        stackView.accessibilityIdentifier = "CelebratoryModalView:stack-view"
+        rightStackView.accessibilityIdentifier = "CelebratoryModalView:stack-right-view"
+        rightContainer.accessibilityIdentifier = "CelebratoryModalView:stack-cotainer-right-view"
+        insideContainer.accessibilityIdentifier = "CelebratoryModalView:share-inside-container-view"
+        keepGoingButtonContainer.accessibilityIdentifier = "CelebratoryModalView:keep-going-button-container-view"
+        buttonContainer.accessibilityIdentifier = "CelebratoryModalView:share-button-container-view"
+        textContainer.accessibilityIdentifier = "CelebratoryModalView:share-text-container-view"
         
         stackView.alignment = .center
         stackView.axis = .horizontal
