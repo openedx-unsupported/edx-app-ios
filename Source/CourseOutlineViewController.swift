@@ -172,7 +172,7 @@ public class CourseOutlineViewController :
             }
             else {
                 self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
-                self?.tableController.hideTableHeaderView()
+                self?.tableController.isSectionOutline = true
             }
             }, failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")

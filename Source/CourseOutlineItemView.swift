@@ -41,6 +41,15 @@ public class CourseOutlineItemView: UIView {
     
     private var shouldShowLeadingView: Bool = true
     
+    var isSectionOutline = false {
+        didSet {
+            if isSectionOutline {
+                print("")
+            }
+            refreshTrailingViewConstraints()
+        }
+    }
+    
     private var trailingIcon: Icon?
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{3000}")
     
@@ -301,8 +310,12 @@ public class CourseOutlineItemView: UIView {
             make.leading.equalTo(subtitleLabel.snp.trailing).offset(StandardHorizontalMargin)
         }
         
+        refreshTrailingViewConstraints()
+    }
+    
+    func refreshTrailingViewConstraints() {
         trailingContainer.snp.remakeConstraints { make in
-            make.trailing.equalTo(self.snp.trailing).inset(CellOffsetTrailing)
+            make.trailing.equalTo(self.snp.trailing).inset(isSectionOutline ? 10 : CellOffsetTrailing)
             make.centerY.equalTo(self)
             make.width.equalTo(IconFontSize * 2)
         }
@@ -313,6 +326,9 @@ public class CourseOutlineItemView: UIView {
             oldValue.removeFromSuperview()
             trailingView.isHidden = false
             trailingContainer.addSubview(trailingView)
+            
+            refreshTrailingViewConstraints()
+            
             trailingView.snp.remakeConstraints { make in
                 // required to prevent long titles from compressing this
                 make.edges.equalTo(trailingContainer).priority(.required)

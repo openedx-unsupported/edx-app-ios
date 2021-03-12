@@ -153,7 +153,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
             content.isGraded = block.graded
             content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
             
-            if block.completion && !block.isGated {
+            if block.completion && !block.isGated && courseOutlineMode == .full {
                 content.backgroundColor = OEXStyles.shared().successXXLight()
                 content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
                 content.setSeperatorColor(color: OEXStyles.shared().successXLight())

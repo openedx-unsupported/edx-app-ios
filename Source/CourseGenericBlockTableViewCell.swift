@@ -36,19 +36,23 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
                 if case CourseBlockDisplayType.Unknown = block.displayType  {
                     content.backgroundColor = OEXStyles.shared().neutralWhite()
                     content.setContentIcon(icon: nil, color: .clear)
+                    content.leadingIconColor = OEXStyles.shared().neutralXDark()
                     content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
                 } else {
                     content.backgroundColor = OEXStyles.shared().successXXLight()
                     content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                    content.leadingIconColor = OEXStyles.shared().neutralXDark()
                     content.setSeperatorColor(color: OEXStyles.shared().successXLight())
                 }
             } else if block.isGated {
                 content.backgroundColor = OEXStyles.shared().successXXLight()
+                content.leadingIconColor = OEXStyles.shared().neutralXLight()
                 content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
                 content.setSeperatorColor(color: OEXStyles.shared().successXLight())
             } else {
                 content.backgroundColor = OEXStyles.shared().neutralWhite()
                 content.setContentIcon(icon: nil, color: .clear)
+                content.leadingIconColor = OEXStyles.shared().neutralXDark()
                 content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
             }
             

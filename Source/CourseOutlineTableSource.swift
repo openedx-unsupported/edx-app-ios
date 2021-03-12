@@ -43,6 +43,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     let refreshController = PullRefreshController()
     private var courseBlockID: CourseBlockID?
     
+    var isSectionOutline = false {
+        didSet {
+            if isSectionOutline {
+                tableView.reloadData()
+                hideTableHeaderView()
+            }
+        }
+    }
+    
     init(environment: Environment, courseID: String, forMode mode: CourseOutlineMode, courseBlockID: CourseBlockID? = nil) {
         self.courseID = courseID
         self.courseBlockID = courseBlockID
@@ -234,6 +243,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         switch nodes[indexPath.row].displayType {
         case .Video:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseVideoTableViewCell.identifier, for: indexPath as IndexPath) as! CourseVideoTableViewCell
+            cell.isSectionOutline = isSectionOutline
             cell.courseOutlineMode = courseOutlineMode
             cell.block = block
             cell.courseID = courseID

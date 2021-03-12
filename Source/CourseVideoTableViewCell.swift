@@ -30,6 +30,12 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     var courseID: String?
     
+    var isSectionOutline = false {
+        didSet {
+            content.isSectionOutline = isSectionOutline
+        }
+    }
+    
     var block : CourseBlock? = nil {
         didSet {
             guard let block = block else { return }
@@ -42,22 +48,22 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             
             content.setTitleText(title: block.displayName)
             
-            if block.completion {
-                content.backgroundColor = OEXStyles.shared().successXXLight()
-                content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
-                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+            if courseOutlineMode == .video {
+                content.hideLeadingView()
             } else {
-                content.backgroundColor = OEXStyles.shared().neutralWhite()
-                content.setContentIcon(icon: nil, color: .clear)
-                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+                if block.completion {
+                    content.backgroundColor = OEXStyles.shared().successXXLight()
+                    content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                    content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+                } else {
+                    content.backgroundColor = OEXStyles.shared().neutralWhite()
+                    content.setContentIcon(icon: nil, color: .clear)
+                    content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+                }
             }
             
             if let video = block.type.asVideo {
                 downloadView.isHidden = !video.isDownloadableVideo
-            }
-            
-            if courseOutlineMode == .video {
-                content.hideLeadingView()
             }
         }
     }
@@ -125,7 +131,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             }
         }
         downloadView.addGestureRecognizer(tapGesture)
-        
+        //content.isSectionOutline = isSectionOutline
         content.trailingView = downloadView
         downloadView.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
         setAccessibilityIdentifiers()
