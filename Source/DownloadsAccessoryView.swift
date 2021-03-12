@@ -61,7 +61,7 @@ class DownloadsAccessoryView : UIView {
         }
         
         countLabel.snp.makeConstraints { make in
-            make.leading.equalTo(downloadButton.snp.trailing).offset(StandardHorizontalMargin/3)
+            make.leading.equalTo(downloadButton.snp.trailing).offset(StandardHorizontalMargin / 3)
             make.centerY.equalTo(self)
         }
 
@@ -86,7 +86,11 @@ class DownloadsAccessoryView : UIView {
     }
     
     private func styleDownloadButton() {
-        
+        downloadButton.backgroundColor = .clear
+        downloadButton.layer.borderWidth = 1
+        downloadButton.layer.borderColor = OEXStyles.shared().neutralLight().cgColor
+        downloadButton.layer.cornerRadius = downloadButton.frame.size.width / 2
+        downloadButton.layer.masksToBounds = true
     }
     
     private func useIcon(icon : Icon?) {
@@ -127,7 +131,7 @@ class DownloadsAccessoryView : UIView {
                 else {
                     accessibilityLabel = Strings.download
                 }
-                accessibilityTraits = UIAccessibilityTraits.button
+                accessibilityTraits = .button
             case .Downloading:
                 downloadSpinner.startAnimating()
                 downloadSpinner.isHidden = false
@@ -137,7 +141,7 @@ class DownloadsAccessoryView : UIView {
                 countLabel.isHidden = true
                 
                 accessibilityLabel = Strings.downloading
-                accessibilityTraits = UIAccessibilityTraits.button
+                accessibilityTraits = .button
             case .Deleting:
                 downloadSpinner.startAnimating()
                 downloadSpinner.isHidden = false
@@ -147,7 +151,7 @@ class DownloadsAccessoryView : UIView {
                 countLabel.isHidden = true
                 
                 accessibilityLabel = Strings.downloading
-                accessibilityTraits = UIAccessibilityTraits.button
+                accessibilityTraits = .button
             case .Done:
                 useIcon(icon: .ContentDidDownload)
                 downloadSpinner.isHidden = true
@@ -162,7 +166,7 @@ class DownloadsAccessoryView : UIView {
                 else {
                     accessibilityLabel = Strings.downloaded
                 }
-                accessibilityTraits = UIAccessibilityTraits.staticText
+                accessibilityTraits = .staticText
             case .Gated:
                 useIcon(icon: .Closed)
                 downloadSpinner.isHidden = true
@@ -170,6 +174,9 @@ class DownloadsAccessoryView : UIView {
                 downloadButton.isHidden = false
                 countLabel.isHidden = true
                 downloadButton.tintColor = OEXStyles.shared().primaryDarkColor()
+                
+                accessibilityTraits = .staticText
+                accessibilityLabel = Strings.courseContentGated
             }
         }
     }
