@@ -72,7 +72,7 @@ class DiscussionBlockViewController: UIViewController, CourseBlockViewController
     }
     
     func markBlockAsComplete() {
-        block?.completion = true
+         block?.completion = true
         
         guard let blockID = blockID,
               let username = OEXSession.shared()?.currentUser?.username else { return }

@@ -48,19 +48,22 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             
             content.setTitleText(title: block.displayName)
             
-            if courseOutlineMode == .video {
-                content.hideLeadingView()
+            if block.completion {
+                content.backgroundColor = OEXStyles.shared().successXXLight()
+                content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
             } else {
-                if block.completion {
-                    content.backgroundColor = OEXStyles.shared().successXXLight()
-                    content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
-                    content.setSeperatorColor(color: OEXStyles.shared().successXLight())
-                } else {
-                    content.backgroundColor = OEXStyles.shared().neutralWhite()
-                    content.setContentIcon(icon: nil, color: .clear)
-                    content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
-                }
+                content.backgroundColor = OEXStyles.shared().neutralWhite()
+                content.setContentIcon(icon: nil, color: .clear)
+                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
             }
+            
+            
+//            if courseOutlineMode == .video {
+//                content.hideLeadingView()
+//            } else {
+//                
+//            }
             
             if let video = block.type.asVideo {
                 downloadView.isHidden = !video.isDownloadableVideo

@@ -46,9 +46,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     var isSectionOutline = false {
         didSet {
             if isSectionOutline {
-                tableView.reloadData()
                 hideTableHeaderView()
             }
+            tableView.reloadData()
         }
     }
     

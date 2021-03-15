@@ -68,7 +68,14 @@ public class CourseOutlineQuerier : NSObject {
     
     private var blocks: [CourseBlockID : CourseBlock] = [:] {
         didSet {
-            subscribeToCompletionPropertyOnBlocks()
+            subscribeToCompletionPropertyOnBlocks(blocks: blocks)
+            makrDiscussionBlocks(blocks: blocks)
+        }
+    }
+    
+    private var videoBlocks:  [[CourseBlockID : CourseBlock]] = [] {
+        didSet {
+            //subscribeToCompletionPropertyOnBlocks()
         }
     }
         
@@ -107,7 +114,7 @@ public class CourseOutlineQuerier : NSObject {
         self.interface = interface
     }
     
-    private func subscribeToCompletionPropertyOnBlocks() {
+    private func subscribeToCompletionPropertyOnBlocks(blocks: [CourseBlockID : CourseBlock] ) {
         blocks.forEach { item in
             let block = item.value
             
@@ -132,6 +139,99 @@ public class CourseOutlineQuerier : NSObject {
                         }
                     }
                 }
+                
+                parent.children.forEach { childID in
+                    if let block = weakSelf.blockWithID(id: childID).firstSuccess().value {
+                        weakSelf.markChidBlock(block: block)
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    private func markChidBlock(block: CourseBlock) {
+        if case CourseBlockDisplayType.Discussion = block.displayType {
+
+            if let parent = parentOfBlockWith(id: block.blockID, type: .Unit).value {
+                print(parent.blockID)
+                
+                if !block.completion {
+                    var discussionBlocks = parent.children.filter { blockID in
+                        guard let childBlock = blockWithID(id: blockID).value,
+                              case CourseBlockDisplayType.Discussion = childBlock.displayType else {
+                            return false
+                        }
+                        
+                        return true
+                    }.map { blockID -> CourseBlock? in
+                        return blockWithID(id: blockID).firstSuccess().value
+                     }.compactMap { $0 }
+                    
+                    print(discussionBlocks.count)
+                    
+                    let otherBlocks = parent.children.filter { blockID -> Bool in
+                        guard let childBlock = blockWithID(id: blockID).value,
+                              case CourseBlockDisplayType.Discussion = childBlock.displayType else {
+                            return true
+                        }
+                        
+                        return false
+                    }.map { blockID -> CourseBlock? in
+                       return blockWithID(id: blockID).firstSuccess().value
+                    }.compactMap { $0 }
+                                            
+                    if otherBlocks.allSatisfy({ $0.completion == true }) {
+                        //discussionBlocks.modifyForEach{ $0.completion = true }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func makrDiscussionBlocks(blocks: [CourseBlockID : CourseBlock] ) {
+        blocks.forEach { item in
+            let block = item.value
+            
+            if case CourseBlockDisplayType.Discussion = block.displayType {
+                print("Discussion: \(block.blockID)")
+                
+                
+                if let parent = parentOfBlockWith(id: block.blockID, type: .Unit).value {
+                    print(parent.blockID)
+                    
+                    if parent.completion {
+                        block.completion = true                        
+                    } else {
+                        var discussionBlocks = parent.children.filter { blockID in
+                            guard let childBlock = blockWithID(id: blockID).value,
+                                  case CourseBlockDisplayType.Discussion = childBlock.displayType else {
+                                return false
+                            }
+                            
+                            return true
+                        }.map { blockID -> CourseBlock? in
+                            return blockWithID(id: blockID).firstSuccess().value
+                         }.compactMap { $0 }
+                        
+                        print(discussionBlocks.count)
+                        
+                        let otherBlocks = parent.children.filter { blockID -> Bool in
+                            guard let childBlock = blockWithID(id: blockID).value,
+                                  case CourseBlockDisplayType.Discussion = childBlock.displayType else {
+                                return true
+                            }
+                            
+                            return false
+                        }.map { blockID -> CourseBlock? in
+                           return blockWithID(id: blockID).firstSuccess().value
+                        }.compactMap { $0 }
+                                                
+                        if otherBlocks.allSatisfy({ $0.completion == true }) {
+                            discussionBlocks.modifyForEach{ $0.completion = true }
+                        }
+                    }
+                }
             }
         }
     }
@@ -153,16 +253,22 @@ public class CourseOutlineQuerier : NSObject {
     
     private func loadedNodes(blocks: [CourseBlockID : CourseBlock]) {
         self.blocks = blocks
+        
+        var videoBlocks: [[CourseBlockID : CourseBlock]] = []
 
         var videos : [OEXVideoSummary] = []
-        for (_, block) in blocks {
+        
+        for (blockID, block) in blocks {
             switch block.type {
             case let .Video(video):
+                videoBlocks.append([blockID : block])
                 videos.append(video)
             default:
                 break
             }
         }
+        
+        self.videoBlocks = videoBlocks
         
         interface?.addVideos(videos, forCourseWithID: courseID)
     }
@@ -452,7 +558,7 @@ public class CourseOutlineQuerier : NSObject {
             let videos = self?.interface?.statesForVideos(withIDs: videoIDs, courseID: self?.courseID ?? "")
             return videos?.filter { video in (video.summary?.isDownloadableVideo ?? false)} ?? []
         })
-        
+        // TODO Fix me
         return blockVideos
     }
     

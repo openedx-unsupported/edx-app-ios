@@ -71,7 +71,11 @@ class DownloadsAccessoryView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        styleDownloadButton()
+        if state == .Gated {
+            removeCircleFromDownloadButton()
+        } else {
+            addCircleToDownloadButton()
+        }
     }
 
     private func setAccessibilityIdentifiers() {
@@ -85,10 +89,18 @@ class DownloadsAccessoryView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func styleDownloadButton() {
+    private func addCircleToDownloadButton() {
         downloadButton.backgroundColor = .clear
         downloadButton.layer.borderWidth = 1
         downloadButton.layer.borderColor = OEXStyles.shared().neutralLight().cgColor
+        downloadButton.layer.cornerRadius = downloadButton.frame.size.width / 2
+        downloadButton.layer.masksToBounds = true
+    }
+    
+    private func removeCircleFromDownloadButton() {
+        downloadButton.backgroundColor = .clear
+        downloadButton.layer.borderWidth = 0
+        downloadButton.layer.borderColor = UIColor.clear.cgColor
         downloadButton.layer.cornerRadius = downloadButton.frame.size.width / 2
         downloadButton.layer.masksToBounds = true
     }

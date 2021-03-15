@@ -148,7 +148,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     var block: CourseBlock? = nil {
         didSet {
             guard let block = block else { return }
-            print(block.displayName)
+            
             content.setTitleText(title: block.displayName, elipsis: false)
             content.isGraded = block.graded
             content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)

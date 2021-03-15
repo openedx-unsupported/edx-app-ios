@@ -43,23 +43,20 @@ public class CourseOutlineItemView: UIView {
     
     var isSectionOutline = false {
         didSet {
-            if isSectionOutline {
-                print("")
-            }
             refreshTrailingViewConstraints()
         }
     }
     
+    var shouldShowCheckmark = true
+    
     private var trailingIcon: Icon?
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{3000}")
     
+    private let labelTrailingImageColor = OEXStyles.shared().neutralXDark()
+    private let checkmarkIconColor = OEXStyles.shared().successBase()
+        
     private var attributedTrailingImage: NSAttributedString {
-        let image: UIImage?
-        if let color = leadingIconColor {
-            image = trailingIcon?.imageWithFontSize(size: IconFontSize).image(with: color)
-        } else {
-            image = trailingIcon?.imageWithFontSize(size: IconFontSize)
-        }
+        let image = trailingIcon?.imageWithFontSize(size: IconFontSize).image(with: labelTrailingImageColor)
         
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = image
@@ -97,6 +94,8 @@ public class CourseOutlineItemView: UIView {
     
     init() {
         super.init(frame: CGRect.zero)
+        
+        shouldShowCheckmark = true
         
         leadingImageButton.tintColor = OEXStyles.shared().primaryBaseColor()        
         leadingImageButton.accessibilityTraits = UIAccessibilityTraits.image
@@ -215,7 +214,7 @@ public class CourseOutlineItemView: UIView {
         shouldShowLeadingView = false
         setConstraints()
     }
-    
+        
     func hideTrailingView() {
         trailingView.isHidden = true
     }
@@ -263,8 +262,10 @@ public class CourseOutlineItemView: UIView {
                 } else {
                     make.leading.equalTo(checkmark.snp.leading).offset(0)
                 }
-            } else {
+            } else if shouldShowCheckmark {
                 make.leading.equalTo(checkmark.snp.leading).offset(SubtitleLeadingOffset)
+            } else {
+                make.leading.equalTo(checkmark.snp.leading).offset(0)
             }
             make.trailing.lessThanOrEqualTo(self).offset(-StandardHorizontalMargin)
         }

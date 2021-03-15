@@ -21,7 +21,11 @@ protocol CourseBlockCompletionController {
 
 extension CourseBlockCompletionController where Self: UIViewController & CourseBlockViewController {
     func markBlockAsComplete() {
-        block?.completion = true
+        guard let block = block else { return }
+        
+        if !block.isGated {
+            block.completion = true
+        }
     }
 }
 
