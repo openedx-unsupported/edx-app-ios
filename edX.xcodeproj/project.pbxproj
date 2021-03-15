@@ -494,8 +494,8 @@
 		77AF076F1CADD20F00A42704 /* BadgesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF076E1CADD20F00A42704 /* BadgesModel.swift */; };
 		77AF07751CB311B200A42704 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07741CB311B200A42704 /* UserProfileView.swift */; };
 		77AF07771CB42AC400A42704 /* TabContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07761CB42AC400A42704 /* TabContainerView.swift */; };
-		77AFD10B1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */; };
-		77AFD10E1C1A75A5001985FD /* UserAgentGenerationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */; };
+		77AFD10B1C1A04C3001985FD /* UserAgentGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10A1C1A04C3001985FD /* UserAgentGenerator.swift */; };
+		77AFD10E1C1A75A5001985FD /* UserAgentGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10C1C1A63C3001985FD /* UserAgentGeneratorTests.swift */; };
 		77AFD1111C1B4F79001985FD /* NSString+TestExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD1101C1B4F79001985FD /* NSString+TestExamples.m */; };
 		77AFD11C1C1B76D0001985FD /* NSObject+SafeKVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD11B1C1B76D0001985FD /* NSObject+SafeKVO.swift */; };
 		77AFD11D1C1B7721001985FD /* NSObject+SafeKVOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD1191C1B769B001985FD /* NSObject+SafeKVOTests.swift */; };
@@ -1573,8 +1573,8 @@
 		77AF076E1CADD20F00A42704 /* BadgesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesModel.swift; path = Source/Core/Code/BadgesModel.swift; sourceTree = SOURCE_ROOT; };
 		77AF07741CB311B200A42704 /* UserProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		77AF07761CB42AC400A42704 /* TabContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabContainerView.swift; sourceTree = "<group>"; };
-		77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentOverrideOverrideOperation.swift; sourceTree = "<group>"; };
-		77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentGenerationOperation.swift; sourceTree = "<group>"; };
+		77AFD10A1C1A04C3001985FD /* UserAgentGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentGenerator.swift; sourceTree = "<group>"; };
+		77AFD10C1C1A63C3001985FD /* UserAgentGeneratorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentGeneratorTests.swift; sourceTree = "<group>"; };
 		77AFD10F1C1B4F79001985FD /* NSString+TestExamples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TestExamples.h"; sourceTree = "<group>"; };
 		77AFD1101C1B4F79001985FD /* NSString+TestExamples.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TestExamples.m"; sourceTree = "<group>"; };
 		77AFD1191C1B769B001985FD /* NSObject+SafeKVOTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+SafeKVOTests.swift"; sourceTree = "<group>"; };
@@ -2758,7 +2758,7 @@
 				77E648581C91235A00B6740D /* OEXConfig+AppFeatures.swift */,
 				772501691C80FB5C002549A9 /* ServerChangedChecker.swift */,
 				778F176B1C0CF57F0099BF93 /* RouterEnvironment.swift */,
-				77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */,
+				77AFD10A1C1A04C3001985FD /* UserAgentGenerator.swift */,
 				BECB7B1D1924C0C3009C77F1 /* OEXAppDelegate.h */,
 				BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */,
 				777EFEFB1A7AFF0E00F8BF06 /* OEXRouter.h */,
@@ -3978,7 +3978,7 @@
 				7CB46D251D58E4FF005110AB /* UserPreferenceManagerTests.swift */,
 				77236EEE1C21C3D5006AC1A4 /* PaginatorTests.swift */,
 				77236EF01C21F3B3006AC1A4 /* PaginationControllerTests.swift */,
-				77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */,
+				77AFD10C1C1A63C3001985FD /* UserAgentGeneratorTests.swift */,
 				77AFD10F1C1B4F79001985FD /* NSString+TestExamples.h */,
 				77AFD1101C1B4F79001985FD /* NSString+TestExamples.m */,
 				777DE7171C1649630068E280 /* CourseCatalogDetailViewControllerTests.swift */,
@@ -5360,7 +5360,7 @@
 				E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */,
 				F22A0ABD1CE660B300D50DFF /* LoginApi.swift in Sources */,
 				773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */,
-				77AFD10B1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift in Sources */,
+				77AFD10B1C1A04C3001985FD /* UserAgentGenerator.swift in Sources */,
 				77D5F43F1C1F1C8F0079E228 /* OEXCourse+TestData.swift in Sources */,
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
 				1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */,
@@ -5642,7 +5642,7 @@
 				770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */,
 				77BC6F451CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift in Sources */,
 				778345511B45D697009C7853 /* ContentInsetsControllerTests.swift in Sources */,
-				77AFD10E1C1A75A5001985FD /* UserAgentGenerationOperation.swift in Sources */,
+				77AFD10E1C1A75A5001985FD /* UserAgentGeneratorTests.swift in Sources */,
 				2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */,
 				77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */,
 				77503E901B2882C800C47229 /* KeyboardInsetsSourceTests.swift in Sources */,

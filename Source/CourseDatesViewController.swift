@@ -355,17 +355,24 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
         let componentID = url.URLString
         let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         
-        if let _ = courseQuerier.blockWithID(id: componentID).firstSuccess().value {
+        if let block = courseQuerier.blockWithID(id: componentID).firstSuccess().value {
             environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
+
+            if let dateBlock = courseDateModel?.dateBlocks.first(where: { $0.firstComponentBlockID == componentID }),
+               let blockURL = URL(string: dateBlock.link) {
+                environment.analytics.trackCourseComponentTapped(courseID: courseID, blockID: componentID, blockType: block.typeName ?? "", link: blockURL.absoluteString)
+            }
+
         } else if let block = courseDateModel?.dateBlocks.first(where: { $0.firstComponentBlockID == componentID }),
                   let blockURL = URL(string: block.link) {
             let message = Strings.courseContentNotAvailable
             let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self)
             alertController.addButton(withTitle: Strings.openInBrowser) { _ in
                 if UIApplication.shared.canOpenURL(blockURL) {
-                    UIApplication.shared.openURL(blockURL)
+                    UIApplication.shared.open(blockURL, options:[:], completionHandler: nil)
                 }
             }
+            environment.analytics.trackCourseUnsupportedComponentTapped(courseID: courseID, blockID: componentID, link: blockURL.absoluteString)
         } else {
             Logger.logError("ANALYTICS", "Unable to load block from course dates: \(componentID)")
         }
