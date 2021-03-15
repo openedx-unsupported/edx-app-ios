@@ -49,6 +49,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         addChild(videoPlayer)
         videoPlayer.didMove(toParent: self)
         videoPlayer.playerDelegate = self
+        videoPlayer.shouldCelebrationAppear = shouldCelebrationAppear
         addLoadListener()
     }
     
