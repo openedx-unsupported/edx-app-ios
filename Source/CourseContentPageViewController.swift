@@ -324,14 +324,18 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func shouldCelebrationAppear(direction: UIPageViewController.NavigationDirection, isNavigationModeSwipe: Bool = false) -> Bool {
+
         guard direction == .forward,
               courseOutlineMode == .full,
               let cursor = contentLoader.value,
               let item = isNavigationModeSwipe ? cursor.peekPrev() : cursor.peekNext(),
-              cursor.current.parent != item.parent  else {
+              let currentBlockSection = courseQuerier.parentOfBlockWith(id: cursor.current.block.blockID, type: .Chapter).firstSuccess().value,
+              let itemSection = courseQuerier.parentOfBlockWith(id: item.block.blockID, type: .Chapter).firstSuccess().value,
+              currentBlockSection.blockID != itemSection.blockID  else {
             shouldCelebrationAppear = false
             return shouldCelebrationAppear
         }
+
         shouldCelebrationAppear = isFirstSection
         return shouldCelebrationAppear
     }
