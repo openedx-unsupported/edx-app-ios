@@ -240,6 +240,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let group = groups[indexPath.section]
         let nodes = group.children
         let block = nodes[indexPath.row]
+
         switch nodes[indexPath.row].displayType {
         case .Video:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseVideoTableViewCell.identifier, for: indexPath as IndexPath) as! CourseVideoTableViewCell

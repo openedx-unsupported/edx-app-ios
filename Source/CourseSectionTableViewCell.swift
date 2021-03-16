@@ -153,26 +153,27 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
             content.isGraded = block.graded
             content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
             
-            if block.completion && !block.isGated && courseOutlineMode == .full {
-                content.backgroundColor = OEXStyles.shared().successXXLight()
-                content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
-                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+            if block.completion && !block.isGated {
+                if courseOutlineMode == .full {
+                    content.backgroundColor = OEXStyles.shared().successXXLight()
+                    content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                    content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+                } else if courseOutlineMode == .video {
+                    content.backgroundColor = OEXStyles.shared().successXXLight()
+                    content.setContentIcon(icon: nil, color: OEXStyles.shared().successBase())
+                    content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+                }
             } else if block.isGated {
+                content.backgroundColor = OEXStyles.shared().neutralWhite()
                 content.setContentIcon(icon: nil, color: .clear)
+                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+
             } else {
                 content.backgroundColor = OEXStyles.shared().neutralWhite()
                 content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
-
-                if case CourseBlockDisplayType.Video = block.displayType {
-                    content.hideLeadingView()
-                } else {
-                    content.setContentIcon(icon: nil, color: .clear)
-                }
+                content.setContentIcon(icon: nil, color: .clear)
             }
             
-            if courseOutlineMode == .video {
-                hideLeadingView()
-            }
             setupDownloadView()
         }
     }
