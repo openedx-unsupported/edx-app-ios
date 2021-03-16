@@ -72,7 +72,7 @@ public struct CourseOutline {
                 let authorizationDenialReason = body[Fields.AuthorizationDenialReason].string
                 let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
                 let completion = body[Fields.Completion].boolValue
-                
+              
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
@@ -124,6 +124,7 @@ public struct CourseOutline {
                     graded : graded,
                     authorizationDenialReason: authorizationDenialReason,
                     authorizationDenialMessage: authorizationDenialMessage,
+                    typeName: typeName,
                     completion: completion
                 )
             }
@@ -251,6 +252,8 @@ public class CourseBlock {
     public var isGated: Bool {
         return authorizationDenialReason == .featureBasedEnrollment
     }
+    /// Text type of the block
+    public var typeName: String?
     
     public init(type : CourseBlockType,
         children : [CourseBlockID],
@@ -266,8 +269,10 @@ public class CourseBlock {
         graded : Bool = false,
         authorizationDenialReason: String? = nil,
         authorizationDenialMessage: String? = nil,
+        typeName: String? = nil,
         completion: Bool = false) {
-        self.type = type
+
+      self.type = type
         self.children = children
         self.name = name
         self.dueDate = dueDate
@@ -281,6 +286,7 @@ public class CourseBlock {
         self.multiDevice = multiDevice
         self.authorizationDenialReason = AuthorizationDenialReason(rawValue: authorizationDenialReason ?? AuthorizationDenialReason.none.rawValue) ?? AuthorizationDenialReason.none
         self.authorizationDenialMessage = authorizationDenialMessage
+        self.typeName = typeName
         self.completion = completion
     }
 }
