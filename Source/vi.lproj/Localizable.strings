@@ -83,6 +83,8 @@
 "ACCESSIBILITY.OPTIONAL_INPUT"="Không bắt buộc";
 /* Required text needs to be added for accesibility*/
 "ACCESSIBILITY_REQUIRED_INPUT"="Cần thiết";
+/* Accessibility hint for course Resume button */
+"ACCESSIBILITY.RESUME_HINT"="Double tap to resume course";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Tua lại";
 /* Call to action for Rewind Button in the Video Player */
@@ -577,7 +579,7 @@
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "Lần truy cập cuối";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "Tiếp tục khóa học";
+"RESUME" = "Resume";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Đăng ký và bắt đầu học";
 /* Prompt leading user to sign in screen */

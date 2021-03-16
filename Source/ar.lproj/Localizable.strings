@@ -98,6 +98,8 @@
 "ACCESSIBILITY.OPTIONAL_INPUT"="Optional";
 /* Required text needs to be added for accesibility*/
 "ACCESSIBILITY_REQUIRED_INPUT"="Required";
+/* Accessibility hint for course Resume button */
+"ACCESSIBILITY.RESUME_HINT"="Double tap to resume course";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "رجوع";
 /* Call to action for Rewind Button in the Video Player */
@@ -637,7 +639,7 @@
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "آخر زيارة - ";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "استئناف الدورة";
+"RESUME" = "Resume";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="اشترك معنا وابدأ التعلم";
 /* Prompt leading user to sign in screen */
