@@ -65,18 +65,16 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     func remove(observer: UIViewController) {
-        let objectIndex = observers.firstIndexMatching { $0.controller === observer }
-        guard let index = objectIndex else { return }
+        guard let index = observers.firstIndexMatching ({ $0.controller === observer }) else { return }
         observers.remove(at: index)
     }
     
     private var blocks: [CourseBlockID : CourseBlock] = [:] {
         didSet {
-            subscribeToCompletionPropertyOnBlocks(blocks: blocks)
-            markDiscussionBlocksAsCompleteIfNecessary(blocks: blocks)
+            subscribeToCompletionPropertyOnBlocks()
         }
     }
-        
+    
     public init(courseID : String, interface : OEXInterface?, enrollmentManager: EnrollmentManager?, networkManager : NetworkManager?, session : OEXSession?, environment: Environment) {
         self.courseID = courseID
         self.interface = interface
@@ -112,146 +110,106 @@ public class CourseOutlineQuerier : NSObject {
         self.interface = interface
     }
     
-    private func handleOtherBlocks(_ parent: CourseBlock) {
-        let allCompleted = parent.children.allSatisfy { [weak self] childID in
-            return self?.blockWithID(id: childID).firstSuccess().value?.completion ?? false
-        }
-        
-        if allCompleted {
-            parent.completion = true
-            observers.forEach { observer in
-                if observer.blockID == parent.blockID {
-                    let children = parent.children.compactMap { [weak self] childID in
-                        return self?.blockWithID(id: childID).firstSuccess().value
-                    }
-                    
-                    let blockGroup = BlockGroup(block: parent, children: children)
-                    observer.delegate.didChangeCompletion(in: blockGroup)
+    private func subscribeToCompletionPropertyOnBlocks() {
+        blocks.forEach { item in
+            let block = item.value
+            
+            guard let parent = parentOfBlockWith(id: block.blockID).firstSuccess().value else { return }
+            
+            handleDiscussionBlockIfNeeded(parent: parent)
+            
+            block.isCompleted.subscribe(observer: self) { [weak self] value, _ in
+                guard let weakSelf = self else { return }
+                
+                let allCompleted = parent.children.allSatisfy { [weak self] childID in
+                    return self?.blockWithID(id: childID).firstSuccess().value?.completion ?? false
                 }
+                
+                if allCompleted {
+                    parent.completion = true
+                    weakSelf.observers.forEach { observer in
+                        if observer.blockID == parent.blockID {
+                            let children = parent.children.compactMap { [weak self] childID in
+                                return self?.blockWithID(id: childID).firstSuccess().value
+                            }
+                            
+                            let blockGroup = BlockGroup(block: parent, children: children)
+                            observer.delegate.didChangeCompletion(in: blockGroup)
+                        }
+                    }
+                }
+                
+                weakSelf.handleVideoBlock(parent)
+                weakSelf.handleDiscussionBlockIfNeeded(parent: parent)
             }
         }
+    }
+    
+    private func handleDiscussionBlockIfNeeded(parent: CourseBlock) {
+        let allBlocksAreCompleted = parent.children.compactMap { blockWithID(id: $0).firstSuccess().value }
+            .allSatisfy { $0.completion }
         
-        // mark discussion block(s) after checking if sibling(s) are completed
-        parent.children.forEach { childID in
-            if let block = blockWithID(id: childID).firstSuccess().value {
-                if case CourseBlockDisplayType.Discussion = block.displayType {
-                    markDiscussionBlockAsComplete(block: block)
+        if !allBlocksAreCompleted {
+            let otherBlocks = parent.children.filter { blockID -> Bool in
+                guard let childBlock = blockWithID(id: blockID).value,
+                      case CourseBlockDisplayType.Discussion = childBlock.displayType
+                else { return true }
+                
+                return false
+            }.compactMap { blockWithID(id: $0).firstSuccess().value }
+            
+            let discussionBlocks = parent.children.filter { blockID -> Bool in
+                guard let childBlock = blockWithID(id: blockID).value,
+                      case CourseBlockDisplayType.Discussion = childBlock.displayType
+                else { return false }
+                
+                return true
+            }.compactMap { blockWithID(id: $0).firstSuccess().value }
+            
+            if !otherBlocks.isEmpty {
+                let otherBlocksAreCompleted = otherBlocks.allSatisfy { $0.completion }
+                
+                if otherBlocksAreCompleted {
+                    for block in discussionBlocks {
+                        if !block.completion {
+                            block.completion = true
+                            break
+                        }
+                    }
+                }
+            } else {
+                for block in discussionBlocks {
+                    if !block.completion {
+                        block.completion = true
+                        break
+                    }
                 }
             }
         }
     }
     
     private func handleVideoBlock(_ parent: CourseBlock) {
-        let childVideoBlocks = parent.children.map { [weak self] item -> CourseBlock? in
+        let childVideoBlocks = parent.children.compactMap { [weak self] item -> CourseBlock? in
             guard let block = self?.blockWithID(id: item, mode: .video).value else { return nil }
+            
             if case CourseBlockDisplayType.Video = block.displayType  {
                 return block
             }
             
             return nil
-        }.compactMap { $0 }
+        }
         
         let allCompleted = childVideoBlocks.allSatisfy { $0.completion }
         
         if allCompleted {
-            parent.completion = true
+            if !parent.completion {
+                parent.completion = true
+            }
+            
             observers.forEach { observer in
                 if observer.blockID == parent.blockID {
                     let blockGroup = BlockGroup(block: parent, children: childVideoBlocks)
                     observer.delegate.didChangeCompletion(in: blockGroup)
-                }
-            }
-        }
-    }
-    
-    private func subscribeToCompletionPropertyOnBlocks(blocks: [CourseBlockID : CourseBlock] ) {
-        blocks.forEach { item in
-            let block = item.value
-            
-            block.isCompleted.subscribe(observer: self) { [weak self] newValue, oldValue in
-                guard newValue != oldValue,
-                      let weakSelf = self,
-                      let parent = weakSelf.parentOfBlockWith(id: block.blockID).firstSuccess().value else { return }
-                
-                weakSelf.handleOtherBlocks(parent)
-                weakSelf.handleVideoBlock(parent)
-            }
-        }
-    }
-    
-    private func markDiscussionBlockAsComplete(block: CourseBlock) {
-        guard let parent = parentOfBlockWith(id: block.blockID, type: .Unit).value else { return }
-        
-        if !block.completion {
-            let discussionBlocks = parent.children.filter { blockID in
-                guard let childBlock = blockWithID(id: blockID).value,
-                      case CourseBlockDisplayType.Discussion = childBlock.displayType else {
-                    return false
-                }
-                
-                return true
-            }.map { blockID -> CourseBlock? in
-                return blockWithID(id: blockID).firstSuccess().value
-            }.compactMap { $0 }
-            
-            print(discussionBlocks.count)
-            
-            let otherBlocks = parent.children.filter { blockID -> Bool in
-                guard let childBlock = blockWithID(id: blockID).value,
-                      case CourseBlockDisplayType.Discussion = childBlock.displayType else {
-                    return true
-                }
-                
-                return false
-            }.map { blockID -> CourseBlock? in
-                return blockWithID(id: blockID).firstSuccess().value
-            }.compactMap { $0 }
-            
-            if otherBlocks.allSatisfy({ $0.completion == true }) {
-                //discussionBlocks.modifyForEach{ $0.completion = true }
-            }
-        }
-    }
-    
-    private func markDiscussionBlocksAsCompleteIfNecessary(blocks: [CourseBlockID : CourseBlock] ) {
-        blocks.forEach { item in
-            let block = item.value
-            
-            if case CourseBlockDisplayType.Discussion = block.displayType {
-                if let parent = parentOfBlockWith(id: block.blockID, type: .Unit).value {
-                    print(parent.blockID)
-                    
-                    if parent.completion {
-                        block.completion = true                        
-                    } else {
-                        var discussionBlocks = parent.children.filter { blockID in
-                            guard let childBlock = blockWithID(id: blockID).value,
-                                  case CourseBlockDisplayType.Discussion = childBlock.displayType else {
-                                return false
-                            }
-                            
-                            return true
-                        }.map { blockID -> CourseBlock? in
-                            return blockWithID(id: blockID).firstSuccess().value
-                         }.compactMap { $0 }
-                        
-                        print(discussionBlocks.count)
-                        
-                        let otherBlocks = parent.children.filter { blockID -> Bool in
-                            guard let childBlock = blockWithID(id: blockID).value,
-                                  case CourseBlockDisplayType.Discussion = childBlock.displayType else {
-                                return true
-                            }
-                            
-                            return false
-                        }.map { blockID -> CourseBlock? in
-                           return blockWithID(id: blockID).firstSuccess().value
-                        }.compactMap { $0 }
-                                                
-                        if otherBlocks.allSatisfy({ $0.completion == true }) {
-                            discussionBlocks.modifyForEach{ $0.completion = true }
-                        }
-                    }
                 }
             }
         }
@@ -458,7 +416,7 @@ public class CourseOutlineQuerier : NSObject {
             // type of current block is the type which is passed as parameter
             return OEXStream(error: NSError.oex_courseContentLoadError())
         }
-                
+        
         guard let parentBlockID = parentOfBlockWithID(blockID: blockID).firstSuccess().value else {
             return OEXStream(error: NSError.oex_courseContentLoadError())
         }
@@ -502,7 +460,7 @@ public class CourseOutlineQuerier : NSObject {
             }
         }
     }
-
+    
     /// Loads all the children of the given block.
     /// nil means use the course root.
     public func childrenOfBlockWithID(blockID: CourseBlockID?, forMode mode: CourseOutlineMode) -> OEXStream<BlockGroup> {
@@ -536,7 +494,7 @@ public class CourseOutlineQuerier : NSObject {
             }
         }
     }
-
+    
     private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, transform : (CourseBlock) -> [A], accumulator : inout [A]) {
         if let block = blockWithID(id: id, inOutline: outline) {
             accumulator.append(contentsOf: transform(block))
