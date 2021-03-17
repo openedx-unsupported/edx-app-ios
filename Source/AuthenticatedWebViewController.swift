@@ -49,13 +49,17 @@ protocol AuthenticatedWebViewControllerDelegate {
     func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView)
 }
 
+@objc protocol AJAXCompletionCallbackDelegate: class {
+    func didCompletionCalled(completion: Bool)
+}
+
 private class WKWebViewContentController : WebContentController {
     fileprivate let webView: WKWebView
-    
+
     var view : UIView {
         return webView
     }
-    
+
     var scrollView : UIScrollView {
         return webView.scrollView
     }
@@ -90,7 +94,7 @@ private let OAuthExchangePath = "/oauth2/login/"
 
 // Allows access to course content that requires authentication.
 // Forwarding our oauth token to the server so we can get a web based cookie
-public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
+public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     
     fileprivate enum State {
         case CreatingSession
@@ -105,14 +109,28 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     private let insetsController : ContentInsetsController
     private let headerInsets : HeaderViewInsets
     weak var webViewDelegate: WebViewNavigationDelegate?
-    
+    weak var ajaxCallbackDelegate: AJAXCompletionCallbackDelegate?
+
+    private lazy var configurations = environment.config.webViewConfiguration()
+
     private lazy var webController : WebContentController = {
-        let controller = WKWebViewContentController(configuration: environment.config.webViewConfiguration())
+        let controller = WKWebViewContentController(configuration: configurations)
+        addUserScript(contentController: configurations.userContentController)
         controller.webView.navigationDelegate = self
         controller.webView.uiDelegate = self
         return controller
-    
+
     }()
+
+    private func addUserScript(contentController: WKUserContentController) {
+        if let url = Bundle.main.url(forResource: "ajaxHandler", withExtension: "js") {
+            let jsHandler = try! String(contentsOf: url, encoding: .utf8)
+
+            let script: WKUserScript = WKUserScript(source: jsHandler, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+            contentController.add(self, name: "ajaxCallbackHandler")
+            contentController.addUserScript(script)
+        }
+    }
     
     var scrollView: UIScrollView {
         return webController.scrollView
@@ -333,7 +351,45 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         
         refreshAccessibility()
     }
-    
+
+    private func isCompletionCallback(callback data: Dictionary<AnyHashable, Any>) -> Bool {
+        /* Completion callbacks in case of different xBlocks
+         HTML /publish_completion
+         Video /publish_completion
+         Problem problem_check
+         DragAndDrop handler/do_attempt
+         ORABlock responseText contains class 'is--complete'
+         */
+
+        let callback = AJAXCallbackData(data: data)
+        let status = callback.status
+        let requestURL = callback.url
+
+        if isORABlock(requestURL: requestURL) {
+            return status == 200 && callback.responseText.contains(find: "is--complete")
+        }
+
+
+        return status == 200 && (requestURL.contains(find: "publish_completion") || requestURL.contains(find: "problem_check") || requestURL.contains(find: "do_attempt"))
+    }
+
+    private func isORABlock(requestURL: String) -> Bool {
+        return requestURL.contains(find: "render_grade")
+    }
+
+
+    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if(message.name == "ajaxCallbackHandler") {
+            if let data = message.body as? Dictionary<AnyHashable, Any> {
+                if isCompletionCallback(callback: data) {
+                    ajaxCallbackDelegate?.didCompletionCalled(completion: true)
+                }
+            }
+            print("It does ! \(message.body)")
+
+        }
+    }
+
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             showError(error: error as NSError?)
     }
@@ -378,5 +434,18 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         } else {
             completionHandler(false)
         }
+    }
+}
+
+
+struct AJAXCallbackData {
+    let url: String
+    let status: Int
+    let responseText: String
+
+    init(data: Dictionary<AnyHashable, Any>?) {
+        url = data?["url"] as? String ?? ""
+        status = data?["status"] as? Int ?? 0
+        responseText = data?["response_text"] as? String ?? ""
     }
 }

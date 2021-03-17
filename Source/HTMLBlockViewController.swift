@@ -9,7 +9,7 @@
 import UIKit
 
 class HTMLBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionController, PreloadableBlockController {
-    
+
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
     
     public let courseID: String
@@ -40,6 +40,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Cour
         super.init(nibName : nil, bundle : nil)
 
         webController.delegate = self
+        webController.ajaxCallbackDelegate = self
         
         addObserver()
         setupViews()
@@ -223,5 +224,12 @@ extension HTMLBlockViewController: AuthenticatedWebViewControllerDelegate {
 extension HTMLBlockViewController: CourseDateBannerViewDelegate {
     func courseShiftDateButtonAction() {
         resetCourseDate()
+    }
+}
+
+extension HTMLBlockViewController: AJAXCompletionCallbackDelegate {
+    func didCompletionCalled(completion: Bool) {
+        block?.completion = completion
+
     }
 }

@@ -819,6 +819,7 @@
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
 		E00A33C11D3CEB3400963D8F /* SnackbarViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */; };
 		E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */; };
+		E01733BC25F75CEE00671365 /* ajaxHandler.js in Resources */ = {isa = PBXBuildFile; fileRef = E01733B725F7592900671365 /* ajaxHandler.js */; };
 		E01F45671E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */; };
 		E02165AF1E39D3040058D685 /* UIImage_OEXHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */; };
 		E021F46C1F739599007A26E7 /* loginScreenImage@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E021F46A1F739599007A26E7 /* loginScreenImage@2x~ipad.png */; };
@@ -1971,6 +1972,7 @@
 		E01287E422EEDD2C0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/languages.json; sourceTree = "<group>"; };
 		E01287E522EEDD2C0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/whats_new.json; sourceTree = "<group>"; };
 		E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+CommonAdditions.swift"; sourceTree = "<group>"; };
+		E01733B725F7592900671365 /* ajaxHandler.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = ajaxHandler.js; path = ../ajaxHandler.js; sourceTree = "<group>"; };
 		E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsTracker.swift; sourceTree = "<group>"; };
 		E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage_OEXHelpersTests.swift; sourceTree = "<group>"; };
 		E021F46A1F739599007A26E7 /* loginScreenImage@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginScreenImage@2x~ipad.png"; sourceTree = "<group>"; };
@@ -3917,6 +3919,7 @@
 		BECB7B151924C0C3009C77F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E01733B725F7592900671365 /* ajaxHandler.js */,
 				E06BEB092270863E00C7CF01 /* GoogleService-Info.plist */,
 				2212FD3721D4BE84007409C3 /* MobileAppEula.htm */,
 				2212FD3B21D4BE92007409C3 /* PrivacyPolicy.htm */,
@@ -4702,6 +4705,7 @@
 				6960892B1D53935500EE66DD /* courseCertificate.png in Resources */,
 				E096583625C1963B0004FFCC /* absl_base_LICENSE.html in Resources */,
 				5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */,
+				E01733BC25F75CEE00671365 /* ajaxHandler.js in Resources */,
 				69ECC60C1D50D1170030CF87 /* Icon-40@3x.png in Resources */,
 				2212FD3521D4BE84007409C3 /* MobileAppEula.htm in Resources */,
 				6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */,
