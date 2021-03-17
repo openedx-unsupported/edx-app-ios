@@ -17,7 +17,7 @@ class CourseCelebrationModel: NSObject {
     let isFirstSection: Bool
     
     init(dictionary: [String : Any]) {
-        isFirstSection = dictionary[Keys.firstSection] as? Bool ?? true
+        isFirstSection = dictionary[Keys.firstSection] as? Bool ?? false
         super.init()
     }
     
