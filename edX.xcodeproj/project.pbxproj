@@ -98,6 +98,7 @@
 		2212FD3D21D4BEA0007409C3 /* TermsOfServices.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2212FD3F21D4BEA0007409C3 /* TermsOfServices.htm */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
+		2227A3F825C1E9BA008CB570 /* CelebratoryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2227A3F725C1E9BA008CB570 /* CelebratoryAPI.swift */; };
 		222C39202167761F0038E388 /* DeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222C391F2167761F0038E388 /* DeepLinkTests.swift */; };
 		223895CF1F25CF76005B9C15 /* SwipeableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CB1F25CF76005B9C15 /* SwipeableCell.swift */; };
 		223895D01F25CF76005B9C15 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */; };
@@ -106,6 +107,8 @@
 		223972E11FE92BB500B2BBEC /* EnrolledTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223972E01FE92BB500B2BBEC /* EnrolledTabBarViewController.swift */; };
 		223A5F201FA9AA8F008C9963 /* CourseDashboardViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223A5F1F1FA9AA8F008C9963 /* CourseDashboardViewControllerTests.swift */; };
 		223A98FC1FA8610B0018DF67 /* AdditionalTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223A98FB1FA8610B0018DF67 /* AdditionalTabBarViewController.swift */; };
+		223CE58F25BEEACC0081C30F /* UIImage+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223CE58E25BEEACC0081C30F /* UIImage+GIF.swift */; };
+		223CE59625BEEB910081C30F /* CelebrateClaps.gif in Resources */ = {isa = PBXBuildFile; fileRef = 223CE59525BEEB910081C30F /* CelebrateClaps.gif */; };
 		223DD6BB1F9F5A4B004A21B9 /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DD6BA1F9F5A4B004A21B9 /* CourseDashboardViewController.swift */; };
 		2240FD541FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */; };
 		2240FD561FF266E4001D6589 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD551FF266E4001D6589 /* TabBarItem.swift */; };
@@ -117,6 +120,7 @@
 		2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94D2111BADC005F7C8C /* ProgramConfig.swift */; };
 		2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */; };
 		2255C95221185D21005F7C8C /* DiscoveryHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C95121185D21005F7C8C /* DiscoveryHelperTests.swift */; };
+		225E9FDC25BAF79E000D6332 /* CelebratoryModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225E9FDB25BAF79E000D6332 /* CelebratoryModalViewController.swift */; };
 		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
 		2266C5622362F6AF00F96BCA /* icon_microsoft_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 2266C5612362F6AE00F96BCA /* icon_microsoft_white.png */; };
 		2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54721634AC8001EA1E6 /* DeepLink.swift */; };
@@ -149,6 +153,7 @@
 		22B58A502566C734007664FC /* ValuePropDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
 		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
+		22CF27D025D3CC87008D5F7A /* CourseCelebrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF27CF25D3CC87008D5F7A /* CourseCelebrationModel.swift */; };
 		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
 		22D9BE5621945B4300FE1EB5 /* UIApplication+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */; };
 		22DACEEE20E270A2007AD5D5 /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22DACEED20E270A1007AD5D5 /* test-movie.mp4 */; };
@@ -1095,6 +1100,7 @@
 		2212FD4021D4BEA2007409C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
+		2227A3F725C1E9BA008CB570 /* CelebratoryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebratoryAPI.swift; sourceTree = "<group>"; };
 		222C391F2167761F0038E388 /* DeepLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkTests.swift; sourceTree = "<group>"; };
 		223895CB1F25CF76005B9C15 /* SwipeableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeableCell.swift; sourceTree = "<group>"; };
 		223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
@@ -1112,6 +1118,8 @@
 		223B4CB82313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ar; path = ar.lproj/profiles.json; sourceTree = "<group>"; };
 		223B4CB92313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ar; path = ar.lproj/languages.json; sourceTree = "<group>"; };
 		223B4CBA2313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ar; path = ar.lproj/whats_new.json; sourceTree = "<group>"; };
+		223CE58E25BEEACC0081C30F /* UIImage+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+GIF.swift"; sourceTree = "<group>"; };
+		223CE59525BEEB910081C30F /* CelebrateClaps.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = CelebrateClaps.gif; sourceTree = "<group>"; };
 		223DD6BA1F9F5A4B004A21B9 /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
 		2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolledTabBarViewControllerTest.swift; sourceTree = "<group>"; };
 		2240FD551FF266E4001D6589 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
@@ -1132,6 +1140,7 @@
 		2255C94D2111BADC005F7C8C /* ProgramConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfig.swift; sourceTree = "<group>"; };
 		2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfigTests.swift; sourceTree = "<group>"; };
 		2255C95121185D21005F7C8C /* DiscoveryHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryHelperTests.swift; sourceTree = "<group>"; };
+		225E9FDB25BAF79E000D6332 /* CelebratoryModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebratoryModalViewController.swift; sourceTree = "<group>"; };
 		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
 		2266C5612362F6AE00F96BCA /* icon_microsoft_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_microsoft_white.png; sourceTree = "<group>"; };
 		2271C54721634AC8001EA1E6 /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
@@ -1181,6 +1190,7 @@
 		22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropDetailViewController.swift; sourceTree = "<group>"; };
 		22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardLoadStateViewController.swift; sourceTree = "<group>"; };
 		22B85A33203EEE1E0071AD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		22CF27CF25D3CC87008D5F7A /* CourseCelebrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCelebrationModel.swift; sourceTree = "<group>"; };
 		22D73B5C1ED575C000220280 /* course-dates.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "course-dates.js"; sourceTree = "<group>"; };
 		22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+UIViewController.swift"; sourceTree = "<group>"; };
 		22DACEED20E270A1007AD5D5 /* test-movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = "test-movie.mp4"; path = "Data/test-movie.mp4"; sourceTree = "<group>"; };
@@ -2423,6 +2433,14 @@
 			path = "Swipeable Cell";
 			sourceTree = "<group>";
 		};
+		223CE59425BEEB910081C30F /* GIF */ = {
+			isa = PBXGroup;
+			children = (
+				223CE59525BEEB910081C30F /* CelebrateClaps.gif */,
+			);
+			path = GIF;
+			sourceTree = "<group>";
+		};
 		223DD6B91F9F59C3004A21B9 /* Tab Layout Dashboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -2563,6 +2581,7 @@
 		69ECC5A11D50D1170030CF87 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				223CE59425BEEB910081C30F /* GIF */,
 				B71AA15020CEF64B00700C5E /* Subjects Icons */,
 				22B85A33203EEE1E0071AD43 /* Images.xcassets */,
 				77BFD8691BB9E15B001D7BE5 /* Strings.swift */,
@@ -2949,6 +2968,7 @@
 				2283C7522060EF8600A2E9BE /* MathUtilities.swift */,
 				22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */,
 				224D457821B90753003A382C /* UIFont+Attributes.swift */,
+				223CE58E25BEEACC0081C30F /* UIImage+GIF.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -3123,6 +3143,7 @@
 				228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */,
 				5F0248C524AC9ED8000AF1FF /* CourseDates.swift */,
 				5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */,
+				22CF27CF25D3CC87008D5F7A /* CourseCelebrationModel.swift */,
 			);
 			name = "Course Structure";
 			sourceTree = "<group>";
@@ -3776,6 +3797,7 @@
 				B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */,
 				5FF08644257F91FA0078877A /* ValuePropMessageView.swift */,
 				22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */,
+				225E9FDB25BAF79E000D6332 /* CelebratoryModalViewController.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -4140,6 +4162,7 @@
 				5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */,
 				5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */,
 				5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */,
+				2227A3F725C1E9BA008CB570 /* CelebratoryAPI.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -4721,6 +4744,7 @@
 				B71AA1BB20CEF64D00700C5E /* humanities@2x.png in Resources */,
 				B71AA1AD20CEF64D00700C5E /* science@3x.png in Resources */,
 				22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */,
+				223CE59625BEEB910081C30F /* CelebrateClaps.gif in Resources */,
 				5F6F2B6F255AABC400AA3708 /* inter_fonts.json in Resources */,
 				6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */,
 				B71AA1B720CEF64D00700C5E /* math@2x.png in Resources */,
@@ -5079,6 +5103,7 @@
 				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
 				B70BD00720B57E89005F0D19 /* OEXTabBarItemsCell.m in Sources */,
 				E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */,
+				223CE58F25BEEACC0081C30F /* UIImage+GIF.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
@@ -5339,6 +5364,7 @@
 				77D5F43F1C1F1C8F0079E228 /* OEXCourse+TestData.swift in Sources */,
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
 				1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */,
+				2227A3F825C1E9BA008CB570 /* CelebratoryAPI.swift in Sources */,
 				7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */,
 				77092C731B421BD0004AA1A1 /* ContainerNavigationController.swift in Sources */,
 				B7CCC73C209B16B100A66923 /* ConstraintLayoutGuide+Extensions.swift in Sources */,
@@ -5412,6 +5438,7 @@
 				2283C7532060EF8600A2E9BE /* MathUtilities.swift in Sources */,
 				77E6487F1C9133C600B6740D /* SessionUsernameProvider.swift in Sources */,
 				2294AEDF2565429C00C00FC1 /* ValuePropCourseCardView.swift in Sources */,
+				225E9FDC25BAF79E000D6332 /* CelebratoryModalViewController.swift in Sources */,
 				E03E6A171D38EB9000944AAA /* SnackbarViews.swift in Sources */,
 				0D930BC223680983001C80AF /* ChromeCastMiniPlayer.swift in Sources */,
 				5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */,
@@ -5441,6 +5468,7 @@
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */,
+				22CF27D025D3CC87008D5F7A /* CourseCelebrationModel.swift in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,
 				220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,

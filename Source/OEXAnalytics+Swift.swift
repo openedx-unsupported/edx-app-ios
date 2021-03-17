@@ -39,6 +39,8 @@ public enum AnalyticsDisplayName : String {
     case CourseDatesBanner = "PLS Banner Viewed"
     case CourseDatesShiftButtonTapped = "PLS Shift Button Tapped"
     case CourseDatesShift = "PLS Shift Dates"
+    case CelebrationModalSocialShareClicked =  "Celebration: Social Share Clicked"
+    case CelebrationModalView =  "Celebration: First Section Opened"
     case CourseComponentTapped = "Dates: Course Component Tapped"
     case CourseUnsupportedComponentTapped = "Dates: Unsupported Component Tapped"
     case ExploreAllCourses = "Explore All Courses"
@@ -75,6 +77,8 @@ public enum AnalyticsEventName: String {
     case CourseDatesUpgradeToParticipate = "edx.bi.app.coursedates.upgrade.participate"
     case CourseDatesUpgradeToShift = "edx.bi.app.coursedates.upgrade.shift"
     case CourseDatesShiftDates = "edx.bi.app.coursedates.shift"
+    case CelebrationModalSocialShareClicked =  "edx.ui.lms.celebration.social_share.clicked"
+    case CelebrationModalView =  "edx.ui.lms.celebration.first_section.opened"
     case CourseComponentTapped = "edx.bi.app.coursedates.component.tapped"
     case CourseUnsupportedComponentTapped = "edx.bi.app.coursedates.unsupported.component.tapped"
     case ExploreAllCourses = "edx.bi.app.discovery.explore.all.courses"
@@ -120,6 +124,7 @@ public enum AnalyticsEventDataKey: String {
     case ScreenName = "screen_name"
     case BannerEventType = "banner_type"
     case Success = "success"
+    case Service = "service"
     case BlockType = "block_type"
     case Link = "link"
 }
@@ -229,6 +234,22 @@ extension OEXAnalytics {
         event.displayName = AnalyticsDisplayName.SharedCourse.rawValue
         event.category = AnalyticsCategory.SocialSharing.rawValue
         trackEvent(event, forComponent: nil, withInfo: ["url": url, "type": type])
+    }
+    
+    func trackCourseCelebrationSocialShareClicked(courseID: String, type: String) {
+        let event = OEXAnalyticsEvent()
+        event.courseID = courseID
+        event.name = AnalyticsEventName.CelebrationModalSocialShareClicked.rawValue
+        event.displayName = AnalyticsDisplayName.CelebrationModalSocialShareClicked.rawValue
+        trackEvent(event, forComponent: nil, withInfo: [AnalyticsEventDataKey.Service.rawValue: type])
+    }
+    
+    func trackCourseCelebrationFirstSection(courseID: String) {
+        let event = OEXAnalyticsEvent()
+        event.courseID = courseID
+        event.name = AnalyticsEventName.CelebrationModalView.rawValue
+        event.displayName = AnalyticsDisplayName.CelebrationModalView.rawValue
+        trackEvent(event, forComponent: nil, withInfo: nil)
     }
     
     func trackSubjectDiscovery(subjectID: String) {

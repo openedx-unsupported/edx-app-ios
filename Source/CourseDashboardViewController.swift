@@ -199,6 +199,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         if let urlString = course.course_about, let url = NSURL(string: urlString) {
             let analytics = environment.analytics
             let courseID = self.courseID
+            
             let controller = shareHashtaggedTextAndALink(textBuilder: { hashtagOrPlatform in
                 Strings.shareACourse(platformName: hashtagOrPlatform)
             }, url: url, utmParams: course.courseShareUtmParams, analyticsCallback: { analyticsType in

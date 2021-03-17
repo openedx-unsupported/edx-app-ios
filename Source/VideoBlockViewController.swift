@@ -30,10 +30,12 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     private var chromeCastMiniPlayer: ChromeCastMiniPlayer?
     private var playOverlayButton: UIButton?
     private var overlayLabel: UILabel?
+    var shouldCelebrationAppear: Bool
     
-    init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
+    init(environment : Environment, blockID : CourseBlockID?, courseID: String, shouldCelebrationAppear: Bool = false) {
         self.blockID = blockID
         self.environment = environment
+        self.shouldCelebrationAppear = shouldCelebrationAppear
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         loadController = LoadStateViewController()
         let block = courseQuerier.blockWithID(id: blockID)
@@ -47,6 +49,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         addChild(videoPlayer)
         videoPlayer.didMove(toParent: self)
         videoPlayer.playerDelegate = self
+        videoPlayer.shouldCelebrationAppear = shouldCelebrationAppear
         addLoadListener()
     }
     
@@ -363,9 +366,14 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         self.video = video
         navigationItem.title = block.displayName
         videoPlayer.videoTitle = block.displayName
-        DispatchQueue.main.async {[weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.loadController.state = .Loaded
-            self?.play(video: video)
+        }
+        
+        if !shouldCelebrationAppear {
+            DispatchQueue.main.async { [weak self] in
+                self?.play(video: video)
+            }
         }
     }
     
@@ -413,7 +421,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
                         weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
                     }
                 }
-                else if newCollection.verticalSizeClass == .compact {
+                else if newCollection.verticalSizeClass == .compact && !weakSelf.shouldCelebrationAppear {
                     weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
                 }
             }
@@ -625,5 +633,21 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
     func chromeCastDidFinishPlaying() {
         createOverlayPlayButton()
         videoPlayer.savePlayedTime(time: .zero)
+    }
+}
+
+extension VideoBlockViewController: CelebratoryModalViewControllerDelegate {
+    func modalDidDismiss() {
+        shouldCelebrationAppear = false
+        if let video = self.video {
+            DispatchQueue.main.async { [weak self] in
+                if let weakSelf = self {
+                    weakSelf.play(video: video)
+                    if weakSelf.isVerticallyCompact() {
+                        weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: .portrait, forceRotate: false)
+                    }
+                }
+            }
+        }
     }
 }

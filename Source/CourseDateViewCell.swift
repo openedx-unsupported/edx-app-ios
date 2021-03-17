@@ -477,7 +477,7 @@ fileprivate extension NSAttributedString {
     }
 }
 
-fileprivate extension String {
+extension String {
     var nsString: NSString {
         return NSString(string: self)
     }

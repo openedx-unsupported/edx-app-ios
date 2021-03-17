@@ -114,6 +114,10 @@ class YoutubeVideoPlayer: VideoPlayer {
         }
         perform(#selector(videoTimedOut), with: nil, afterDelay: playerTimeOutInterval)
     }
+    
+    override func pause() {
+        playerView.stopVideo()
+    }
 
     override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         isFullScreen = fullscreen
