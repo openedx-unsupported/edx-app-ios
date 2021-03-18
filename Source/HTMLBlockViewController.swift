@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HTMLBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionController, PreloadableBlockController {
+class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
 
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
     
@@ -209,6 +209,10 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Cour
         showSnackBar()
     }
     
+    private func markBlockAsComplete() {
+        block?.completion = true
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -229,7 +233,6 @@ extension HTMLBlockViewController: CourseDateBannerViewDelegate {
 
 extension HTMLBlockViewController: AJAXCompletionCallbackDelegate {
     func didCompletionCalled(completion: Bool) {
-        block?.completion = completion
-
+        markBlockAsComplete()
     }
 }

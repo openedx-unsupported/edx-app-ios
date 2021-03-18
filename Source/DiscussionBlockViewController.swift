@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DiscussionBlockViewController: UIViewController, CourseBlockViewController, CourseBlockCompletionController {
+class DiscussionBlockViewController: UIViewController, CourseBlockViewController {
     
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & DataManagerProvider & OEXConfigProvider
     
@@ -71,8 +71,8 @@ class DiscussionBlockViewController: UIViewController, CourseBlockViewController
         view.addSubview(postsController.view)
     }
     
-    func markBlockAsComplete() {
-         // block?.completion = true
+    private func markBlockAsComplete() {
+        block?.completion = true
         
         guard let blockID = blockID,
               let username = OEXSession.shared()?.currentUser?.username else { return }

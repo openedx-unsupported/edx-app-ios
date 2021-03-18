@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, CourseBlockCompletionController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
+class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider & NetworkManagerProvider
     
@@ -493,7 +493,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     
     func playerDidFinishPlaying(videoPlayer: VideoPlayer) {
         environment.router?.showAppReviewIfNeeded(fromController: self)
-        markVideoComplete()
+        markBlockAsComplete()
     }
     
     func playerDidTimeout(videoPlayer: VideoPlayer) {
@@ -587,7 +587,9 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
 }
 
 extension VideoBlockViewController {
-    func markVideoComplete() {
+    func markBlockAsComplete() {
+        block?.completion = true
+        
         guard let username = environment.session.currentUser?.username, let blockID = blockID else { return }
         let networkRequest = BlockCompletionApi.blockCompletionRequest(username: username, courseID: courseID, blockID: blockID)
         environment.networkManager.taskForRequest(networkRequest) { _ in }

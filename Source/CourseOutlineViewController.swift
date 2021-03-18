@@ -52,6 +52,10 @@ public class CourseOutlineViewController :
         return courseQuerier.courseID
     }
     
+    public var block: CourseBlock? {
+        return courseQuerier.blockWithID(id: blockID).value
+    }
+    
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
         self.rootID = rootID
         self.environment = environment

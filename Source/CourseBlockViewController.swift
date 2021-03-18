@@ -12,21 +12,7 @@ import Foundation
 public protocol CourseBlockViewController {
     var blockID: CourseBlockID? { get }
     var courseID: CourseBlockID { get }
-}
-
-protocol CourseBlockCompletionController {
     var block: CourseBlock? { get }
-    func markBlockAsComplete()
-}
-
-extension CourseBlockCompletionController where Self: UIViewController & CourseBlockViewController {
-    func markBlockAsComplete() {
-        guard let block = block else { return }
-        
-        if !block.isGated {
-            block.completion = true
-        }
-    }
 }
 
 // Implement this if your CourseBlockViewController instance supports preloading its data. 

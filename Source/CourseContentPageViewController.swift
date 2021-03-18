@@ -32,6 +32,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var initialChildID : CourseBlockID?
     
     public private(set) var blockID : CourseBlockID?
+    
+    public var block: CourseBlock? {
+        return courseQuerier.blockWithID(id: blockID).value
+    }
         
     public var courseID : String {
         return courseQuerier.courseID
@@ -272,10 +276,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func updateNavigationForEnteredController(controller : UIViewController?) {
-        if let controller = controller as? CourseBlockCompletionController {
-            controller.markBlockAsComplete()
-        }
-        
         if let blockController = controller as? CourseBlockViewController,
             let cursor = contentLoader.value {
             cursor.updateCurrentToItemMatching {

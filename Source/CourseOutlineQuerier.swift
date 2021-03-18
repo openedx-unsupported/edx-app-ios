@@ -139,7 +139,7 @@ public class CourseOutlineQuerier : NSObject {
                     }
                 }
                 
-                weakSelf.handleVideoBlock(parent)
+                weakSelf.handleVideoBlockIfNeeded(parent: parent)
                 weakSelf.handleDiscussionBlockIfNeeded(parent: parent)
             }
         }
@@ -188,7 +188,7 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    private func handleVideoBlock(_ parent: CourseBlock) {
+    private func handleVideoBlockIfNeeded(parent: CourseBlock) {
         let childVideoBlocks = parent.children.compactMap { [weak self] item -> CourseBlock? in
             guard let block = self?.blockWithID(id: item, mode: .video).value else { return nil }
             
