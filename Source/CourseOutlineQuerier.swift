@@ -137,8 +137,13 @@ public class CourseOutlineQuerier : NSObject {
                             observer.delegate.didChangeCompletion(in: blockGroup)
                         }
                     }
-                    
+                }
+                
+                if case CourseBlockType.Video = block.type {
                     weakSelf.handleVideoBlockIfNeeded(parent: parent)
+                }
+                
+                if case CourseBlockType.Discussion = block.type {
                     weakSelf.handleDiscussionBlockIfNeeded(parent: parent)
                 }
             }
@@ -152,7 +157,7 @@ public class CourseOutlineQuerier : NSObject {
         if !allBlocksAreCompleted {
             let otherBlocks = parent.children.filter { blockID -> Bool in
                 guard let childBlock = blockWithID(id: blockID).value,
-                      case CourseBlockDisplayType.Discussion = childBlock.displayType
+                      case CourseBlockType.Discussion = childBlock.type
                 else { return true }
                 
                 return false
@@ -160,7 +165,7 @@ public class CourseOutlineQuerier : NSObject {
             
             let discussionBlocks = parent.children.filter { blockID -> Bool in
                 guard let childBlock = blockWithID(id: blockID).value,
-                      case CourseBlockDisplayType.Discussion = childBlock.displayType
+                      case CourseBlockType.Discussion = childBlock.type
                 else { return false }
                 
                 return true
@@ -190,9 +195,10 @@ public class CourseOutlineQuerier : NSObject {
     
     private func handleVideoBlockIfNeeded(parent: CourseBlock) {
         let childVideoBlocks = parent.children.compactMap { [weak self] item -> CourseBlock? in
+            
             guard let block = self?.blockWithID(id: item, mode: .video).value else { return nil }
             
-            if case CourseBlockDisplayType.Video = block.displayType  {
+            if case CourseBlockType.Video = block.type  {
                 return block
             }
             
