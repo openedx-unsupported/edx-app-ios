@@ -35,7 +35,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         self.subkind = subkind
         self.environment = environment
         
-        webController = AuthenticatedWebViewController(environment: environment)
+        webController = AuthenticatedWebViewController(environment: environment, shouldListenForAjaxCallbacks: true)
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         super.init(nibName : nil, bundle : nil)
 

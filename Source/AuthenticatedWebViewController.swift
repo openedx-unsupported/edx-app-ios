@@ -121,10 +121,14 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     weak var ajaxCallbackDelegate: AJAXCompletionCallbackDelegate?
 
     private lazy var configurations = environment.config.webViewConfiguration()
-
+    
+    private var shouldListenForAjaxCallbacks = false
+    
     private lazy var webController: WebContentController = {
         let controller = WKWebViewContentController(configuration: configurations)
-        addUserScript(contentController: configurations.userContentController)
+        if shouldListenForAjaxCallbacks {
+            addAjaxCallbackScript(in: configurations.userContentController)
+        }
         controller.webView.navigationDelegate = self
         controller.webView.uiDelegate = self
         return controller
@@ -146,8 +150,9 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         loadController.state = state
     }
     
-    public init(environment : Environment) {
+    public init(environment : Environment, shouldListenForAjaxCallbacks: Bool = false) {
         self.environment = environment
+        self.shouldListenForAjaxCallbacks = shouldListenForAjaxCallbacks
         
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
@@ -195,7 +200,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         }
     }
 
-    private func addUserScript(contentController: WKUserContentController) {
+    private func addAjaxCallbackScript(in contentController: WKUserContentController) {
         guard let url = Bundle.main.url(forResource: "ajaxHandler", withExtension: "js"),
               let handler = try? String(contentsOf: url, encoding: .utf8) else { return }
         let script = WKUserScript(source: handler, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
