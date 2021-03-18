@@ -378,34 +378,14 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         if isBlockOf(type: .ora, with: requestURL) {
             return callback.responseText.contains("is--complete")
         } else {
-            return isBlockOf(type: .html, with: requestURL) || isBlockOf(type: .problem, with: requestURL) || isBlockOf(type: .dragAndDrop, with: requestURL)
+            return isBlockOf(type: .html, with: requestURL)
+                || isBlockOf(type: .problem, with: requestURL)
+                || isBlockOf(type: .dragAndDrop, with: requestURL)
         }
-        
-//        if isORABlock(requestURL: requestURL) {
-//            return callback.responseText.contains(find: )
-//        } else {
-//            return isHTMLBlock(requestURL: requestURL) || isProblemBlock(requestURL: requestURL) || isDragAndDropBlock(requestURL: requestURL)
-//        }
     }
     
     private func isBlockOf(type: XBlockCompletionCallbackType, with requestURL: String) -> Bool {
         return requestURL.contains(type.rawValue)
-    }
-    
-    private func isHTMLBlock(requestURL: String) -> Bool {
-        return requestURL.contains(XBlockCompletionCallbackType.html.rawValue)
-    }
-    
-    private func isProblemBlock(requestURL: String) -> Bool {
-        return requestURL.contains(XBlockCompletionCallbackType.problem.rawValue)
-    }
-    
-    private func isDragAndDropBlock(requestURL: String) -> Bool {
-        return requestURL.contains(XBlockCompletionCallbackType.dragAndDrop.rawValue)
-    }
-    
-    private func isORABlock(requestURL: String) -> Bool {
-        return requestURL.contains(XBlockCompletionCallbackType.ora.rawValue)
     }
     
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -415,8 +395,6 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             if isCompletionCallback(with: data) {
                 ajaxCallbackDelegate?.didCompletionCalled(completion: true)
             }
-            
-            print("It workds !! \(message.body)")
         }
     }
 

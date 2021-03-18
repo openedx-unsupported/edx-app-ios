@@ -137,10 +137,10 @@ public class CourseOutlineQuerier : NSObject {
                             observer.delegate.didChangeCompletion(in: blockGroup)
                         }
                     }
+                    
+                    weakSelf.handleVideoBlockIfNeeded(parent: parent)
+                    weakSelf.handleDiscussionBlockIfNeeded(parent: parent)
                 }
-                
-                weakSelf.handleVideoBlockIfNeeded(parent: parent)
-                weakSelf.handleDiscussionBlockIfNeeded(parent: parent)
             }
         }
     }
