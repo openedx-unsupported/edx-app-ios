@@ -227,7 +227,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.delegate = self
             cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             return cell
-        case .HTML(.Base):
+        case .HTML(.Base), .HTML(.DragAndDrop):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseHTMLTableViewCell.identifier, for: indexPath) as! CourseHTMLTableViewCell
             cell.block = block
             return cell
