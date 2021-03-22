@@ -77,6 +77,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     var highlightedBlockID : CourseBlockID? = nil
     private var videos: [OEXHelperVideoDownload]?
     
+    private var watchedVideBlock: [CourseBlockID] = []
+    
     func addCertificateView() {
         guard environment.config.certificatesEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl =  enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
 
@@ -233,6 +235,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let group = groups[section]
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CourseOutlineHeaderCell.identifier) as! CourseOutlineHeaderCell
         header.block = group.block
+        
+        let allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideBlock.contains)
+        allCompleted ? header.showGreenBackground() : header.showNeutralBackground()
+        
         return header
     }
     
@@ -270,13 +276,22 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             return cell
         case .Outline, .Unit:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
+            cell.completionAction = { [weak self] in
+                guard let weakSelf = self else { return }
+                if !weakSelf.watchedVideBlock.contains(block.blockID) {
+                    weakSelf.watchedVideBlock.append(block.blockID)
+                    weakSelf.tableView.reloadSections([indexPath.section], with: .none)
+                }
+            }
             cell.courseOutlineMode = courseOutlineMode
+            cell.courseQuerier = courseQuerier
             cell.block = nodes[indexPath.row]
             let courseID = courseQuerier.courseID
             cell.videos = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
             cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             cell.delegate = self
             cell.courseID = courseID
+                        
             return cell
         case .Discussion:
             let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionTableViewCell.identifier, for: indexPath) as! DiscussionTableViewCell
@@ -480,7 +495,18 @@ extension CourseOutlineTableController: CourseDateBannerViewDelegate {
 
 extension CourseOutlineTableController: BlockCompletionDelegate {
     func didChangeCompletion(in blockGroup: CourseOutlineQuerier.BlockGroup) {
-        guard let index = groups.firstIndex(where: { $0.block.blockID == blockGroup.block.blockID }) else { return }
+        guard let index = groups.firstIndex(where: {
+            
+            
+            print("start --------")
+            print(blockGroup.block.blockID)
+            print($0.block.blockID)
+            
+            print("stoppp --------")
+
+            return $0.block.blockID == blockGroup.block.blockID
+            
+        }) else { return }
         if tableView.isValidSection(with: index) {
             groups[index] = blockGroup
             tableView.reloadSections([index], with: .none)

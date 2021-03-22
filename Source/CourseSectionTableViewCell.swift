@@ -32,6 +32,8 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         }
     }
     
+    var courseQuerier: CourseOutlineQuerier?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
@@ -144,7 +146,9 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         let videosState = downloadStateForDownloads(videos: videos)
         return (videosState == .Done)
     }
-
+    
+    var completionAction : (() -> ())?
+    
     var block: CourseBlock? = nil {
         didSet {
             guard let block = block else { return }
@@ -153,28 +157,55 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
             content.isGraded = block.graded
             content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
             
-            if block.completion && !block.isGated {
-                if courseOutlineMode == .full {
-                    content.backgroundColor = OEXStyles.shared().successXXLight()
-                    content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
-                    content.setSeperatorColor(color: OEXStyles.shared().successXLight())
-                } else if courseOutlineMode == .video {
-                    content.backgroundColor = OEXStyles.shared().successXXLight()
-                    content.setContentIcon(icon: nil, color: OEXStyles.shared().successBase())
-                    content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+            if courseOutlineMode == .video {
+                if let sectionChild = courseQuerier?.childrenOfBlockWithID(blockID: block.blockID, forMode: .video).value,
+                   sectionChild.block.type == .Section,
+                   let unitChild = courseQuerier?.childrenOfBlockWithID(blockID: sectionChild.block.blockID, forMode: .video).value {
+                    let videoBlocks = unitChild.children
+                    
+                    if videoBlocks.allSatisfy ({ $0.completion }) {
+                        
+                        completionAction?()
+                        
+                        content.backgroundColor = OEXStyles.shared().successXXLight()
+                        content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                        content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+                    } else {
+                        content.backgroundColor = OEXStyles.shared().neutralWhite()
+                        content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+                        content.setContentIcon(icon: nil, color: .clear)
+                    }
+                } else {
+                    handleBlockNormlly(block)
                 }
-            } else if block.isGated {
-                content.backgroundColor = OEXStyles.shared().neutralWhite()
-                content.setContentIcon(icon: nil, color: .clear)
-                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
-
             } else {
-                content.backgroundColor = OEXStyles.shared().neutralWhite()
-                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
-                content.setContentIcon(icon: nil, color: .clear)
+                handleBlockNormlly(block)
             }
             
             setupDownloadView()
+        }
+    }
+    
+    private func handleBlockNormlly(_ block: CourseBlock) {
+        if block.completion && !block.isGated {
+            if courseOutlineMode == .full {
+                content.backgroundColor = OEXStyles.shared().successXXLight()
+                content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+            } else if courseOutlineMode == .video {
+                content.backgroundColor = OEXStyles.shared().successXXLight()
+                content.setContentIcon(icon: nil, color: OEXStyles.shared().successBase())
+                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+            }
+        } else if block.isGated {
+            content.backgroundColor = OEXStyles.shared().neutralWhite()
+            content.setContentIcon(icon: nil, color: .clear)
+            content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+            
+        } else {
+            content.backgroundColor = OEXStyles.shared().neutralWhite()
+            content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+            content.setContentIcon(icon: nil, color: .clear)
         }
     }
     

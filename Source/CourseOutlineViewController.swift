@@ -77,6 +77,9 @@ public class CourseOutlineViewController :
         tableController.delegate = self
     }
     
+    public func reloadTableView() {
+        tableController.tableView.reloadData()
+    }
     
     public required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,

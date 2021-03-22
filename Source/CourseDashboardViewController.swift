@@ -270,13 +270,16 @@ extension UITabBarController {
     }
 }
 
-
 extension CourseDashboardViewController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         navigationItem.title = viewController.navigationItem.title
         if let course = course {
             addNavigationItems(withCourse: course)
+        }
+        
+        if let controller = viewController as? CourseOutlineViewController {
+            controller.reloadTableView()
         }
     }
 }
