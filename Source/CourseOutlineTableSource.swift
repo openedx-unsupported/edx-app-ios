@@ -68,7 +68,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     var groups : [CourseOutlineQuerier.BlockGroup] = [] {
         didSet {
             groups.forEach { group in
-                let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, delegate: self)
+                let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
                 courseQuerier.add(observer: observer)
             }            
         }
@@ -236,8 +236,16 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CourseOutlineHeaderCell.identifier) as! CourseOutlineHeaderCell
         header.block = group.block
         
-        let allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideBlock.contains)
+        var allCompleted: Bool
+        
+        if group.block.type == .Unit {
+            allCompleted = group.children.allSatisfy { $0.completion }
+        } else {
+            allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideBlock.contains)
+        }
+        
         allCompleted ? header.showGreenBackground() : header.showNeutralBackground()
+        
         
         return header
     }
@@ -494,16 +502,11 @@ extension CourseOutlineTableController: CourseDateBannerViewDelegate {
 }
 
 extension CourseOutlineTableController: BlockCompletionDelegate {
-    func didChangeCompletion(in blockGroup: CourseOutlineQuerier.BlockGroup) {
+    func didChangeCompletion(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode) {
+        
+        if mode != courseOutlineMode { return }
+        
         guard let index = groups.firstIndex(where: {
-            
-            
-            print("start --------")
-            print(blockGroup.block.blockID)
-            print($0.block.blockID)
-            
-            print("stoppp --------")
-
             return $0.block.blockID == blockGroup.block.blockID
             
         }) else { return }
