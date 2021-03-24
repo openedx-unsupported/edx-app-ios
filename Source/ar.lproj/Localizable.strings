@@ -636,8 +636,6 @@
 "LARGE_DOWNLOAD_MESSAGE"="يتجاوز حجم ملفات الفيديو التي اخترتها 1 جيجابايت.\nأما زلت ترغب بتحميلها؟";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="حجم ملفات التنزيل كبير";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "آخر زيارة - ";
 /* Title for Course Item for resuming course */
 "RESUME" = "Resume";
 /* Prompt leading user to create account screen */

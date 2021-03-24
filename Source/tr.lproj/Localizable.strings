@@ -588,8 +588,6 @@
 "LARGE_DOWNLOAD_MESSAGE"="Seçtiğiniz videolar 1 GB'tan büyük. Bu videoları indirmek istiyor musunuz?";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="Büyük İndirme";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "Son Erişim";
 /* Title for Course Item for resuming course */
 "RESUME" = "Resume";
 /* Prompt leading user to create account screen */

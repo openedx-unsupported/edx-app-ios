@@ -576,8 +576,6 @@
 "LARGE_DOWNLOAD_MESSAGE"="所选中视频大于1GB。是否要下载这些视频 ？";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="大数据量下载";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "上次访问";
 /* Title for Course Item for resuming course */
 "RESUME" = "Resume";
 /* Prompt leading user to create account screen */

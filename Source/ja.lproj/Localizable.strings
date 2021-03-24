@@ -576,8 +576,6 @@
 "LARGE_DOWNLOAD_MESSAGE"="あなたが選択した動画は1GB以上です。本当にダウンロードしますか？";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="大きいサイズのダウンロード";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "最新アクセス";
 /* Title for Course Item for resuming course */
 "RESUME" = "Resume";
 /* Prompt leading user to create account screen */

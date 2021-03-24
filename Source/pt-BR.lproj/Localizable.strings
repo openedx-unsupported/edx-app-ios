@@ -588,8 +588,6 @@
 "LARGE_DOWNLOAD_MESSAGE"="Os video que você selecionou são maiores do que 1GB. Você quer baixar estes vídeos?";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="Grande download";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "Último acesso";
 /* Title for Course Item for resuming course */
 "RESUME" = "Resume";
 /* Prompt leading user to create account screen */

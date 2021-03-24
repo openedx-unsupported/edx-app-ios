@@ -606,8 +606,6 @@
 "LARGE_DOWNLOAD_MESSAGE"="הסרטונים שבחרת גדולים מ-1GB. האם אתה רוצה להוריד את סרטונים אלו?";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="הורדה גדולה";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "כניסה אחרונה";
 /* Title for Course Item for resuming course */
 "RESUME" = "Resume";
 /* Prompt leading user to create account screen */

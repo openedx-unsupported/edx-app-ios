@@ -576,8 +576,6 @@
 "LARGE_DOWNLOAD_MESSAGE"="Video bạn chọn có kích thước lớn hơn 1 GB.  Bạn có muốn tải những video này xuống không?";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="Tải xuống dung lượng lớn";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "Lần truy cập cuối";
 /* Title for Course Item for resuming course */
 "RESUME" = "Resume";
 /* Prompt leading user to create account screen */
