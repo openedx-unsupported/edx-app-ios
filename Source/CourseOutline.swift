@@ -90,6 +90,8 @@ public struct CourseOutline {
                         type = .Problem
                     case .OpenAssesment:
                         type = .OpenAssesment
+                    case .DragAndDrop:
+                        type = .DragAndDrop
                     case .Video :
                         let bodyData = (body[Fields.StudentViewData].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, unitURL: blockURL?.absoluteString, name : name ?? Strings.untitled)
@@ -149,6 +151,7 @@ public enum CourseBlockType: Equatable {
     case Video(OEXVideoSummary)
     case Problem
     case OpenAssesment
+    case DragAndDrop
     case HTML
     case Discussion(DiscussionModel)
     
@@ -171,6 +174,7 @@ public class CourseBlock {
         case HTML = "html"
         case Problem = "problem"
         case OpenAssesment = "openassessment"
+        case DragAndDrop = "drag-and-drop-v2"
         case Section = "sequential"
         case Unit = "vertical"
         case Video = "video"

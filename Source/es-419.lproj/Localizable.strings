@@ -785,6 +785,18 @@
 "SECTION_UNAVAILABLE_OFFLINE"="Esta sección no está disponible en modo offline.\nSi ya ha descargado a su dispositivo contenido de otra sección, puede ver ese contenido.";
 /* Screen title showing a user's settings */
 "SETTINGS"="Opciones";
+/*Text for Twitter, Facebook, Linkedin and email for celebration modal sharing*/
+"CELEBRATION.SHARE_MESSAGE"="I'm on my way to completing {course_name} online with {platform_name}. What are you spending your time learning? #my{hashtag_platform_name}journey";
+/*Title for celebratory modal*/
+"CELEBRATION.TITLE"="Congratulations!";
+/*Title message for celebratory modal*/
+"CELEBRATION.TITLE_MESSAGE"="You just completed the first section of your course.";
+/*Celebration information message for celebratory modal*/
+"CELEBRATION.INFO_MESSAGE"="Take a moment to celebrate and share your progress.";
+/*Celebration 'earned-it' text message for celebratory modal*/
+"CELEBRATION.EARNED_IT_TEXT"="You earned it!";
+/*Button title for celebratory modal*/
+"CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Text for a Twitter or Facebook post to a course about page */
 "SHARE_A_COURSE"="Estoy tomando un curso en {platform_name}! Dale un vistazo:";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */

@@ -53,6 +53,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private let playerTimeOutInterval:TimeInterval = 60.0
     private let preferredTimescale:Int32 = 100
     fileprivate var fullScreenContainerView: UIView?
+    var shouldCelebrationAppear: Bool = false
     
     // UIPageViewController keep multiple viewControllers simultanously for smooth switching
     // on view transitioning this method calls for every viewController which cause framing issue for fullscreen mode
@@ -80,9 +81,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     var rate: Float {
         get {
             return player.rate
-        }
-        set {
-            player.rate = newValue
         }
     }
     
@@ -298,9 +296,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber, let newStatus = AVPlayerItem.Status(rawValue: newStatusAsNumber.intValue) {
                 switch newStatus {
                 case .readyToPlay:
-                    let speed = OEXInterface.getCCSelectedPlaybackSpeed()
-                    rate = OEXInterface.getOEXVideoSpeed(speed)
-                    
                     //This notification call specifically for test cases in readyToPlay state
                     perform(#selector(t_postNotification))
                     
@@ -338,7 +333,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isVisible = true
-        if !ChromeCastManager.shared.isMiniPlayerAdded {
+        if !ChromeCastManager.shared.isMiniPlayerAdded  && !shouldCelebrationAppear {
             applyScreenOrientation()
         }
         if playerState == .paused {
@@ -392,7 +387,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     private func play(at timeInterval: TimeInterval) {
-        player.play()
+        playAtSelectedPlaybackSpeed()
         lastElapsedTime = timeInterval
         var resumeObserver: AnyObject?
         resumeObserver = player.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 3), queue: DispatchQueue.main) { [weak self]
@@ -405,6 +400,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 }
             }
             } as AnyObject
+    }
+    
+    private func playAtSelectedPlaybackSpeed() {
+        player.rate = OEXInterface.getOEXVideoSpeed(OEXInterface.getCCSelectedPlaybackSpeed())
     }
     
     @objc private func movieTimedOut() {
@@ -421,14 +420,14 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if player.currentItem?.status == .readyToPlay {
             player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) { [weak self]
                 (completed: Bool) -> Void in
-                self?.player.play()
+                self?.playAtSelectedPlaybackSpeed()
                 self?.playerState = .playing
                 self?.controls?.setPlayPauseButtonState(isSelected: false)
             }
         }
     }
     
-    fileprivate func pause() {
+    func pause() {
         player.pause()
         playerState = .paused
         savePlayedTime()
@@ -567,7 +566,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
         
-    func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType) {
+    func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType, completion: ((Bool)->())? = nil) {
         let oldTime = currentTime
         let videoDuration = CMTimeGetSeconds(duration)
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
@@ -576,7 +575,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let estimatedSliderValue = Float(updatedElapseTime / duration.seconds)
         playerControls.durationSliderValue = estimatedSliderValue
         playerControls.updateTimeLabel(elapsedTime: updatedElapseTime, duration: CMTimeGetSeconds(self.duration))
-        seek(to: elapsedTime + requestedDuration)
+        seek(to: elapsedTime + requestedDuration, completion: completion)
         
         if let videoId = video?.summary?.videoID,
             let courseId = video?.course_id,
@@ -617,17 +616,22 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
 
-    func seek(to time: Double) {
+    func seek(to time: Double, completion: ((Bool)->())? = nil) {
         if player.currentItem?.status != .readyToPlay { return }
         let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale)
         lastElapsedTime = time
-        player.currentItem?.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self]
+        guard let currentItem = player.currentItem else {
+            completion?(false)
+            return
+        }
+        currentItem.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self]
             (completed: Bool) -> Void in
                 if self?.playerState == .playing {
                     self?.controls?.autoHide()
-                    self?.player.play()
+                    self?.playAtSelectedPlaybackSpeed()
                 }
                 self?.savePlayedTime(time: time)
+                completion?(completed)
         }
     }
     

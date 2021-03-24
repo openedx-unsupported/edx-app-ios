@@ -19,6 +19,7 @@ public enum CourseHTMLBlockSubkind {
     case Base
     case Problem
     case OpenAssesment
+    case DragAndDrop
 }
 
 enum CourseBlockDisplayType {
@@ -44,6 +45,7 @@ extension CourseBlock {
         case .Unknown(_), .HTML: return multiDevice ? .HTML(.Base) : .Unknown
         case .Problem: return multiDevice ? .HTML(.Problem) : .Unknown
         case .OpenAssesment: return multiDevice ? .HTML(.OpenAssesment) : .Unknown
+        case .DragAndDrop: return multiDevice ? .HTML(.DragAndDrop) : .Unknown
         case .Course: return .Outline
         case .Chapter: return .Outline
         case .Section: return .Outline
@@ -116,8 +118,16 @@ extension OEXRouter {
         }
     }
     
-    private func controllerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, courseID: String, forMode mode: CourseOutlineMode? = .full, gated: Bool? = false) -> UIViewController {
-        
+    func showCelebratoryModal(fromController controller: UIViewController, courseID: String) -> CelebratoryModalViewController {
+        let celebratoryModalView = CelebratoryModalViewController(courseID: courseID, environment: environment)
+        celebratoryModalView.modalPresentationStyle = .overCurrentContext
+        celebratoryModalView.modalTransitionStyle = .crossDissolve
+        controller.present(celebratoryModalView, animated: false, completion: nil)
+        return celebratoryModalView
+    }
+
+    private func controllerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, courseID: String, forMode mode: CourseOutlineMode? = .full, gated: Bool? = false, shouldCelebrationAppear: Bool = false) -> UIViewController {
+
         if gated ?? false {
             return CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
         }
@@ -132,7 +142,7 @@ extension OEXRouter {
             let controller = HTMLBlockViewController(blockID: blockID, courseID: courseID, environment: environment, subkind: subkind)
             return controller
         case .Video:
-            let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
+            let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID, shouldCelebrationAppear: shouldCelebrationAppear)
             return controller
         case .Unknown:
             let controller = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
@@ -143,8 +153,8 @@ extension OEXRouter {
         }
     }
     
-    func controllerForBlock(block : CourseBlock, courseID : String) -> UIViewController {
-        return controllerForBlockWithID(blockID: block.blockID, type: block.displayType, courseID: courseID, gated: block.isGated)
+    func controllerForBlock(block : CourseBlock, courseID : String, shouldCelebrationAppear: Bool = false) -> UIViewController {
+        return controllerForBlockWithID(blockID: block.blockID, type: block.displayType, courseID: courseID, gated: block.isGated, shouldCelebrationAppear: shouldCelebrationAppear)
     }
     
     @objc(showMyCoursesAnimated:pushingCourseWithID:) func showMyCourses(animated: Bool = true, pushingCourseWithID courseID: String? = nil) {

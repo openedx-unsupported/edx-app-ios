@@ -57,6 +57,7 @@ public class CourseOutlineQuerier : NSObject {
     private let networkManager : NetworkManager?
     private let session : OEXSession?
     private let courseOutline : BackedStream<CourseOutline> = BackedStream()
+    let courseCelebrationModalStream = BackedStream<(CourseCelebrationModel)>()
     public var needsRefresh : Bool = false
     
     private var observers: [BlockCompletionObserver] = []
@@ -273,6 +274,26 @@ public class CourseOutlineQuerier : NSObject {
                     courseOutline.backWithStream(loader)
                 }
             }
+            
+            loadCelebrationStream()
+        }
+    }
+    
+    private func loadCelebrationStream() {
+        let courseCelebrationModalRequest = CelebratoryAPI.celebrationModalViewedStatus(courseID: courseID)
+        if let celebrationModalStream = networkManager?.streamForRequest(courseCelebrationModalRequest) {
+            courseCelebrationModalStream.backWithStream(celebrationModalStream)
+        }
+    }
+    
+    func updateCelebrationModalStatus(firstSection: Bool) {
+        guard let username =  session?.currentUser?.username else {
+            return
+        }
+        
+        let networkRequest = CelebratoryAPI.celebratoryModalViewed(username: username, courseID: courseID, isFirstSectionViewed: false)
+        networkManager?.taskForRequest(networkRequest) {[weak self] _ in
+            self?.loadCelebrationStream()
         }
     }
     

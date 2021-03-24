@@ -114,6 +114,10 @@ class YoutubeVideoPlayer: VideoPlayer {
         }
         perform(#selector(videoTimedOut), with: nil, afterDelay: playerTimeOutInterval)
     }
+    
+    override func pause() {
+        playerView.stopVideo()
+    }
 
     override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         isFullScreen = fullscreen
@@ -127,8 +131,9 @@ class YoutubeVideoPlayer: VideoPlayer {
         }
     }
 
-    override func seek(to time: Double) {
+    override func seek(to time: Double, completion: ((Bool)->())? = nil) {
         playerView.seek(toSeconds: Float(time), allowSeekAhead: true)
+        completion?(true)
     }
     
     private func showErrorMessage(message : String) {
