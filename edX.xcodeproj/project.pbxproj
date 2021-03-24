@@ -182,6 +182,7 @@
 		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
+		5F371470260B3BC9004937DA /* Observeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F37146F260B3BC9004937DA /* Observeable.swift */; };
 		5F46A7CC24ADFFA300347EFC /* CourseDateViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */; };
 		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
 		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
@@ -1216,6 +1217,7 @@
 		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
+		5F37146F260B3BC9004937DA /* Observeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observeable.swift; sourceTree = "<group>"; };
 		5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDateViewCell.swift; sourceTree = "<group>"; };
 		5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePoint.swift; sourceTree = "<group>"; };
 		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
@@ -2254,6 +2256,7 @@
 				191A001F1940560D004F7902 /* OEXDataParser.m */,
 				191A002219405B91004F7902 /* OEXUserDetails.h */,
 				191A002319405B91004F7902 /* OEXUserDetails.m */,
+				5F37146F260B3BC9004937DA /* Observeable.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -5305,6 +5308,7 @@
 				7712732E1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift in Sources */,
 				776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */,
 				9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */,
+				5F371470260B3BC9004937DA /* Observeable.swift in Sources */,
 				699FF8541E5AE74300AD98A5 /* EmailTemplates.swift in Sources */,
 				0D157633235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,

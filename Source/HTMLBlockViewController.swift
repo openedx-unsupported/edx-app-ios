@@ -51,10 +51,6 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.hideCourseBannerView()

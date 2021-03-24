@@ -278,8 +278,8 @@ extension CourseDashboardViewController: UITabBarControllerDelegate {
             addNavigationItems(withCourse: course)
         }
         
-        if let controller = viewController as? CourseOutlineViewController {
-            controller.reloadTableView()
+        if let outlineController = viewController as? CourseOutlineViewController {
+            outlineController.reloadData()
         }
     }
 }

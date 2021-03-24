@@ -24,7 +24,6 @@ private let DownloadCountOffsetTrailing = -2
 private let SubtitleLeadingOffset = 20
 
 private let SmallIconSize: CGFloat = 15
-private let IconFontSize: CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
     static let detailFontStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBlack())
@@ -56,7 +55,7 @@ public class CourseOutlineItemView: UIView {
     private let checkmarkIconColor = OEXStyles.shared().successBase()
         
     private var attributedTrailingImage: NSAttributedString {
-        let image = trailingIcon?.imageWithFontSize(size: IconFontSize).image(with: labelTrailingImageColor)
+        let image = trailingIcon?.imageWithFontSize(size: SmallIconSize).image(with: labelTrailingImageColor)
         
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = image
@@ -89,7 +88,7 @@ public class CourseOutlineItemView: UIView {
     }
     
     func image(for icon: Icon?) -> UIImage? {
-        return icon?.imageWithFontSize(size: IconFontSize)
+        return icon?.imageWithFontSize(size: SmallIconSize)
     }
     
     init() {
@@ -129,7 +128,7 @@ public class CourseOutlineItemView: UIView {
         if !elipsis {
             titleLabel.attributedText = fontStyle.attributedString(withText: title)
         } else {
-            var formattedText = getFormattedText(with: title)
+            var formattedText = trunctedText(with: title)
             if title != formattedText {
                 formattedText = formattedText + "..."
             }
@@ -160,19 +159,6 @@ public class CourseOutlineItemView: UIView {
         return boldFontStyle.attributedString(withText: text)
     }
     
-    func setVideoDuration(duration: String, blockType: CourseBlockType?) {
-        var attributedStrings = [NSAttributedString]()
-        let attributedString = getAttributedString(withBlockType: blockType, withText: duration)
-        
-        attributedStrings.append(attributedString)
-        
-        subtitleLabel.tintColor = boldFontStyle.color
-        subtitleLabel.adjustsFontSizeToFitWidth = true
-        subtitleLabel.minimumScaleFactor = 0.6
-        subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
-        setConstraints(with: blockType)
-    }
-    
     func setDetailText(title : String, dueDate: String? = "", blockType: CourseBlockType?, videoSize: String? = "", underline: Bool = false) {
         
         var attributedStrings = [NSAttributedString]()
@@ -198,7 +184,7 @@ public class CourseOutlineItemView: UIView {
     
     func setContentIcon(icon: Icon?, color: UIColor) {
         shouldShowLeadingView = true
-        let image = icon?.imageWithFontSize(size: IconFontSize).image(with: color)
+        let image = icon?.imageWithFontSize(size: SmallIconSize).image(with: color)
         leadingImageButton.setImage(image, for: .normal)
         if let accessibilityText = icon?.accessibilityText {
             leadingImageButton.accessibilityLabel = accessibilityText
@@ -314,11 +300,11 @@ public class CourseOutlineItemView: UIView {
         refreshTrailingViewConstraints()
     }
     
-    func refreshTrailingViewConstraints() {
+    private func refreshTrailingViewConstraints() {
         trailingContainer.snp.remakeConstraints { make in
             make.trailing.equalTo(self.snp.trailing).inset(isSectionOutline ? 10 : CellOffsetTrailing)
             make.centerY.equalTo(self)
-            make.width.equalTo(IconFontSize * 2)
+            make.width.equalTo(SmallIconSize * 2)
         }
     }
     
@@ -346,12 +332,12 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.isAccessibilityElement = false
     }
     
-    private func getFormattedText(with text: String) -> String {
+    private func trunctedText(with text: String) -> String {
         let width = text.widthOfString(using: titleLabel.font)
-        let offset: CGFloat = CGFloat(StandardHorizontalMargin * 6.6) + (IconSize.width + IconFontSize)
+        let offset = CGFloat(StandardHorizontalMargin * 6.6) + (IconSize.width + SmallIconSize)
         if width > UIScreen.main.bounds.width - offset {
             let formattedText = text.components(separatedBy: " ").dropLast().joined(separator: " ")
-            return getFormattedText(with: formattedText)
+            return trunctedText(with: formattedText)
         }
         return text
     }

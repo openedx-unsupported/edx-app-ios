@@ -98,7 +98,7 @@ fileprivate let AJAXCallBackHandler = "ajaxCallbackHandler"
 // Forwarding our oauth token to the server so we can get a web based cookie
 public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     
-    fileprivate enum XBlockCompletionCallbackType: String {
+    fileprivate enum xBlockCompletionCallbackType: String {
         case html = "publish_completion"
         case problem = "problem_check"
         case dragAndDrop = "do_attempt"
@@ -376,7 +376,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         let callback = AJAXCallbackData(data: data)
         let requestURL = callback.url
         
-        if callback.status != 200 {
+        if callback.statusCode != OEXHTTPStatusCode.code200OK.rawValue {
             return false
         }
         
@@ -389,7 +389,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         }
     }
     
-    private func isBlockOf(type: XBlockCompletionCallbackType, with requestURL: String) -> Bool {
+    private func isBlockOf(type: xBlockCompletionCallbackType, with requestURL: String) -> Bool {
         return requestURL.contains(type.rawValue)
     }
     
@@ -450,20 +450,20 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     }
 }
 
-struct AJAXCallbackData {
+private struct AJAXCallbackData {
     private enum Keys: String {
         case url = "url"
-        case status = "status"
+        case statusCode = "status"
         case responseText = "response_text"
     }
     
     let url: String
-    let status: Int
+    let statusCode: Int
     let responseText: String
 
     init(data: Dictionary<AnyHashable, Any>) {
         url = data[Keys.url.rawValue] as? String ?? ""
-        status = data[Keys.status.rawValue] as? Int ?? 0
+        statusCode = data[Keys.statusCode.rawValue] as? Int ?? 0
         responseText = data[Keys.responseText.rawValue] as? String ?? ""
     }
 }

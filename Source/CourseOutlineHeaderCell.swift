@@ -51,7 +51,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
         backgroundView = UIView(frame: .zero)
         
         if let block = block {
-            block.completion ? showGreenBackground() : showNeutralBackground()
+            block.completion ? showCompletedBackground() : showNeutralBackground()
         } else {
             backgroundView?.backgroundColor = OEXStyles.shared().neutralWhite()
         }
@@ -59,7 +59,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
         horizontalTopLine.backgroundColor = OEXStyles.shared().neutralBase()
     }
     
-    func showGreenBackground() {
+    func showCompletedBackground() {
         backgroundView?.backgroundColor = OEXStyles.shared().successXXLight()
     }
     

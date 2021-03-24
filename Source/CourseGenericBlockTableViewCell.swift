@@ -33,40 +33,46 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
             
             if block.completion {
                 if case CourseBlockDisplayType.Unknown = block.displayType  {
-                    content.backgroundColor = OEXStyles.shared().neutralWhite()
-                    content.setContentIcon(icon: nil, color: .clear)
-                    content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+                    showNeutralBackground()
                 } else {
-                    content.backgroundColor = OEXStyles.shared().successXXLight()
-                    content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
-                    content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+                    showCompletedBackground()
                 }
             } else if block.isGated {
-                content.backgroundColor = OEXStyles.shared().neutralWhite()
-                content.setContentIcon(icon: nil, color: OEXStyles.shared().neutralWhite())
-                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
-            } else {
-                content.backgroundColor = OEXStyles.shared().neutralWhite()
-                content.setContentIcon(icon: nil, color: .clear)
-                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
-            }
-                        
-            if block.isGated {
-                if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
-                    content.trailingView = valuePropAccessoryView
-                    content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block.type, underline: true)
-                    content.shouldShowCheckmark = false
-                } else {
-                    content.setDetailText(title: Strings.courseContentGated, blockType: block.type)
-                }
+                showNeutralBackground()
+                addValueProp(on: block)
                 content.leadingIconColor = OEXStyles.shared().neutralDark()
+            } else {
+                showNeutralBackground()
             }
+            
             content.setTitleText(title: block.displayName)
         }
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func showNeutralBackground() {
+        content.backgroundColor = OEXStyles.shared().neutralWhite()
+        content.setContentIcon(icon: nil, color: .clear)
+        content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+    }
+    
+    private func showCompletedBackground() {
+        content.backgroundColor = OEXStyles.shared().successXXLight()
+        content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+        content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+    }
+    
+    private func addValueProp(on block: CourseBlock) {
+        if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
+            content.trailingView = valuePropAccessoryView
+            content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block.type, underline: true)
+            content.shouldShowCheckmark = false
+        } else {
+            content.setDetailText(title: Strings.courseContentGated, blockType: block.type)
+        }
     }
 }
 

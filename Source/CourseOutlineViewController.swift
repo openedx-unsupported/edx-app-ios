@@ -77,7 +77,7 @@ public class CourseOutlineViewController :
         tableController.delegate = self
     }
     
-    public func reloadTableView() {
+    public func reloadData() {
         tableController.tableView.reloadData()
     }
     

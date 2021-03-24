@@ -20,7 +20,7 @@ struct BlockCompletionObserver: Equatable {
 }
 
 protocol BlockCompletionDelegate {
-    func didChangeCompletion(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode)
+    func didCompletionChanged(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode)
 }
 
 private enum TraversalDirection {
@@ -144,7 +144,7 @@ public class CourseOutlineQuerier : NSObject {
                             }
                             
                             let blockGroup = BlockGroup(block: parent, children: children)
-                            observer.delegate.didChangeCompletion(in: blockGroup, mode: observer.mode)
+                            observer.delegate.didCompletionChanged(in: blockGroup, mode: observer.mode)
                         }
                     }
                 }
@@ -225,7 +225,7 @@ public class CourseOutlineQuerier : NSObject {
             observers.forEach { observer in
                 if observer.blockID == parent.blockID {
                     let blockGroup = BlockGroup(block: parent, children: childVideoBlocks)
-                    observer.delegate.didChangeCompletion(in: blockGroup, mode: observer.mode)
+                    observer.delegate.didCompletionChanged(in: blockGroup, mode: observer.mode)
                 }
             }
         }
@@ -545,7 +545,6 @@ public class CourseOutlineQuerier : NSObject {
             let videos = self?.interface?.statesForVideos(withIDs: videoIDs, courseID: self?.courseID ?? "")
             return videos?.filter { video in (video.summary?.isDownloadableVideo ?? false)} ?? []
         })
-        // TODO Fix me
         return blockVideos
     }
     

@@ -71,9 +71,7 @@ class DiscussionBlockViewController: UIViewController, CourseBlockViewController
         view.addSubview(postsController.view)
     }
     
-    private func markBlockAsComplete() {
-        block?.completion = true
-        
+    private func markBlockAsComplete() {        
         guard let blockID = blockID,
               let username = OEXSession.shared()?.currentUser?.username else { return }
         let networkRequest = BlockCompletionApi.blockCompletionRequest(username: username, courseID: courseID, blockID: blockID)

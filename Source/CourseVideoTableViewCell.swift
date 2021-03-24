@@ -58,13 +58,6 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
                 content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
             }
             
-            
-//            if courseOutlineMode == .video {
-//                content.hideLeadingView()
-//            } else {
-//                
-//            }
-            
             if let video = block.type.asVideo {
                 downloadView.isHidden = !video.isDownloadableVideo
             }
@@ -134,7 +127,6 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             }
         }
         downloadView.addGestureRecognizer(tapGesture)
-        //content.isSectionOutline = isSectionOutline
         content.trailingView = downloadView
         downloadView.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
         setAccessibilityIdentifiers()

@@ -245,7 +245,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideBlock.contains)
         }
         
-        allCompleted ? header.showGreenBackground() : header.showNeutralBackground()
+        allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
         
         
         return header
@@ -503,7 +503,7 @@ extension CourseOutlineTableController: CourseDateBannerViewDelegate {
 }
 
 extension CourseOutlineTableController: BlockCompletionDelegate {
-    func didChangeCompletion(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode) {
+    func didCompletionChanged(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode) {
         
         if mode != courseOutlineMode { return }
         
