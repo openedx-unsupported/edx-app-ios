@@ -239,9 +239,11 @@ public class CourseBlock {
     /// Authorization Denial Message if the block content is gated
     public let authorizationDenialMessage: String?
     
-    /// Status of block completion
+    /// isCompleted works as a property observer,
+    /// when value of `completion` is changed, subscription method on `isCompleted` is called.
     public private(set) var isCompleted: Observable<Bool> = Observable(false)
     
+    /// Status of block completion
     public var completion: Bool {
         didSet {
             isCompleted.value = completion
