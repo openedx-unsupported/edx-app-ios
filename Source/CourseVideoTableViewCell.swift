@@ -74,27 +74,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             }
             
             if hasVideoDuration {
-                let (hours, mins) = DateFormatting.formatVideoDuration(totalSeconds: duration)
-                
-                var detailText = ""
-                
-                if hours == 0 {
-                    if mins == 1 {
-                        detailText = "\(mins) min"
-                    } else {
-                        detailText = "\(mins) mins"
-                    }
-                } else {
-                    if mins == 0 {
-                        if hours == 1 {
-                            detailText = "\(hours) hour"
-                        } else {
-                            detailText = "\(hours) hours"
-                        }
-                    } else if hours > 1 && mins > 1 {
-                        detailText = "\(hours) hours, \(mins) mins"
-                    }
-                }
+                let detailText = formattedDetailText(with: duration)
                 content.setDetailText(title: detailText, blockType: block?.type)
             }
         }
@@ -180,6 +160,24 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             OEXInterface.shared().deleteDownloadedVideo(video, shouldNotify: true) { _ in }
             OEXAnalytics.shared().trackUnitDeleteVideo(courseID: courseID ?? "", unitID: block?.blockID ?? "")
         }
+    }
+    
+    private func formattedDetailText(with duration: Double) -> String {
+        let (hours, mins) = DateFormatting.formatVideoDuration(totalSeconds: duration)
+        
+        var detailText = ""
+        
+        if hours == 0 {
+            detailText = Strings.courseAuditRemainingMinutes(minutes: mins)
+        } else {
+            if mins == 0 {
+                detailText = Strings.courseAuditRemainingHours(hours: hours)
+            } else if hours > 1 && mins > 1 {
+                detailText = "\(Strings.courseAuditRemainingHours(hours: hours)), \(Strings.courseAuditRemainingMinutes(minutes: mins))"
+            }
+        }
+        
+        return detailText
     }
 }
 
