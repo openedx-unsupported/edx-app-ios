@@ -237,15 +237,17 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CourseOutlineHeaderCell.identifier) as! CourseOutlineHeaderCell
         header.block = group.block
         
-        var allCompleted: Bool
-        
-        if group.block.type == .Unit {
-            allCompleted = group.children.allSatisfy { $0.completion }
-        } else {
-            allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
+        if courseOutlineMode == .video {
+            var allCompleted: Bool
+            
+            if group.block.type == .Unit {
+                allCompleted = group.children.allSatisfy { $0.completion }
+            } else {
+                allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
+            }
+            
+            allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
         }
-        
-        allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
         
         
         return header
