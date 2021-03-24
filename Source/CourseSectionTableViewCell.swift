@@ -61,7 +61,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         downloadView.addGestureRecognizer(tapGesture)
         setAccessibilityIdentifiers()
     }
-
+    
     private func setAccessibilityIdentifiers() {
         accessibilityIdentifier = "CourseSectionTableViewCell:view"
         content.accessibilityIdentifier = "CourseSectionTableViewCell:content-view"
@@ -161,52 +161,46 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
                 if let sectionChild = courseQuerier?.childrenOfBlockWithID(blockID: block.blockID, forMode: .video).value,
                    sectionChild.block.type == .Section,
                    let unitChild = courseQuerier?.childrenOfBlockWithID(blockID: sectionChild.block.blockID, forMode: .video).value {
-                    let videoBlocks = unitChild.children
                     
-                    if videoBlocks.allSatisfy ({ $0.completion }) {
-                        
+                    if unitChild.children.allSatisfy ({ $0.completion }) {
                         completionAction?()
-                        
-                        content.backgroundColor = OEXStyles.shared().successXXLight()
-                        content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
-                        content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+                        showCompletionBackground()
                     } else {
-                        content.backgroundColor = OEXStyles.shared().neutralWhite()
-                        content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
-                        content.setContentIcon(icon: nil, color: .clear)
+                        showCompletionBackground(showIcon: false)
                     }
                 } else {
-                    handleBlockNormlly(block)
+                    handleBlockNormally(block)
                 }
             } else {
-                handleBlockNormlly(block)
+                handleBlockNormally(block)
             }
             
             setupDownloadView()
         }
     }
     
-    private func handleBlockNormlly(_ block: CourseBlock) {
+    private func handleBlockNormally(_ block: CourseBlock) {
         if block.completion && !block.isGated {
             if courseOutlineMode == .full {
-                content.backgroundColor = OEXStyles.shared().successXXLight()
-                content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
-                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+                showCompletionBackground()
             } else if courseOutlineMode == .video {
-                content.backgroundColor = OEXStyles.shared().successXXLight()
-                content.setContentIcon(icon: nil, color: OEXStyles.shared().successBase())
-                content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+                showCompletionBackground(showIcon: false)
             }
-        } else if block.isGated {
-            content.backgroundColor = OEXStyles.shared().neutralWhite()
-            content.setContentIcon(icon: nil, color: .clear)
-            content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
-            
         } else {
-            content.backgroundColor = OEXStyles.shared().neutralWhite()
-            content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
-            content.setContentIcon(icon: nil, color: .clear)
+            showNeutralBackground()
         }
+    }
+    
+    private func showCompletionBackground(showIcon: Bool = true) {
+        content.backgroundColor = OEXStyles.shared().successXXLight()
+        content.setContentIcon(icon: showIcon ? Icon.CheckCircle : nil, color: OEXStyles.shared().successBase())
+        content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+    }
+    
+    private func showNeutralBackground() {
+        content.backgroundColor = OEXStyles.shared().neutralWhite()
+        content.setContentIcon(icon: nil, color: .clear)
+        content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
     }
     
     required init?(coder aDecoder: NSCoder) {

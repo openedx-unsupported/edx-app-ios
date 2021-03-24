@@ -78,7 +78,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     var highlightedBlockID : CourseBlockID? = nil
     private var videos: [OEXHelperVideoDownload]?
     
-    private var watchedVideBlock: [CourseBlockID] = []
+    private var watchedVideoBlock: [CourseBlockID] = []
     
     func addCertificateView() {
         guard environment.config.certificatesEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl =  enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
@@ -242,7 +242,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         if group.block.type == .Unit {
             allCompleted = group.children.allSatisfy { $0.completion }
         } else {
-            allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideBlock.contains)
+            allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
         }
         
         allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
@@ -287,8 +287,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
             cell.completionAction = { [weak self] in
                 guard let weakSelf = self else { return }
-                if !weakSelf.watchedVideBlock.contains(block.blockID) {
-                    weakSelf.watchedVideBlock.append(block.blockID)
+                if !weakSelf.watchedVideoBlock.contains(block.blockID) {
+                    weakSelf.watchedVideoBlock.append(block.blockID)
                     weakSelf.tableView.reloadSections([indexPath.section], with: .none)
                 }
             }
