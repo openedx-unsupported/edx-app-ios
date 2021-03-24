@@ -67,6 +67,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     var groups : [CourseOutlineQuerier.BlockGroup] = [] {
         didSet {
+            courseQuerier.remove(observer: self)
             groups.forEach { group in
                 let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
                 courseQuerier.add(observer: observer)
@@ -511,7 +512,9 @@ extension CourseOutlineTableController: BlockCompletionDelegate {
             
         }) else { return }
         if tableView.isValidSection(with: index) {
-            groups[index] = blockGroup
+            if mode == .full {
+                groups[index] = blockGroup
+            }
             tableView.reloadSections([index], with: .none)
         }
     }
