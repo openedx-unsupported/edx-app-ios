@@ -8,20 +8,20 @@
 
 import UIKit
 
-private let titleLabelCenterYOffset : CGFloat = -10
-private let subtitleLabelCenterYOffset : CGFloat = 10
-
 public class CourseOutlineHeaderView: UIView {
     private let styles : OEXStyles
     
     private let verticalMargin = 3
-    
+    private let buttonIconMargin: CGFloat = 21  // Lines it up with the download video icon. This is fragile and would be better to eventually use the same source of truth for positioning.
+    private let buttonIconSize: CGFloat = 16
+
     private let bottomDivider : UIView = UIView(frame: CGRect.zero)
     
     private let viewButton = UIButton(type: .system)
-    private let messageView = UILabel(frame: CGRect.zero)
+    private let messageView = UIView(frame: CGRect.zero)
+    private let titleLabel = UILabel(frame: CGRect.zero)
     private let subtitleLabel = UILabel(frame: CGRect.zero)
-    
+
     private var contrastColor : UIColor {
         return styles.neutralWhiteT()
     }
@@ -31,12 +31,7 @@ public class CourseOutlineHeaderView: UIView {
     }
     
     private var subtitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .small, color : contrastColor)
-    }
-    
-    private var viewButtonStyle : ButtonStyle {
-        let textStyle = OEXTextStyle(weight: .semiBold, size: .large, color : OEXStyles.shared().accentAColor())
-        return ButtonStyle(textStyle: textStyle, backgroundColor: nil, borderStyle: nil)
+        return OEXTextStyle(weight: .normal, size: .base, color : contrastColor)
     }
     
     private var hasSubtitle : Bool {
@@ -49,6 +44,7 @@ public class CourseOutlineHeaderView: UIView {
         }
         set {
             subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: newValue)
+            viewButton.accessibilityValue = newValue
         }
     }
     
@@ -56,19 +52,44 @@ public class CourseOutlineHeaderView: UIView {
         self.styles = styles
         super.init(frame : frame)
         
-        addSubview(viewButton)
+        backgroundColor = styles.primaryBaseColor()
+
+        addSubviews()
+        configureSubviews(title: titleText, subtitle: subtitleText, dividerColor: contrastColor)
+        
+        configureAccessibility(title: titleText, subtitle: subtitleText)
+    }
+    
+    private func addSubviews() {
+        messageView.addSubview(titleLabel)
+        messageView.addSubview(subtitleLabel)
+
         addSubview(messageView)
         addSubview(bottomDivider)
-        addSubview(subtitleLabel)
+        addSubview(viewButton) // Keep this on top to catch taps anywhere in this view
         
-        viewButton.applyButtonStyle(style: viewButtonStyle, withTitle : Strings.view)
-        
-        messageView.attributedText = labelStyle.attributedString(withText: titleText)
-        subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: subtitleText)
-        
-        backgroundColor = styles.primaryBaseColor()
-        bottomDivider.backgroundColor = contrastColor
-        
+        bringSubviewToFront(viewButton) // Ensure this is on top to catch taps anywhere in this view
+    }
+    
+    private func configureSubviews(title: String?, subtitle: String?, dividerColor: UIColor) {
+        titleLabel.attributedText = labelStyle.attributedString(withText: title)
+        subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: subtitle)
+        bottomDivider.backgroundColor = dividerColor
+
+        let buttonIcon = Icon.ChevronRight.imageWithFontSize(size: buttonIconSize)
+        configureViewButton(icon: buttonIcon)
+
+        setConstraints(buttonIconWidth: buttonIcon.size.width)
+    }
+    
+    private func configureViewButton(icon: UIImage) {
+        viewButton.setImage(icon, for: .normal)
+        viewButton.tintColor = styles.accentAColor()
+        viewButton.contentHorizontalAlignment = .trailing
+        viewButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: buttonIconMargin, bottom: 0, right: buttonIconMargin)
+    }
+    
+    private func setConstraints(buttonIconWidth: CGFloat) {
         bottomDivider.snp.makeConstraints { make in
             make.bottom.equalTo(self)
             make.height.equalTo(OEXStyles.dividerSize())
@@ -77,36 +98,45 @@ public class CourseOutlineHeaderView: UIView {
         }
         
         viewButton.snp.makeConstraints { make in
-            make.trailing.equalTo(self.snp.trailing).offset(-StandardHorizontalMargin)
-            make.centerY.equalTo(self)
-            make.top.equalTo(self).offset(5)
-            make.bottom.equalTo(self).offset(-5)
+            make.trailing.equalTo(self)
+            make.leading.equalTo(self)
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
         }
-
-        viewButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
         
         messageView.snp.makeConstraints { make in
-            let situationalCenterYOffset = hasSubtitle ? titleLabelCenterYOffset : 0
-            make.centerY.equalTo(self).offset(situationalCenterYOffset)
+            make.top.greaterThanOrEqualTo(self)
+            make.bottom.lessThanOrEqualTo(self)
+            make.centerY.equalTo(self)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.trailing.lessThanOrEqualTo(viewButton).offset(-buttonIconMargin - buttonIconWidth - 10).priority(.high) // 10pt away from the button icon once the icon is positioned correctly
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(messageView)
+            make.leading.equalTo(messageView)
+            make.trailing.equalTo(messageView)
         }
         
         subtitleLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(self).offset(subtitleLabelCenterYOffset)
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.bottom.equalTo(messageView)
             make.leading.equalTo(messageView)
-            make.trailing.lessThanOrEqualTo(viewButton.snp.leading).offset(-10)
+            make.trailing.equalTo(messageView)
         }
-        subtitleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
-
-        setAccessibilityIdentifiers()
     }
 
-    private func setAccessibilityIdentifiers() {
+    private func configureAccessibility(title: String?, subtitle: String?) {
+        bottomDivider.isAccessibilityElement = false
+        messageView.isAccessibilityElement = false
+        titleLabel.isAccessibilityElement = false
+        subtitleLabel.isAccessibilityElement = false
+
         accessibilityIdentifier = "CourseOutlineHeaderView:view"
-        bottomDivider.accessibilityIdentifier = "CourseOutlineHeaderView:bottom-divider"
         viewButton.accessibilityIdentifier = "CourseOutlineHeaderView:view-button"
-        messageView.accessibilityIdentifier = "CourseOutlineHeaderView:message-label"
-        subtitleLabel.accessibilityIdentifier = "CourseOutlineHeaderView:subtitle-label"
+        viewButton.accessibilityLabel = title
+        viewButton.accessibilityValue = subtitle
+        viewButton.accessibilityHint = Strings.Accessibility.resumeHint
     }
     
     public func setViewButtonAction(action: @escaping (AnyObject) -> Void) {

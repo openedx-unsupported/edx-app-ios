@@ -86,6 +86,8 @@
 "ACCESSIBILITY.OPTIONAL_INPUT"="Optional";
 /* Required text needs to be added for accesibility*/
 "ACCESSIBILITY_REQUIRED_INPUT"="Erforderlich";
+/* Accessibility hint for course Resume button */
+"ACCESSIBILITY.RESUME_HINT"="Double tap to resume course";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Zurückspulen";
 /* Call to action for Rewind Button in the Video Player */
@@ -586,10 +588,8 @@
 "LARGE_DOWNLOAD_MESSAGE"="Die von Ihnen ausgewählten Videos sind größer als 1 GB. Möchten Sie diese dennoch herunterladen?";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="Grosser Download";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "Zuletzt genutzt";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "Kurs fortsetzen";
+"RESUME" = "Resume";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Registrieren und sofort lernen.";
 /* Prompt leading user to sign in screen */

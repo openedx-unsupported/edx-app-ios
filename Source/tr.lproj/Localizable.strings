@@ -86,6 +86,8 @@
 "ACCESSIBILITY.OPTIONAL_INPUT"="Seçmeli";
 /* Required text needs to be added for accesibility*/
 "ACCESSIBILITY_REQUIRED_INPUT"="Zorunlu";
+/* Accessibility hint for course Resume button */
+"ACCESSIBILITY.RESUME_HINT"="Double tap to resume course";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Geri sar";
 /* Call to action for Rewind Button in the Video Player */
@@ -586,10 +588,8 @@
 "LARGE_DOWNLOAD_MESSAGE"="Seçtiğiniz videolar 1 GB'tan büyük. Bu videoları indirmek istiyor musunuz?";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="Büyük İndirme";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "Son Erişim";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "Kursu Devam Ettir";
+"RESUME" = "Resume";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Üye ol ve öğrenmeye başla";
 /* Prompt leading user to sign in screen */
