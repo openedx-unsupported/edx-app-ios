@@ -249,7 +249,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
         }
         
-        
         return header
     }
     
@@ -263,9 +262,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseVideoTableViewCell.identifier, for: indexPath as IndexPath) as! CourseVideoTableViewCell
             cell.isSectionOutline = isSectionOutline
             cell.courseOutlineMode = courseOutlineMode
+            cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)
             cell.block = block
             cell.courseID = courseID
-            cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)
             cell.delegate = self
             cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             return cell

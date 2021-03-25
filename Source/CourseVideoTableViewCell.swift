@@ -40,18 +40,16 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         didSet {
             guard let block = block else { return }
             
-            if block.isGated {
-                content.leadingIconColor = OEXStyles.shared().neutralXLight()
-            } else {
-                content.leadingIconColor = OEXStyles.shared().neutralXDark()
-            }
-            
             content.setTitleText(title: block.displayName)
             
-            if block.completion {
+            if block.completion && !block.isGated {
                 content.backgroundColor = OEXStyles.shared().successXXLight()
                 content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
                 content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+            } else if block.isGated {
+                content.leadingIconColor = OEXStyles.shared().neutralXLight()
+                content.setContentIcon(icon: nil, color: .clear)
+                content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
             } else {
                 content.backgroundColor = OEXStyles.shared().neutralWhite()
                 content.setContentIcon(icon: nil, color: .clear)
@@ -147,6 +145,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             content.hideTrailingView()
             return
         }
+        
         content.trailingView = downloadView
         downloadView.state = downloadState
     }

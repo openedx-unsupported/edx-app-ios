@@ -71,7 +71,7 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     func remove(observer: UIViewController) {
-        let filtered = observers.filter { $0.controller != observer }
+        let filtered = observers.filter { $0.controller !== observer }
         observers.removeAll()
         observers.append(contentsOf: filtered)
     }

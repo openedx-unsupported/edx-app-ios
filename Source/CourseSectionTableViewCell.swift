@@ -166,7 +166,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
                         completionAction?()
                         showCompletionBackground()
                     } else {
-                        showCompletionBackground(showIcon: false)
+                        handleBlockNormally(block)
                     }
                 } else {
                     handleBlockNormally(block)
