@@ -325,7 +325,7 @@ public class CourseOutlineItemView: UIView {
     
     private func trunctedText(with text: String) -> String {
         let width = text.widthOfString(using: titleLabel.font)
-        let offset = CGFloat(StandardHorizontalMargin * 6.6) + (IconSize.width + SmallIconSize)
+        let offset = CGFloat(StandardHorizontalMargin * 7) + (IconSize.width * 2)
         if width > UIScreen.main.bounds.width - offset {
             let formattedText = text.components(separatedBy: " ").dropLast().joined(separator: " ")
             return trunctedText(with: formattedText)
