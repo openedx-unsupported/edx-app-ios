@@ -182,6 +182,9 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
             environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: AnalyticsEventDataKey.PlayMediumYoutube.rawValue)
             NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoTimedOut), object: nil)
             break
+        case .ended:
+             playerDelegate?.playerDidFinishPlaying(videoPlayer: self)
+            break
         default:
             break
         }

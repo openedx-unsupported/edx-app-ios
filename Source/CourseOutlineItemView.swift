@@ -32,7 +32,6 @@ public class CourseOutlineItemView: UIView {
     private let boldFontStyle = OEXTextStyle(weight: .bold, size: .small, color : OEXStyles.shared().neutralBlack())
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
-    private let videoSizeLabel = UILabel()
     private let leadingImageButton = UIButton(type: UIButton.ButtonType.system)
     private let checkmark = UIImageView()
     private let trailingContainer = UIView()
@@ -117,7 +116,6 @@ public class CourseOutlineItemView: UIView {
         accessibilityIdentifier = "CourseOutlineItemView:view"
         titleLabel.accessibilityIdentifier = "CourseOutlineItemView:title-label"
         subtitleLabel.accessibilityIdentifier = "CourseOutlineItemView:subtitle-label"
-        videoSizeLabel.accessibilityIdentifier = "CourseOutlineItemView:video-size-label"
         leadingImageButton.accessibilityIdentifier = "CourseOutlineItemView:leading-image-button"
         checkmark.accessibilityIdentifier = "CourseOutlineItemView:check-image-view"
         trailingContainer.accessibilityIdentifier = "CourseOutlineItemView:trailing-container-view"
@@ -178,7 +176,6 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.minimumScaleFactor = 0.6
         subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
-        videoSizeLabel.attributedText = CourseOutlineItemView.detailFontStyle.attributedString(withText: videoSize)
         setConstraints(with: blockType)
     }
     
@@ -269,7 +266,6 @@ public class CourseOutlineItemView: UIView {
         addSubview(trailingContainer)
         addSubview(titleLabel)
         addSubview(subtitleLabel)
-        addSubview(videoSizeLabel)
         addSubview(checkmark)
         addSubview(separator)
         
@@ -290,11 +286,6 @@ public class CourseOutlineItemView: UIView {
             } else {
                 make.leading.equalTo(checkmark.snp.leading).offset(0)
             }
-        }
-        
-        videoSizeLabel.snp.remakeConstraints { make in
-            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
-            make.leading.equalTo(subtitleLabel.snp.trailing).offset(StandardHorizontalMargin)
         }
         
         refreshTrailingViewConstraints()

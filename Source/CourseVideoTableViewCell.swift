@@ -72,8 +72,8 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             }
             
             if hasVideoDuration {
-                let detailText = formattedDetailText(with: duration)
-                content.setDetailText(title: detailText, blockType: block?.type)
+                content.shouldShowCheckmark = false
+                content.setDetailText(title: formattedDetailText(with: duration), blockType: block?.type)
             }
         }
     }
@@ -146,7 +146,6 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             return
         }
         
-        content.trailingView = downloadView
         downloadView.state = downloadState
     }
     
