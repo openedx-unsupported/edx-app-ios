@@ -157,20 +157,13 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
             content.isGraded = block.graded
             content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
             
-            if courseOutlineMode == .video {
-                if let sectionChild = courseQuerier?.childrenOfBlockWithID(blockID: block.blockID, forMode: .video).value,
-                   sectionChild.block.type == .Section,
-                   let unitChild = courseQuerier?.childrenOfBlockWithID(blockID: sectionChild.block.blockID, forMode: .video).value {
-                    
-                    if unitChild.children.allSatisfy ({ $0.completion }) {
-                        completionAction?()
-                        showCompletionBackground()
-                    } else {
-                        handleBlockNormally(block)
-                    }
-                } else {
-                    handleBlockNormally(block)
-                }
+            if courseOutlineMode == .video,
+               let sectionChild = courseQuerier?.childrenOfBlockWithID(blockID: block.blockID, forMode: .video).value,
+               sectionChild.block.type == .Section,
+               let unitChild = courseQuerier?.childrenOfBlockWithID(blockID: sectionChild.block.blockID, forMode: .video).value,
+               unitChild.children.allSatisfy ({ $0.completion }) {
+                completionAction?()
+                showCompletionBackground()
             } else {
                 handleBlockNormally(block)
             }
