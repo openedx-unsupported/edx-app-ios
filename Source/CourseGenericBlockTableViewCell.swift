@@ -39,7 +39,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
                 }
             } else if block.isGated {
                 showNeutralBackground()
-                addValueProp(on: block)
+                showValueProp(on: block)
                 content.leadingIconColor = OEXStyles.shared().neutralDark()
             } else {
                 showNeutralBackground()
@@ -65,7 +65,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         content.setSeperatorColor(color: OEXStyles.shared().successXLight())
     }
     
-    private func addValueProp(on block: CourseBlock) {
+    private func showValueProp(on block: CourseBlock) {
         if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
             content.trailingView = valuePropAccessoryView
             content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block.type, underline: true)
