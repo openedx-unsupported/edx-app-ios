@@ -19,6 +19,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     var block: CourseBlock? {
         didSet {
             headerLabel.attributedText = headerFontStyle.attributedString(withText: block?.displayName)
+            headerLabel.accessibilityLabel = block?.displayName
             setStyles()
         }
     }
@@ -60,11 +61,17 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     }
     
     func showCompletedBackground() {
+        updateAccessibilityLabel(completion: true)
         backgroundView?.backgroundColor = OEXStyles.shared().successXXLight()
     }
     
     func showNeutralBackground() {
+        updateAccessibilityLabel(completion: false)
         backgroundView?.backgroundColor = OEXStyles.shared().neutralWhite()
+    }
+
+    private func updateAccessibilityLabel(completion: Bool) {
+        headerLabel.accessibilityLabel = completion ? "\(headerLabel.accessibilityLabel ?? ""), \(Strings.Accessibility.completed)" : headerLabel.accessibilityLabel
     }
 
     // Skip autolayout for performance reasons

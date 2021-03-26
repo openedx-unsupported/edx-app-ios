@@ -188,12 +188,14 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         content.backgroundColor = OEXStyles.shared().successXXLight()
         content.setContentIcon(icon: showIcon ? Icon.CheckCircle : nil, color: OEXStyles.shared().successBase())
         content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+        content.setCompletionAccessibility(completion: true)
     }
     
     private func showNeutralBackground() {
         content.backgroundColor = OEXStyles.shared().neutralWhite()
         content.setContentIcon(icon: nil, color: .clear)
         content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+        content.setCompletionAccessibility()
     }
     
     required init?(coder aDecoder: NSCoder) {

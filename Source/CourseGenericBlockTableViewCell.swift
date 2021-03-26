@@ -30,12 +30,15 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     var block: CourseBlock? = nil {
         didSet {
             guard let block = block else { return }
-            
+
+            content.setTitleText(title: block.displayName)
+
             if block.completion {
                 if case CourseBlockDisplayType.Unknown = block.displayType  {
                     showNeutralBackground()
                 } else {
                     showCompletedBackground()
+                    content.setCompletionAccessibility(completion: true)
                 }
             } else if block.isGated {
                 showNeutralBackground()
@@ -44,8 +47,6 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
             } else {
                 showNeutralBackground()
             }
-            
-            content.setTitleText(title: block.displayName)
         }
     }
 
@@ -57,6 +58,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         content.backgroundColor = OEXStyles.shared().neutralWhite()
         content.setContentIcon(icon: nil, color: .clear)
         content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+        content.setCompletionAccessibility()
     }
     
     private func showCompletedBackground() {
