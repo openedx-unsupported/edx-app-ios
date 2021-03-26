@@ -94,6 +94,7 @@ public enum Icon {
     case ArrowUp
     case ArrowDown
     case Camera
+    case ChevronRight
     case Close
     case CircleO
     case CheckCircle
@@ -170,6 +171,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .EllipsisV)
         case .Camera:
             return FontAwesomeRenderer(icon: .Camera)
+        case .ChevronRight:
+            return FontAwesomeRenderer(icon: .ChevronRight)
         case .Close:
             return FontAwesomeRenderer(icon: .Close)
         case .Clone:

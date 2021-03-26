@@ -35,7 +35,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let courseCard = CourseCardView(frame: .zero)
     private var courseCertificateView: CourseCertificateView?
     private let headerContainer = UIView()
-    private lazy var resumeCourseView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText: Strings.resumeCourse, subtitleText: "Placeholder")
+    private lazy var resumeCourseView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText: Strings.resume, subtitleText: "Placeholder")
     
     var courseVideosHeaderView: CourseVideosHeaderView?
     private var isResumeCourse = false

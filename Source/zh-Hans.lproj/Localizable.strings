@@ -83,6 +83,8 @@
 "ACCESSIBILITY.OPTIONAL_INPUT"="选填";
 /* Required text needs to be added for accesibility*/
 "ACCESSIBILITY_REQUIRED_INPUT"="必填项";
+/* Accessibility hint for course Resume button */
+"ACCESSIBILITY.RESUME_HINT"="Double tap to resume course";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "后退";
 /* Call to action for Rewind Button in the Video Player */
@@ -584,10 +586,8 @@
 "LARGE_DOWNLOAD_MESSAGE"="所选中视频大于1GB。是否要下载这些视频 ？";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="大数据量下载";
-/* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "上次访问";
 /* Title for Course Item for resuming course */
-"RESUME_COURSE" = "简历课程";
+"RESUME" = "Resume";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="注册并开始学习";
 /* Prompt leading user to sign in screen */

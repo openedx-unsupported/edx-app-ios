@@ -24,6 +24,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
+        tableView.allowsSelection = false
         tableView.register(ValuePropMessageCell.self, forCellReuseIdentifier: ValuePropMessageCell.identifier)
         tableView.register(ValuePropDetailHeaderView.self, forHeaderFooterViewReuseIdentifier: ValuePropDetailHeaderView.identifier)
         tableView.accessibilityIdentifier = "ValuePropDetailView:tableView"
