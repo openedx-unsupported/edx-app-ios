@@ -161,7 +161,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
                let sectionChild = courseQuerier?.childrenOfBlockWithID(blockID: block.blockID, forMode: .video).value,
                sectionChild.block.type == .Section,
                let unitChild = courseQuerier?.childrenOfBlockWithID(blockID: sectionChild.block.blockID, forMode: .video).value,
-               unitChild.children.allSatisfy ({ $0.completion }) {
+               unitChild.children.allSatisfy ({ $0.isCompleted }) {
                 completionAction?()
                 showCompletionBackground()
             } else {
@@ -173,7 +173,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     }
     
     private func handleBlockNormally(_ block: CourseBlock) {
-        if block.completion && !block.isGated {
+        if block.isCompleted && !block.isGated {
             if courseOutlineMode == .full {
                 showCompletionBackground()
             } else if courseOutlineMode == .video {

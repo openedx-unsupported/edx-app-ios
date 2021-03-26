@@ -31,7 +31,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         didSet {
             guard let block = block else { return }
             
-            if block.completion {
+            if block.isCompleted {
                 if case CourseBlockDisplayType.Unknown = block.displayType  {
                     showNeutralBackground()
                 } else {

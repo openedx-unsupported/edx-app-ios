@@ -206,7 +206,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
     }
     
     private func markBlockAsComplete() {
-        block?.completion = true
+        block?.isCompleted = true
     }
     
     deinit {

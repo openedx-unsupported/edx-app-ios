@@ -241,7 +241,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             var allCompleted: Bool
             
             if group.block.type == .Unit {
-                allCompleted = group.children.allSatisfy { $0.completion }
+                allCompleted = group.children.allSatisfy { $0.isCompleted }
             } else {
                 allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
             }

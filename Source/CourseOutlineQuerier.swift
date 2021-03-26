@@ -78,7 +78,7 @@ public class CourseOutlineQuerier : NSObject {
     
     private var blocks: [CourseBlockID : CourseBlock] = [:] {
         didSet {
-            subscribeToCompletionPropertyOnBlocks()
+            subscribeToBlockCompletion()
         }
     }
     
@@ -117,7 +117,7 @@ public class CourseOutlineQuerier : NSObject {
         self.interface = interface
     }
     
-    private func subscribeToCompletionPropertyOnBlocks() {
+    private func subscribeToBlockCompletion() {
         blocks.forEach { item in
             let block = item.value
             
@@ -129,15 +129,15 @@ public class CourseOutlineQuerier : NSObject {
                 handleVideoBlockIfNeeded(parent: parent)
             }
             
-            block.isCompleted.subscribe(observer: self) { [weak self] value, _ in
+            block.completion.subscribe(observer: self) { [weak self] value, _ in
                 guard let weakSelf = self else { return }
                 
                 let allCompleted = parent.children.allSatisfy { [weak self] childID in
-                    return self?.blockWithID(id: childID).firstSuccess().value?.completion ?? false
+                    return self?.blockWithID(id: childID).firstSuccess().value?.isCompleted ?? false
                 }
                 
                 if allCompleted {
-                    parent.completion = true
+                    parent.isCompleted = true
                     weakSelf.observers.forEach { observer in
                         if observer.blockID == parent.blockID {
                             let children = parent.children.compactMap { [weak self] childID in
@@ -159,7 +159,7 @@ public class CourseOutlineQuerier : NSObject {
     
     private func handleDiscussionBlockIfNeeded(parent: CourseBlock) {
         let allBlocksAreCompleted = parent.children.compactMap { blockWithID(id: $0).firstSuccess().value }
-            .allSatisfy { $0.completion }
+            .allSatisfy { $0.isCompleted }
         
         if !allBlocksAreCompleted {
             let otherBlocks = parent.children.filter { blockID -> Bool in
@@ -179,20 +179,20 @@ public class CourseOutlineQuerier : NSObject {
             }.compactMap { blockWithID(id: $0).firstSuccess().value }
             
             if !otherBlocks.isEmpty {
-                let otherBlocksAreCompleted = otherBlocks.allSatisfy { $0.completion }
+                let otherBlocksAreCompleted = otherBlocks.allSatisfy { $0.isCompleted }
                 
                 if otherBlocksAreCompleted {
                     for block in discussionBlocks {
-                        if !block.completion {
-                            block.completion = true
+                        if !block.isCompleted {
+                            block.isCompleted = true
                             break
                         }
                     }
                 }
             } else {
                 for block in discussionBlocks {
-                    if !block.completion {
-                        block.completion = true
+                    if !block.isCompleted {
+                        block.isCompleted = true
                         break
                     }
                 }
@@ -202,13 +202,10 @@ public class CourseOutlineQuerier : NSObject {
     
     private func handleVideoBlockIfNeeded(parent: CourseBlock, observer: BlockCompletionObserver? = nil) {
         let childVideoBlocks = parent.children.compactMap { [weak self] item -> CourseBlock? in
-            
             guard let block = self?.blockWithID(id: item, mode: .video).value else { return nil }
-            
             if case CourseBlockType.Video = block.type  {
                 return block
             }
-            
             return nil
         }
         
@@ -216,11 +213,11 @@ public class CourseOutlineQuerier : NSObject {
             return
         }
         
-        let allCompleted = childVideoBlocks.allSatisfy { $0.completion }
+        let allCompleted = childVideoBlocks.allSatisfy { $0.isCompleted }
         
         if allCompleted {
-            if !parent.completion {
-                parent.completion = true
+            if !parent.isCompleted {
+                parent.isCompleted = true
             }
             
             observers.forEach { observer in

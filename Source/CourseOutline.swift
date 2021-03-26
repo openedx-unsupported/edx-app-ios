@@ -31,7 +31,7 @@ public struct CourseOutline {
         case MinifiedBlockID = "block_id"
         case AuthorizationDenialReason = "authorization_denial_reason"
         case AuthorizationDenialMessage = "authorization_denial_message"
-        case Completion = "completion"
+        case isCompleted = "completion"
     }
     
     public let root : CourseBlockID
@@ -71,7 +71,7 @@ public struct CourseOutline {
                 let minifiedBlockID = body[Fields.MinifiedBlockID].string
                 let authorizationDenialReason = body[Fields.AuthorizationDenialReason].string
                 let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
-                let completion = body[Fields.Completion].boolValue
+                let isCompleted = body[Fields.isCompleted].boolValue
               
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
@@ -127,7 +127,7 @@ public struct CourseOutline {
                     authorizationDenialReason: authorizationDenialReason,
                     authorizationDenialMessage: authorizationDenialMessage,
                     typeName: typeName,
-                    completion: completion
+                    isCompleted: isCompleted
                 )
             }
             self = CourseOutline(root: root, blocks: validBlocks)
@@ -243,14 +243,15 @@ public class CourseBlock {
     /// Authorization Denial Message if the block content is gated
     public let authorizationDenialMessage: String?
     
-    /// isCompleted works as a property observer,
-    /// when value of `completion` is changed, subscription method on `isCompleted` is called.
-    public private(set) var isCompleted: Observable<Bool> = Observable(false)
+    /// completion works as a property observer,
+    /// when value of `isCompleted` is changed, subscription method on `completion` is called.
+    
+    public private(set) var completion: Observable<Bool> = Observable(false)
     
     /// Status of block completion
-    public var completion: Bool {
+    public var isCompleted: Bool {
         didSet {
-            isCompleted.value = completion
+            completion.value = isCompleted
         }
     }
     
@@ -276,7 +277,7 @@ public class CourseBlock {
         authorizationDenialReason: String? = nil,
         authorizationDenialMessage: String? = nil,
         typeName: String? = nil,
-        completion: Bool = false) {
+        isCompleted: Bool = false) {
 
       self.type = type
         self.children = children
@@ -293,6 +294,6 @@ public class CourseBlock {
         self.authorizationDenialReason = AuthorizationDenialReason(rawValue: authorizationDenialReason ?? AuthorizationDenialReason.none.rawValue) ?? AuthorizationDenialReason.none
         self.authorizationDenialMessage = authorizationDenialMessage
         self.typeName = typeName
-        self.completion = completion
+        self.isCompleted = isCompleted
     }
 }

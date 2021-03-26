@@ -42,7 +42,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             
             content.setTitleText(title: block.displayName)
             
-            if block.completion && !block.isGated {
+            if block.isCompleted && !block.isGated {
                 content.backgroundColor = OEXStyles.shared().successXXLight()
                 content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
                 content.setSeperatorColor(color: OEXStyles.shared().successXLight())
