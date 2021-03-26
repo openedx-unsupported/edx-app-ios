@@ -97,6 +97,7 @@ public class CourseOutlineItemView: UIView {
         
         leadingImageButton.tintColor = OEXStyles.shared().primaryBaseColor()        
         leadingImageButton.accessibilityTraits = UIAccessibilityTraits.image
+        leadingImageButton.isAccessibilityElement = false
         
         checkmark.image = Icon.Graded.imageWithFontSize(size: 10)
         checkmark.tintColor = OEXStyles.shared().primaryBaseColor()
@@ -135,6 +136,13 @@ public class CourseOutlineItemView: UIView {
             titleLabel.attributedText = attributedString
             setConstraints()
         }
+
+        titleLabel.accessibilityLabel = title
+    }
+
+    func setCompletionAccessibility(completion: Bool = false) {
+
+        titleLabel.accessibilityLabel = completion ? "\(titleLabel.accessibilityLabel ?? ""), \(Strings.Accessibility.completed)" : titleLabel.accessibilityLabel
     }
     
     func formattedDueDateString(asMonthDay date: NSDate?) -> String {

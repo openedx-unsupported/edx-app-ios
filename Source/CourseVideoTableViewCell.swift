@@ -43,14 +43,17 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             content.setTitleText(title: block.displayName)
             
             if block.isCompleted && !block.isGated {
+                content.setCompletionAccessibility(completion: true)
                 content.backgroundColor = OEXStyles.shared().successXXLight()
                 content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
                 content.setSeperatorColor(color: OEXStyles.shared().successXLight())
             } else if block.isGated {
+                content.setCompletionAccessibility()
                 content.leadingIconColor = OEXStyles.shared().neutralXLight()
                 content.setContentIcon(icon: nil, color: .clear)
                 content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
             } else {
+                content.setCompletionAccessibility()
                 content.backgroundColor = OEXStyles.shared().neutralWhite()
                 content.setContentIcon(icon: nil, color: .clear)
                 content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
