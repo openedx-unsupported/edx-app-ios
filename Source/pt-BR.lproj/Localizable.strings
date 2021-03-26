@@ -366,6 +366,14 @@
 "COURSEWARE_UNAVAILABLE"="Nenhum conteúdo disponivel no momento. ";
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="Este curso não inclui nenhum vídeo";
+/* 1 hour */
+"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+/* More than 1 hours */
+"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+/* 1 minutes */
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
+/* More than 1 */
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Este componente interativo ainda não está disponível para celulares\n\nExplore outras partes deste curso ou acesse na internet";
 /* Message shown when attempting to display content not available on the app, from dates tab */

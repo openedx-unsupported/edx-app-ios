@@ -359,6 +359,14 @@
 "COURSEWARE_UNAVAILABLE"="Nội dung khóa học hiện chưa sẵn sàng";
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="Khóa học này không có video";
+/* 1 hour */
+"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+/* More than 1 hours */
+"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+/* 1 minutes */
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
+/* More than 1 */
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Thành phần tương tác này chưa sẵn sàng trên di động.\n\nKhám phá những phần khác của khóa học hoặc xem phần này trên web.";
 /* Message shown when attempting to display content not available on the app, from dates tab */

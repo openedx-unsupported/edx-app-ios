@@ -126,10 +126,7 @@ public class CourseOutlineItemView: UIView {
         if !elipsis {
             titleLabel.attributedText = fontStyle.attributedString(withText: title)
         } else {
-            var formattedText = trunctedText(with: title)
-            if title != formattedText {
-                formattedText = formattedText + "..."
-            }
+            let formattedText = getFormattedText(text: title)
             let attributedTitle = fontStyle.attributedString(withText: formattedText)
             let attributedString = NSMutableAttributedString()
             attributedString.append(attributedTitle)
@@ -323,12 +320,20 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.isAccessibilityElement = false
     }
     
-    private func trunctedText(with text: String) -> String {
+    private func getFormattedText(text: String) -> String {
+        var formattedText = truncatedText(with: text)
+        if text != formattedText {
+            formattedText = formattedText + "..."
+        }
+        
+        return formattedText
+    }
+    
+    private func truncatedText(with text: String) -> String {
         let width = text.widthOfString(using: titleLabel.font)
         let offset = CGFloat(StandardHorizontalMargin * 7) + (IconSize.width * 2)
         if width > UIScreen.main.bounds.width - offset {
-            let formattedText = text.components(separatedBy: " ").dropLast().joined(separator: " ")
-            return trunctedText(with: formattedText)
+            return truncatedText(with: String(text.dropLast()))
         }
         return text
     }

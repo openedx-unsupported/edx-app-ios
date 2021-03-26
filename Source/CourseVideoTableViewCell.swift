@@ -166,12 +166,12 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         var detailText = ""
         
         if hours == 0 {
-            detailText = Strings.courseAuditRemainingMinutes(minutes: mins)
+            detailText = Strings.courseVideoMinutes(minutes: mins)
         } else {
             if mins == 0 {
-                detailText = Strings.courseAuditRemainingHours(hours: hours)
+                detailText = Strings.courseVideoHours(hours: hours)
             } else if hours > 1 && mins > 1 {
-                detailText = "\(Strings.courseAuditRemainingHours(hours: hours)), \(Strings.courseAuditRemainingMinutes(minutes: mins))"
+                detailText = "\(Strings.courseVideoHours(hours: hours)), \(Strings.courseVideoMinutes(minutes: mins))"
             }
         }
         

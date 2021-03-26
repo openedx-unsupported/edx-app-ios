@@ -366,6 +366,14 @@
 "COURSEWARE_UNAVAILABLE"="Derzeit sind keine Kursinhalte verfügbar.";
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="Dieser Kurs beinhaltet keine Videos";
+/* 1 hour */
+"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+/* More than 1 hours */
+"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+/* 1 minutes */
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
+/* More than 1 */
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Diese Interaktive Komponente ist derzeit nicht für Mobile Endgeräte verfügbar.\n\nErkunden Sie andere Komponenten dieses Kurses oder nutzen Sie den Browser.";
 /* Message shown when attempting to display content not available on the app, from dates tab */

@@ -359,6 +359,14 @@
 "COURSEWARE_UNAVAILABLE"="当前没有可用的课程内容。";
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="此课程没有任何视频。";
+/* 1 hour */
+"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+/* More than 1 hours */
+"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+/* 1 minutes */
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
+/* More than 1 */
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "此组件在手机上不可用。\n\n请浏览此课程的其他部分或在网页中观看。";
 /* Message shown when there is no course dates */
