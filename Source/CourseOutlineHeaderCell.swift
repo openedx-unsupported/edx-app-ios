@@ -71,7 +71,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     }
 
     private func updateAccessibilityLabel(completion: Bool) {
-        headerLabel.accessibilityLabel = completion ? "\(headerLabel.accessibilityLabel ?? ""), \(Strings.Accessibility.completed)" : headerLabel.accessibilityLabel
+        headerLabel.accessibilityHint = completion ? Strings.Accessibility.completed : nil
     }
 
     // Skip autolayout for performance reasons
