@@ -213,19 +213,12 @@ public class CourseOutlineItemView: UIView {
     }
     
     private func setConstraints(with blockType: CourseBlockType? = nil) {
-        if shouldShowLeadingView {
-            leadingImageButton.isHidden = false
-        } else {
-            leadingImageButton.isHidden = true
-        }
+        leadingImageButton.isHidden = !shouldShowLeadingView
         
         leadingImageButton.snp.remakeConstraints { make in
             make.centerY.equalTo(titleLabel)
-            if shouldShowLeadingView {
-                make.leading.equalTo(self).offset(StandardHorizontalMargin / 2)
-            } else {
-                make.leading.equalTo(self)
-            }
+            let offsetMargin = shouldShowLeadingView ? StandardHorizontalMargin / 2 : 0
+            make.leading.equalTo(self).offset(offsetMargin)
             make.size.equalTo(IconSize)
         }
         

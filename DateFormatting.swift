@@ -38,7 +38,7 @@ open class DateFormatting: NSObject {
      2:44 = 3 minutes
      1 hour, 18 mins, 35sec = 1 hour 19 minutes
      */
-    /// Formats a time interval for display as video duration withh above formatting
+    /// Formats a time interval for display as video duration with above formatting
     open class func formatVideoDuration(totalSeconds: TimeInterval) -> (hour: Int, mins: Int) {
         let timeInterval = totalSeconds.isNaN ? 0 : totalSeconds
         
