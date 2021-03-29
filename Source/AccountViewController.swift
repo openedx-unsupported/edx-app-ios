@@ -48,6 +48,15 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         addCloseButton()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        sendScreenAnalytics()
+    }
+    
+    private func sendScreenAnalytics() {
+        environment.analytics.trackAccountSettingsScreen(with: .AccountSettings)
+    }
+    
     func configureViews() {
         tableView.estimatedRowHeight = 40
         tableView.rowHeight = UITableView.automaticDimension

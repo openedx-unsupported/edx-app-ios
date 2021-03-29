@@ -44,6 +44,15 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, 
         view.backgroundColor = environment.styles.standardBackgroundColor()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        sendScreenAnalytics()
+    }
+    
+    private func sendScreenAnalytics() {
+        environment.analytics.trackMyProgramsScreen(with: .MyProgramsScreen)
+    }
+    
     // MARK:- Methods -
     private func setupView() {
         title = Strings.programs
