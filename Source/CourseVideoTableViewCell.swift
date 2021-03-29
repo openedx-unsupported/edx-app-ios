@@ -70,14 +70,13 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             updateDownloadViewForVideoState()
             
             guard let hasVideoDuration = localState?.summary?.hasVideoDuration,
-                  let duration = localState?.summary?.duration else {
+                  let duration = localState?.summary?.duration,
+                  hasVideoDuration else {
                 return
             }
             
-            if hasVideoDuration {
-                content.shouldShowCheckmark = false
-                content.setDetailText(title: formattedDetailText(with: duration), blockType: block?.type)
-            }
+            content.shouldShowCheckmark = false
+            content.setDetailText(title: formattedDetailText(with: duration), blockType: block?.type)
         }
     }
     

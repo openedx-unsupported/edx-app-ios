@@ -174,11 +174,8 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     private func handleBlockNormally(_ block: CourseBlock) {
         if block.isCompleted && !block.isGated {
-            if courseOutlineMode == .full {
-                showCompletionBackground()
-            } else if courseOutlineMode == .video {
-                showCompletionBackground(showIcon: false)
-            }
+            let shouldShowIcon = courseOutlineMode == .full ? true : false
+            showCompletionBackground(showIcon: shouldShowIcon)
         } else {
             showNeutralBackground()
         }

@@ -510,8 +510,8 @@ extension CourseOutlineTableController: BlockCompletionDelegate {
         
         guard let index = groups.firstIndex(where: {
             return $0.block.blockID == blockGroup.block.blockID
-            
         }) else { return }
+        
         if tableView.isValidSection(with: index) {
             if mode == .full {
                 groups[index] = blockGroup
