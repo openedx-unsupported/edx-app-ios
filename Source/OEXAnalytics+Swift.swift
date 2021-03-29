@@ -327,16 +327,12 @@ extension OEXAnalytics {
     }
     
     func trackAccountSettingsScreen(with name: AnalyticsScreenName) {
-        var info: [String:String] = [:]
-        info.setSafeObject(name.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
-        
+        let info = [AnalyticsEventDataKey.ScreenName.rawValue: name.rawValue]
         trackScreen(withName: AnalyticsDisplayName.AccountSettingsView.rawValue, courseID: nil, value: nil, additionalInfo: info)
     }
 
     func trackMyProgramsScreen(with name: AnalyticsScreenName) {
-        var info: [String:String] = [:]
-        info.setSafeObject(name.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
-        
+        let info = [AnalyticsEventDataKey.ScreenName.rawValue: name.rawValue]
         trackScreen(withName: AnalyticsDisplayName.MyProgramsScreen.rawValue, courseID: nil, value: nil, additionalInfo: info)
     }
     
