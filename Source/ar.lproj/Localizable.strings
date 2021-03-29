@@ -402,9 +402,9 @@
 "COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
 /* More than 1 hours */
 "COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
-/* 1 minutes */
+/* 1 minute */
 "COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
-/* More than 1 */
+/* More than 1 minute */
 "COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "هذا المكوّن التفاعلي غير متوفر بعد على الأجهزة المحمولة\n\nاستكشف أجزاء المساق الأخرى أو استعرض هذا المكوّن باستخدام الويب.";

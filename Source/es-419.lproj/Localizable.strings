@@ -374,9 +374,9 @@
 "COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
 /* More than 1 hours */
 "COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
-/* 1 minutes */
+/* 1 minute */
 "COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
-/* More than 1 */
+/* More than 1 minute */
 "COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Este componente interactivo aún no está disponible desde dispositivos móviles.\n\nExplore otras partes de este curso o véalo en línea.";
