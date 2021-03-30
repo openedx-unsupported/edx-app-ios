@@ -132,6 +132,10 @@ public class CourseOutlineQuerier : NSObject {
             block.completion.subscribe(observer: self) { [weak self] value, _ in
                 guard let weakSelf = self else { return }
                 
+                if parent.isCompleted {
+                    return
+                }
+                
                 let allCompleted = parent.children.allSatisfy { [weak self] childID in
                     return self?.blockWithID(id: childID).firstSuccess().value?.isCompleted ?? false
                 }
