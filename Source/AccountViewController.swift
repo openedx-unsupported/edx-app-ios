@@ -54,7 +54,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     private func sendScreenAnalytics() {
-        environment.analytics.trackAccountSettingsScreen(with: .AccountSettings)
+        environment.analytics.trackAccountSettingsScreen()
     }
     
     func configureViews() {
