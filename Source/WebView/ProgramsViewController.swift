@@ -50,7 +50,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, 
     }
     
     private func sendScreenAnalytics() {
-        environment.analytics.trackMyProgramsScreen()
+        environment.analytics.trackScreen(withName: AnalyticsDisplayName.MyProgramsScreen.rawValue)
     }
     
     // MARK:- Methods -

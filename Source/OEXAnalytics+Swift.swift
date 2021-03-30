@@ -324,14 +324,6 @@ extension OEXAnalytics {
         trackScreen(withName: AnalyticsDisplayName.ValuePropModalView.rawValue, courseID: courseId, value: nil, additionalInfo: info)
     }
     
-    func trackAccountSettingsScreen() {
-        trackScreen(withName: AnalyticsDisplayName.AccountSettingsView.rawValue)
-    }
-
-    func trackMyProgramsScreen() {
-        trackScreen(withName: AnalyticsDisplayName.MyProgramsScreen.rawValue)
-    }
-    
     func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, eventName: String, bannerType: String) {
         let event = OEXAnalyticsEvent()
         event.name = eventName
