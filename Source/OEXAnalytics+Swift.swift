@@ -19,7 +19,7 @@ public enum AnalyticsCategory : String {
 }
 
 public enum AnalyticsDisplayName : String {
-    case AccountSettingsView = "Account Settings"
+    case AccountSettings = "Account Settings"
     case DiscoverCourses = "Discover Courses"
     case ExploreCourses = "Explore Courses"
     case UserLogin = "User Login"
@@ -45,7 +45,7 @@ public enum AnalyticsDisplayName : String {
     case CourseComponentTapped = "Dates: Course Component Tapped"
     case CourseUnsupportedComponentTapped = "Dates: Unsupported Component Tapped"
     case ExploreAllCourses = "Explore All Courses"
-    case MyProgramsScreen = "My Programs"
+    case MyPrograms = "My Programs"
 }
 
 public enum AnalyticsEventName: String {
