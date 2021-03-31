@@ -51,7 +51,6 @@ public class CourseOutlineItemView: UIView {
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{3000}")
     
     private let labelTrailingImageColor = OEXStyles.shared().neutralXDark()
-    private let checkmarkIconColor = OEXStyles.shared().successBase()
         
     private var attributedTrailingImage: NSAttributedString {
         let image = trailingIcon?.imageWithFontSize(size: SmallIconSize).image(with: labelTrailingImageColor)
@@ -95,7 +94,7 @@ public class CourseOutlineItemView: UIView {
         
         shouldShowCheckmark = true
         
-        leadingImageButton.tintColor = OEXStyles.shared().primaryBaseColor()        
+        leadingImageButton.tintColor = .clear
         leadingImageButton.accessibilityTraits = UIAccessibilityTraits.image
         leadingImageButton.isAccessibilityElement = false
         
@@ -188,6 +187,7 @@ public class CourseOutlineItemView: UIView {
         shouldShowLeadingView = true
         let image = icon?.imageWithFontSize(size: SmallIconSize).image(with: color)
         leadingImageButton.setImage(image, for: .normal)
+        leadingImageButton.tintColor = color
         if let accessibilityText = icon?.accessibilityText {
             leadingImageButton.accessibilityLabel = accessibilityText
         }

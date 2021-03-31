@@ -247,6 +247,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             }
             
             allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
+        } else {
+            let allCompleted = group.children.allSatisfy { $0.isCompleted }
+            allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
         }
         
         return header

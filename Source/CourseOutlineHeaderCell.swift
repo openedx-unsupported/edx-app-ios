@@ -51,12 +51,6 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
         //Using CGRectZero size because the backgroundView automatically resizes.
         backgroundView = UIView(frame: .zero)
         
-        if let block = block {
-            block.isCompleted ? showCompletedBackground() : showNeutralBackground()
-        } else {
-            showNeutralBackground()
-        }
-        
         horizontalTopLine.backgroundColor = OEXStyles.shared().neutralBase()
     }
     

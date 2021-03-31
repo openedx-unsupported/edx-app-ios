@@ -33,17 +33,17 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
             
             content.setTitleText(title: block.displayName)
             
-            if block.isCompleted {
+            if block.isGated {
+                showNeutralBackground()
+                showValueProp(on: block)
+                content.leadingIconColor = OEXStyles.shared().neutralDark()
+            } else if block.isCompleted {
                 if case CourseBlockDisplayType.Unknown = block.displayType  {
                     showNeutralBackground()
                 } else {
                     showCompletedBackground()
                     content.setCompletionAccessibility(completion: true)
                 }
-            } else if block.isGated {
-                showNeutralBackground()
-                showValueProp(on: block)
-                content.leadingIconColor = OEXStyles.shared().neutralDark()
             } else {
                 showNeutralBackground()
             }
@@ -68,6 +68,9 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     }
     
     private func showValueProp(on block: CourseBlock) {
+        if block.displayName.contains(find: "Headings Practice") {
+            print("yo")
+        }
         if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
             content.trailingView = valuePropAccessoryView
             content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block.type, underline: true)

@@ -132,16 +132,14 @@ public class CourseOutlineQuerier : NSObject {
             block.completion.subscribe(observer: self) { [weak self] value, _ in
                 guard let weakSelf = self else { return }
                 
-                if parent.isCompleted {
-                    return
-                }
-                
                 let allCompleted = parent.children.allSatisfy { [weak self] childID in
                     return self?.blockWithID(id: childID).firstSuccess().value?.isCompleted ?? false
                 }
                 
                 if allCompleted {
-                    parent.isCompleted = true
+                    if !parent.isCompleted {
+                        parent.isCompleted = true
+                    }
                     weakSelf.observers.forEach { observer in
                         if observer.blockID == parent.blockID {
                             let children = parent.children.compactMap { [weak self] childID in
@@ -162,6 +160,10 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     private func handleDiscussionBlockIfNeeded(parent: CourseBlock) {
+        if parent.type != .Unit {
+            return
+        }
+        
         let allBlocksAreCompleted = parent.children.compactMap { blockWithID(id: $0).firstSuccess().value }
             .allSatisfy { $0.isCompleted }
         
@@ -205,6 +207,10 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     private func handleVideoBlockIfNeeded(parent: CourseBlock, observer: BlockCompletionObserver? = nil) {
+        if parent.type != .Unit {
+            return
+        }
+        
         let childVideoBlocks = parent.children.compactMap { [weak self] item -> CourseBlock? in
             guard let block = self?.blockWithID(id: item, mode: .video).value else { return nil }
             if case CourseBlockType.Video = block.type  {

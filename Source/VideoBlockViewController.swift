@@ -596,7 +596,11 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
 
 extension VideoBlockViewController {
     func markBlockAsComplete() {
-        block?.isCompleted = true
+        if let block = block {
+            if !block.isCompleted {
+                block.isCompleted = true
+            }
+        }
         
         guard let username = environment.session.currentUser?.username, let blockID = blockID else { return }
         let networkRequest = BlockCompletionApi.blockCompletionRequest(username: username, courseID: courseID, blockID: blockID)
