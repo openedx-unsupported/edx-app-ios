@@ -38,12 +38,8 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
                 showValueProp(on: block)
                 content.leadingIconColor = OEXStyles.shared().neutralDark()
             } else if block.isCompleted {
-                if case CourseBlockDisplayType.Unknown = block.displayType  {
-                    showNeutralBackground()
-                } else {
-                    showCompletedBackground()
-                    content.setCompletionAccessibility(completion: true)
-                }
+                showCompletedBackground()
+                content.setCompletionAccessibility(completion: true)
             } else {
                 showNeutralBackground()
             }
