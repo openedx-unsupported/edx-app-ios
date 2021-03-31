@@ -46,11 +46,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, 
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        sendScreenAnalytics()
-    }
-    
-    private func sendScreenAnalytics() {
-        environment.analytics.trackScreen(withName: AnalyticsDisplayName.MyProgramsScreen.rawValue)
+        environment.analytics.trackScreen(withName: AnalyticsDisplayName.MyPrograms.rawValue)
     }
     
     // MARK:- Methods -

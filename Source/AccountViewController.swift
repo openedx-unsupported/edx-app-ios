@@ -50,11 +50,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        sendScreenAnalytics()
-    }
-    
-    private func sendScreenAnalytics() {
-        environment.analytics.trackScreen(withName: AnalyticsDisplayName.AccountSettingsView.rawValue)
+        environment.analytics.trackScreen(withName: AnalyticsDisplayName.AccountSettings.rawValue)
     }
     
     func configureViews() {
