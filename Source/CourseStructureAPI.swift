@@ -45,7 +45,13 @@ public struct CourseOutlineAPI {
         let parameters = Parameters(
             courseID: courseID,
             username: username,
-            fields : ["graded", "student_view_multi_device", "format", "due"],
+            fields : [
+                CourseOutline.Fields.Graded.rawValue,
+                CourseOutline.Fields.StudentViewMultiDevice.rawValue,
+                CourseOutline.Fields.Format.rawValue,
+                CourseOutline.Fields.Graded.rawValue,
+                CourseOutline.Fields.isCompleted.rawValue
+            ],
             blockCount : [CourseBlock.Category.Video.rawValue],
             studentViewData : [CourseBlock.Category.Video, CourseBlock.Category.Discussion]
         )
@@ -54,7 +60,7 @@ public struct CourseOutlineAPI {
         
         return NetworkRequest(
             method : .GET,
-            path : "/api/courses/\(apiVersion )/blocks/",
+            path : "/api/courses/{api_version}/blocks/".oex_format(withParameters: ["api_version" : apiVersion]),
             requiresAuth : true,
             query : parameters.query,
             deserializer : .jsonResponse(deserializer)

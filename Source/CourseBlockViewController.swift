@@ -10,8 +10,9 @@ import Foundation
 
 
 public protocol CourseBlockViewController {
-    var blockID : CourseBlockID? {get}
-    var courseID : CourseBlockID {get}
+    var blockID: CourseBlockID? { get }
+    var courseID: CourseBlockID { get }
+    var block: CourseBlock? { get }
 }
 
 // Implement this if your CourseBlockViewController instance supports preloading its data. 

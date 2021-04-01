@@ -49,13 +49,17 @@ protocol AuthenticatedWebViewControllerDelegate {
     func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView)
 }
 
+@objc protocol AJAXCompletionCallbackDelegate: class {
+    func didCompletionCalled(completion: Bool)
+}
+
 private class WKWebViewContentController : WebContentController {
     fileprivate let webView: WKWebView
-    
+
     var view : UIView {
         return webView
     }
-    
+
     var scrollView : UIScrollView {
         return webView.scrollView
     }
@@ -88,9 +92,18 @@ private class WKWebViewContentController : WebContentController {
 
 private let OAuthExchangePath = "/oauth2/login/"
 
+fileprivate let AJAXCallBackHandler = "ajaxCallbackHandler"
+fileprivate let ajaxScriptFile = "ajaxHandler"
 // Allows access to course content that requires authentication.
 // Forwarding our oauth token to the server so we can get a web based cookie
-public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
+public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
+    
+    fileprivate enum xBlockCompletionCallbackType: String {
+        case html = "publish_completion"
+        case problem = "problem_check"
+        case dragAndDrop = "do_attempt"
+        case ora = "render_grade"
+    }
     
     fileprivate enum State {
         case CreatingSession
@@ -105,13 +118,21 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     private let insetsController : ContentInsetsController
     private let headerInsets : HeaderViewInsets
     weak var webViewDelegate: WebViewNavigationDelegate?
+    weak var ajaxCallbackDelegate: AJAXCompletionCallbackDelegate?
+
+    private lazy var configurations = environment.config.webViewConfiguration()
     
-    private lazy var webController : WebContentController = {
-        let controller = WKWebViewContentController(configuration: environment.config.webViewConfiguration())
+    private var shouldListenForAjaxCallbacks = false
+    
+    private lazy var webController: WebContentController = {
+        let controller = WKWebViewContentController(configuration: configurations)
+        if shouldListenForAjaxCallbacks {
+            addAjaxCallbackScript(in: configurations.userContentController)
+        }
         controller.webView.navigationDelegate = self
         controller.webView.uiDelegate = self
         return controller
-    
+
     }()
     
     var scrollView: UIScrollView {
@@ -129,8 +150,9 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         loadController.state = state
     }
     
-    public init(environment : Environment) {
+    public init(environment : Environment, shouldListenForAjaxCallbacks: Bool = false) {
         self.environment = environment
+        self.shouldListenForAjaxCallbacks = shouldListenForAjaxCallbacks
         
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
@@ -178,6 +200,14 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         }
     }
 
+    private func addAjaxCallbackScript(in contentController: WKUserContentController) {
+        guard let url = Bundle.main.url(forResource: ajaxScriptFile, withExtension: "js"),
+              let handler = try? String(contentsOf: url, encoding: .utf8) else { return }
+        let script = WKUserScript(source: handler, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        contentController.add(self, name: AJAXCallBackHandler)
+        contentController.addUserScript(script)
+    }
+    
     public func reload() {
         guard let request = contentRequest, !webController.isLoading else { return }
 
@@ -333,7 +363,46 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         
         refreshAccessibility()
     }
+
+    /* Completion callbacks in case of different xBlocks
+     HTML /publish_completion
+     Video /publish_completion
+     Problem problem_check
+     DragAndDrop handler/do_attempt
+     ORABlock responseText contains class 'is--complete'
+     */
     
+    private func isCompletionCallback(with data: Dictionary<AnyHashable, Any>) -> Bool {
+        let callback = AJAXCallbackData(data: data)
+        let requestURL = callback.url
+        
+        if callback.statusCode != OEXHTTPStatusCode.code200OK.rawValue {
+            return false
+        }
+        
+        if isBlockOf(type: .ora, with: requestURL) {
+            return callback.responseText.contains("is--complete")
+        } else {
+            return isBlockOf(type: .html, with: requestURL)
+                || isBlockOf(type: .problem, with: requestURL)
+                || isBlockOf(type: .dragAndDrop, with: requestURL)
+        }
+    }
+    
+    private func isBlockOf(type: xBlockCompletionCallbackType, with requestURL: String) -> Bool {
+        return requestURL.contains(type.rawValue)
+    }
+    
+    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == AJAXCallBackHandler {
+            guard let data = message.body as? Dictionary<AnyHashable, Any> else { return }
+            
+            if isCompletionCallback(with: data) {
+                ajaxCallbackDelegate?.didCompletionCalled(completion: true)
+            }
+        }
+    }
+
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             showError(error: error as NSError?)
     }
@@ -378,5 +447,23 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         } else {
             completionHandler(false)
         }
+    }
+}
+
+private struct AJAXCallbackData {
+    private enum Keys: String {
+        case url = "url"
+        case statusCode = "status"
+        case responseText = "response_text"
+    }
+    
+    let url: String
+    let statusCode: Int
+    let responseText: String
+
+    init(data: Dictionary<AnyHashable, Any>) {
+        url = data[Keys.url.rawValue] as? String ?? ""
+        statusCode = data[Keys.statusCode.rawValue] as? Int ?? 0
+        responseText = data[Keys.responseText.rawValue] as? String ?? ""
     }
 }

@@ -43,6 +43,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     let refreshController = PullRefreshController()
     private var courseBlockID: CourseBlockID?
     
+    var isSectionOutline = false {
+        didSet {
+            if isSectionOutline {
+                hideTableHeaderView()
+            }
+            tableView.reloadData()
+        }
+    }
+    
     init(environment: Environment, courseID: String, forMode mode: CourseOutlineMode, courseBlockID: CourseBlockID? = nil) {
         self.courseID = courseID
         self.courseBlockID = courseBlockID
@@ -56,9 +65,20 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         fatalError("init(coder:) has not been implemented")
     }
     
-    var groups : [CourseOutlineQuerier.BlockGroup] = []
+    var groups : [CourseOutlineQuerier.BlockGroup] = [] {
+        didSet {
+            courseQuerier.remove(observer: self)
+            groups.forEach { group in
+                let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
+                courseQuerier.add(observer: observer)
+            }            
+        }
+    }
+    
     var highlightedBlockID : CourseBlockID? = nil
     private var videos: [OEXHelperVideoDownload]?
+    
+    private var watchedVideoBlock: [CourseBlockID] = []
     
     func addCertificateView() {
         guard environment.config.certificatesEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl =  enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
@@ -86,6 +106,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     override func viewDidLoad() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.separatorStyle = .none
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.register(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
         tableView.register(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)
@@ -184,6 +205,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        tableView.reloadData()
+    }
+    
     override func updateViewConstraints() {
         super.updateViewConstraints()
         refreshTableHeaderView(isResumeCourse: isResumeCourse)
@@ -211,6 +236,22 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let group = groups[section]
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CourseOutlineHeaderCell.identifier) as! CourseOutlineHeaderCell
         header.block = group.block
+        
+        if courseOutlineMode == .video {
+            var allCompleted: Bool
+            
+            if group.block.type == .Unit {
+                allCompleted = group.children.allSatisfy { $0.isCompleted }
+            } else {
+                allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
+            }
+            
+            allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
+        } else {
+            let allCompleted = group.children.allSatisfy { $0.isCompleted }
+            allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
+        }
+        
         return header
     }
     
@@ -218,39 +259,56 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let group = groups[indexPath.section]
         let nodes = group.children
         let block = nodes[indexPath.row]
+
         switch nodes[indexPath.row].displayType {
         case .Video:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseVideoTableViewCell.identifier, for: indexPath as IndexPath) as! CourseVideoTableViewCell
+            cell.isSectionOutline = isSectionOutline
+            cell.courseOutlineMode = courseOutlineMode
+            cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)
             cell.block = block
             cell.courseID = courseID
-            cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)
             cell.delegate = self
             cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             return cell
         case .HTML(.Base), .HTML(.DragAndDrop):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseHTMLTableViewCell.identifier, for: indexPath) as! CourseHTMLTableViewCell
+            cell.isSectionOutline = isSectionOutline
             cell.block = block
             return cell
         case .HTML(.Problem):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseProblemTableViewCell.identifier, for: indexPath) as! CourseProblemTableViewCell
+            cell.isSectionOutline = isSectionOutline
             cell.block = block
             return cell
         case .HTML(.OpenAssesment):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseOpenAssesmentTableViewCell.identifier, for: indexPath) as! CourseOpenAssesmentTableViewCell
+            cell.isSectionOutline = isSectionOutline
             cell.block = block
             return cell
         case .Unknown:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseUnknownTableViewCell.identifier, for: indexPath) as! CourseUnknownTableViewCell
+            cell.isSectionOutline = isSectionOutline
             cell.block = block
             return cell
         case .Outline, .Unit:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
+            cell.completionAction = { [weak self] in
+                guard let weakSelf = self else { return }
+                if !weakSelf.watchedVideoBlock.contains(block.blockID) {
+                    weakSelf.watchedVideoBlock.append(block.blockID)
+                    weakSelf.tableView.reloadSections([indexPath.section], with: .none)
+                }
+            }
+            cell.courseOutlineMode = courseOutlineMode
+            cell.courseQuerier = courseQuerier
             cell.block = nodes[indexPath.row]
             let courseID = courseQuerier.courseID
             cell.videos = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
             cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             cell.delegate = self
             cell.courseID = courseID
+                        
             return cell
         case .Discussion:
             let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionTableViewCell.identifier, for: indexPath) as! DiscussionTableViewCell
@@ -440,11 +498,33 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
            let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
         environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
     }
+    
+    deinit {
+        courseQuerier.remove(observer: self)
+    }
 }
 
 extension CourseOutlineTableController: CourseDateBannerViewDelegate {
     func courseShiftDateButtonAction() {
         delegate?.resetCourseDate(controller: self)
+    }
+}
+
+extension CourseOutlineTableController: BlockCompletionDelegate {
+    func didCompletionChanged(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode) {
+        
+        if mode != courseOutlineMode { return }
+        
+        guard let index = groups.firstIndex(where: {
+            return $0.block.blockID == blockGroup.block.blockID
+        }) else { return }
+        
+        if tableView.isValidSection(with: index) {
+            if mode == .full {
+                groups[index] = blockGroup
+            }
+            tableView.reloadSections([index], with: .none)
+        }
     }
 }
 
@@ -456,6 +536,10 @@ extension UITableView {
         let size = header.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         header.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         tableHeaderView = header
+    }
+    
+    func isValidSection(with index: Int) -> Bool {
+        return index < numberOfSections
     }
 }
 

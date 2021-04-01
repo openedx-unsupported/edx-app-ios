@@ -16,11 +16,13 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
     let blockID: CourseBlockID?
     let courseID: String
-    private var block: CourseBlock? {
+    
+    var block: CourseBlock? {
         didSet {
             navigationItem.title = block?.displayName
         }
     }
+    
     private var messageView: IconMessageView?
     private lazy var valuePropView: ValuePropMessageView = {
         let view = ValuePropMessageView(environment: environment)
@@ -51,6 +53,22 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
                 self?.showError()
             }
         )
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = environment.styles.standardBackgroundColor()
+    }
+    
+    override func updateViewConstraints() {
+        if isVerticallyCompact() {
+            applyLandscapeConstraints()
+        } else {
+            applyPortraitConstraints()
+        }
+        
+        super.updateViewConstraints()
     }
     
     private func showYoutubeMessage(buttonTitle: String, message: String, icon: Icon, videoUrl: String?) {
@@ -112,22 +130,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = environment.styles.standardBackgroundColor()
-    }
-    
-    override func updateViewConstraints() {
-        if isVerticallyCompact() {
-            applyLandscapeConstraints()
-        } else {
-            applyPortraitConstraints()
-        }
-        
-        super.updateViewConstraints()
     }
     
     private func applyPortraitConstraints() {

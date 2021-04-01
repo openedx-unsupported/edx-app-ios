@@ -156,6 +156,8 @@
 "ACCESSIBILITY.PROFILE_LABEL"="Profil";
 /* Accessibility trait for image */
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
+/*Accessibility for completed section, sunsection, units, components */
+"ACCESSIBILITY.COMPLETED" = "Completed";
 /*Email subject for disabled account*/
 "ACCOUNT_DISABLED" = "Account Disabled";
 /* Title of user profile section for user accomplishments (like badges) */
@@ -368,6 +370,14 @@
 "COURSEWARE_UNAVAILABLE"="Şu anda ders içeriği mevcut değil.";
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="Bu ders herhangi bir video içermiyor";
+/* 1 hour */
+"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+/* More than 1 hours */
+"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+/* 1 minute */
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} minute";
+/* More than 1 minute */
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} minutes";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Bu etkileşimli bileşen henüz mobilde mevcut değil. \n\n Bu diğer diğer kısımlarını keşfedin ya da web tarayıcısı üzerinden bakın.";
 /* Message shown when attempting to display content not available on the app, from dates tab */

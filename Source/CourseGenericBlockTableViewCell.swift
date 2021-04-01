@@ -1,5 +1,5 @@
 //
-//  CourseHTMLTableViewCell.swift
+//  CourseGenericBlockTableViewCell.swift
 //  edX
 //
 //  Created by Ehmad Zubair Chughtai on 14/05/2015.
@@ -27,23 +27,61 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         content.accessibilityIdentifier = "CourseGenericBlockTableViewCell:content-view"
     }
     
-    var block : CourseBlock? = nil {
+    var isSectionOutline = false {
         didSet {
-            if block?.isGated ?? false {
-                if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
-                    content.trailingView = valuePropAccessoryView
-                    content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block?.type, underline: true)
-                } else {
-                    content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
-                }
+            content.isSectionOutline = isSectionOutline
+        }
+    }
+    
+    var block: CourseBlock? = nil {
+        didSet {
+            guard let block = block else { return }
+            
+            content.setTitleText(title: block.displayName)
+            
+            if block.isGated {
+                showNeutralBackground()
+                showValueProp(on: block)
                 content.leadingIconColor = OEXStyles.shared().neutralDark()
+            } else if block.isCompleted {
+                showCompletedBackground()
+                content.setCompletionAccessibility(completion: true)
+            } else {
+                showNeutralBackground()
             }
-            content.setTitleText(title: block?.displayName)
+
+            if !block.isGated {
+                content.trailingView.removeFromSuperview()
+                content.setDetailText(title: "", blockType: block.type)
+            }
         }
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func showNeutralBackground() {
+        content.backgroundColor = OEXStyles.shared().neutralWhite()
+        content.setContentIcon(icon: nil, color: .clear)
+        content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+        content.setCompletionAccessibility()
+    }
+    
+    private func showCompletedBackground() {
+        content.backgroundColor = OEXStyles.shared().successXXLight()
+        content.setContentIcon(icon: Icon.CheckCircle, color: OEXStyles.shared().successBase())
+        content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+    }
+    
+    private func showValueProp(on block: CourseBlock) {
+        if FirebaseRemoteConfiguration.shared.isValuePropEnabled {
+            content.trailingView = valuePropAccessoryView
+            content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block.type, underline: true)
+            content.shouldShowCheckmark = false
+        } else {
+            content.setDetailText(title: Strings.courseContentGated, blockType: block.type)
+        }
     }
 }
 
@@ -52,7 +90,7 @@ class CourseHTMLTableViewCell: CourseGenericBlockTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style : style, reuseIdentifier : reuseIdentifier)
-        content.setContentIcon(icon: Icon.CourseHTMLContent)
+        content.setTitleTrailingIcon(icon: Icon.CourseHTMLContent)
         accessibilityIdentifier = "CourseHTMLTableViewCell:view"
     }
 
@@ -66,7 +104,7 @@ class CourseOpenAssesmentTableViewCell: CourseGenericBlockTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style : style, reuseIdentifier : reuseIdentifier)
-        content.setContentIcon(icon: Icon.CourseOpenAssesmentContent)
+        content.setTitleTrailingIcon(icon: Icon.CourseOpenAssesmentContent)
         accessibilityIdentifier = "CourseOpenAssesmentTableViewCell:view"
     }
 
@@ -80,7 +118,7 @@ class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style : style, reuseIdentifier : reuseIdentifier)
-        content.setContentIcon(icon: Icon.CourseProblemContent)
+        content.setTitleTrailingIcon(icon: Icon.CourseProblemContent)
         accessibilityIdentifier = "CourseProblemTableViewCell:view"
     }
 
@@ -90,13 +128,12 @@ class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
 }
 
 class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
-    
     static let identifier = "CourseUnknownTableViewCellIdentifier"
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        content.leadingIconColor = OEXStyles.shared().neutralDark()
-        content.setContentIcon(icon: Icon.CourseUnknownContent)
+        content.leadingIconColor = OEXStyles.shared().neutralXLight()
+        content.setTitleTrailingIcon(icon: Icon.CourseUnknownContent)
         accessibilityIdentifier = "CourseUnknownTableViewCellIdentifier:view"
     }
     
@@ -106,12 +143,11 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
 }
 
 class DiscussionTableViewCell: CourseGenericBlockTableViewCell {
-    
     static let identifier = "DiscussionTableViewCellIdentifier"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        content.setContentIcon(icon: Icon.Discussions)
+        content.setTitleTrailingIcon(icon: Icon.Discussions)
         accessibilityIdentifier = "DiscussionTableViewCell:view"
     }
     

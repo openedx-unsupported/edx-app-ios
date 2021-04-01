@@ -153,6 +153,8 @@
 "ACCESSIBILITY.PROFILE_LABEL"="Profile";
 /* Accessibility trait for image */
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
+/*Accessibility for completed section, sunsection, units, components */
+"ACCESSIBILITY.COMPLETED" = "Completed";
 /*Email subject for disabled account*/
 "ACCOUNT_DISABLED" = "Account Disabled";
 /* Title of user profile section for user accomplishments (like badges) */
@@ -361,6 +363,14 @@
 "COURSEWARE_UNAVAILABLE"="現在受講できる講座コンテンツはありません。";
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="この講座は動画がありません。";
+/* 1 hour */
+"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+/* More than 1 hours */
+"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+/* 1 minute */
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
+/* More than 1 minute */
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "この内容はモバイルでは使えません。\n\n他の内容を見るか、ウェブ上でこの内容をご覧ください。";
 /* Message shown when attempting to display content not available on the app, from dates tab */

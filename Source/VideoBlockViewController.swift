@@ -57,6 +57,10 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         return courseQuerier.courseID
     }
     
+    var block: CourseBlock? {
+        return courseQuerier.blockWithID(id: blockID).firstSuccess().value
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
@@ -497,7 +501,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     
     func playerDidFinishPlaying(videoPlayer: VideoPlayer) {
         environment.router?.showAppReviewIfNeeded(fromController: self)
-        markVideoComplete()
+        markBlockAsComplete()
     }
     
     func playerDidTimeout(videoPlayer: VideoPlayer) {
@@ -591,7 +595,13 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
 }
 
 extension VideoBlockViewController {
-    func markVideoComplete() {
+    func markBlockAsComplete() {
+        if let block = block {
+            if !block.isCompleted {
+                block.isCompleted = true
+            }
+        }
+        
         guard let username = environment.session.currentUser?.username, let blockID = blockID else { return }
         let networkRequest = BlockCompletionApi.blockCompletionRequest(username: username, courseID: courseID, blockID: blockID)
         environment.networkManager.taskForRequest(networkRequest) { _ in }

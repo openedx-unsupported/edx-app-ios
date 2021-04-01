@@ -52,6 +52,10 @@ public class CourseOutlineViewController :
         return courseQuerier.courseID
     }
     
+    public var block: CourseBlock? {
+        return courseQuerier.blockWithID(id: blockID).value
+    }
+    
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
         self.rootID = rootID
         self.environment = environment
@@ -73,6 +77,9 @@ public class CourseOutlineViewController :
         tableController.delegate = self
     }
     
+    public func reloadData() {
+        tableController.tableView.reloadData()
+    }
     
     public required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
@@ -94,7 +101,7 @@ public class CourseOutlineViewController :
         insetsController.setupInController(owner: self, scrollView : tableController.tableView)
         view.setNeedsUpdateConstraints()
         addListeners()
-        setAccessibilityIdentifiers()
+        setAccessibilityIdentifiers()        
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -172,7 +179,7 @@ public class CourseOutlineViewController :
             }
             else {
                 self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
-                self?.tableController.hideTableHeaderView()
+                self?.tableController.isSectionOutline = true
             }
             }, failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
@@ -274,7 +281,7 @@ public class CourseOutlineViewController :
     
     private func loadHeaderStream() {
         headersLoader.listen(self, success: { [weak self] headers in
-                self?.setupNavigationItem(block: headers.block)
+            self?.setupNavigationItem(block: headers.block)
         }, failure: { _ in })
     }
     

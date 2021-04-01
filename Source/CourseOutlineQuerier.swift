@@ -8,6 +8,21 @@
 
 import UIKit
 
+struct BlockCompletionObserver: Equatable {
+    var controller: UIViewController
+    var blockID: CourseBlockID
+    var mode: CourseOutlineMode
+    var delegate: BlockCompletionDelegate
+    
+    static func == (lhs: BlockCompletionObserver, rhs: BlockCompletionObserver) -> Bool {
+        return lhs.blockID == rhs.blockID
+    }
+}
+
+protocol BlockCompletionDelegate {
+    func didCompletionChanged(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode)
+}
+
 private enum TraversalDirection {
     case Forward
     case Reverse
@@ -45,6 +60,27 @@ public class CourseOutlineQuerier : NSObject {
     let courseCelebrationModalStream = BackedStream<(CourseCelebrationModel)>()
     public var needsRefresh : Bool = false
     
+    private var observers: [BlockCompletionObserver] = []
+    
+    func add(observer: BlockCompletionObserver) {
+        if let index = observers.firstIndexMatching({ $0.controller === observer.controller && $0.blockID == observer.blockID }) {
+            observers.remove(at: index)
+        }
+        
+        observers.append(observer)
+    }
+    
+    func remove(observer: UIViewController) {
+        let filtered = observers.filter { $0.controller !== observer }
+        observers = []
+        observers.append(contentsOf: filtered)
+    }
+    
+    private var blocks: [CourseBlockID : CourseBlock] = [:] {
+        didSet {
+            subscribeToBlockCompletion()
+        }
+    }
     
     public init(courseID : String, interface : OEXInterface?, enrollmentManager: EnrollmentManager?, networkManager : NetworkManager?, session : OEXSession?, environment: Environment) {
         self.courseID = courseID
@@ -81,6 +117,128 @@ public class CourseOutlineQuerier : NSObject {
         self.interface = interface
     }
     
+    private func subscribeToBlockCompletion() {
+        blocks.forEach { item in
+            let block = item.value
+            
+            guard let parent = parentOfBlockWith(id: block.blockID).firstSuccess().value else { return }
+            
+            handleDiscussionBlockIfNeeded(parent: parent)
+            
+            if case CourseBlockType.Video = block.type {
+                handleVideoBlockIfNeeded(parent: parent)
+            }
+            
+            block.completion.subscribe(observer: self) { [weak self] value, _ in
+                guard let weakSelf = self else { return }
+                
+                let allCompleted = parent.children.allSatisfy { [weak self] childID in
+                    return self?.blockWithID(id: childID).firstSuccess().value?.isCompleted ?? false
+                }
+                
+                if allCompleted {
+                    if !parent.isCompleted {
+                        parent.isCompleted = true
+                    }
+                    weakSelf.observers.forEach { observer in
+                        if observer.blockID == parent.blockID {
+                            let children = parent.children.compactMap { [weak self] childID in
+                                return self?.blockWithID(id: childID).firstSuccess().value
+                            }
+                            
+                            let blockGroup = BlockGroup(block: parent, children: children)
+                            observer.delegate.didCompletionChanged(in: blockGroup, mode: observer.mode)
+                        }
+                    }
+                }
+                
+                weakSelf.handleVideoBlockIfNeeded(parent: parent)
+                
+                weakSelf.handleDiscussionBlockIfNeeded(parent: parent)
+            }
+        }
+    }
+    
+    private func handleDiscussionBlockIfNeeded(parent: CourseBlock) {
+        if parent.type != .Unit {
+            return
+        }
+        
+        let allBlocksAreCompleted = parent.children.compactMap { blockWithID(id: $0).firstSuccess().value }
+            .allSatisfy { $0.isCompleted }
+        
+        if !allBlocksAreCompleted {
+            let otherBlocks = parent.children.filter { blockID -> Bool in
+                guard let childBlock = blockWithID(id: blockID).value,
+                      case CourseBlockType.Discussion = childBlock.type
+                else { return true }
+                
+                return false
+            }.compactMap { blockWithID(id: $0).firstSuccess().value }
+            
+            let discussionBlocks = parent.children.filter { blockID -> Bool in
+                guard let childBlock = blockWithID(id: blockID).value,
+                      case CourseBlockType.Discussion = childBlock.type
+                else { return false }
+                
+                return true
+            }.compactMap { blockWithID(id: $0).firstSuccess().value }
+            
+            if !otherBlocks.isEmpty {
+                let otherBlocksAreCompleted = otherBlocks.allSatisfy { $0.isCompleted }
+                
+                if otherBlocksAreCompleted {
+                    for block in discussionBlocks {
+                        if !block.isCompleted {
+                            block.isCompleted = true
+                            break
+                        }
+                    }
+                }
+            } else {
+                for block in discussionBlocks {
+                    if !block.isCompleted {
+                        block.isCompleted = true
+                        break
+                    }
+                }
+            }
+        }
+    }
+    
+    private func handleVideoBlockIfNeeded(parent: CourseBlock, observer: BlockCompletionObserver? = nil) {
+        if parent.type != .Unit {
+            return
+        }
+        
+        let childVideoBlocks = parent.children.compactMap { [weak self] item -> CourseBlock? in
+            guard let block = self?.blockWithID(id: item, mode: .video).value else { return nil }
+            if case CourseBlockType.Video = block.type  {
+                return block
+            }
+            return nil
+        }
+        
+        if childVideoBlocks.isEmpty {
+            return
+        }
+        
+        let allCompleted = childVideoBlocks.allSatisfy { $0.isCompleted }
+        
+        if allCompleted {
+            if !parent.isCompleted {
+                parent.isCompleted = true
+            }
+            
+            observers.forEach { observer in
+                if observer.blockID == parent.blockID {
+                    let blockGroup = BlockGroup(block: parent, children: childVideoBlocks)
+                    observer.delegate.didCompletionChanged(in: blockGroup, mode: observer.mode)
+                }
+            }
+        }
+    }
+    
     private func addObservers() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionStarted.rawValue) { (notification, observer, _) -> Void in
             observer.needsRefresh = true
@@ -88,16 +246,16 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     private func addListener() {
-       courseOutline.listen(self,
-            success : {[weak self] outline in
-                self?.loadedNodes(blocks: outline.blocks)
-            }, failure : { _ in
-            }
-        )
+        courseOutline.listen(self, success : {[weak self] outline in
+            self?.loadedNodes(blocks: outline.blocks)
+        }, failure : { _ in } )
     }
     
     private func loadedNodes(blocks: [CourseBlockID : CourseBlock]) {
+        self.blocks = blocks
+        
         var videos : [OEXVideoSummary] = []
+        
         for (_, block) in blocks {
             switch block.type {
             case let .Video(video):
@@ -106,7 +264,7 @@ public class CourseOutlineQuerier : NSObject {
                 break
             }
         }
-        
+                
         interface?.addVideos(videos, forCourseWithID: courseID)
     }
     
@@ -302,7 +460,7 @@ public class CourseOutlineQuerier : NSObject {
             // type of current block is the type which is passed as parameter
             return OEXStream(error: NSError.oex_courseContentLoadError())
         }
-                
+        
         guard let parentBlockID = parentOfBlockWithID(blockID: blockID).firstSuccess().value else {
             return OEXStream(error: NSError.oex_courseContentLoadError())
         }
@@ -346,7 +504,7 @@ public class CourseOutlineQuerier : NSObject {
             }
         }
     }
-
+    
     /// Loads all the children of the given block.
     /// nil means use the course root.
     public func childrenOfBlockWithID(blockID: CourseBlockID?, forMode mode: CourseOutlineMode) -> OEXStream<BlockGroup> {
@@ -380,7 +538,7 @@ public class CourseOutlineQuerier : NSObject {
             }
         }
     }
-
+    
     private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, transform : (CourseBlock) -> [A], accumulator : inout [A]) {
         if let block = blockWithID(id: id, inOutline: outline) {
             accumulator.append(contentsOf: transform(block))
@@ -415,7 +573,6 @@ public class CourseOutlineQuerier : NSObject {
             let videos = self?.interface?.statesForVideos(withIDs: videoIDs, courseID: self?.courseID ?? "")
             return videos?.filter { video in (video.summary?.isDownloadableVideo ?? false)} ?? []
         })
-        
         return blockVideos
     }
     

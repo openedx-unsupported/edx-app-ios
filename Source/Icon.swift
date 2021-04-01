@@ -97,6 +97,7 @@ public enum Icon {
     case ChevronRight
     case Close
     case CircleO
+    case CheckCircle
     case CheckCircleO
     case Closed
     case Comment
@@ -200,6 +201,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Trash)
         case .Announcements:
             return FontAwesomeRenderer(icon: .Bullhorn)
+        case .CheckCircle:
+            return FontAwesomeRenderer(icon: .CheckCircle)
         case .CircleO:
             return FontAwesomeRenderer(icon: .CircleO)
         case .CheckCircleO:

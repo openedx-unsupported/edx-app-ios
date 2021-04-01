@@ -8,12 +8,17 @@
 
 import UIKit
 
-public class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
-    
+class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
+
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
     
     public let courseID: String
     public let blockID: CourseBlockID?
+    
+    var block: CourseBlock? {
+        return courseQuerier.blockWithID(id: blockID).firstSuccess().value
+    }
+    
     private let environment: Environment
     private let subkind: CourseHTMLBlockSubkind
     
@@ -30,12 +35,12 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         self.subkind = subkind
         self.environment = environment
         
-        webController = AuthenticatedWebViewController(environment: environment)
+        webController = AuthenticatedWebViewController(environment: environment, shouldListenForAjaxCallbacks: true)
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
-        
         super.init(nibName : nil, bundle : nil)
 
         webController.delegate = self
+        webController.ajaxCallbackDelegate = self
         
         addObserver()
         setupViews()
@@ -200,6 +205,14 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         showSnackBar()
     }
     
+    private func markBlockAsComplete() {
+        if let block = block {
+            if !block.isCompleted {
+                block.isCompleted = true
+            }
+        }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -215,5 +228,11 @@ extension HTMLBlockViewController: AuthenticatedWebViewControllerDelegate {
 extension HTMLBlockViewController: CourseDateBannerViewDelegate {
     func courseShiftDateButtonAction() {
         resetCourseDate()
+    }
+}
+
+extension HTMLBlockViewController: AJAXCompletionCallbackDelegate {
+    func didCompletionCalled(completion: Bool) {
+        markBlockAsComplete()
     }
 }

@@ -21,27 +21,27 @@ class DownloadsAccessoryView : UIView {
     
     private let downloadButton = UIButton(type: .system)
     private let downloadSpinner = SpinnerView(size: .Medium, color: .Primary)
-    private let iconFontSize : CGFloat = 15
-    private let countLabel : UILabel = UILabel()
+    private let iconFontSize: CGFloat = 15
+    private let countLabel: UILabel = UILabel()
+    private let downloadButtonSize = 30
     
-    override init(frame : CGRect) {
+    override init(frame: CGRect) {
         state = .Available
         itemCount = nil
         
         super.init(frame: frame)
         
-        downloadButton.tintColor = OEXStyles.shared().primaryXLightColor()
-        downloadButton.contentEdgeInsets = UIEdgeInsets.init(top: 15, left: 10, bottom: 15, right: 10)
-        downloadButton.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
-        countLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
-        downloadSpinner.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        downloadButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+        countLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        downloadSpinner.setContentCompressionResistancePriority(.required, for: .horizontal)
         
-        self.addSubview(downloadButton)
-        self.addSubview(downloadSpinner)
-        self.addSubview(countLabel)
+        addSubview(downloadButton)
+        addSubview(downloadSpinner)
+        addSubview(countLabel)
         
         // This view is atomic from an accessibility point of view
-        self.isAccessibilityElement = true
+        isAccessibilityElement = true
+        
         downloadSpinner.accessibilityTraits = UIAccessibilityTraits.notEnabled;
         countLabel.accessibilityTraits = UIAccessibilityTraits.notEnabled;
         downloadButton.accessibilityTraits = UIAccessibilityTraits.notEnabled;
@@ -56,16 +56,22 @@ class DownloadsAccessoryView : UIView {
             make.trailing.equalTo(self)
             make.top.equalTo(self)
             make.bottom.equalTo(self)
+            make.height.equalTo(downloadButtonSize)
+            make.width.equalTo(downloadButtonSize)
         }
         
         countLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self)
+            make.leading.equalTo(downloadButton.snp.trailing).offset(StandardHorizontalMargin / 3)
             make.centerY.equalTo(self)
-            make.trailing.equalTo(downloadButton.imageView!.snp.leading).offset(-6)
         }
 
         setAccessibilityIdentifiers()
-        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        state == .Gated ? removeCircleFromDownloadButton() : addCircleToDownloadButton()
     }
 
     private func setAccessibilityIdentifiers() {
@@ -77,6 +83,22 @@ class DownloadsAccessoryView : UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func addCircleToDownloadButton() {
+        downloadButton.backgroundColor = .clear
+        downloadButton.layer.borderWidth = 1
+        downloadButton.layer.borderColor = OEXStyles.shared().neutralLight().cgColor
+        downloadButton.layer.cornerRadius = downloadButton.frame.size.width / 2
+        downloadButton.layer.masksToBounds = true
+    }
+    
+    private func removeCircleFromDownloadButton() {
+        downloadButton.backgroundColor = .clear
+        downloadButton.layer.borderWidth = 0
+        downloadButton.layer.borderColor = UIColor.clear.cgColor
+        downloadButton.layer.cornerRadius = downloadButton.frame.size.width / 2
+        downloadButton.layer.masksToBounds = true
     }
     
     private func useIcon(icon : Icon?) {
@@ -117,7 +139,7 @@ class DownloadsAccessoryView : UIView {
                 else {
                     accessibilityLabel = Strings.download
                 }
-                accessibilityTraits = UIAccessibilityTraits.button
+                accessibilityTraits = .button
             case .Downloading:
                 downloadSpinner.startAnimating()
                 downloadSpinner.isHidden = false
@@ -127,7 +149,7 @@ class DownloadsAccessoryView : UIView {
                 countLabel.isHidden = true
                 
                 accessibilityLabel = Strings.downloading
-                accessibilityTraits = UIAccessibilityTraits.button
+                accessibilityTraits = .button
             case .Deleting:
                 downloadSpinner.startAnimating()
                 downloadSpinner.isHidden = false
@@ -137,7 +159,7 @@ class DownloadsAccessoryView : UIView {
                 countLabel.isHidden = true
                 
                 accessibilityLabel = Strings.downloading
-                accessibilityTraits = UIAccessibilityTraits.button
+                accessibilityTraits = .button
             case .Done:
                 useIcon(icon: .ContentDidDownload)
                 downloadSpinner.isHidden = true
@@ -152,7 +174,7 @@ class DownloadsAccessoryView : UIView {
                 else {
                     accessibilityLabel = Strings.downloaded
                 }
-                accessibilityTraits = UIAccessibilityTraits.staticText
+                accessibilityTraits = .staticText
             case .Gated:
                 useIcon(icon: .Closed)
                 downloadSpinner.isHidden = true
@@ -160,6 +182,9 @@ class DownloadsAccessoryView : UIView {
                 downloadButton.isHidden = false
                 countLabel.isHidden = true
                 downloadButton.tintColor = OEXStyles.shared().primaryDarkColor()
+                
+                accessibilityTraits = .staticText
+                accessibilityLabel = Strings.courseContentGated
             }
         }
     }

@@ -24,28 +24,21 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     weak var delegate : CourseSectionTableViewCellDelegate?
     fileprivate var spinnerTimer = Timer()
     var courseID: String?
+    var courseOutlineMode: CourseOutlineMode = .full
+    
+    var videos : OEXStream<[OEXHelperVideoDownload]> = OEXStream() {
+        didSet {
+            videosStream.backWithStream(videos)
+        }
+    }
+    
+    var courseQuerier: CourseOutlineQuerier?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
         content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
-        }
-
-        downloadView.downloadAction = {[weak self] in
-            if let owner = self, let block = owner.block, let videos = owner.videosStream.value {
-                owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
-            }
-        }
-        videosStream.listen(self) {[weak self] downloads in
-            if let downloads = downloads.value, let state = self?.downloadStateForDownloads(videos: downloads) {
-                self?.downloadView.state = state
-                self?.content.trailingView = self?.downloadView
-                self?.downloadView.itemCount = downloads.count
-            }
-            else {
-                self?.content.trailingView = nil
-            }
         }
         
         for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
@@ -54,7 +47,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
                     observer.downloadView.state = state
                 }
                 else {
-                    observer.content.trailingView = nil
+                    observer.content.hideTrailingView()
                 }
             }
         }
@@ -68,16 +61,34 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         downloadView.addGestureRecognizer(tapGesture)
         setAccessibilityIdentifiers()
     }
-
+    
     private func setAccessibilityIdentifiers() {
         accessibilityIdentifier = "CourseSectionTableViewCell:view"
         content.accessibilityIdentifier = "CourseSectionTableViewCell:content-view"
         downloadView.accessibilityIdentifier = "CourseSectionTableViewCell:download-view"
     }
     
-    var videos : OEXStream<[OEXHelperVideoDownload]> = OEXStream() {
-        didSet {
-            videosStream.backWithStream(videos)
+    func hideLeadingView() {
+        content.hideLeadingView()
+    }
+    
+    private func setupDownloadView() {
+        downloadView.downloadAction = { [weak self] in
+            if let owner = self, let block = owner.block,
+               let videos = owner.videosStream.value {
+                owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
+            }
+        }
+        videosStream.listen(self) { [weak self] downloads in
+            if let downloads = downloads.value,
+               let downloadView = self?.downloadView,
+               let state = self?.downloadStateForDownloads(videos: downloads) {
+                self?.downloadView.state = state
+                self?.content.trailingView = downloadView
+                self?.downloadView.itemCount = downloads.count
+            } else {
+                self?.content.hideTrailingView()
+            }
         }
     }
     
@@ -135,13 +146,53 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         let videosState = downloadStateForDownloads(videos: videos)
         return (videosState == .Done)
     }
-
-    var block : CourseBlock? = nil {
+    
+    var completionAction : (() -> ())?
+    
+    var block: CourseBlock? = nil {
         didSet {
-            content.setTitleText(title: block?.displayName)
-            content.isGraded = block?.graded
-            content.setDetailText(title: block?.format ?? "", dueDate: block?.dueDate, blockType: block?.type)
+            guard let block = block else { return }
+            
+            content.setTitleText(title: block.displayName, elipsis: false)
+            content.isGraded = block.graded
+            content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
+            
+            if courseOutlineMode == .video,
+               let sectionChild = courseQuerier?.childrenOfBlockWithID(blockID: block.blockID, forMode: .video).value,
+               sectionChild.block.type == .Section,
+               let unitChild = courseQuerier?.childrenOfBlockWithID(blockID: sectionChild.block.blockID, forMode: .video).value,
+               unitChild.children.allSatisfy ({ $0.isCompleted }) {
+                completionAction?()
+                showCompletionBackground()
+            } else {
+                handleBlockNormally(block)
+            }
+            
+            setupDownloadView()
         }
+    }
+    
+    private func handleBlockNormally(_ block: CourseBlock) {
+        if block.isCompleted {
+            let shouldShowIcon = courseOutlineMode == .full ? true : false
+            showCompletionBackground(showIcon: shouldShowIcon)
+        } else {
+            showNeutralBackground()
+        }
+    }
+    
+    private func showCompletionBackground(showIcon: Bool = true) {
+        content.backgroundColor = OEXStyles.shared().successXXLight()
+        content.setContentIcon(icon: showIcon ? Icon.CheckCircle : nil, color: OEXStyles.shared().successBase())
+        content.setSeperatorColor(color: OEXStyles.shared().successXLight())
+        content.setCompletionAccessibility(completion: true)
+    }
+    
+    private func showNeutralBackground() {
+        content.backgroundColor = OEXStyles.shared().neutralWhite()
+        content.setContentIcon(icon: nil, color: .clear)
+        content.setSeperatorColor(color: OEXStyles.shared().neutralXLight())
+        content.setCompletionAccessibility()
     }
     
     required init?(coder aDecoder: NSCoder) {

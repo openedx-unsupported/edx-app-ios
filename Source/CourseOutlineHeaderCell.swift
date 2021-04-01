@@ -12,12 +12,15 @@ import UIKit
 class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     static let identifier = "CourseOutlineHeaderCellIdentifier"
     
-    let headerFontStyle = OEXTextStyle(weight: .semiBold, size: .xSmall, color : OEXStyles.shared().neutralXDark())
+    let headerFontStyle = OEXTextStyle(weight: .semiBold, size: .xSmall, color: OEXStyles.shared().neutralXDark())
     let headerLabel = UILabel()
     let horizontalTopLine = UIView()
-    var block : CourseBlock? {
+    
+    var block: CourseBlock? {
         didSet {
             headerLabel.attributedText = headerFontStyle.attributedString(withText: block?.displayName)
+            headerLabel.accessibilityLabel = block?.displayName
+            setStyles()
         }
     }
     
@@ -39,18 +42,30 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     }
 
     //MARK: Helper Methods
-    private func addSubviews(){
+    private func addSubviews() {
         addSubview(headerLabel)
         addSubview(horizontalTopLine)
     }
     
-    private func setStyles(){
+    private func setStyles() {
         //Using CGRectZero size because the backgroundView automatically resizes.
-        backgroundView = UIView(frame: CGRect.zero)
-        backgroundView?.backgroundColor = OEXStyles.shared().neutralWhite()
+        backgroundView = UIView(frame: .zero)
         
         horizontalTopLine.backgroundColor = OEXStyles.shared().neutralBase()
+    }
+    
+    func showCompletedBackground() {
+        updateAccessibilityLabel(completion: true)
+        backgroundView?.backgroundColor = OEXStyles.shared().successXXLight()
+    }
+    
+    func showNeutralBackground() {
+        updateAccessibilityLabel(completion: false)
+        backgroundView?.backgroundColor = OEXStyles.shared().neutralWhite()
+    }
 
+    private func updateAccessibilityLabel(completion: Bool) {
+        headerLabel.accessibilityHint = completion ? Strings.Accessibility.completed : nil
     }
 
     // Skip autolayout for performance reasons

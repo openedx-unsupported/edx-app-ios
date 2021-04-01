@@ -31,6 +31,7 @@ public struct CourseOutline {
         case MinifiedBlockID = "block_id"
         case AuthorizationDenialReason = "authorization_denial_reason"
         case AuthorizationDenialMessage = "authorization_denial_message"
+        case isCompleted = "completion"
     }
     
     public let root : CourseBlockID
@@ -70,7 +71,8 @@ public struct CourseOutline {
                 let minifiedBlockID = body[Fields.MinifiedBlockID].string
                 let authorizationDenialReason = body[Fields.AuthorizationDenialReason].string
                 let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
-
+                let isCompleted = body[Fields.isCompleted].boolValue
+              
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
@@ -124,7 +126,8 @@ public struct CourseOutline {
                     graded : graded,
                     authorizationDenialReason: authorizationDenialReason,
                     authorizationDenialMessage: authorizationDenialMessage,
-                    typeName: typeName
+                    typeName: typeName,
+                    isCompleted: isCompleted
                 )
             }
             self = CourseOutline(root: root, blocks: validBlocks)
@@ -240,6 +243,18 @@ public class CourseBlock {
     /// Authorization Denial Message if the block content is gated
     public let authorizationDenialMessage: String?
     
+    /// completion works as a property observer,
+    /// when value of `isCompleted` is changed, subscription method on `completion` is called.
+    
+    public private(set) var completion: Observable<Bool> = Observable(false)
+    
+    /// Status of block completion
+    public var isCompleted: Bool {
+        didSet {
+            completion.value = isCompleted
+        }
+    }
+    
     /// Property to represent gated content
     public var isGated: Bool {
         return authorizationDenialReason == .featureBasedEnrollment
@@ -261,8 +276,10 @@ public class CourseBlock {
         graded : Bool = false,
         authorizationDenialReason: String? = nil,
         authorizationDenialMessage: String? = nil,
-        typeName: String? = nil) {
-        self.type = type
+        typeName: String? = nil,
+        isCompleted: Bool = false) {
+
+      self.type = type
         self.children = children
         self.name = name
         self.dueDate = dueDate
@@ -277,6 +294,6 @@ public class CourseBlock {
         self.authorizationDenialReason = AuthorizationDenialReason(rawValue: authorizationDenialReason ?? AuthorizationDenialReason.none.rawValue) ?? AuthorizationDenialReason.none
         self.authorizationDenialMessage = authorizationDenialMessage
         self.typeName = typeName
+        self.isCompleted = isCompleted
     }
 }
-
