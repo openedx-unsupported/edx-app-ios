@@ -364,6 +364,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     private func resumeCourse(with item: ResumeCourseItem) {
         delegate?.outlineTableController(controller: self, resumeCourse: item)
+        environment.analytics.trackResumeCourseTapped(courseID: courseID, blockID: item.lastVisitedBlockID)
     }
     
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
