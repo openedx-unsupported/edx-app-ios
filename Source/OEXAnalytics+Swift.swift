@@ -19,6 +19,7 @@ public enum AnalyticsCategory : String {
 }
 
 public enum AnalyticsDisplayName : String {
+    case AccountSettings = "Account Settings"
     case DiscoverCourses = "Discover Courses"
     case ExploreCourses = "Explore Courses"
     case UserLogin = "User Login"
@@ -44,6 +45,7 @@ public enum AnalyticsDisplayName : String {
     case CourseComponentTapped = "Dates: Course Component Tapped"
     case CourseUnsupportedComponentTapped = "Dates: Unsupported Component Tapped"
     case ExploreAllCourses = "Explore All Courses"
+    case MyPrograms = "My Programs"
 }
 
 public enum AnalyticsEventName: String {
@@ -321,7 +323,7 @@ extension OEXAnalytics {
         
         trackScreen(withName: AnalyticsDisplayName.ValuePropModalView.rawValue, courseID: courseId, value: nil, additionalInfo: info)
     }
-
+    
     func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, eventName: String, bannerType: String) {
         let event = OEXAnalyticsEvent()
         event.name = eventName
