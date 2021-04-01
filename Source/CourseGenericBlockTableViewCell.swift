@@ -27,6 +27,12 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         content.accessibilityIdentifier = "CourseGenericBlockTableViewCell:content-view"
     }
     
+    var isSectionOutline = false {
+        didSet {
+            content.isSectionOutline = isSectionOutline
+        }
+    }
+    
     var block: CourseBlock? = nil {
         didSet {
             guard let block = block else { return }

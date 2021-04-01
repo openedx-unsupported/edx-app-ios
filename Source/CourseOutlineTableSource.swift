@@ -273,18 +273,22 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             return cell
         case .HTML(.Base), .HTML(.DragAndDrop):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseHTMLTableViewCell.identifier, for: indexPath) as! CourseHTMLTableViewCell
+            cell.isSectionOutline = isSectionOutline
             cell.block = block
             return cell
         case .HTML(.Problem):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseProblemTableViewCell.identifier, for: indexPath) as! CourseProblemTableViewCell
+            cell.isSectionOutline = isSectionOutline
             cell.block = block
             return cell
         case .HTML(.OpenAssesment):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseOpenAssesmentTableViewCell.identifier, for: indexPath) as! CourseOpenAssesmentTableViewCell
+            cell.isSectionOutline = isSectionOutline
             cell.block = block
             return cell
         case .Unknown:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseUnknownTableViewCell.identifier, for: indexPath) as! CourseUnknownTableViewCell
+            cell.isSectionOutline = isSectionOutline
             cell.block = block
             return cell
         case .Outline, .Unit:
