@@ -74,19 +74,19 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     private func setupDownloadView() {
         downloadView.downloadAction = { [weak self] in
-            if let owner = self, let block = owner.block, let videos = owner.videosStream.value {
+            if let owner = self, let block = owner.block,
+               let videos = owner.videosStream.value {
                 owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
             }
         }
-        videosStream.listen(self) {[weak self] downloads in
+        videosStream.listen(self) { [weak self] downloads in
             if let downloads = downloads.value,
                let downloadView = self?.downloadView,
                let state = self?.downloadStateForDownloads(videos: downloads) {
                 self?.downloadView.state = state
                 self?.content.trailingView = downloadView
                 self?.downloadView.itemCount = downloads.count
-            }
-            else {
+            } else {
                 self?.content.hideTrailingView()
             }
         }
@@ -173,7 +173,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     }
     
     private func handleBlockNormally(_ block: CourseBlock) {
-        if block.isCompleted && !block.isGated {
+        if block.isCompleted {
             let shouldShowIcon = courseOutlineMode == .full ? true : false
             showCompletionBackground(showIcon: shouldShowIcon)
         } else {

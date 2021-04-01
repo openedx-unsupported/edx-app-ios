@@ -71,11 +71,7 @@ class DownloadsAccessoryView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        if state == .Gated {
-            removeCircleFromDownloadButton()
-        } else {
-            addCircleToDownloadButton()
-        }
+        state == .Gated ? removeCircleFromDownloadButton() : addCircleToDownloadButton()
     }
 
     private func setAccessibilityIdentifiers() {

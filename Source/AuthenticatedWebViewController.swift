@@ -93,7 +93,7 @@ private class WKWebViewContentController : WebContentController {
 private let OAuthExchangePath = "/oauth2/login/"
 
 fileprivate let AJAXCallBackHandler = "ajaxCallbackHandler"
-
+fileprivate let ajaxScriptFile = "ajaxHandler"
 // Allows access to course content that requires authentication.
 // Forwarding our oauth token to the server so we can get a web based cookie
 public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
@@ -201,7 +201,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     }
 
     private func addAjaxCallbackScript(in contentController: WKUserContentController) {
-        guard let url = Bundle.main.url(forResource: "ajaxHandler", withExtension: "js"),
+        guard let url = Bundle.main.url(forResource: ajaxScriptFile, withExtension: "js"),
               let handler = try? String(contentsOf: url, encoding: .utf8) else { return }
         let script = WKUserScript(source: handler, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
         contentController.add(self, name: AJAXCallBackHandler)
