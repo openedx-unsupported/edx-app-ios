@@ -146,16 +146,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     }
     
     private func updateDownloadViewForVideoState() {
-        switch localState?.watchedState ?? .unwatched {
-        case .unwatched, .partiallyWatched:
-            content.leadingIconColor = OEXStyles.shared().primaryBaseColor()
-        case .watched:
-            content.leadingIconColor = OEXStyles.shared().neutralXDark()
-        @unknown default:
-            break
-        }
-        
-        guard !(self.localState?.summary?.onlyOnWeb ?? false) else {
+        guard !(localState?.summary?.onlyOnWeb ?? false) else {
             content.hideTrailingView()
             return
         }
