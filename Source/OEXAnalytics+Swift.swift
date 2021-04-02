@@ -46,6 +46,7 @@ public enum AnalyticsDisplayName : String {
     case CourseUnsupportedComponentTapped = "Dates: Unsupported Component Tapped"
     case ExploreAllCourses = "Explore All Courses"
     case MyPrograms = "My Programs"
+    case ResumeCourseTapped = "Resume Course Tapped"
 }
 
 public enum AnalyticsEventName: String {
@@ -84,6 +85,7 @@ public enum AnalyticsEventName: String {
     case CourseComponentTapped = "edx.bi.app.coursedates.component.tapped"
     case CourseUnsupportedComponentTapped = "edx.bi.app.coursedates.unsupported.component.tapped"
     case ExploreAllCourses = "edx.bi.app.discovery.explore.all.courses"
+    case ResumeCourseTapped = "edx.bi.app.course.resume.tapped"
 }
 
 public enum AnalyticsScreenName: String {
@@ -402,6 +404,15 @@ extension OEXAnalytics {
         event.label = AnalyticsCategory.Discovery.rawValue
 
         trackEvent(event, forComponent: nil, withInfo: ["action":"landing_screen","app_version": Bundle.main.oex_buildVersionString()])
+    }
+
+    func trackResumeCourseTapped(courseID: String, blockID: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.ResumeCourseTapped.rawValue
+        event.name = AnalyticsEventName.ResumeCourseTapped.rawValue
+        event.category = OEXAnalyticsCategoryNavigation
+
+        trackEvent(event, forComponent: nil, withInfo: [key_course_id: courseID, OEXAnalyticsKeyBlockID: blockID])
     }
 }
 
