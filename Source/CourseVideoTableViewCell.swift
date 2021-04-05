@@ -160,6 +160,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             return
         }
         
+        content.trailingView = downloadView
         downloadView.state = downloadState
     }
     
