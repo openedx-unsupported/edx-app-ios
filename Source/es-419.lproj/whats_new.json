@@ -1,5 +1,46 @@
 [
     {
+        "version":"2.25",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Retomar el curso",
+                "message":"No volverás a perder tu lugar, ya que ahora puedes seguir aprendiendo donde lo dejaste con total facilidad."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Marcas de verificación",
+                "message":"Marcaremos las tareas como completadas a medida que las completas para que puedas estar al tanto de tu progreso."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Celebraciones",
+                "message":"Comparte lo que aprendes con tus amigos y celebra tus logros."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_4",
+                "title":"Página de fechas mejoradas",
+                "message":"Ahora puedes acceder a las unidades directamente desde la página de fechas con enlaces rápidos."
+            }
+        ]
+    },
+    {
         "version":"2.24",
         "messages":[
             {
