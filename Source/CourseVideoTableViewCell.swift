@@ -146,7 +146,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     }
     
     private func updateDownloadViewForVideoState() {
-        guard !(localState?.summary?.onlyOnWeb ?? false) else {
+        guard let summary = localState?.summary, summary.isDownloadableVideo else {
             content.hideTrailingView()
             return
         }
