@@ -151,13 +151,13 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             return
         }
         
-        content.trailingView = downloadView
-        downloadView.state = downloadState
-
         if !summary.isDownloadableVideo {
             content.hideTrailingView()
             return
         }
+        
+        content.trailingView = downloadView
+        downloadView.state = downloadState
     }
     
    fileprivate func isVideoDownloaded() -> Bool{
