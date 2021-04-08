@@ -59,18 +59,20 @@ extension UIImage {
     }
     
     func image(with color: UIColor) -> UIImage {
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContext(rect.size)
-        let context = UIGraphicsGetCurrentContext()
-        if let cgImage = cgImage {
-            context?.clip(to: rect, mask: cgImage)
-        }
-        context?.setFillColor(color.cgColor)
-        context?.fill(rect)
+        let image = withRenderingMode(.alwaysTemplate)
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = color
         
-        if let cgImage = UIGraphicsGetImageFromCurrentImageContext()?.cgImage {
-            UIGraphicsEndImageContext()
-            return UIImage(cgImage: cgImage, scale: 1, orientation: .downMirrored)
+        var tintedImage: UIImage?
+        UIGraphicsBeginImageContextWithOptions(image.size, false, 0.0)
+        if let context = UIGraphicsGetCurrentContext() {
+            imageView.layer.render(in: context)
+            tintedImage = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        UIGraphicsEndImageContext()
+        
+        if let tintedImage = tintedImage {
+            return tintedImage
         } else {
             return self
         }
