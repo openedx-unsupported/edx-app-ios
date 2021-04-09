@@ -185,7 +185,7 @@ public class CourseOutlineItemView: UIView {
     
     func setContentIcon(icon: Icon?, color: UIColor) {
         shouldShowLeadingView = true
-        let image = icon?.imageWithFontSize(size: SmallIconSize).image(with: color)
+        let image = icon?.imageWithFontSize(size: SmallIconSize)
         leadingImageButton.setImage(image, for: .normal)
         leadingImageButton.tintColor = color
         if let accessibilityText = icon?.accessibilityText {
