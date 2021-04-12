@@ -39,7 +39,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     private var userProfileImageView = ProfileImageView()
     private let UserProfileImageSize = CGSize(width: 30, height: 30)
     private var profileFeed: Feed<UserProfile>?
-    private let tabBarImageFontSize : CGFloat = 20
+    private let tabBarImageFontSize : CGFloat = 22
     static var courseCatalogIndex: Int = 0
     
     private var screenTitle: String {

@@ -21,9 +21,9 @@ class DownloadsAccessoryView : UIView {
     
     private let downloadButton = UIButton(type: .system)
     private let downloadSpinner = SpinnerView(size: .Medium, color: .Primary)
-    private let iconFontSize: CGFloat = 15
+    private let iconFontSize: CGFloat = 17
     private let countLabel: UILabel = UILabel()
-    private let downloadButtonSize = 30
+    private let downloadButtonSize = 32
     
     override init(frame: CGRect) {
         state = .Available

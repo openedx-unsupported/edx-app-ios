@@ -157,7 +157,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             make.height.equalTo(45)
         }
         
-        let searchIcon = Icon.Discovery.imageWithFontSize(size: 15)
+        let searchIcon = Icon.Discovery.imageWithFontSize(size: 17)
         let searchImageView = UIImageView()
         searchImageView.image = searchIcon
         searchImageView.tintColor = environment.styles.primaryBaseColor()

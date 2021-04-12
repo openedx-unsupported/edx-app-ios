@@ -223,7 +223,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         } else {
             
             if let language = profile.language {
-                let icon = Icon.Comment.attributedTextWithStyle(style: infoStyle)
+                let icon = Icon.Language.attributedTextWithStyle(style: infoStyle)
                 let langText = infoStyle.attributedString(withText: language)
                 languageLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon, langText])
             }

@@ -149,7 +149,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         var controllers :[UIViewController] = []
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
-            controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: 20), selectedImage: tabBarItem.icon.imageWithFontSize(size: 20))
+            controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: 22), selectedImage: tabBarItem.icon.imageWithFontSize(size: 22))
             controller.tabBarItem.accessibilityIdentifier = "CourseDashboardViewController:tabbar-item-\(tabBarItem.title)"
             controllers.append(controller)
         }

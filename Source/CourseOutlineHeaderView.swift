@@ -13,7 +13,7 @@ public class CourseOutlineHeaderView: UIView {
     
     private let verticalMargin = 3
     private let buttonIconMargin: CGFloat = 21  // Lines it up with the download video icon. This is fragile and would be better to eventually use the same source of truth for positioning.
-    private let buttonIconSize: CGFloat = 16
+    private let buttonIconSize: CGFloat = 20
 
     private let bottomDivider : UIView = UIView(frame: CGRect.zero)
     

@@ -92,7 +92,7 @@
 	<string>The data will be used to track your activity to address app functionality and gather data analytics for multiple purposes.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>FontAwesome.ttf</string>
+        <string>MaterialIconsSharp.otf</string>
 		<string>Inter-Italic.ttf</string>
 		<string>Inter-Regular.ttf</string>
 		<string>Inter-SemiBold.ttf</string>
