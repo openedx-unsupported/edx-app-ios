@@ -51,7 +51,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
             }
 
             if !block.isGated {
-                content.trailingView.removeFromSuperview()
+                content.trailingView = nil
                 content.setDetailText(title: "", blockType: block.type)
             }
         }

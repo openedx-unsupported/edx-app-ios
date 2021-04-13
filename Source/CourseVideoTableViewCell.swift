@@ -23,7 +23,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     weak var delegate : CourseVideoTableViewCellDelegate?
     
     private let content = CourseOutlineItemView()
-    private let downloadView = DownloadsAccessoryView()
+    private var downloadView = DownloadsAccessoryView()
     private var spinnerTimer = Timer()
     
     var courseOutlineMode: CourseOutlineMode = .full
@@ -151,12 +151,16 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             return
         }
         
-        content.trailingView = downloadView
+        if let trailingView = content.trailingView as? DownloadsAccessoryView {
+            downloadView = trailingView
+        } else {
+            content.trailingView = downloadView
+        }
         downloadView.state = downloadState
     }
     
    fileprivate func isVideoDownloaded() -> Bool{
-        return (localState?.downloadState == OEXDownloadState.complete)
+        return localState?.downloadState == OEXDownloadState.complete
     }
     
    fileprivate func deleteVideo()  {
