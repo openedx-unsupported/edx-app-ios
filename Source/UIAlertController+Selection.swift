@@ -11,16 +11,16 @@ import Foundation
 extension UIAlertController {
     static func actionSheetWithItems<A : Equatable>(items : [(title : String, value : A)], currentSelection : A? = nil, action : @escaping (A) -> Void) -> UIAlertController {
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        for (var title, value) in items {
-            if let selection = currentSelection, value == selection {
-                // Note that checkmark and space have a neutral text flow direction so this is correct for RTL
-                title = "✔︎ " + title
+        for (title, value) in items {
+            let alertAction = UIAlertAction(title : title, style: .default) {_ in
+                action(value)
             }
-            controller.addAction(
-                UIAlertAction(title : title, style: .default) {_ in
-                    action(value)
-                }
-            )
+            
+            if let selection = currentSelection, value == selection {
+                alertAction.setValue(true, forKey: "checked")
+            }
+
+            controller.addAction(alertAction)
         }
         return controller
     }
@@ -28,6 +28,6 @@ extension UIAlertController {
 
 extension UIAlertController {
     func addCancelAction(handler : @escaping (UIAlertAction) -> Void = {_ in }) {
-        self.addAction(UIAlertAction(title: Strings.cancel, style: .cancel, handler : handler))
+        addAction(UIAlertAction(title: Strings.cancel, style: .cancel, handler : handler))
     }
 }
