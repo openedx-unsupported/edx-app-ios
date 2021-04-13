@@ -84,7 +84,7 @@ private class RotatedIconRenderer: IconRenderer {
     }
 }
 
-// Abstracts out FontAwesome so that we can swap it out if necessary
+// Abstracts out Material Sharp so that we can swap it out if necessary
 // And also give some of our icons more semantics names
 public enum Icon {
     case Answered

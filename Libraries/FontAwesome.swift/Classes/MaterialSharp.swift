@@ -1,4 +1,4 @@
-// FontAwesome.swift
+// MaterialSharp.swift
 //
 // Copyright (c) 2014 Doan Truong Thi
 //
