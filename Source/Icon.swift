@@ -14,7 +14,7 @@ protocol IconRenderer : class {
     func drawWithAttributes(attributes: [NSAttributedString.Key : Any], inContext context : CGContext)
 }
 
-class CustomIconRenderer : IconRenderer {
+class MaterialIconRenderer : IconRenderer {
     let icon: MaterialSharp
     
     init(icon: MaterialSharp) {
@@ -158,139 +158,139 @@ public enum Icon {
     private var renderer : IconRenderer {
         switch self {
         case .Sort:
-            return RotatedIconRenderer(backing: CustomIconRenderer(icon: .sort))
+            return RotatedIconRenderer(backing: MaterialIconRenderer(icon: .sort))
         case .RotateDevice:
-            return RotatedIconRenderer(backing: CustomIconRenderer(icon: .screenRotation))
+            return RotatedIconRenderer(backing: MaterialIconRenderer(icon: .screenRotation))
         case .ArrowUp:
-            return CustomIconRenderer(icon: .arrowUpward)
+            return MaterialIconRenderer(icon: .arrowUpward)
         case .ArrowDown:
-            return CustomIconRenderer(icon: .arrowDownward)
+            return MaterialIconRenderer(icon: .arrowDownward)
         case .Account:
-            return CustomIconRenderer(icon: .moreVert)
+            return MaterialIconRenderer(icon: .moreVert)
         case .Camera:
-            return CustomIconRenderer(icon: .cameraAlt)
+            return MaterialIconRenderer(icon: .cameraAlt)
         case .ChevronRight:
-            return CustomIconRenderer(icon: .chevronRight)
+            return MaterialIconRenderer(icon: .chevronRight)
         case .Close:
-            return CustomIconRenderer(icon: .close)
+            return MaterialIconRenderer(icon: .close)
         case .Clone:
-            return CustomIconRenderer(icon: .collectionsBookmark)
+            return MaterialIconRenderer(icon: .collectionsBookmark)
         case .Comment:
-            return CustomIconRenderer(icon: .comment)
+            return MaterialIconRenderer(icon: .comment)
         case .Comments:
-            return CustomIconRenderer(icon: .forum)
+            return MaterialIconRenderer(icon: .forum)
         case .Calendar:
-            return CustomIconRenderer(icon: .event)
+            return MaterialIconRenderer(icon: .event)
         case .Question:
-            return CustomIconRenderer(icon: .help)
+            return MaterialIconRenderer(icon: .help)
         case .Answered:
-            return CustomIconRenderer(icon: .questionAnswer)
+            return MaterialIconRenderer(icon: .questionAnswer)
         case .Filter:
-            return CustomIconRenderer(icon: .filterAlt)
+            return MaterialIconRenderer(icon: .filterAlt)
         case .User:
-            return CustomIconRenderer(icon: .person)
+            return MaterialIconRenderer(icon: .person)
         case .Create:
-            return CustomIconRenderer(icon: .create)
+            return MaterialIconRenderer(icon: .create)
         case .Pinned:
-            return CustomIconRenderer(icon: .pushPin)
+            return MaterialIconRenderer(icon: .pushPin)
         case .Transcript:
-            return CustomIconRenderer(icon: .fileCopy)
+            return MaterialIconRenderer(icon: .fileCopy)
         case .DeleteIcon:
-            return CustomIconRenderer(icon: .delete)
+            return MaterialIconRenderer(icon: .delete)
         case .Announcements:
-            return CustomIconRenderer(icon: .campaign)
+            return MaterialIconRenderer(icon: .campaign)
         case .CheckCircle:
-            return CustomIconRenderer(icon: .checkCircle)
+            return MaterialIconRenderer(icon: .checkCircle)
         case .CircleO:
-            return CustomIconRenderer(icon: .addCircle)
+            return MaterialIconRenderer(icon: .addCircle)
         case .CheckCircleO:
-            return CustomIconRenderer(icon: .checkCircleOutline)
+            return MaterialIconRenderer(icon: .checkCircleOutline)
         case .ContentCanDownload:
-            return CustomIconRenderer(icon: .download)
+            return MaterialIconRenderer(icon: .download)
         case .ContentDidDownload:
-            return CustomIconRenderer(icon: .downloadDone)
+            return MaterialIconRenderer(icon: .downloadDone)
         case .CourseEffort:
-            return CustomIconRenderer(icon: .dashboard)
+            return MaterialIconRenderer(icon: .dashboard)
         case .CourseVideoPlay:
-            return CustomIconRenderer(icon: .playCircleOutline)
+            return MaterialIconRenderer(icon: .playCircleOutline)
         case .CourseEnd:
-            return CustomIconRenderer(icon: .schedule)
+            return MaterialIconRenderer(icon: .schedule)
         case .CourseHTMLContent:
-            return CustomIconRenderer(icon: .article)
+            return MaterialIconRenderer(icon: .article)
         case .CourseOpenAssesmentContent:
-            return CustomIconRenderer(icon: .edit)
+            return MaterialIconRenderer(icon: .edit)
         case .CourseModeFull:
-            return CustomIconRenderer(icon: .list)
+            return MaterialIconRenderer(icon: .list)
         case .Recent:
-            return CustomIconRenderer(icon: .recentActors)
+            return MaterialIconRenderer(icon: .recentActors)
         case .Country:
-            return CustomIconRenderer(icon: .place)
+            return MaterialIconRenderer(icon: .place)
         case .CourseVideos:
-            return CustomIconRenderer(icon: .videocam)
+            return MaterialIconRenderer(icon: .videocam)
         case .CourseProblemContent:
-            return CustomIconRenderer(icon: .summarize)
+            return MaterialIconRenderer(icon: .summarize)
         case .Courseware:
-            return CustomIconRenderer(icon: .classroom)
+            return MaterialIconRenderer(icon: .classroom)
         case .CourseUnknownContent:
-            return CustomIconRenderer(icon: .laptop)
+            return MaterialIconRenderer(icon: .laptop)
         case .CourseVideoContent:
-            return CustomIconRenderer(icon: .videocam)
+            return MaterialIconRenderer(icon: .videocam)
         case .Menu:
-            return CustomIconRenderer(icon: .menu)
+            return MaterialIconRenderer(icon: .menu)
         case .ReportFlag:
-            return CustomIconRenderer(icon: .flag)
+            return MaterialIconRenderer(icon: .flag)
         case .UpVote:
-            return CustomIconRenderer(icon: .thumbUp)
+            return MaterialIconRenderer(icon: .thumbUp)
         case .FollowStar:
-            return CustomIconRenderer(icon: .star)
+            return MaterialIconRenderer(icon: .star)
         case .Discussions:
-            return CustomIconRenderer(icon: .forum)
+            return MaterialIconRenderer(icon: .forum)
         case .Dropdown:
-            return CustomIconRenderer(icon: .arrowDropDown)
+            return MaterialIconRenderer(icon: .arrowDropDown)
         case .Graded:
-            return CustomIconRenderer(icon: .factCheck)
+            return MaterialIconRenderer(icon: .factCheck)
         case .Handouts:
-            return CustomIconRenderer(icon: .description)
+            return MaterialIconRenderer(icon: .description)
         case .InternetError:
-            return CustomIconRenderer(icon: .wifi)
+            return MaterialIconRenderer(icon: .wifi)
         case .OpenURL:
-            return CustomIconRenderer(icon: .openInBrowser)
+            return MaterialIconRenderer(icon: .openInBrowser)
         case .Settings:
-            return CustomIconRenderer(icon: .settings)
+            return MaterialIconRenderer(icon: .settings)
         case .StarEmpty:
-            return CustomIconRenderer(icon: .starOutline)
+            return MaterialIconRenderer(icon: .starOutline)
         case .StarFilled:
-            return CustomIconRenderer(icon: .star)
+            return MaterialIconRenderer(icon: .star)
         case .Discovery:
-            return CustomIconRenderer(icon: .search)
+            return MaterialIconRenderer(icon: .search)
         case .UnknownError:
-            return CustomIconRenderer(icon: .error)
+            return MaterialIconRenderer(icon: .error)
         case .NoTopics:
-            return CustomIconRenderer(icon: .list)
+            return MaterialIconRenderer(icon: .list)
         case .NoSearchResults:
-            return CustomIconRenderer(icon: .playCircleOutline)
+            return MaterialIconRenderer(icon: .playCircleOutline)
         case .Trophy:
-            return CustomIconRenderer(icon: .emojiEvents)
+            return MaterialIconRenderer(icon: .emojiEvents)
         case .VideoFullscreen:
-            return CustomIconRenderer(icon: .expandMore)
+            return MaterialIconRenderer(icon: .expandMore)
         case .VideoPlay:
-            return CustomIconRenderer(icon: .playArrow)
+            return MaterialIconRenderer(icon: .playArrow)
         case .VideoPause:
-            return CustomIconRenderer(icon: .pause)
+            return MaterialIconRenderer(icon: .pause)
         case .VideoRewind:
-            return CustomIconRenderer(icon: .history)
+            return MaterialIconRenderer(icon: .history)
         case .VideoShrink:
-            return CustomIconRenderer(icon: .expandLess)
+            return MaterialIconRenderer(icon: .expandLess)
         case .Closed:
-            return CustomIconRenderer(icon: .lock)
+            return MaterialIconRenderer(icon: .lock)
         case .Warning:
-            return CustomIconRenderer(icon: .error)
+            return MaterialIconRenderer(icon: .error)
         case .MoreOptionsIcon:
-            return CustomIconRenderer(icon: .moreHoriz)
+            return MaterialIconRenderer(icon: .moreHoriz)
         case .ArrowLeft:
-            return CustomIconRenderer(icon: .keyboardArrowLeft)
+            return MaterialIconRenderer(icon: .keyboardArrowLeft)
         case .Language:
-            return CustomIconRenderer(icon: .language)
+            return MaterialIconRenderer(icon: .language)
         }
     }
     

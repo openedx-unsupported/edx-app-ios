@@ -8,10 +8,6 @@
 
 import UIKit
 
-private var startTime: TimeInterval?
-
-private let animationKey = "org.edx.spin"
-
 public class SpinnerView: UIView {
     
     public enum Size {
@@ -32,7 +28,7 @@ public class SpinnerView: UIView {
         }
     }
     
-    private let indicator = MaterialActivityIndicatorView()
+    private let activityIndicator = MaterialActivityIndicatorView()
     private let size: Size
     private var stopped: Bool = false {
         didSet {
@@ -44,13 +40,13 @@ public class SpinnerView: UIView {
     
     public var hidesWhenStopped = false
     
-    public init(size : Size, color : Color) {
+    public init(size: Size, color: Color) {
         self.size = size
-        super.init(frame : CGRect.zero)
+        super.init(frame : .zero)
         accessibilityIdentifier = "SpinnerView:view"
-        indicator.accessibilityIdentifier = "SpinnerView:indicator"
-        addSubview(indicator)
-        indicator.color = color.value
+        activityIndicator.accessibilityIdentifier = "SpinnerView:activity-indicator"
+        addSubview(activityIndicator)
+        activityIndicator.color = color.value
         addObservers()
     }
     
@@ -60,7 +56,7 @@ public class SpinnerView: UIView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        indicator.frame = bounds
+        activityIndicator.frame = bounds
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -70,8 +66,7 @@ public class SpinnerView: UIView {
     public override func didMoveToWindow() {
         if !stopped {
             addSpinAnimation()
-        }
-        else {
+        } else {
             removeSpinAnimation()
         }
     }
@@ -102,8 +97,8 @@ public class SpinnerView: UIView {
     }
     
     private func addSpinAnimation() {
-        if self.window != nil {
-            indicator.startAnimating()
+        if window != nil {
+            activityIndicator.startAnimating()
         }
         else {
             removeSpinAnimation()
@@ -111,7 +106,7 @@ public class SpinnerView: UIView {
     }
     
     private func removeSpinAnimation() {
-        indicator.stopAnimating()
+        activityIndicator.stopAnimating()
     }
     
     public func startAnimating() {
