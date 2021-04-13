@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-private var startTime : TimeInterval?
+private var startTime: TimeInterval?
 
 private let animationKey = "org.edx.spin"
 
-public class SpinnerView : UIView {
+public class SpinnerView: UIView {
     
     public enum Size {
         case Small
@@ -32,12 +32,12 @@ public class SpinnerView : UIView {
         }
     }
     
-    private let content = UIImageView()
-    private let size : Size
-    private var stopped : Bool = false {
+    private let indicator = MaterialActivityIndicatorView()
+    private let size: Size
+    private var stopped: Bool = false {
         didSet {
             if hidesWhenStopped {
-                self.isHidden = stopped
+                isHidden = stopped
             }
         }
     }
@@ -48,11 +48,9 @@ public class SpinnerView : UIView {
         self.size = size
         super.init(frame : CGRect.zero)
         accessibilityIdentifier = "SpinnerView:view"
-        content.accessibilityIdentifier = "SpinnerView:content-image-view"
-        addSubview(content)
-        content.image = Icon.Spinner.imageWithFontSize(size: 30)
-        content.tintColor = color.value
-        content.contentMode = .scaleAspectFit
+        indicator.accessibilityIdentifier = "SpinnerView:indicator"
+        addSubview(indicator)
+        indicator.color = color.value
         addObservers()
     }
     
@@ -62,7 +60,7 @@ public class SpinnerView : UIView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        content.frame = self.bounds
+        indicator.frame = bounds
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -104,23 +102,8 @@ public class SpinnerView : UIView {
     }
     
     private func addSpinAnimation() {
-        if let window = self.window {
-            let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
-            let dots = 8
-            let direction : Double = UIApplication.shared.userInterfaceLayoutDirection == .leftToRight ? 1 : -1
-            animation.keyTimes = Array(count: dots) {
-                return (Double($0) / Double(dots)) as NSNumber
-            }
-            animation.values = Array(count: dots) {
-                return (direction * Double($0) / Double(dots)) * 2.0 * .pi as NSNumber
-            }
-            animation.repeatCount = Float.infinity
-            animation.duration = 0.6
-            animation.isAdditive = true
-            animation.calculationMode = CAAnimationCalculationMode.discrete
-            /// Set time to zero so they all sync up
-            animation.beginTime = window.layer.convertTime(0, to: self.layer)
-            self.content.layer.add(animation, forKey: animationKey)
+        if self.window != nil {
+            indicator.startAnimating()
         }
         else {
             removeSpinAnimation()
@@ -128,7 +111,7 @@ public class SpinnerView : UIView {
     }
     
     private func removeSpinAnimation() {
-        self.content.layer.removeAnimation(forKey: animationKey)
+        indicator.stopAnimating()
     }
     
     public func startAnimating() {
