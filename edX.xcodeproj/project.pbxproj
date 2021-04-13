@@ -187,7 +187,6 @@
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
 		5F371470260B3BC9004937DA /* Observeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F37146F260B3BC9004937DA /* Observeable.swift */; };
-		5F3DA782262059DD0097653A /* MaterialIconsSharp.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F3DA781262059DD0097653A /* MaterialIconsSharp.otf */; };
 		5F46A7CC24ADFFA300347EFC /* CourseDateViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */; };
 		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
 		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
@@ -203,6 +202,13 @@
 		5F6F2B68255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */; };
 		5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */; };
 		5F6F2B6F255AABC400AA3708 /* inter_fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B6E255AABC400AA3708 /* inter_fonts.json */; };
+		5F70249C2624D75000A968CB /* CGRect+Center.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7024962624D75000A968CB /* CGRect+Center.swift */; };
+		5F70249D2624D75000A968CB /* CAPropertyAnimation+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7024972624D75000A968CB /* CAPropertyAnimation+Key.swift */; };
+		5F70249E2624D75000A968CB /* UIBezierPath+Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7024982624D75000A968CB /* UIBezierPath+Circle.swift */; };
+		5F70249F2624D75000A968CB /* CGSize+Min.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7024992624D75000A968CB /* CGSize+Min.swift */; };
+		5F7024A02624D75000A968CB /* MaterialActivityIndicatorAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F70249A2624D75000A968CB /* MaterialActivityIndicatorAnimator.swift */; };
+		5F7024A12624D75000A968CB /* MaterialActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F70249B2624D75000A968CB /* MaterialActivityIndicator.swift */; };
+		5F7024A32624D96400A968CB /* MaterialIconsSharp.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */; };
 		5F7C0C642534520200A344B9 /* FillBackgroundTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */; };
 		5F7C0C6A2534521300A344B9 /* FillBackgroundLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */; };
 		5F903AF4255020D7006365DE /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F903AF3255020D7006365DE /* UIDeviceExtension.swift */; };
@@ -1228,7 +1234,6 @@
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
 		5F37146F260B3BC9004937DA /* Observeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observeable.swift; sourceTree = "<group>"; };
-		5F3DA781262059DD0097653A /* MaterialIconsSharp.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIconsSharp.otf; sourceTree = "<group>"; };
 		5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDateViewCell.swift; sourceTree = "<group>"; };
 		5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePoint.swift; sourceTree = "<group>"; };
 		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
@@ -1244,6 +1249,13 @@
 		5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-BoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B6E255AABC400AA3708 /* inter_fonts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = inter_fonts.json; sourceTree = "<group>"; };
+		5F7024962624D75000A968CB /* CGRect+Center.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+Center.swift"; sourceTree = "<group>"; };
+		5F7024972624D75000A968CB /* CAPropertyAnimation+Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAPropertyAnimation+Key.swift"; sourceTree = "<group>"; };
+		5F7024982624D75000A968CB /* UIBezierPath+Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Circle.swift"; sourceTree = "<group>"; };
+		5F7024992624D75000A968CB /* CGSize+Min.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Min.swift"; sourceTree = "<group>"; };
+		5F70249A2624D75000A968CB /* MaterialActivityIndicatorAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialActivityIndicatorAnimator.swift; sourceTree = "<group>"; };
+		5F70249B2624D75000A968CB /* MaterialActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialActivityIndicator.swift; sourceTree = "<group>"; };
+		5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIconsSharp.otf; sourceTree = "<group>"; };
 		5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundTextStorage.swift; sourceTree = "<group>"; };
 		5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundLayoutManager.swift; sourceTree = "<group>"; };
 		5F903AF3255020D7006365DE /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
@@ -2560,6 +2572,28 @@
 			path = Inter;
 			sourceTree = "<group>";
 		};
+		5F7024942624D75000A968CB /* MaterialActivityIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				5F7024952624D75000A968CB /* Extensions */,
+				5F70249A2624D75000A968CB /* MaterialActivityIndicatorAnimator.swift */,
+				5F70249B2624D75000A968CB /* MaterialActivityIndicator.swift */,
+			);
+			name = MaterialActivityIndicator;
+			path = Libraries/MaterialActivityIndicator;
+			sourceTree = SOURCE_ROOT;
+		};
+		5F7024952624D75000A968CB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5F7024962624D75000A968CB /* CGRect+Center.swift */,
+				5F7024972624D75000A968CB /* CAPropertyAnimation+Key.swift */,
+				5F7024982624D75000A968CB /* UIBezierPath+Circle.swift */,
+				5F7024992624D75000A968CB /* CGSize+Min.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		5F7C0C3425344E1500A344B9 /* UITextView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2607,7 +2641,7 @@
 		69ECC5A21D50D1170030CF87 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				5F3DA781262059DD0097653A /* MaterialIconsSharp.otf */,
+				5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */,
 				BD7C6C3F1DCA329A0004D135 /* fonts.json */,
 				5F6F2B55255AAB7F00AA3708 /* Inter */,
 				5F6F2B6E255AABC400AA3708 /* inter_fonts.json */,
@@ -3821,6 +3855,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5F7024942624D75000A968CB /* MaterialActivityIndicator */,
 				E096582A25C1963B0004FFCC /* Cast */,
 				E096532625C133390004FFCC /* MSAL */,
 				5F592ACE257521CF00D96214 /* SwiftDate */,
@@ -4614,7 +4649,6 @@
 				B71AA1C220CEF64D00700C5E /* physics@2x.png in Resources */,
 				B71AA1A720CEF64D00700C5E /* history@3x.png in Resources */,
 				E096583825C1963B0004FFCC /* oss_licenses_index.txt in Resources */,
-				5F3DA782262059DD0097653A /* MaterialIconsSharp.otf in Resources */,
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
 				22A970E624EECFAC008FCAF6 /* icon_apple@2x.png in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
@@ -4710,6 +4744,7 @@
 				5F6F2B65255AABA400AA3708 /* Inter-Light.ttf in Resources */,
 				B71AA1BA20CEF64D00700C5E /* energy@2x.png in Resources */,
 				B71AA1C120CEF64D00700C5E /* ethics@2x.png in Resources */,
+				5F7024A32624D96400A968CB /* MaterialIconsSharp.otf in Resources */,
 				B71AA1AF20CEF64D00700C5E /* health@3x.png in Resources */,
 				B71AA1CA20CEF64D00700C5E /* biology@2x.png in Resources */,
 				E039A8041F74C0D80064ABDB /* logo~ipad.png in Resources */,
@@ -5213,6 +5248,7 @@
 				B7CCC72B209B16B100A66923 /* UILayoutSupport+Extensions.swift in Sources */,
 				9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */,
 				220B1D332119B5190048ACBA /* MicrosoftSocial.swift in Sources */,
+				5F70249C2624D75000A968CB /* CGRect+Center.swift in Sources */,
 				1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */,
 				77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */,
 				B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */,
@@ -5258,6 +5294,7 @@
 				77ADF49E1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m in Sources */,
 				22F6A15B20B7E62D009C3F4A /* String+DecodeHTMLEntities.swift in Sources */,
 				697652261D9BA7C80031FF8B /* OEXColorsDataFactory.swift in Sources */,
+				5F70249D2624D75000A968CB /* CAPropertyAnimation+Key.swift in Sources */,
 				77AF07771CB42AC400A42704 /* TabContainerView.swift in Sources */,
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,
@@ -5269,12 +5306,14 @@
 				E06292751F7BAFFF006D5EFC /* BranchConfig.swift in Sources */,
 				B7A09BDC20F8CAFB00A6C249 /* URL+PathExtension.swift in Sources */,
 				B70BD00420B57AF3005F0D19 /* SubjectsCollectionView.swift in Sources */,
+				5F7024A12624D75000A968CB /* MaterialActivityIndicator.swift in Sources */,
 				1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */,
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
 				B793456C20B596FC00DBFC33 /* SubjectsViewController.swift in Sources */,
 				B7CCC734209B16B100A66923 /* ConstraintLayoutGuideDSL.swift in Sources */,
 				77E6486C1C912BD600B6740D /* Logger+OEXObjC.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
+				5F7024A02624D75000A968CB /* MaterialActivityIndicatorAnimator.swift in Sources */,
 				E0E163EC21368A1D00DAE9F0 /* FirebaseConfig.swift in Sources */,
 				B7EC83C121A2DE9E00D6A89C /* DiscoveryViewController.swift in Sources */,
 				77AFD1111C1B4F79001985FD /* NSString+TestExamples.m in Sources */,
@@ -5321,6 +5360,7 @@
 				E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */,
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
 				69F998571E6FEB2400CDFA9C /* OEXAnalytics+AppReview.swift in Sources */,
+				5F70249F2624D75000A968CB /* CGSize+Min.swift in Sources */,
 				77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				77503E8C1B278B9A00C47229 /* RegistrationSelectOptionView.swift in Sources */,
@@ -5500,6 +5540,7 @@
 				1AB539FA1BFE08DE0065501F /* DebugLogViewController.swift in Sources */,
 				1AE0A6CA1BF4FF9000E14917 /* UserCourseEnrollment.swift in Sources */,
 				77503E8E1B287DBF00C47229 /* KeyboardInsetsSource.swift in Sources */,
+				5F70249E2624D75000A968CB /* UIBezierPath+Circle.swift in Sources */,
 				7772BE841AF834EC0081CA7A /* CourseOutlineQuerier.swift in Sources */,
 				19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */,
 				77B463971A30F65E0083453A /* OEXStyles.m in Sources */,
