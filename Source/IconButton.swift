@@ -59,7 +59,7 @@ class IconButton : UIControl {
 
 
     func setIconAndTitle(icon: Icon, title: String) {
-        let titleStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().primaryBaseColor())
+        let titleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
         let disabledTitleStyle = OEXMutableTextStyle(textStyle: titleStyle)
         disabledTitleStyle.color = OEXStyles.shared().disabledButtonColor()
 

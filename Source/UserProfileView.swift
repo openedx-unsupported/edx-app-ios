@@ -223,12 +223,12 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         } else {
             
             if let language = profile.language {
-                let icon = Icon.Language.attributedTextWithStyle(style: infoStyle)
+                let icon = Icon.Language.attributedTextWithStyle(style: infoStyle.withSize(.small))
                 let langText = infoStyle.attributedString(withText: language)
                 languageLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon, langText])
             }
             if let country = profile.country {
-                let icon = Icon.Country.attributedTextWithStyle(style: infoStyle)
+                let icon = Icon.Country.attributedTextWithStyle(style: infoStyle.withSize(.small))
                 let countryText = infoStyle.attributedString(withText: country)
                 countryLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon, countryText])
             }
