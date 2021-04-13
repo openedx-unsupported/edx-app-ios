@@ -135,7 +135,6 @@ public enum Icon {
     case ReportFlag
     case Settings
     case Sort
-    case Spinner
     case StarEmpty
     case StarFilled
     case Discovery
@@ -229,7 +228,7 @@ public enum Icon {
         case .CourseVideos:
             return CustomIconRenderer(icon: .videocam)
         case .CourseProblemContent:
-            return CustomIconRenderer(icon: .listAlt)
+            return CustomIconRenderer(icon: .summarize)
         case .Courseware:
             return CustomIconRenderer(icon: .classroom)
         case .CourseUnknownContent:
@@ -258,8 +257,6 @@ public enum Icon {
             return CustomIconRenderer(icon: .openInBrowser)
         case .Settings:
             return CustomIconRenderer(icon: .settings)
-        case .Spinner:
-            return CustomIconRenderer(icon: .moreVert)
         case .StarEmpty:
             return CustomIconRenderer(icon: .starOutline)
         case .StarFilled:
