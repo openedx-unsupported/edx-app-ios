@@ -35,7 +35,7 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
         textInputField.isEnabled = false
         dropdownView.addSubview(dropdownTab)
         dropdownView.layoutIfNeeded()
-        dropdownTab.image = Icon.Dropdown.imageWithFontSize(size: 12)
+        dropdownTab.image = Icon.Dropdown.imageWithFontSize(size: 18)
         dropdownTab.tintColor = OEXStyles.shared().neutralBlack()
         dropdownTab.contentMode = .scaleAspectFit
         dropdownTab.sizeToFit()
