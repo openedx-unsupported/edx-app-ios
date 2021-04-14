@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Valmis";
+"Appboy.feed.no-card.text" = "Päivityksiä ei ole saatavilla. Tarkista myöhemmin uudelleen.";
+"Appboy.feed.no-connection.title" = "Yhteysvirhe";
+"Appboy.feed.no-connection.message" = "Verkkoyhteyttä ei voida luoda. Yritä myöhemmin uudelleen.";

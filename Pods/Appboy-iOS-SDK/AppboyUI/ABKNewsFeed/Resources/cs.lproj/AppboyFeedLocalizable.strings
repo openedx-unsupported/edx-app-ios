@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Hotovo";
+"Appboy.feed.no-card.text" = "Nemáme žádné aktualizace.\nZkontrolujte prosím znovu později.";
+"Appboy.feed.no-connection.title" = "Chyba připojení";
+"Appboy.feed.no-connection.message" = "Nelze navázat síťové připojení.\nProsím zkuste to znovu později.";

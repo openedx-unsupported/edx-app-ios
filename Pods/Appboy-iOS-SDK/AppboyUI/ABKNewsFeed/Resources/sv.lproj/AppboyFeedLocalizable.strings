@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Klar";
+"Appboy.feed.no-card.text" = "Det finns inga uppdateringar. Försök igen senare.";
+"Appboy.feed.no-connection.title" = "Anslutningsfel";
+"Appboy.feed.no-connection.message" = "Det gick inte att skapa en nätverksanslutning. Försök igen senare.";

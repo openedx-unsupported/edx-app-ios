@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Afsluttet";
+"Appboy.feed.no-card.text" = "Vi har ingen updates. Prøv venligst senere";
+"Appboy.feed.no-connection.title" = "Netværksfejl";
+"Appboy.feed.no-connection.message" = "Kan ikke etablere netværksforbindelse. Prøv venligst senere.";

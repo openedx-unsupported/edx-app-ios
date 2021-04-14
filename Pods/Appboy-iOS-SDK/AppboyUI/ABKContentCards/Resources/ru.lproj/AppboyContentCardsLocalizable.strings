@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "Готово";
+"Appboy.content-cards.no-card.text" = "Обновления недоступны.\nПожалуйста, проверьте снова позже.";
+"Appboy.content-cards.no-connection.title" = "Ошибка подключения";
+"Appboy.content-cards.no-connection.message" = "Невозможно установить сетевое подключение.\nПожалуйста, повторите попытку позже.";

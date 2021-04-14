@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Valmis";
+"Appboy.feed.no-card.text" = "Uuendusi pole praegu saadaval. Proovige hiljem uuesti.";
+"Appboy.feed.no-connection.title" = "Üheduse viga";
+"Appboy.feed.no-connection.message" = "Võrguühenduse loomine ebaõnnestus. Proovige hiljem uuesti.";

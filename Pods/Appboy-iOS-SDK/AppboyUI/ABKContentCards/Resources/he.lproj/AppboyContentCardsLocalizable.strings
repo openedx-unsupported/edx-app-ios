@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "סיום";
+"Appboy.content-cards.no-card.text" = "אין לנו עדכונים\nבבקשה בדוק שוב בקרוב";
+"Appboy.content-cards.no-connection.title" = "שגיאת חיבור רשת";
+"Appboy.content-cards.no-connection.message" = "לא ניתן לקבוע חיבור רשת\nבבקשה נסה שוב בקרוב";

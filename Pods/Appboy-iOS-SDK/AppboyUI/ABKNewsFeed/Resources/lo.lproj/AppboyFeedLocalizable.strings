@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "ສຳ​ເລັດ";
+"Appboy.feed.no-card.text" = "ພວກ​ເຮົາ​ບໍ່​ມີ​ການ​ອັບ​ເດດ. ກະ​ລຸ​ນາ​ລອງ​ໃໝ່​ພາຍ​ຫຼັງ.";
+"Appboy.feed.no-connection.title" = "ການ​ເຊື່ອມ​ຕໍ່​ຜິດ​ພາດ";
+"Appboy.feed.no-connection.message" = "ບໍ່​ສາ​ມາດ​ຕັ້ງ​ການ​ເຊື່ອມ​ຕໍ່​ເຄືອ​ຂ່າຍ​ໄດ້. ກະ​ລຸ​ນາ​ລອງ​ໃໝ່​ພາຍ​ຫຼັງ.";

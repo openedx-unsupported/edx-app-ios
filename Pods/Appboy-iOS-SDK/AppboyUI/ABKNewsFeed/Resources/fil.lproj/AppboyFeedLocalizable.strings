@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Gawa na";
+"Appboy.feed.no-card.text" = "Wala kaming mga update. Mangyaring suriin muli sa ibang pagkakataon.";
+"Appboy.feed.no-connection.title" = "May Error sa Koneksyon";
+"Appboy.feed.no-connection.message" = "Hindi makapagtatag ng koneksyon sa network. Mangyaring subukan muli mamaya.";

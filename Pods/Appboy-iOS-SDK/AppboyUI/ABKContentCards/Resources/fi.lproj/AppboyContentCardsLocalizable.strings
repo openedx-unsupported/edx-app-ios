@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "Valmis";
+"Appboy.content-cards.no-card.text" = "Päivityksiä ei ole saatavilla.\nTarkista myöhemmin uudelleen.";
+"Appboy.content-cards.no-connection.title" = "Yhteysvirhe";
+"Appboy.content-cards.no-connection.message" = "Verkkoyhteyttä ei voida luoda.\nYritä myöhemmin uudelleen.";

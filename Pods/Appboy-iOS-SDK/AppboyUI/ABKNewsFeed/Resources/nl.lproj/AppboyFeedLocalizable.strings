@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Gereed";
+"Appboy.feed.no-card.text" = "Er zijn geen updates. Probeer het later opnieuw.";
+"Appboy.feed.no-connection.title" = "Verbindingsfout";
+"Appboy.feed.no-connection.message" = "Kan geen netwerkverbinding maken. Probeer het later opnieuw.";

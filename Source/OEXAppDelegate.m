@@ -87,6 +87,7 @@
     [self.environment.session performMigrations];
     [self.environment.router openInWindow:self.window];
     [self configureBranch:launchOptions];
+    [self configureBraze:application launchOptions:launchOptions];
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
     return YES;
@@ -266,6 +267,14 @@
                 [[DeepLinkManager sharedInstance] processDeepLinkWith:params environment:self.environment.router.environment];
             }];
         }
+    }
+}
+
+- (void) configureBraze:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
+    if (self.environment.config.branchConfig.enabled) {
+        NSMutableDictionary *appboyOptions = [NSMutableDictionary dictionary];
+        appboyOptions[ABKEndpointKey] = self.environment.config.brazeConfig.endPointKey;
+        [Appboy startWithApiKey:self.environment.config.brazeConfig.apiKey inApplication:application withLaunchOptions:launchOptions withAppboyOptions:appboyOptions];
     }
 }
 

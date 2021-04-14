@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "تم";
+"Appboy.feed.no-card.text" = "ليس لدينا أي تحديث. يرجى التحقق مرة أخرى لاحقاً.";
+"Appboy.feed.no-connection.title" = "خلل في الاتصال";
+"Appboy.feed.no-connection.message" = "لا يمكن إجراء الاتصال بالشبكة. يرجى تكرار المحاولة لاحقا. ";

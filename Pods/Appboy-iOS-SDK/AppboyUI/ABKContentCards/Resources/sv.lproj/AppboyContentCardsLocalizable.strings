@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "Klar";
+"Appboy.content-cards.no-card.text" = "Det finns inga uppdateringar.\nFörsök igen senare.";
+"Appboy.content-cards.no-connection.title" = "Anslutningsfel";
+"Appboy.content-cards.no-connection.message" = "Det gick inte att skapa en nätverksanslutning.\nFörsök igen senare.";

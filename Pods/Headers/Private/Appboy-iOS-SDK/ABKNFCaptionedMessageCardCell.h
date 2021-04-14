@@ -1,0 +1,1 @@
+../../../Appboy-iOS-SDK/AppboyUI/ABKNewsFeed/ViewControllers/Cells/ABKNFCaptionedMessageCardCell.h

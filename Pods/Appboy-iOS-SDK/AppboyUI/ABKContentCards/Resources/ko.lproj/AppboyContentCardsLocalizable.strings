@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "완료 ";
+"Appboy.content-cards.no-card.text" = "업데이트가 없습니다.\n다음에 다시 확인해 주십시오.";
+"Appboy.content-cards.no-connection.title" = "연결 오류";
+"Appboy.content-cards.no-connection.message" = "네트워크 연결을 할 수 없습니다.\n나중에 다시 시도해 주십시오.";

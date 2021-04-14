@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "完了";
+"Appboy.content-cards.no-card.text" = "アップデートはありません。\n後でもう一度確認してください。";
+"Appboy.content-cards.no-connection.title" = "接続エラー";
+"Appboy.content-cards.no-connection.message" = "ネットワークに接続できません。\n後でもう一度試してください。";

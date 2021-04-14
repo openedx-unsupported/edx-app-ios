@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "Fini";
+"Appboy.content-cards.no-card.text" = "Aucune mise à jour disponible.\nVeuillez vérifier ultérieurement.";
+"Appboy.content-cards.no-connection.title" = "Erreur de connexion.";
+"Appboy.content-cards.no-connection.message" = "Impossible d'établir la connexion réseau.\nVeuillez réessayer ultérieurement.";

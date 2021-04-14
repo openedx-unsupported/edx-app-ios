@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "ျပီးျပီ";
+"Appboy.feed.no-card.text" = "ကၽႊႏု္ပ္ တို႕တြင္ အသစ္တင္ျပရန္မရွိပါ။ ေက်းဇူးျပဳ၍ ေနာင္တြင္ ထပ္စစ္ပါ။ .";
+"Appboy.feed.no-connection.title" = "ဆက္သြယ္ေရး အမွား";
+"Appboy.feed.no-connection.message" = "ကြန္ယက္ဆက္သြယ္ျခင္း မျပဳလုပ္ႏိုင္ပါ။ ေက်းဇူးျပဳ၍ ထပ္မံၾကိဳးစားၾကည္႕ပါ။.";

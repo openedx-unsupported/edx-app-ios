@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "סיום";
+"Appboy.feed.no-card.text" = ".אין לנו עדכונים. בבקשה בדוק שוב בקרוב";
+"Appboy.feed.no-connection.title" = "שגיאת חיבור רשת";
+"Appboy.feed.no-connection.message" = ".לא ניתן לקבוע חיבור רשת. בבקשה נסה שוב בקרוב";

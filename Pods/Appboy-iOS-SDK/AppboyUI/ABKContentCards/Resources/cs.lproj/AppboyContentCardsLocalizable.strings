@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "Hotovo";
+"Appboy.content-cards.no-card.text" = "Nemáme žádné aktualizace.\nZkontrolujte prosím znovu později.";
+"Appboy.content-cards.no-connection.title" = "Chyba připojení";
+"Appboy.content-cards.no-connection.message" = "Nelze navázat síťové připojení.\nProsím zkuste to znovu později.";

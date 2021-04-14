@@ -1,0 +1,1 @@
+../../../Appboy-iOS-SDK/AppboyUI/ABKContentCards/ViewControllers/Cells/ABKClassicContentCardCell.h
