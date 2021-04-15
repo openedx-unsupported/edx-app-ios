@@ -18,7 +18,7 @@ private let rateTheAppDisplayName = "AppReviews: Rate The App"
 extension OEXAnalytics {
     
     private func additionalParams(selectedRating: Int? = nil) -> [String: String] {
-        var params = [key_app_version : Bundle.main.oex_buildVersionString()]
+        var params = [key_app_version : Bundle.main.oex_shortVersionString()]
         if let rating = selectedRating{
             params[key_rating] = String(rating)
         }

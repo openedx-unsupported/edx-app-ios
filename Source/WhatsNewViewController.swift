@@ -39,7 +39,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
             self.dataModel = dataModel
         }
         else {
-            self.dataModel = WhatsNewDataModel(environment: environment as? RouterEnvironment, version: Bundle.main.oex_buildVersionString())
+            self.dataModel = WhatsNewDataModel(environment: environment as? RouterEnvironment, version: Bundle.main.oex_shortVersionString())
         }
         titleString = title ?? Strings.WhatsNew.headerText
         pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -52,7 +52,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     }
     
     static func canShowWhatsNew(environment: RouterEnvironment?) -> Bool {
-        let appVersion = Version(version: Bundle.main.oex_buildVersionString())
+        let appVersion = Version(version: Bundle.main.oex_shortVersionString())
         let savedAppVersion = Version(version: environment?.interface?.getSavedAppVersionForWhatsNew() ?? "")
         let validDiff = appVersion.isNMinorVersionsDiff(otherVersion: savedAppVersion, minorVersionDiff: 1)
         return (validDiff && environment?.config.isWhatsNewEnabled ?? false)
@@ -185,18 +185,18 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     //MARK:- Analytics 
     
     private func logScreenEvent() {
-        let params = [key_app_version : Bundle.main.oex_buildVersionString()]
+        let params = [key_app_version : Bundle.main.oex_shortVersionString()]
         environment.analytics.trackScreen(withName: AnalyticsScreenName.WhatsNew.rawValue, courseID: nil, value: nil, additionalInfo: params)
     }
     
     private func logCloseEvent() {
         (pagesViewed == 1) ? (pagesViewed = pagesViewed) : (pagesViewed -= 1)
-        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_viewed": pagesViewed, "currently_viewed": currentPageIndex + 1, "total_screens": dataModel.fields?.count ?? 0] as [String : Any]
+        let params = [key_app_version : Bundle.main.oex_shortVersionString(), "total_viewed": pagesViewed, "currently_viewed": currentPageIndex + 1, "total_screens": dataModel.fields?.count ?? 0] as [String : Any]
         environment.analytics.trackEvent(whatsNewEvent(name: AnalyticsEventName.WhatsNewClose.rawValue, displayName: "WhatsNew: Close"), forComponent: nil, withInfo: params)
     }
     
     private func logDoneEvent() {
-        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_screens": dataModel.fields?.count ?? 0] as [String : Any]
+        let params = [key_app_version : Bundle.main.oex_shortVersionString(), "total_screens": dataModel.fields?.count ?? 0] as [String : Any]
         environment.analytics.trackEvent(whatsNewEvent(name: AnalyticsEventName.WhatsNewDone.rawValue, displayName: "WhatsNew: Done"), forComponent: nil, withInfo: params)
     }
     

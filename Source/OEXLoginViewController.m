@@ -164,7 +164,7 @@
     
     NSString* environmentName = self.environment.config.environmentName;
     if(environmentName.length > 0) {
-        NSString* appVersion = [NSBundle mainBundle].oex_buildVersionString;
+        NSString* appVersion = [NSBundle mainBundle].oex_displayVersionString;
         self.versionLabel.text = [Strings versionDisplayWithNumber:appVersion environment:environmentName];
     }
     else {
