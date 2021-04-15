@@ -1221,7 +1221,7 @@ static OEXInterface* _sharedInterface = nil;
 #pragma mark - App Version
 
 - (void) saveAppVersion {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSBundle mainBundle].oex_buildVersionString forKey:OEXSavedAppVersionKey];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSBundle mainBundle].oex_shortVersionString forKey:OEXSavedAppVersionKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
