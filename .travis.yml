@@ -17,6 +17,7 @@ script:
     - travis_retry ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
+    - env | sed 's/=.*//'
     - bash <(curl -s https://codecov.io/bash)
 
 branches:
