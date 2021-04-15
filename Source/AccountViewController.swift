@@ -63,7 +63,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.register(AccountViewCell.self, forCellReuseIdentifier: AccountViewCell.identifier)
         let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
         textStyle.alignment = NSTextAlignment.center
-        versionLabel.attributedText = textStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: ""))
+        versionLabel.attributedText = textStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_displayVersionString(), environment: ""))
         versionLabel.accessibilityIdentifier = "AccountViewController:version-label"
         tableView.accessibilityIdentifier = "AccountViewController:table-view"
         addConstraints()

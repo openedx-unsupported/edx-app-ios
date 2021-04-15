@@ -14,8 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The user facing version, like 2.1.2
 - (NSString*)oex_shortVersionString;
-/// The user facing version, like 2.1.23
+/// The build number, like 6512
 - (NSString*)oex_buildVersionString;
+/// The user facing version string, like 2.1.2 (6512)
+- (NSString*)oex_displayVersionString;
 /// The user facing app name, like edX
 - (NSString*)oex_appName;
 

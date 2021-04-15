@@ -22,6 +22,10 @@
     return [[NSBundle mainBundle] objectForInfoDictionaryKey: (__bridge NSString*)kCFBundleVersionKey];
 }
 
+- (NSString*)oex_displayVersionString {
+    return [NSString stringWithFormat:@"%@ (%@)", [self oex_shortVersionString], [self oex_buildVersionString]];
+}
+
 - (NSLocale*)oex_displayLocale {
     NSString* localization = [NSBundle mainBundle].preferredLocalizations.firstObject;
     NSLocale* locale = [[NSLocale alloc] initWithLocaleIdentifier:localization];
