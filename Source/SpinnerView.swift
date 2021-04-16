@@ -11,19 +11,19 @@ import UIKit
 public class SpinnerView: UIView {
     
     public enum Size {
-        case Small
-        case Medium
-        case Large
+        case small
+        case medium
+        case large
     }
     
     public enum Color {
-        case Primary
-        case White
+        case primary
+        case white
         
         fileprivate var value : UIColor {
             switch self {
-            case .Primary: return OEXStyles.shared().primaryBaseColor()
-            case .White: return OEXStyles.shared().neutralWhite()
+            case .primary: return OEXStyles.shared().primaryBaseColor()
+            case .white: return OEXStyles.shared().neutralWhite()
             }
         }
     }
@@ -46,6 +46,7 @@ public class SpinnerView: UIView {
         accessibilityIdentifier = "SpinnerView:view"
         activityIndicator.accessibilityIdentifier = "SpinnerView:activity-indicator"
         addSubview(activityIndicator)
+        activityIndicator.startAnimating()
         activityIndicator.color = color.value
         addObservers()
     }
@@ -63,25 +64,17 @@ public class SpinnerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func didMoveToWindow() {
-        if !stopped {
-            addSpinAnimation()
-        } else {
-            removeSpinAnimation()
-        }
-    }
-    
     public override func didMoveToSuperview() {
         NotificationCenter.default.removeObserver(self)
     }
     
     public override var intrinsicContentSize: CGSize {
         switch size {
-        case .Small:
+        case .small:
             return CGSize(width: 12, height: 12)
-        case .Medium:
+        case .medium:
             return CGSize(width: 18, height: 18)
-        case .Large:
+        case .large:
             return CGSize(width: 24, height: 24)
         }
     }
@@ -96,28 +89,11 @@ public class SpinnerView: UIView {
         }
     }
     
-    private func addSpinAnimation() {
-        if window != nil {
-            activityIndicator.startAnimating()
-        }
-        else {
-            removeSpinAnimation()
-        }
+    func startAnimating() {
+        activityIndicator.startAnimating()
     }
     
-    private func removeSpinAnimation() {
+    func stopAnimating() {
         activityIndicator.stopAnimating()
-    }
-    
-    public func startAnimating() {
-        if stopped {
-            addSpinAnimation()
-        }
-        stopped = false
-    }
-    
-    public func stopAnimating() {
-        removeSpinAnimation()
-        stopped = true
     }
 }
