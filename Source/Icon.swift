@@ -102,6 +102,7 @@ public enum Icon {
     case Comments
     case Country
     case Courseware
+    case CoursewareEnrolled
     case ContentCanDownload
     case ContentDidDownload
     case CourseEffort
@@ -231,6 +232,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .summarize)
         case .Courseware:
             return MaterialIconRenderer(icon: .classroom)
+        case .CoursewareEnrolled:
+            return MaterialIconRenderer(icon: .bookmarkBorder)
         case .CourseUnknownContent:
             return MaterialIconRenderer(icon: .laptop)
         case .CourseVideoContent:
@@ -272,7 +275,7 @@ public enum Icon {
         case .Trophy:
             return MaterialIconRenderer(icon: .emojiEvents)
         case .VideoFullscreen:
-            return MaterialIconRenderer(icon: .expandMore)
+            return MaterialIconRenderer(icon: .fullscreen)
         case .VideoPlay:
             return MaterialIconRenderer(icon: .playArrow)
         case .VideoPause:

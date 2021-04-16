@@ -88,7 +88,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for option in TabBarOptions.options {
             switch option {
             case .Course:
-                item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .Program:
                 guard environment.config.programConfig.enabled, let programsURL = environment.config.programConfig.programURL else { break }
