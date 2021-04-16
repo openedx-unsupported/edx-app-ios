@@ -40,7 +40,7 @@ class MaterialIconRenderer : IconRenderer {
         case .leftToRight:
             return false
         case .rightToLeft:
-            // Go through the font awesome representation since those don't change even if the
+            // Go through the icon representation since those don't change even if the
             // icon's image change and we may use the same icon with different meanings.
 
             switch icon {

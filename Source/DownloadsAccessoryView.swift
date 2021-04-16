@@ -20,7 +20,7 @@ class DownloadsAccessoryView : UIView {
     }
     
     private let downloadButton = UIButton(type: .system)
-    private let downloadSpinner = SpinnerView(size: .Medium, color: .Primary)
+    private let downloadSpinner = SpinnerView(size: .medium, color: .primary)
     private let iconFontSize: CGFloat = 17
     private let countLabel: UILabel = UILabel()
     private let downloadButtonSize = 32

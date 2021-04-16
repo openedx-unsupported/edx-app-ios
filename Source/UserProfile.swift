@@ -96,7 +96,7 @@ extension UserProfile { //ViewModel
             return RemoteImageImpl(url: url, networkManager: networkManager, placeholder: placeholder, persist: true)
         }
         else {
-            return RemoteImageJustImage(image: placeholder)
+            return RemoteImageJustImage(image: ploaceholder)
         }
     }
     

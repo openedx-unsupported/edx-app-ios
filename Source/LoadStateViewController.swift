@@ -91,7 +91,7 @@ class LoadStateViewController : UIViewController {
     
     init() {
         messageView = IconMessageView()
-        loadingView = SpinnerView(size: .Large, color: .Primary)
+        loadingView = SpinnerView(size: .large, color: .primary)
         super.init(nibName: nil, bundle: nil)
     }
 
