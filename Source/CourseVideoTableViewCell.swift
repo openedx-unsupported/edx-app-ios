@@ -23,7 +23,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     weak var delegate : CourseVideoTableViewCellDelegate?
     
     private let content = CourseOutlineItemView()
-    private var downloadView = DownloadsAccessoryView()
+    private let downloadView = DownloadsAccessoryView()
     private var spinnerTimer = Timer()
     
     var courseOutlineMode: CourseOutlineMode = .full
@@ -151,11 +151,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             return
         }
         
-        if let trailingView = content.trailingView as? DownloadsAccessoryView {
-            downloadView = trailingView
-        } else {
-            content.trailingView = downloadView
-        }
+        content.trailingView = downloadView
         downloadView.state = downloadState
     }
     

@@ -119,6 +119,7 @@ public class CourseOutlineItemView: UIView {
         leadingImageButton.accessibilityIdentifier = "CourseOutlineItemView:leading-image-button"
         checkmark.accessibilityIdentifier = "CourseOutlineItemView:check-image-view"
         trailingContainer.accessibilityIdentifier = "CourseOutlineItemView:trailing-container-view"
+        trailingView.accessibilityIdentifier = "CourseOutlineItemView:trailing-view"
     }
     
     func setTitleText(title: String, elipsis: Bool = true) {
@@ -203,7 +204,7 @@ public class CourseOutlineItemView: UIView {
     }
         
     func hideTrailingView() {
-        trailingView?.isHidden = true
+        //trailingView?.isHidden = true
     }
     
     func setTitleTrailingIcon(icon: Icon?) {
@@ -296,12 +297,9 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
-    var trailingView: UIView? = nil {
+    var trailingView = UIView() {
         didSet {
-            oldValue?.removeFromSuperview()
-            
-            guard let trailingView = trailingView else { return }
-            trailingView.accessibilityIdentifier = "CourseOutlineItemView:trailing-view"
+            oldValue.removeFromSuperview()
             
             trailingView.isHidden = false
             trailingContainer.addSubview(trailingView)

@@ -64,9 +64,9 @@ public enum LoadState {
 
 class LoadStateViewController : UIViewController {
     
-    private let loadingView : UIView
-    private var contentView : UIView?
-    private let messageView : IconMessageView
+    private let spinnerView: SpinnerView = SpinnerView(size: .large, color: .primary)
+    private let messageView: IconMessageView = IconMessageView()
+    private var contentView: UIView?
     private var delegate: LoadStateViewReloadSupport?
     private var madeInitialAppearance : Bool = false
     
@@ -76,8 +76,10 @@ class LoadStateViewController : UIViewController {
             switch state {
             case .Initial:
                 view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+                spinnerView.startAnimating()
             default:
                 view.backgroundColor = UIColor.clear
+                spinnerView.stopAnimating()
             }
             updateAppearanceAnimated(animated: madeInitialAppearance)
         }
@@ -90,8 +92,6 @@ class LoadStateViewController : UIViewController {
     }
     
     init() {
-        messageView = IconMessageView()
-        loadingView = SpinnerView(size: .large, color: .primary)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -101,7 +101,7 @@ class LoadStateViewController : UIViewController {
 
     private func setAccessibilityIdentifiers() {
         view.accessibilityIdentifier = "LoadStateViewController:view"
-        loadingView.accessibilityIdentifier = "LoadStateViewController:loading-view"
+        spinnerView.accessibilityIdentifier = "LoadStateViewController:loading-view"
         contentView?.accessibilityIdentifier = "LoadStateViewController:content-view"
         messageView.accessibilityMessage = "LoadStateViewController:message-view"
     }
@@ -121,7 +121,7 @@ class LoadStateViewController : UIViewController {
         self.contentView = contentView
         contentView.alpha = 0
         
-        controller.view.addSubview(loadingView)
+        controller.view.addSubview(spinnerView)
         controller.view.addSubview(messageView)
         controller.view.addSubview(view)
         
@@ -149,7 +149,7 @@ class LoadStateViewController : UIViewController {
         
         messageView.alpha = 0
         view.addSubview(messageView)
-        view.addSubview(loadingView)
+        view.addSubview(spinnerView)
         
         state = .Initial
         
@@ -165,7 +165,7 @@ class LoadStateViewController : UIViewController {
     }
     
     override func updateViewConstraints() {
-        loadingView.snp.remakeConstraints { make in
+        spinnerView.snp.remakeConstraints { make in
             make.center.equalTo(view)
         }
         
@@ -245,7 +245,7 @@ class LoadStateViewController : UIViewController {
             }
             
             owner.messageView.accessibilityMessage = self?.state.accessibilityMessage
-            owner.loadingView.alpha = alphas.loading
+            owner.spinnerView.alpha = alphas.loading
             owner.messageView.alpha = alphas.message
             owner.contentView?.alpha = alphas.content
             owner.view.isUserInteractionEnabled = alphas.touchable

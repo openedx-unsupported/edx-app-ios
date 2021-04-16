@@ -28,27 +28,24 @@ public class SpinnerView: UIView {
         }
     }
     
-    private let activityIndicator = MaterialActivityIndicatorView()
-    private let size: Size
-    private var stopped: Bool = false {
-        didSet {
-            if hidesWhenStopped {
-                isHidden = stopped
-            }
-        }
-    }
+    private var activityIndicator: MaterialActivityIndicatorView?
     
-    public var hidesWhenStopped = false
+    private let size: Size
+    private let color: Color
     
     public init(size: Size, color: Color) {
         self.size = size
+        self.color = color
+        
         super.init(frame : .zero)
         accessibilityIdentifier = "SpinnerView:view"
-        activityIndicator.accessibilityIdentifier = "SpinnerView:activity-indicator"
-        addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        activityIndicator.color = color.value
-        addObservers()
+        activityIndicator?.accessibilityIdentifier = "SpinnerView:activity-indicator"
+        activityIndicator = MaterialActivityIndicatorView()
+        if let view = activityIndicator {
+            addSubview(view)
+        }
+        activityIndicator?.startAnimating()
+        addObservers()        
     }
     
     public override class var requiresConstraintBasedLayout: Bool {
@@ -57,7 +54,7 @@ public class SpinnerView: UIView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        activityIndicator.frame = bounds
+        activityIndicator?.frame = bounds
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -90,10 +87,16 @@ public class SpinnerView: UIView {
     }
     
     func startAnimating() {
-        activityIndicator.startAnimating()
+        activityIndicator?.removeFromSuperview()
+        activityIndicator = MaterialActivityIndicatorView()
+        if let view = activityIndicator {
+            addSubview(view)
+        }
+        activityIndicator?.color = color.value
+        activityIndicator?.startAnimating()
     }
     
     func stopAnimating() {
-        activityIndicator.stopAnimating()
+        activityIndicator?.removeFromSuperview()
     }
 }

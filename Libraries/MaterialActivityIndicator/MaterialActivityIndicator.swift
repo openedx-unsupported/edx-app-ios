@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 public class MaterialActivityIndicatorView: UIView {
     @IBInspectable
-    public var color: UIColor = .red {
+    public var color: UIColor = .black {
         didSet {
             indicator.strokeColor = color.cgColor
         }
