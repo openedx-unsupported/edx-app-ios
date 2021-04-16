@@ -204,7 +204,7 @@ public class CourseOutlineItemView: UIView {
     }
         
     func hideTrailingView() {
-        //trailingView?.isHidden = true
+        trailingView.isHidden = true
     }
     
     func setTitleTrailingIcon(icon: Icon?) {

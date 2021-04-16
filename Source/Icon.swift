@@ -283,7 +283,7 @@ public enum Icon {
         case .VideoRewind:
             return MaterialIconRenderer(icon: .history)
         case .VideoShrink:
-            return MaterialIconRenderer(icon: .expandLess)
+            return MaterialIconRenderer(icon: .fullscreenExit)
         case .Closed:
             return MaterialIconRenderer(icon: .lock)
         case .Warning:
