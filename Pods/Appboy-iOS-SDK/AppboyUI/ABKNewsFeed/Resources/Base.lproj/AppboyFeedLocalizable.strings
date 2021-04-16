@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Done";
+"Appboy.feed.no-card.text" = "We have no updates.\nPlease check again later.";
+"Appboy.feed.no-connection.title" = "Connection Error";
+"Appboy.feed.no-connection.message" = "Cannot establish network connection.\nPlease try again later.";

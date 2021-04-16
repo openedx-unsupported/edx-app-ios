@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "Gereed";
+"Appboy.content-cards.no-card.text" = "Er zijn geen updates.\nProbeer het later opnieuw.";
+"Appboy.content-cards.no-connection.title" = "Verbindingsfout";
+"Appboy.content-cards.no-connection.message" = "Kan geen netwerkverbinding maken.\nProbeer het later opnieuw.";

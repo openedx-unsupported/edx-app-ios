@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "เสร็จสิ้น";
+"Appboy.feed.no-card.text" = "เราไม่มีการอัพเดต กรุณาตรวจสอบภายหลัง.";
+"Appboy.feed.no-connection.title" = "ผิดพลาดการเชื่อมต่อ";
+"Appboy.feed.no-connection.message" = "ไม่สามารถสร้างการเชื่อมต่อเครือข่าย กรุณาลองใหม่ภายหลัง.";

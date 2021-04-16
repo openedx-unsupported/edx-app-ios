@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "Gawa na";
+"Appboy.content-cards.no-card.text" = "Wala kaming mga update.\nMangyaring suriin muli sa ibang pagkakataon.";
+"Appboy.content-cards.no-connection.title" = "May Error sa Koneksyon";
+"Appboy.content-cards.no-connection.message" = "Hindi makapagtatag ng koneksyon sa network.\nMangyaring subukan muli mamaya.";

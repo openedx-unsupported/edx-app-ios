@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Готово";
+"Appboy.feed.no-card.text" = "Оновлення недоступні.\nБудь ласка, перевірте знову пізніше.";
+"Appboy.feed.no-connection.title" = "Помилка підключення";
+"Appboy.feed.no-connection.message" = "неможливо встановити з'єднання з мережею.\nБудь ласка, спробуйте ще раз пізніше.";

@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "完了";
+"Appboy.feed.no-card.text" = "アップデートはありません。後でもう一度確認してください。";
+"Appboy.feed.no-connection.title" = "接続エラー";
+"Appboy.feed.no-connection.message" = "ネットワークに接続できません。後でもう一度試してください。";

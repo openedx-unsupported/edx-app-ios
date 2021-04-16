@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "Hoàn tất";
+"Appboy.content-cards.no-card.text" = "Chúng tôi không có cập nhật nào.\nVui lòng kiểm tra lại sau.";
+"Appboy.content-cards.no-connection.title" = "Lỗi Kết Nối";
+"Appboy.content-cards.no-connection.message" = "Không thể thiết lập kết nối mạng.\nVui lòng thử lại sau.";

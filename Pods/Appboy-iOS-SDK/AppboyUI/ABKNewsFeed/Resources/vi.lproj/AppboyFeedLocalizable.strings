@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Hoàn tất";
+"Appboy.feed.no-card.text" = "Chúng tôi không có cập nhật nào. Vui lòng kiểm tra lại sau.";
+"Appboy.feed.no-connection.title" = "Lỗi Kết Nối";
+"Appboy.feed.no-connection.message" = "Không thể thiết lập kết nối mạng. Vui lòng thử lại sau.";

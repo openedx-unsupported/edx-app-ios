@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "تم";
+"Appboy.content-cards.no-card.text" = "ليس لدينا أي تحديث\n يرجى التحقق مرة أخرى لاحقاً";
+"Appboy.content-cards.no-connection.title" = "خلل في الاتصال";
+"Appboy.content-cards.no-connection.message" = "لا يمكن إجراء الاتصال بالشبكة\n يرجى تكرار المحاولة لاحقا ";

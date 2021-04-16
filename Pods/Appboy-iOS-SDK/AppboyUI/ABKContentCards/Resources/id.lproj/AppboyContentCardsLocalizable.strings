@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "Selesai";
+"Appboy.content-cards.no-card.text" = "Kami tidak memiliki pembaruan.\nCoba lagi nanti.";
+"Appboy.content-cards.no-connection.title" = "Kesalahan Koneksi";
+"Appboy.content-cards.no-connection.message" = "Tidak bisa melakukan koneksi jaringan.\nCoba lagi nanti.";

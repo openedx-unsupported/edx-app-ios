@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "ສຳ​ເລັດ";
+"Appboy.content-cards.no-card.text" = "ພວກ​ເຮົາ​ບໍ່​ມີ​ການ​ອັບ​ເດດ.\nກະ​ລຸ​ນາ​ລອງ​ໃໝ່​ພາຍ​ຫຼັງ.";
+"Appboy.content-cards.no-connection.title" = "ການ​ເຊື່ອມ​ຕໍ່​ຜິດ​ພາດ";
+"Appboy.content-cards.no-connection.message" = "ບໍ່​ສາ​ມາດ​ຕັ້ງ​ການ​ເຊື່ອມ​ຕໍ່​ເຄືອ​ຂ່າຍ​ໄດ້.\nກະ​ລຸ​ນາ​ລອງ​ໃໝ່​ພາຍ​ຫຼັງ.";

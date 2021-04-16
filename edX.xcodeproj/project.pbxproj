@@ -828,6 +828,9 @@
 		E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */; };
 		E01733BC25F75CEE00671365 /* ajaxHandler.js in Resources */ = {isa = PBXBuildFile; fileRef = E01733B725F7592900671365 /* ajaxHandler.js */; };
 		E01F45671E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */; };
+		E01F68CE2626BF2F006B6716 /* BrazeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F68CD2626BF2E006B6716 /* BrazeConfig.swift */; };
+		E01F68D42626C471006B6716 /* BrazeConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F68D32626C471006B6716 /* BrazeConfigTests.swift */; };
+		E01F68D92626C4E3006B6716 /* BrazeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F68CD2626BF2E006B6716 /* BrazeConfig.swift */; };
 		E02165AF1E39D3040058D685 /* UIImage_OEXHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */; };
 		E021F46C1F739599007A26E7 /* loginScreenImage@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E021F46A1F739599007A26E7 /* loginScreenImage@2x~ipad.png */; };
 		E021F46D1F739599007A26E7 /* logo@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E021F46B1F739599007A26E7 /* logo@2x~ipad.png */; };
@@ -1989,6 +1992,8 @@
 		E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+CommonAdditions.swift"; sourceTree = "<group>"; };
 		E01733B725F7592900671365 /* ajaxHandler.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = ajaxHandler.js; path = ../ajaxHandler.js; sourceTree = "<group>"; };
 		E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsTracker.swift; sourceTree = "<group>"; };
+		E01F68CD2626BF2E006B6716 /* BrazeConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeConfig.swift; sourceTree = "<group>"; };
+		E01F68D32626C471006B6716 /* BrazeConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeConfigTests.swift; sourceTree = "<group>"; };
 		E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage_OEXHelpersTests.swift; sourceTree = "<group>"; };
 		E021F46A1F739599007A26E7 /* loginScreenImage@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginScreenImage@2x~ipad.png"; sourceTree = "<group>"; };
 		E021F46B1F739599007A26E7 /* logo@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x~ipad.png"; sourceTree = "<group>"; };
@@ -3469,6 +3474,7 @@
 				22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */,
 				E40AEA72218D074600049C39 /* YoutubeVideoConfig.swift */,
 				22FDD0AB2552691600BA378D /* FirebaseRemoteConfiguration.swift */,
+				E01F68CD2626BF2E006B6716 /* BrazeConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -3967,6 +3973,7 @@
 			isa = PBXGroup;
 			children = (
 				CBED55002260F90700C4F2F1 /* YoutubeVideoConfigTest.swift */,
+				E01F68D32626C471006B6716 /* BrazeConfigTests.swift */,
 				E473C3CF215E90E800D2ADEB /* YoutubeVideoPlayerTests.swift */,
 				3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */,
 				22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */,
@@ -4884,6 +4891,10 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-edX/Pods-edX-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Appboy-iOS-SDK/AppboyUI.ContentCards.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Appboy-iOS-SDK/Appboy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Appboy-iOS-SDK/AppboyUI.InAppMessage.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Appboy-iOS-SDK/AppboyUI.NewsFeed.bundle",
 				"${PODS_ROOT}/DateTools/DateTools/DateTools/DateTools.bundle",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInAppMessaging/InAppMessagingDisplayResources.bundle",
@@ -4892,6 +4903,10 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppboyUI.ContentCards.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Appboy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppboyUI.InAppMessage.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppboyUI.NewsFeed.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DateTools.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/InAppMessagingDisplayResources.bundle",
@@ -5085,6 +5100,7 @@
 				1904A14E1A1386C2006A5524 /* VideoData.m in Sources */,
 				7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */,
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
+				E01F68CE2626BF2F006B6716 /* BrazeConfig.swift in Sources */,
 				778F17851C10A1B50099BF93 /* CourseCatalogDetailViewController.swift in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
 				22E6A219207AA54600D50EDE /* PlayerView.swift in Sources */,
@@ -5630,6 +5646,7 @@
 				E03402211C7F1FC9003EB9B7 /* DiscussionResponsesDataControllerTests.swift in Sources */,
 				778D53371B3D97CC00441A98 /* ListCursorTests.swift in Sources */,
 				77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */,
+				E01F68D42626C471006B6716 /* BrazeConfigTests.swift in Sources */,
 				779376551BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift in Sources */,
 				7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
 				CBED55012260F90700C4F2F1 /* YoutubeVideoConfigTest.swift in Sources */,
@@ -5666,6 +5683,7 @@
 				E09B9D701D06D8010080BAE0 /* VersionUpgradeDataFactory.swift in Sources */,
 				9E74AFE71B4A821500B2D843 /* ResumeCourseControllerTests.swift in Sources */,
 				77691FB21B3C824E003922F2 /* CourseOutlineQuerierTests.swift in Sources */,
+				E01F68D92626C4E3006B6716 /* BrazeConfig.swift in Sources */,
 				77691FB01B3C820B003922F2 /* CourseOutlineViewControllerTests.swift in Sources */,
 				2240FD541FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift in Sources */,
 				E02165AF1E39D3040058D685 /* UIImage_OEXHelpersTests.swift in Sources */,

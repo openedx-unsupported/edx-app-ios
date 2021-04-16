@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "完成";
+"Appboy.content-cards.no-card.text" = "暫時沒有更新.\n請稍候再試.";
+"Appboy.content-cards.no-connection.title" = "連線錯誤";
+"Appboy.content-cards.no-connection.message" = "無法建立網路連線.\n請稍候再試.";

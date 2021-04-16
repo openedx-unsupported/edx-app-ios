@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "कर दिया गया";
+"Appboy.content-cards.no-card.text" = "हमारे पास कोई अपडेट नहीं हैं। कृपया बाद में फिर से जाँच करें.।";
+"Appboy.content-cards.no-connection.title" = "कनेक्शन की त्रुटि";
+"Appboy.content-cards.no-connection.message" = "नेटवर्क कनेक्शन स्थापित नहीं हो रहा है। कृपया बाद में दोबारा प्रयास करें।.";

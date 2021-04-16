@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "完成";
+"Appboy.feed.no-card.text" = "暫時沒有更新.\n請稍候再試.";
+"Appboy.feed.no-connection.title" = "連線錯誤";
+"Appboy.feed.no-connection.message" = "無法建立網路連線.\n請稍候再試.";

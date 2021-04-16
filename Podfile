@@ -23,6 +23,7 @@ pod 'Firebase/Performance', '= 7.4.0'
 pod 'Firebase/Messaging', '= 7.4.0'
 pod 'Branch', '= 0.37.0'
 pod 'YoutubePlayer-in-WKWebView', '~> 0.3.5'
+pod 'Appboy-iOS-SDK', '= 3.31.2'
 
 end
 

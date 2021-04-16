@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "បានសម្រេច";
+"Appboy.feed.no-card.text" = "យើងមិនមានការធ្វើបច្ចុប្បន្នភាពទេ។ សូមពិនិត្យមើលម្តងទៀតនៅពេលក្រោយ.";
+"Appboy.feed.no-connection.title" = "កំហុសឆ្គងក្នុងការតភ្ជាប់";
+"Appboy.feed.no-connection.message" = "មិនអាចបង្កើតបណ្តាញតភ្ជាប់បានទេ។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ.";

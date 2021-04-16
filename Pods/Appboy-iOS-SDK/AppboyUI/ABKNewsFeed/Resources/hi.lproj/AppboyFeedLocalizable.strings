@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "कर दिया गया";
+"Appboy.feed.no-card.text" = "हमारे पास कोई अपडेट नहीं हैं। कृपया बाद में फिर से जाँच करें.।";
+"Appboy.feed.no-connection.title" = "कनेक्शन की त्रुटि";
+"Appboy.feed.no-connection.message" = "नेटवर्क कनेक्शन स्थापित नहीं हो रहा है। कृपया बाद में दोबारा प्रयास करें।.";

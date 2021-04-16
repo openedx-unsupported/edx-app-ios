@@ -1,0 +1,5 @@
+/* Content Cards Context Labels */
+"Appboy.content-cards.done-button.title" = "เสร็จสิ้น";
+"Appboy.content-cards.no-card.text" = "เราไม่มีการอัพเดต กรุณาตรวจสอบภายหลัง.";
+"Appboy.content-cards.no-connection.title" = "ผิดพลาดการเชื่อมต่อ";
+"Appboy.content-cards.no-connection.message" = "ไม่สามารถสร้างการเชื่อมต่อเครือข่าย กรุณาลองใหม่ภายหลัง.";

@@ -1,0 +1,5 @@
+/* News Feed Context Labels */
+"Appboy.feed.done-button.title" = "Selesai";
+"Appboy.feed.no-card.text" = "Tiada kemas kini. Sila periksa kemudian.";
+"Appboy.feed.no-connection.title" = "Ralat Sambungan";
+"Appboy.feed.no-connection.message" = "Tidak boleh membuat sambungan rangkaian. Sila cuba kemudian.";
