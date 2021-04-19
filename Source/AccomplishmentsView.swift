@@ -41,7 +41,7 @@ class AccomplishmentView : UIView {
         textStack.addArrangedSubview(detail)
         textStack.addArrangedSubview(date)
 
-        shareButton.setImage(UIImage(named: "share"), for: .normal)
+        shareButton.setImage(Icon.ShareCourse.imageWithFontSize(size: 20), for: .normal)
         shareButton.tintColor = OEXStyles.shared().neutralLight()
         shareButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         shareButton.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)

@@ -1121,6 +1121,7 @@ public enum MaterialSharp: String {
     case settingsSystemDaydream = "\u{e1c3}"
     case settingsVoice = "\u{e8c8}"
     case share = "\u{e80d}"
+    case shareiOS = "\u{e6b8}"
     case shop = "\u{e8c9}"
     case shopTwo = "\u{e8ca}"
     case shoppingBag = "\u{f1cc}"

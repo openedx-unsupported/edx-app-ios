@@ -71,7 +71,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     
     fileprivate func addNavigationItems(withCourse course: OEXCourse) {
         if navigationItems.isEmpty && course.course_about != nil && environment.config.courseSharingEnabled {
-            let shareImage = UIImage(named: "shareCourse")?.withRenderingMode(.alwaysTemplate)
+            let shareImage = Icon.ShareCourse.imageWithFontSize(size: 22)
             shareButton.setImage(shareImage, for: .normal)
             shareButton.tintColor = environment.styles.primaryBaseColor()
             shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
