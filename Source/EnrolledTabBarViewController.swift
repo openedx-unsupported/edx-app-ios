@@ -39,7 +39,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     private var userProfileImageView = ProfileImageView()
     private let UserProfileImageSize = CGSize(width: 30, height: 30)
     private var profileFeed: Feed<UserProfile>?
-    private let tabBarImageFontSize : CGFloat = 20
+    private let tabBarImageFontSize : CGFloat = 22
     static var courseCatalogIndex: Int = 0
     
     private var screenTitle: String {
@@ -88,7 +88,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for option in TabBarOptions.options {
             switch option {
             case .Course:
-                item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .Program:
                 guard environment.config.programConfig.enabled, let programsURL = environment.config.programConfig.programURL else { break }

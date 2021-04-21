@@ -129,7 +129,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
     }()
     
     private lazy var shareImageView: UIImageView = {
-        let shareImage = UIImage(named: "shareCourse")?.withRenderingMode(.alwaysTemplate)
+        let shareImage = Icon.ShareCourse.imageWithFontSize(size: 24)
         let imageView = UIImageView(image: shareImage)
         return imageView
     }()

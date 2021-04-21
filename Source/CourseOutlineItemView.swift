@@ -23,7 +23,7 @@ private let SubtitleOffsetCenterY = 10
 private let DownloadCountOffsetTrailing = -2
 private let SubtitleLeadingOffset = 20
 
-private let SmallIconSize: CGFloat = 15
+private let SmallIconSize: CGFloat = 17
 
 public class CourseOutlineItemView: UIView {
     static let detailFontStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBlack())
@@ -300,6 +300,7 @@ public class CourseOutlineItemView: UIView {
     var trailingView = UIView() {
         didSet {
             oldValue.removeFromSuperview()
+            
             trailingView.isHidden = false
             trailingContainer.addSubview(trailingView)
             

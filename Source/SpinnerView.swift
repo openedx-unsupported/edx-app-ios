@@ -6,54 +6,46 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-private var startTime : TimeInterval?
-
-private let animationKey = "org.edx.spin"
-
-public class SpinnerView : UIView {
+public class SpinnerView: UIView {
     
     public enum Size {
-        case Small
-        case Medium
-        case Large
+        case small
+        case medium
+        case large
     }
     
     public enum Color {
-        case Primary
-        case White
+        case primary
+        case white
         
         fileprivate var value : UIColor {
             switch self {
-            case .Primary: return OEXStyles.shared().primaryBaseColor()
-            case .White: return OEXStyles.shared().neutralWhite()
+            case .primary: return OEXStyles.shared().primaryBaseColor()
+            case .white: return OEXStyles.shared().neutralWhite()
             }
         }
     }
     
-    private let content = UIImageView()
-    private let size : Size
-    private var stopped : Bool = false {
-        didSet {
-            if hidesWhenStopped {
-                self.isHidden = stopped
-            }
-        }
-    }
+    private var activityIndicator: MaterialActivityIndicatorView?
     
-    public var hidesWhenStopped = false
+    private let size: Size
+    private let color: Color
     
-    public init(size : Size, color : Color) {
+    public init(size: Size, color: Color) {
         self.size = size
-        super.init(frame : CGRect.zero)
+        self.color = color
+        
+        super.init(frame : .zero)
         accessibilityIdentifier = "SpinnerView:view"
-        content.accessibilityIdentifier = "SpinnerView:content-image-view"
-        addSubview(content)
-        content.image = Icon.Spinner.imageWithFontSize(size: 30)
-        content.tintColor = color.value
-        content.contentMode = .scaleAspectFit
-        addObservers()
+        activityIndicator?.accessibilityIdentifier = "SpinnerView:activity-indicator"
+        activityIndicator = MaterialActivityIndicatorView()
+        if let view = activityIndicator {
+            addSubview(view)
+        }
+        activityIndicator?.startAnimating()
+        addObservers()        
     }
     
     public override class var requiresConstraintBasedLayout: Bool {
@@ -62,20 +54,11 @@ public class SpinnerView : UIView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        content.frame = self.bounds
+        activityIndicator?.frame = bounds
     }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func didMoveToWindow() {
-        if !stopped {
-            addSpinAnimation()
-        }
-        else {
-            removeSpinAnimation()
-        }
     }
     
     public override func didMoveToSuperview() {
@@ -84,11 +67,11 @@ public class SpinnerView : UIView {
     
     public override var intrinsicContentSize: CGSize {
         switch size {
-        case .Small:
+        case .small:
             return CGSize(width: 12, height: 12)
-        case .Medium:
+        case .medium:
             return CGSize(width: 18, height: 18)
-        case .Large:
+        case .large:
             return CGSize(width: 24, height: 24)
         }
     }
@@ -103,43 +86,17 @@ public class SpinnerView : UIView {
         }
     }
     
-    private func addSpinAnimation() {
-        if let window = self.window {
-            let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
-            let dots = 8
-            let direction : Double = UIApplication.shared.userInterfaceLayoutDirection == .leftToRight ? 1 : -1
-            animation.keyTimes = Array(count: dots) {
-                return (Double($0) / Double(dots)) as NSNumber
-            }
-            animation.values = Array(count: dots) {
-                return (direction * Double($0) / Double(dots)) * 2.0 * .pi as NSNumber
-            }
-            animation.repeatCount = Float.infinity
-            animation.duration = 0.6
-            animation.isAdditive = true
-            animation.calculationMode = CAAnimationCalculationMode.discrete
-            /// Set time to zero so they all sync up
-            animation.beginTime = window.layer.convertTime(0, to: self.layer)
-            self.content.layer.add(animation, forKey: animationKey)
+    func startAnimating() {
+        activityIndicator?.removeFromSuperview()
+        activityIndicator = MaterialActivityIndicatorView()
+        if let view = activityIndicator {
+            addSubview(view)
         }
-        else {
-            removeSpinAnimation()
-        }
+        activityIndicator?.color = color.value
+        activityIndicator?.startAnimating()
     }
     
-    private func removeSpinAnimation() {
-        self.content.layer.removeAnimation(forKey: animationKey)
-    }
-    
-    public func startAnimating() {
-        if stopped {
-            addSpinAnimation()
-        }
-        stopped = false
-    }
-    
-    public func stopAnimating() {
-        removeSpinAnimation()
-        stopped = true
+    func stopAnimating() {
+        activityIndicator?.removeFromSuperview()
     }
 }

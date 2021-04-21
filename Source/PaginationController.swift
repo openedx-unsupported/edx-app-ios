@@ -31,7 +31,7 @@ public class PaginationController<A> : NSObject, Paginator {
 
     private let footer : UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: footerHeight))
-        let activityIndicator = SpinnerView(size: .Large, color: .Primary)
+        let activityIndicator = SpinnerView(size: .large, color: .primary)
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints { make in
             make.center.equalTo(view)

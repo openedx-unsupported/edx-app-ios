@@ -341,17 +341,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.refineLabel.attributedText = self.refineTextStyle.attributedString(withText: Strings.refine)
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
-            attributedStrings: [Icon.Filter.attributedTextWithStyle(style: filterTextStyle.withSize(.xSmall)),
+            attributedStrings: [Icon.Filter.attributedTextWithStyle(style: filterTextStyle.withSize(.base)),
                 filterTextStyle.attributedString(withText: self.titleForFilter(filter: self.selectedFilter))])
         filterButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated : false)
         
-        buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Sort.attributedTextWithStyle(style: filterTextStyle.withSize(.xSmall)),
+        buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Sort.attributedTextWithStyle(style: filterTextStyle.withSize(.base)),
             filterTextStyle.attributedString(withText: Strings.recentActivity)])
         sortButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated : false)
         
         updateNewPostButtonStyle()
         
-        let createImage = Icon.Create.imageWithFontSize(size: 14).image(with: environment.styles.neutralWhiteT())
+        let createImage = Icon.Create.imageWithFontSize(size: 16).image(with: environment.styles.neutralWhiteT())
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = createImage
         let imageOffsetY: CGFloat = -3.0

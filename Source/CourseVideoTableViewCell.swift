@@ -20,11 +20,16 @@ private let titleLabelCenterYOffset = -12
 class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     static let identifier = "CourseVideoTableViewCellIdentifier"
-    weak var delegate : CourseVideoTableViewCellDelegate?
+    weak var delegate: CourseVideoTableViewCellDelegate?
     
     private let content = CourseOutlineItemView()
-    private let downloadView = DownloadsAccessoryView()
+    private var downloadView: DownloadsAccessoryView?
     private var spinnerTimer = Timer()
+    private let notifications = [
+        NSNotification.Name.OEXDownloadProgressChanged,
+        NSNotification.Name.OEXDownloadEnded,
+        NSNotification.Name.OEXVideoStateChanged
+    ]
     
     var courseOutlineMode: CourseOutlineMode = .full
     
@@ -36,7 +41,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         }
     }
     
-    var block : CourseBlock? = nil {
+    var block: CourseBlock? = nil {
         didSet {
             guard let block = block else { return }
             
@@ -56,9 +61,9 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     private func showVideoDownloadView(on block: CourseBlock?) {
         if let video = block?.type.asVideo {
-            downloadView.isHidden = !video.isDownloadableVideo
+            downloadView?.isHidden = !video.isDownloadableVideo
         } else {
-            downloadView.isHidden = true
+            downloadView?.isHidden = true
         }
     }
     
@@ -77,7 +82,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         showVideoDownloadView(on: block)
     }
     
-    var localState : OEXHelperVideoDownload? {
+    var localState: OEXHelperVideoDownload? {
         didSet {
             updateDownloadViewForVideoState()
             
@@ -92,49 +97,78 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        setupDownloadView()
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupContentView()
+        setupDownloadView()
+        addObservers()
+        setAccessibilityIdentifiers()
+    }
+    
+    private func setupContentView() {
         contentView.addSubview(content)
         content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
         
         content.setTitleTrailingIcon(icon: Icon.CourseVideoContent)
+    }
+    
+    private func addObservers() {
+        for notification in notifications {
+            NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { _, observer, _ -> Void in
+                observer.updateDownloadViewForVideoState()
+            }
+        }
+    }
+    
+    private func setupDownloadView() {
+        downloadView?.removeFromSuperview()
+        downloadView = nil
         
-        downloadView.downloadAction = {[weak self] in
+        downloadView = DownloadsAccessoryView()
+        downloadView?.accessibilityIdentifier = "CourseVideoTableViewCell:download-view"
+        
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction { [weak self] _ in
+            if let owner = self, owner.downloadState == .Downloading {
+                owner.delegate?.videoCellChoseShowDownloads(cell: owner)
+            }
+        }
+        
+        downloadView?.addGestureRecognizer(tapGesture)
+        
+        downloadView?.downloadAction = { [weak self] in
             if let owner = self, let block = owner.block {
                 owner.delegate?.videoCellChoseDownload(cell: owner, block : block)
             }
         }
         
-        for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
-            NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (_, observer, _) -> Void in
-                observer.updateDownloadViewForVideoState()
-            }
+        downloadView?.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        
+        content.trailingView.removeFromSuperview()
+        if let view = downloadView {
+            content.trailingView = view
         }
-        let tapGesture = UITapGestureRecognizer()
-        tapGesture.addAction {[weak self]_ in
-            if let owner = self, owner.downloadState == .Downloading {
-                owner.delegate?.videoCellChoseShowDownloads(cell: owner)
-            }
-        }
-        downloadView.addGestureRecognizer(tapGesture)
-        content.trailingView = downloadView
-        downloadView.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
-        setAccessibilityIdentifiers()
     }
-
+    
     private func setAccessibilityIdentifiers() {
         accessibilityIdentifier = "CourseVideoTableViewCell:view"
         content.accessibilityIdentifier = "CourseVideoTableViewCell:content-view"
-        downloadView.accessibilityIdentifier = "CourseVideoTableViewCell:download-view"
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var downloadState : DownloadsAccessoryView.State {
+    private var downloadState: DownloadsAccessoryView.State {
         switch localState?.downloadProgress ?? 0 {
         case 0:
             return .Available
@@ -151,15 +185,21 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             return
         }
         
-        content.trailingView = downloadView
-        downloadView.state = downloadState
+        if downloadState != .Available && downloadState == downloadView?.state {
+            return
+        }
+        
+        if let view = downloadView {
+            content.trailingView = view
+        }
+        downloadView?.state = downloadState
     }
     
-   fileprivate func isVideoDownloaded() -> Bool{
-        return (localState?.downloadState == OEXDownloadState.complete)
+   private func isVideoDownloaded() -> Bool{
+        return localState?.downloadState == OEXDownloadState.complete
     }
     
-   fileprivate func deleteVideo()  {
+   private func deleteVideo()  {
         if let video = localState {
             OEXInterface.shared().deleteDownloadedVideo(video, shouldNotify: true) { _ in }
             OEXAnalytics.shared().trackUnitDeleteVideo(courseID: courseID ?? "", unitID: block?.blockID ?? "")
@@ -196,7 +236,7 @@ extension CourseVideoTableViewCell: SwipeableCellDelegate {
         //Showing a spinner while deleting video
             if let owner = self {
                 owner.deleteVideo()
-                owner.downloadView.state = .Deleting
+                owner.downloadView?.state = .Deleting
                 owner.spinnerTimer = Timer.scheduledTimer(timeInterval: 0.4, target:owner, selector: #selector(owner.invalidateTimer), userInfo: nil, repeats: true)
             }
             tableView.hideSwipeCell()
@@ -204,9 +244,9 @@ extension CourseVideoTableViewCell: SwipeableCellDelegate {
         return [deleteButton]
     }
 
-    @objc private func invalidateTimer(){
+    @objc private func invalidateTimer() {
         spinnerTimer.invalidate()
-        downloadView.state = .Done
+        downloadView?.state = .Done
         delegate?.reloadCell(cell: self)
     }
 }

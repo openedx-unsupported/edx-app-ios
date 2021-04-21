@@ -11,10 +11,9 @@ import UIKit
 private let StandardRefreshHeight : CGFloat = 80
 
 public class PullRefreshView : UIView {
-    fileprivate let spinner = SpinnerView(size: .Large, color: .Primary)
+    fileprivate let spinner = SpinnerView(size: .large, color: .primary)
     
     public init() {
-        spinner.stopAnimating()
         super.init(frame : CGRect.zero)
         accessibilityIdentifier = "PullRefreshView:view"
         spinner.accessibilityIdentifier = "PullRefreshView:spinner"
@@ -91,7 +90,6 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
         UIView.animate(withDuration: 0.3) {
             self.insetsDelegate?.contentInsetsSourceChanged(source: self)
         }
-        view.spinner.stopAnimating()
     }
     
     public var currentInsets : UIEdgeInsets {

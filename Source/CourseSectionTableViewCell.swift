@@ -44,9 +44,10 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
             NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (_, observer, _) -> Void in
                 if let state = observer.downloadStateForDownloads(videos: observer.videosStream.value) {
-                    observer.downloadView.state = state
-                }
-                else {
+                    if observer.downloadView.state != state {
+                        observer.downloadView.state = state
+                    }
+                } else {
                     observer.content.hideTrailingView()
                 }
             }

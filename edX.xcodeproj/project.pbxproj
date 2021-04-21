@@ -133,7 +133,6 @@
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
 		228E0B8D1F431F7B0073E6FA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228E0B8C1F431F7B0073E6FA /* AccountViewController.swift */; };
 		228E0B8F1F43208C0073E6FA /* AccountViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228E0B8E1F43208C0073E6FA /* AccountViewCell.swift */; };
-		228E169C2136BC0E006FA184 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 228E169B2136BC0E006FA184 /* FontAwesome.ttf */; };
 		2294A54A206E637100D64FFC /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2294A549206E637000D64FFC /* VideoPlayer.swift */; };
 		2294AEDF2565429C00C00FC1 /* ValuePropCourseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2294AEDE2565429C00C00FC1 /* ValuePropCourseCardView.swift */; };
 		2295E2A72369BFFB00FC51D5 /* MicrosoftConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2295E2A62369BFFB00FC51D5 /* MicrosoftConfigTests.swift */; };
@@ -203,6 +202,13 @@
 		5F6F2B68255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */; };
 		5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */; };
 		5F6F2B6F255AABC400AA3708 /* inter_fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B6E255AABC400AA3708 /* inter_fonts.json */; };
+		5F70249C2624D75000A968CB /* CGRect+Center.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7024962624D75000A968CB /* CGRect+Center.swift */; };
+		5F70249D2624D75000A968CB /* CAPropertyAnimation+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7024972624D75000A968CB /* CAPropertyAnimation+Key.swift */; };
+		5F70249E2624D75000A968CB /* UIBezierPath+Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7024982624D75000A968CB /* UIBezierPath+Circle.swift */; };
+		5F70249F2624D75000A968CB /* CGSize+Min.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7024992624D75000A968CB /* CGSize+Min.swift */; };
+		5F7024A02624D75000A968CB /* MaterialActivityIndicatorAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F70249A2624D75000A968CB /* MaterialActivityIndicatorAnimator.swift */; };
+		5F7024A12624D75000A968CB /* MaterialActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F70249B2624D75000A968CB /* MaterialActivityIndicator.swift */; };
+		5F7024A32624D96400A968CB /* MaterialIconsSharp.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */; };
 		5F7C0C642534520200A344B9 /* FillBackgroundTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */; };
 		5F7C0C6A2534521300A344B9 /* FillBackgroundLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */; };
 		5F903AF4255020D7006365DE /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F903AF3255020D7006365DE /* UIDeviceExtension.swift */; };
@@ -447,7 +453,7 @@
 		7772BE821AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE811AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m */; };
 		7772BE841AF834EC0081CA7A /* CourseOutlineQuerier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE831AF834EC0081CA7A /* CourseOutlineQuerier.swift */; };
 		7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE951AF9587E0081CA7A /* CourseContentPageViewController.swift */; };
-		7772BEB21AFA6C0F0081CA7A /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BEB11AFA6C0F0081CA7A /* FontAwesome.swift */; };
+		7772BEB21AFA6C0F0081CA7A /* MaterialSharp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BEB11AFA6C0F0081CA7A /* MaterialSharp.swift */; };
 		7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7773D1A81B1E557D0037214B /* OEXVideoEncoding.m */; };
 		7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */; };
 		7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */; };
@@ -1159,7 +1165,6 @@
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		228E0B8C1F431F7B0073E6FA /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		228E0B8E1F43208C0073E6FA /* AccountViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewCell.swift; sourceTree = "<group>"; };
-		228E169B2136BC0E006FA184 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		2294A549206E637000D64FFC /* VideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		2294AEDE2565429C00C00FC1 /* ValuePropCourseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropCourseCardView.swift; sourceTree = "<group>"; };
 		2295E2A62369BFFB00FC51D5 /* MicrosoftConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftConfigTests.swift; sourceTree = "<group>"; };
@@ -1248,6 +1253,13 @@
 		5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-BoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B6E255AABC400AA3708 /* inter_fonts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = inter_fonts.json; sourceTree = "<group>"; };
+		5F7024962624D75000A968CB /* CGRect+Center.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+Center.swift"; sourceTree = "<group>"; };
+		5F7024972624D75000A968CB /* CAPropertyAnimation+Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAPropertyAnimation+Key.swift"; sourceTree = "<group>"; };
+		5F7024982624D75000A968CB /* UIBezierPath+Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Circle.swift"; sourceTree = "<group>"; };
+		5F7024992624D75000A968CB /* CGSize+Min.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Min.swift"; sourceTree = "<group>"; };
+		5F70249A2624D75000A968CB /* MaterialActivityIndicatorAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialActivityIndicatorAnimator.swift; sourceTree = "<group>"; };
+		5F70249B2624D75000A968CB /* MaterialActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialActivityIndicator.swift; sourceTree = "<group>"; };
+		5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIconsSharp.otf; sourceTree = "<group>"; };
 		5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundTextStorage.swift; sourceTree = "<group>"; };
 		5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundLayoutManager.swift; sourceTree = "<group>"; };
 		5F903AF3255020D7006365DE /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
@@ -1520,7 +1532,7 @@
 		7772BE811AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+OEXBlockActionsTests.m"; sourceTree = "<group>"; };
 		7772BE831AF834EC0081CA7A /* CourseOutlineQuerier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineQuerier.swift; sourceTree = "<group>"; };
 		7772BE951AF9587E0081CA7A /* CourseContentPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseContentPageViewController.swift; sourceTree = "<group>"; };
-		7772BEB11AFA6C0F0081CA7A /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FontAwesome.swift; path = Libraries/FontAwesome.swift/Classes/FontAwesome.swift; sourceTree = SOURCE_ROOT; };
+		7772BEB11AFA6C0F0081CA7A /* MaterialSharp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MaterialSharp.swift; path = Libraries/FontAwesome.swift/Classes/MaterialSharp.swift; sourceTree = SOURCE_ROOT; };
 		7773D1A71B1E557D0037214B /* OEXVideoEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXVideoEncoding.h; sourceTree = "<group>"; };
 		7773D1A81B1E557D0037214B /* OEXVideoEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXVideoEncoding.m; sourceTree = "<group>"; };
 		7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldEmailViewTests.m; sourceTree = "<group>"; };
@@ -2567,6 +2579,28 @@
 			path = Inter;
 			sourceTree = "<group>";
 		};
+		5F7024942624D75000A968CB /* MaterialActivityIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				5F7024952624D75000A968CB /* Extensions */,
+				5F70249A2624D75000A968CB /* MaterialActivityIndicatorAnimator.swift */,
+				5F70249B2624D75000A968CB /* MaterialActivityIndicator.swift */,
+			);
+			name = MaterialActivityIndicator;
+			path = Libraries/MaterialActivityIndicator;
+			sourceTree = SOURCE_ROOT;
+		};
+		5F7024952624D75000A968CB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5F7024962624D75000A968CB /* CGRect+Center.swift */,
+				5F7024972624D75000A968CB /* CAPropertyAnimation+Key.swift */,
+				5F7024982624D75000A968CB /* UIBezierPath+Circle.swift */,
+				5F7024992624D75000A968CB /* CGSize+Min.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		5F7C0C3425344E1500A344B9 /* UITextView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2614,7 +2648,7 @@
 		69ECC5A21D50D1170030CF87 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				228E169B2136BC0E006FA184 /* FontAwesome.ttf */,
+				5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */,
 				BD7C6C3F1DCA329A0004D135 /* fonts.json */,
 				5F6F2B55255AAB7F00AA3708 /* Inter */,
 				5F6F2B6E255AABC400AA3708 /* inter_fonts.json */,
@@ -3037,12 +3071,12 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
-		7772BEB31AFA6C140081CA7A /* FontAwesome.swift */ = {
+		7772BEB31AFA6C140081CA7A /* MaterialSharp.swift */ = {
 			isa = PBXGroup;
 			children = (
-				7772BEB11AFA6C0F0081CA7A /* FontAwesome.swift */,
+				7772BEB11AFA6C0F0081CA7A /* MaterialSharp.swift */,
 			);
-			name = FontAwesome.swift;
+			name = MaterialSharp.swift;
 			sourceTree = "<group>";
 		};
 		77864DDA1B10057600182FC2 /* Base Structures */ = {
@@ -3829,6 +3863,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5F7024942624D75000A968CB /* MaterialActivityIndicator */,
 				E096582A25C1963B0004FFCC /* Cast */,
 				E096532625C133390004FFCC /* MSAL */,
 				5F592ACE257521CF00D96214 /* SwiftDate */,
@@ -3839,7 +3874,7 @@
 				77509D8B1BE1710200B10CD3 /* TZStackView */,
 				77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */,
 				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
-				7772BEB31AFA6C140081CA7A /* FontAwesome.swift */,
+				7772BEB31AFA6C140081CA7A /* MaterialSharp.swift */,
 				80F7DBA81AF2ECEC00649B6F /* Alamofire_1.2.1 */,
 				BE54F199195F07FB005D069F /* Reachability */,
 			);
@@ -4712,7 +4747,6 @@
 				69ECC63E1D50D1170030CF87 /* icon_google_white.png in Resources */,
 				B71AA1A020CEF64D00700C5E /* social_sciences@3x.png in Resources */,
 				69ECC63D1D50D1170030CF87 /* icon_facebook_white@2x.png in Resources */,
-				228E169C2136BC0E006FA184 /* FontAwesome.ttf in Resources */,
 				5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */,
 				69ECC6361D50D1170030CF87 /* ic_partiallywatched@2x.png in Resources */,
 				69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */,
@@ -4721,6 +4755,7 @@
 				5F6F2B65255AABA400AA3708 /* Inter-Light.ttf in Resources */,
 				B71AA1BA20CEF64D00700C5E /* energy@2x.png in Resources */,
 				B71AA1C120CEF64D00700C5E /* ethics@2x.png in Resources */,
+				5F7024A32624D96400A968CB /* MaterialIconsSharp.otf in Resources */,
 				B71AA1AF20CEF64D00700C5E /* health@3x.png in Resources */,
 				B71AA1CA20CEF64D00700C5E /* biology@2x.png in Resources */,
 				E039A8041F74C0D80064ABDB /* logo~ipad.png in Resources */,
@@ -5233,6 +5268,7 @@
 				B7CCC72B209B16B100A66923 /* UILayoutSupport+Extensions.swift in Sources */,
 				9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */,
 				220B1D332119B5190048ACBA /* MicrosoftSocial.swift in Sources */,
+				5F70249C2624D75000A968CB /* CGRect+Center.swift in Sources */,
 				1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */,
 				77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */,
 				B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */,
@@ -5278,6 +5314,7 @@
 				77ADF49E1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m in Sources */,
 				22F6A15B20B7E62D009C3F4A /* String+DecodeHTMLEntities.swift in Sources */,
 				697652261D9BA7C80031FF8B /* OEXColorsDataFactory.swift in Sources */,
+				5F70249D2624D75000A968CB /* CAPropertyAnimation+Key.swift in Sources */,
 				77AF07771CB42AC400A42704 /* TabContainerView.swift in Sources */,
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,
@@ -5289,12 +5326,14 @@
 				E06292751F7BAFFF006D5EFC /* BranchConfig.swift in Sources */,
 				B7A09BDC20F8CAFB00A6C249 /* URL+PathExtension.swift in Sources */,
 				B70BD00420B57AF3005F0D19 /* SubjectsCollectionView.swift in Sources */,
+				5F7024A12624D75000A968CB /* MaterialActivityIndicator.swift in Sources */,
 				1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */,
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
 				B793456C20B596FC00DBFC33 /* SubjectsViewController.swift in Sources */,
 				B7CCC734209B16B100A66923 /* ConstraintLayoutGuideDSL.swift in Sources */,
 				77E6486C1C912BD600B6740D /* Logger+OEXObjC.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
+				5F7024A02624D75000A968CB /* MaterialActivityIndicatorAnimator.swift in Sources */,
 				E0E163EC21368A1D00DAE9F0 /* FirebaseConfig.swift in Sources */,
 				B7EC83C121A2DE9E00D6A89C /* DiscoveryViewController.swift in Sources */,
 				77AFD1111C1B4F79001985FD /* NSString+TestExamples.m in Sources */,
@@ -5341,6 +5380,7 @@
 				E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */,
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
 				69F998571E6FEB2400CDFA9C /* OEXAnalytics+AppReview.swift in Sources */,
+				5F70249F2624D75000A968CB /* CGSize+Min.swift in Sources */,
 				77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				77503E8C1B278B9A00C47229 /* RegistrationSelectOptionView.swift in Sources */,
@@ -5520,10 +5560,11 @@
 				1AB539FA1BFE08DE0065501F /* DebugLogViewController.swift in Sources */,
 				1AE0A6CA1BF4FF9000E14917 /* UserCourseEnrollment.swift in Sources */,
 				77503E8E1B287DBF00C47229 /* KeyboardInsetsSource.swift in Sources */,
+				5F70249E2624D75000A968CB /* UIBezierPath+Circle.swift in Sources */,
 				7772BE841AF834EC0081CA7A /* CourseOutlineQuerier.swift in Sources */,
 				19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */,
 				77B463971A30F65E0083453A /* OEXStyles.m in Sources */,
-				7772BEB21AFA6C0F0081CA7A /* FontAwesome.swift in Sources */,
+				7772BEB21AFA6C0F0081CA7A /* MaterialSharp.swift in Sources */,
 				1AB539F51BFDFBC10065501F /* DebugMenuViewController.swift in Sources */,
 				5D43B18A1B0C1F9200448B52 /* MenuOptionsViewController.swift in Sources */,
 			);

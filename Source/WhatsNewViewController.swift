@@ -24,10 +24,6 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         return OEXTextStyle(weight: .semiBold, size: .large, color: OEXStyles.shared().neutralWhiteT())
     }
     
-    private var closeTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .large, color: OEXStyles.shared().neutralWhiteT())
-    }
-    
     private var doneButtonStyle : OEXTextStyle {
         return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().accentAColor())
     }
@@ -102,10 +98,9 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         
         headerLabel.attributedText = headerStyle.attributedString(withText: titleString)
         
-        let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [
-            Icon.Close.attributedTextWithStyle(style: closeTextStyle)])
-        closeButton.setAttributedTitle(buttonTitle, for: .normal)
-        
+        closeButton.setImage(Icon.Close.imageWithFontSize(size: closeImageSize), for: UIControl.State())
+        closeButton.tintColor = OEXStyles.shared().neutralWhiteT()
+
         closeButton.oex_addAction({[weak self] _ in
             self?.logCloseEvent()
             self?.dismiss(animated: true, completion: nil)
@@ -129,7 +124,9 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(containerView).offset(topSpace)
-            make.trailing.equalTo(containerView)
+            make.trailing.equalTo(containerView).inset(topSpace)
+            make.height.equalTo(closeImageSize)
+            make.width.equalTo(closeImageSize)
         }
         
         pageController.view.snp.makeConstraints { make in

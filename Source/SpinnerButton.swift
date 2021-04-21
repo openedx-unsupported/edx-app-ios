@@ -9,7 +9,6 @@
 import UIKit
 
 
-
 class SpinnerButton: UIButton {
     private let SpinnerViewTrailingMargin : CGFloat = 10
     private let VerticalContentMargin : CGFloat = 5
@@ -18,7 +17,7 @@ class SpinnerButton: UIButton {
         return spinnerView.intrinsicContentSize.width + 2 * SpinnerHorizontalMargin
     }
     
-    private let spinnerView = SpinnerView(size: .Large, color: .White)
+    private let spinnerView = SpinnerView(size: .large, color: .white)
     
     override func layoutSubviews() {
         super.layoutSubviews()

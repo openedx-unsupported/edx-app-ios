@@ -9,19 +9,19 @@
 import UIKit
 
 protocol IconRenderer : class {
-    var shouldFlip : Bool { get }
-    func boundsWithAttributes(attributes : [NSAttributedString.Key : Any], inline : Bool) -> CGRect
-    func drawWithAttributes(attributes : [NSAttributedString.Key : Any], inContext context : CGContext)
+    var shouldFlip: Bool { get }
+    func boundsWithAttributes(attributes: [NSAttributedString.Key : Any], inline : Bool) -> CGRect
+    func drawWithAttributes(attributes: [NSAttributedString.Key : Any], inContext context : CGContext)
 }
 
-class FontAwesomeRenderer : IconRenderer {
-    let icon : FontAwesome
+class MaterialIconRenderer : IconRenderer {
+    let icon: MaterialSharp
     
-    init(icon : FontAwesome) {
+    init(icon: MaterialSharp) {
         self.icon = icon
     }
     
-    func boundsWithAttributes(attributes : [NSAttributedString.Key : Any], inline : Bool) -> CGRect {
+    func boundsWithAttributes(attributes: [NSAttributedString.Key: Any], inline: Bool) -> CGRect {
         let string = NSAttributedString(string: icon.rawValue, attributes : attributes)
         let drawingOptions = inline ? NSStringDrawingOptions() : .usesLineFragmentOrigin
         
@@ -29,8 +29,8 @@ class FontAwesomeRenderer : IconRenderer {
     }
     
     func drawWithAttributes(attributes : [NSAttributedString.Key : Any], inContext context: CGContext) {
-        let string = NSAttributedString(string: icon.rawValue, attributes : attributes)
-        let bounds  = boundsWithAttributes(attributes: attributes, inline : false)
+        let string = NSAttributedString(string: icon.rawValue, attributes: attributes)
+        let bounds  = boundsWithAttributes(attributes: attributes, inline: false)
         
         string.draw(with: bounds, options: .usesLineFragmentOrigin, context: nil)
     }
@@ -40,11 +40,11 @@ class FontAwesomeRenderer : IconRenderer {
         case .leftToRight:
             return false
         case .rightToLeft:
-            // Go through the font awesome representation since those don't change even if the
+            // Go through the icon representation since those don't change even if the
             // icon's image change and we may use the same icon with different meanings.
 
             switch icon {
-            case .Check, .CheckSquareO, .InfoCircle, .PlayCircleO:
+            case .check, .checkCircle, .infoOutline, .playCircleFill:
                 return false
             default:
                 return true
@@ -53,24 +53,23 @@ class FontAwesomeRenderer : IconRenderer {
             return false
         }
     }
-    
 }
 
-private class RotatedIconRenderer : IconRenderer {
+private class RotatedIconRenderer: IconRenderer {
 
-    private let backing : IconRenderer
+    private let backing: IconRenderer
     
-    init(backing : IconRenderer) {
+    init(backing: IconRenderer) {
         self.backing = backing
     }
     
-    fileprivate func boundsWithAttributes(attributes: [NSAttributedString.Key : Any], inline: Bool) -> CGRect {
+    fileprivate func boundsWithAttributes(attributes: [NSAttributedString.Key: Any], inline: Bool) -> CGRect {
         let bounds = backing.boundsWithAttributes(attributes: attributes, inline: inline)
         // Swap width + height
         return CGRect(x: bounds.minX, y: bounds.minY, width: bounds.height, height: bounds.width)
     }
     
-    func drawWithAttributes(attributes : [NSAttributedString.Key : Any], inContext context : CGContext) {
+    func drawWithAttributes(attributes: [NSAttributedString.Key : Any], inContext context: CGContext) {
         let bounds = self.boundsWithAttributes(attributes: attributes, inline: false)
         // Draw rotated
         context.translateBy(x: -bounds.midX, y: -bounds.midY)
@@ -83,10 +82,9 @@ private class RotatedIconRenderer : IconRenderer {
     var shouldFlip : Bool {
         return backing.shouldFlip
     }
-    
 }
 
-// Abstracts out FontAwesome so that we can swap it out if necessary
+// Abstracts out Material Sharp so that we can swap it out if necessary
 // And also give some of our icons more semantics names
 public enum Icon {
     case Answered
@@ -104,6 +102,7 @@ public enum Icon {
     case Comments
     case Country
     case Courseware
+    case CoursewareEnrolled
     case ContentCanDownload
     case ContentDidDownload
     case CourseEffort
@@ -126,6 +125,7 @@ public enum Icon {
     case Graded
     case Handouts
     case InternetError
+    case Language
     case Menu
     case NoTopics
     case NoSearchResults
@@ -136,9 +136,9 @@ public enum Icon {
     case ReportFlag
     case Settings
     case Sort
-    case Spinner
     case StarEmpty
     case StarFilled
+    case ShareCourse
     case Discovery
     case Transcript
     case Trophy
@@ -160,139 +160,143 @@ public enum Icon {
     private var renderer : IconRenderer {
         switch self {
         case .Sort:
-            return RotatedIconRenderer(backing: FontAwesomeRenderer(icon: .Exchange))
+            return RotatedIconRenderer(backing: MaterialIconRenderer(icon: .sort))
         case .RotateDevice:
-            return RotatedIconRenderer(backing: FontAwesomeRenderer(icon: .Mobile))
+            return RotatedIconRenderer(backing: MaterialIconRenderer(icon: .screenRotation))
         case .ArrowUp:
-            return FontAwesomeRenderer(icon: .LongArrowUp)
+            return MaterialIconRenderer(icon: .arrowUpward)
         case .ArrowDown:
-            return FontAwesomeRenderer(icon: .LongArrowDown)
+            return MaterialIconRenderer(icon: .arrowDownward)
         case .Account:
-            return FontAwesomeRenderer(icon: .EllipsisV)
+            return MaterialIconRenderer(icon: .moreVert)
         case .Camera:
-            return FontAwesomeRenderer(icon: .Camera)
+            return MaterialIconRenderer(icon: .cameraAlt)
         case .ChevronRight:
-            return FontAwesomeRenderer(icon: .ChevronRight)
+            return MaterialIconRenderer(icon: .chevronRight)
         case .Close:
-            return FontAwesomeRenderer(icon: .Close)
+            return MaterialIconRenderer(icon: .close)
         case .Clone:
-            return FontAwesomeRenderer(icon: .Clone)
+            return MaterialIconRenderer(icon: .collectionsBookmark)
         case .Comment:
-            return FontAwesomeRenderer(icon: .Comment)
+            return MaterialIconRenderer(icon: .comment)
         case .Comments:
-            return FontAwesomeRenderer(icon: .Comments)
+            return MaterialIconRenderer(icon: .forum)
         case .Calendar:
-            return FontAwesomeRenderer(icon: .Calendar)
+            return MaterialIconRenderer(icon: .event)
         case .Question:
-            return FontAwesomeRenderer(icon: .Question)
+            return MaterialIconRenderer(icon: .help)
         case .Answered:
-            return FontAwesomeRenderer(icon: .CheckSquareO)
+            return MaterialIconRenderer(icon: .questionAnswer)
         case .Filter:
-            return FontAwesomeRenderer(icon: .Filter)
+            return MaterialIconRenderer(icon: .filterAlt)
         case .User:
-            return FontAwesomeRenderer(icon: .User)
+            return MaterialIconRenderer(icon: .person)
         case .Create:
-            return FontAwesomeRenderer(icon: .PlusCircle)
+            return MaterialIconRenderer(icon: .create)
         case .Pinned:
-            return FontAwesomeRenderer(icon: .ThumbTack)
+            return MaterialIconRenderer(icon: .pushPin)
         case .Transcript:
-            return FontAwesomeRenderer(icon: .FileTextO)
+            return MaterialIconRenderer(icon: .fileCopy)
         case .DeleteIcon:
-            return FontAwesomeRenderer(icon: .Trash)
+            return MaterialIconRenderer(icon: .delete)
         case .Announcements:
-            return FontAwesomeRenderer(icon: .Bullhorn)
+            return MaterialIconRenderer(icon: .campaign)
         case .CheckCircle:
-            return FontAwesomeRenderer(icon: .CheckCircle)
+            return MaterialIconRenderer(icon: .checkCircle)
         case .CircleO:
-            return FontAwesomeRenderer(icon: .CircleO)
+            return MaterialIconRenderer(icon: .addCircle)
         case .CheckCircleO:
-            return FontAwesomeRenderer(icon: .CheckCircleO)
+            return MaterialIconRenderer(icon: .checkCircleOutline)
         case .ContentCanDownload:
-            return FontAwesomeRenderer(icon: .Download)
+            return MaterialIconRenderer(icon: .download)
         case .ContentDidDownload:
-            return FontAwesomeRenderer(icon: .Check)
+            return MaterialIconRenderer(icon: .downloadDone)
         case .CourseEffort:
-            return FontAwesomeRenderer(icon: .Dashboard)
+            return MaterialIconRenderer(icon: .dashboard)
         case .CourseVideoPlay:
-            return FontAwesomeRenderer(icon: .PlayCircleO)
+            return MaterialIconRenderer(icon: .playCircleOutline)
         case .CourseEnd:
-            return FontAwesomeRenderer(icon: .ClockO)
+            return MaterialIconRenderer(icon: .schedule)
         case .CourseHTMLContent:
-            return FontAwesomeRenderer(icon: .Book)
+            return MaterialIconRenderer(icon: .article)
         case .CourseOpenAssesmentContent:
-            return FontAwesomeRenderer(icon: .Edit)
+            return MaterialIconRenderer(icon: .edit)
         case .CourseModeFull:
-            return FontAwesomeRenderer(icon: .List)
+            return MaterialIconRenderer(icon: .list)
         case .Recent:
-            return FontAwesomeRenderer(icon: .ArrowsV)
+            return MaterialIconRenderer(icon: .recentActors)
         case .Country:
-            return FontAwesomeRenderer(icon: .MapMarker)
+            return MaterialIconRenderer(icon: .place)
         case .CourseVideos:
-            return FontAwesomeRenderer(icon: .Film)
+            return MaterialIconRenderer(icon: .videocam)
         case .CourseProblemContent:
-            return FontAwesomeRenderer(icon: .ThList)
+            return MaterialIconRenderer(icon: .summarize)
         case .Courseware:
-            return FontAwesomeRenderer(icon: .ListAlt)
+            return MaterialIconRenderer(icon: .classroom)
+        case .CoursewareEnrolled:
+            return MaterialIconRenderer(icon: .bookmarkBorder)
         case .CourseUnknownContent:
-            return FontAwesomeRenderer(icon: .Laptop)
+            return MaterialIconRenderer(icon: .laptop)
         case .CourseVideoContent:
-            return FontAwesomeRenderer(icon: .Film)
+            return MaterialIconRenderer(icon: .videocam)
         case .Menu:
-            return FontAwesomeRenderer(icon: .Bars)
+            return MaterialIconRenderer(icon: .menu)
         case .ReportFlag:
-            return FontAwesomeRenderer(icon: .Flag)
+            return MaterialIconRenderer(icon: .flag)
         case .UpVote:
-            return FontAwesomeRenderer(icon: .Plus)
+            return MaterialIconRenderer(icon: .thumbUp)
         case .FollowStar:
-            return FontAwesomeRenderer(icon: .Star)
+            return MaterialIconRenderer(icon: .star)
         case .Discussions:
-            return FontAwesomeRenderer(icon: .CommentsO)
+            return MaterialIconRenderer(icon: .forum)
         case .Dropdown:
-            return FontAwesomeRenderer(icon: .CaretDown)
+            return MaterialIconRenderer(icon: .arrowDropDown)
         case .Graded:
-            return FontAwesomeRenderer(icon: .Edit)
+            return MaterialIconRenderer(icon: .factCheck)
         case .Handouts:
-            return FontAwesomeRenderer(icon: .FileTextO)
+            return MaterialIconRenderer(icon: .description)
         case .InternetError:
-            return FontAwesomeRenderer(icon: .Wifi)
+            return MaterialIconRenderer(icon: .wifi)
         case .OpenURL:
-            return FontAwesomeRenderer(icon: .ShareSquareO)
+            return MaterialIconRenderer(icon: .openInBrowser)
         case .Settings:
-            return FontAwesomeRenderer(icon: .Cog)
-        case .Spinner:
-            return FontAwesomeRenderer(icon: .Spinner)
+            return MaterialIconRenderer(icon: .settings)
         case .StarEmpty:
-            return FontAwesomeRenderer(icon: .StarO)
+            return MaterialIconRenderer(icon: .starOutline)
         case .StarFilled:
-            return FontAwesomeRenderer(icon: .Star)
+            return MaterialIconRenderer(icon: .star)
+        case .ShareCourse:
+            return MaterialIconRenderer(icon: .shareiOS)
         case .Discovery:
-            return FontAwesomeRenderer(icon: .Search)
+            return MaterialIconRenderer(icon: .search)
         case .UnknownError:
-            return FontAwesomeRenderer(icon: .ExclamationCircle)
+            return MaterialIconRenderer(icon: .error)
         case .NoTopics:
-            return FontAwesomeRenderer(icon: .List)
+            return MaterialIconRenderer(icon: .list)
         case .NoSearchResults:
-            return FontAwesomeRenderer(icon: .InfoCircle)
+            return MaterialIconRenderer(icon: .playCircleOutline)
         case .Trophy:
-            return FontAwesomeRenderer(icon: .Trophy)
+            return MaterialIconRenderer(icon: .emojiEvents)
         case .VideoFullscreen:
-            return FontAwesomeRenderer(icon: .Expand)
+            return MaterialIconRenderer(icon: .fullscreen)
         case .VideoPlay:
-            return FontAwesomeRenderer(icon: .Play)
+            return MaterialIconRenderer(icon: .playArrow)
         case .VideoPause:
-            return FontAwesomeRenderer(icon: .Pause)
+            return MaterialIconRenderer(icon: .pause)
         case .VideoRewind:
-            return FontAwesomeRenderer(icon: .History)
+            return MaterialIconRenderer(icon: .history)
         case .VideoShrink:
-            return FontAwesomeRenderer(icon: .Compress)
+            return MaterialIconRenderer(icon: .fullscreenExit)
         case .Closed:
-            return FontAwesomeRenderer(icon: .Lock)
+            return MaterialIconRenderer(icon: .lock)
         case .Warning:
-            return FontAwesomeRenderer(icon: .Exclamation)
+            return MaterialIconRenderer(icon: .error)
         case .MoreOptionsIcon:
-            return FontAwesomeRenderer(icon: .EllipsisH)
+            return MaterialIconRenderer(icon: .moreHoriz)
         case .ArrowLeft:
-            return FontAwesomeRenderer(icon: .AngleLeft)
+            return MaterialIconRenderer(icon: .keyboardArrowLeft)
+        case .Language:
+            return MaterialIconRenderer(icon: .language)
         }
     }
     
@@ -314,7 +318,7 @@ public enum Icon {
         }
     }
     
-    private func imageWithStyle(style : OEXTextStyle, sizeOverride : CGFloat? = nil, inline : Bool = false) -> UIImage {
+    private func imageWithStyle(style: OEXTextStyle, sizeOverride: CGFloat? = nil, inline: Bool = false) -> UIImage {
         var attributes = style.attributes.attributedKeyDictionary()
         let textSize = sizeOverride ?? OEXTextStyle.pointSize(for: style.size)
         attributes[NSAttributedString.Key.font] = Icon.fontWithSize(size: textSize)
@@ -337,7 +341,7 @@ public enum Icon {
         return image!.withRenderingMode(.alwaysTemplate)
     }
 
-    public func attributedTextWithStyle(style : OEXTextStyle, inline : Bool = false) -> NSAttributedString {
+    public func attributedTextWithStyle(style: OEXTextStyle, inline: Bool = false) -> NSAttributedString {
         var attributes = style.attributes.attributedKeyDictionary()
         attributes[NSAttributedString.Key.font] = Icon.fontWithSize(size: style.size)
         let bounds = renderer.boundsWithAttributes(attributes: attributes, inline : inline)
@@ -349,19 +353,19 @@ public enum Icon {
     }
     
     /// Returns a template mask image at the given size
-    public func imageWithFontSize(size : CGFloat) -> UIImage {
+    public func imageWithFontSize(size: CGFloat) -> UIImage {
         return imageWithStyle(style: OEXTextStyle(weight: .normal, size: .base, color: UIColor.black), sizeOverride:size)
     }
     
-    func barButtonImage(deltaFromDefault delta : CGFloat = 0) -> UIImage {
+    func barButtonImage(deltaFromDefault delta: CGFloat = 0) -> UIImage {
         return imageWithFontSize(size: 18 + delta)
     }
     
-    private static func fontWithSize(size : CGFloat) -> UIFont {
-        return UIFont.fontAwesomeOfSize(fontSize: size)
+    private static func fontWithSize(size: CGFloat) -> UIFont {
+        return UIFont.customIcon(of: size)
     }
     
-    private static func fontWithSize(size : OEXTextSize) -> UIFont {
+    private static func fontWithSize(size: OEXTextSize) -> UIFont {
         return fontWithSize(size: OEXTextStyle.pointSize(for: size))
     }
     

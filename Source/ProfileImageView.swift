@@ -58,7 +58,7 @@ class ProfileImageView: UIImageView {
 
         let vib = UIVibrancyEffect(blurEffect: blur)
         let vibView = UIVisualEffectView(effect: vib)
-        let spinner = SpinnerView(size: .Medium, color: .White)
+        let spinner = SpinnerView(size: .medium, color: .white)
         vibView.contentView.addSubview(spinner)
         spinner.snp.makeConstraints { make in
             make.center.equalTo(spinner.superview!)

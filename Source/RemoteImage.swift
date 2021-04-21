@@ -200,7 +200,7 @@ extension UIImageView {
     }
     
     func startSpinner() {
-        let spinner = self.spinner ?? SpinnerView(size: .Large, color: .Primary)
+        let spinner = self.spinner ?? SpinnerView(size: .large, color: .primary)
         self.spinner = spinner
         
         superview?.addSubview(spinner)

@@ -81,6 +81,8 @@
     self.percentFormatter = [[NSNumberFormatter alloc] init];
     self.percentFormatter.numberStyle = NSNumberFormatterPercentStyle;
     [self setAccessibilityIdentifiers];
+    
+    self.table_Downloads.tableFooterView = [[UIView alloc] init];
 }
 
 - (void) setAccessibilityIdentifiers {

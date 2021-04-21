@@ -30,8 +30,8 @@ class ValuePropCourseCardView: UIView {
         return button
     }()
     private let trophyImage = UIImageView()
-    private let trophyImageSize:CGSize = CGSize(width: 30, height: 30)
-    private let learnMoreButtonSize:CGSize = CGSize(width: 100, height: 30)
+    private let trophyImageSize: CGFloat = 34
+    private let learnMoreButtonSize = CGSize(width: 100, height: 30)
     var tapAction : (() -> ())?
     
     override init(frame: CGRect) {
@@ -55,7 +55,7 @@ class ValuePropCourseCardView: UIView {
                 self?.tapAction?()
             }, for: .touchUpInside)
         
-        trophyImage.image = Icon.Trophy.imageWithFontSize(size: trophyImageSize.height)
+        trophyImage.image = Icon.Trophy.imageWithFontSize(size: trophyImageSize)
     }
     
     private func setAccessibilityIdentifiers() {
@@ -87,8 +87,8 @@ class ValuePropCourseCardView: UIView {
         trophyImage.snp.makeConstraints { make in
             make.leading.equalTo(containerView).offset(StandardVerticalMargin)
             make.top.equalTo(containerView).offset(StandardVerticalMargin)
-            make.height.equalTo(trophyImageSize.height)
-            make.width.equalTo(trophyImageSize.width)
+            make.height.equalTo(trophyImageSize)
+            make.width.equalTo(trophyImageSize)
         }
     }
 }
