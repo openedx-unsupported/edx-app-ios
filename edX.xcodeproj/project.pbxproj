@@ -844,6 +844,7 @@
 		E0241782254043BB00E397EA /* SEGFirebaseIntegrationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E024177F254043BB00E397EA /* SEGFirebaseIntegrationFactory.m */; };
 		E0241783254043BB00E397EA /* SEGFirebaseIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = E0241780254043BB00E397EA /* SEGFirebaseIntegration.m */; };
 		E0241785254043C400E397EA /* read-this-before-update.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E0241784254043C400E397EA /* read-this-before-update.rtf */; };
+		E0249F2B26305486007F9AE1 /* OpenInExternalBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0249F2A26305486007F9AE1 /* OpenInExternalBrowserView.swift */; };
 		E024B0001EC4589800498ECA /* WhatsNewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E024AFFF1EC4589800498ECA /* WhatsNewViewControllerTests.swift */; };
 		E02661732269A821002721B7 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02661672269A821002721B7 /* libOCMock.a */; };
 		E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02E59EE1F0E231000060AE0 /* VersionParser.swift */; };
@@ -2015,6 +2016,7 @@
 		E0241780254043BB00E397EA /* SEGFirebaseIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGFirebaseIntegration.m; sourceTree = "<group>"; };
 		E0241781254043BB00E397EA /* SEGFirebaseIntegrationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGFirebaseIntegrationFactory.h; sourceTree = "<group>"; };
 		E0241784254043C400E397EA /* read-this-before-update.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "read-this-before-update.rtf"; sourceTree = "<group>"; };
+		E0249F2A26305486007F9AE1 /* OpenInExternalBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenInExternalBrowserView.swift; sourceTree = "<group>"; };
 		E024AFFF1EC4589800498ECA /* WhatsNewViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewViewControllerTests.swift; sourceTree = "<group>"; };
 		E02661672269A821002721B7 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 		E02661692269A821002721B7 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
@@ -3823,6 +3825,7 @@
 				7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */,
 				7772BE951AF9587E0081CA7A /* CourseContentPageViewController.swift */,
 				770C514A1B1685E3009B9696 /* HTMLBlockViewController.swift */,
+				E0249F2A26305486007F9AE1 /* OpenInExternalBrowserView.swift */,
 				7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */,
 				773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */,
 				773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */,
@@ -5263,6 +5266,7 @@
 				B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */,
 				77691FA31B3B4596003922F2 /* UIColor+OEXHex.m in Sources */,
 				E01F45671E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift in Sources */,
+				E0249F2B26305486007F9AE1 /* OpenInExternalBrowserView.swift in Sources */,
 				B7CCC724209B16B100A66923 /* ConstraintInsets.swift in Sources */,
 				B7CCC72A209B16B100A66923 /* ConstraintConfig.swift in Sources */,
 				B7CCC72B209B16B100A66923 /* UILayoutSupport+Extensions.swift in Sources */,

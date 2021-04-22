@@ -28,6 +28,8 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
     private let loader = BackedStream<CourseBlock>()
     private let courseDateBannerLoader = BackedStream<(CourseDateBannerModel)>()
     private let courseQuerier: CourseOutlineQuerier
+
+    private lazy var openInBrowserView = OpenInExternalBrowserView(frame: .zero)
     
     public init(blockID: CourseBlockID?, courseID: String, environment: Environment, subkind: CourseHTMLBlockSubkind) {
         self.courseID = courseID
@@ -70,12 +72,40 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         addChild(webController)
         webController.didMove(toParent: self)
         view.addSubview(webController.view)
+
+        configureViews()
+    }
+
+    private func configureViews() {
+        guard let blockType = block?.displayType else { return }
         
-        webController.view.snp.makeConstraints { make in
-            make.trailing.equalTo(view)
-            make.leading.equalTo(view)
-            make.top.equalTo(courseDateBannerView.snp.bottom)
-            make.bottom.equalTo(view)
+        switch blockType {
+        case .HTML(.Base):
+            webController.view.snp.makeConstraints { make in
+                make.trailing.equalTo(view)
+                make.leading.equalTo(view)
+                make.top.equalTo(courseDateBannerView.snp.bottom)
+                make.bottom.equalTo(view)
+            }
+            break
+        default:
+            view.addSubview(openInBrowserView)
+            openInBrowserView.delegate = self
+
+            webController.view.snp.makeConstraints { make in
+                make.trailing.equalTo(view)
+                make.leading.equalTo(view)
+                make.top.equalTo(courseDateBannerView.snp.bottom)
+            }
+
+            openInBrowserView.snp.remakeConstraints { make in
+                make.leading.equalTo(view)
+                make.trailing.equalTo(view)
+                make.top.equalTo(webController.view.snp.bottom)
+                make.height.equalTo(55)
+                make.bottom.equalTo(safeBottom)
+            }
+            break
         }
     }
     
@@ -234,5 +264,15 @@ extension HTMLBlockViewController: CourseDateBannerViewDelegate {
 extension HTMLBlockViewController: AJAXCompletionCallbackDelegate {
     func didCompletionCalled(completion: Bool) {
         markBlockAsComplete()
+    }
+}
+
+extension HTMLBlockViewController: OpenInExternalBrowserViewDelegate {
+    func openInExternalBrower() {
+        guard let webURL = block?.webURL as URL? else { return }
+
+        if UIApplication.shared.canOpenURL(webURL) {
+            UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
+        }
     }
 }
