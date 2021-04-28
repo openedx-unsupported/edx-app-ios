@@ -52,15 +52,28 @@ class OpenInExternalBrowserView: UIView, UITextViewDelegate {
             make.edges.equalTo(container)
         }
 
-        let textStyle = OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralXDark())
+        let textStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralXDark())
         let message = textStyle.attributedString(withText: Strings.OpenInExternalBrowser.message)
 
 
         let clickableStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralXDark())
         let clickableText = clickableStyle.attributedString(withText: Strings.OpenInExternalBrowser.openInBroswer).addUnderline(foregroundColor: OEXStyles.shared().neutralXDark())
-        let icon = Icon.OpenInBrowser.attributedTextWithStyle(style: clickableStyle)
+
+        var attributedIcon: NSAttributedString {
+            let icon = Icon.OpenInBrowser.imageWithFontSize(size: 18).image(with: OEXStyles.shared().neutralXDark())
+            let attachment = NSTextAttachment()
+            attachment.image = icon
+
+            let imageOffsetY: CGFloat = -4.0
+            if let image = attachment.image {
+                attachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
+            }
+
+            return NSAttributedString(attachment: attachment)
+        }
+        
         let formattedText = NSAttributedString.joinInNaturalLayout(
-            attributedStrings: [message, clickableText, icon])
+            attributedStrings: [message, clickableText, attributedIcon])
         messageLabel.attributedText = formattedText
 
         button.oex_addAction({[weak self] (action) in
