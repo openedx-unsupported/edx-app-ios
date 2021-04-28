@@ -203,34 +203,35 @@ public class DateResetToastView: UIView {
     
     private lazy var button: UIButton = {
         let button = UIButton()
-        button.backgroundColor = OEXStyles.shared().primaryBaseColor()
+        button.layer.borderWidth = 1
+        button.layer.borderColor = OEXStyles.shared().neutralXDark().cgColor
         
         return button
     }()
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton()
-        let image = Icon.Close.imageWithFontSize(size: 14).withRenderingMode(.alwaysTemplate)
+        let image = Icon.Close.imageWithFontSize(size: 14)
         button.setImage(image, for: UIControl.State())
-        button.tintColor = OEXStyles.shared().neutralXXDark()
+        button.tintColor = OEXStyles.shared().neutralWhiteT()
         
         return button
     }()
         
     private lazy var messageLabelStyle: OEXTextStyle = {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlackT())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
     }()
     
     private lazy var buttonStyle: OEXTextStyle = {
-        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralWhiteT())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
     }()
     
     init(message: String, buttonText: String? = nil, showButton: Bool = false, buttonAction: (()->())? = nil) {
         super.init(frame: .zero)
         
-        backgroundColor = OEXStyles.shared().infoXXLight()
+        backgroundColor = OEXStyles.shared().neutralXXDark()
                         
-        messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
+        messageLabel.attributedText = messageLabelStyle.attributedString(withText: message).setLineSpacing(14)
         messageLabel.sizeToFit()
         
         stackView.addArrangedSubview(messageLabel)
@@ -287,9 +288,9 @@ public class DateResetToastView: UIView {
             }
             
             button.snp.makeConstraints { make in
-                make.trailing.equalTo(buttonContainer.snp.trailing)
-                make.top.equalTo(buttonContainer.snp.top)
-                make.bottom.equalTo(buttonContainer.snp.bottom)
+                make.leading.equalTo(buttonContainer.snp.leading)
+                make.top.equalTo(buttonContainer.snp.top).offset(StandardVerticalMargin)
+                make.bottom.equalTo(buttonContainer.snp.bottom).inset(StandardVerticalMargin)
                 make.width.greaterThanOrEqualTo(StandardHorizontalMargin * 7)
             }
         }

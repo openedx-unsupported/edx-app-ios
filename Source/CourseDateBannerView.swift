@@ -25,6 +25,7 @@ class CourseDateBannerView: UIView {
     private lazy var stackView = UIStackView()
     private lazy var labelContainer = UIView()
     private lazy var buttonContainer = UIView()
+    private lazy var iconImageView = UIImageView()
     
     private lazy var messageLabel: UILabel = {
         let label = UILabel(frame: .zero)
@@ -33,13 +34,13 @@ class CourseDateBannerView: UIView {
     }()
     
     private lazy var bannerHeaderStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralXXDark())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
     
     private lazy var bannerBodyStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXXDark())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
@@ -101,7 +102,8 @@ class CourseDateBannerView: UIView {
         stackView.addArrangedSubview(labelContainer)
         
         labelContainer.setContentHuggingPriority(.defaultLow, for: .vertical)
-        
+
+        labelContainer.addSubview(iconImageView)
         labelContainer.addSubview(messageLabel)
         container.addSubview(stackView)
         
@@ -132,9 +134,21 @@ class CourseDateBannerView: UIView {
             make.top.equalTo(stackView)
             make.width.equalTo(stackView)
         }
+
+        iconImageView.snp.makeConstraints{ make in
+            make.top.equalTo(labelContainer).offset(StandardVerticalMargin)
+            make.leading.equalTo(labelContainer)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+        }
+
+        iconImageView.image = Icon.Calendar.imageWithFontSize(size: 12)
         
         messageLabel.snp.makeConstraints { make in
-            make.edges.equalTo(labelContainer)
+            make.top.equalTo(labelContainer)
+            make.leading.equalTo(iconImageView.snp.trailing).offset(StandardHorizontalMargin/2)
+            make.trailing.equalTo(labelContainer)
+            make.bottom.equalTo(labelContainer)
         }
         
         if isButtonTextAvailable {
