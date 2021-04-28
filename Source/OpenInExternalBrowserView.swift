@@ -8,14 +8,14 @@
 
 import Foundation
 
-protocol OpenInExternalBrowserViewDelegate: class {
+protocol OpenInExternalBrowserViewDelegate: AnyObject {
     func openInExternalBrower()
 }
 
 class OpenInExternalBrowserView: UIView, UITextViewDelegate {
-    let container = UIView()
-    let messageLabel = UILabel()
-    let button = UIButton()
+    private let container = UIView()
+    private let messageLabel = UILabel()
+    private let button = UIButton()
 
     weak var delegate: OpenInExternalBrowserViewDelegate?
 
@@ -52,21 +52,19 @@ class OpenInExternalBrowserView: UIView, UITextViewDelegate {
             make.edges.equalTo(container)
         }
 
-        let textStyle : OEXTextStyle = OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralXDark())
+        let textStyle = OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralXDark())
         let message = textStyle.attributedString(withText: Strings.OpenInExternalBrowser.message)
 
 
-        let clickAbleStyle : OEXTextStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralXDark())
-        let clickAbleText = clickAbleStyle.attributedString(withText: Strings.OpenInExternalBrowser.openInBroswer).addUnderline(foregroundColor: OEXStyles.shared().neutralXDark())
-        let icon = Icon.OpenInBrowser.attributedTextWithStyle(style: clickAbleStyle)
-
+        let clickableStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralXDark())
+        let clickableText = clickableStyle.attributedString(withText: Strings.OpenInExternalBrowser.openInBroswer).addUnderline(foregroundColor: OEXStyles.shared().neutralXDark())
+        let icon = Icon.OpenInBrowser.attributedTextWithStyle(style: clickableStyle)
         let formattedText = NSAttributedString.joinInNaturalLayout(
-            attributedStrings: [message, clickAbleText, icon])
-
+            attributedStrings: [message, clickableText, icon])
         messageLabel.attributedText = formattedText
 
         button.oex_addAction({[weak self] (action) in
             self?.delegate?.openInExternalBrower()
-        }, for: UIControl.Event.touchUpInside)
+        }, for: .touchUpInside)
     }
 }
