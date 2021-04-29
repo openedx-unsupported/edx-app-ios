@@ -211,7 +211,7 @@ public class DateResetToastView: UIView {
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton()
-        let image = Icon.Close.imageWithFontSize(size: 14)
+        let image = Icon.Close.imageWithFontSize(size: 18)
         button.setImage(image, for: UIControl.State())
         button.tintColor = OEXStyles.shared().neutralWhiteT()
         
@@ -231,7 +231,7 @@ public class DateResetToastView: UIView {
         
         backgroundColor = OEXStyles.shared().neutralXXDark()
                         
-        messageLabel.attributedText = messageLabelStyle.attributedString(withText: message).setLineSpacing(14)
+        messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
         messageLabel.sizeToFit()
         
         stackView.addArrangedSubview(messageLabel)
@@ -291,6 +291,7 @@ public class DateResetToastView: UIView {
                 make.leading.equalTo(buttonContainer.snp.leading)
                 make.top.equalTo(buttonContainer.snp.top).offset(StandardVerticalMargin)
                 make.bottom.equalTo(buttonContainer.snp.bottom).inset(StandardVerticalMargin)
+                make.height.equalTo(StandardVerticalMargin * 4)
                 make.width.greaterThanOrEqualTo(StandardHorizontalMargin * 7)
             }
         }

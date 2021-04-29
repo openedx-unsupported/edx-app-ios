@@ -115,8 +115,8 @@ extension UIViewController {
         view.addSubview(container)
         container.addSubview(snackBarView)
 
-        let verticalOffset:CGFloat = addOffset ? StandardVerticalMargin : 0.0
-        let horizontalOffset:CGFloat = addOffset ? StandardVerticalMargin : 0.0
+        let verticalOffset:CGFloat = addOffset ? 2 * StandardVerticalMargin : 0.0
+        let horizontalOffset:CGFloat = addOffset ? StandardHorizontalMargin : 0.0
         
         container.snp.makeConstraints { make in
             make.bottom.equalTo(safeBottom).inset(verticalOffset)
