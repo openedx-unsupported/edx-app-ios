@@ -548,6 +548,10 @@
 "EXTERNAL_REGISTRATION_BECAME_LOGIN" = "Ya estableció una cuenta de {platform_name} usando su cuenta de {service}. Se ha iniciado sesión con esa cuenta.";
 /* Endorsed text */
 "ENDORSED" = "Validado";
+/*Open in external browser banner message*/
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
+/*Open in external browser banner underline text*/
+"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
