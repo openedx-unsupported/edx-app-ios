@@ -70,8 +70,7 @@ class OpenInExternalBrowserView: UIView, UITextViewDelegate {
 
         let clickableStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralXDark())
         let clickableText = clickableStyle.attributedString(withText: Strings.OpenInExternalBrowser.openInBroswer).addUnderline(foregroundColor: OEXStyles.shared().neutralXDark())
-        let formattedText = NSAttributedString.joinInNaturalLayout(
-            attributedStrings: [message, clickableText, browserIcon])
+        let formattedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [message, clickableText, browserIcon])
         messageLabel.attributedText = formattedText
 
         button.oex_addAction({[weak self] (action) in
