@@ -17,9 +17,7 @@ protocol CourseDateBannerViewDelegate {
 class CourseDateBannerView: UIView {
     
     private let buttonMinWidth: CGFloat = 80
-    private var buttonContainerHeight: CGFloat {
-        return isiPad ? 80 : 60
-    }
+    private var buttonContainerHeight: CGFloat = 40
     
     private lazy var container = UIView()
     private lazy var stackView = UIStackView()
@@ -40,7 +38,7 @@ class CourseDateBannerView: UIView {
     }()
     
     private lazy var bannerBodyStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXXDark())
+        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXXDark())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
@@ -117,7 +115,7 @@ class CourseDateBannerView: UIView {
     
     private func applyConstraints() {
         container.snp.makeConstraints { make in
-            make.leading.equalTo(self).inset(StandardHorizontalMargin)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
             make.top.equalTo(self)
             make.bottom.equalTo(self)
@@ -136,7 +134,7 @@ class CourseDateBannerView: UIView {
         }
 
         iconImageView.snp.makeConstraints{ make in
-            make.top.equalTo(labelContainer).offset(StandardVerticalMargin)
+            make.top.equalTo(labelContainer).offset(6)
             make.leading.equalTo(labelContainer)
             make.width.equalTo(20)
             make.height.equalTo(20)
@@ -155,6 +153,7 @@ class CourseDateBannerView: UIView {
             buttonContainer.snp.makeConstraints { make in
                 make.width.equalTo(stackView)
                 make.bottom.equalTo(stackView)
+                make.height.equalTo(buttonContainerHeight)
             }
             
             bannerButton.snp.makeConstraints { make in
@@ -178,7 +177,7 @@ class CourseDateBannerView: UIView {
         guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return }
         
         let headerText = bannerHeaderStyle.attributedString(withText: status.header)
-        let bodyText = bannerBodyStyle.attributedString(withText: status.body)
+        let bodyText = bannerBodyStyle.attributedString(withText: status.body).setLineSpacing(3)
         
         let messageText = [headerText, bodyText]
         let attributedString = NSAttributedString.joinInNaturalLayout(attributedStrings: messageText)
@@ -212,6 +211,6 @@ class CourseDateBannerView: UIView {
         label.text = status.header + status.body
         label.sizeToFit()
         
-        return status.button.isEmpty ? label.frame.height + StandardVerticalMargin : label.frame.height + buttonContainerHeight
+        return status.button.isEmpty ? label.frame.height + 2 * StandardVerticalMargin : label.frame.height + buttonContainerHeight + 3 * StandardVerticalMargin
     }
 }

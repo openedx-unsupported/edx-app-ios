@@ -219,11 +219,11 @@ public class DateResetToastView: UIView {
     }()
         
     private lazy var messageLabelStyle: OEXTextStyle = {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
+        return OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralWhiteT())
     }()
     
     private lazy var buttonStyle: OEXTextStyle = {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
+        return OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralWhiteT())
     }()
     
     init(message: String, buttonText: String? = nil, showButton: Bool = false, buttonAction: (()->())? = nil) {
@@ -231,7 +231,7 @@ public class DateResetToastView: UIView {
         
         backgroundColor = OEXStyles.shared().neutralXXDark()
                         
-        messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
+        messageLabel.attributedText = messageLabelStyle.attributedString(withText: message).setLineSpacing(3)
         messageLabel.sizeToFit()
         
         stackView.addArrangedSubview(messageLabel)
@@ -260,9 +260,9 @@ public class DateResetToastView: UIView {
     
     private func addConstraints(showButton: Bool) {
         stackView.snp.makeConstraints { make in
-            make.leading.equalTo(container).inset(StandardVerticalMargin * 2)
+            make.leading.equalTo(container).inset(StandardHorizontalMargin)
             make.trailing.equalTo(dismissButton.snp.leading)
-            make.top.equalTo(container).offset(StandardVerticalMargin)
+            make.top.equalTo(container).offset(1.5 * StandardVerticalMargin)
             make.bottom.equalTo(container).inset(StandardVerticalMargin)
         }
         
@@ -271,12 +271,11 @@ public class DateResetToastView: UIView {
             make.trailing.equalTo(self)
             make.top.equalTo(self)
             make.bottom.equalTo(self)
-            make.height.greaterThanOrEqualTo(showButton ? StandardHorizontalMargin * 6 : StandardHorizontalMargin * 4)
         }
         
         dismissButton.snp.makeConstraints { make in
             make.trailing.equalTo(self).inset(StandardVerticalMargin)
-            make.top.equalTo(self).inset(StandardVerticalMargin)
+            make.top.equalTo(container).offset(StandardVerticalMargin/2)
             make.width.equalTo(StandardHorizontalMargin * 2)
             make.height.equalTo(StandardHorizontalMargin * 2)
         }
@@ -289,7 +288,7 @@ public class DateResetToastView: UIView {
             
             button.snp.makeConstraints { make in
                 make.leading.equalTo(buttonContainer.snp.leading)
-                make.top.equalTo(buttonContainer.snp.top).offset(StandardVerticalMargin)
+                make.top.equalTo(buttonContainer.snp.top).offset(2 * StandardVerticalMargin)
                 make.bottom.equalTo(buttonContainer.snp.bottom).inset(StandardVerticalMargin)
                 make.height.equalTo(StandardVerticalMargin * 4)
                 make.width.greaterThanOrEqualTo(StandardHorizontalMargin * 7)
