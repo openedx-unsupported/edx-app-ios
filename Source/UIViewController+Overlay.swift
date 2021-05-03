@@ -109,16 +109,19 @@ extension UIViewController {
         showOverlayMessageView(messageView: view)
     }
     
-    func showSnackBarView(snackBarView : UIView) {
+    func showSnackBarView(snackBarView : UIView, addOffset: Bool = false) {
         let container = PassthroughView()
         container.clipsToBounds = true
         view.addSubview(container)
         container.addSubview(snackBarView)
+
+        let verticalOffset:CGFloat = addOffset ? 2 * StandardVerticalMargin : 0.0
+        let horizontalOffset:CGFloat = addOffset ? StandardHorizontalMargin : 0.0
         
         container.snp.makeConstraints { make in
-            make.bottom.equalTo(safeBottom)
-            make.leading.equalTo(safeLeading)
-            make.trailing.equalTo(safeTrailing)
+            make.bottom.equalTo(safeBottom).inset(verticalOffset)
+            make.leading.equalTo(safeLeading).offset(horizontalOffset)
+            make.trailing.equalTo(safeTrailing).inset(horizontalOffset)
         }
         snackBarView.snp.makeConstraints { make in
             make.edges.equalTo(container)
@@ -171,7 +174,8 @@ extension UIViewController {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
         let view = DateResetToastView(message: message, buttonText: buttonText, showButton: showButton, buttonAction: buttonAction)
-        showSnackBarView(snackBarView: view)
+        view.layer.cornerRadius = 4
+        showSnackBarView(snackBarView: view, addOffset: true)
         if autoDismiss {
             perform(#selector(hideSnackBar), with: nil, afterDelay: 5)
         }
