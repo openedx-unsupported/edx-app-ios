@@ -79,20 +79,7 @@ class CalendarManager: NSObject {
         }
     }
     
-    func addEventsToCalendar(for blocks: [CourseDateBlock], completion: @escaping (Bool, Error?) -> ()) {
-        var dateBlocksMap: [Date : [CourseDateBlock]] = [:]
-        for block in blocks {
-            let key = block.blockDate
-            if dateBlocksMap.keys.contains(key) {
-                if var item = dateBlocksMap[key] {
-                    item.append(block)
-                    dateBlocksMap[key] = item
-                }
-            } else {
-                dateBlocksMap[key] = [block]
-            }
-        }
-        
+    func addEventsToCalendar(for dateBlocksMap: [Date : [CourseDateBlock]], completion: @escaping (Bool, Error?) -> ()) {
         var events: [EKEvent] = []
         
         dateBlocksMap.forEach { item in
@@ -149,7 +136,7 @@ class CalendarManager: NSObject {
         event.startDate = startDate
         event.endDate = endDate
         event.calendar = calender
-        event.notes = courseName
+        event.notes = "\(courseName) \n \(block.title)"
         event.addAlarm(alarm)
         
         return event
@@ -170,7 +157,7 @@ class CalendarManager: NSObject {
         event.endDate = endDate
         event.calendar = calender
                 
-        let notes = blocks.compactMap { $0.title }.joined(separator: ", ")
+        let notes = "\(courseName) \n" + blocks.compactMap { $0.title }.joined(separator: ", ")
         
         event.notes = notes
         event.addAlarm(alarm)

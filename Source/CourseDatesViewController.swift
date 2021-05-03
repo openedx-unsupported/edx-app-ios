@@ -179,7 +179,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func addCourseEvents(completion: (()->())? = nil) {
-        calendar.addEventsToCalendar(for: courseDateBlocks) { [weak self] done, error in
+        calendar.addEventsToCalendar(for: dateBlocksMap) { [weak self] done, error in
             if done {
                 self?.trackCalendarEvent(for: .CalendarAddDatesSuccess)
                 completion?()
