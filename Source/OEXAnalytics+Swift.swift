@@ -47,6 +47,17 @@ public enum AnalyticsDisplayName : String {
     case ExploreAllCourses = "Explore All Courses"
     case MyPrograms = "My Programs"
     case ResumeCourseTapped = "Resume Course Tapped"
+    case CalendarToggleOn = "Dates: Calendar Toggle On"
+    case CalendarToggleOff = "Dates: Calendar Toggle Off"
+    case CalendarAccessAllowed = "Dates: Calendar Access Allowed"
+    case CalendarAccessDontAllow = "Dates: Calendar Access Dont Allow"
+    case CalendarAddDates = "Dates: Calendar Add Dates"
+    case CalendarAddCancelled = "Dates: Calendar Add Cancelled"
+    case CalendarAddConfirmation = "Dates: Calendar Add Confirmation"
+    case CalendarViewEvents = "Dates: Calendar View Events"
+    case CalendarAddDatesSuccess = "Dates: Calendar Add Dates Success"
+    case CalendarRemoveDatesSuccess = "Dates: Calendar Remove Dates Success"
+    case CalendarUpdateDatesSuccess = "Dates: Calendar Update Dates Success"
 }
 
 public enum AnalyticsEventName: String {
@@ -429,9 +440,10 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: [key_course_id: courseID, OEXAnalyticsKeyBlockID: blockID])
     }
     
-    func trackCalendarEvent(displayName: AnalyticsEventName, userType: String, pacing: String, courseID: String) {
+    func trackCalendarEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, userType: String, pacing: String, courseID: String) {
         let event = OEXAnalyticsEvent()
         event.displayName = displayName.rawValue
+        event.name = eventName.rawValue
         
         let info = [
             AnalyticsEventDataKey.UserType.rawValue: userType,

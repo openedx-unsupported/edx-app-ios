@@ -336,6 +336,10 @@
 "COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the edX Calendar";
 /* Course Dates Add Calendar Message body */
 "COURSEDATES.ADD_CALENDAR_BODY"="You can edit or remove the course calendar any time in Calendar or Settings";
+/* Course Dates Open Settings */
+"COURSEDATES.OPEN_SETTINGS"="Open Settings";
+/* Course Dates Open Settings */
+"COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="edX does not have calendar permission. Please go to settings and give calender permission.";
 /* Button text for cancelling any action */
 "CANCEL"="ביטול";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */

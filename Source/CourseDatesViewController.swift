@@ -90,22 +90,21 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             UserDefaults.standard.synchronize()
             
             if newValue {
-                trackCalendarEvent(for: .CalendarToggleOn)
+                trackCalendarEvent(for: .CalendarToggleOn, eventName: .CalendarToggleOn)
                 
-                let title = "\(Strings.Coursedates.addCalendarTitle) \"\(calendar.calendarName)\""
-                let message = "\(Strings.Coursedates.addCalendarPrompt) \"\(calendar.calendarName)\" ? \n \(Strings.Coursedates.addCalendarBody)"
-                
-                UIAlertController().showAlert(with: title, message: message, preferredStyle: .alert, cancelButtonTitle: Strings.cancel, destructiveButtonTitle: nil, otherButtonsTitle: [Strings.ok]) { [weak self] _, _, index in
-                    if index == UIAlertControllerBlocksCancelButtonIndex {
-                        self?.trackCalendarEvent(for: .CalendarAddCancelled)
+                calendar.requestAccess { [weak self] _, _, status in
+                    if status == .authorized {
+                        DispatchQueue.main.async {
+                            self?.showAlertForCalendar()
+                        }
                     } else {
-                        self?.trackCalendarEvent(for: .CalendarAddDates)
-                        self?.handleCalendar()
+                        DispatchQueue.main.async {
+                            self?.showCalendarSettingsAlert()
+                        }
                     }
                 }
-                
             } else {
-                trackCalendarEvent(for: .CalendarToggleOff)
+                trackCalendarEvent(for: .CalendarToggleOff, eventName: .CalendarToggleOff)
                 removeEventsFromCalendar()
             }
             
@@ -139,6 +138,23 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         addObserver()
     }
     
+    private func showAlertForCalendar() {
+        let title = "\(Strings.Coursedates.addCalendarTitle) \"\(calendar.calendarName)\""
+        let message = "\(Strings.Coursedates.addCalendarPrompt) \"\(calendar.calendarName)\" ? \n \(Strings.Coursedates.addCalendarBody)"
+        
+        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self) { [weak self] _, _, index in
+            if index == UIAlertControllerBlocksCancelButtonIndex {
+                self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
+            }
+        }
+        
+        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarAddDates, eventName: .CalendarAddDates)
+            self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
+            self?.handleCalendar()
+        }
+    }
+    
     private func handleCalendar() {
         switch calendar.authorizationStatus {
         case .authorized, .notDetermined:
@@ -146,13 +162,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             break
             
         case .denied, .restricted:
-            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
-                return
-            }
-            
-            if UIApplication.shared.canOpenURL(settingsURL) {
-                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-            }
+            showCalendarSettingsAlert()
             break
         @unknown default:
             addEventsToCalendar()
@@ -160,15 +170,27 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
+    private func showCalendarSettingsAlert() {
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
+            return
+        }
+        let alertController = UIAlertController().showAlert(withTitle: Strings.settings, message: Strings.Coursedates.calendarPermissionNotDetermined, cancelButtonTitle: Strings.cancel, onViewController: self)
+        alertController.addButton(withTitle: Strings.Coursedates.openSettings) { _ in
+            if UIApplication.shared.canOpenURL(settingsURL) {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
     private func addEventsToCalendar() {
         calendar.requestAccess { [weak self] access, error, state in
             switch state {
             case .authorized:
-                self?.trackCalendarEvent(for: .CalendarAccessAllowed)
+                self?.trackCalendarEvent(for: .CalendarAccessAllowed, eventName: .CalendarAccessAllowed)
                 break
                 
             default:
-                self?.trackCalendarEvent(for: .CalendarAccessDontAllow)
+                self?.trackCalendarEvent(for: .CalendarAccessDontAllow, eventName: .CalendarAccessDontAllow)
                 break
             }
             
@@ -181,7 +203,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private func addCourseEvents(completion: (()->())? = nil) {
         calendar.addEventsToCalendar(for: dateBlocksMap) { [weak self] done, error in
             if done {
-                self?.trackCalendarEvent(for: .CalendarAddDatesSuccess)
+                self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
                 completion?()
             }
         }
@@ -190,7 +212,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private func removeEventsFromCalendar(completion: (()->())? = nil) {
         calendar.removeCalendar { [weak self] done, _ in
             if done {
-                self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess)
+                self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
                 completion?()
             }
         }
@@ -253,7 +275,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 } else {
                     courseDateModel.defaultTimeZone = userPreference?.timeZone
                     self?.populate(with: courseDateModel)
-                    //self?.handleCalendar()
                     self?.loadController.state = .Loaded
                 }
                 break
@@ -414,10 +435,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
     }
     
-    private func trackCalendarEvent(for displayName: AnalyticsEventName) {
+    private func trackCalendarEvent(for displayName: AnalyticsDisplayName, eventName: AnalyticsEventName) {
         if userEnrollment == .audit || userEnrollment == .verified {
             let pacing = isSelfPaced ? "self" : "instructor"
-            environment.analytics.trackCalendarEvent(displayName: displayName, userType: userEnrollment.rawValue, pacing: pacing, courseID: courseID)
+            environment.analytics.trackCalendarEvent(displayName: displayName, eventName: eventName, userType: userEnrollment.rawValue, pacing: pacing, courseID: courseID)
         }
     }
     
