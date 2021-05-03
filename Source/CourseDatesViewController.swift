@@ -11,7 +11,7 @@ import WebKit
 
 class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider & OEXInterfaceProvider
     
     private let datesLoader = BackedStream<(CourseDateModel, UserPreference?)>()
     private let courseDateBannerLoader = BackedStream<(CourseDateBannerModel)>()
@@ -41,9 +41,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private lazy var courseDatesHeaderView: CourseDatesHeaderView = {
         let view = CourseDatesHeaderView()
         view.switchIsOn = calendarState
-        view.tapAction = { [weak self] isOn in
-            self?.calendarState = isOn
-        }
+        view.delegate = self
         return view
     }()
     
@@ -69,18 +67,45 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
     }
     
+    private var isSelfPaced: Bool {
+        guard let course = course else { return false }
+        return course.isSelfPaced
+    }
+    
+    private var userEnrollment: EnrollmentMode {
+        guard let course = course, let mode = environment.interface?.enrollmentForCourse(withID: course.course_id)?.mode,
+              let enrollmentType = EnrollmentMode(rawValue: mode)
+        else { return .none }
+    
+        return enrollmentType
+    }
+    
     private var calendarState: Bool {
         set {
             guard let course = course, let courseName = course.name else {
                 return
             }
-            
+                        
             UserDefaults.standard.setValue(newValue, forKey: courseName)
             UserDefaults.standard.synchronize()
             
             if newValue {
-                addEventsToCalendar()
+                trackCalendarEvent(for: .CalendarToggleOn)
+                
+                let title = "\(Strings.Coursedates.addCalendarTitle) \"\(calendar.calendarName)\""
+                let message = "\(Strings.Coursedates.addCalendarPrompt) \"\(calendar.calendarName)\" ? \n \(Strings.Coursedates.addCalendarBody)"
+                
+                UIAlertController().showAlert(with: title, message: message, preferredStyle: .alert, cancelButtonTitle: Strings.cancel, destructiveButtonTitle: nil, otherButtonsTitle: [Strings.ok]) { [weak self] _, _, index in
+                    if index == UIAlertControllerBlocksCancelButtonIndex {
+                        self?.trackCalendarEvent(for: .CalendarAddCancelled)
+                    } else {
+                        self?.trackCalendarEvent(for: .CalendarAddDates)
+                        self?.addEventsToCalendar()
+                    }
+                }
+                
             } else {
+                trackCalendarEvent(for: .CalendarToggleOff)
                 removeEventsFromCalendar()
             }
             
@@ -116,13 +141,34 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func addEventsToCalendar() {
         if calendar.isAuthorized {
-            calendar.requestAccess { [weak self] access, error in
+            calendar.requestAccess { [weak self] access, error, state in
+                
+                switch state {
+                case .authorized:
+                    self?.trackCalendarEvent(for: .CalendarAccessAllowed)
+                    break
+                    
+                default:
+                    self?.trackCalendarEvent(for: .CalendarAccessDontAllow)
+                    break
+                }
+                
                 if access {
                     self?.addCourseEvents()
                 }
             }
         } else {
-            calendar.requestAccess { [weak self] access, error in
+            calendar.requestAccess { [weak self] access, error, state in
+                switch state {
+                case .authorized:
+                    self?.trackCalendarEvent(for: .CalendarAccessAllowed)
+                    break
+                    
+                default:
+                    self?.trackCalendarEvent(for: .CalendarAccessDontAllow)
+                    break
+                }
+                
                 if access {
                     self?.addCourseEvents()
                 }
@@ -131,17 +177,21 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func addCourseEvents() {
-        let filteredBlocks = courseDateBlocks
-        
-        calendar.addEventsToCalendar(for: filteredBlocks) { done, error in
-            print(done)
-            print(error ?? "")
+        return
+        calendar.addEventsToCalendar(for: courseDateBlocks) { [weak self] done, error in
+            if done {
+                self?.trackCalendarEvent(for: .CalendarAddDatesSuccess)
+            }
         }
     }
     
-    private func removeEventsFromCalendar() {
-        calendar.removeCalendar { done, _ in
-            print(done)
+    private func removeEventsFromCalendar(completion: (()->())? = nil) {
+        return
+        calendar.removeCalendar { [weak self] done, _ in
+            if done {
+                completion?()
+                self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess)
+            }
         }
     }
     
@@ -173,8 +223,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
+            observer.removeEventsFromCalendar()
             observer.loadStreams()
-            // reschedule dates
         }
     }
     
@@ -233,12 +283,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
-        guard let course = course else {
-            updateDatesBannerVisibility(show: false)
-            return
-        }
-        
-        if course.isSelfPaced {
+        if isSelfPaced {
             loadCourseDateBannerView(bannerModel: courseBanner)
         } else {
             if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
@@ -253,17 +298,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         var shouldShowHeader = false
         if bannerModel.hasEnded {
             shouldShowHeader = false
+            removeEventsFromCalendar()
         } else {
             shouldShowHeader = true
-            //courseDateBannerView.delegate = self
-            //courseDateBannerView.bannerInfo = bannerModel.bannerInfo
-            //courseDateBannerView.setupView()
-            //height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
             trackDateBannerAppearanceEvent(bannerModel: bannerModel)
         }
         
-        //courseDatesHeaderView.bannerInfo = bannerModel.bannerInfo
-        courseDatesHeaderView.setupView(with: bannerModel.bannerInfo)
+        courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, isSelfPaced: isSelfPaced)
         
         updateDatesBannerVisibility(show: shouldShowHeader)
     }
@@ -272,9 +313,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseDatesHeaderView.snp.remakeConstraints { make in
             make.leading.equalTo(tableView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(tableView).inset(StandardHorizontalMargin)
-            make.top.equalTo(tableView).offset(StandardVerticalMargin * 2)
-            //make.height.equalTo(220)
-            make.height.equalTo(show ? 350 : 0)
+            make.top.equalTo(tableView).offset(StandardVerticalMargin)
+            make.height.equalTo(show ? courseDatesHeaderView.estimatedHeight + 20 : 0)
         }
     }
     
@@ -373,6 +413,19 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
     }
     
+    private func trackCalendarEvent(for displayName: AnalyticsEventName) {
+        if userEnrollment == .audit || userEnrollment == .verified {
+            var pacing = ""
+            if isSelfPaced {
+                pacing = "self"
+            } else {
+                pacing = "instructor"
+            }
+            
+            environment.analytics.trackCalendarEvent(displayName: displayName, userType: userEnrollment.rawValue, pacing: pacing, courseID: courseID)
+        }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -461,9 +514,15 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
     }
 }
 
-extension CourseDatesViewController: CourseDateBannerViewDelegate {
+extension CourseDatesViewController: CourseDatesShiftDelegate {
     func courseShiftDateButtonAction() {
         resetCourseDate()
+    }
+}
+
+extension CourseDatesViewController: CourseDatesHeaderDelegate {
+    func didToggleCalendarSwitch(isOn: Bool) {
+        calendarState = isOn
     }
 }
 

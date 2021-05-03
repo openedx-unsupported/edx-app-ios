@@ -225,7 +225,7 @@ extension HTMLBlockViewController: AuthenticatedWebViewControllerDelegate {
     }
 }
 
-extension HTMLBlockViewController: CourseDateBannerViewDelegate {
+extension HTMLBlockViewController: CourseDatesShiftDelegate {
     func courseShiftDateButtonAction() {
         resetCourseDate()
     }

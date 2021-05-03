@@ -20,7 +20,7 @@ class CalendarManager: NSObject {
     private let iCloudCalendar = "icloud"
     private let startDateOffsetHour: Double = -1
     
-    private var calendarName: String {
+    var calendarName: String {
         return calendarNamePrefix + " - " + courseName
     }
     
@@ -59,21 +59,21 @@ class CalendarManager: NSObject {
         self.courseName = courseName
     }
     
-    func requestAccess(completion: @escaping (Bool, Error?) -> ()) {
+    func requestAccess(completion: @escaping (Bool, Error?, EKAuthorizationStatus) -> ()) {
         eventStore.requestAccess(to: .event) { [weak self] access, error in
             guard let weakSelf = self, access else {
-                completion(false, error)
+                completion(false, error, EKEventStore.authorizationStatus(for: .event))
                 return
             }
             
             if let _ = weakSelf.calender {
-                completion(true, error)
+                completion(true, error, weakSelf.authorizationStatus)
             } else {
                 do {
                     try weakSelf.eventStore.saveCalendar(weakSelf.courseCalendar, commit: true)
-                    completion(access, error)
+                    completion(access, error, weakSelf.authorizationStatus)
                 } catch let error {
-                    completion(access, error)
+                    completion(access, error, weakSelf.authorizationStatus)
                 }
             }
         }
@@ -134,7 +134,7 @@ class CalendarManager: NSObject {
                 completion?(false, error)
             }
         } else {
-            completion?false, nil)
+            completion?(false, nil)
         }
     }
     

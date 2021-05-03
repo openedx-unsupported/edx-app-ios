@@ -505,7 +505,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 }
 
-extension CourseOutlineTableController: CourseDateBannerViewDelegate {
+extension CourseOutlineTableController: CourseDatesShiftDelegate {
     func courseShiftDateButtonAction() {
         delegate?.resetCourseDate(controller: self)
     }

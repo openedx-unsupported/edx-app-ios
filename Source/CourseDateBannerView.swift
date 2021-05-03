@@ -10,7 +10,7 @@ import UIKit
 
 private let cornerRadius: CGFloat = 0
 
-protocol CourseDateBannerViewDelegate {
+protocol CourseDatesShiftDelegate {
     func courseShiftDateButtonAction()
 }
 
@@ -68,7 +68,7 @@ class CourseDateBannerView: UIView {
     }
     
     var bannerInfo: DatesBannerInfo?
-    var delegate: CourseDateBannerViewDelegate?
+    var delegate: CourseDatesShiftDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-private let UIAlertControllerBlocksCancelButtonIndex = 0
+let UIAlertControllerBlocksCancelButtonIndex = 0
 private let UIAlertControllerBlocksDestructiveButtonIndex = 1
 private let UIAlertControllerBlocksFirstOtherButtonIndex = 2
 

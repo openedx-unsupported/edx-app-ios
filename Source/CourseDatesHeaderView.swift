@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol CourseDatesHeaderDelegate {
+    func didToggleCalendarSwitch(isOn: Bool)
+}
+
 class CourseDatesHeaderView: UIView {
+    
+    typealias Delegate = CourseDatesShiftDelegate & CourseDatesHeaderDelegate
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,11 +24,11 @@ class CourseDatesHeaderView: UIView {
         super.init(coder: coder)
     }
     
-    var tapAction: ((Bool) -> ())?
+    var delegate: Delegate?
     
     private let stackView: TZStackView = {
         let stackView = TZStackView()
-        stackView.spacing = 0 //StandardHorizontalMargin / 4
+        stackView.spacing = 0
         stackView.alignment = .fill
         stackView.distribution = .fillProportionally
         stackView.axis = .vertical
@@ -64,12 +70,13 @@ class CourseDatesHeaderView: UIView {
         button.layer.cornerRadius = 0
         button.oex_removeAllActions()
         button.oex_addAction({ [weak self] _ in
-            //self?.bannerButtonAction()
+            self?.shiftButtonAction()
         }, for: .touchUpInside)
         return button
     }()
     
     private var bannerInfo: DatesBannerInfo?
+    private var isSelfPaced: Bool = false
     
     private var isButtonTextAvailable: Bool {
         guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return false }
@@ -90,7 +97,7 @@ class CourseDatesHeaderView: UIView {
     private lazy var calenderSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
         toggleSwitch.oex_addAction({ [weak self] _ in
-            self?.tapAction?(toggleSwitch.isOn)
+            self?.delegate?.didToggleCalendarSwitch(isOn: toggleSwitch.isOn)
         }, for: .valueChanged)
         
         return toggleSwitch
@@ -120,17 +127,32 @@ class CourseDatesHeaderView: UIView {
         }
     }
     
+    private var estimatedTopContainerHeight: Int {
+        return estimatedHeightForTitleLabel + estimatedHeightForMessageLabel + estimatedButtonHeight
+    }
+    
+    private var estimatedBottomContainerHeight: Int {
+        return estimatedHeightForCalendarMessageLabel + estimatedHeightForSwitchContainer + (Int(StandardVerticalMargin) * 2)
+    }
+    
+    var estimatedHeight: Int {
+        return isSelfPaced ? estimatedTopContainerHeight + estimatedBottomContainerHeight : estimatedTopContainerHeight
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
         bottomContainer.addShadow(offset: CGSize(width: 0, height: 2), color: styles.primaryDarkColor(), radius: 2, opacity: 0.35, cornerRadius: 5)
     }
     
-    func setupView(with bannerInfo: DatesBannerInfo) {
+    func setupView(with bannerInfo: DatesBannerInfo, isSelfPaced: Bool) {
         self.bannerInfo = bannerInfo
+        self.isSelfPaced = isSelfPaced
         
         setupTopContainer()
-        setupBottomContainer()
+        if isSelfPaced {
+            setupBottomContainer()
+        }
     }
     
     private func setupBottomContainer() {
@@ -147,9 +169,9 @@ class CourseDatesHeaderView: UIView {
         bottomContainer.addSubview(container)
         addSubview(bottomContainer)
         
-        syncToCalenderLabel.attributedText = syncToCalendarLabelTextStyle.attributedString(withText: "Sync to calendar")
+        syncToCalenderLabel.attributedText = syncToCalendarLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendar)
         
-        let attributedText = syncMessageLabelTextStyle.attributedString(withText: "Automatically sync all deadlines and due dates for this course to your calendar.")
+        let attributedText = syncMessageLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
         
         syncMessageLabel.attributedText = attributedText.setLineSpacing(6)
         
@@ -191,7 +213,7 @@ class CourseDatesHeaderView: UIView {
             make.top.equalTo(topContainer.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.bottom.equalTo(self).inset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(syncMessageLabel).offset(StandardVerticalMargin * 1.5)
         }
     }
     
@@ -200,7 +222,7 @@ class CourseDatesHeaderView: UIView {
         stackView.addArrangedSubview(descriptionLabel)
         topContainer.addSubview(stackView)
         
-        titleLabel.attributedText = titleTextStyle.attributedString(withText: "Course Schedule")
+        titleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.Coursedates.courseSchedule)
         guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return }
         let attributedText = descriptionTextStyle.attributedString(withText: status.header + status.body)
         descriptionLabel.attributedText = attributedText.setLineSpacing(6)
@@ -219,7 +241,7 @@ class CourseDatesHeaderView: UIView {
             make.top.equalTo(self)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.height.equalTo(220)
+            make.height.equalTo(estimatedTopContainerHeight)
         }
         
         if isButtonTextAvailable {
@@ -242,6 +264,58 @@ class CourseDatesHeaderView: UIView {
                 make.width.greaterThanOrEqualTo(buttonMinWidth)
             }
         }
+    }
+    
+    @objc private func shiftButtonAction() {
+        guard let bannerInfo = bannerInfo else { return }
+        
+        if bannerInfo.status == .resetDatesBanner {
+            delegate?.courseShiftDateButtonAction()
+        }
+    }
+    
+    private var estimatedHeightForTitleLabel: Int {
+        let widthOffset = StandardHorizontalMargin * 2
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: frame.size.width - widthOffset, height: .greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.Coursedates.courseSchedule)
+        label.sizeToFit()
+        
+        return Int(label.frame.height + StandardVerticalMargin)
+    }
+    
+    private var estimatedHeightForMessageLabel: Int {
+        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
+        let attributedText = descriptionTextStyle.attributedString(withText: status.header + status.body)
+        let widthOffset = StandardHorizontalMargin * 2
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: frame.size.width - widthOffset, height: .greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.attributedText = attributedText.setLineSpacing(6)
+        label.sizeToFit()
+        
+        return Int(label.frame.height + StandardVerticalMargin)
+    }
+    
+    private var estimatedButtonHeight: Int {
+        return Int(isButtonTextAvailable ? buttonContainerHeight : 0)
+    }
+    
+    private var estimatedHeightForSwitchContainer: Int {
+        return 30
+    }
+    
+    private var estimatedHeightForCalendarMessageLabel: Int {
+        let attributedText = syncMessageLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
+        let widthOffset = StandardHorizontalMargin * 2
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: frame.size.width - widthOffset, height: .greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.attributedText = attributedText.setLineSpacing(6)
+        label.sizeToFit()
+        
+        return Int(label.frame.height + StandardVerticalMargin)
     }
 }
 
