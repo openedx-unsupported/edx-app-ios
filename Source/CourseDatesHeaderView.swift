@@ -86,9 +86,7 @@ class CourseDatesHeaderView: UIView {
     private lazy var topContainer = UIView()
     
     private let buttonMinWidth: CGFloat = 80
-    private var buttonContainerHeight: CGFloat {
-        return isiPad ? 60 : 40
-    }
+    private let buttonContainerHeight: CGFloat = 40
     
     private let bottomContainer = UIView()
     
