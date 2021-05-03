@@ -100,7 +100,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                         self?.trackCalendarEvent(for: .CalendarAddCancelled)
                     } else {
                         self?.trackCalendarEvent(for: .CalendarAddDates)
-                        self?.addEventsToCalendar()
+                        self?.handleCalendar()
                     }
                 }
                 
@@ -139,58 +139,59 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         addObserver()
     }
     
-    private func addEventsToCalendar() {
-        if calendar.isAuthorized {
-            calendar.requestAccess { [weak self] access, error, state in
-                
-                switch state {
-                case .authorized:
-                    self?.trackCalendarEvent(for: .CalendarAccessAllowed)
-                    break
-                    
-                default:
-                    self?.trackCalendarEvent(for: .CalendarAccessDontAllow)
-                    break
-                }
-                
-                if access {
-                    self?.addCourseEvents()
-                }
+    private func handleCalendar() {
+        switch calendar.authorizationStatus {
+        case .authorized, .notDetermined:
+            addEventsToCalendar()
+            break
+            
+        case .denied, .restricted:
+            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
+                return
             }
-        } else {
-            calendar.requestAccess { [weak self] access, error, state in
-                switch state {
-                case .authorized:
-                    self?.trackCalendarEvent(for: .CalendarAccessAllowed)
-                    break
-                    
-                default:
-                    self?.trackCalendarEvent(for: .CalendarAccessDontAllow)
-                    break
-                }
+            
+            if UIApplication.shared.canOpenURL(settingsURL) {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+            break
+        @unknown default:
+            addEventsToCalendar()
+            break
+        }
+    }
+    
+    private func addEventsToCalendar() {
+        calendar.requestAccess { [weak self] access, error, state in
+            switch state {
+            case .authorized:
+                self?.trackCalendarEvent(for: .CalendarAccessAllowed)
+                break
                 
-                if access {
-                    self?.addCourseEvents()
-                }
+            default:
+                self?.trackCalendarEvent(for: .CalendarAccessDontAllow)
+                break
+            }
+            
+            if access {
+                self?.addCourseEvents()
             }
         }
     }
     
-    private func addCourseEvents() {
-        return
+    private func addCourseEvents(completion: (()->())? = nil) {
         calendar.addEventsToCalendar(for: courseDateBlocks) { [weak self] done, error in
             if done {
                 self?.trackCalendarEvent(for: .CalendarAddDatesSuccess)
+                completion?()
             }
         }
     }
     
     private func removeEventsFromCalendar(completion: (()->())? = nil) {
-        return
         calendar.removeCalendar { [weak self] done, _ in
             if done {
-                completion?()
                 self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess)
+                completion?()
             }
         }
     }
@@ -415,13 +416,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func trackCalendarEvent(for displayName: AnalyticsEventName) {
         if userEnrollment == .audit || userEnrollment == .verified {
-            var pacing = ""
-            if isSelfPaced {
-                pacing = "self"
-            } else {
-                pacing = "instructor"
-            }
-            
+            let pacing = isSelfPaced ? "self" : "instructor"
             environment.analytics.trackCalendarEvent(displayName: displayName, userType: userEnrollment.rawValue, pacing: pacing, courseID: courseID)
         }
     }
