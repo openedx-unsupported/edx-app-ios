@@ -464,7 +464,7 @@ extension CourseDateViewCell: NSLayoutManagerDelegate {
     }
 }
 
-fileprivate extension NSAttributedString {
+extension NSAttributedString {
     func setLineSpacing(_ spacing: CGFloat) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(attributedString: self)
         let paragraphStyle = NSMutableParagraphStyle()
