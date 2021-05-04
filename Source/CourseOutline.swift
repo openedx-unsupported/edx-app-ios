@@ -32,9 +32,6 @@ public struct CourseOutline {
         case AuthorizationDenialReason = "authorization_denial_reason"
         case AuthorizationDenialMessage = "authorization_denial_message"
         case isCompleted = "completion"
-        case ContainsGatedContent = "contains_gated_content"
-        case ShowGatedSections = "show_gated_sections"
-        case SpecialExamInfo = "special_exam_info"
     }
     
     public let root : CourseBlockID

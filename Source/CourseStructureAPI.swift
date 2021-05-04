@@ -50,10 +50,7 @@ public struct CourseOutlineAPI {
                 CourseOutline.Fields.StudentViewMultiDevice.rawValue,
                 CourseOutline.Fields.Format.rawValue,
                 CourseOutline.Fields.Graded.rawValue,
-                CourseOutline.Fields.isCompleted.rawValue,
-                CourseOutline.Fields.ContainsGatedContent.rawValue,
-                CourseOutline.Fields.ShowGatedSections.rawValue,
-                CourseOutline.Fields.SpecialExamInfo.rawValue
+                CourseOutline.Fields.isCompleted.rawValue
             ],
             blockCount : [CourseBlock.Category.Video.rawValue],
             studentViewData : [CourseBlock.Category.Video, CourseBlock.Category.Discussion]
