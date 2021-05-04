@@ -67,13 +67,19 @@ class CalendarManager: NSObject {
             }
             
             if let _ = weakSelf.calender {
-                completion(true, error, weakSelf.authorizationStatus)
+                DispatchQueue.main.async {
+                    completion(true, error, weakSelf.authorizationStatus)
+                }
             } else {
                 do {
                     try weakSelf.eventStore.saveCalendar(weakSelf.courseCalendar, commit: true)
-                    completion(access, error, weakSelf.authorizationStatus)
+                    DispatchQueue.main.async {
+                        completion(access, error, weakSelf.authorizationStatus)
+                    }
                 } catch let error {
-                    completion(access, error, weakSelf.authorizationStatus)
+                    DispatchQueue.main.async {
+                        completion(access, error, weakSelf.authorizationStatus)
+                    }
                 }
             }
         }
@@ -100,14 +106,20 @@ class CalendarManager: NSObject {
         }
                 
         if events.isEmpty {
-            completion(false, nil)
+            DispatchQueue.main.async {
+                completion(false, nil)
+            }
         } else {
             events.forEach { event in addEvent(event: event) }
             do {
                 try eventStore.commit()
-                completion(true, nil)
+                DispatchQueue.main.async {
+                    completion(true, nil)
+                }
             } catch let error {
-                completion(false, error)
+                DispatchQueue.main.async {
+                    completion(false, error)
+                }
             }
         }
     }
@@ -116,12 +128,18 @@ class CalendarManager: NSObject {
         if let calendar = calender {
             do {
                 try eventStore.removeCalendar(calendar, commit: true)
-                completion?(true, nil)
+                DispatchQueue.main.async {
+                    completion?(true, nil)
+                }
             } catch let error {
-                completion?(false, error)
+                DispatchQueue.main.async {
+                    completion?(false, error)
+                }
             }
         } else {
-            completion?(false, nil)
+            DispatchQueue.main.async {
+                completion?(false, nil)
+            }
         }
     }
     

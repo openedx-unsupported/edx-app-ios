@@ -139,21 +139,22 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         addObserver()
     }
     
-    private func showAlertForCalendar() {
-        let title = "\(Strings.Coursedates.addCalendarTitle) \"\(calendar.calendarName)\""
-        let message = "\(Strings.Coursedates.addCalendarPrompt) \"\(calendar.calendarName)\" ? \n \(Strings.Coursedates.addCalendarBody)"
-        
-        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self) { [weak self] _, _, index in
-            if index == UIAlertControllerBlocksCancelButtonIndex {
-                self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
-            }
-        }
-        
-        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
-            self?.trackCalendarEvent(for: .CalendarAddDates, eventName: .CalendarAddDates)
-            self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
-            self?.handleCalendar()
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseDates.rawValue, courseID: courseID, value: nil)
+    }
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.setAndLayoutTableHeaderView(header: courseDatesHeaderView)
     }
     
     private func handleCalendar() {
@@ -196,7 +197,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             }
             
             if access {
-                self?.addCourseEvents()
+                self?.addCourseEvents {
+                    self?.showAlertForEventsAddedConfirmation()
+                }
             }
         }
     }
@@ -219,22 +222,29 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseDates.rawValue, courseID: courseID, value: nil)
+    private func showAlertForCalendar() {
+        let title = Strings.Coursedates.addCalendarTitle(calendarName: calendar.calendarName)
+        let message = Strings.Coursedates.addCalendarPrompt(calendarName: calendar.calendarName)
+        
+        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self) { [weak self] _, _, index in
+            if index == UIAlertControllerBlocksCancelButtonIndex {
+                self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
+            }
+        }
+        
+        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarAddDates, eventName: .CalendarAddDates)
+            self?.handleCalendar()
+        }
     }
     
-    override var shouldAutorotate: Bool {
-        return true
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .allButUpsideDown
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.setAndLayoutTableHeaderView(header: courseDatesHeaderView)
+    private func showAlertForEventsAddedConfirmation() {
+        let title = Strings.Coursedates.datesHasBeenAddedToYourCalendar(calendarName: calendar.calendarName)
+        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: Strings.cancel, onViewController: self) { _, _, _ in }
+        
+        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
+        }
     }
     
     private func loadStreams(fromPullToRefresh: Bool = false) {
