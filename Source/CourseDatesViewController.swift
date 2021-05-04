@@ -40,6 +40,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private lazy var courseDatesHeaderView: CourseDatesHeaderView = {
         let view = CourseDatesHeaderView()
+        view.accessibilityIdentifier = "CourseDatesViewController:CourseDatesHeaderView"
         view.switchIsOn = calendarState
         view.delegate = self
         return view

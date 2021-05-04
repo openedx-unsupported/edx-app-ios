@@ -61,7 +61,7 @@ class CourseDatesHeaderView: UIView {
     
     private lazy var buttonContainer = UIView()
     
-    private lazy var bannerButton: UIButton = {
+    private lazy var shiftDatesButton: UIButton = {
         let button = UIButton()
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         button.layer.backgroundColor = styles.primaryBaseColor().cgColor
@@ -151,6 +151,16 @@ class CourseDatesHeaderView: UIView {
         if isSelfPaced {
             setupBottomContainer()
         }
+        
+        setAccessibilityIdentifiers()
+    }
+    
+    private func setAccessibilityIdentifiers() {
+        titleLabel.accessibilityIdentifier = "CourseDatesHeaderView:label-course-schedule"
+        descriptionLabel.accessibilityIdentifier = "CourseDatesHeaderView:label-course-dates-description"
+        shiftDatesButton.accessibilityIdentifier = "CourseDatesHeaderView:button-shift-dates"
+        calenderSwitch.accessibilityIdentifier = "CourseDatesHeaderView:switch-toggle-calendar-sync"
+        syncMessageLabel.accessibilityIdentifier = "CourseDatesHeaderView:label-sync-message"
     }
     
     private func setupBottomContainer() {
@@ -244,10 +254,10 @@ class CourseDatesHeaderView: UIView {
         
         if isButtonTextAvailable {
             let buttonText = buttonStyle.attributedString(withText: status.button)
-            bannerButton.setAttributedTitle(buttonText, for: .normal)
+            shiftDatesButton.setAttributedTitle(buttonText, for: .normal)
             
             stackView.addArrangedSubview(buttonContainer)
-            buttonContainer.addSubview(bannerButton)
+            buttonContainer.addSubview(shiftDatesButton)
             
             buttonContainer.snp.makeConstraints { make in
                 make.height.equalTo(buttonContainerHeight)
@@ -255,7 +265,7 @@ class CourseDatesHeaderView: UIView {
                 make.bottom.equalTo(stackView)
             }
             
-            bannerButton.snp.makeConstraints { make in
+            shiftDatesButton.snp.makeConstraints { make in
                 make.trailing.equalTo(buttonContainer)
                 make.top.equalTo(buttonContainer)
                 make.bottom.equalTo(buttonContainer)
