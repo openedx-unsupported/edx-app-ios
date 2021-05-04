@@ -338,6 +338,10 @@
 "COURSEDATES.DATES_HAS_BEEN_ADDED_TO_YOUR_CALENDAR" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */
 "COURSEDATES.OPEN_SETTINGS"="Open Settings";
+/* Course Dates Events Added to Calendar Success */
+"COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
+/* Course Dates Events Removed from Calendar */
+"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
 /* Course Dates Open Settings */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="edX does not have calendar permission. Please go to settings and give calender permission.";
 /* Button text for cancelling any action */

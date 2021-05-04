@@ -106,7 +106,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 }
             } else {
                 trackCalendarEvent(for: .CalendarToggleOff, eventName: .CalendarToggleOff)
-                removeEventsFromCalendar()
+                removeEventsFromCalendar { [weak self] in
+                    self?.showDateResetSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
+                }
             }
             
         }
