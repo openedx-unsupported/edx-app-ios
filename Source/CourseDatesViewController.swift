@@ -104,13 +104,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 
                 calendar.requestAccess { [weak self] _, _, status in
                     if status == .authorized {
-                        DispatchQueue.main.async {
-                            self?.showAlertForCalendar()
-                        }
+                        self?.showAlertForCalendar()
                     } else {
-                        DispatchQueue.main.async {
-                            self?.showCalendarSettingsAlert()
-                        }
+                        self?.showCalendarSettingsAlert()
                     }
                 }
             } else {
@@ -119,7 +115,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                     self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved, delay: 2)
                 }
             }
-            
         }
         get {
             guard let course = course, let courseName = course.name else {
