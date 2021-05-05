@@ -198,6 +198,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             case .success((var courseDateModel, let userPreference)):
                 if courseDateModel.dateBlocks.isEmpty {
                     self?.loadController.state = .failed(message: Strings.Coursedates.courseDateUnavailable)
+                    self?.removeEventsFromCalendar()
                 } else {
                     courseDateModel.defaultTimeZone = userPreference?.timeZone
                     self?.populate(with: courseDateModel)
