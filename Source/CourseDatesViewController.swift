@@ -85,13 +85,18 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return enrollmentType
     }
     
+    private var calendarKey = "CalendarEntries"
+    
     private var calendarState: Bool {
         set {
             guard let course = course, let courseName = course.name else {
                 return
             }
-                        
-            UserDefaults.standard.setValue(newValue, forKey: courseName)
+            
+            var calendarEntries: [String : Bool] = UserDefaults.standard.object(forKey: calendarKey) as? [String : Bool] ?? [:]
+            calendarEntries[courseName] = newValue
+            
+            UserDefaults.standard.setValue(calendarEntries, forKey: calendarKey)
             UserDefaults.standard.synchronize()
             
             if newValue {
@@ -121,7 +126,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 return false
             }
             
-            return UserDefaults.standard.bool(forKey: courseName)
+            let calendarEntries: [String : Bool] = UserDefaults.standard.object(forKey: calendarKey) as? [String : Bool] ?? [:]
+            return calendarEntries[courseName] ?? false
         }
     }
     
