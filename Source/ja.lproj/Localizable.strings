@@ -321,7 +321,7 @@
 /* Course Dates Add Calendar Dialog Title */
 "COURSEDATES.ADD_CALENDAR_TITLE"="Add Calendar \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the edX Calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} Calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
 /* Course Dates Calendar has been added to your calendar*/
 "COURSEDATES.DATES_HAS_BEEN_ADDED_TO_YOUR_CALENDAR" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */

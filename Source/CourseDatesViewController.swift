@@ -57,9 +57,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private let courseID: String
     private let environment: Environment
     
+    private lazy var platformName: String = {
+        return environment.config.platformName()
+    }()
+    
     private lazy var calendar: CalendarManager = {
         guard let course = course, let courseName = course.name else {
-            return CalendarManager(courseName: "EDX")
+            return CalendarManager(courseName: platformName)
         }
         return CalendarManager(courseName: courseName)
     }()
@@ -159,97 +163,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         tableView.setAndLayoutTableHeaderView(header: courseDatesHeaderView)
     }
     
-    private func handleCalendar() {
-        switch calendar.authorizationStatus {
-        case .authorized, .notDetermined:
-            addEventsToCalendar()
-            break
-            
-        case .denied, .restricted:
-            showCalendarSettingsAlert()
-            break
-        @unknown default:
-            addEventsToCalendar()
-            break
-        }
-    }
-    
-    private func showCalendarSettingsAlert() {
-        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
-            return
-        }
-        let alertController = UIAlertController().showAlert(withTitle: Strings.settings, message: Strings.Coursedates.calendarPermissionNotDetermined, cancelButtonTitle: Strings.cancel, onViewController: self)
-        alertController.addButton(withTitle: Strings.Coursedates.openSettings) { _ in
-            if UIApplication.shared.canOpenURL(settingsURL) {
-                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-            }
-        }
-    }
-    
-    private func addEventsToCalendar() {
-        calendar.requestAccess { [weak self] access, error, state in
-            switch state {
-            case .authorized:
-                self?.trackCalendarEvent(for: .CalendarAccessAllowed, eventName: .CalendarAccessAllowed)
-                break
-                
-            default:
-                self?.trackCalendarEvent(for: .CalendarAccessDontAllow, eventName: .CalendarAccessDontAllow)
-                break
-            }
-            
-            if access {
-                self?.addCourseEvents {
-                    self?.showAlertForEventsAddedConfirmation()
-                }
-            }
-        }
-    }
-    
-    private func addCourseEvents(completion: (()->())? = nil) {
-        calendar.addEventsToCalendar(for: dateBlocksMap) { [weak self] done, error in
-            if done {
-                self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
-                completion?()
-            }
-        }
-    }
-    
-    private func removeEventsFromCalendar(completion: (()->())? = nil) {
-        calendar.removeCalendar { [weak self] done, _ in
-            if done {
-                self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
-                completion?()
-            }
-        }
-    }
-    
-    private func showAlertForCalendar() {
-        let title = Strings.Coursedates.addCalendarTitle(calendarName: calendar.calendarName)
-        let message = Strings.Coursedates.addCalendarPrompt(calendarName: calendar.calendarName)
-        
-        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self) { [weak self] _, _, index in
-            if index == UIAlertControllerBlocksCancelButtonIndex {
-                self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
-            }
-        }
-        
-        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
-            self?.trackCalendarEvent(for: .CalendarAddDates, eventName: .CalendarAddDates)
-            self?.handleCalendar()
-        }
-    }
-    
-    private func showAlertForEventsAddedConfirmation() {
-        let title = Strings.Coursedates.datesHasBeenAddedToYourCalendar(calendarName: calendar.calendarName)
-        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: Strings.cancel, onViewController: self) { _, _, _ in }
-        
-        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
-            self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
-            self?.showDateResetSnackBar(message: Strings.Coursedates.calendarEventsAdded, delay: 2)
-        }
-    }
-    
     private func loadStreams(fromPullToRefresh: Bool = false) {
         if !fromPullToRefresh {
             loadController.state = .Initial
@@ -285,7 +198,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             case .success((var courseDateModel, let userPreference)):
                 if courseDateModel.dateBlocks.isEmpty {
                     self?.loadController.state = .failed(message: Strings.Coursedates.courseDateUnavailable)
-                    self?.calendar.removeCalendar()
                 } else {
                     courseDateModel.defaultTimeZone = userPreference?.timeZone
                     self?.populate(with: courseDateModel)
@@ -448,15 +360,108 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension CourseDatesViewController {
+    private func handleCalendar() {
+        switch calendar.authorizationStatus {
+        case .authorized, .notDetermined:
+            checkCalendarAccessAndAddEvents()
+            break
+            
+        case .denied, .restricted:
+            showCalendarSettingsAlert()
+            break
+        @unknown default:
+            checkCalendarAccessAndAddEvents()
+            break
+        }
+    }
+    
+    private func showCalendarSettingsAlert() {
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
+            return
+        }
+        let alertController = UIAlertController().showAlert(withTitle: Strings.settings, message: Strings.Coursedates.calendarPermissionNotDetermined, cancelButtonTitle: Strings.cancel, onViewController: self)
+        alertController.addButton(withTitle: Strings.Coursedates.openSettings) { _ in
+            if UIApplication.shared.canOpenURL(settingsURL) {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    private func checkCalendarAccessAndAddEvents() {
+        calendar.requestAccess { [weak self] access, error, state in
+            switch state {
+            case .authorized:
+                self?.trackCalendarEvent(for: .CalendarAccessAllowed, eventName: .CalendarAccessAllowed)
+                break
+                
+            default:
+                self?.trackCalendarEvent(for: .CalendarAccessDontAllow, eventName: .CalendarAccessDontAllow)
+                break
+            }
+            
+            if access {
+                self?.addCourseEvents {
+                    self?.showAlertForEventsAddedConfirmation()
+                }
+            }
+        }
+    }
+    
+    private func addCourseEvents(completion: (()->())? = nil) {
+        calendar.addEventsToCalendar(for: dateBlocksMap) { [weak self] done, error in
+            if done {
+                self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
+                completion?()
+            }
+        }
+    }
+    
+    private func removeEventsFromCalendar(completion: (()->())? = nil) {
+        calendar.removeCalendar { [weak self] done, _ in
+            if done {
+                self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
+                completion?()
+            }
+        }
+    }
+    
+    private func showAlertForCalendar() {
+        let title = Strings.Coursedates.addCalendarTitle(calendarName: calendar.calendarName)
+        let message = Strings.Coursedates.addCalendarPrompt(platformName: platformName, calendarName: calendar.calendarName)
+        
+        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self) { [weak self] _, _, index in
+            if index == UIAlertControllerBlocksCancelButtonIndex {
+                self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
+            }
+        }
+        
+        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarAddDates, eventName: .CalendarAddDates)
+            self?.handleCalendar()
+        }
+    }
+    
+    private func showAlertForEventsAddedConfirmation() {
+        let title = Strings.Coursedates.datesHasBeenAddedToYourCalendar(calendarName: calendar.calendarName)
+        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: Strings.cancel, onViewController: self) { _, _, _ in }
+        
+        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
+            self?.showDateResetSnackBar(message: Strings.Coursedates.calendarEventsAdded, delay: 2)
+        }
+    }
+    
     private func trackCalendarEvent(for displayName: AnalyticsDisplayName, eventName: AnalyticsEventName) {
         if userEnrollment == .audit || userEnrollment == .verified {
             let pacing = isSelfPaced ? "self" : "instructor"
             environment.analytics.trackCalendarEvent(displayName: displayName, eventName: eventName, userType: userEnrollment.rawValue, pacing: pacing, courseID: courseID)
         }
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -543,13 +548,13 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
     }
 }
 
-extension CourseDatesViewController: CourseDatesShiftDelegate {
+extension CourseDatesViewController: CourseShiftDatesDelegate {
     func courseShiftDateButtonAction() {
         resetCourseDate()
     }
 }
 
-extension CourseDatesViewController: CourseDatesHeaderDelegate {
+extension CourseDatesViewController: CourseDatesHeaderViewDelegate {
     func didToggleCalendarSwitch(isOn: Bool) {
         calendarState = isOn
     }

@@ -87,9 +87,9 @@ class CalendarManager: NSObject {
     func addEventsToCalendar(for dateBlocksMap: [Date : [CourseDateBlock]], completion: @escaping (Bool, Error?) -> ()) {
         var events: [EKEvent] = []
         
-        for item in dateBlocksMap where item.key > Date() {
+        dateBlocksMap.forEach { item in
             let blocks = item.value
-            
+                        
             if blocks.count > 1 {
                 if let generatedEvent = generateCalendarEvent(for: blocks) {
                     events.append(generatedEvent)
@@ -144,49 +144,45 @@ class CalendarManager: NSObject {
         let title = block.title + ": " + courseName
         let startDate = block.blockDate.add(hours: startDateOffsetHour)
         let endDate = block.blockDate
-        let alarm = EKAlarm(absoluteDate: startDate)
+        let notes = "\(courseName) \n \(block.title)"
         
-        let event = EKEvent(eventStore: eventStore)
-        event.title = title
-        event.startDate = startDate
-        event.endDate = endDate
-        event.calendar = calender
-        event.notes = "\(courseName) \n \(block.title)"
-        event.addAlarm(alarm)
-        
-        return event
+        return generateEvent(title: title, startDate: startDate, endDate: endDate, notes: notes)
     }
     
     private func generateCalendarEvent(for blocks: [CourseDateBlock]) -> EKEvent? {
+        guard let block = blocks.first else { return nil }
         
-        guard let firstBlock = blocks.first else { return nil }
-        
-        let title = firstBlock.title + ": " + courseName
-        let startDate = firstBlock.blockDate.add(hours: startDateOffsetHour)
-        let endDate = firstBlock.blockDate
-        let alarm = EKAlarm(absoluteDate: startDate)
-        
+        let title = block.title + ": " + courseName
+        let startDate = block.blockDate.add(hours: startDateOffsetHour)
+        let endDate = block.blockDate
+        let notes = "\(courseName) \n" + blocks.compactMap { $0.title }.joined(separator: ", ")
+
+        return generateEvent(title: title, startDate: startDate, endDate: endDate, notes: notes)
+    }
+    
+    private func generateEvent(title: String, startDate: Date, endDate: Date, notes: String) -> EKEvent {
         let event = EKEvent(eventStore: eventStore)
         event.title = title
         event.startDate = startDate
         event.endDate = endDate
         event.calendar = calender
-                
-        let notes = "\(courseName) \n" + blocks.compactMap { $0.title }.joined(separator: ", ")
-        
         event.notes = notes
-        event.addAlarm(alarm)
+        
+        if startDate > Date() {
+            let alarm = EKAlarm(absoluteDate: startDate)
+            event.addAlarm(alarm)
+        }
         
         return event
     }
     
     private func addEvent(event: EKEvent) {
-        if !alreadyExists(event: event) {
+        if !alreadyExist(event: event) {
             try? eventStore.save(event, span: .thisEvent)
         }
     }
     
-    private func alreadyExists(event eventToAdd: EKEvent) -> Bool {
+    private func alreadyExist(event eventToAdd: EKEvent) -> Bool {
         let calendars = eventStore.calendars(for: .event).filter { $0.title == calendarName }
         let predicate = eventStore.predicateForEvents(withStart: eventToAdd.startDate, end: eventToAdd.endDate, calendars: calendars)
         let existingEvents = eventStore.events(matching: predicate)

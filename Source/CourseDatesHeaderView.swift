@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol CourseDatesHeaderDelegate {
+protocol CourseDatesHeaderViewDelegate {
     func didToggleCalendarSwitch(isOn: Bool)
 }
 
 class CourseDatesHeaderView: UIView {
     
-    typealias Delegate = CourseDatesShiftDelegate & CourseDatesHeaderDelegate
+    typealias Delegate = CourseShiftDatesDelegate & CourseDatesHeaderViewDelegate
     
     override init(frame: CGRect) {
         super.init(frame: frame)
