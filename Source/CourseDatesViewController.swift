@@ -111,7 +111,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             } else {
                 trackCalendarEvent(for: .CalendarToggleOff, eventName: .CalendarToggleOff)
                 removeEventsFromCalendar { [weak self] in
-                    self?.showDateResetSnackBar(message: Strings.Coursedates.calendarEventsRemoved, delay: 2)
+                    self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved, delay: 2)
                 }
             }
             
@@ -331,10 +331,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             guard let weakSelf = self else { return }
             if let _ = result.error {
                 weakSelf.trackDatesShiftEvent(success: false)
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
+                weakSelf.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
                 weakSelf.trackDatesShiftEvent(success: true)
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
+                weakSelf.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
                 weakSelf.postCourseDateResetNotification()
             }
         }
@@ -454,7 +454,7 @@ extension CourseDatesViewController {
         
         alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
-            self?.showDateResetSnackBar(message: Strings.Coursedates.calendarEventsAdded, delay: 2)
+            self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsAdded, delay: 2)
         }
     }
     
