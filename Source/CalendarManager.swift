@@ -15,12 +15,11 @@ class CalendarManager: NSObject {
     
     private let courseName: String
     private let eventStore = EKEventStore()
-    private let calendarNamePrefix = "edX"
     private let iCloudCalendar = "icloud"
     private let startDateOffsetHour: Double = -1
     
     var calendarName: String {
-        return calendarNamePrefix + " - " + courseName
+        return OEXConfig.shared().platformName() + " - " + courseName
     }
     
     private var calender: EKCalendar? {
