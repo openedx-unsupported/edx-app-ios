@@ -60,23 +60,19 @@ class CalendarManager: NSObject {
     
     func requestAccess(completion: @escaping (Bool, Error?, EKAuthorizationStatus) -> ()) {
         eventStore.requestAccess(to: .event) { [weak self] access, error in
-            guard let weakSelf = self, access else {
-                completion(false, error, EKEventStore.authorizationStatus(for: .event))
-                return
-            }
-            
-            if let _ = weakSelf.calender {
-                DispatchQueue.main.async {
-                    completion(true, error, weakSelf.authorizationStatus)
+            DispatchQueue.main.async {
+                guard let weakSelf = self, access else {
+                    completion(false, error, EKEventStore.authorizationStatus(for: .event))
+                    return
                 }
-            } else {
-                do {
-                    try weakSelf.eventStore.saveCalendar(weakSelf.courseCalendar, commit: true)
-                    DispatchQueue.main.async {
+                
+                if let _ = weakSelf.calender {
+                    completion(true, error, weakSelf.authorizationStatus)
+                } else {
+                    do {
+                        try weakSelf.eventStore.saveCalendar(weakSelf.courseCalendar, commit: true)
                         completion(access, error, weakSelf.authorizationStatus)
-                    }
-                } catch let error {
-                    DispatchQueue.main.async {
+                    } catch let error {
                         completion(access, error, weakSelf.authorizationStatus)
                     }
                 }
@@ -89,7 +85,7 @@ class CalendarManager: NSObject {
         
         dateBlocksMap.forEach { item in
             let blocks = item.value
-                        
+            
             if blocks.count > 1 {
                 if let generatedEvent = generateCalendarEvent(for: blocks) {
                     events.append(generatedEvent)
@@ -101,20 +97,18 @@ class CalendarManager: NSObject {
                 }
             }
         }
-                
-        if events.isEmpty {
-            DispatchQueue.main.async {
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let weakSelf = self else { return }
+            
+            if events.isEmpty {
                 completion(false, nil)
-            }
-        } else {
-            events.forEach { event in addEvent(event: event) }
-            do {
-                try eventStore.commit()
-                DispatchQueue.main.async {
+            } else {
+                events.forEach { event in weakSelf.addEvent(event: event) }
+                do {
+                    try weakSelf.eventStore.commit()
                     completion(true, nil)
-                }
-            } catch let error {
-                DispatchQueue.main.async {
+                } catch let error {
                     completion(false, error)
                 }
             }
@@ -122,19 +116,17 @@ class CalendarManager: NSObject {
     }
     
     func removeCalendar(completion: ((Bool, Error?) -> ())? = nil) {
-        if let calendar = calender {
-            do {
-                try eventStore.removeCalendar(calendar, commit: true)
-                DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let weakSelf = self else { return }
+            if let calendar = weakSelf.calender {
+                do {
+                    try weakSelf.eventStore.removeCalendar(calendar, commit: true)
                     completion?(true, nil)
-                }
-            } catch let error {
-                DispatchQueue.main.async {
+                } catch let error {
                     completion?(false, error)
                 }
-            }
-        } else {
-            DispatchQueue.main.async {
+            } else {
+                
                 completion?(false, nil)
             }
         }
