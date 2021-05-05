@@ -238,7 +238,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
                 loadCourseDateBannerView(bannerModel: courseBanner)
             } else {
-                updateDatesBannerVisibility(show: false)
+                updateCourseHeaderVisibility(show: false)
             }
         }
     }
@@ -253,11 +253,11 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             shouldShowHeader = true
             trackDateBannerAppearanceEvent(bannerModel: bannerModel)
             courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, isSelfPaced: isSelfPaced)
-            updateDatesBannerVisibility(show: shouldShowHeader)
+            updateCourseHeaderVisibility(show: shouldShowHeader)
         }
     }
     
-    private func updateDatesBannerVisibility(show: Bool) {
+    private func updateCourseHeaderVisibility(show: Bool) {
         courseDatesHeaderView.snp.remakeConstraints { make in
             make.leading.equalTo(tableView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(tableView).inset(StandardHorizontalMargin)
@@ -318,7 +318,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             make.edges.equalTo(safeEdges)
         }
         
-        updateDatesBannerVisibility(show: false)
+        updateCourseHeaderVisibility(show: false)
     }
     
     private func resetCourseDate() {
