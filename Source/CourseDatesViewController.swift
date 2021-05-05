@@ -107,7 +107,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             } else {
                 trackCalendarEvent(for: .CalendarToggleOff, eventName: .CalendarToggleOff)
                 removeEventsFromCalendar { [weak self] in
-                    self?.showDateResetSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
+                    self?.showDateResetSnackBar(message: Strings.Coursedates.calendarEventsRemoved, delay: 2)
                 }
             }
             
@@ -246,6 +246,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
+            self?.showDateResetSnackBar(message: Strings.Coursedates.calendarEventsAdded, delay: 2)
         }
     }
     
@@ -333,15 +334,14 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         var shouldShowHeader = false
         if bannerModel.hasEnded {
             shouldShowHeader = false
+            courseDatesHeaderView.isHidden = true
             removeEventsFromCalendar()
         } else {
             shouldShowHeader = true
             trackDateBannerAppearanceEvent(bannerModel: bannerModel)
+            courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, isSelfPaced: isSelfPaced)
+            updateDatesBannerVisibility(show: shouldShowHeader)
         }
-        
-        courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, isSelfPaced: isSelfPaced)
-        
-        updateDatesBannerVisibility(show: shouldShowHeader)
     }
     
     private func updateDatesBannerVisibility(show: Bool) {

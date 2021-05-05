@@ -44,7 +44,7 @@ class CourseDatesHeaderView: UIView {
     }()
     
     private lazy var descriptionTextStyle: OEXTextStyle = {
-        let style = OEXMutableTextStyle(weight: .normal, size: .base, color: styles.neutralXDark())
+        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: styles.neutralXDark())
         style.alignment = .left
         return style
     }()
@@ -108,13 +108,13 @@ class CourseDatesHeaderView: UIView {
     }()
     
     private lazy var syncToCalendarLabelTextStyle: OEXTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .large, color: styles.primaryDarkColor())
+        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: styles.primaryDarkColor())
         style.alignment = .left
         return style
     }()
     
     private lazy var syncMessageLabelTextStyle: OEXTextStyle = {
-        let style = OEXMutableTextStyle(weight: .normal, size: .base, color: styles.neutralXDark())
+        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: styles.neutralXDark())
         style.alignment = .left
         return style
     }()

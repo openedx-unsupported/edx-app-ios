@@ -11,7 +11,6 @@ import EventKit
 import EventKitUI
 
 
-
 class CalendarManager: NSObject {
     
     private let courseName: String
@@ -88,19 +87,17 @@ class CalendarManager: NSObject {
     func addEventsToCalendar(for dateBlocksMap: [Date : [CourseDateBlock]], completion: @escaping (Bool, Error?) -> ()) {
         var events: [EKEvent] = []
         
-        dateBlocksMap.forEach { item in
-            if item.key > Date()  {
-                let blocks = item.value
-                
-                if blocks.count > 1 {
-                    if let generatedEvent = generateCalendarEvent(for: blocks) {
-                        events.append(generatedEvent)
-                    }
-                } else {
-                    if let first = blocks.first {
-                        let generatedEvent = generateCalendarEvent(for: first)
-                        events.append(generatedEvent)
-                    }
+        for item in dateBlocksMap where item.key > Date() {
+            let blocks = item.value
+            
+            if blocks.count > 1 {
+                if let generatedEvent = generateCalendarEvent(for: blocks) {
+                    events.append(generatedEvent)
+                }
+            } else {
+                if let first = blocks.first {
+                    let generatedEvent = generateCalendarEvent(for: first)
+                    events.append(generatedEvent)
                 }
             }
         }
