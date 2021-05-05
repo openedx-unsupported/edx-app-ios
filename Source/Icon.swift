@@ -157,6 +157,7 @@ public enum Icon {
     case Account
     case ArrowLeft
     case Clone
+    case OpenInBrowser
     
     private var renderer : IconRenderer {
         switch self {
@@ -300,6 +301,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .keyboardArrowLeft)
         case .Language:
             return MaterialIconRenderer(icon: .language)
+        case .OpenInBrowser:
+            return MaterialIconRenderer(icon: .openInNew)
         }
     }
     

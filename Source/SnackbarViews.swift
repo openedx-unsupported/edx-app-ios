@@ -85,9 +85,9 @@ public class VersionUpgradeView: UIView {
         
         UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
             self.transform = .identity
-            }, completion: { _ in
-                container?.removeFromSuperview()
-                isActionTakenOnUpgradeSnackBar = true
+        }, completion: { _ in
+            container?.removeFromSuperview()
+            isActionTakenOnUpgradeSnackBar = true
         })
     }
 }
@@ -150,7 +150,7 @@ public class OfflineView: UIView {
     private func addButtonActions() {
         dismissButton.oex_addAction({[weak self] _ in
             self?.dismissView()
-            }, for: .touchUpInside)
+        }, for: .touchUpInside)
         
         reloadButton.oex_addAction({[weak self] _ in
             let controller = self?.firstAvailableUIViewController()
@@ -179,7 +179,6 @@ public class OfflineView: UIView {
         })
     }
 }
-
 
 public class DateResetToastView: UIView {
     private lazy var container = UIView()
@@ -294,6 +293,93 @@ public class DateResetToastView: UIView {
                 make.height.equalTo(StandardVerticalMargin * 4)
                 make.width.greaterThanOrEqualTo(StandardHorizontalMargin * 7)
             }
+        }
+    }
+    
+    private func addButtonActions() {
+        dismissButton.oex_addAction({ [weak self] _ in
+            self?.dismissView()
+        }, for: .touchUpInside)
+    }
+    
+    private func dismissView() {
+        var container = superview
+        if container == nil {
+            container = self
+        }
+        
+        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: { [weak self] in
+            self?.transform = .identity
+        }) { _ in
+            container?.removeFromSuperview()
+        }
+    }
+}
+
+public class CalendarActionToastView: UIView {
+    private lazy var container = UIView()
+    
+    private lazy var messageLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
+    private lazy var dismissButton: UIButton = {
+        let button = UIButton()
+        let image = Icon.Close.imageWithFontSize(size: 18)
+        button.setImage(image, for: UIControl.State())
+        button.tintColor = OEXStyles.shared().neutralWhiteT()
+        
+        return button
+    }()
+    
+    private lazy var messageLabelStyle: OEXTextStyle = {
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
+    }()
+    
+    init(message: String) {
+        super.init(frame: .zero)
+        
+        backgroundColor = OEXStyles.shared().neutralXXDark()
+        
+        messageLabel.attributedText = messageLabelStyle.attributedString(withText: message).setLineSpacing(3)
+        messageLabel.sizeToFit()
+        
+        container.addSubview(messageLabel)
+        container.addSubview(dismissButton)
+        
+        addSubview(container)
+        
+        addConstraints()
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func addConstraints() {
+        messageLabel.snp.makeConstraints { make in
+            make.top.equalTo(container).inset(StandardVerticalMargin)
+            make.bottom.equalTo(container).inset(StandardVerticalMargin)
+            make.leading.equalTo(container).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(dismissButton).inset(StandardHorizontalMargin)
+            make.height.equalTo(StandardVerticalMargin * 5)
+        }
+        
+        dismissButton.snp.makeConstraints { make in
+            make.trailing.equalTo(self).inset(StandardVerticalMargin)
+            make.top.equalTo(container).offset(StandardVerticalMargin)
+            make.width.equalTo(StandardHorizontalMargin * 2)
+            make.height.equalTo(StandardHorizontalMargin * 2)
+        }
+        
+        container.snp.makeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
         }
     }
     

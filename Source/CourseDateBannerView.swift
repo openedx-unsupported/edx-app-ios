@@ -17,14 +17,13 @@ protocol CourseShiftDatesDelegate {
 class CourseDateBannerView: UIView {
     
     private let buttonMinWidth: CGFloat = 80
-    private var buttonContainerHeight: CGFloat {
-        return isiPad ? 80 : 60
-    }
+    private var buttonContainerHeight: CGFloat = 40
     
     private lazy var container = UIView()
     private lazy var stackView = UIStackView()
     private lazy var labelContainer = UIView()
     private lazy var buttonContainer = UIView()
+    private lazy var iconImageView = UIImageView()
     
     private lazy var messageLabel: UILabel = {
         let label = UILabel(frame: .zero)
@@ -33,13 +32,13 @@ class CourseDateBannerView: UIView {
     }()
     
     private lazy var bannerHeaderStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralXXDark())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
     
     private lazy var bannerBodyStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralBlackT())
+        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXXDark())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
@@ -101,7 +100,8 @@ class CourseDateBannerView: UIView {
         stackView.addArrangedSubview(labelContainer)
         
         labelContainer.setContentHuggingPriority(.defaultLow, for: .vertical)
-        
+
+        labelContainer.addSubview(iconImageView)
         labelContainer.addSubview(messageLabel)
         container.addSubview(stackView)
         
@@ -115,7 +115,7 @@ class CourseDateBannerView: UIView {
     
     private func applyConstraints() {
         container.snp.makeConstraints { make in
-            make.leading.equalTo(self).inset(StandardHorizontalMargin)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
             make.top.equalTo(self)
             make.bottom.equalTo(self)
@@ -132,15 +132,28 @@ class CourseDateBannerView: UIView {
             make.top.equalTo(stackView)
             make.width.equalTo(stackView)
         }
+
+        iconImageView.snp.makeConstraints{ make in
+            make.top.equalTo(labelContainer).offset(6)
+            make.leading.equalTo(labelContainer)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+        }
+
+        iconImageView.image = Icon.Calendar.imageWithFontSize(size: 12)
         
         messageLabel.snp.makeConstraints { make in
-            make.edges.equalTo(labelContainer)
+            make.top.equalTo(labelContainer)
+            make.leading.equalTo(iconImageView.snp.trailing).offset(StandardHorizontalMargin/2)
+            make.trailing.equalTo(labelContainer)
+            make.bottom.equalTo(labelContainer)
         }
         
         if isButtonTextAvailable {
             buttonContainer.snp.makeConstraints { make in
                 make.width.equalTo(stackView)
                 make.bottom.equalTo(stackView)
+                make.height.equalTo(buttonContainerHeight)
             }
             
             bannerButton.snp.makeConstraints { make in
@@ -164,7 +177,7 @@ class CourseDateBannerView: UIView {
         guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return }
         
         let headerText = bannerHeaderStyle.attributedString(withText: status.header)
-        let bodyText = bannerBodyStyle.attributedString(withText: status.body)
+        let bodyText = bannerBodyStyle.attributedString(withText: status.body).setLineSpacing(3)
         
         let messageText = [headerText, bodyText]
         let attributedString = NSAttributedString.joinInNaturalLayout(attributedStrings: messageText)
@@ -198,6 +211,6 @@ class CourseDateBannerView: UIView {
         label.text = status.header + status.body
         label.sizeToFit()
         
-        return status.button.isEmpty ? label.frame.height + StandardVerticalMargin : label.frame.height + buttonContainerHeight
+        return status.button.isEmpty ? label.frame.height + 2 * StandardVerticalMargin : label.frame.height + buttonContainerHeight + 3 * StandardVerticalMargin
     }
 }
