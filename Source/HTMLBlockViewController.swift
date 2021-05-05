@@ -76,23 +76,25 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         configureViews()
     }
 
-    private func configureViews() {
-        guard let blockType = block?.displayType else { return }
-        
-        switch blockType {
-        case .HTML(.Base):
-            webController.view.snp.makeConstraints { make in
+    private func configureViews(containsiFrame: Bool = false) {
+
+        if subkind == .Base, !containsiFrame {
+            webController.view.snp.remakeConstraints { make in
                 make.trailing.equalTo(view)
                 make.leading.equalTo(view)
                 make.top.equalTo(courseDateBannerView.snp.bottom)
                 make.bottom.equalTo(view)
             }
-            break
-        default:
+        }
+        else {
+            if view.subviews.contains(openInBrowserView) {
+                openInBrowserView.removeFromSuperview()
+                openInBrowserView.delegate = nil
+            }
             view.addSubview(openInBrowserView)
             openInBrowserView.delegate = self
 
-            webController.view.snp.makeConstraints { make in
+            webController.view.snp.remakeConstraints { make in
                 make.trailing.equalTo(view)
                 make.leading.equalTo(view)
                 make.top.equalTo(courseDateBannerView.snp.bottom)
@@ -105,7 +107,6 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
                 make.height.equalTo(55)
                 make.bottom.equalTo(safeBottom)
             }
-            break
         }
     }
     
@@ -252,6 +253,23 @@ extension HTMLBlockViewController: AuthenticatedWebViewControllerDelegate {
     func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView) {
         authenticatedController.setLoadControllerState(withState: .Loaded)
         loadBannerStream()
+        elavuateHTMLForiFrame(with: webview)
+    }
+
+    func elavuateHTMLForiFrame(with webview: WKWebView) {
+        if subkind == .Base {
+            // The type of HTML basic component and one created with iframe tool is same which is HTML
+            // To find out either the HTML block is created with iframe tool or not we need to look into the HTML
+            let javascript = "try { var top_div_list = document.querySelectorAll('div[data-usage-id=\"\(blockID ?? "")\"]'); top_div_list.length == 1 && top_div_list[0].querySelectorAll(\"iframe\").length > 0; } catch { false; };"
+
+            webview.evaluateJavaScript(javascript,
+                                       completionHandler: { [weak self](iframeTool: Any?, error: Error?) in
+                                        if let iframeTool = iframeTool as? Bool {
+                                            if iframeTool {
+                                                self?.configureViews(containsiFrame: true)
+                                            }
+                                        }})
+        }
     }
 }
 
