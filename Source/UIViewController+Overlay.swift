@@ -170,14 +170,14 @@ extension UIViewController {
         hideInfo?.value.action()
     }
     
-    func showDateResetSnackBar(message: String, buttonText: String? = nil, showButton: Bool = true, autoDismiss: Bool = true, delay: TimeInterval = 5, buttonAction: (()->())? = nil) {
+    func showDateResetSnackBar(message: String, buttonText: String? = nil, showButton: Bool = false, autoDismiss: Bool = true, buttonAction: (()->())? = nil) {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
         let view = DateResetToastView(message: message, buttonText: buttonText, showButton: showButton, buttonAction: buttonAction)
         view.layer.cornerRadius = 4
         showSnackBarView(snackBarView: view, addOffset: true)
         if autoDismiss {
-            perform(#selector(hideSnackBar), with: nil, afterDelay: delay)
+            perform(#selector(hideSnackBar), with: nil, afterDelay: 5)
         }
     }
     
