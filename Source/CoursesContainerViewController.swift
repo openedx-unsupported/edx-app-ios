@@ -113,7 +113,7 @@ class CourseCardCell : UICollectionViewCell {
     }
 }
 
-protocol CoursesContainerViewControllerDelegate : class {
+protocol CoursesContainerViewControllerDelegate : AnyObject {
     func coursesContainerChoseCourse(course : OEXCourse)
     func showValuePropDetailView(with course: OEXCourse)
 }

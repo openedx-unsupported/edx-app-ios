@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CourseSectionTableViewCellDelegate : class {
+protocol CourseSectionTableViewCellDelegate : AnyObject {
     func sectionCellChoseDownload(cell : CourseSectionTableViewCell, videos : [OEXHelperVideoDownload], forBlock block : CourseBlock)
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
     func reloadCell(cell: UITableViewCell)

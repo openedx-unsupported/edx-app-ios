@@ -9,7 +9,7 @@
 import UIKit
 
 
-protocol CourseVideoTableViewCellDelegate : class {
+protocol CourseVideoTableViewCellDelegate : AnyObject {
     func videoCellChoseDownload(cell : CourseVideoTableViewCell, block : CourseBlock)
     func videoCellChoseShowDownloads(cell : CourseVideoTableViewCell)
     func reloadCell(cell: UITableViewCell)

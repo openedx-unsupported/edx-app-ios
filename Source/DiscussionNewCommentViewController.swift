@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DiscussionNewCommentViewControllerDelegate : class {
+protocol DiscussionNewCommentViewControllerDelegate : AnyObject {
     func newCommentController(controller  : DiscussionNewCommentViewController, addedComment comment: DiscussionComment)
 }
 

@@ -14,7 +14,7 @@ enum ActivityType:String {
     case linkedin = "com.linkedin.LinkedIn.ShareExtension"
 }
 
-protocol CelebratoryModalViewControllerDelegate: class {
+protocol CelebratoryModalViewControllerDelegate: AnyObject {
     func modalDidDismiss()
 }
 

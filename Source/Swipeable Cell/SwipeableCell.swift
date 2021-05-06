@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SwipeableCellDelegate: class {
+protocol SwipeableCellDelegate: AnyObject {
     
     // The delegate for the actions to display in response to a swipe in the specified row.
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeActionButton]?

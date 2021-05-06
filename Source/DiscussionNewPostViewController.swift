@@ -16,7 +16,7 @@ struct DiscussionNewThread {
     let rawBody: String
 }
 
-protocol DiscussionNewPostViewControllerDelegate : class {
+protocol DiscussionNewPostViewControllerDelegate : AnyObject {
     func newPostController(controller  : DiscussionNewPostViewController, addedPost post: DiscussionThread)
 }
 
