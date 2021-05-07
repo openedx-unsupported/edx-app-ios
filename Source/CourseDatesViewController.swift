@@ -39,7 +39,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private lazy var loadController = LoadStateViewController()
     
     private lazy var courseDatesHeaderView: CourseDatesHeaderView = {
-        let view = CourseDatesHeaderView()
+        let view = CourseDatesHeaderView(frame: .zero)
         view.accessibilityIdentifier = "CourseDatesViewController:CourseDatesHeaderView"
         view.calendarState = calendarState
         view.delegate = self
@@ -144,11 +144,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return .allButUpsideDown
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.setAndLayoutTableHeaderView(header: courseDatesHeaderView)
-    }
-    
     private func loadStreams(fromPullToRefresh: Bool = false) {
         if !fromPullToRefresh {
             loadController.state = .Initial
@@ -224,31 +219,32 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
                 loadCourseDateBannerView(bannerModel: courseBanner)
             } else {
-                updateCourseHeaderVisibility(show: false)
+                updateCourseHeaderVisibility(visibile: false)
             }
         }
     }
     
     private func loadCourseDateBannerView(bannerModel: CourseDateBannerModel) {
-        var shouldShowHeader = false
         if bannerModel.hasEnded {
-            shouldShowHeader = false
             courseDatesHeaderView.isHidden = true
+            updateCourseHeaderVisibility(visibile: false)
             removeCourseCalendar()
         } else {
-            shouldShowHeader = true
             trackDateBannerAppearanceEvent(bannerModel: bannerModel)
             courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, isSelfPaced: isSelfPaced)
-            updateCourseHeaderVisibility(show: shouldShowHeader)
+            updateCourseHeaderVisibility(visibile: true)
+            tableView.setAndLayoutTableHeaderView(header: courseDatesHeaderView)
         }
     }
     
-    private func updateCourseHeaderVisibility(show: Bool) {
+    private func updateCourseHeaderVisibility(visibile: Bool) {
         courseDatesHeaderView.snp.remakeConstraints { make in
             make.leading.equalTo(tableView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(tableView).inset(StandardHorizontalMargin)
             make.top.equalTo(tableView).offset(StandardVerticalMargin)
-            make.height.equalTo(show ? courseDatesHeaderView.estimatedHeight + 20 : 0)
+            if !visibile {
+                make.height.equalTo(0)
+            }
         }
     }
     
@@ -303,8 +299,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
-        
-        updateCourseHeaderVisibility(show: false)
     }
     
     private func resetCourseDate() {
