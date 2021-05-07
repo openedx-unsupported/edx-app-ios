@@ -134,6 +134,8 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     }
     
     private func setAccessibilityIdentifiers() {
+        topContainer.accessibilityIdentifier = "CourseDatesHeaderView:top-container"
+        bottomContainer.accessibilityIdentifier = "CourseDatesHeaderView:bottom-container"
         titleLabel.accessibilityIdentifier = "CourseDatesHeaderView:label-course-schedule"
         descriptionLabel.accessibilityIdentifier = "CourseDatesHeaderView:label-course-dates-description"
         shiftDatesButton.accessibilityIdentifier = "CourseDatesHeaderView:button-shift-dates"
@@ -150,6 +152,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         titleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.Coursedates.courseSchedule)
         
         guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return }
+        
         let attributedText = descriptionTextStyle.attributedString(withText: status.header + status.body)
         descriptionLabel.attributedText = attributedText.setLineSpacing(6)
         
@@ -199,24 +202,19 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     }
     
     private func setupBottomContainer() {
-        
         let syncContainer = UIView()
-        
+        syncContainer.backgroundColor = .white
         syncContainer.addSubview(arrowImageView)
         syncContainer.addSubview(syncToCalenderLabel)
         syncContainer.addSubview(syncSwitch)
         
         bottomContainer.addSubview(syncMessageLabel)
-        
         bottomContainer.backgroundColor = .white
-        syncContainer.backgroundColor = .white
         bottomContainer.addSubview(syncContainer)
         container.addSubview(bottomContainer)
         
         syncToCalenderLabel.attributedText = syncToCalendarLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendar)
-        
         let attributedText = syncMessageLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
-        
         syncMessageLabel.attributedText = attributedText.setLineSpacing(6)
         
         bottomContainer.snp.remakeConstraints { make in
@@ -267,23 +265,6 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         if bannerInfo.status == .resetDatesBanner {
             delegate?.courseShiftDateButtonAction()
         }
-    }
-    
-    
-    private var estimatedHeightForSwitchContainer: Int {
-        return 30
-    }
-    
-    private var estimatedHeightForCalendarMessageLabel: Int {
-        let attributedText = syncMessageLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
-        let widthOffset = StandardHorizontalMargin * 2
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: frame.size.width - widthOffset, height: .greatestFiniteMagnitude))
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.attributedText = attributedText.setLineSpacing(6)
-        label.sizeToFit()
-        
-        return Int(label.frame.height + StandardVerticalMargin)
     }
 }
 
