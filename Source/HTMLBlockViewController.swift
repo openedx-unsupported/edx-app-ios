@@ -262,13 +262,11 @@ extension HTMLBlockViewController: AuthenticatedWebViewControllerDelegate {
             // To find out either the HTML block is created with iframe tool or not we need to look into the HTML
             let javascript = "try { var top_div_list = document.querySelectorAll('div[data-usage-id=\"\(blockID ?? "")\"]'); top_div_list.length == 1 && top_div_list[0].querySelectorAll(\"iframe\").length > 0; } catch { false; };"
 
-            webview.evaluateJavaScript(javascript,
-                                       completionHandler: { [weak self](iframeTool: Any?, error: Error?) in
-                                        if let iframeTool = iframeTool as? Bool {
-                                            if iframeTool {
-                                                self?.configureViews(containsiFrame: true)
-                                            }
-                                        }})
+            webview.evaluateJavaScript(javascript) { [weak self] (containsiframe: Any?, error: Error?) in
+                if let containsiframe = containsiframe as? Bool, containsiframe {
+                    self?.configureViews(containsiFrame: true)
+                }
+            }
         }
     }
 }
