@@ -12,12 +12,12 @@ protocol CourseDatesHeaderViewDelegate {
     func didToggleCalendarSwitch(isOn: Bool)
 }
 
-class CourseDatesHeaderView: UIView {
+class CourseDatesHeaderView: UITableViewHeaderFooterView {
     
     typealias Delegate = CourseShiftDatesDelegate & CourseDatesHeaderViewDelegate
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
     }
     
     required init?(coder: NSCoder) {
@@ -25,15 +25,6 @@ class CourseDatesHeaderView: UIView {
     }
     
     var delegate: Delegate?
-    
-    private let stackView: TZStackView = {
-        let stackView = TZStackView()
-        stackView.spacing = 0
-        stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
-        stackView.axis = .vertical
-        return stackView
-    }()
     
     private lazy var styles = OEXStyles.shared()
     
@@ -59,8 +50,6 @@ class CourseDatesHeaderView: UIView {
         return label
     }()
     
-    private lazy var buttonContainer = UIView()
-    
     private lazy var shiftDatesButton: UIButton = {
         let button = UIButton()
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
@@ -82,11 +71,12 @@ class CourseDatesHeaderView: UIView {
         guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return false }
         return !status.button.isEmpty
     }
-    
+
+    private lazy var container = UIView()
     private lazy var topContainer = UIView()
     
     private let buttonMinWidth: CGFloat = 80
-    private let buttonContainerHeight: CGFloat = 40
+    private let buttonHeight: CGFloat = 40
     
     private let bottomContainer = UIView()
     
@@ -125,18 +115,6 @@ class CourseDatesHeaderView: UIView {
         }
     }
     
-    private var estimatedTopContainerHeight: Int {
-        return estimatedHeightForTitleLabel + estimatedHeightForMessageLabel + estimatedButtonHeight
-    }
-    
-    private var estimatedBottomContainerHeight: Int {
-        return estimatedHeightForCalendarMessageLabel + estimatedHeightForSwitchContainer + (Int(StandardVerticalMargin) * 2)
-    }
-    
-    var estimatedHeight: Int {
-        return isSelfPaced ? estimatedTopContainerHeight + estimatedBottomContainerHeight : estimatedTopContainerHeight
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -162,115 +140,123 @@ class CourseDatesHeaderView: UIView {
         calenderSwitch.accessibilityIdentifier = "CourseDatesHeaderView:switch-toggle-calendar-sync"
         syncMessageLabel.accessibilityIdentifier = "CourseDatesHeaderView:label-sync-message"
     }
-    
+
+    private func setupTopContainer() {
+        addSubview(container)
+        container.addSubview(topContainer)
+        topContainer.addSubview(titleLabel)
+        topContainer.addSubview(descriptionLabel)
+
+        titleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.Coursedates.courseSchedule)
+
+        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return }
+        let attributedText = descriptionTextStyle.attributedString(withText: status.header + status.body)
+        descriptionLabel.attributedText = attributedText.setLineSpacing(6)
+
+        container.snp.remakeConstraints{ make in
+            make.edges.equalTo(self)
+        }
+        topContainer.snp.remakeConstraints { make in
+            make.top.equalTo(container)
+            make.leading.equalTo(container)
+            make.trailing.equalTo(container)
+            if !isSelfPaced {
+                make.bottom.equalTo(container)
+            }
+        }
+
+        titleLabel.snp.remakeConstraints { make in
+            make.top.equalTo(topContainer).offset(StandardVerticalMargin)
+            make.leading.equalTo(topContainer)
+            make.trailing.equalTo(topContainer)
+        }
+
+        descriptionLabel.snp.remakeConstraints{make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.leading.equalTo(titleLabel)
+            make.trailing.equalTo(titleLabel)
+            if !isButtonTextAvailable {
+                make.bottom.equalTo(topContainer).inset(StandardVerticalMargin * 2)
+            }
+        }
+
+
+        if isButtonTextAvailable {
+            let buttonText = buttonStyle.attributedString(withText: status.button)
+            shiftDatesButton.setAttributedTitle(buttonText, for: .normal)
+
+            topContainer.addSubview(shiftDatesButton)
+
+            shiftDatesButton.snp.makeConstraints { make in
+                make.trailing.equalTo(topContainer).inset(StandardHorizontalMargin)
+                make.top.equalTo(descriptionLabel.snp.bottom).offset(StandardVerticalMargin * 2)
+                make.bottom.equalTo(topContainer).inset(StandardVerticalMargin * 2)
+                make.width.greaterThanOrEqualTo(buttonMinWidth)
+                make.height.equalTo(buttonHeight)
+            }
+        }
+    }
+
     private func setupBottomContainer() {
-        let container = UIView()
+
+        let syncContainer = UIView()
         
-        container.addSubview(arrowImageView)
-        container.addSubview(syncToCalenderLabel)
-        container.addSubview(calenderSwitch)
+        syncContainer.addSubview(arrowImageView)
+        syncContainer.addSubview(syncToCalenderLabel)
+        syncContainer.addSubview(calenderSwitch)
         
         bottomContainer.addSubview(syncMessageLabel)
         
         bottomContainer.backgroundColor = .white
-        container.backgroundColor = .white
-        bottomContainer.addSubview(container)
-        addSubview(bottomContainer)
+        syncContainer.backgroundColor = .white
+        bottomContainer.addSubview(syncContainer)
+        container.addSubview(bottomContainer)
         
         syncToCalenderLabel.attributedText = syncToCalendarLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendar)
         
         let attributedText = syncMessageLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
         
         syncMessageLabel.attributedText = attributedText.setLineSpacing(6)
-        
-        arrowImageView.snp.remakeConstraints { make in
+
+        bottomContainer.snp.remakeConstraints { make in
+            make.top.equalTo(topContainer.snp.bottom)
             make.leading.equalTo(container)
-            make.height.equalTo(30)
-            make.width.equalTo(30)
-            make.centerY.equalTo(container)
-        }
-        
-        syncToCalenderLabel.snp.remakeConstraints { make in
-            make.leading.equalTo(arrowImageView.snp.trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(calenderSwitch.snp.leading)
-            make.top.equalTo(container)
-            make.bottom.equalTo(container)
-        }
-        
-        calenderSwitch.snp.remakeConstraints { make in
             make.trailing.equalTo(container)
-            make.height.equalTo(30)
-            make.width.equalTo(30)
-            make.centerY.equalTo(container)
+            make.bottom.equalTo(container).inset(StandardVerticalMargin)
         }
-        
-        container.snp.remakeConstraints { make in
+
+        syncContainer.snp.remakeConstraints { make in
             make.top.equalTo(bottomContainer).offset(StandardVerticalMargin)
             make.height.equalTo(30)
             make.leading.equalTo(bottomContainer).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(bottomContainer).inset(StandardHorizontalMargin * 2)
+            make.trailing.equalTo(bottomContainer).inset(StandardHorizontalMargin)
+        }
+
+        arrowImageView.snp.remakeConstraints { make in
+            make.leading.equalTo(syncContainer)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+            make.centerY.equalTo(syncContainer)
+        }
+
+        syncToCalenderLabel.snp.remakeConstraints { make in
+            make.leading.equalTo(arrowImageView.snp.trailing).offset(StandardHorizontalMargin/2)
+            make.trailing.equalTo(calenderSwitch.snp.leading).inset(StandardHorizontalMargin)
+            make.centerY.equalTo(arrowImageView)
+        }
+
+        calenderSwitch.snp.remakeConstraints { make in
+            make.trailing.equalTo(syncContainer).inset(StandardHorizontalMargin * 1.2)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+            make.centerY.equalTo(syncContainer)
         }
         
         syncMessageLabel.snp.remakeConstraints { make in
-            make.leading.equalTo(container)
-            make.trailing.equalTo(container)
-            make.top.equalTo(container.snp.bottom).offset(StandardVerticalMargin)
-        }
-        
-        bottomContainer.snp.remakeConstraints { make in
-            make.top.equalTo(topContainer.snp.bottom).offset(StandardVerticalMargin)
-            make.leading.equalTo(self)
-            make.trailing.equalTo(self)
-            make.bottom.equalTo(syncMessageLabel).offset(StandardVerticalMargin * 1.5)
-        }
-    }
-    
-    private func setupTopContainer() {
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(descriptionLabel)
-        topContainer.addSubview(stackView)
-        
-        titleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.Coursedates.courseSchedule)
-        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return }
-        let attributedText = descriptionTextStyle.attributedString(withText: status.header + status.body)
-        descriptionLabel.attributedText = attributedText.setLineSpacing(6)
-        
-        addSubview(topContainer)
-        
-        titleLabel.snp.remakeConstraints { make in
-            make.height.equalTo(30)
-        }
-        
-        stackView.snp.remakeConstraints { make in
-            make.edges.equalTo(topContainer)
-        }
-        
-        topContainer.snp.remakeConstraints { make in
-            make.top.equalTo(self)
-            make.leading.equalTo(self)
-            make.trailing.equalTo(self)
-            make.height.equalTo(estimatedTopContainerHeight)
-        }
-        
-        if isButtonTextAvailable {
-            let buttonText = buttonStyle.attributedString(withText: status.button)
-            shiftDatesButton.setAttributedTitle(buttonText, for: .normal)
-            
-            stackView.addArrangedSubview(buttonContainer)
-            buttonContainer.addSubview(shiftDatesButton)
-            
-            buttonContainer.snp.makeConstraints { make in
-                make.height.equalTo(buttonContainerHeight)
-                make.width.equalTo(stackView)
-                make.bottom.equalTo(stackView)
-            }
-            
-            shiftDatesButton.snp.makeConstraints { make in
-                make.trailing.equalTo(buttonContainer)
-                make.top.equalTo(buttonContainer)
-                make.bottom.equalTo(buttonContainer)
-                make.width.greaterThanOrEqualTo(buttonMinWidth)
-            }
+            make.leading.equalTo(bottomContainer).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(calenderSwitch.snp.leading)
+            make.top.equalTo(syncContainer.snp.bottom).offset(StandardVerticalMargin)
+            make.bottom.equalTo(bottomContainer).inset(StandardVerticalMargin * 1.5)
         }
     }
     
@@ -281,34 +267,7 @@ class CourseDatesHeaderView: UIView {
             delegate?.courseShiftDateButtonAction()
         }
     }
-    
-    private var estimatedHeightForTitleLabel: Int {
-        let widthOffset = StandardHorizontalMargin * 2
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: frame.size.width - widthOffset, height: .greatestFiniteMagnitude))
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.Coursedates.courseSchedule)
-        label.sizeToFit()
-        
-        return Int(label.frame.height + StandardVerticalMargin)
-    }
-    
-    private var estimatedHeightForMessageLabel: Int {
-        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
-        let attributedText = descriptionTextStyle.attributedString(withText: status.header + status.body)
-        let widthOffset = StandardHorizontalMargin * 2
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: frame.size.width - widthOffset, height: .greatestFiniteMagnitude))
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.attributedText = attributedText.setLineSpacing(6)
-        label.sizeToFit()
-        
-        return Int(label.frame.height + StandardVerticalMargin)
-    }
-    
-    private var estimatedButtonHeight: Int {
-        return Int(isButtonTextAvailable ? buttonContainerHeight : 0)
-    }
+
     
     private var estimatedHeightForSwitchContainer: Int {
         return 30
