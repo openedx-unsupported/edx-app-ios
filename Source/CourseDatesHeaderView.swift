@@ -92,7 +92,7 @@ class CourseDatesHeaderView: UIView {
     
     private lazy var arrowImageView = UIImageView(image: Icon.DoubleArrow.imageWithFontSize(size: 24))
     private lazy var syncToCalenderLabel = UILabel()
-    private lazy var calenderSwitch: UISwitch = {
+    private lazy var syncSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
         toggleSwitch.oex_addAction({ [weak self] _ in
             self?.delegate?.didToggleCalendarSwitch(isOn: toggleSwitch.isOn)
@@ -107,7 +107,7 @@ class CourseDatesHeaderView: UIView {
         return label
     }()
     
-    private lazy var syncToCalendarLabelTextStyle: OEXTextStyle = {
+    private lazy var syncLabelTextStyle: OEXTextStyle = {
         let style = OEXMutableTextStyle(weight: .bold, size: .base, color: styles.primaryDarkColor())
         style.alignment = .left
         return style
@@ -121,7 +121,7 @@ class CourseDatesHeaderView: UIView {
     
     var calendarState: Bool = false {
         didSet {
-            calenderSwitch.isOn = calendarState
+            syncSwitch.isOn = calendarState
         }
     }
     
@@ -159,7 +159,7 @@ class CourseDatesHeaderView: UIView {
         titleLabel.accessibilityIdentifier = "CourseDatesHeaderView:label-course-schedule"
         descriptionLabel.accessibilityIdentifier = "CourseDatesHeaderView:label-course-dates-description"
         shiftDatesButton.accessibilityIdentifier = "CourseDatesHeaderView:button-shift-dates"
-        calenderSwitch.accessibilityIdentifier = "CourseDatesHeaderView:switch-toggle-calendar-sync"
+        syncSwitch.accessibilityIdentifier = "CourseDatesHeaderView:switch-toggle-calendar-sync"
         syncMessageLabel.accessibilityIdentifier = "CourseDatesHeaderView:label-sync-message"
     }
     
@@ -168,7 +168,7 @@ class CourseDatesHeaderView: UIView {
         
         container.addSubview(arrowImageView)
         container.addSubview(syncToCalenderLabel)
-        container.addSubview(calenderSwitch)
+        container.addSubview(syncSwitch)
         
         bottomContainer.addSubview(syncMessageLabel)
         
@@ -177,7 +177,7 @@ class CourseDatesHeaderView: UIView {
         bottomContainer.addSubview(container)
         addSubview(bottomContainer)
         
-        syncToCalenderLabel.attributedText = syncToCalendarLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendar)
+        syncToCalenderLabel.attributedText = syncLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendar)
         
         let attributedText = syncMessageLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
         
@@ -192,12 +192,12 @@ class CourseDatesHeaderView: UIView {
         
         syncToCalenderLabel.snp.remakeConstraints { make in
             make.leading.equalTo(arrowImageView.snp.trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(calenderSwitch.snp.leading)
+            make.trailing.equalTo(syncSwitch.snp.leading)
             make.top.equalTo(container)
             make.bottom.equalTo(container)
         }
         
-        calenderSwitch.snp.remakeConstraints { make in
+        syncSwitch.snp.remakeConstraints { make in
             make.trailing.equalTo(container)
             make.height.equalTo(30)
             make.width.equalTo(30)

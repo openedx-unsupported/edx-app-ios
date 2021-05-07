@@ -442,7 +442,7 @@ extension CourseDatesViewController {
     
     private func showAlertForEventsAddedConfirmation() {
         let title = Strings.Coursedates.datesHasBeenAddedToYourCalendar(calendarName: calendar.calendarName)
-        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: Strings.cancel, onViewController: self) { _, _, _ in }
+        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: nil, onViewController: self) { _, _, _ in }
         
         alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)

@@ -27,7 +27,9 @@ class CalendarManager: NSObject {
     private var calendarKey = "CalendarEntries"
     
     private var locallySavedCalendar: EKCalendar? {
-        guard let courseCalendar = courseCalendarFromUserDefaults else { return nil }
+        guard let courseCalendar = courseCalendarFromUserDefaults else {
+            return eventStore.calendars(for: .event).filter { $0.title == courseName }.first
+        }
         return eventStore.calendars(for: .event).filter { $0.calendarIdentifier == courseCalendar.identifier }.first
     }
     
@@ -40,15 +42,15 @@ class CalendarManager: NSObject {
         
         return iCloud ?? local ?? fallback
     }
-    
-    private lazy var newCalendar: EKCalendar = {
+        
+    private func generateNewCalendar() -> EKCalendar {
         let calendar = EKCalendar(for: .event, eventStore: eventStore)
         calendar.title = calendarName
         calendar.cgColor = calendarColor.cgColor
         calendar.source = calendarSource
         
         return calendar
-    }()
+    }
     
     var authorizationStatus: EKAuthorizationStatus {
         return EKEventStore.authorizationStatus(for: .event)
@@ -66,7 +68,9 @@ class CalendarManager: NSObject {
     func requestAccess(completion: @escaping (Bool, Error?, EKAuthorizationStatus) -> ()) {
         eventStore.requestAccess(to: .event) { [weak self] access, error in
             guard let weakSelf = self, access else {
-                completion(false, error, EKEventStore.authorizationStatus(for: .event))
+                DispatchQueue.main.async {
+                    completion(false, error, EKEventStore.authorizationStatus(for: .event))
+                }
                 return
             }
             
@@ -76,7 +80,7 @@ class CalendarManager: NSObject {
                 }
             } else {
                 do {
-                    let newCalendar = weakSelf.newCalendar
+                    let newCalendar = weakSelf.generateNewCalendar()
                     try weakSelf.eventStore.saveCalendar(newCalendar, commit: true)
                     let courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: weakSelf.courseID, isOn: true)
                     weakSelf.saveToUserDefaults(courseCalendar: courseCalendar, isOn: true)
@@ -84,6 +88,7 @@ class CalendarManager: NSObject {
                         completion(access, error, weakSelf.authorizationStatus)
                     }
                 } catch let error {
+                    print(error)
                     DispatchQueue.main.async {
                         completion(access, error, weakSelf.authorizationStatus)
                     }
