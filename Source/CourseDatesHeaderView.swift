@@ -119,9 +119,9 @@ class CourseDatesHeaderView: UIView {
         return style
     }()
     
-    var switchIsOn: Bool = false {
+    var calendarState: Bool = false {
         didSet {
-            calenderSwitch.isOn = switchIsOn
+            calenderSwitch.isOn = calendarState
         }
     }
     
