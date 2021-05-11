@@ -47,6 +47,7 @@ public enum AnalyticsDisplayName : String {
     case ExploreAllCourses = "Explore All Courses"
     case MyPrograms = "My Programs"
     case ResumeCourseTapped = "Resume Course Tapped"
+    case SubsectionViewOnWebTapped = "Subsection View On Web Tapped"
 }
 
 public enum AnalyticsEventName: String {
@@ -421,12 +422,12 @@ extension OEXAnalytics {
     
     func trackSubsectionViewOnWebTapped(isSpecialExam: Bool, courseID: CourseBlockID, subsectionID: CourseBlockID) {
         let event = OEXAnalyticsEvent()
-        event.displayName = "Subsection View On Web Tapped"
+        event.displayName = AnalyticsEventName.SubsectionViewOnWebTapped.rawValue
         event.name = AnalyticsEventName.SubsectionViewOnWebTapped.rawValue
         
-        let info = [
+        let info: [String : Any] = [
             key_course_id: courseID,
-            AnalyticsEventDataKey.SpecialExamInfo.rawValue: isSpecialExam.description,
+            AnalyticsEventDataKey.SpecialExamInfo.rawValue: isSpecialExam,
             AnalyticsEventDataKey.SubsectionID.rawValue: subsectionID
         ]
         

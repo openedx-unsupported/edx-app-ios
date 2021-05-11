@@ -326,11 +326,11 @@ public class CourseOutlineViewController :
                 owner.loadBackedStreams()
             } else if let block = block {
                 if block.specialExamInfo != nil {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    DispatchQueue.main.async {
                         owner.handleSpecialExamError(block: block)
                     }
                 } else if block.children.isEmpty {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    DispatchQueue.main.async {
                         owner.handleEmptySubsectionError(block: block)
                     }
                 } else {
