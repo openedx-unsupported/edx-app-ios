@@ -44,6 +44,11 @@ public class CourseOutlineViewController :
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     fileprivate var t_hasTriggeredSetResumeCourse = false
     
+    
+    private var canDownload: Bool {
+        return environment.dataManager.interface?.canDownload() ?? false
+    }
+    
     public var blockID : CourseBlockID? {
         return blockIDStream.value ?? nil
     }
@@ -101,7 +106,7 @@ public class CourseOutlineViewController :
         insetsController.setupInController(owner: self, scrollView : tableController.tableView)
         view.setNeedsUpdateConstraints()
         addListeners()
-        setAccessibilityIdentifiers()        
+        setAccessibilityIdentifiers()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -255,7 +260,7 @@ public class CourseOutlineViewController :
         }
     }
     
-    private func addBackStreams() {
+    private func addBackStreams(completion: (_ shouldLoadBackedStream: Bool, _ block: CourseBlock?) -> ()) {
         headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
             if let owner = self {
                 return owner.courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: owner.courseOutlineMode)
@@ -277,6 +282,12 @@ public class CourseOutlineViewController :
         )
         
         blockIDStream.backWithStream(OEXStream(value: rootID))
+        
+        guard let block = block, let _ = block.specialExamInfo else {
+            completion(true, nil)
+            return
+        }
+        completion(false, block)
     }
     
     private func loadHeaderStream() {
@@ -308,12 +319,57 @@ public class CourseOutlineViewController :
     }
     
     private func addListeners() {
-        addBackStreams()
-        loadBackedStreams()
+        addBackStreams { [weak self] shouldLoadBackedStream, block in
+            guard let owner = self else { return }
+            
+            if shouldLoadBackedStream {
+                owner.loadBackedStreams()
+            } else if let block = block {
+                if block.specialExamInfo != nil {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        owner.handleSpecialExamError(block: block)
+                    }
+                } else if block.children.isEmpty {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        owner.handleEmptySubsectionError(block: block)
+                    }
+                } else {
+                    owner.loadController.state = owner.emptyState()
+                }
+            }
+        }
+    }
+
+    private func handleSpecialExamError(block: CourseBlock) {
+        let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: block.blockID ]
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.SpecialExamBlockedScreen.rawValue, courseID: courseID, value: nil, additionalInfo: info)
+        
+        let messageButtonInfo = MessageButtonInfo(title: Strings.openInBrowser) { [weak self] in
+            guard let owner = self,
+                  let url = block.webURL as URL? else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                owner.environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: true, courseID: owner.courseID, subsectionID: block.blockID)
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        
+        loadController.state = LoadState.failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
     }
     
-    private var canDownload: Bool {
-        return environment.dataManager.interface?.canDownload() ?? false
+    private func handleEmptySubsectionError(block: CourseBlock) {
+        let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: block.blockID ]
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.EmptySectionOutline.rawValue, courseID: courseID, value: nil, additionalInfo: info)
+        
+        let messageButtonInfo = MessageButtonInfo(title: Strings.openInBrowser) { [weak self] in
+            guard let owner = self,
+                  let url = block.webURL as URL? else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                owner.environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: false, courseID: owner.courseID, subsectionID: block.blockID)
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        
+        loadController.state = LoadState.failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
     }
     
     func resetCourseDate(controller: CourseOutlineTableController) {

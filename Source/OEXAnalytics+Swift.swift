@@ -86,6 +86,7 @@ public enum AnalyticsEventName: String {
     case CourseUnsupportedComponentTapped = "edx.bi.app.coursedates.unsupported.component.tapped"
     case ExploreAllCourses = "edx.bi.app.discovery.explore.all.courses"
     case ResumeCourseTapped = "edx.bi.app.course.resume.tapped"
+    case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
 }
 
 public enum AnalyticsScreenName: String {
@@ -108,6 +109,8 @@ public enum AnalyticsScreenName: String {
     case CourseDashboard = "course_dashboard"
     case DatesScreen = "dates_screen"
     case AssignmentScreen = "assignments_screen"
+    case SpecialExamBlockedScreen = "Special Exam Blocked Screen"
+    case EmptySectionOutline = "Empty Section Outline"
 }
 
 public enum AnalyticsEventDataKey: String {
@@ -131,6 +134,7 @@ public enum AnalyticsEventDataKey: String {
     case Service = "service"
     case BlockType = "block_type"
     case Link = "link"
+    case SpecialExamInfo = "special_exam_info"
 }
 
 
@@ -413,6 +417,20 @@ extension OEXAnalytics {
         event.category = OEXAnalyticsCategoryNavigation
 
         trackEvent(event, forComponent: nil, withInfo: [key_course_id: courseID, OEXAnalyticsKeyBlockID: blockID])
+    }
+    
+    func trackSubsectionViewOnWebTapped(isSpecialExam: Bool, courseID: CourseBlockID, subsectionID: CourseBlockID) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = "Subsection View On Web Tapped"
+        event.name = AnalyticsEventName.SubsectionViewOnWebTapped.rawValue
+        
+        let info = [
+            key_course_id: courseID,
+            AnalyticsEventDataKey.SpecialExamInfo.rawValue: isSpecialExam.description,
+            AnalyticsEventDataKey.SubsectionID.rawValue: subsectionID
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
     }
 }
 
