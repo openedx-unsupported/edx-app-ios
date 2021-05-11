@@ -353,6 +353,7 @@ public class CourseOutlineViewController :
             }
         }
         
+        loadController.shouldSupportReload = false
         loadController.state = LoadState.failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
     }
     
@@ -369,6 +370,7 @@ public class CourseOutlineViewController :
             }
         }
         
+        loadController.shouldSupportReload = false
         loadController.state = LoadState.failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
     }
     
