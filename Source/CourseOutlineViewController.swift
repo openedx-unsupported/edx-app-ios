@@ -260,7 +260,7 @@ public class CourseOutlineViewController :
         }
     }
     
-    private func addBackStreams(completion: (_ shouldLoadBackedStream: Bool, _ block: CourseBlock?) -> ()) {
+    private func addBackStreams(completion: (_ block: CourseBlock?) -> ()) {
         headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
             if let owner = self {
                 return owner.courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: owner.courseOutlineMode)
@@ -284,10 +284,10 @@ public class CourseOutlineViewController :
         blockIDStream.backWithStream(OEXStream(value: rootID))
         
         guard let block = block, let _ = block.specialExamInfo else {
-            completion(true, nil)
+            completion(nil)
             return
         }
-        completion(false, block)
+        completion(block)
     }
     
     private func loadHeaderStream() {
@@ -319,22 +319,20 @@ public class CourseOutlineViewController :
     }
     
     private func addListeners() {
-        addBackStreams { [weak self] shouldLoadBackedStream, block in
-            guard let owner = self else { return }
+        addBackStreams { [weak self] block in
+            guard let owner = self,
+                  let block = block else {
+                self?.loadBackedStreams()
+                return
+            }
             
-            if shouldLoadBackedStream {
-                owner.loadBackedStreams()
-            } else if let block = block {
-                if block.specialExamInfo != nil {
-                    DispatchQueue.main.async {
-                        owner.handleSpecialExamError(block: block)
-                    }
-                } else if block.children.isEmpty {
-                    DispatchQueue.main.async {
-                        owner.handleEmptySubsectionError(block: block)
-                    }
-                } else {
-                    owner.loadController.state = owner.emptyState()
+            if block.specialExamInfo != nil {
+                DispatchQueue.main.async {
+                    owner.handleSpecialExamError(block: block)
+                }
+            } else if block.children.isEmpty {
+                DispatchQueue.main.async {
+                    owner.handleEmptySubsectionError(block: block)
                 }
             }
         }
@@ -344,9 +342,13 @@ public class CourseOutlineViewController :
         let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: block.blockID ]
         environment.analytics.trackScreen(withName: AnalyticsScreenName.SpecialExamBlockedScreen.rawValue, courseID: courseID, value: nil, additionalInfo: info)
         
+        guard let url = block.webURL as URL? else {
+            loadController.state = emptyState()
+            return
+        }
+        
         let messageButtonInfo = MessageButtonInfo(title: Strings.openInBrowser) { [weak self] in
-            guard let owner = self,
-                  let url = block.webURL as URL? else { return }
+            guard let owner = self else { return }
             if UIApplication.shared.canOpenURL(url) {
                 owner.environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: true, courseID: owner.courseID, subsectionID: block.blockID)
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -361,9 +363,13 @@ public class CourseOutlineViewController :
         let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: block.blockID ]
         environment.analytics.trackScreen(withName: AnalyticsScreenName.EmptySectionOutline.rawValue, courseID: courseID, value: nil, additionalInfo: info)
         
+        guard let url = block.webURL as URL? else {
+            loadController.state = emptyState()
+            return
+        }
+        
         let messageButtonInfo = MessageButtonInfo(title: Strings.openInBrowser) { [weak self] in
-            guard let owner = self,
-                  let url = block.webURL as URL? else { return }
+            guard let owner = self else { return }
             if UIApplication.shared.canOpenURL(url) {
                 owner.environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: false, courseID: owner.courseID, subsectionID: block.blockID)
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
