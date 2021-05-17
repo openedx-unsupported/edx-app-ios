@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol IconRenderer : class {
+protocol IconRenderer : AnyObject {
     var shouldFlip: Bool { get }
     func boundsWithAttributes(attributes: [NSAttributedString.Key : Any], inline : Bool) -> CGRect
     func drawWithAttributes(attributes: [NSAttributedString.Key : Any], inContext context : CGContext)

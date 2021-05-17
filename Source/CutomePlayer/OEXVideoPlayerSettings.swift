@@ -18,7 +18,7 @@ public struct OEXVideoPlayerSetting {
     let callback: (_ value: Any)->()
 }
 
-protocol VideoPlayerSettingsDelegate: class {
+protocol VideoPlayerSettingsDelegate: AnyObject {
     func showSubSettings(chooser: UIAlertController)
     func setCaption(language: String)
     func setPlaybackSpeed(speed: OEXVideoSpeed)

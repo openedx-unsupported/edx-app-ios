@@ -8,11 +8,11 @@
 
 import UIKit
 
-public protocol ContentInsetsSourceDelegate : class {
+public protocol ContentInsetsSourceDelegate : AnyObject {
     func contentInsetsSourceChanged(source : ContentInsetsSource)
 }
 
-public protocol ContentInsetsSource : class {
+public protocol ContentInsetsSource : AnyObject {
     var currentInsets: UIEdgeInsets { get }
     var insetsDelegate: ContentInsetsSourceDelegate? { get set }
     var affectsScrollIndicators: Bool { get }

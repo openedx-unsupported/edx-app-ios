@@ -11,7 +11,7 @@ import UIKit
 private let resumeCourseViewPortraitHeight: CGFloat = 72
 private let resumeCourseViewLandscapeHeight: CGFloat = 52
 
-protocol CourseOutlineTableControllerDelegate: class {
+protocol CourseOutlineTableControllerDelegate: AnyObject {
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID)
     func outlineTableController(controller: CourseOutlineTableController, resumeCourse item: ResumeCourseItem)
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block: CourseBlock)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SeparatorInsetable : class {
+protocol SeparatorInsetable : AnyObject {
     var separatorInset : UIEdgeInsets { get set }
 }
 

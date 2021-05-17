@@ -12,7 +12,7 @@ import GoogleCast
 /// This Protocol handles communication between ChromecastManager and Controller which implements it,
 /// It allows to lisen for connection states, i.e
 /// ConnectedToChromeCast, DisconnectedFromChromeCast, StartPlayingOnChromeCast, FinishedPlayingOnChromecast
-protocol ChromeCastPlayerStatusDelegate: class {
+protocol ChromeCastPlayerStatusDelegate: AnyObject {
     func chromeCastDidConnect()
     func chromeCastDidDisconnect(playedTime: TimeInterval)
     func chromeCastVideoPlaying()

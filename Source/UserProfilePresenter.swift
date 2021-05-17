@@ -15,13 +15,13 @@ extension Accomplishment {
     }
 }
 
-protocol UserProfilePresenterDelegate : class {
+protocol UserProfilePresenterDelegate : AnyObject {
     func presenter(presenter: UserProfilePresenter, choseShareURL url: NSURL)
 }
 
 typealias ProfileTabItem = (UIScrollView) -> TabItem
 
-protocol UserProfilePresenter: class {
+protocol UserProfilePresenter: AnyObject {
 
     var profileStream: OEXStream<UserProfile> { get }
     var tabStream: OEXStream<[ProfileTabItem]> { get }

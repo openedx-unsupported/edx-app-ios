@@ -41,7 +41,7 @@ public class PullRefreshView : UIView {
     }
 }
 
-public protocol PullRefreshControllerDelegate : class {
+public protocol PullRefreshControllerDelegate : AnyObject {
     func refreshControllerActivated(controller : PullRefreshController)
 }
 

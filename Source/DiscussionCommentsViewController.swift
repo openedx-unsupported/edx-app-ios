@@ -270,7 +270,7 @@ class DiscussionCommentCell: UITableViewCell {
     }
 }
 
-protocol DiscussionCommentsViewControllerDelegate: class {
+protocol DiscussionCommentsViewControllerDelegate: AnyObject {
     
     func discussionCommentsView(controller  : DiscussionCommentsViewController, updatedComment comment: DiscussionComment)
 }

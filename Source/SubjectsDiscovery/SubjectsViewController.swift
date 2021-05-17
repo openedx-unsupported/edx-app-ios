@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SubjectsViewControllerDelegate: class {
+protocol SubjectsViewControllerDelegate: AnyObject {
     func subjectsViewController(_ controller: SubjectsViewController, didSelect subject: Subject)
 }
 
