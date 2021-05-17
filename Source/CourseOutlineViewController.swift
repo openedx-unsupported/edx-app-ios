@@ -260,7 +260,7 @@ public class CourseOutlineViewController :
         }
     }
     
-    private func addBackStreams(completion: (_ block: CourseBlock?) -> ()) {
+    private func addBackStreams() {
         headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
             if let owner = self {
                 return owner.courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: owner.courseOutlineMode)
@@ -282,12 +282,6 @@ public class CourseOutlineViewController :
         )
         
         blockIDStream.backWithStream(OEXStream(value: rootID))
-        
-        guard let block = block, let _ = block.specialExamInfo else {
-            completion(nil)
-            return
-        }
-        completion(block)
     }
     
     private func loadHeaderStream() {
@@ -319,25 +313,27 @@ public class CourseOutlineViewController :
     }
     
     private func addListeners() {
-        addBackStreams { [weak self] block in
-            guard let owner = self,
-                  let block = block else {
-                self?.loadBackedStreams()
-                return
-            }
-            
-            if block.specialExamInfo != nil {
-                DispatchQueue.main.async {
-                    owner.handleSpecialExamError(block: block)
-                }
-            } else if block.children.isEmpty {
-                DispatchQueue.main.async {
-                    owner.handleEmptySubsectionError(block: block)
-                }
-            }
+        addBackStreams()
+        
+        if !handleBlockForSpecialCase() {
+            loadBackedStreams()
         }
     }
-
+    
+    private func handleBlockForSpecialCase() -> Bool {
+        guard let block = block else { return false }
+        
+        if block.specialExamInfo != nil {
+            handleSpecialExamError(block: block)
+            return true
+        } else if block.children.isEmpty {
+            handleEmptySubsectionError(block: block)
+            return true
+        }
+        
+        return false
+    }
+    
     private func handleSpecialExamError(block: CourseBlock) {
         let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: block.blockID ]
         environment.analytics.trackScreen(withName: AnalyticsScreenName.SpecialExamBlockedScreen.rawValue, courseID: courseID, value: nil, additionalInfo: info)
@@ -356,7 +352,9 @@ public class CourseOutlineViewController :
         }
         
         loadController.shouldSupportReload = false
-        loadController.state = LoadState.failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
+        DispatchQueue.main.async { [weak self] in
+            self?.loadController.state = .failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
+        }
     }
     
     private func handleEmptySubsectionError(block: CourseBlock) {
@@ -377,7 +375,9 @@ public class CourseOutlineViewController :
         }
         
         loadController.shouldSupportReload = false
-        loadController.state = LoadState.failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
+        DispatchQueue.main.async { [weak self] in
+            self?.loadController.state = .failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
+        }
     }
     
     func resetCourseDate(controller: CourseOutlineTableController) {
