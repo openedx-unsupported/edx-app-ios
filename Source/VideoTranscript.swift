@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol VideoTranscriptDelegate: class {
+protocol VideoTranscriptDelegate: AnyObject {
     func didSelectSubtitleAtInterval(time: TimeInterval)
 }
 

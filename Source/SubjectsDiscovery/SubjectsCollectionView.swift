@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SubjectsCollectionViewDelegate: class {
+protocol SubjectsCollectionViewDelegate: AnyObject {
     func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject)
     func didSelectViewAllSubjects(_ collectionView: SubjectsCollectionView)
 }

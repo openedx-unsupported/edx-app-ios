@@ -19,7 +19,7 @@ private enum PlayerState {
 private let currentItemStatusKey = "currentItem.status"
 private let currentItemPlaybackLikelyToKeepUpKey = "currentItem.playbackLikelyToKeepUp"
 
-protocol VideoPlayerDelegate: class {
+protocol VideoPlayerDelegate: AnyObject {
     func playerDidFinishLoad(videoPlayer: VideoPlayer)
     func playerDidLoadTranscripts(videoPlayer:VideoPlayer, transcripts: [TranscriptObject])
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer)

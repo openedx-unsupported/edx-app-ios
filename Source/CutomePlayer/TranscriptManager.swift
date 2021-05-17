@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TranscriptManagerDelegate: class {
+protocol TranscriptManagerDelegate: AnyObject {
     func transcriptsLoaded(manager: TranscriptManager, transcripts: [TranscriptObject])
 }
 

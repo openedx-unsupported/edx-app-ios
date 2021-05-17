@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PopularSubjectsViewControllerDelegate: class {
+protocol PopularSubjectsViewControllerDelegate: AnyObject {
     func popularSubjectsViewController(_ controller: PopularSubjectsViewController, didSelect subject: Subject)
     func didSelectViewAllSubjects(_ controller: PopularSubjectsViewController)
 }

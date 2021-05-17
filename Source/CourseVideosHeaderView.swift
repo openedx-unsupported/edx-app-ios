@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CourseVideosHeaderViewDelegate: class {
+protocol CourseVideosHeaderViewDelegate: AnyObject {
     func courseVideosHeaderViewTapped()
     func invalidOrNoNetworkFound()
 }

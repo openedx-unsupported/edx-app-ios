@@ -13,7 +13,7 @@ import UIKit
          signUp
 }
 
-@objc protocol AgreementTextViewDelegate: class {
+@objc protocol AgreementTextViewDelegate: AnyObject {
     func agreementTextView(_ textView: AgreementTextView, didSelect url: URL)
 }
 
