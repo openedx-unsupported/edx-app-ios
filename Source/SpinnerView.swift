@@ -87,14 +87,20 @@ public class SpinnerView: UIView {
     }
     
     func startAnimating() {
-        activityIndicator?.removeFromSuperview()
-        activityIndicator = MaterialActivityIndicatorView()
-        if let view = activityIndicator {
-            addSubview(view)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            self?.animate()
         }
-        activityIndicator?.color = color.value
-        activityIndicator?.startAnimating()
     }
+
+    private func animate() {
+            activityIndicator?.removeFromSuperview()
+            activityIndicator = MaterialActivityIndicatorView()
+            if let view = activityIndicator {
+                addSubview(view)
+            }
+            activityIndicator?.color = color.value
+            activityIndicator?.startAnimating()
+        }
     
     func stopAnimating() {
         activityIndicator?.removeFromSuperview()
