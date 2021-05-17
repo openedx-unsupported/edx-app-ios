@@ -104,7 +104,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         return style
     }()
     
-    private lazy var syncMessageLabelTextStyle: OEXTextStyle = {
+    private lazy var syncMessageTextStyle: OEXTextStyle = {
         let style = OEXMutableTextStyle(weight: .normal, size: .small, color: styles.neutralXDark())
         style.alignment = .left
         return style
@@ -214,7 +214,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         container.addSubview(bottomContainer)
         
         syncToCalenderLabel.attributedText = syncToCalendarLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendar)
-        let attributedText = syncMessageLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
+        let attributedText = syncMessageTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
         syncMessageLabel.attributedText = attributedText.setLineSpacing(6)
         
         bottomContainer.snp.remakeConstraints { make in

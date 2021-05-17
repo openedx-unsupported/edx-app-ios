@@ -26,8 +26,8 @@ class CalendarManager: NSObject {
     private let startDateOffsetHour: Double = -1
     private var calendarKey = "CalendarEntries"
     
-    private var locallySavedCalendar: EKCalendar? {
-        guard let courseCalendar = courseCalendarFromUserDefaults else {
+    private var localCalendar: EKCalendar? {
+        guard let courseCalendar = calendarEntry else {
             return eventStore.calendars(for: .event).filter { $0.title == courseName }.first
         }
         return eventStore.calendars(for: .event).filter { $0.calendarIdentifier == courseCalendar.identifier }.first
@@ -43,7 +43,7 @@ class CalendarManager: NSObject {
         return iCloud ?? local ?? fallback
     }
         
-    private func generateNewCalendar() -> EKCalendar {
+    private func calendar() -> EKCalendar {
         let calendar = EKCalendar(for: .event, eventStore: eventStore)
         calendar.title = calendarName
         calendar.cgColor = calendarColor.cgColor
@@ -62,13 +62,13 @@ class CalendarManager: NSObject {
     
     var calendarState: Bool {
         set {
-            updateCalendarState()
+            updateCalendarState(isOn: newValue)
         }
         get {
-            if let courseCalendarFromUserDefaults = courseCalendarFromUserDefaults,
-               let locallySavedCalendar = locallySavedCalendar {
-                if courseCalendarFromUserDefaults.identifier == locallySavedCalendar.calendarIdentifier {
-                    return courseCalendarFromUserDefaults.isOn
+            if let calendarEntry = calendarEntry,
+               let localCalendar = localCalendar {
+                if calendarEntry.identifier == localCalendar.calendarIdentifier {
+                    return calendarEntry.isOn
                 }
             }
             return false
@@ -89,16 +89,16 @@ class CalendarManager: NSObject {
                 return
             }
             
-            if let _ = weakSelf.locallySavedCalendar {
+            if let _ = weakSelf.localCalendar {
                 DispatchQueue.main.async {
                     completion(true, error, weakSelf.authorizationStatus)
                 }
             } else {
                 do {
-                    let newCalendar = weakSelf.generateNewCalendar()
-                    try weakSelf.eventStore.saveCalendar(newCalendar, commit: true)
-                    let courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: weakSelf.courseID, isOn: true)
-                    weakSelf.saveToUserDefaults(courseCalendar: courseCalendar, isOn: true)
+                    let calendar = weakSelf.calendar()
+                    try weakSelf.eventStore.saveCalendar(calendar, commit: true)
+                    let courseCalendar = CourseCalendar(identifier: calendar.calendarIdentifier, courseID: weakSelf.courseID, isOn: true)
+                    weakSelf.addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
                     DispatchQueue.main.async {
                         completion(access, error, weakSelf.authorizationStatus)
                     }
@@ -149,9 +149,9 @@ class CalendarManager: NSObject {
     }
     
     func removeCalendar(completion: @escaping ()->()) {
-        guard let calendar = locallySavedCalendar else { return }
+        guard let calendar = localCalendar else { return }
         try? eventStore.removeCalendar(calendar, commit: true)
-        removeCourseCalendarFromUserDefaults()
+        removeCalendarEntry()
         DispatchQueue.main.async {
             completion()
         }
@@ -182,7 +182,7 @@ class CalendarManager: NSObject {
         event.title = title
         event.startDate = startDate
         event.endDate = endDate
-        event.calendar = locallySavedCalendar
+        event.calendar = localCalendar
         event.notes = notes
         
         if startDate > Date() {
@@ -200,7 +200,7 @@ class CalendarManager: NSObject {
     }
     
     private func alreadyExist(event eventToAdd: EKEvent) -> Bool {
-        guard let courseCalendar = courseCalendarFromUserDefaults else { return false }
+        guard let courseCalendar = calendarEntry else { return false }
         let calendars = eventStore.calendars(for: .event).filter { $0.calendarIdentifier == courseCalendar.identifier }
         let predicate = eventStore.predicateForEvents(withStart: eventToAdd.startDate, end: eventToAdd.endDate, calendars: calendars)
         let existingEvents = eventStore.events(matching: predicate)
@@ -212,7 +212,7 @@ class CalendarManager: NSObject {
         }
     }
     
-    private func saveToUserDefaults(courseCalendar: CourseCalendar, isOn: Bool) {
+    private func addCalendarEntry(courseCalendar: CourseCalendar, isOn: Bool) {
         var courseCalendars: [CourseCalendar] = []
         
         if let data = UserDefaults.standard.data(forKey: calendarKey),
@@ -234,14 +234,14 @@ class CalendarManager: NSObject {
         }
     }
     
-    private func updateCalendarState() {
+    private func updateCalendarState(isOn: Bool) {
         guard let data = UserDefaults.standard.data(forKey: calendarKey),
               var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data),
               let index = courseCalendars.firstIndex(where: { $0.courseID == courseID })
         else { return }
         
         courseCalendars.modifyElement(atIndex: index) { element in
-            element.isOn = true
+            element.isOn = isOn
         }
         
         if let data = try? PropertyListEncoder().encode(courseCalendars) {
@@ -250,7 +250,7 @@ class CalendarManager: NSObject {
         }
     }
     
-    private func removeCourseCalendarFromUserDefaults() {
+    private func removeCalendarEntry() {
         guard let data = UserDefaults.standard.data(forKey: calendarKey),
               var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
         else { return }
@@ -265,7 +265,7 @@ class CalendarManager: NSObject {
         }
     }
     
-    private var courseCalendarFromUserDefaults: CourseCalendar? {
+    private var calendarEntry: CourseCalendar? {
         guard let data = UserDefaults.standard.data(forKey: calendarKey),
               let courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
         else { return nil }

@@ -81,10 +81,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private var userEnrollment: EnrollmentMode {
         guard let course = course, let mode = environment.interface?.enrollmentForCourse(withID: course.course_id)?.mode,
-              let enrollmentType = EnrollmentMode(rawValue: mode)
+              let mode = EnrollmentMode(rawValue: mode)
         else { return .none }
     
-        return enrollmentType
+        return mode
     }
         
     private var calendarState: Bool {
@@ -93,10 +93,17 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 trackCalendarEvent(for: .CalendarToggleOn, eventName: .CalendarToggleOn)
                 
                 calendar.requestAccess { [weak self] _, _, status in
-                    if status == .authorized {
+                    switch status {
+                    case .authorized:
                         self?.showAlertForCalendarPrompt()
-                    } else {
+                        break
+                        
+                    case .denied, .restricted:
                         self?.showCalendarSettingsAlert()
+                        break
+                        
+                    default:
+                        break
                     }
                 }
             } else {
@@ -424,6 +431,7 @@ extension CourseDatesViewController {
         let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self) { [weak self] _, _, index in
             if index == UIAlertControllerBlocksCancelButtonIndex {
                 self?.courseDatesHeaderView.calendarState = false
+                self?.calendar.calendarState = false
                 self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
             }
         }
