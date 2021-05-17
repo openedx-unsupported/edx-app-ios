@@ -60,6 +60,21 @@ class CalendarManager: NSObject {
         return OEXConfig.shared().platformName() + " - " + courseName
     }
     
+    var calendarState: Bool {
+        set {
+            updateCalendarState()
+        }
+        get {
+            if let courseCalendarFromUserDefaults = courseCalendarFromUserDefaults,
+               let locallySavedCalendar = locallySavedCalendar {
+                if courseCalendarFromUserDefaults.identifier == locallySavedCalendar.calendarIdentifier {
+                    return courseCalendarFromUserDefaults.isOn
+                }
+            }
+            return false
+        }
+    }
+    
     required init(courseID: String, courseName: String) {
         self.courseID = courseID
         self.courseName = courseName
@@ -107,8 +122,8 @@ class CalendarManager: NSObject {
                     events.append(generatedEvent)
                 }
             } else {
-                if let first = blocks.first {
-                    let generatedEvent = generateCalendarEvent(for: first)
+                if let block = blocks.first {
+                    let generatedEvent = generateCalendarEvent(for: block)
                     events.append(generatedEvent)
                 }
             }
@@ -194,23 +209,6 @@ class CalendarManager: NSObject {
             return event.title == eventToAdd.title
                 && event.startDate == eventToAdd.startDate
                 && event.endDate == eventToAdd.endDate
-        }
-    }
-}
-
-extension CalendarManager {
-    var calendarState: Bool {
-        set {
-            updateCalendarState()
-        }
-        get {
-            if let courseCalendarFromUserDefaults = courseCalendarFromUserDefaults,
-               let locallySavedCalendar = locallySavedCalendar {
-                if courseCalendarFromUserDefaults.identifier == locallySavedCalendar.calendarIdentifier {
-                    return courseCalendarFromUserDefaults.isOn
-                }
-            }
-            return false
         }
     }
     
