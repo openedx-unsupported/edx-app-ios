@@ -87,7 +87,7 @@ public class SpinnerView: UIView {
     }
     
     func startAnimating() {
-        DispatchQueue.main.async { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
             self?.animate()
         }
     }
