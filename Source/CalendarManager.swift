@@ -88,7 +88,6 @@ class CalendarManager: NSObject {
                         completion(access, error, weakSelf.authorizationStatus)
                     }
                 } catch let error {
-                    print(error)
                     DispatchQueue.main.async {
                         completion(access, error, weakSelf.authorizationStatus)
                     }
@@ -135,20 +134,17 @@ class CalendarManager: NSObject {
     }
     
     func removeCalendar(completion: @escaping ()->()) {
-        if let calendar = locallySavedCalendar {
-            do {
-                try eventStore.removeCalendar(calendar, commit: true)
-                removeCourseCalendarFromUserDefaults()
-                DispatchQueue.main.async {
-                    completion()
-                }
-            } catch { }
+        guard let calendar = locallySavedCalendar else { return }
+        try? eventStore.removeCalendar(calendar, commit: true)
+        removeCourseCalendarFromUserDefaults()
+        DispatchQueue.main.async {
+            completion()
         }
     }
     
     private func generateCalendarEvent(for block: CourseDateBlock) -> EKEvent {
         let title = block.title + ": " + courseName
-        let startDate = block.blockDate.add(hours: startDateOffsetHour)
+        let startDate = block.blockDate.addingTimeInterval(startDateOffsetHour * 60 * 60)
         let endDate = block.blockDate
         let notes = "\(courseName) \n \(block.title)"
         
@@ -159,7 +155,7 @@ class CalendarManager: NSObject {
         guard let block = blocks.first else { return nil }
         
         let title = block.title + ": " + courseName
-        let startDate = block.blockDate.add(hours: startDateOffsetHour)
+        let startDate = block.blockDate.addingTimeInterval(startDateOffsetHour * 60 * 60)
         let endDate = block.blockDate
         let notes = "\(courseName) \n" + blocks.compactMap { $0.title }.joined(separator: ", ")
         
@@ -241,52 +237,40 @@ extension CalendarManager {
     }
     
     private func updateCalendarState() {
-        if let data = UserDefaults.standard.data(forKey: calendarKey),
-           var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data) {
-            if let index = courseCalendars.firstIndex(where: { $0.courseID == courseID }) {
-                courseCalendars.modifyElement(atIndex: index) { element in
-                    element.isOn = true
-                }
-                
-                if let data = try? PropertyListEncoder().encode(courseCalendars) {
-                    UserDefaults.standard.set(data, forKey: calendarKey)
-                    UserDefaults.standard.synchronize()
-                }
-            }
+        guard let data = UserDefaults.standard.data(forKey: calendarKey),
+              var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data),
+              let index = courseCalendars.firstIndex(where: { $0.courseID == courseID })
+        else { return }
+        
+        courseCalendars.modifyElement(atIndex: index) { element in
+            element.isOn = true
+        }
+        
+        if let data = try? PropertyListEncoder().encode(courseCalendars) {
+            UserDefaults.standard.set(data, forKey: calendarKey)
+            UserDefaults.standard.synchronize()
         }
     }
     
     private func removeCourseCalendarFromUserDefaults() {
-        if let data = UserDefaults.standard.data(forKey: calendarKey),
-           var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data) {
-            
-            if let index = courseCalendars.firstIndex(where: { $0.courseID == courseID }) {
-                courseCalendars.remove(at: index)
-            }
-            
-            if let data = try? PropertyListEncoder().encode(courseCalendars) {
-                UserDefaults.standard.set(data, forKey: calendarKey)
-                UserDefaults.standard.synchronize()
-            }
+        guard let data = UserDefaults.standard.data(forKey: calendarKey),
+              var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
+        else { return }
+        
+        if let index = courseCalendars.firstIndex(where: { $0.courseID == courseID }) {
+            courseCalendars.remove(at: index)
+        }
+        
+        if let data = try? PropertyListEncoder().encode(courseCalendars) {
+            UserDefaults.standard.set(data, forKey: calendarKey)
+            UserDefaults.standard.synchronize()
         }
     }
     
     private var courseCalendarFromUserDefaults: CourseCalendar? {
-        if let data = UserDefaults.standard.data(forKey: calendarKey),
-           let decodedArray = try? PropertyListDecoder().decode([CourseCalendar].self, from: data) {
-            return decodedArray.first(where: { $0.courseID == courseID })
-        }
-        
-        return nil
-    }
-}
-
-fileprivate extension Date {
-    func add(minutes: Double) -> Date {
-        addingTimeInterval(minutes * 60)
-    }
-    
-    func add(hours: Double) -> Date {
-        add(minutes: hours * 60)
+        guard let data = UserDefaults.standard.data(forKey: calendarKey),
+              let courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
+        else { return nil }
+        return courseCalendars.first(where: { $0.courseID == courseID })
     }
 }
