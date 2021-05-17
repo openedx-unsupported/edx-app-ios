@@ -13,7 +13,7 @@ enum SeekType {
     case rewind, forward
 }
 
-protocol VideoPlayerControlsDelegate: class {
+protocol VideoPlayerControlsDelegate: AnyObject {
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool)
     func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType)
     func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType, completion: ((Bool)->())?)

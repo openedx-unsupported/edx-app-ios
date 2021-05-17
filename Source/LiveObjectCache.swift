@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol LifetimeTrackable : class {
+public protocol LifetimeTrackable : AnyObject {
     /// Lifetime should be associated with Self such that it gets deallocated when the object owning
     /// get deallocated
     var lifetimeToken : NSObject { get }

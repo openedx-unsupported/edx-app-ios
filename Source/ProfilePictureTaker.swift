@@ -10,7 +10,7 @@ import Foundation
 
 import MobileCoreServices
 
-protocol ProfilePictureTakerDelegate : class {
+protocol ProfilePictureTakerDelegate : AnyObject {
     func showImagePickerController(picker: UIImagePickerController)
     func showChooserAlert(alert: UIAlertController)
     func imagePicked(image: UIImage, picker: UIImagePickerController)

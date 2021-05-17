@@ -35,7 +35,7 @@ enum SwipeState: Int {
     var isActive: Bool { return self != .initial }
 }
 
-protocol SwipeActionsViewDelegate: class {
+protocol SwipeActionsViewDelegate: AnyObject {
     func swipeActionsView(_ swipeCellActionView: SwipeCellActionView, didSelect action: SwipeActionButton)
 }
 

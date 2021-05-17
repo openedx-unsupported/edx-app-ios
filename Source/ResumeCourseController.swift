@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol ResumeCourseControllerDelegate : class {
+public protocol ResumeCourseControllerDelegate : AnyObject {
     func resumeCourseControllerDidFetchResumeCourseItem(item : ResumeCourseItem?)
 }
 

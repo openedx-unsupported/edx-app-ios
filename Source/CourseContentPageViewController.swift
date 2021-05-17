@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CourseContentPageViewControllerDelegate : class {
+public protocol CourseContentPageViewControllerDelegate : AnyObject {
     func courseContentPageViewController(controller : CourseContentPageViewController, enteredBlockWithID blockID : CourseBlockID, parentID : CourseBlockID)
 }
 

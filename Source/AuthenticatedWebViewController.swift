@@ -36,7 +36,7 @@ private protocol WebContentController {
     func resetState()
 }
 
-@objc protocol WebViewNavigationDelegate: class {
+@objc protocol WebViewNavigationDelegate: AnyObject {
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool
     func webViewContainingController() -> UIViewController
 }
@@ -49,7 +49,7 @@ protocol AuthenticatedWebViewControllerDelegate {
     func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView)
 }
 
-@objc protocol AJAXCompletionCallbackDelegate: class {
+@objc protocol AJAXCompletionCallbackDelegate: AnyObject {
     func didCompletionCalled(completion: Bool)
 }
 
