@@ -80,18 +80,19 @@ class CalendarManager: NSObject {
         self.courseName = courseName
     }
     
-    func requestAccess(completion: @escaping (Bool, Error?, EKAuthorizationStatus) -> ()) {
-        eventStore.requestAccess(to: .event) { [weak self] access, error in
+    func requestAccess(completion: @escaping (Bool, EKAuthorizationStatus, EKAuthorizationStatus) -> ()) {
+        let previousStatus = EKEventStore.authorizationStatus(for: .event)
+        eventStore.requestAccess(to: .event) { [weak self] access, _ in
             guard let weakSelf = self, access else {
                 DispatchQueue.main.async {
-                    completion(false, error, EKEventStore.authorizationStatus(for: .event))
+                    completion(false, previousStatus, EKEventStore.authorizationStatus(for: .event))
                 }
                 return
             }
             
             if let _ = weakSelf.localCalendar {
                 DispatchQueue.main.async {
-                    completion(true, error, weakSelf.authorizationStatus)
+                    completion(true, previousStatus, weakSelf.authorizationStatus)
                 }
             } else {
                 do {
@@ -100,11 +101,11 @@ class CalendarManager: NSObject {
                     let courseCalendar = CourseCalendar(identifier: calendar.calendarIdentifier, courseID: weakSelf.courseID, isOn: true)
                     weakSelf.addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
                     DispatchQueue.main.async {
-                        completion(access, error, weakSelf.authorizationStatus)
+                        completion(access, previousStatus, weakSelf.authorizationStatus)
                     }
-                } catch let error {
+                } catch {
                     DispatchQueue.main.async {
-                        completion(access, error, weakSelf.authorizationStatus)
+                        completion(access, previousStatus, weakSelf.authorizationStatus)
                     }
                 }
             }

@@ -91,18 +91,16 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         set {
             if newValue {
                 trackCalendarEvent(for: .CalendarToggleOn, eventName: .CalendarToggleOn)
-                
-                calendar.requestAccess { [weak self] _, _, status in
+                calendar.requestAccess { [weak self] _, previousStatus, status in
                     switch status {
                     case .authorized:
                         self?.showAlertForCalendarPrompt()
                         break
-                        
-                    case .denied, .restricted:
-                        self?.showCalendarSettingsAlert()
-                        break
-                        
                     default:
+                        self?.courseDatesHeaderView.calendarState = false
+                        if previousStatus == status {                            
+                            self?.showCalendarSettingsAlert()
+                        }
                         break
                     }
                 }
@@ -393,7 +391,7 @@ extension CourseDatesViewController {
     }
     
     private func requestCalendarAccess() {
-        calendar.requestAccess { [weak self] access, error, state in
+        calendar.requestAccess { [weak self] access, _, _ in
             if access {
                 self?.addCourseEvents()
                 self?.trackCalendarEvent(for: .CalendarAccessAllowed, eventName: .CalendarAccessAllowed)
