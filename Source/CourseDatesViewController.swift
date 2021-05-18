@@ -81,10 +81,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private var userEnrollment: EnrollmentMode {
         guard let course = course, let mode = environment.interface?.enrollmentForCourse(withID: course.course_id)?.mode,
-              let mode = EnrollmentMode(rawValue: mode)
+              let enrolmentMode = EnrollmentMode(rawValue: mode)
         else { return .none }
     
-        return mode
+        return enrolmentMode
     }
         
     private var calendarState: Bool {
