@@ -106,8 +106,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 }
             } else {
                 trackCalendarEvent(for: .CalendarToggleOff, eventName: .CalendarToggleOff)
-                removeCourseCalendar { [weak self] in
-                    self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved, delay: 2)
+                removeCourseCalendar { [weak self] done in
+                    if done {
+                        self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved, delay: 2)
+                    }
                 }
             }
         }
@@ -415,10 +417,12 @@ extension CourseDatesViewController {
         }
     }
     
-    private func removeCourseCalendar(completion: (()->())? = nil) {
-        calendar.removeCalendar { [weak self] in
-            self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
-            completion?()
+    private func removeCourseCalendar(completion: ((Bool)->())? = nil) {
+        calendar.removeCalendar { [weak self] done in
+            if done {
+                self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
+            }
+            completion?(done)
         }
     }
     

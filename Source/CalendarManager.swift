@@ -149,12 +149,18 @@ class CalendarManager: NSObject {
         }
     }
     
-    func removeCalendar(completion: @escaping ()->()) {
+    func removeCalendar(completion: @escaping (Bool)->()) {
         guard let calendar = localCalendar else { return }
-        try? eventStore.removeCalendar(calendar, commit: true)
-        removeCalendarEntry()
-        DispatchQueue.main.async {
-            completion()
+        do {
+            try eventStore.removeCalendar(calendar, commit: true)
+            removeCalendarEntry()
+            DispatchQueue.main.async {
+                completion(true)
+            }
+        } catch {
+            DispatchQueue.main.async {
+                completion(false)
+            }
         }
     }
     
