@@ -403,14 +403,13 @@ extension CourseDatesViewController {
         }
     }
     
-    private func addCourseEvents(completion: (()->())? = nil) {
-        calendar.addEventsToCalendar(for: dateBlocksMap) { [weak self] done, _ in
+    private func addCourseEvents() {
+        calendar.addEventsToCalendar(for: dateBlocksMap) { [weak self] done in
             if done {
                 self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
                 self?.courseDatesHeaderView.calendarState = true
                 self?.calendar.calendarState = true
                 self?.showAlertForEventsAddedConfirmation()
-                completion?()
             } else {
                 self?.courseDatesHeaderView.calendarState = false
             }
@@ -434,6 +433,7 @@ extension CourseDatesViewController {
             if index == UIAlertControllerBlocksCancelButtonIndex {
                 self?.courseDatesHeaderView.calendarState = false
                 self?.calendar.calendarState = false
+                self?.removeCourseCalendar()
                 self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
             }
         }

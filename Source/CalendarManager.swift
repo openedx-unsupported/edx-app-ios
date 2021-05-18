@@ -89,31 +89,19 @@ class CalendarManager: NSObject {
                 }
                 return
             }
-            
-            if let _ = weakSelf.localCalendar {
-                DispatchQueue.main.async {
-                    completion(true, previousStatus, weakSelf.authorizationStatus)
-                }
-            } else {
-                do {
-                    let calendar = weakSelf.calendar()
-                    try weakSelf.eventStore.saveCalendar(calendar, commit: true)
-                    let courseCalendar = CourseCalendar(identifier: calendar.calendarIdentifier, courseID: weakSelf.courseID, isOn: true)
-                    weakSelf.addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
-                    DispatchQueue.main.async {
-                        completion(access, previousStatus, weakSelf.authorizationStatus)
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(access, previousStatus, weakSelf.authorizationStatus)
-                    }
-                }
+            DispatchQueue.main.async {
+                completion(true, previousStatus, weakSelf.authorizationStatus)
             }
         }
     }
     
-    func addEventsToCalendar(for dateBlocksMap: [Date : [CourseDateBlock]], completion: @escaping (Bool, Error?) -> ()) {
+    func addEventsToCalendar(for dateBlocksMap: [Date : [CourseDateBlock]], completion: @escaping (Bool) -> ()) {
         var events: [EKEvent] = []
+        
+        if !generateCourseCalendar() {
+            completion(false)
+            return
+        }
         
         dateBlocksMap.forEach { item in
             let blocks = item.value
@@ -131,36 +119,43 @@ class CalendarManager: NSObject {
         }
         
         if events.isEmpty {
-            DispatchQueue.main.async {
-                completion(false, nil)
-            }
+            removeCalendar()
+            completion(false)
         } else {
             events.forEach { event in addEvent(event: event) }
             do {
                 try eventStore.commit()
-                DispatchQueue.main.async {
-                    completion(true, nil)
-                }
-            } catch let error {
-                DispatchQueue.main.async {
-                    completion(false, error)
-                }
+                completion(true)
+            } catch {
+                completion(false)
             }
         }
     }
     
-    func removeCalendar(completion: @escaping (Bool)->()) {
+    private func generateCourseCalendar() -> Bool {
+        if let _ = localCalendar {
+            return true
+        } else {
+            do {
+                let calendar = calendar()
+                try eventStore.saveCalendar(calendar, commit: true)
+                let courseCalendar = CourseCalendar(identifier: calendar.calendarIdentifier, courseID: courseID, isOn: true)
+                addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
+                return true
+            } catch {
+                return false
+            }
+        }
+    }
+    
+    func removeCalendar(completion: ((Bool)->())? = nil) {
         guard let calendar = localCalendar else { return }
         do {
             try eventStore.removeCalendar(calendar, commit: true)
             removeCalendarEntry()
-            DispatchQueue.main.async {
-                completion(true)
-            }
+            completion?(true)
         } catch {
-            DispatchQueue.main.async {
-                completion(false)
-            }
+            completion?(false)
         }
     }
     
