@@ -327,7 +327,7 @@
 /* Course Dates Add Calendar Message prompt */
 "COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} Calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
 /* Course Dates Calendar has been added to your calendar*/
-"COURSEDATES.DATES_HAS_BEEN_ADDED_TO_YOUR_CALENDAR" = "\"{calendar_name}\" has been added to your calendar.";
+"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */
 "COURSEDATES.OPEN_SETTINGS"="Open Settings";
 /* Course Dates Events Added to Calendar Success */
@@ -335,7 +335,7 @@
 /* Course Dates Events Removed from Calendar */
 "COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
 /* Course Dates Open Settings */
-"COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="edX does not have calendar permission. Please go to settings and give calender permission.";
+"COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
 /* Button text for cancelling any action */
 "CANCEL"="Cancel";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */

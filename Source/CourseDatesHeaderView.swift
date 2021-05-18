@@ -110,9 +110,9 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         return style
     }()
     
-    var calendarState: Bool = false {
+    var syncState: Bool = false {
         didSet {
-            syncSwitch.isOn = calendarState
+            syncSwitch.isOn = syncState
         }
     }
     
