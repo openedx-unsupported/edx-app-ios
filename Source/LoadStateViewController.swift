@@ -84,9 +84,7 @@ class LoadStateViewController : UIViewController {
             updateAppearanceAnimated(animated: madeInitialAppearance)
         }
     }
-    
-    var shouldSupportReload: Bool = true
-    
+        
     var insets : UIEdgeInsets = .zero {
         didSet {
             view.setNeedsUpdateConstraints()
@@ -139,7 +137,7 @@ class LoadStateViewController : UIViewController {
     }
     
     func isSupportingReload() -> Bool {
-        if let _ = parent as? LoadStateViewReloadSupport as? UIViewController, shouldSupportReload {
+        if let _ = parent as? LoadStateViewReloadSupport as? UIViewController {
             return true
         }
         

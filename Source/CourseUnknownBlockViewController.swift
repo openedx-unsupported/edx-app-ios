@@ -84,16 +84,36 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showError() {
-        if let block = block, block.isGated {
-            if environment.remoteConfig.isValuePropEnabled {
-                environment.analytics.trackLockedContentClicked(courseID: courseID, screenName: .CourseUnit, assignmentID: block.blockID)
-                showValuePropMessageView()
-            } else {
-                showGatedContentMessageView()
+        if let block = block {
+            if block.specialExamInfo != nil {
+                showSpecialExamMessageView(blockID: block.blockID)
+            } else if block.children.isEmpty {
+                showEmptySubsectionMessageView(blockID: block.blockID)
+            } else if block.isGated {
+                if environment.remoteConfig.isValuePropEnabled {
+                    environment.analytics.trackLockedContentClicked(courseID: courseID, screenName: .CourseUnit, assignmentID: block.blockID)
+                    showValuePropMessageView()
+                } else {
+                    showGatedContentMessageView()
+                }
             }
         } else {
             showCourseContentUnknownView()
         }
+    }
+    
+    private func showSpecialExamMessageView(blockID: CourseBlockID) {
+        let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: blockID ]
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.SpecialExamBlockedScreen.rawValue, courseID: courseID, value: nil, additionalInfo: info)
+        
+        configureIconMessage(with: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentNotAvailable))
+    }
+    
+    private func showEmptySubsectionMessageView(blockID: CourseBlockID) {
+        let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: blockID ]
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.EmptySectionOutline.rawValue, courseID: courseID, value: nil, additionalInfo: info)
+        
+        configureIconMessage(with: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentNotAvailable))
     }
     
     private func showGatedContentMessageView() {
@@ -155,7 +175,13 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func logOpenInBrowserEvent() {
         guard let block = block else { return }
         
-        environment.analytics.trackOpenInBrowser(withURL: block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
+        if block.specialExamInfo != nil {
+            environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: true, courseID: courseID, subsectionID: block.blockID)
+        } else if block.children.isEmpty {
+            environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: false, courseID: courseID, subsectionID: block.blockID)
+        } else {
+            environment.analytics.trackOpenInBrowser(withURL: block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
+        }
     }
 }
 

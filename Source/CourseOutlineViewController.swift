@@ -314,70 +314,7 @@ public class CourseOutlineViewController :
     
     private func addListeners() {
         addBackStreams()
-        
-        if !handleBlockForSpecialCase() {
-            loadBackedStreams()
-        }
-    }
-    
-    private func handleBlockForSpecialCase() -> Bool {
-        guard let block = block else { return false }
-        
-        if block.specialExamInfo != nil {
-            handleSpecialExamError(block: block)
-            return true
-        } else if block.children.isEmpty {
-            handleEmptySubsectionError(block: block)
-            return true
-        }
-        
-        return false
-    }
-    
-    private func handleSpecialExamError(block: CourseBlock) {
-        let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: block.blockID ]
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.SpecialExamBlockedScreen.rawValue, courseID: courseID, value: nil, additionalInfo: info)
-        
-        guard let url = block.webURL as URL? else {
-            loadController.state = emptyState()
-            return
-        }
-        
-        let messageButtonInfo = MessageButtonInfo(title: Strings.openInBrowser) { [weak self] in
-            guard let owner = self else { return }
-            if UIApplication.shared.canOpenURL(url) {
-                owner.environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: true, courseID: owner.courseID, subsectionID: block.blockID)
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }
-        
-        loadController.shouldSupportReload = false
-        DispatchQueue.main.async { [weak self] in
-            self?.loadController.state = .failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
-        }
-    }
-    
-    private func handleEmptySubsectionError(block: CourseBlock) {
-        let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: block.blockID ]
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.EmptySectionOutline.rawValue, courseID: courseID, value: nil, additionalInfo: info)
-        
-        guard let url = block.webURL as URL? else {
-            loadController.state = emptyState()
-            return
-        }
-        
-        let messageButtonInfo = MessageButtonInfo(title: Strings.openInBrowser) { [weak self] in
-            guard let owner = self else { return }
-            if UIApplication.shared.canOpenURL(url) {
-                owner.environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: false, courseID: owner.courseID, subsectionID: block.blockID)
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }
-        
-        loadController.shouldSupportReload = false
-        DispatchQueue.main.async { [weak self] in
-            self?.loadController.state = .failed(error: nil, icon: nil, message: Strings.courseContentNotAvailable, attributedMessage: nil, accessibilityMessage: Strings.courseContentNotAvailable, buttonInfo: messageButtonInfo)
-        }
+        loadBackedStreams()
     }
     
     func resetCourseDate(controller: CourseOutlineTableController) {
@@ -507,7 +444,11 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID) {
-        environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode)
+        if block.specialExamInfo != nil || block.children.isEmpty {
+            environment.router?.showCourseUnknownBlock(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self)
+        } else {
+            environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode)
+        }
     }
     
     func outlineTableControllerReload(controller: CourseOutlineTableController) {
