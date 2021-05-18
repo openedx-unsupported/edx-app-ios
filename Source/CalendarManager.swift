@@ -82,43 +82,39 @@ class CalendarManager: NSObject {
     
     func requestAccess(completion: @escaping (Bool, EKAuthorizationStatus, EKAuthorizationStatus) -> ()) {
         let previousStatus = EKEventStore.authorizationStatus(for: .event)
-        eventStore.requestAccess(to: .event) { [weak self] access, _ in
-            guard let weakSelf = self, access else {
-                DispatchQueue.main.async {
-                    completion(false, previousStatus, EKEventStore.authorizationStatus(for: .event))
-                }
-                return
-            }
+        eventStore.requestAccess(to: .event) { access, _ in
+            let currentStatus = EKEventStore.authorizationStatus(for: .event)
             DispatchQueue.main.async {
-                completion(true, previousStatus, weakSelf.authorizationStatus)
+                completion(access, previousStatus, currentStatus)
             }
         }
     }
     
-    func addEventsToCalendar(for dateBlocksMap: [Date : [CourseDateBlock]], completion: @escaping (Bool) -> ()) {
-        var events: [EKEvent] = []
-        
+    func addEventsToCalendar(for dateBlocks: [Date : [CourseDateBlock]], completion: @escaping (Bool) -> ()) {
         if !generateCourseCalendar() {
             completion(false)
             return
         }
         
-        dateBlocksMap.forEach { item in
+        var events: [EKEvent] = []
+
+        dateBlocks.forEach { item in
             let blocks = item.value
             
             if blocks.count > 1 {
-                if let generatedEvent = generateCalendarEvent(for: blocks) {
+                if let generatedEvent = calendarEvent(for: blocks) {
                     events.append(generatedEvent)
                 }
             } else {
                 if let block = blocks.first {
-                    let generatedEvent = generateCalendarEvent(for: block)
+                    let generatedEvent = calendarEvent(for: block)
                     events.append(generatedEvent)
                 }
             }
         }
         
         if events.isEmpty {
+            //Ideally this shouldn't happen, but in any case if this happen so lets remove the calendar
             removeCalendar()
             completion(false)
         } else {
@@ -133,18 +129,15 @@ class CalendarManager: NSObject {
     }
     
     private func generateCourseCalendar() -> Bool {
-        if let _ = localCalendar {
+        guard localCalendar == nil else { return true }
+        do {
+            let calendar = calendar()
+            try eventStore.saveCalendar(calendar, commit: true)
+            let courseCalendar = CourseCalendar(identifier: calendar.calendarIdentifier, courseID: courseID, isOn: true)
+            addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
             return true
-        } else {
-            do {
-                let calendar = calendar()
-                try eventStore.saveCalendar(calendar, commit: true)
-                let courseCalendar = CourseCalendar(identifier: calendar.calendarIdentifier, courseID: courseID, isOn: true)
-                addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
-                return true
-            } catch {
-                return false
-            }
+        } catch {
+            return false
         }
     }
     
@@ -159,7 +152,7 @@ class CalendarManager: NSObject {
         }
     }
     
-    private func generateCalendarEvent(for block: CourseDateBlock) -> EKEvent {
+    private func calendarEvent(for block: CourseDateBlock) -> EKEvent {
         let title = block.title + ": " + courseName
         let startDate = block.blockDate.addingTimeInterval(startDateOffsetHour * 60 * 60)
         let endDate = block.blockDate
@@ -168,7 +161,7 @@ class CalendarManager: NSObject {
         return generateEvent(title: title, startDate: startDate, endDate: endDate, notes: notes)
     }
     
-    private func generateCalendarEvent(for blocks: [CourseDateBlock]) -> EKEvent? {
+    private func calendarEvent(for blocks: [CourseDateBlock]) -> EKEvent? {
         guard let block = blocks.first else { return nil }
         
         let title = block.title + ": " + courseName
