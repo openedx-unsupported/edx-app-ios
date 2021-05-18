@@ -92,6 +92,8 @@ public struct CourseOutline {
                         type = .OpenAssesment
                     case .DragAndDrop:
                         type = .DragAndDrop
+                    case .WordCloud:
+                        type = .WordCloud
                     case .Video :
                         let bodyData = (body[Fields.StudentViewData].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, unitURL: blockURL?.absoluteString, name : name ?? Strings.untitled)
@@ -152,6 +154,7 @@ public enum CourseBlockType: Equatable {
     case Problem
     case OpenAssesment
     case DragAndDrop
+    case WordCloud
     case HTML
     case Discussion(DiscussionModel)
     
@@ -175,6 +178,7 @@ public class CourseBlock {
         case Problem = "problem"
         case OpenAssesment = "openassessment"
         case DragAndDrop = "drag-and-drop-v2"
+        case WordCloud = "word_cloud"
         case Section = "sequential"
         case Unit = "vertical"
         case Video = "video"
