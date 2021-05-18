@@ -84,21 +84,22 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showError() {
-        if let block = block {
-            if block.specialExamInfo != nil {
-                showSpecialExamMessageView(blockID: block.blockID)
-            } else if block.children.isEmpty {
-                showEmptySubsectionMessageView(blockID: block.blockID)
-            } else if block.isGated {
-                if environment.remoteConfig.isValuePropEnabled {
-                    environment.analytics.trackLockedContentClicked(courseID: courseID, screenName: .CourseUnit, assignmentID: block.blockID)
-                    showValuePropMessageView()
-                } else {
-                    showGatedContentMessageView()
-                }
-            }
-        } else {
+        guard let block = block else {
             showCourseContentUnknownView()
+            return
+        }
+        
+        if block.specialExamInfo != nil {
+            showSpecialExamMessageView(blockID: block.blockID)
+        } else if block.children.isEmpty {
+            showEmptySubsectionMessageView(blockID: block.blockID)
+        } else if block.isGated {
+            if environment.remoteConfig.isValuePropEnabled {
+                environment.analytics.trackLockedContentClicked(courseID: courseID, screenName: .CourseUnit, assignmentID: block.blockID)
+                showValuePropMessageView()
+            } else {
+                showGatedContentMessageView()
+            }
         }
     }
     
@@ -132,7 +133,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             weakSelf.loader?.listen(weakSelf, success : { url in
                 guard let url = url, UIApplication.shared.canOpenURL(url) else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                weakSelf.logOpenInBrowserEvent()
+                weakSelf.trackBroswerEvent()
             }, failure : { _ in })
         }
         if let messageView = messageView {
@@ -172,7 +173,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         loader = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment).blockWithID(id: blockID).map { $0.webURL as URL? }.firstSuccess()
     }
     
-    private func logOpenInBrowserEvent() {
+    private func trackBroswerEvent() {
         guard let block = block else { return }
         
         if block.specialExamInfo != nil {
