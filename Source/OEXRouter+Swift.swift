@@ -94,6 +94,11 @@ extension OEXRouter {
         }
     }
     
+    func showCourseUnknownBlock(blockID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController) {
+        let unsupportedController = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
+        controller.navigationController?.pushViewController(unsupportedController, animated: true)
+    }
+    
     func showContainerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: UINavigationController.CompletionWithTopController? = nil) {
         switch type {
         case .Outline:

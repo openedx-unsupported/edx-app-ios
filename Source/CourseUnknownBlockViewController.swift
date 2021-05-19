@@ -84,16 +84,37 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showError() {
-        if let block = block, block.isGated {
+        guard let block = block else {
+            showCourseContentUnknownView()
+            return
+        }
+        
+        if block.specialExamInfo != nil {
+            showSpecialExamMessageView(blockID: block.blockID)
+        } else if block.children.isEmpty {
+            showEmptySubsectionMessageView(blockID: block.blockID)
+        } else if block.isGated {
             if environment.remoteConfig.isValuePropEnabled {
                 environment.analytics.trackLockedContentClicked(courseID: courseID, screenName: .CourseUnit, assignmentID: block.blockID)
                 showValuePropMessageView()
             } else {
                 showGatedContentMessageView()
             }
-        } else {
-            showCourseContentUnknownView()
         }
+    }
+    
+    private func showSpecialExamMessageView(blockID: CourseBlockID) {
+        let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: blockID ]
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.SpecialExamBlockedScreen.rawValue, courseID: courseID, value: nil, additionalInfo: info)
+        
+        configureIconMessage(with: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentNotAvailable))
+    }
+    
+    private func showEmptySubsectionMessageView(blockID: CourseBlockID) {
+        let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: blockID ]
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.EmptySectionOutline.rawValue, courseID: courseID, value: nil, additionalInfo: info)
+        
+        configureIconMessage(with: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentNotAvailable))
     }
     
     private func showGatedContentMessageView() {
@@ -112,7 +133,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             weakSelf.loader?.listen(weakSelf, success : { url in
                 guard let url = url, UIApplication.shared.canOpenURL(url) else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                weakSelf.logOpenInBrowserEvent()
+                weakSelf.trackBroswerEvent()
             }, failure : { _ in })
         }
         if let messageView = messageView {
@@ -152,10 +173,16 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         loader = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment).blockWithID(id: blockID).map { $0.webURL as URL? }.firstSuccess()
     }
     
-    private func logOpenInBrowserEvent() {
+    private func trackBroswerEvent() {
         guard let block = block else { return }
         
-        environment.analytics.trackOpenInBrowser(withURL: block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
+        if block.specialExamInfo != nil {
+            environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: true, courseID: courseID, subsectionID: block.blockID)
+        } else if block.children.isEmpty {
+            environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: false, courseID: courseID, subsectionID: block.blockID)
+        } else {
+            environment.analytics.trackOpenInBrowser(withURL: block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
+        }
     }
 }
 

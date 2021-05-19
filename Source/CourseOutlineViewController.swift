@@ -44,6 +44,11 @@ public class CourseOutlineViewController :
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     fileprivate var t_hasTriggeredSetResumeCourse = false
     
+    
+    private var canDownload: Bool {
+        return environment.dataManager.interface?.canDownload() ?? false
+    }
+    
     public var blockID : CourseBlockID? {
         return blockIDStream.value ?? nil
     }
@@ -101,7 +106,7 @@ public class CourseOutlineViewController :
         insetsController.setupInController(owner: self, scrollView : tableController.tableView)
         view.setNeedsUpdateConstraints()
         addListeners()
-        setAccessibilityIdentifiers()        
+        setAccessibilityIdentifiers()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -312,10 +317,6 @@ public class CourseOutlineViewController :
         loadBackedStreams()
     }
     
-    private var canDownload: Bool {
-        return environment.dataManager.interface?.canDownload() ?? false
-    }
-    
     func resetCourseDate(controller: CourseOutlineTableController) {
         trackDatesShiftTapped()
         hideCourseBannerView()
@@ -443,7 +444,11 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID) {
-        environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode)
+        if block.specialExamInfo != nil || block.children.isEmpty {
+            environment.router?.showCourseUnknownBlock(blockID: block.blockID, courseID: courseQuerier.courseID, fromController: self)
+        } else {
+            environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode)
+        }
     }
     
     func outlineTableControllerReload(controller: CourseOutlineTableController) {
