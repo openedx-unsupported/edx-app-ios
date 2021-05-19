@@ -83,13 +83,17 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 calendar.requestAccess { [weak self] _, previousStatus, status in
                     switch status {
                     case .authorized:
-                        self?.trackCalendarEvent(for: .CalendarAccessAllowed, eventName: .CalendarAccessAllowed)
+                        if previousStatus == .notDetermined {
+                            self?.trackCalendarEvent(for: .CalendarAccessAllowed, eventName: .CalendarAccessAllowed)
+                        }
                         self?.showAlertForCalendarPrompt()
                         break
                     default:
-                        self?.trackCalendarEvent(for: .CalendarAccessDontAllow, eventName: .CalendarAccessDontAllow)
+                        if previousStatus == .notDetermined {
+                            self?.trackCalendarEvent(for: .CalendarAccessDontAllow, eventName: .CalendarAccessDontAllow)
+                        }
                         self?.courseDatesHeaderView.syncState = false
-                        if previousStatus == status {                            
+                        if previousStatus == status {
                             self?.showCalendarSettingsAlert()
                         }
                         break
