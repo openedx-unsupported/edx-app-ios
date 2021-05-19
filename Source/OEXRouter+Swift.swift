@@ -20,6 +20,7 @@ public enum CourseHTMLBlockSubkind {
     case Problem
     case OpenAssesment
     case DragAndDrop
+    case WordCloud
 }
 
 enum CourseBlockDisplayType {
@@ -46,6 +47,7 @@ extension CourseBlock {
         case .Problem: return multiDevice ? .HTML(.Problem) : .Unknown
         case .OpenAssesment: return multiDevice ? .HTML(.OpenAssesment) : .Unknown
         case .DragAndDrop: return multiDevice ? .HTML(.DragAndDrop) : .Unknown
+        case .WordCloud: return multiDevice ? .HTML(.WordCloud) : .Unknown
         case .Course: return .Outline
         case .Chapter: return .Outline
         case .Section: return .Outline
@@ -90,6 +92,11 @@ extension OEXRouter {
         showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: outlineViewController) { [weak self] visibleController in
             self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: nil)
         }
+    }
+    
+    func showCourseUnknownBlock(blockID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController) {
+        let unsupportedController = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
+        controller.navigationController?.pushViewController(unsupportedController, animated: true)
     }
     
     func showContainerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: UINavigationController.CompletionWithTopController? = nil) {

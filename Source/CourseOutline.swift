@@ -32,6 +32,9 @@ public struct CourseOutline {
         case AuthorizationDenialReason = "authorization_denial_reason"
         case AuthorizationDenialMessage = "authorization_denial_message"
         case isCompleted = "completion"
+        case ContainsGatedContent = "contains_gated_content"
+        case ShowGatedSections = "show_gated_sections"
+        case SpecialExamInfo = "special_exam_info"
     }
     
     public let root : CourseBlockID
@@ -72,7 +75,8 @@ public struct CourseOutline {
                 let authorizationDenialReason = body[Fields.AuthorizationDenialReason].string
                 let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
                 let isCompleted = body[Fields.isCompleted].boolValue
-              
+                let specialExamInfo = body[Fields.SpecialExamInfo].dictionaryObject
+                
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
@@ -92,6 +96,8 @@ public struct CourseOutline {
                         type = .OpenAssesment
                     case .DragAndDrop:
                         type = .DragAndDrop
+                    case .WordCloud:
+                        type = .WordCloud
                     case .Video :
                         let bodyData = (body[Fields.StudentViewData].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, unitURL: blockURL?.absoluteString, name : name ?? Strings.untitled)
@@ -127,7 +133,8 @@ public struct CourseOutline {
                     authorizationDenialReason: authorizationDenialReason,
                     authorizationDenialMessage: authorizationDenialMessage,
                     typeName: typeName,
-                    isCompleted: isCompleted
+                    isCompleted: isCompleted,
+                    specialExamInfo: specialExamInfo
                 )
             }
             self = CourseOutline(root: root, blocks: validBlocks)
@@ -152,6 +159,7 @@ public enum CourseBlockType: Equatable {
     case Problem
     case OpenAssesment
     case DragAndDrop
+    case WordCloud
     case HTML
     case Discussion(DiscussionModel)
     
@@ -175,6 +183,7 @@ public class CourseBlock {
         case Problem = "problem"
         case OpenAssesment = "openassessment"
         case DragAndDrop = "drag-and-drop-v2"
+        case WordCloud = "word_cloud"
         case Section = "sequential"
         case Unit = "vertical"
         case Video = "video"
@@ -243,6 +252,8 @@ public class CourseBlock {
     /// Authorization Denial Message if the block content is gated
     public let authorizationDenialMessage: String?
     
+    public let specialExamInfo: [String : Any]?
+    
     /// completion works as a property observer,
     /// when value of `isCompleted` is changed, subscription method on `completion` is called.
     
@@ -259,6 +270,7 @@ public class CourseBlock {
     public var isGated: Bool {
         return authorizationDenialReason == .featureBasedEnrollment
     }
+    
     /// Text type of the block
     public var typeName: String?
     
@@ -277,7 +289,8 @@ public class CourseBlock {
         authorizationDenialReason: String? = nil,
         authorizationDenialMessage: String? = nil,
         typeName: String? = nil,
-        isCompleted: Bool = false) {
+        isCompleted: Bool = false,
+        specialExamInfo: [String : Any]? = nil) {
 
       self.type = type
         self.children = children
@@ -295,5 +308,6 @@ public class CourseBlock {
         self.authorizationDenialMessage = authorizationDenialMessage
         self.typeName = typeName
         self.isCompleted = isCompleted
+        self.specialExamInfo = specialExamInfo
     }
 }

@@ -84,7 +84,7 @@ class LoadStateViewController : UIViewController {
             updateAppearanceAnimated(animated: madeInitialAppearance)
         }
     }
-    
+        
     var insets : UIEdgeInsets = .zero {
         didSet {
             view.setNeedsUpdateConstraints()

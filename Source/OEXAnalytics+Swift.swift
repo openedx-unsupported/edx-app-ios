@@ -58,6 +58,7 @@ public enum AnalyticsDisplayName : String {
     case CalendarAddDatesSuccess = "Dates: Calendar Add Dates Success"
     case CalendarRemoveDatesSuccess = "Dates: Calendar Remove Dates Success"
     case CalendarUpdateDatesSuccess = "Dates: Calendar Update Dates Success"
+    case SubsectionViewOnWebTapped = "Subsection View On Web Tapped"
 }
 
 public enum AnalyticsEventName: String {
@@ -108,7 +109,7 @@ public enum AnalyticsEventName: String {
     case CalendarAddDatesSuccess = "edx.bi.app.calendar.add_success"
     case CalendarRemoveDatesSuccess = "edx.bi.app.calendar.remove_success"
     case CalendarUpdateDatesSuccess = "edx.bi.app.calendar.update_success"
-
+    case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
 }
 
 public enum AnalyticsScreenName: String {
@@ -131,6 +132,8 @@ public enum AnalyticsScreenName: String {
     case CourseDashboard = "course_dashboard"
     case DatesScreen = "dates_screen"
     case AssignmentScreen = "assignments_screen"
+    case SpecialExamBlockedScreen = "Special Exam Blocked Screen"
+    case EmptySectionOutline = "Empty Section Outline"
 }
 
 public enum AnalyticsEventDataKey: String {
@@ -156,6 +159,7 @@ public enum AnalyticsEventDataKey: String {
     case Link = "link"
     case Pacing = "pacing"
     case UserType = "user_type"
+    case SpecialExamInfo = "special_exam_info"
 }
 
 
@@ -449,6 +453,20 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.UserType.rawValue: userType,
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackSubsectionViewOnWebTapped(isSpecialExam: Bool, courseID: CourseBlockID, subsectionID: CourseBlockID) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsEventName.SubsectionViewOnWebTapped.rawValue
+        event.name = AnalyticsEventName.SubsectionViewOnWebTapped.rawValue
+        
+        let info: [String : Any] = [
+            key_course_id: courseID,
+            AnalyticsEventDataKey.SpecialExamInfo.rawValue: isSpecialExam,
+            AnalyticsEventDataKey.SubsectionID.rawValue: subsectionID
         ]
         
         trackEvent(event, forComponent: nil, withInfo: info)
