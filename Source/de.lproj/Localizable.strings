@@ -316,6 +316,26 @@
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
+/* Course Dates Title */
+"COURSEDATES.COURSE_SCHEDULE"="Course Schedule";
+/* Course Dates Sync To Calendar */
+"COURSEDATES.SYNC_TO_CALENDAR"="Sync to calendar";
+/* Course Dates Sync To Calendar Message */
+"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
+/* Course Dates Add Calendar Dialog Title */
+"COURSEDATES.ADD_CALENDAR_TITLE"="Add Calendar \"{calendar_name}\"";
+/* Course Dates Add Calendar Message prompt */
+"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} Calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+/* Course Dates Calendar has been added to your calendar*/
+"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
+/* Course Dates Open Settings */
+"COURSEDATES.OPEN_SETTINGS"="Open Settings";
+/* Course Dates Events Added to Calendar Success */
+"COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
+/* Course Dates Events Removed from Calendar */
+"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
+/* Course Dates Open Settings */
+"COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
 /* Button text for cancelling any action */
 "CANCEL"="Abbrechen";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */

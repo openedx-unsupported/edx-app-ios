@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol IconRenderer : AnyObject {
+protocol IconRenderer {
     var shouldFlip: Bool { get }
     func boundsWithAttributes(attributes: [NSAttributedString.Key : Any], inline : Bool) -> CGRect
     func drawWithAttributes(attributes: [NSAttributedString.Key : Any], inContext context : CGContext)
@@ -119,6 +119,7 @@ public enum Icon {
     case Calendar
     case Discussions
     case Dropdown
+    case DoubleArrow
     case Filter
     case Recent
     case FollowStar
@@ -252,6 +253,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .forum)
         case .Dropdown:
             return MaterialIconRenderer(icon: .arrowDropDown)
+        case .DoubleArrow:
+            return MaterialIconRenderer(icon: .syncAlt)
         case .Graded:
             return MaterialIconRenderer(icon: .factCheck)
         case .Handouts:

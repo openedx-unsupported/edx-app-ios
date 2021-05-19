@@ -122,22 +122,22 @@ extension CoursesContainerViewControllerDelegate {
     func showValuePropDetailView(with course: OEXCourse) {}
 }
 
+enum EnrollmentMode: String {
+    case audit = "audit"
+    case verified = "verified"
+    case honor = "honor"
+    case noIDProfessional = "no-id-professional"
+    case professional = "professional"
+    case credit = "credit"
+    case masters = "masters"
+    case none = "none"
+}
+
 class CoursesContainerViewController: UICollectionViewController {
     
     enum Context {
         case courseCatalog
         case enrollmentList
-    }
-    
-    enum EnrollmentMode: String {
-        case audit = "audit"
-        case verified = "verified"
-        case honor = "honor"
-        case noIDProfessional = "no-id-professional"
-        case professional = "professional"
-        case credit = "credit"
-        case masters = "masters"
-        case none = "none"
     }
     
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXInterfaceProvider & OEXAnalyticsProvider & RemoteConfigProvider

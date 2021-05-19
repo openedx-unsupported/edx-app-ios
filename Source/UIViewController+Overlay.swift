@@ -180,6 +180,17 @@ extension UIViewController {
             perform(#selector(hideSnackBar), with: nil, afterDelay: 5)
         }
     }
+    
+    func showCalendarActionSnackBar(message: String, autoDismiss: Bool = true, delay: TimeInterval = 5) {
+        let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
+        hideInfo?.value.action()
+        let view = CalendarActionToastView(message: message)
+        view.layer.cornerRadius = 4
+        showSnackBarView(snackBarView: view, addOffset: true)
+        if autoDismiss {
+            perform(#selector(hideSnackBar), with: nil, afterDelay: delay)
+        }
+    }
 }
 
 // For use in testing only

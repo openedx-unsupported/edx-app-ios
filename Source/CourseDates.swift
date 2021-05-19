@@ -400,7 +400,7 @@ extension CourseDateBlock {
         return !learnerHasAccess
     }
     
-    var isComlete: Bool {
+    var isComplete: Bool {
         return complete
     }
     

@@ -34,7 +34,7 @@ private func == <A>(lhs : Listener<A>, rhs : Listener<A>) -> Bool {
     return lhs === rhs
 }
 
-public protocol StreamDependency : class, CustomStringConvertible {
+public protocol StreamDependency : CustomStringConvertible {
     var active : Bool {get}
 }
 

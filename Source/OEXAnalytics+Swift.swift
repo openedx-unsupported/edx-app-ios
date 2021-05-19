@@ -47,6 +47,17 @@ public enum AnalyticsDisplayName : String {
     case ExploreAllCourses = "Explore All Courses"
     case MyPrograms = "My Programs"
     case ResumeCourseTapped = "Resume Course Tapped"
+    case CalendarToggleOn = "Dates: Calendar Toggle On"
+    case CalendarToggleOff = "Dates: Calendar Toggle Off"
+    case CalendarAccessAllowed = "Dates: Calendar Access Allowed"
+    case CalendarAccessDontAllow = "Dates: Calendar Access Dont Allow"
+    case CalendarAddDates = "Dates: Calendar Add Dates"
+    case CalendarAddCancelled = "Dates: Calendar Add Cancelled"
+    case CalendarAddConfirmation = "Dates: Calendar Add Confirmation"
+    case CalendarViewEvents = "Dates: Calendar View Events"
+    case CalendarAddDatesSuccess = "Dates: Calendar Add Dates Success"
+    case CalendarRemoveDatesSuccess = "Dates: Calendar Remove Dates Success"
+    case CalendarUpdateDatesSuccess = "Dates: Calendar Update Dates Success"
     case SubsectionViewOnWebTapped = "Subsection View On Web Tapped"
 }
 
@@ -87,6 +98,17 @@ public enum AnalyticsEventName: String {
     case CourseUnsupportedComponentTapped = "edx.bi.app.coursedates.unsupported.component.tapped"
     case ExploreAllCourses = "edx.bi.app.discovery.explore.all.courses"
     case ResumeCourseTapped = "edx.bi.app.course.resume.tapped"
+    case CalendarToggleOn = "edx.bi.app.calendar.toggle_on"
+    case CalendarToggleOff = "edx.bi.app.calendar.toggle_off"
+    case CalendarAccessAllowed = "edx.bi.app.calendar.access_ok"
+    case CalendarAccessDontAllow = "edx.bi.app.calendar.access_dont_allow"
+    case CalendarAddDates = "edx.bi.app.calendar.add_ok"
+    case CalendarAddCancelled = "edx.bi.app.calendar.add_cancel"
+    case CalendarAddConfirmation = "edx.bi.app.calendar.confirmation_done"
+    case CalendarViewEvents = "edx.bi.app.calendar.confirmation_view_events"
+    case CalendarAddDatesSuccess = "edx.bi.app.calendar.add_success"
+    case CalendarRemoveDatesSuccess = "edx.bi.app.calendar.remove_success"
+    case CalendarUpdateDatesSuccess = "edx.bi.app.calendar.update_success"
     case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
 }
 
@@ -135,6 +157,8 @@ public enum AnalyticsEventDataKey: String {
     case Service = "service"
     case BlockType = "block_type"
     case Link = "link"
+    case Pacing = "pacing"
+    case UserType = "user_type"
     case SpecialExamInfo = "special_exam_info"
 }
 
@@ -418,6 +442,20 @@ extension OEXAnalytics {
         event.category = OEXAnalyticsCategoryNavigation
 
         trackEvent(event, forComponent: nil, withInfo: [key_course_id: courseID, OEXAnalyticsKeyBlockID: blockID])
+    }
+    
+    func trackCalendarEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, userType: String, pacing: String, courseID: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = displayName.rawValue
+        event.name = eventName.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.UserType.rawValue: userType,
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
     }
     
     func trackSubsectionViewOnWebTapped(isSpecialExam: Bool, courseID: CourseBlockID, subsectionID: CourseBlockID) {

@@ -75,7 +75,7 @@
 		<true/>
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string>so user can intract with calendar</string>
+	<string>edX would like to use your calendar list to subscribe to your personalized edX calendar for this course.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>so you can take a picture for a profile image</string>
 	<key>NSContactsUsageDescription</key>
