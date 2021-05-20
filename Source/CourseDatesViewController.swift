@@ -19,7 +19,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.tableHeaderView = courseDatesHeaderView
+        tableView.tableHeaderView = calendarSyncEnabled ? courseDatesHeaderView : courseDateBannerView
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
@@ -44,6 +44,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         view.syncState = calendarState
         view.delegate = self
         return view
+    }()
+    
+    private lazy var courseDateBannerView = CourseDateBannerView(frame: .zero)
+    
+    private lazy var calendarSyncEnabled: Bool = {
+        return FirebaseRemoteConfiguration.shared.isCalendarSyncEnabled
     }()
     
     private var courseDateModel: CourseDateModel?
@@ -213,18 +219,38 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
+        if calendarSyncEnabled {
+            handleHeaderView(courseBanner: courseBanner)
+        } else {
+            handleBannerView(courseBanner: courseBanner)
+        }
+    }
+    
+    private func handleHeaderView(courseBanner: CourseDateBannerModel) {
         if isSelfPaced {
-            loadCourseDateBannerView(bannerModel: courseBanner)
+            loadCourseDateHeaderView(bannerModel: courseBanner)
         } else {
             if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
-                loadCourseDateBannerView(bannerModel: courseBanner)
+                loadCourseDateHeaderView(bannerModel: courseBanner)
             } else {
                 updateCourseHeaderVisibility(visibile: false)
             }
         }
     }
     
-    private func loadCourseDateBannerView(bannerModel: CourseDateBannerModel) {
+    private func handleBannerView(courseBanner: CourseDateBannerModel) {
+        if isSelfPaced {
+            loadCourseDateBannerView(bannerModel: courseBanner)
+        } else {
+            if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
+                loadCourseDateBannerView(bannerModel: courseBanner)
+            } else {
+                updateDatesBannerVisibility(with: 0)
+            }
+        }
+    }
+    
+    private func loadCourseDateHeaderView(bannerModel: CourseDateBannerModel) {
         if bannerModel.hasEnded {
             updateCourseHeaderVisibility(visibile: false)
         } else {
@@ -232,6 +258,20 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, isSelfPaced: isSelfPaced)
             updateCourseHeaderVisibility(visibile: true)
             tableView.setAndLayoutTableHeaderView(header: courseDatesHeaderView)
+        }
+    }
+    
+    private func loadCourseDateBannerView(bannerModel: CourseDateBannerModel) {
+        if bannerModel.hasEnded {
+            updateDatesBannerVisibility(with: 0)
+        } else {
+            courseDateBannerView.delegate = self
+            courseDateBannerView.bannerInfo = bannerModel.bannerInfo
+            courseDateBannerView.setupView()
+            trackDateBannerAppearanceEvent(bannerModel: bannerModel)
+            let height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
+            updateDatesBannerVisibility(with: height)
+            tableView.setAndLayoutTableHeaderView(header: courseDateBannerView)
         }
     }
     
@@ -244,6 +284,16 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             if !visibile {
                 make.height.equalTo(0)
             }
+        }
+    }
+    
+    private func updateDatesBannerVisibility(with height: CGFloat) {
+        courseDateBannerView.snp.remakeConstraints { make in
+            make.trailing.equalTo(tableView)
+            make.leading.equalTo(tableView)
+            make.top.equalTo(tableView)
+            make.height.equalTo(height)
+            make.width.equalTo(tableView.snp.width)
         }
     }
     

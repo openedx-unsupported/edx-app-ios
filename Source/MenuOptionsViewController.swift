@@ -8,9 +8,9 @@
 
 import UIKit
 
-protocol MenuOptionsViewControllerDelegate : class {
-    func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int)
-    func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index: Int) -> Bool
+protocol MenuOptionsViewControllerDelegate: AnyObject {
+    func menuOptionsController(controller: MenuOptionsViewController, selectedOptionAtIndex index: Int)
+    func menuOptionsController(controller: MenuOptionsViewController, canSelectOptionAtIndex index: Int) -> Bool
 }
 
 public class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
