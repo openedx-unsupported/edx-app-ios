@@ -20,23 +20,28 @@ extension RemoteConfigProvider {
     }
 }
 
-fileprivate enum keys: String, RawStringExtractable {
+fileprivate enum Keys: String, RawStringExtractable {
     case valuePropEnabled = "VALUE_PROP_ENABLED"
+    case calendarSyncEnabled = "CALENDAR_SYNC_ENABLED"
 }
 
 @objc class FirebaseRemoteConfiguration: NSObject {
     @objc static let shared =  FirebaseRemoteConfiguration()
     var isValuePropEnabled: Bool = false
+    var isCalendarSyncEnabled: Bool = false
     
     private override init() {
         super.init()
     }
     
     @objc func initialize(remoteConfig: RemoteConfig) {
+        let valueProp = remoteConfig.configValue(forKey: Keys.valuePropEnabled.rawValue).boolValue
+        let calendarSync = remoteConfig.configValue(forKey: Keys.calendarSyncEnabled.rawValue).boolValue
         
-        let valueProp = remoteConfig.configValue(forKey: keys.valuePropEnabled.rawValue).boolValue
-        
-        let dictionary: [String:Any] = [keys.valuePropEnabled.rawValue:valueProp]
+        let dictionary = [
+            Keys.valuePropEnabled.rawValue: valueProp,
+            Keys.calendarSyncEnabled.rawValue: calendarSync
+        ]
         saveRemoteConfig(with: dictionary)
     }
     
@@ -44,8 +49,9 @@ fileprivate enum keys: String, RawStringExtractable {
         guard let remoteConfig = UserDefaults.standard.object(forKey: remoteConfigUserDefaultKey) as? [String: Any], remoteConfig.count > 0 else {
             return
         }
-    
-        isValuePropEnabled = remoteConfig[keys.valuePropEnabled] as? Bool ?? false
+        
+        isValuePropEnabled = remoteConfig[Keys.valuePropEnabled] as? Bool ?? false
+        isCalendarSyncEnabled = remoteConfig[Keys.calendarSyncEnabled] as? Bool ?? false
     }
     
     private func saveRemoteConfig(with values: [String: Any]) {
