@@ -19,7 +19,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.tableHeaderView = calendarSyncEnabled ? courseDatesHeaderView : courseDateBannerView
+        tableView.tableHeaderView = calendarSyncConfiguration.isEnabled ? courseDatesHeaderView : courseDateBannerView
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
@@ -48,8 +48,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private lazy var courseDateBannerView = CourseDateBannerView(frame: .zero)
     
-    private lazy var calendarSyncEnabled: Bool = {
-        return FirebaseRemoteConfiguration.shared.isCalendarSyncEnabled
+    private lazy var calendarSyncConfiguration: CalendarSyncConfiguration = {
+        return FirebaseRemoteConfiguration.shared.calendarSyncConfiguration
     }()
     
     private var courseDateModel: CourseDateModel?
@@ -75,6 +75,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private var isSelfPaced: Bool {
         return course?.isSelfPaced ?? false
+    }
+    
+    private var isCalendarSyncEnabledForSelfPaced: Bool {
+        return isSelfPaced && calendarSyncConfiguration.isSelfPacedEnabled
     }
     
     private var userEnrollment: EnrollmentMode {
@@ -219,7 +223,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
-        if calendarSyncEnabled {
+        if calendarSyncConfiguration.isEnabled {
             handleHeaderView(courseBanner: courseBanner)
         } else {
             handleBannerView(courseBanner: courseBanner)
@@ -227,7 +231,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func handleHeaderView(courseBanner: CourseDateBannerModel) {
-        if isSelfPaced {
+        if isCalendarSyncEnabledForSelfPaced {
             loadCourseDateHeaderView(bannerModel: courseBanner)
         } else {
             if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
