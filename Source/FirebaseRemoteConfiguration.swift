@@ -22,7 +22,7 @@ extension RemoteConfigProvider {
 
 @objc class FirebaseRemoteConfiguration: NSObject {
     enum Keys: String, RawStringExtractable {
-        case iOS = "ios"
+        case iOS = "iOS"
         case valuePropEnabled = "VALUE_PROP_ENABLED"
         case courseDatesCalendarSync = "COURSE_DATES_CALENDAR_SYNC"
     }
@@ -39,12 +39,8 @@ extension RemoteConfigProvider {
     @objc func initialize(remoteConfig: RemoteConfig) {
         let valueProp = remoteConfig.configValue(forKey: Keys.valuePropEnabled.rawValue).boolValue
         let calendarSync = remoteConfig.configValue(forKey: Keys.courseDatesCalendarSync.rawValue).jsonValue as? [String : Any]
-        
-        let calendarSyncDictionary = calendarSync?[Keys.iOS.rawValue] as? [String : Bool] ?? [:]
-        
-        if let calendarSyncConfig: CalendarSyncConfig = calendarSyncDictionary.object() {
-            calendarSyncConfiguration = calendarSyncConfig
-        }
+        let calendarSyncDictionary = calendarSync?[Keys.iOS] as? [String : Bool] ?? [:]
+        calendarSyncConfiguration = CalendarSyncConfig(dict: calendarSyncDictionary)
         
         let dictionary: [String : Any] = [
             Keys.valuePropEnabled.rawValue: valueProp,
@@ -60,24 +56,11 @@ extension RemoteConfigProvider {
         
         valuePropEnabled = remoteConfig[Keys.valuePropEnabled] as? Bool ?? false
         let calendarSyncDictionary = remoteConfig[Keys.courseDatesCalendarSync] as? [String : Bool] ?? [:]
-        
-        if let calendarSyncConfig: CalendarSyncConfig = calendarSyncDictionary.object() {
-            calendarSyncConfiguration = calendarSyncConfig
-        }
+        calendarSyncConfiguration = CalendarSyncConfig(dict: calendarSyncDictionary)
     }
     
     private func saveRemoteConfig(with values: [String: Any]) {
         UserDefaults.standard.set(values, forKey: remoteConfigUserDefaultKey)
         UserDefaults.standard.synchronize()
-    }
-}
-
-fileprivate extension Dictionary where Key == String, Value: Any {
-    func object<T: Decodable>() -> T? {
-        if let data = try? JSONSerialization.data(withJSONObject: self, options: []) {
-            return try? JSONDecoder().decode(T.self, from: data)
-        } else {
-            return nil
-        }
     }
 }

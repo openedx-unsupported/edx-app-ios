@@ -19,7 +19,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.tableHeaderView = calendarSyncConfig.enabled ? courseDatesHeaderView : courseDateBannerView
+        tableView.tableHeaderView = courseDatesHeaderView
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
@@ -77,8 +77,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return course?.isSelfPaced ?? false
     }
     
-    private var isCalendarSyncEnabledForSelfPaced: Bool {
-        return isSelfPaced && calendarSyncConfig.selfPacedEnabled
+    private var calendarSyncEnabledForSelfPaced: Bool {
+        return calendarSyncConfig.isSelfPacedEnabled
     }
     
     private var userEnrollment: EnrollmentMode {
@@ -212,7 +212,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.handleDatesBanner(courseBanner: courseBanner)
+                self?.handleCourseDatesHeaderView(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
@@ -222,60 +222,30 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
-        if calendarSyncConfig.enabled {
-            handleHeaderView(courseBanner: courseBanner)
-        } else {
-            handleBannerView(courseBanner: courseBanner)
-        }
+    private func handleCourseDatesHeaderView(courseBanner: CourseDateBannerModel) {
+        handleHeaderView(courseBanner: courseBanner)
     }
     
     private func handleHeaderView(courseBanner: CourseDateBannerModel) {
-        if isCalendarSyncEnabledForSelfPaced {
-            loadCourseDateHeaderView(bannerModel: courseBanner)
+        if calendarSyncEnabledForSelfPaced {
+            loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabledForSelfPaced)
         } else {
             if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
-                loadCourseDateHeaderView(bannerModel: courseBanner)
+                loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabledForSelfPaced)
             } else {
                 updateCourseHeaderVisibility(visibile: false)
             }
         }
     }
     
-    private func handleBannerView(courseBanner: CourseDateBannerModel) {
-        if isSelfPaced {
-            loadCourseDateBannerView(bannerModel: courseBanner)
-        } else {
-            if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
-                loadCourseDateBannerView(bannerModel: courseBanner)
-            } else {
-                updateDatesBannerVisibility(with: 0)
-            }
-        }
-    }
-    
-    private func loadCourseDateHeaderView(bannerModel: CourseDateBannerModel) {
+    private func loadCourseDateHeaderView(bannerModel: CourseDateBannerModel, calendarSyncEnabled: Bool) {
         if bannerModel.hasEnded {
             updateCourseHeaderVisibility(visibile: false)
         } else {
             trackDateBannerAppearanceEvent(bannerModel: bannerModel)
-            courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, isSelfPaced: isSelfPaced)
+            courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, calendarSyncEnabled: calendarSyncEnabled)
             updateCourseHeaderVisibility(visibile: true)
             tableView.setAndLayoutTableHeaderView(header: courseDatesHeaderView)
-        }
-    }
-    
-    private func loadCourseDateBannerView(bannerModel: CourseDateBannerModel) {
-        if bannerModel.hasEnded {
-            updateDatesBannerVisibility(with: 0)
-        } else {
-            courseDateBannerView.delegate = self
-            courseDateBannerView.bannerInfo = bannerModel.bannerInfo
-            courseDateBannerView.setupView()
-            trackDateBannerAppearanceEvent(bannerModel: bannerModel)
-            let height = courseDateBannerView.heightForView(width: tableView.frame.size.width)
-            updateDatesBannerVisibility(with: height)
-            tableView.setAndLayoutTableHeaderView(header: courseDateBannerView)
         }
     }
     

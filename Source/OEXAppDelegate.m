@@ -196,6 +196,7 @@
         }
         self.firebaseRemoteConfig = [FIRRemoteConfig remoteConfig];
         FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] init];
+        remoteConfigSettings.minimumFetchInterval = 0;
         self.firebaseRemoteConfig.configSettings = remoteConfigSettings;
         [self fetchRemoteConfig];
     }
@@ -281,7 +282,6 @@
 - (void)fetchRemoteConfig {
     [self.firebaseRemoteConfig fetchWithCompletionHandler:^(FIRRemoteConfigFetchStatus status, NSError *error) {
         if (status == FIRRemoteConfigFetchStatusSuccess) {
-
             [self.firebaseRemoteConfig activateWithCompletion:^(BOOL changed, NSError * _Nullable error) {
                 [self.environment.remoteConfig initializeWithRemoteConfig:self.firebaseRemoteConfig];
             }];
