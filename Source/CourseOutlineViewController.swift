@@ -444,7 +444,7 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID) {
-        if block.specialExamInfo != nil || block.children.isEmpty {
+        if block.specialExamInfo != nil || (block.type == .Section && block.children.isEmpty) {
             environment.router?.showCourseUnknownBlock(blockID: block.blockID, courseID: courseQuerier.courseID, fromController: self)
         } else {
             environment.router?.showContainerForBlockWithID(blockID: block.blockID, type: block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController: self, forMode: courseOutlineMode)
