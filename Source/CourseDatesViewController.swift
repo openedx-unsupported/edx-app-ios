@@ -261,16 +261,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func updateDatesBannerVisibility(with height: CGFloat) {
-        courseDateBannerView.snp.remakeConstraints { make in
-            make.trailing.equalTo(tableView)
-            make.leading.equalTo(tableView)
-            make.top.equalTo(tableView)
-            make.height.equalTo(height)
-            make.width.equalTo(tableView.snp.width)
-        }
-    }
-    
     private func populate(with dateModel: CourseDateModel) {
         courseDateModel = dateModel
         var blocks = dateModel.dateBlocks
