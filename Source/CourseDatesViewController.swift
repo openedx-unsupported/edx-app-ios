@@ -11,7 +11,7 @@ import WebKit
 
 class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider & OEXInterfaceProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider & OEXInterfaceProvider & RemoteConfigProvider
     
     private let datesLoader = BackedStream<(CourseDateModel, UserPreference?)>()
     private let courseDateBannerLoader = BackedStream<(CourseDateBannerModel)>()
@@ -19,7 +19,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.tableHeaderView = calendarSyncConfiguration.isEnabled ? courseDatesHeaderView : courseDateBannerView
+        tableView.tableHeaderView = calendarSyncConfig.enabled ? courseDatesHeaderView : courseDateBannerView
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
@@ -48,8 +48,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private lazy var courseDateBannerView = CourseDateBannerView(frame: .zero)
     
-    private lazy var calendarSyncConfiguration: CalendarSyncConfiguration = {
-        return FirebaseRemoteConfiguration.shared.calendarSyncConfiguration
+    private lazy var calendarSyncConfig: CalendarSyncConfig = {
+        return environment.remoteConfig.calendarSyncConfiguration
     }()
     
     private var courseDateModel: CourseDateModel?
@@ -78,7 +78,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private var isCalendarSyncEnabledForSelfPaced: Bool {
-        return isSelfPaced && calendarSyncConfiguration.isSelfPacedEnabled
+        return isSelfPaced && calendarSyncConfig.selfPacedEnabled
     }
     
     private var userEnrollment: EnrollmentMode {
@@ -171,7 +171,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func setupView() {
-        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         view.addSubview(tableView)
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         loadController.setupInController(controller: self, contentView: tableView)
@@ -223,7 +223,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
-        if calendarSyncConfiguration.isEnabled {
+        if calendarSyncConfig.enabled {
             handleHeaderView(courseBanner: courseBanner)
         } else {
             handleBannerView(courseBanner: courseBanner)
@@ -484,13 +484,13 @@ extension CourseDatesViewController: UITableViewDataSource {
                 
         if index == 0 {
             cell.timeline.topColor = .clear
-            cell.timeline.bottomColor = OEXStyles.shared().neutralXDark()
+            cell.timeline.bottomColor = environment.styles.neutralXDark()
         } else if index == count - 1 {
-            cell.timeline.topColor = OEXStyles.shared().neutralXDark()
+            cell.timeline.topColor = environment.styles.neutralXDark()
             cell.timeline.bottomColor = .clear
         } else {
-            cell.timeline.topColor = OEXStyles.shared().neutralXDark()
-            cell.timeline.bottomColor = OEXStyles.shared().neutralBlackT()
+            cell.timeline.topColor = environment.styles.neutralXDark()
+            cell.timeline.bottomColor = environment.styles.neutralBlackT()
         }
         
         guard let blocks = dateBlocks[key] else { return cell }
