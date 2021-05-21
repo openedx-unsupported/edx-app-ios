@@ -131,9 +131,9 @@ class CalendarManager: NSObject {
     private func generateCourseCalendar() -> Bool {
         guard localCalendar == nil else { return true }
         do {
-            let calendar = calendar()
-            try eventStore.saveCalendar(calendar, commit: true)
-            let courseCalendar = CourseCalendar(identifier: calendar.calendarIdentifier, courseID: courseID, isOn: true)
+            let newCalendar = calendar()
+            try eventStore.saveCalendar(newCalendar, commit: true)
+            let courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, isOn: true)
             addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
             return true
         } catch {
