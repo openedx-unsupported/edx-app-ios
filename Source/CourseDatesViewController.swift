@@ -45,11 +45,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         view.delegate = self
         return view
     }()
-    
-    private lazy var courseDateBannerView = CourseDateBannerView(frame: .zero)
-    
+        
     private lazy var calendarSyncConfig: CalendarSyncConfig = {
-        return environment.remoteConfig.calendarSyncConfiguration
+        return environment.remoteConfig.calendarSyncConfig
     }()
     
     private var courseDateModel: CourseDateModel?

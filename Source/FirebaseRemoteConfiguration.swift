@@ -22,7 +22,6 @@ extension RemoteConfigProvider {
 
 @objc class FirebaseRemoteConfiguration: NSObject {
     enum Keys: String, RawStringExtractable {
-        case iOS = "iOS"
         case valuePropEnabled = "VALUE_PROP_ENABLED"
         case courseDatesCalendarSync = "COURSE_DATES_CALENDAR_SYNC"
     }
@@ -30,7 +29,7 @@ extension RemoteConfigProvider {
     @objc static let shared =  FirebaseRemoteConfiguration()
     
     var valuePropEnabled: Bool = false
-    var calendarSyncConfiguration = CalendarSyncConfig()
+    var calendarSyncConfig = CalendarSyncConfig()
     
     private override init() {
         super.init()
@@ -39,12 +38,11 @@ extension RemoteConfigProvider {
     @objc func initialize(remoteConfig: RemoteConfig) {
         let valueProp = remoteConfig.configValue(forKey: Keys.valuePropEnabled.rawValue).boolValue
         let calendarSync = remoteConfig.configValue(forKey: Keys.courseDatesCalendarSync.rawValue).jsonValue as? [String : Any]
-        let calendarSyncDictionary = calendarSync?[Keys.iOS] as? [String : Bool] ?? [:]
-        calendarSyncConfiguration = CalendarSyncConfig(dict: calendarSyncDictionary)
+        calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
         
         let dictionary: [String : Any] = [
             Keys.valuePropEnabled.rawValue: valueProp,
-            Keys.courseDatesCalendarSync.rawValue: calendarSyncDictionary
+            Keys.courseDatesCalendarSync.rawValue: calendarSyncConfig.toDictionary()
         ]
         saveRemoteConfig(with: dictionary)
     }
@@ -55,8 +53,8 @@ extension RemoteConfigProvider {
         }
         
         valuePropEnabled = remoteConfig[Keys.valuePropEnabled] as? Bool ?? false
-        let calendarSyncDictionary = remoteConfig[Keys.courseDatesCalendarSync] as? [String : Bool] ?? [:]
-        calendarSyncConfiguration = CalendarSyncConfig(dict: calendarSyncDictionary)
+        let calendarSync = remoteConfig[Keys.courseDatesCalendarSync] as? [String : Any] ?? [:]
+        calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
     }
     
     private func saveRemoteConfig(with values: [String: Any]) {

@@ -9,6 +9,13 @@
 import Foundation
 
 struct CalendarSyncConfig: Codable {
+    private enum Keys: String {
+        case iOS = "iOS"
+        case enabled = "ENABLED"
+        case selfPacedEnabled = "SELF_PACED_ENABLED"
+        case instructorPacedEnabled = "INSTRUCTOR_PACED_ENABLED"
+    }
+    
     private var enabled: Bool = false
     private var selfPacedEnabled: Bool = false
     private var instructorPacedEnabled: Bool = false
@@ -17,26 +24,32 @@ struct CalendarSyncConfig: Codable {
         return enabled && selfPacedEnabled
     }
     
-    enum CodingKeys: String, CodingKey {
-        case enabled = "ENABLED"
-        case selfPacedEnabled = "SELF_PACED_ENABLED"
-        case instructorPacedEnabled = "INSTRUCTOR_PACED_ENABLED"
-    }
-    
     init() {
         self.enabled = false
         self.selfPacedEnabled = false
         self.instructorPacedEnabled = false
     }
     
-    init(dict: [String : Bool]) {
-        guard let enabled = dict[CodingKeys.enabled.rawValue],
-              let selfPacedEnabled = dict[CodingKeys.enabled.rawValue],
-              let instructorPacedEnabled = dict[CodingKeys.enabled.rawValue]
+    init(dict: [String : Any]?) {
+        guard let dict = dict,
+              let config = dict[Keys.iOS.rawValue] as? [String : Bool],
+              let enabled = config[Keys.enabled.rawValue],
+              let selfPacedEnabled = config[Keys.selfPacedEnabled.rawValue],
+              let instructorPacedEnabled = config[Keys.instructorPacedEnabled.rawValue]
         else { return }
         
         self.enabled = enabled
         self.selfPacedEnabled = selfPacedEnabled
         self.instructorPacedEnabled = instructorPacedEnabled
+    }
+    
+    func toDictionary() -> [String : Any] {
+        return [
+            Keys.iOS.rawValue: [
+                Keys.enabled.rawValue: enabled,
+                Keys.selfPacedEnabled.rawValue: selfPacedEnabled,
+                Keys.instructorPacedEnabled.rawValue: instructorPacedEnabled
+            ]
+        ]
     }
 }
