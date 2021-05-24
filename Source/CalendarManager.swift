@@ -155,7 +155,7 @@ class CalendarManager: NSObject {
     private func calendarEvent(for block: CourseDateBlock) -> EKEvent {
         let title = block.title + ": " + courseName
         // startDate is the start date and time for the event,
-        // it is also being used as first alert for the
+        // it is also being used as first alert for the event
         let startDate = block.blockDate.add(.hour, value: alertOffset)
         let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
@@ -169,7 +169,7 @@ class CalendarManager: NSObject {
         
         let title = block.title + ": " + courseName
         // startDate is the start date and time for the event,
-        // it is also being used as first alert for the
+        // it is also being used as first alert for the event
         let startDate = block.blockDate.add(.hour, value: alertOffset)
         let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
