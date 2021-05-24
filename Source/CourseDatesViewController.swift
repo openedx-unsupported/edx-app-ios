@@ -221,14 +221,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func handleHeaderView(courseBanner: CourseDateBannerModel) {
-        if calendarSyncEnabled {
+        if isSelfPaced {
             loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabled)
         } else {
-            if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
-                loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabled)
-            } else {
-                updateCourseHeaderVisibility(visibile: false)
-            }
+            updateCourseHeaderVisibility(visibile: false)
         }
     }
     
