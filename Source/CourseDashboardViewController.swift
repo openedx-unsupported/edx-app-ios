@@ -10,7 +10,7 @@ import UIKit
 
 class CourseDashboardViewController: UITabBarController, InterfaceOrientationOverriding, ChromeCastConnectedButtonDelegate {
     
-     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
+     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider
     
     let courseID: String
     fileprivate var course: OEXCourse?
