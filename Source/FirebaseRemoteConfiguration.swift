@@ -38,7 +38,7 @@ extension RemoteConfigProvider {
     @objc func initialize(remoteConfig: RemoteConfig) {
         let valueProp = remoteConfig.configValue(forKey: Keys.valuePropEnabled.rawValue).boolValue
         let calendarSync = remoteConfig.configValue(forKey: Keys.courseDatesCalendarSync.rawValue).jsonValue as? [String : Any]
-        calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
+        let calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
         
         let dictionary: [String : Any] = [
             Keys.valuePropEnabled.rawValue: valueProp,
@@ -53,7 +53,7 @@ extension RemoteConfigProvider {
         }
         
         valuePropEnabled = remoteConfig[Keys.valuePropEnabled] as? Bool ?? false
-        let calendarSync = remoteConfig[Keys.courseDatesCalendarSync] as? [String : Any] ?? [:]
+        let calendarSync = remoteConfig[Keys.courseDatesCalendarSync] as? [String : Any]
         calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
     }
     

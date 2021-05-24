@@ -75,7 +75,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return course?.isSelfPaced ?? false
     }
     
-    private var calendarSyncEnabledForSelfPaced: Bool {
+    private var calendarSyncEnabled: Bool {
         return calendarSyncConfig.isSelfPacedEnabled
     }
     
@@ -210,7 +210,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.handleCourseDatesHeaderView(courseBanner: courseBanner)
+                self?.handleHeaderView(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
@@ -220,16 +220,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func handleCourseDatesHeaderView(courseBanner: CourseDateBannerModel) {
-        handleHeaderView(courseBanner: courseBanner)
-    }
-    
     private func handleHeaderView(courseBanner: CourseDateBannerModel) {
-        if calendarSyncEnabledForSelfPaced {
-            loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabledForSelfPaced)
+        if calendarSyncEnabled {
+            loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabled)
         } else {
             if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
-                loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabledForSelfPaced)
+                loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabled)
             } else {
                 updateCourseHeaderVisibility(visibile: false)
             }
