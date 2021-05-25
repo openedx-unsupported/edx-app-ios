@@ -51,7 +51,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var dateBlocksMapSortedKeys: [Date] = []
     private var isDueNextSet = false
     private var dueNextCellIndex: Int?
-        
+    private var syncCourseCalendarAfterCourseDatesReset = false
+    
     private let courseID: String
     private let environment: Environment
     
@@ -184,6 +185,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                     courseDateModel.defaultTimeZone = userPreference?.timeZone
                     self?.populate(with: courseDateModel)
                     self?.loadController.state = .Loaded
+                    self?.addCourseEventsAfterShift()
                 }
                 break
                 
@@ -296,7 +298,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func resetCourseDate() {
         trackDatesShiftTapped()
-                
+        
+        if calendar.calendarState {
+            syncCourseCalendarAfterCourseDatesReset = true
+            removeCourseCalendar(removeEntry: false)
+        }
+        
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
@@ -308,6 +315,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
                 weakSelf.postCourseDateResetNotification()
             }
+        }
+    }
+    
+    private func addCourseEventsAfterShift() {
+        if syncCourseCalendarAfterCourseDatesReset {
+            syncCourseCalendarAfterCourseDatesReset = false
+            addCourseEvents()
         }
     }
     
@@ -367,8 +381,8 @@ extension CourseDatesViewController {
         }
     }
     
-    private func removeCourseCalendar(completion: ((Bool)->())? = nil) {
-        calendar.removeCalendar { [weak self] success in
+    private func removeCourseCalendar(removeEntry: Bool = true, completion: ((Bool)->())? = nil) {
+        calendar.removeCalendar(removeEntry: removeEntry) { [weak self] success in
             if success {
                 self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
             }

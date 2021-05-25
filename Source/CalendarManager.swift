@@ -11,7 +11,7 @@ import EventKit
 import EventKitUI
 
 struct CourseCalendar: Codable {
-    let identifier: String
+    var identifier: String
     let courseID: String
     var isOn: Bool
 }
@@ -141,11 +141,13 @@ class CalendarManager: NSObject {
         }
     }
     
-    func removeCalendar(completion: ((Bool)->())? = nil) {
+    func removeCalendar(removeEntry: Bool = true, completion: ((Bool)->())? = nil) {
         guard let calendar = localCalendar else { return }
         do {
             try eventStore.removeCalendar(calendar, commit: true)
-            removeCalendarEntry()
+            if removeEntry {
+                removeCalendarEntry()
+            }
             completion?(true)
         } catch {
             completion?(false)
@@ -218,6 +220,7 @@ class CalendarManager: NSObject {
         if let index = courseCalendars.firstIndex(where: { $0.courseID == courseID }) {
             courseCalendars.modifyElement(atIndex: index) { element in
                 element.isOn = isOn
+                element.identifier = courseCalendar.identifier
             }
         } else {
             courseCalendars.append(courseCalendar)
