@@ -11,7 +11,7 @@ import WebKit
 
 class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider & OEXInterfaceProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider & OEXInterfaceProvider & RemoteConfigProvider
     
     private let datesLoader = BackedStream<(CourseDateModel, UserPreference?)>()
     private let courseDateBannerLoader = BackedStream<(CourseDateBannerModel)>()
@@ -45,6 +45,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         view.delegate = self
         return view
     }()
+        
+    private lazy var calendarSyncConfig: CalendarSyncConfig = {
+        return environment.remoteConfig.calendarSyncConfig
+    }()
     
     private var courseDateModel: CourseDateModel?
     private var dateBlocks: [Date : [CourseDateBlock]] = [:]
@@ -69,6 +73,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private var isSelfPaced: Bool {
         return course?.isSelfPaced ?? false
+    }
+    
+    private var calendarSyncEnabled: Bool {
+        return calendarSyncConfig.isSelfPacedEnabled
     }
     
     private var userEnrollment: EnrollmentMode {
@@ -161,7 +169,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func setupView() {
-        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         view.addSubview(tableView)
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         loadController.setupInController(controller: self, contentView: tableView)
@@ -202,7 +210,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.handleDatesBanner(courseBanner: courseBanner)
+                self?.handleHeaderView(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
@@ -212,24 +220,20 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
+    private func handleHeaderView(courseBanner: CourseDateBannerModel) {
         if isSelfPaced {
-            loadCourseDateBannerView(bannerModel: courseBanner)
+            loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabled)
         } else {
-            if let status = courseBanner.bannerInfo.status, status == .upgradeToCompleteGradedBanner {
-                loadCourseDateBannerView(bannerModel: courseBanner)
-            } else {
-                updateCourseHeaderVisibility(visibile: false)
-            }
+            updateCourseHeaderVisibility(visibile: false)
         }
     }
     
-    private func loadCourseDateBannerView(bannerModel: CourseDateBannerModel) {
+    private func loadCourseDateHeaderView(bannerModel: CourseDateBannerModel, calendarSyncEnabled: Bool) {
         if bannerModel.hasEnded {
             updateCourseHeaderVisibility(visibile: false)
         } else {
             trackDateBannerAppearanceEvent(bannerModel: bannerModel)
-            courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, isSelfPaced: isSelfPaced)
+            courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, calendarSyncEnabled: calendarSyncEnabled)
             updateCourseHeaderVisibility(visibile: true)
             tableView.setAndLayoutTableHeaderView(header: courseDatesHeaderView)
         }
@@ -430,13 +434,13 @@ extension CourseDatesViewController: UITableViewDataSource {
                 
         if index == 0 {
             cell.timeline.topColor = .clear
-            cell.timeline.bottomColor = OEXStyles.shared().neutralXDark()
+            cell.timeline.bottomColor = environment.styles.neutralXDark()
         } else if index == count - 1 {
-            cell.timeline.topColor = OEXStyles.shared().neutralXDark()
+            cell.timeline.topColor = environment.styles.neutralXDark()
             cell.timeline.bottomColor = .clear
         } else {
-            cell.timeline.topColor = OEXStyles.shared().neutralXDark()
-            cell.timeline.bottomColor = OEXStyles.shared().neutralBlackT()
+            cell.timeline.topColor = environment.styles.neutralXDark()
+            cell.timeline.bottomColor = environment.styles.neutralBlackT()
         }
         
         guard let blocks = dateBlocks[key] else { return cell }

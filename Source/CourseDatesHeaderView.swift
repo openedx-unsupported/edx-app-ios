@@ -65,7 +65,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     }()
     
     private var bannerInfo: DatesBannerInfo?
-    private var isSelfPaced: Bool = false
+    private var calendarSyncEnabled: Bool = false
     
     private var isButtonTextAvailable: Bool {
         guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return false }
@@ -121,12 +121,12 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         bottomContainer.addShadow(offset: CGSize(width: 0, height: 2), color: styles.primaryDarkColor(), radius: 2, opacity: 0.35, cornerRadius: 5)
     }
     
-    func setupView(with bannerInfo: DatesBannerInfo, isSelfPaced: Bool) {
+    func setupView(with bannerInfo: DatesBannerInfo, calendarSyncEnabled: Bool) {
         self.bannerInfo = bannerInfo
-        self.isSelfPaced = isSelfPaced
+        self.calendarSyncEnabled = calendarSyncEnabled
         
         setupTopContainer()
-        if isSelfPaced {
+        if calendarSyncEnabled {
             setupBottomContainer()
         }
         
@@ -164,7 +164,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
             make.top.equalTo(container)
             make.leading.equalTo(container)
             make.trailing.equalTo(container)
-            if !isSelfPaced {
+            if !calendarSyncEnabled {
                 make.bottom.equalTo(container)
             }
         }

@@ -94,7 +94,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         } else if block.children.isEmpty {
             showEmptySubsectionMessageView(blockID: block.blockID)
         } else if block.isGated {
-            if environment.remoteConfig.isValuePropEnabled {
+            if environment.remoteConfig.valuePropEnabled {
                 environment.analytics.trackLockedContentClicked(courseID: courseID, screenName: .CourseUnit, assignmentID: block.blockID)
                 showValuePropMessageView()
             } else {
