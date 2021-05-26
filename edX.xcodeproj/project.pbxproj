@@ -831,6 +831,8 @@
 		E001F853260CA378009F2DB7 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E001F852260CA378009F2DB7 /* ObservableTests.swift */; };
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
 		E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */; };
+		E00603472656509700CEBB12 /* BrazeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00603462656509700CEBB12 /* BrazeProvider.swift */; };
+		E0060349265650A400CEBB12 /* BrazeListner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0060348265650A400CEBB12 /* BrazeListner.swift */; };
 		E006FDDA24F904F9006E91C2 /* AppleSocial.swift in Sources */ = {isa = PBXBuildFile; fileRef = E006FDD924F904F9006E91C2 /* AppleSocial.swift */; };
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
 		E00A33C11D3CEB3400963D8F /* SnackbarViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */; };
@@ -1987,6 +1989,8 @@
 		E001F852260CA378009F2DB7 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
 		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
 		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
+		E00603462656509700CEBB12 /* BrazeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeProvider.swift; sourceTree = "<group>"; };
+		E0060348265650A400CEBB12 /* BrazeListner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeListner.swift; sourceTree = "<group>"; };
 		E006BD0E22DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/subjects.json"; sourceTree = "<group>"; };
 		E006BD0F22DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/MobileAppEula.htm"; sourceTree = "<group>"; };
 		E006BD1022DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/PrivacyPolicy.htm"; sourceTree = "<group>"; };
@@ -2933,6 +2937,8 @@
 				775434821AD7394D00635A40 /* OEXPushNotificationManager.m */,
 				E09B73712342034400D0EE45 /* FCMProvider.swift */,
 				22AC5B0C23741C8900DCA505 /* FCMListner.swift */,
+				E00603462656509700CEBB12 /* BrazeProvider.swift */,
+				E0060348265650A400CEBB12 /* BrazeListner.swift */,
 			);
 			name = "Push Notifications";
 			sourceTree = "<group>";
@@ -5304,6 +5310,7 @@
 				B7CCC73D209B16B100A66923 /* ConstraintLayoutSupportDSL.swift in Sources */,
 				778F176C1C0CF57F0099BF93 /* RouterEnvironment.swift in Sources */,
 				778C72F11B17C30000FC3F68 /* Dictionary+Functional.swift in Sources */,
+				E00603472656509700CEBB12 /* BrazeProvider.swift in Sources */,
 				E0FF457920FDD24400109662 /* BlockCompletionApi.swift in Sources */,
 				69F5FACB1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift in Sources */,
 				699FF8501E559E6B00AD98A5 /* OEXInterface+AppReview.swift in Sources */,
@@ -5513,6 +5520,7 @@
 				77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */,
 				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
 				7793764F1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift in Sources */,
+				E0060349265650A400CEBB12 /* BrazeListner.swift in Sources */,
 				77E648591C91235A00B6740D /* OEXConfig+AppFeatures.swift in Sources */,
 				2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,

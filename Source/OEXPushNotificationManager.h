@@ -31,9 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeListener:(id <OEXPushListener>)listener;
 
 - (void)didReceiveLocalNotificationWithUserInfo:(NSDictionary*)userInfo;
-- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo;
+- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo application:( UIApplication * _Nullable ) application completionHandler:(void (^ _Nullable )(UIBackgroundFetchResult))completionHandler;
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken;
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError*)error;
+
+@property (assign, nonatomic) BOOL permissionGranted;
 
 @end
 
