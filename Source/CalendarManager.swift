@@ -157,6 +157,8 @@ class CalendarManager: NSObject {
             try eventStore.removeCalendar(calendar, commit: true)
             if removeEntry {
                 removeCalendarEntry()
+            } else {
+                turnOffCalendar()
             }
             completion?(true)
         } catch {
@@ -290,6 +292,23 @@ class CalendarManager: NSObject {
         
         if let index = courseCalendars.firstIndex(where: { $0.courseID == courseID }) {
             courseCalendars.remove(at: index)
+        }
+        
+        if let data = try? PropertyListEncoder().encode(courseCalendars) {
+            UserDefaults.standard.set(data, forKey: calendarKey)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    private func turnOffCalendar() {
+        guard let data = UserDefaults.standard.data(forKey: calendarKey),
+              var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
+        else { return }
+        
+        if let index = courseCalendars.firstIndex(where: { $0.courseID == courseID }) {
+            courseCalendars.modifyElement(atIndex: index) { element in
+                element.isOn = false
+            }
         }
         
         if let data = try? PropertyListEncoder().encode(courseCalendars) {
