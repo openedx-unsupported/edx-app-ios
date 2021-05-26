@@ -14,6 +14,7 @@ struct CourseCalendar: Codable {
     var identifier: String
     let courseID: String
     var isOn: Bool
+    var modalPresentationState: Bool
 }
 
 class CalendarManager: NSObject {
@@ -75,6 +76,15 @@ class CalendarManager: NSObject {
         }
     }
     
+    var isModalPresented: Bool {
+        set {
+            setModalPresentationState(presented: newValue)
+        }
+        get {
+            return getModalPresentationState()
+        }
+    }
+    
     required init(courseID: String, courseName: String) {
         self.courseID = courseID
         self.courseName = courseName
@@ -133,7 +143,7 @@ class CalendarManager: NSObject {
         do {
             let newCalendar = calendar()
             try eventStore.saveCalendar(newCalendar, commit: true)
-            let courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, isOn: true)
+            let courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, isOn: true, modalPresentationState: false)
             addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
             return true
         } catch {
@@ -246,6 +256,31 @@ class CalendarManager: NSObject {
             UserDefaults.standard.set(data, forKey: calendarKey)
             UserDefaults.standard.synchronize()
         }
+    }
+    
+    private func setModalPresentationState(presented: Bool) {
+        guard let data = UserDefaults.standard.data(forKey: calendarKey),
+              var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data),
+              let index = courseCalendars.firstIndex(where: { $0.courseID == courseID })
+        else { return }
+        
+        courseCalendars.modifyElement(atIndex: index) { element in
+            element.modalPresentationState = presented
+        }
+        
+        if let data = try? PropertyListEncoder().encode(courseCalendars) {
+            UserDefaults.standard.set(data, forKey: calendarKey)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    private func getModalPresentationState() -> Bool {
+        guard let data = UserDefaults.standard.data(forKey: calendarKey),
+              let courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data),
+              let courseCalendar = courseCalendars.first(where: { $0.courseID == courseID })
+        else { return false }
+        
+        return courseCalendar.modalPresentationState
     }
     
     private func removeCalendarEntry() {

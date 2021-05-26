@@ -344,6 +344,8 @@
 "COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
 /* Course Dates Open Settings */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
+/* Course Dates View Events in Calendar */
+"COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
 /* Button text for cancelling any action */
 "CANCEL"="ביטול";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
