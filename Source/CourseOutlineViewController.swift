@@ -355,6 +355,7 @@ public class CourseOutlineViewController :
     }
     
     private func postCourseDateResetNotification() {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_WILL_SHIFT_COURSE_DATES)))
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
     }
     
