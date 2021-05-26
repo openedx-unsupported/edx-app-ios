@@ -23,7 +23,7 @@ class CalendarManager: NSObject {
     
     private let eventStore = EKEventStore()
     private let iCloudCalendar = "icloud"
-    private let startDateOffsetHour: Double = -1
+    private let alertOffset = -1
     private var calendarKey = "CalendarEntries"
     
     private var localCalendar: EKCalendar? {
@@ -154,25 +154,31 @@ class CalendarManager: NSObject {
     
     private func calendarEvent(for block: CourseDateBlock) -> EKEvent {
         let title = block.title + ": " + courseName
-        let startDate = block.blockDate.addingTimeInterval(startDateOffsetHour * 60 * 60)
+        // startDate is the start date and time for the event,
+        // it is also being used as first alert for the event
+        let startDate = block.blockDate.add(.hour, value: alertOffset)
+        let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
         let notes = "\(courseName) \n \(block.title)"
         
-        return generateEvent(title: title, startDate: startDate, endDate: endDate, notes: notes)
+        return generateEvent(title: title, startDate: startDate, endDate: endDate, secondAlert: secondAlert, notes: notes)
     }
     
     private func calendarEvent(for blocks: [CourseDateBlock]) -> EKEvent? {
         guard let block = blocks.first else { return nil }
         
         let title = block.title + ": " + courseName
-        let startDate = block.blockDate.addingTimeInterval(startDateOffsetHour * 60 * 60)
+        // startDate is the start date and time for the event,
+        // it is also being used as first alert for the event
+        let startDate = block.blockDate.add(.hour, value: alertOffset)
+        let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
         let notes = "\(courseName) \n" + blocks.compactMap { $0.title }.joined(separator: ", ")
         
-        return generateEvent(title: title, startDate: startDate, endDate: endDate, notes: notes)
+        return generateEvent(title: title, startDate: startDate, endDate: endDate, secondAlert: secondAlert, notes: notes)
     }
     
-    private func generateEvent(title: String, startDate: Date, endDate: Date, notes: String) -> EKEvent {
+    private func generateEvent(title: String, startDate: Date, endDate: Date, secondAlert: Date, notes: String) -> EKEvent {
         let event = EKEvent(eventStore: eventStore)
         event.title = title
         event.startDate = startDate
@@ -182,6 +188,11 @@ class CalendarManager: NSObject {
         
         if startDate > Date() {
             let alarm = EKAlarm(absoluteDate: startDate)
+            event.addAlarm(alarm)
+        }
+        
+        if secondAlert > Date() {
+            let alarm = EKAlarm(absoluteDate: secondAlert)
             event.addAlarm(alarm)
         }
         
@@ -265,5 +276,11 @@ class CalendarManager: NSObject {
               let courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
         else { return nil }
         return courseCalendars.first(where: { $0.courseID == courseID })
+    }
+}
+
+fileprivate extension Date {
+    func add(_ unit: Calendar.Component, value: Int) -> Date {
+        return Calendar.current.date(byAdding: unit, value: value, to: self) ?? self
     }
 }
