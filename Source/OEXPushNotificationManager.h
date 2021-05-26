@@ -35,8 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken;
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError*)error;
 
-@property (assign, nonatomic) BOOL permissionGranted;
-
 @end
 
 NS_ASSUME_NONNULL_END

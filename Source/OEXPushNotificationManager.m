@@ -52,11 +52,9 @@
     UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
     UNAuthorizationOptionSound | UNAuthorizationOptionBadge | UNAuthorizationOptionProvisional;
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-    __block OEXPushNotificationManager *blockSelf = self;
     [[UNUserNotificationCenter currentNotificationCenter]
      requestAuthorizationWithOptions:authOptions
      completionHandler:^(BOOL granted, NSError * _Nullable error) {
-        blockSelf.permissionGranted = granted;
     }];
 
     [application registerForRemoteNotifications];

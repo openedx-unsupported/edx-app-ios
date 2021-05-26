@@ -89,8 +89,7 @@
     [[self.provider expect] didRegisterForRemoteNotificationsWithDeviceToken:token];
     
     [self.manager didRegisterForRemoteNotificationsWithDeviceToken:token];
-    //FIXME:- Uncomment this code when we do have a push notification provider
-//    OCMVerifyAll(self.provider);
+    OCMVerifyAll(self.provider);
     XCTAssertFalse(self.applicationInstanceMock.registered);
 }
 
@@ -102,7 +101,7 @@
     
     [self.manager didFailToRegisterForRemoteNotificationsWithError:error];
     //FIXME:- Uncomment this code when we do have a push notification provider
-//    OCMVerifyAll(self.provider);
+    OCMVerifyAll(self.provider);
     XCTAssertFalse(self.applicationInstanceMock.registered);
 }
 
@@ -115,9 +114,8 @@
     [[self.provider expect] sessionStartedWithUserDetails:userDetails settingsManager:self.settingsManager];
 
     [self.manager addProvider:self.provider withSession:self.session];
-//FIXME:- Uncomment this code when we do have a push notification provider
-//    OCMVerifyAll(self.provider);
-//    XCTAssertTrue(self.applicationInstanceMock.registered);
+    OCMVerifyAll(self.provider);
+    XCTAssertTrue(self.applicationInstanceMock.registered);
 }
 
 - (void)testProviderSessionStartsAfterSetup {
@@ -129,8 +127,7 @@
     [[self.provider expect] sessionStartedWithUserDetails:userDetails settingsManager:self.settingsManager];
     
     [self.session saveAccessToken:token userDetails:userDetails];
-    //FIXME:- Uncomment this code when we do have a push notification provider
-//    OCMVerifyAll(self.provider);
+    OCMVerifyAll(self.provider);
     XCTAssertTrue(self.applicationInstanceMock.registered);
 }
 
@@ -138,10 +135,8 @@
     [self.manager addProvider:self.provider withSession:self.session];
 
     [[self.provider expect] sessionEnded];
-
-//    FIXME:- Uncomment this code when we do have a push notification provider
-//    [self.session closeAndClearSession];
-//    OCMVerifyAll(self.provider);
+    [self.session closeAndClearSession];
+    OCMVerifyAll(self.provider);
 }
 
 - (void)testListenerAdd {

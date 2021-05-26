@@ -284,7 +284,6 @@
         NSMutableDictionary *appboyOptions = [NSMutableDictionary dictionary];
         appboyOptions[ABKEndpointKey] = self.environment.config.brazeConfig.endPointKey;
         [Appboy startWithApiKey:self.environment.config.brazeConfig.apiKey inApplication:application withLaunchOptions:launchOptions withAppboyOptions:appboyOptions];
-        [[Appboy sharedInstance] pushAuthorizationFromUserNotificationCenter:self.environment.pushNotificationManager.permissionGranted];
     }
 }
 
