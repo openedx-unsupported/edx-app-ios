@@ -28,10 +28,17 @@ class CalendarManager: NSObject {
     private var calendarKey = "CalendarEntries"
     
     private var localCalendar: EKCalendar? {
-        guard let courseCalendar = calendarEntry else {
-            return eventStore.calendars(for: .event).filter { $0.title == courseName }.first
+        var calendars = eventStore.calendars(for: .event).filter { $0.title == calendarName }
+        
+        if calendars.isEmpty {
+            return nil
+        } else {
+            let calendar = calendars.removeLast()
+            
+            calendars.forEach { try? eventStore.removeCalendar($0, commit: true) }
+            
+            return calendar
         }
-        return eventStore.calendars(for: .event).filter { $0.calendarIdentifier == courseCalendar.identifier }.first
     }
     
     private let calendarColor = OEXStyles.shared().primaryBaseColor()
@@ -143,8 +150,18 @@ class CalendarManager: NSObject {
         do {
             let newCalendar = calendar()
             try eventStore.saveCalendar(newCalendar, commit: true)
-            let courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, isOn: true, modalPresentationState: false)
+            
+            let courseCalendar: CourseCalendar
+            
+            if var calendarEntry = calendarEntry {
+                calendarEntry.identifier = newCalendar.calendarIdentifier
+                courseCalendar = calendarEntry
+            } else {
+                courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, isOn: true, modalPresentationState: false)
+            }
+            
             addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
+            
             return true
         } catch {
             return false
