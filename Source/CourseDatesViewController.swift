@@ -156,6 +156,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_WILL_SHIFT_COURSE_DATES) { _, observer, _ in
+            observer.prepareCalendarForDatesShift()
+        }
+        
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.loadStreams()
         }
@@ -296,23 +300,26 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func resetCourseDate() {
-        trackDatesShiftTapped()
-        
+    private func prepareCalendarForDatesShift() {
         if calendar.calendarState {
             syncCourseCalendarAfterCourseDatesReset = true
             removeCourseCalendar(removeEntry: false)
         }
+    }
+    
+    private func resetCourseDate() {
+        trackDatesShiftTapped()
+        prepareCalendarForDatesShift()
         
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             guard let weakSelf = self else { return }
             if let _ = result.error {
                 weakSelf.trackDatesShiftEvent(success: false)
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
+                weakSelf.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
                 weakSelf.trackDatesShiftEvent(success: true)
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
+                weakSelf.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
                 weakSelf.postCourseDateResetNotification()
             }
         }
