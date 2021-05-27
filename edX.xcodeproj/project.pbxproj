@@ -147,7 +147,7 @@
 		22AB111F2375695C007D03D2 /* PushLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB111E2375695C007D03D2 /* PushLink.swift */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
 		22ABBA0C211C16420001020B /* MicrosoftConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22ABBA0B211C16420001020B /* MicrosoftConfig.swift */; };
-		22AC5B0D23741C8900DCA505 /* FCMListner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AC5B0C23741C8900DCA505 /* FCMListner.swift */; };
+		22AC5B0D23741C8900DCA505 /* FCMListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AC5B0C23741C8900DCA505 /* FCMListener.swift */; };
 		22AFEADA20CE8DE60071067E /* VideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */; };
 		22B58A502566C734007664FC /* ValuePropDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
@@ -832,7 +832,7 @@
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
 		E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */; };
 		E00603472656509700CEBB12 /* BrazeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00603462656509700CEBB12 /* BrazeProvider.swift */; };
-		E0060349265650A400CEBB12 /* BrazeListner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0060348265650A400CEBB12 /* BrazeListner.swift */; };
+		E0060349265650A400CEBB12 /* BrazeListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0060348265650A400CEBB12 /* BrazeListener.swift */; };
 		E006FDDA24F904F9006E91C2 /* AppleSocial.swift in Sources */ = {isa = PBXBuildFile; fileRef = E006FDD924F904F9006E91C2 /* AppleSocial.swift */; };
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
 		E00A33C11D3CEB3400963D8F /* SnackbarViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */; };
@@ -1203,7 +1203,7 @@
 		22AB111E2375695C007D03D2 /* PushLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushLink.swift; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
 		22ABBA0B211C16420001020B /* MicrosoftConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftConfig.swift; sourceTree = "<group>"; };
-		22AC5B0C23741C8900DCA505 /* FCMListner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMListner.swift; sourceTree = "<group>"; };
+		22AC5B0C23741C8900DCA505 /* FCMListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMListener.swift; sourceTree = "<group>"; };
 		22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTests.swift; sourceTree = "<group>"; };
 		22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropDetailViewController.swift; sourceTree = "<group>"; };
 		22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardLoadStateViewController.swift; sourceTree = "<group>"; };
@@ -1990,7 +1990,7 @@
 		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
 		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
 		E00603462656509700CEBB12 /* BrazeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeProvider.swift; sourceTree = "<group>"; };
-		E0060348265650A400CEBB12 /* BrazeListner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeListner.swift; sourceTree = "<group>"; };
+		E0060348265650A400CEBB12 /* BrazeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeListener.swift; sourceTree = "<group>"; };
 		E006BD0E22DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/subjects.json"; sourceTree = "<group>"; };
 		E006BD0F22DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/MobileAppEula.htm"; sourceTree = "<group>"; };
 		E006BD1022DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/PrivacyPolicy.htm"; sourceTree = "<group>"; };
@@ -2936,9 +2936,9 @@
 				775434811AD7394D00635A40 /* OEXPushNotificationManager.h */,
 				775434821AD7394D00635A40 /* OEXPushNotificationManager.m */,
 				E09B73712342034400D0EE45 /* FCMProvider.swift */,
-				22AC5B0C23741C8900DCA505 /* FCMListner.swift */,
+				22AC5B0C23741C8900DCA505 /* FCMListener.swift */,
 				E00603462656509700CEBB12 /* BrazeProvider.swift */,
-				E0060348265650A400CEBB12 /* BrazeListner.swift */,
+				E0060348265650A400CEBB12 /* BrazeListener.swift */,
 			);
 			name = "Push Notifications";
 			sourceTree = "<group>";
@@ -5394,7 +5394,7 @@
 				3F92D6E620B19C9B00A69806 /* AgreementURLsConfig.swift in Sources */,
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
 				77C182AA1CD2E46900AE1474 /* TablePaginationManipulator.swift in Sources */,
-				22AC5B0D23741C8900DCA505 /* FCMListner.swift in Sources */,
+				22AC5B0D23741C8900DCA505 /* FCMListener.swift in Sources */,
 				0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */,
 				77DCD2391C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift in Sources */,
 				B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */,
@@ -5520,7 +5520,7 @@
 				77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */,
 				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
 				7793764F1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift in Sources */,
-				E0060349265650A400CEBB12 /* BrazeListner.swift in Sources */,
+				E0060349265650A400CEBB12 /* BrazeListener.swift in Sources */,
 				77E648591C91235A00B6740D /* OEXConfig+AppFeatures.swift in Sources */,
 				2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,

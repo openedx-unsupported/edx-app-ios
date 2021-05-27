@@ -70,12 +70,12 @@
 
 - (void)addListenersForConfiguration:(OEXConfig *)config environment:(RouterEnvironment *)environment {
     if ([[config firebaseConfig] cloudMessagingEnabled]) {
-        FCMListner *listner = [[FCMListner alloc] initWithEnvironment:environment];
+        FCMListener *listner = [[FCMListener alloc] initWithEnvironment:environment];
         [self addListener:listner];
     }
 
     if ([[config brazeConfig] notificationsEnabled]) {
-        BrazeListner *listner = [[BrazeListner alloc] initWithEnvironment:environment];
+        BrazeListener *listner = [[BrazeListener alloc] initWithEnvironment:environment];
         [self addListener:listner];
     }
 }

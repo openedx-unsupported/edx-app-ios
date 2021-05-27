@@ -1,5 +1,5 @@
 //
-//  FCMListner.swift
+//  FCMListener.swift
 //  edX
 //
 //  Created by Salman on 07/11/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc class FCMListner: NSObject, OEXPushListener {
+@objc class FCMListener: NSObject, OEXPushListener {
     
     typealias Environment = OEXSessionProvider & OEXRouterProvider & OEXConfigProvider
     var environment: Environment
@@ -18,7 +18,6 @@ import UIKit
     }
     
     func didReceiveLocalNotification(userInfo: [AnyHashable : Any] = [:]) {
-        
         //Implementation for local Notification
     }
 
@@ -28,7 +27,6 @@ import UIKit
         DeepLinkManager.sharedInstance.processNotification(with: link, environment: environment)
         Messaging.messaging().appDidReceiveMessage(userInfo)
     }
-
 
     private func isFCMNotification(userInfo: [AnyHashable : Any]) -> Bool {
         if let _ = userInfo["gcm.message_id"] {

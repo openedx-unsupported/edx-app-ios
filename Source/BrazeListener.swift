@@ -1,5 +1,5 @@
 //
-//  BrazeListner.swift
+//  BrazeListener.swift
 //  edX
 //
 //  Created by Saeed Bashir on 5/20/21.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc class BrazeListner: NSObject, OEXPushListener {
+@objc class BrazeListener: NSObject, OEXPushListener {
 
     typealias Environment = OEXSessionProvider & OEXRouterProvider & OEXConfigProvider
     var environment: Environment
@@ -18,10 +18,8 @@ import Foundation
     }
 
     func didReceiveLocalNotification(userInfo: [AnyHashable : Any] = [:]) {
-
         //Implementation for local Notification
     }
-
 
     func didReceiveRemoteNotification(userInfo: [AnyHashable : Any] = [:], application: UIApplication?, completionHandler: ((UIBackgroundFetchResult) -> Void)? = nil) {
         guard let application = application, let dictionary = userInfo as? [String: Any], isBrazeNotification(userinfo: userInfo) else { return }
@@ -33,7 +31,8 @@ import Foundation
 
     private func isBrazeNotification(userinfo: [AnyHashable : Any]) -> Bool {
         //A push notification sent from the braze has a key ab in it like ab = {c = "c_value";};
-        let appboy = userinfo["ab"] as? [String : Any]
-        return appboy?.count ?? 0 > 0
+        guard let _ = userinfo["ab"] as? [String : Any], userinfo.count > 0
+        else { return false }
+        return true
     }
 }
