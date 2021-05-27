@@ -51,7 +51,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var dateBlocksMapSortedKeys: [Date] = []
     private var isDueNextSet = false
     private var dueNextCellIndex: Int?
-    private var syncCourseCalendarAfterCourseDatesReset = false
+    private var datesShifted = false
     
     private let courseID: String
     private let environment: Environment
@@ -102,9 +102,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 }
             } else {
                 trackCalendarEvent(for: .CalendarToggleOff, eventName: .CalendarToggleOff)
-                removeCourseCalendar(removeEntry: false) { [weak self] success in
+                removeCourseCalendar { [weak self] success in
                     if success {
-                        self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved, duration: 2)
+                        self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
                     }
                 }
             }
@@ -156,11 +156,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_WILL_SHIFT_COURSE_DATES) { _, observer, _ in
-            observer.prepareCalendarForDatesShift()
-        }
-        
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
+            observer.datesShifted = true
             observer.loadStreams()
         }
     }
@@ -189,7 +186,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                     courseDateModel.defaultTimeZone = userPreference?.timeZone
                     self?.populate(with: courseDateModel)
                     self?.loadController.state = .Loaded
-                    self?.addCourseEventsAfterShift()
+                    self?.addCourseEventsIfNecessary()
                 }
                 break
                 
@@ -300,16 +297,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func prepareCalendarForDatesShift() {
-        if calendar.calendarState {
-            syncCourseCalendarAfterCourseDatesReset = true
-            removeCourseCalendar(removeEntry: false)
-        }
-    }
-    
     private func resetCourseDate() {
         trackDatesShiftTapped()
-        prepareCalendarForDatesShift()
         
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
@@ -322,13 +311,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 weakSelf.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
                 weakSelf.postCourseDateResetNotification()
             }
-        }
-    }
-    
-    private func addCourseEventsAfterShift() {
-        if syncCourseCalendarAfterCourseDatesReset {
-            syncCourseCalendarAfterCourseDatesReset = false
-            addCourseEvents()
         }
     }
     
@@ -377,6 +359,14 @@ extension CourseDatesViewController {
         }
     }
     
+    private func addCourseEventsIfNecessary() {
+        if datesShifted && calendar.calendarState {
+            datesShifted = false
+            removeCourseCalendar()
+            addCourseEvents()
+        }
+    }
+    
     private func addCourseEvents() {
         calendar.addEventsToCalendar(for: dateBlocks) { [weak self] success in
             if success {
@@ -388,8 +378,8 @@ extension CourseDatesViewController {
         }
     }
     
-    private func removeCourseCalendar(removeEntry: Bool = true, completion: ((Bool)->())? = nil) {
-        calendar.removeCalendar(removeEntry: removeEntry) { [weak self] success in
+    private func removeCourseCalendar(completion: ((Bool)->())? = nil) {
+        calendar.removeCalendar { [weak self] success in
             if success {
                 self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
             }
@@ -405,7 +395,6 @@ extension CourseDatesViewController {
             if index == UIAlertControllerBlocksCancelButtonIndex {
                 self?.courseDatesHeaderView.syncState = false
                 self?.calendar.calendarState = false
-                self?.removeCourseCalendar()
                 self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
             }
         }
@@ -418,7 +407,7 @@ extension CourseDatesViewController {
     
     private func eventsAddedSuccessAlert() {
         guard !calendar.isModalPresented else {
-            showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsAdded, duration: 2)
+            showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsAdded)
             return
         }
         

@@ -14,7 +14,7 @@ struct CourseCalendar: Codable {
     var identifier: String
     let courseID: String
     var isOn: Bool
-    var modalPresentationState: Bool
+    var modalPresented: Bool
 }
 
 class CalendarManager: NSObject {
@@ -85,10 +85,10 @@ class CalendarManager: NSObject {
     
     var isModalPresented: Bool {
         set {
-            setModalPresentationState(presented: newValue)
+            setModalPresented(presented: newValue)
         }
         get {
-            return getModalPresentationState()
+            return getModalPresented()
         }
     }
     
@@ -157,10 +157,10 @@ class CalendarManager: NSObject {
                 calendarEntry.identifier = newCalendar.calendarIdentifier
                 courseCalendar = calendarEntry
             } else {
-                courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, isOn: true, modalPresentationState: false)
+                courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, isOn: true, modalPresented: false)
             }
             
-            addCalendarEntry(courseCalendar: courseCalendar, isOn: true)
+            addOrUpdateCalendarEntry(courseCalendar: courseCalendar, isOn: true)
             
             return true
         } catch {
@@ -168,15 +168,11 @@ class CalendarManager: NSObject {
         }
     }
     
-    func removeCalendar(removeEntry: Bool = true, completion: ((Bool)->())? = nil) {
+    func removeCalendar(completion: ((Bool)->())? = nil) {
         guard let calendar = localCalendar else { return }
         do {
             try eventStore.removeCalendar(calendar, commit: true)
-            if removeEntry {
-                removeCalendarEntry()
-            } else {
-                turnOffCalendar()
-            }
+            updateSyncSwitchStatus(isOn: false)
             completion?(true)
         } catch {
             completion?(false)
@@ -238,100 +234,79 @@ class CalendarManager: NSObject {
         }
     }
     
-    private func addCalendarEntry(courseCalendar: CourseCalendar, isOn: Bool) {
-        var courseCalendars: [CourseCalendar] = []
+    private func addOrUpdateCalendarEntry(courseCalendar: CourseCalendar, isOn: Bool) {
+        var calenders: [CourseCalendar] = []
         
-        if let data = UserDefaults.standard.data(forKey: calendarKey),
-           let decodedCourseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data) {
-            courseCalendars = decodedCourseCalendars
+        if let decodedCalendars = courseCalendars() {
+            calenders = decodedCalendars
         }
         
-        if let index = courseCalendars.firstIndex(where: { $0.courseID == courseID }) {
-            courseCalendars.modifyElement(atIndex: index) { element in
+        if let index = calenders.firstIndex(where: { $0.courseID == courseID }) {
+            calenders.modifyElement(atIndex: index) { element in
                 element.isOn = isOn
                 element.identifier = courseCalendar.identifier
             }
         } else {
-            courseCalendars.append(courseCalendar)
+            calenders.append(courseCalendar)
         }
         
-        if let data = try? PropertyListEncoder().encode(courseCalendars) {
-            UserDefaults.standard.set(data, forKey: calendarKey)
-            UserDefaults.standard.synchronize()
-        }
+        saveCalendarEntry(calendars: calenders)
     }
     
     private func updateCalendarState(isOn: Bool) {
-        guard let data = UserDefaults.standard.data(forKey: calendarKey),
-              var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data),
-              let index = courseCalendars.firstIndex(where: { $0.courseID == courseID })
+        guard var calendars = courseCalendars(),
+              let index = calendars.firstIndex(where: { $0.courseID == courseID })
         else { return }
         
-        courseCalendars.modifyElement(atIndex: index) { element in
+        calendars.modifyElement(atIndex: index) { element in
             element.isOn = isOn
         }
         
-        if let data = try? PropertyListEncoder().encode(courseCalendars) {
-            UserDefaults.standard.set(data, forKey: calendarKey)
-            UserDefaults.standard.synchronize()
-        }
+        saveCalendarEntry(calendars: calendars)
     }
     
-    private func setModalPresentationState(presented: Bool) {
-        guard let data = UserDefaults.standard.data(forKey: calendarKey),
-              var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data),
-              let index = courseCalendars.firstIndex(where: { $0.courseID == courseID })
+    private func setModalPresented(presented: Bool) {
+        guard var calendars = courseCalendars(),
+            let index = calendars.firstIndex(where: { $0.courseID == courseID })
         else { return }
         
-        courseCalendars.modifyElement(atIndex: index) { element in
-            element.modalPresentationState = presented
+        calendars.modifyElement(atIndex: index) { element in
+            element.modalPresented = presented
         }
         
-        if let data = try? PropertyListEncoder().encode(courseCalendars) {
-            UserDefaults.standard.set(data, forKey: calendarKey)
-            UserDefaults.standard.synchronize()
-        }
+        saveCalendarEntry(calendars: calendars)
     }
     
-    private func getModalPresentationState() -> Bool {
-        guard let data = UserDefaults.standard.data(forKey: calendarKey),
-              let courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data),
-              let courseCalendar = courseCalendars.first(where: { $0.courseID == courseID })
+    private func getModalPresented() -> Bool {
+        guard let calendars = courseCalendars(),
+              let calendar = calendars.first(where: { $0.courseID == courseID })
         else { return false }
         
-        return courseCalendar.modalPresentationState
+        return calendar.modalPresented
     }
     
     private func removeCalendarEntry() {
-        guard let data = UserDefaults.standard.data(forKey: calendarKey),
-              var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
+        guard var calendars = courseCalendars()
         else { return }
         
-        if let index = courseCalendars.firstIndex(where: { $0.courseID == courseID }) {
-            courseCalendars.remove(at: index)
+        if let index = calendars.firstIndex(where: { $0.courseID == courseID }) {
+            calendars.remove(at: index)
         }
         
-        if let data = try? PropertyListEncoder().encode(courseCalendars) {
-            UserDefaults.standard.set(data, forKey: calendarKey)
-            UserDefaults.standard.synchronize()
-        }
+        saveCalendarEntry(calendars: calendars)
     }
     
-    private func turnOffCalendar() {
-        guard let data = UserDefaults.standard.data(forKey: calendarKey),
-              var courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
+    private func updateSyncSwitchStatus(isOn: Bool) {
+        guard var calendars = courseCalendars()
         else { return }
         
-        if let index = courseCalendars.firstIndex(where: { $0.courseID == courseID }) {
-            courseCalendars.modifyElement(atIndex: index) { element in
+        if let index = calendars.firstIndex(where: { $0.courseID == courseID }) {
+            calendars.modifyElement(atIndex: index) { element in
                 element.isOn = false
             }
         }
         
-        if let data = try? PropertyListEncoder().encode(courseCalendars) {
-            UserDefaults.standard.set(data, forKey: calendarKey)
-            UserDefaults.standard.synchronize()
-        }
+        saveCalendarEntry(calendars: calendars)
     }
     
     private var calendarEntry: CourseCalendar? {
@@ -339,5 +314,21 @@ class CalendarManager: NSObject {
               let courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
         else { return nil }
         return courseCalendars.first(where: { $0.courseID == courseID })
+    }
+    
+    private func courseCalendars() ->  [CourseCalendar]? {
+        guard let data = UserDefaults.standard.data(forKey: calendarKey),
+              let courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
+        else { return nil }
+        
+        return courseCalendars
+    }
+    
+    private func saveCalendarEntry(calendars: [CourseCalendar]) {
+        guard let data = try? PropertyListEncoder().encode(calendars)
+        else { return }
+        
+        UserDefaults.standard.set(data, forKey: calendarKey)
+        UserDefaults.standard.synchronize()
     }
 }
