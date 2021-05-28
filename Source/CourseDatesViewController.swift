@@ -410,6 +410,7 @@ extension CourseDatesViewController {
             showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsAdded)
             return
         }
+        
         calendar.isModalPresented = true
         
         let title = Strings.Coursedates.datesAddedAlertMessage(calendarName: calendar.calendarName)
