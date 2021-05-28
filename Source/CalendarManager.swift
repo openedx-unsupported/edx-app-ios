@@ -312,10 +312,8 @@ class CalendarManager: NSObject {
     }
     
     private var calendarEntry: CourseCalendar? {
-        guard let data = UserDefaults.standard.data(forKey: calendarKey),
-              let courseCalendars = try? PropertyListDecoder().decode([CourseCalendar].self, from: data)
-        else { return nil }
-        return courseCalendars.first(where: { $0.courseID == courseID })
+        guard let calendars = courseCalendars() else { return nil }
+        return calendars.first(where: { $0.courseID == courseID })
     }
     
     private func courseCalendars() ->  [CourseCalendar]? {
