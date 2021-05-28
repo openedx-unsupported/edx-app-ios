@@ -408,21 +408,21 @@ extension CourseDatesViewController {
     private func eventsAddedSuccessAlert() {
         if calendar.isModalPresented {
             showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsAdded)
-        } else {
-            calendar.isModalPresented = true
-            
-            let title = Strings.Coursedates.datesAddedAlertMessage(calendarName: calendar.calendarName)
-            let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: nil, onViewController: self) { _, _, _ in }
-            
-            alertController.addButton(withTitle: Strings.Coursedates.calendarViewEvents) { _ in
-                if let url = URL(string: "calshow://"), UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
+            return
+        }
+        calendar.isModalPresented = true
+        
+        let title = Strings.Coursedates.datesAddedAlertMessage(calendarName: calendar.calendarName)
+        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: nil, onViewController: self) { _, _, _ in }
+        
+        alertController.addButton(withTitle: Strings.Coursedates.calendarViewEvents) { _ in
+            if let url = URL(string: "calshow://"), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
-            
-            alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
-                self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
-            }
+        }
+        
+        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
         }
     }
     
