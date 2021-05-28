@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CourseDatesHeaderViewDelegate {
+protocol CourseDatesHeaderViewDelegate: AnyObject {
     func didToggleCalendarSwitch(isOn: Bool)
 }
 
@@ -24,7 +24,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         super.init(coder: coder)
     }
     
-    var delegate: Delegate?
+    weak var delegate: Delegate?
     
     private lazy var styles = OEXStyles.shared()
     
