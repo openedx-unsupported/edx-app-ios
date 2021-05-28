@@ -34,7 +34,9 @@ class CalendarManager: NSObject {
             return nil
         } else {
             let calendar = calendars.removeLast()
-            
+            // calendars.removeLast() pop the element from array and after that,
+            // following is run on remaing members of array to remove them
+            // calendar app, if they had been added.
             calendars.forEach { try? eventStore.removeCalendar($0, commit: true) }
             
             return calendar
@@ -68,7 +70,7 @@ class CalendarManager: NSObject {
         return OEXConfig.shared().platformName() + " - " + courseName
     }
     
-    var calendarState: Bool {
+    var syncOn: Bool {
         set {
             updateCalendarState(isOn: newValue)
         }
@@ -302,7 +304,7 @@ class CalendarManager: NSObject {
         
         if let index = calendars.firstIndex(where: { $0.courseID == courseID }) {
             calendars.modifyElement(atIndex: index) { element in
-                element.isOn = false
+                element.isOn = isOn
             }
         }
         

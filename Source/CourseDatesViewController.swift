@@ -110,7 +110,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             }
         }
         get {
-            return calendar.calendarState
+            return calendar.syncOn
         }
     }
     
@@ -360,7 +360,7 @@ extension CourseDatesViewController {
     }
     
     private func addCourseEventsIfNecessary() {
-        if datesShifted && calendar.calendarState {
+        if datesShifted && calendar.syncOn {
             datesShifted = false
             removeCourseCalendar()
             addCourseEvents()
@@ -371,7 +371,7 @@ extension CourseDatesViewController {
         calendar.addEventsToCalendar(for: dateBlocks) { [weak self] success in
             if success {
                 self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
-                self?.calendar.calendarState = success
+                self?.calendar.syncOn = success
                 self?.eventsAddedSuccessAlert()
             }
             self?.courseDatesHeaderView.syncState = success
@@ -394,7 +394,7 @@ extension CourseDatesViewController {
         let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self) { [weak self] _, _, index in
             if index == UIAlertControllerBlocksCancelButtonIndex {
                 self?.courseDatesHeaderView.syncState = false
-                self?.calendar.calendarState = false
+                self?.calendar.syncOn = false
                 self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
             }
         }
@@ -406,24 +406,24 @@ extension CourseDatesViewController {
     }
     
     private func eventsAddedSuccessAlert() {
-        guard !calendar.isModalPresented else {
+        if calendar.isModalPresented {
             showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsAdded)
-            return
+        } else {
+            calendar.isModalPresented = true
+            
+            let title = Strings.Coursedates.datesAddedAlertMessage(calendarName: calendar.calendarName)
+            let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: nil, onViewController: self) { _, _, _ in }
+            
+            alertController.addButton(withTitle: Strings.Coursedates.calendarViewEvents) { _ in
+                if let url = URL(string: "calshow://"), UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+            
+            alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
+                self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
+            }
         }
-        
-        let title = Strings.Coursedates.datesAddedAlertMessage(calendarName: calendar.calendarName)
-        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: nil, onViewController: self) { _, _, _ in }
-        
-        alertController.addButton(withTitle: Strings.Coursedates.calendarViewEvents) { _ in
-            guard let url = URL(string: "calshow://") else { return }
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-        
-        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
-            self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
-        }
-        
-        calendar.isModalPresented = true
     }
     
     private func trackCalendarEvent(for displayName: AnalyticsDisplayName, eventName: AnalyticsEventName) {
