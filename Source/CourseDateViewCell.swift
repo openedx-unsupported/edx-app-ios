@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CourseDateViewCellDelegate {
+protocol CourseDateViewCellDelegate: AnyObject {
     func didSelectLink(with url: URL)
     func didSetDueNext(with index: Int)
 }
@@ -18,7 +18,7 @@ private let imageSize: CGFloat = 14
 class CourseDateViewCell: UITableViewCell {
     static let identifier = String(describing: self)
     
-    var delegate: CourseDateViewCellDelegate?
+    weak var delegate: CourseDateViewCellDelegate?
     
     private lazy var dateStyle: OEXMutableTextStyle = {
         return OEXMutableTextStyle(weight: .bold, size: .large, color: OEXStyles.shared().neutralBlackT())
