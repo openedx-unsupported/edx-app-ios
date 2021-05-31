@@ -50,7 +50,7 @@
     UIApplication* application = [UIApplication sharedApplication];
 
     UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
-    UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
+    UNAuthorizationOptionSound | UNAuthorizationOptionBadge | UNAuthorizationOptionProvisional;
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
     [[UNUserNotificationCenter currentNotificationCenter]
      requestAuthorizationWithOptions:authOptions
@@ -70,7 +70,12 @@
 
 - (void)addListenersForConfiguration:(OEXConfig *)config environment:(RouterEnvironment *)environment {
     if ([[config firebaseConfig] cloudMessagingEnabled]) {
-        FCMListner *listner = [[FCMListner alloc] initWithEnvironment:environment];
+        FCMListener *listner = [[FCMListener alloc] initWithEnvironment:environment];
+        [self addListener:listner];
+    }
+
+    if ([[config brazeConfig] pushNotificationsEnabled]) {
+        BrazeListener *listner = [[BrazeListener alloc] initWithEnvironment:environment];
         [self addListener:listner];
     }
 }
@@ -85,6 +90,11 @@
 - (void)addProvidersForConfiguration:(OEXConfig *)config withSession:(OEXSession *)session {
     if ([[config firebaseConfig] cloudMessagingEnabled]){
         FCMProvider *provide = [[FCMProvider alloc] init];
+        [self addProvider:provide withSession:session];
+    }
+
+    if ([[config brazeConfig] pushNotificationsEnabled]){
+        BrazeProvider *provide = [[BrazeProvider alloc] init];
         [self addProvider:provide withSession:session];
     }
 }
@@ -109,9 +119,9 @@
     }
 }
 
-- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary *)userInfo {
+- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo application:( UIApplication * _Nullable ) application completionHandler:(void (^ _Nullable )(UIBackgroundFetchResult))completionHandler {
     for(id <OEXPushListener> listener in self.listeners) {
-        [listener didReceiveRemoteNotificationWithUserInfo:userInfo];
+        [listener didReceiveRemoteNotificationWithUserInfo:userInfo application:application completionHandler:completionHandler];
     }
 }
 

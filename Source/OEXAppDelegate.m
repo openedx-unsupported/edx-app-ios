@@ -141,8 +141,16 @@
 #pragma mark Push Notifications
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    [self.environment.pushNotificationManager didReceiveRemoteNotificationWithUserInfo:userInfo];
-    completionHandler(UIBackgroundFetchResultNewData);
+    [self.environment.pushNotificationManager didReceiveRemoteNotificationWithUserInfo:userInfo application:application completionHandler:completionHandler];
+    if (!self.environment.config.brazeConfig.enabled) {
+        completionHandler(UIBackgroundFetchResultNewData);
+    }
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    if ([[[_environment config] brazeConfig] pushNotificationsEnabled]) {
+        [[Appboy sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+    }
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -272,7 +280,7 @@
 }
 
 - (void) configureBraze:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
-    if (self.environment.config.branchConfig.enabled) {
+    if (self.environment.config.brazeConfig.enabled) {
         NSMutableDictionary *appboyOptions = [NSMutableDictionary dictionary];
         appboyOptions[ABKEndpointKey] = self.environment.config.brazeConfig.endPointKey;
         [Appboy startWithApiKey:self.environment.config.brazeConfig.apiKey inApplication:application withLaunchOptions:launchOptions withAppboyOptions:appboyOptions];
