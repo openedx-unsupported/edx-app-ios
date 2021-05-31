@@ -74,7 +74,7 @@
         [self addListener:listner];
     }
 
-    if ([[config brazeConfig] notificationsEnabled]) {
+    if ([[config brazeConfig] pushNotificationsEnabled]) {
         BrazeListener *listner = [[BrazeListener alloc] initWithEnvironment:environment];
         [self addListener:listner];
     }
@@ -93,7 +93,7 @@
         [self addProvider:provide withSession:session];
     }
 
-    if ([[config brazeConfig] notificationsEnabled]){
+    if ([[config brazeConfig] pushNotificationsEnabled]){
         BrazeProvider *provide = [[BrazeProvider alloc] init];
         [self addProvider:provide withSession:session];
     }

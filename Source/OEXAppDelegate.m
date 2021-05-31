@@ -148,7 +148,7 @@
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
-    if ([[[_environment config] brazeConfig] notificationsEnabled]) {
+    if ([[[_environment config] brazeConfig] pushNotificationsEnabled]) {
         [[Appboy sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
     }
 }
