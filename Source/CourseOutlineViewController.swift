@@ -61,6 +61,10 @@ public class CourseOutlineViewController :
         return courseQuerier.blockWithID(id: blockID).value
     }
     
+    private var course: OEXCourse? {
+        return environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
+    }
+    
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
         self.rootID = rootID
         self.environment = environment
@@ -211,7 +215,7 @@ public class CourseOutlineViewController :
     }
     
     private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
-        guard let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced else {
+        guard let isSelfPaced = course?.isSelfPaced else {
             hideCourseBannerView()
             return
         }
@@ -330,9 +334,16 @@ public class CourseOutlineViewController :
             } else {
                 weakSelf.trackDatesShiftEvent(success: true)
                 weakSelf.showSnackBar()
+                weakSelf.setCalendarShiftState()
                 weakSelf.postCourseDateResetNotification()
             }
         }
+    }
+    
+    private func setCalendarShiftState() {
+        guard let courseName = course?.name else { return }
+        let calendar = CalendarManager(courseID: courseID, courseName: courseName)
+        calendar.needShifting = true
     }
     
     private func trackDatesShiftTapped() {

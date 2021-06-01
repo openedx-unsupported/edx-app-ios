@@ -55,7 +55,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var dateBlocksMapSortedKeys: [Date] = []
     private var isDueNextSet = false
     private var dueNextCellIndex: Int?
-    private var datesShifted = false
     
     private let courseID: String
     private let environment: Environment
@@ -165,7 +164,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
-            observer.datesShifted = true
+            observer.calendar.needShifting = true
             observer.loadStreams()
         }
     }
@@ -364,10 +363,11 @@ extension CourseDatesViewController {
     }
     
     private func addCourseEventsIfNecessary() {
-        if datesShifted && calendar.syncOn {
-            datesShifted = false
-            removeCourseCalendar()
-            addCourseEvents()
+        if calendar.needShifting && calendar.syncOn {
+            calendar.needShifting = false
+            removeCourseCalendar { [weak self] _ in
+                self?.addCourseEvents()
+            }
         }
     }
     
@@ -462,7 +462,7 @@ extension CourseDatesViewController: UITableViewDataSource {
             cell.timeline.bottomColor = .clear
         } else {
             cell.timeline.topColor = environment.styles.neutralXDark()
-            cell.timeline.bottomColor = environment.styles.neutralBlackT()
+            cell.timeline.bottomColor = environment.styles.neutralXDark()
         }
         
         guard let blocks = dateBlocks[key] else { return cell }
