@@ -174,7 +174,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
-            observer.calendar.needShifting = true
+            observer.calendar.syncRequired = true
             observer.loadStreams()
         }
     }
@@ -372,8 +372,8 @@ extension CourseDatesViewController {
     }
     
     private func addCourseEventsIfNecessary() {
-        if calendar.needShifting && calendar.syncOn {
-            calendar.needShifting = false
+        if calendar.syncRequired && calendar.syncOn {
+            calendar.syncRequired = false
             removeCourseCalendar { [weak self] _ in
                 self?.addCourseEvents { [weak self] success in
                     if success {

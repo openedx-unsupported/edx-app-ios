@@ -15,7 +15,7 @@ struct CourseCalendar: Codable {
     let courseID: String
     var isOn: Bool
     var modalPresented: Bool
-    var needShifting: Bool = false
+    var syncRequired: Bool = false
 }
 
 class CalendarManager: NSObject {
@@ -95,12 +95,12 @@ class CalendarManager: NSObject {
         }
     }
     
-    var needShifting: Bool {
+    var syncRequired: Bool {
         set {
-            setShiftState(needShifting: newValue)
+            setSyncState(state: newValue)
         }
         get {
-            return getShiftState()
+            return getSyncState()
         }
     }
     
@@ -308,24 +308,24 @@ class CalendarManager: NSObject {
         return calendar.modalPresented
     }
     
-    private func setShiftState(needShifting: Bool) {
+    private func setSyncState(state: Bool) {
         guard var calendars = courseCalendars(),
               let index = calendars.firstIndex(where: { $0.courseID == courseID })
         else { return }
         
         calendars.modifyElement(atIndex: index) { element in
-            element.needShifting = needShifting
+            element.syncRequired = state
         }
         
         saveCalendarEntry(calendars: calendars)
     }
     
-    private func getShiftState() -> Bool {
+    private func getSyncState() -> Bool {
         guard let calendars = courseCalendars(),
               let calendar = calendars.first(where: { $0.courseID == courseID })
         else { return false }
         
-        return calendar.needShifting
+        return calendar.syncRequired
     }
     
     private func removeCalendarEntry() {

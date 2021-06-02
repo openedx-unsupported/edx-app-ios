@@ -240,7 +240,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
     private func setCalendarShiftState() {
         guard let courseName = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.name else { return }
         let calendar = CalendarManager(courseID: courseID, courseName: courseName)
-        calendar.needShifting = true
+        calendar.syncRequired = true
     }
     
     private func markBlockAsComplete() {

@@ -343,7 +343,7 @@ public class CourseOutlineViewController :
     private func setCalendarShiftState() {
         guard let courseName = course?.name else { return }
         let calendar = CalendarManager(courseID: courseID, courseName: courseName)
-        calendar.needShifting = true
+        calendar.syncRequired = true
     }
     
     private func trackDatesShiftTapped() {
