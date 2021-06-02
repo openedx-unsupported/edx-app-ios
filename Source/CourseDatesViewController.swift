@@ -11,6 +11,16 @@ import WebKit
 
 class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
+    private enum Pacing: String {
+        case user = "self"
+        case instructor
+    }
+    
+    private enum SyncReason: String {
+        case direct
+        case background
+    }
+    
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider & OEXInterfaceProvider & RemoteConfigProvider
     
     private let datesLoader = BackedStream<(CourseDateModel, UserPreference?)>()
@@ -305,14 +315,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
-            guard let weakSelf = self else { return }
             if let _ = result.error {
-                weakSelf.trackDatesShiftEvent(success: false)
-                weakSelf.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
+                self?.trackDatesShiftEvent(success: false)
+                self?.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
-                weakSelf.trackDatesShiftEvent(success: true)
-                weakSelf.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
-                weakSelf.postCourseDateResetNotification()
+                self?.trackDatesShiftEvent(success: true)
+                self?.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
+                self?.postCourseDateResetNotification()
             }
         }
     }
@@ -366,12 +375,16 @@ extension CourseDatesViewController {
         if calendar.needShifting && calendar.syncOn {
             calendar.needShifting = false
             removeCourseCalendar { [weak self] _ in
-                self?.addCourseEvents()
+                self?.addCourseEvents { [weak self] success in
+                    if success {
+                        self?.trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: .direct)
+                    }
+                }
             }
         }
     }
     
-    private func addCourseEvents() {
+    private func addCourseEvents(completion: ((Bool)->())? = nil) {
         calendar.addEventsToCalendar(for: dateBlocks) { [weak self] success in
             if success {
                 self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
@@ -379,6 +392,7 @@ extension CourseDatesViewController {
                 self?.eventsAddedSuccessAlert()
             }
             self?.courseDatesHeaderView.syncState = success
+            completion?(success)
         }
     }
     
@@ -431,10 +445,10 @@ extension CourseDatesViewController {
         }
     }
     
-    private func trackCalendarEvent(for displayName: AnalyticsDisplayName, eventName: AnalyticsEventName) {
+    private func trackCalendarEvent(for displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, syncReason: SyncReason? = nil) {
         if userEnrollment == .audit || userEnrollment == .verified {
-            let pacing = isSelfPaced ? "self" : "instructor"
-            environment.analytics.trackCalendarEvent(displayName: displayName, eventName: eventName, userType: userEnrollment.rawValue, pacing: pacing, courseID: courseID)
+            let pacing: Pacing = isSelfPaced ? .user : .instructor
+            environment.analytics.trackCalendarEvent(displayName: displayName, eventName: eventName, userType: userEnrollment.rawValue, pacing: pacing.rawValue, courseID: courseID, syncReason: syncReason?.rawValue)
         }
     }
 }

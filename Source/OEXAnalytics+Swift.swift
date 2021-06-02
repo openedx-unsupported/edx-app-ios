@@ -159,6 +159,7 @@ public enum AnalyticsEventDataKey: String {
     case Link = "link"
     case Pacing = "pacing"
     case UserType = "user_type"
+    case SyncReason = "sync_reason"
     case SpecialExamInfo = "special_exam_info"
 }
 
@@ -444,16 +445,18 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: [key_course_id: courseID, OEXAnalyticsKeyBlockID: blockID])
     }
     
-    func trackCalendarEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, userType: String, pacing: String, courseID: String) {
+    func trackCalendarEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, userType: String, pacing: String, courseID: String, syncReason: String? = nil) {
         let event = OEXAnalyticsEvent()
         event.displayName = displayName.rawValue
         event.name = eventName.rawValue
         
-        let info = [
+        var info = [
             AnalyticsEventDataKey.UserType.rawValue: userType,
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID
         ]
+        
+        info.setObjectOrNil(syncReason, forKey: AnalyticsEventDataKey.SyncReason.rawValue)
         
         trackEvent(event, forComponent: nil, withInfo: info)
     }

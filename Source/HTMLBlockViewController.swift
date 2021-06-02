@@ -194,13 +194,15 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         trackDatesShiftTapped()
         
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
-        environment.networkManager.taskForRequest(request) { [weak self] result  in
+        environment.networkManager.taskForRequest(request) { [weak self] result in
             if let _ = result.error {
                 self?.trackDatesShiftEvent(success: false)
                 self?.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
                 self?.trackDatesShiftEvent(success: true)
-                self?.courseDatesResetSuccess()
+                self?.setCalendarShiftState()
+                self?.showSnackBar()
+                self?.postCourseDateResetNotification()
             }
         }
     }
@@ -231,9 +233,14 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         }
     }
     
-    private func courseDatesResetSuccess() {
+    private func postCourseDateResetNotification() {
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
-        showSnackBar()
+    }
+    
+    private func setCalendarShiftState() {
+        guard let courseName = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.name else { return }
+        let calendar = CalendarManager(courseID: courseID, courseName: courseName)
+        calendar.needShifting = true
     }
     
     private func markBlockAsComplete() {
