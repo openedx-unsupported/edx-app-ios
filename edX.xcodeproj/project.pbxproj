@@ -15,7 +15,6 @@
 		0D157620235ED98E0007B0B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761F235ED98D0007B0B7 /* AudioToolbox.framework */; };
 		0D157622235ED9990007B0B7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D157621235ED9980007B0B7 /* AVFoundation.framework */; };
 		0D157624235ED9A10007B0B7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D157623235ED9A10007B0B7 /* CFNetwork.framework */; };
-		0D157626235ED9AD0007B0B7 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D157625235ED9AD0007B0B7 /* CoreBluetooth.framework */; };
 		0D157628235ED9B80007B0B7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D157627235ED9B70007B0B7 /* CoreData.framework */; };
 		0D15762A235ED9DF0007B0B7 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D157629235ED9DF0007B0B7 /* CoreText.framework */; };
 		0D15762D235ED9F30007B0B7 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15762B235ED9F30007B0B7 /* MediaPlayer.framework */; };
@@ -998,7 +997,6 @@
 		0D15761F235ED98D0007B0B7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0D157621235ED9980007B0B7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		0D157623235ED9A10007B0B7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		0D157625235ED9AD0007B0B7 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		0D157627235ED9B70007B0B7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0D157629235ED9DF0007B0B7 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		0D15762B235ED9F30007B0B7 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -2189,7 +2187,6 @@
 				BECB7B111924C0C3009C77F1 /* CoreGraphics.framework in Frameworks */,
 				E096532D25C133910004FFCC /* MSAL.framework in Frameworks */,
 				0D157628235ED9B80007B0B7 /* CoreData.framework in Frameworks */,
-				0D157626235ED9AD0007B0B7 /* CoreBluetooth.framework in Frameworks */,
 				0D157624235ED9A10007B0B7 /* CFNetwork.framework in Frameworks */,
 				0D157622235ED9990007B0B7 /* AVFoundation.framework in Frameworks */,
 				0D157620235ED98E0007B0B7 /* AudioToolbox.framework in Frameworks */,
@@ -3934,7 +3931,6 @@
 				0D15762B235ED9F30007B0B7 /* MediaPlayer.framework */,
 				0D157629235ED9DF0007B0B7 /* CoreText.framework */,
 				0D157627235ED9B70007B0B7 /* CoreData.framework */,
-				0D157625235ED9AD0007B0B7 /* CoreBluetooth.framework */,
 				0D157623235ED9A10007B0B7 /* CFNetwork.framework */,
 				0D157621235ED9980007B0B7 /* AVFoundation.framework */,
 				0D15761F235ED98D0007B0B7 /* AudioToolbox.framework */,
