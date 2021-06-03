@@ -200,7 +200,6 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
                 self?.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
                 self?.trackDatesShiftEvent(success: true)
-                self?.setCalendarShiftState()
                 self?.showSnackBar()
                 self?.postCourseDateResetNotification()
             }
@@ -235,12 +234,6 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
     
     private func postCourseDateResetNotification() {
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
-    }
-    
-    private func setCalendarShiftState() {
-        guard let courseName = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.name else { return }
-        let calendar = CalendarManager(courseID: courseID, courseName: courseName)
-        calendar.syncRequired = true
     }
     
     private func markBlockAsComplete() {

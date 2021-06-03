@@ -327,23 +327,15 @@ public class CourseOutlineViewController :
         
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
-            guard let weakSelf = self else { return }
             if let _ = result.error {
-                weakSelf.trackDatesShiftEvent(success: false)
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
+                self?.trackDatesShiftEvent(success: false)
+                self?.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
-                weakSelf.trackDatesShiftEvent(success: true)
-                weakSelf.showSnackBar()
-                weakSelf.setCalendarShiftState()
-                weakSelf.postCourseDateResetNotification()
+                self?.trackDatesShiftEvent(success: true)
+                self?.showSnackBar()
+                self?.postCourseDateResetNotification()
             }
         }
-    }
-    
-    private func setCalendarShiftState() {
-        guard let courseName = course?.name else { return }
-        let calendar = CalendarManager(courseID: courseID, courseName: courseName)
-        calendar.syncRequired = true
     }
     
     private func trackDatesShiftTapped() {

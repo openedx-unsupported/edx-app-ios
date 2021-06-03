@@ -65,6 +65,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var dateBlocksMapSortedKeys: [Date] = []
     private var isDueNextSet = false
     private var dueNextCellIndex: Int?
+    private var datesShifted = false
     
     private let courseID: String
     private let environment: Environment
@@ -135,6 +136,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         self.courseID = courseID
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
+        
+        setupView()
+        setConstraints()
+        setAccessibilityIdentifiers()
+        loadStreams()
+        addObserver()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -143,12 +150,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupView()
-        setConstraints()
-        setAccessibilityIdentifiers()
-        loadStreams()
-        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -174,7 +175,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
-            observer.calendar.syncRequired = true
+            observer.datesShifted = true
             observer.loadStreams()
         }
     }
@@ -354,11 +355,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
 
 extension CourseDatesViewController {
     private func showCalendarSettingsAlert() {
-        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
+        guard let topController = UIApplication.shared.topMostController(),
+            let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
             return
         }
         let message = Strings.Coursedates.calendarPermissionNotDetermined(platformName: platformName)
-        let alertController = UIAlertController().showAlert(withTitle: Strings.settings, message: message, cancelButtonTitle: Strings.cancel, onViewController: self) { [weak self] _, _, index in
+        let alertController = UIAlertController().showAlert(withTitle: Strings.settings, message: message, cancelButtonTitle: Strings.cancel, onViewController: topController) { [weak self] _, _, index in
             if index == UIAlertControllerBlocksCancelButtonIndex {
                 self?.courseDatesHeaderView.syncState = false
             }
@@ -372,8 +374,8 @@ extension CourseDatesViewController {
     }
     
     private func addCourseEventsIfNecessary() {
-        if calendar.syncRequired && calendar.syncOn {
-            calendar.syncRequired = false
+        if datesShifted && calendar.syncOn {
+            datesShifted = false
             removeCourseCalendar { [weak self] _ in
                 self?.addCourseEvents { [weak self] success in
                     if success {
@@ -406,10 +408,12 @@ extension CourseDatesViewController {
     }
     
     private func showAlertForCalendarPrompt() {
+        guard let topController = UIApplication.shared.topMostController() else { return }
+        
         let title = Strings.Coursedates.addCalendarTitle(calendarName: calendar.calendarName)
         let message = Strings.Coursedates.addCalendarPrompt(platformName: platformName, calendarName: calendar.calendarName)
         
-        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: self) { [weak self] _, _, index in
+        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: topController) { [weak self] _, _, index in
             if index == UIAlertControllerBlocksCancelButtonIndex {
                 self?.courseDatesHeaderView.syncState = false
                 self?.calendar.syncOn = false
@@ -429,10 +433,12 @@ extension CourseDatesViewController {
             return
         }
         
+        guard let topController = UIApplication.shared.topMostController() else { return }
+        
         calendar.isModalPresented = true
         
         let title = Strings.Coursedates.datesAddedAlertMessage(calendarName: calendar.calendarName)
-        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: nil, onViewController: self) { _, _, _ in }
+        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
         
         alertController.addButton(withTitle: Strings.Coursedates.calendarViewEvents) { _ in
             if let url = URL(string: "calshow://"), UIApplication.shared.canOpenURL(url) {
