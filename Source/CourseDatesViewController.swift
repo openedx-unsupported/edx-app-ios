@@ -376,9 +376,36 @@ extension CourseDatesViewController {
     private func addCourseEventsIfNecessary() {
         if datesShifted && calendar.syncOn {
             datesShifted = false
-            removeCourseCalendar { [weak self] _ in
+            
+            if calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
+                showCalendarEventShiftAlert()
+            }
+        }
+    }
+    
+    private func showCalendarEventShiftAlert() {
+        guard let topController = UIApplication.shared.topMostController() else {
+            return
+        }
+        
+        let title = Strings.Coursedates.calendarOutOfDate
+        let message = Strings.Coursedates.calendarShiftMessage
+
+        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, onViewController: topController) { [weak self] _, _, index in
+            if index == UIAlertControllerBlocksCancelButtonIndex {
+                self?.removeCourseCalendar(completion: { [weak self] success in
+                    if success {
+                        self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
+                    }
+                })
+            }
+        }
+        
+        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] _ in
+            self?.removeCourseCalendar { [weak self] _ in
                 self?.addCourseEvents { [weak self] success in
                     if success {
+                        self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
                         self?.trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: .direct)
                     }
                 }

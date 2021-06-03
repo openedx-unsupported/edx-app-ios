@@ -115,8 +115,37 @@ class CalendarManager: NSObject {
             return
         }
         
+        let events = generateEvents(for: dateBlocks)
+        
+        if events.isEmpty {
+            //Ideally this shouldn't happen, but in any case if this happen so lets remove the calendar
+            removeCalendar()
+            completion(false)
+        } else {
+            events.forEach { event in addEvent(event: event) }
+            do {
+                try eventStore.commit()
+                completion(true)
+            } catch {
+                completion(false)
+            }
+        }
+    }
+    
+    func checkIfEventsShouldBeShifted(for dateBlocks: [Date : [CourseDateBlock]]) -> Bool {
+        guard let _ = calendarEntry else {
+            return false
+        }
+        
+        let events = generateEvents(for: dateBlocks)
+        
+        let allEvents = events.allSatisfy { alreadyExist(event: $0) }
+        
+        return !allEvents
+    }
+    
+    private func generateEvents(for dateBlocks: [Date : [CourseDateBlock]]) -> [EKEvent] {
         var events: [EKEvent] = []
-
         dateBlocks.forEach { item in
             let blocks = item.value
             
@@ -132,19 +161,7 @@ class CalendarManager: NSObject {
             }
         }
         
-        if events.isEmpty {
-            //Ideally this shouldn't happen, but in any case if this happen so lets remove the calendar
-            removeCalendar()
-            completion(false)
-        } else {
-            events.forEach { event in addEvent(event: event) }
-            do {
-                try eventStore.commit()
-                completion(true)
-            } catch {
-                completion(false)
-            }
-        }
+        return events
     }
     
     private func generateCourseCalendar() -> Bool {
