@@ -88,7 +88,14 @@ class YoutubeVideoPlayer: VideoPlayer {
             playerView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
         else {
-            playerView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+            var heightOffset: CGFloat = 90
+            let widthOffset: CGFloat = UIDevice.current.hasNotch ? 88 : 0
+            if isiPad() {
+                //Ideally the heightOffset should be the size of toolbar but with frame it's not working properly
+                // And required more height as offset to display the youtube player controls
+                heightOffset = 120;
+            }
+            playerView.frame = CGRect(x: 0, y: 0, width: screenSize.width - widthOffset, height: screenSize.height - heightOffset)
         }
     }
 
@@ -190,4 +197,10 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
         }
     }
 
+}
+
+extension UIDevice {
+    var hasNotch: Bool {
+        return UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0 > 0
+    }
 }
