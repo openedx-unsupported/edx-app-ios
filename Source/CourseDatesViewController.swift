@@ -384,20 +384,18 @@ extension CourseDatesViewController {
     }
     
     private func showCalendarEventShiftAlert() {
-        guard let topController = UIApplication.shared.topMostController() else {
-            return
-        }
+        guard let topController = UIApplication.shared.topMostController() else { return }
         
         let title = Strings.Coursedates.calendarOutOfDate
         let message = Strings.Coursedates.calendarShiftMessage
-
+        
         let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, onViewController: topController) { [weak self] _, _, index in
             if index == UIAlertControllerBlocksCancelButtonIndex {
-                self?.removeCourseCalendar(completion: { [weak self] success in
+                self?.removeCourseCalendar { success in
                     if success {
-                        self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
+                        topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
                     }
-                })
+                }
             }
         }
         
@@ -405,7 +403,7 @@ extension CourseDatesViewController {
             self?.removeCourseCalendar { [weak self] _ in
                 self?.addCourseEvents { [weak self] success in
                     if success {
-                        self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
+                        topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
                         self?.trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: .direct)
                     }
                 }
