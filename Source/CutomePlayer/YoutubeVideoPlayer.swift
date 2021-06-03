@@ -13,6 +13,7 @@ class YoutubeVideoPlayer: VideoPlayer {
     let playerView: WKYTPlayerView
     var videoID: String = ""
     private var videoCurrentTime: Float = 0.0
+    var viewHeightOffset: CGFloat = 90
 
     private lazy var errorMessageLabel: UILabel = {
         let label = UILabel()
@@ -88,14 +89,13 @@ class YoutubeVideoPlayer: VideoPlayer {
             playerView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
         else {
-            var heightOffset: CGFloat = 90
             let widthOffset: CGFloat = UIDevice.current.hasNotch ? 88 : 0
             if isiPad() {
                 //Ideally the heightOffset should be the size of toolbar but with frame it's not working properly
                 // And required more height as offset to display the youtube player controls
-                heightOffset = 120;
+                viewHeightOffset = 120;
             }
-            playerView.frame = CGRect(x: 0, y: 0, width: screenSize.width - widthOffset, height: screenSize.height - heightOffset)
+            playerView.frame = CGRect(x: 0, y: 0, width: screenSize.width - widthOffset, height: screenSize.height - viewHeightOffset)
         }
     }
 
