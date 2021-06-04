@@ -58,6 +58,8 @@ public enum AnalyticsDisplayName : String {
     case CalendarAddDatesSuccess = "Dates: Calendar Add Dates Success"
     case CalendarRemoveDatesSuccess = "Dates: Calendar Remove Dates Success"
     case CalendarUpdateDatesSuccess = "Dates: Calendar Update Dates Success"
+    case CalendarSyncUpdateDates = "Dates: Calendar Sync Update Dates"
+    case CalendarSyncRemoveCalendar = "Dates: Calendar Sync Remove Calendar"
     case SubsectionViewOnWebTapped = "Subsection View On Web Tapped"
 }
 
@@ -109,6 +111,8 @@ public enum AnalyticsEventName: String {
     case CalendarAddDatesSuccess = "edx.bi.app.calendar.add_success"
     case CalendarRemoveDatesSuccess = "edx.bi.app.calendar.remove_success"
     case CalendarUpdateDatesSuccess = "edx.bi.app.calendar.update_success"
+    case CalendarSyncUpdateDates = "edx.bi.app.calendar.sync_update"
+    case CalendarSyncRemoveCalendar = "edx.bi.app.calendar.sync_remove"
     case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
 }
 

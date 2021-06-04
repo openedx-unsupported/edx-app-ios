@@ -391,6 +391,8 @@ extension CourseDatesViewController {
         
         let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, onViewController: topController) { [weak self] _, _, index in
             if index == UIAlertControllerBlocksCancelButtonIndex {
+                self.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
+                
                 self?.removeCourseCalendar { [weak self] success in
                     if success {
                         topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
@@ -401,6 +403,8 @@ extension CourseDatesViewController {
         }
         
         alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] _ in
+            self.trackCalendarEvent(for: .CalendarSyncUpdateDates, eventName: .CalendarSyncUpdateDates)
+            
             self?.removeCourseCalendar { [weak self] _ in
                 self?.addCourseEvents { [weak self] success in
                     if success {
