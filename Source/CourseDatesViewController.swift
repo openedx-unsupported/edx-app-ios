@@ -391,7 +391,7 @@ extension CourseDatesViewController {
         
         let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, onViewController: topController) { [weak self] _, _, index in
             if index == UIAlertControllerBlocksCancelButtonIndex {
-                self.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
+                self?.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
                 
                 self?.removeCourseCalendar { [weak self] success in
                     if success {
@@ -403,10 +403,10 @@ extension CourseDatesViewController {
         }
         
         alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] _ in
-            self.trackCalendarEvent(for: .CalendarSyncUpdateDates, eventName: .CalendarSyncUpdateDates)
+            self?.trackCalendarEvent(for: .CalendarSyncUpdateDates, eventName: .CalendarSyncUpdateDates)
             
-            self?.removeCourseCalendar { [weak self] _ in
-                self?.addCourseEvents { [weak self] success in
+            self?.removeCourseCalendar(shouldTrackEvent: false) { [weak self] _ in
+                self?.addCourseEvents(shouldTrackEvent: false) { [weak self] success in
                     if success {
                         topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
                         self?.trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: .direct)
@@ -416,10 +416,12 @@ extension CourseDatesViewController {
         }
     }
     
-    private func addCourseEvents(completion: ((Bool)->())? = nil) {
+    private func addCourseEvents(shouldTrackEvent: Bool = true, completion: ((Bool)->())? = nil) {
         calendar.addEventsToCalendar(for: dateBlocks) { [weak self] success in
             if success {
-                self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
+                if shouldTrackEvent {
+                    self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
+                }
                 self?.calendar.syncOn = success
                 self?.eventsAddedSuccessAlert()
             }
@@ -428,9 +430,9 @@ extension CourseDatesViewController {
         }
     }
     
-    private func removeCourseCalendar(completion: ((Bool)->())? = nil) {
+    private func removeCourseCalendar(shouldTrackEvent: Bool = true, completion: ((Bool)->())? = nil) {
         calendar.removeCalendar { [weak self] success in
-            if success {
+            if success && shouldTrackEvent {
                 self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
             }
             completion?(success)
