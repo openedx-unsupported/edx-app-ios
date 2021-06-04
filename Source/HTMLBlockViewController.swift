@@ -286,9 +286,7 @@ extension HTMLBlockViewController: AJAXCompletionCallbackDelegate {
 extension HTMLBlockViewController: OpenInExternalBrowserViewDelegate {
     func openInExternalBrower() {
         guard let webURL = block?.webURL as URL? else { return }
-
-        if UIApplication.shared.canOpenURL(webURL) {
-            UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
-        }
+        
+        environment.router?.showLocalBrowserViewController(from: self, url: webURL)
     }
 }
