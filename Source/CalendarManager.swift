@@ -138,7 +138,6 @@ class CalendarManager: NSObject {
         }
         
         let events = generateEvents(for: dateBlocks)
-        
         let allEvents = events.allSatisfy { alreadyExist(event: $0) }
         
         return !allEvents
