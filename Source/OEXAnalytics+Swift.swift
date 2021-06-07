@@ -58,6 +58,8 @@ public enum AnalyticsDisplayName : String {
     case CalendarAddDatesSuccess = "Dates: Calendar Add Dates Success"
     case CalendarRemoveDatesSuccess = "Dates: Calendar Remove Dates Success"
     case CalendarUpdateDatesSuccess = "Dates: Calendar Update Dates Success"
+    case CalendarSyncUpdateDates = "Dates: Calendar Sync Update Dates"
+    case CalendarSyncRemoveCalendar = "Dates: Calendar Sync Remove Calendar"
     case SubsectionViewOnWebTapped = "Subsection View On Web Tapped"
 }
 
@@ -109,6 +111,8 @@ public enum AnalyticsEventName: String {
     case CalendarAddDatesSuccess = "edx.bi.app.calendar.add_success"
     case CalendarRemoveDatesSuccess = "edx.bi.app.calendar.remove_success"
     case CalendarUpdateDatesSuccess = "edx.bi.app.calendar.update_success"
+    case CalendarSyncUpdateDates = "edx.bi.app.calendar.sync_update"
+    case CalendarSyncRemoveCalendar = "edx.bi.app.calendar.sync_remove"
     case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
 }
 
@@ -159,6 +163,7 @@ public enum AnalyticsEventDataKey: String {
     case Link = "link"
     case Pacing = "pacing"
     case UserType = "user_type"
+    case SyncReason = "sync_reason"
     case SpecialExamInfo = "special_exam_info"
 }
 
@@ -444,16 +449,18 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: [key_course_id: courseID, OEXAnalyticsKeyBlockID: blockID])
     }
     
-    func trackCalendarEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, userType: String, pacing: String, courseID: String) {
+    func trackCalendarEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, userType: String, pacing: String, courseID: String, syncReason: String? = nil) {
         let event = OEXAnalyticsEvent()
         event.displayName = displayName.rawValue
         event.name = eventName.rawValue
         
-        let info = [
+        var info = [
             AnalyticsEventDataKey.UserType.rawValue: userType,
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID
         ]
+        
+        info.setObjectOrNil(syncReason, forKey: AnalyticsEventDataKey.SyncReason.rawValue)
         
         trackEvent(event, forComponent: nil, withInfo: info)
     }

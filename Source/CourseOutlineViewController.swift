@@ -61,6 +61,10 @@ public class CourseOutlineViewController :
         return courseQuerier.blockWithID(id: blockID).value
     }
     
+    private var course: OEXCourse? {
+        return environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
+    }
+    
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
         self.rootID = rootID
         self.environment = environment
@@ -211,7 +215,7 @@ public class CourseOutlineViewController :
     }
     
     private func handleDatesBanner(courseBanner: CourseDateBannerModel) {
-        guard let isSelfPaced = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course.isSelfPaced else {
+        guard let isSelfPaced = course?.isSelfPaced else {
             hideCourseBannerView()
             return
         }
@@ -323,14 +327,13 @@ public class CourseOutlineViewController :
         
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
-            guard let weakSelf = self else { return }
             if let _ = result.error {
-                weakSelf.trackDatesShiftEvent(success: false)
-                weakSelf.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
+                self?.trackDatesShiftEvent(success: false)
+                self?.showDateResetSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
-                weakSelf.trackDatesShiftEvent(success: true)
-                weakSelf.showSnackBar()
-                weakSelf.postCourseDateResetNotification()
+                self?.trackDatesShiftEvent(success: true)
+                self?.showSnackBar()
+                self?.postCourseDateResetNotification()
             }
         }
     }

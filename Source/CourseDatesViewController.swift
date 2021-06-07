@@ -11,6 +11,16 @@ import WebKit
 
 class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
+    private enum Pacing: String {
+        case user = "self"
+        case instructor
+    }
+    
+    private enum SyncReason: String {
+        case direct
+        case background
+    }
+    
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider & OEXInterfaceProvider & RemoteConfigProvider
     
     private let datesLoader = BackedStream<(CourseDateModel, UserPreference?)>()
@@ -126,20 +136,16 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         self.courseID = courseID
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
         setupView()
         setConstraints()
         setAccessibilityIdentifiers()
         loadStreams()
         addObserver()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -306,14 +312,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         let request = CourseDateBannerAPI.courseDatesResetRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
-            guard let weakSelf = self else { return }
             if let _ = result.error {
-                weakSelf.trackDatesShiftEvent(success: false)
-                weakSelf.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
+                self?.trackDatesShiftEvent(success: false)
+                self?.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
-                weakSelf.trackDatesShiftEvent(success: true)
-                weakSelf.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
-                weakSelf.postCourseDateResetNotification()
+                self?.trackDatesShiftEvent(success: true)
+                self?.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
+                self?.postCourseDateResetNotification()
             }
         }
     }
@@ -366,25 +371,63 @@ extension CourseDatesViewController {
     private func addCourseEventsIfNecessary() {
         if datesShifted && calendar.syncOn {
             datesShifted = false
-            removeCourseCalendar()
-            addCourseEvents()
+            
+            if calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
+                showCalendarEventShiftAlert()
+            }
         }
     }
     
-    private func addCourseEvents() {
+    private func showCalendarEventShiftAlert() {
+        guard let topController = UIApplication.shared.topMostController() else { return }
+        
+        let title = Strings.Coursedates.calendarOutOfDate
+        let message = Strings.Coursedates.calendarShiftMessage
+        
+        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, onViewController: topController) { [weak self] _, _, index in
+            if index == UIAlertControllerBlocksCancelButtonIndex {
+                self?.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
+                
+                self?.removeCourseCalendar { [weak self] success in
+                    if success {
+                        topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
+                        self?.courseDatesHeaderView.syncState = false
+                    }
+                }
+            }
+        }
+        
+        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarSyncUpdateDates, eventName: .CalendarSyncUpdateDates)
+            
+            self?.removeCourseCalendar(trackAnalytics: false) { [weak self] _ in
+                self?.addCourseEvents(trackAnalytics: false) { [weak self] success in
+                    if success {
+                        topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
+                        self?.trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: .direct)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func addCourseEvents(trackAnalytics: Bool = true, completion: ((Bool)->())? = nil) {
         calendar.addEventsToCalendar(for: dateBlocks) { [weak self] success in
             if success {
-                self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
+                if trackAnalytics {
+                    self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
+                }
                 self?.calendar.syncOn = success
                 self?.eventsAddedSuccessAlert()
             }
             self?.courseDatesHeaderView.syncState = success
+            completion?(success)
         }
     }
     
-    private func removeCourseCalendar(completion: ((Bool)->())? = nil) {
+    private func removeCourseCalendar(trackAnalytics: Bool = true, completion: ((Bool)->())? = nil) {
         calendar.removeCalendar { [weak self] success in
-            if success {
+            if success && trackAnalytics {
                 self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
             }
             completion?(success)
@@ -415,10 +458,12 @@ extension CourseDatesViewController {
             return
         }
         
+        guard let topController = UIApplication.shared.topMostController() else { return }
+        
         calendar.isModalPresented = true
         
         let title = Strings.Coursedates.datesAddedAlertMessage(calendarName: calendar.calendarName)
-        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: nil, onViewController: self) { _, _, _ in }
+        let alertController = UIAlertController().showAlert(withTitle: title, message: "", cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
         
         alertController.addButton(withTitle: Strings.Coursedates.calendarViewEvents) { _ in
             if let url = URL(string: "calshow://"), UIApplication.shared.canOpenURL(url) {
@@ -431,10 +476,10 @@ extension CourseDatesViewController {
         }
     }
     
-    private func trackCalendarEvent(for displayName: AnalyticsDisplayName, eventName: AnalyticsEventName) {
+    private func trackCalendarEvent(for displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, syncReason: SyncReason? = nil) {
         if userEnrollment == .audit || userEnrollment == .verified {
-            let pacing = isSelfPaced ? "self" : "instructor"
-            environment.analytics.trackCalendarEvent(displayName: displayName, eventName: eventName, userType: userEnrollment.rawValue, pacing: pacing, courseID: courseID)
+            let pacing: Pacing = isSelfPaced ? .user : .instructor
+            environment.analytics.trackCalendarEvent(displayName: displayName, eventName: eventName, userType: userEnrollment.rawValue, pacing: pacing.rawValue, courseID: courseID, syncReason: syncReason?.rawValue)
         }
     }
 }
@@ -462,7 +507,7 @@ extension CourseDatesViewController: UITableViewDataSource {
             cell.timeline.bottomColor = .clear
         } else {
             cell.timeline.topColor = environment.styles.neutralXDark()
-            cell.timeline.bottomColor = environment.styles.neutralBlackT()
+            cell.timeline.bottomColor = environment.styles.neutralXDark()
         }
         
         guard let blocks = dateBlocks[key] else { return cell }

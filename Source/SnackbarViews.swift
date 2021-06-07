@@ -353,6 +353,7 @@ public class CalendarActionToastView: UIView {
         addSubview(container)
         
         addConstraints()
+        addButtonActions()
     }
     
     required public init?(coder aDecoder: NSCoder) {

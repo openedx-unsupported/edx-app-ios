@@ -350,8 +350,18 @@
 "COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
 /* Course Dates Events Removed from Calendar */
 "COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
-/* Course Dates Open Settings */
+/* Course Dates Events Updated in Calendar */
+"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Your course calendar has been updated.";
+/* Course Dates Permission Not Determined */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
+/* Course Dates Calendar Out of Date*/
+"COURSEDATES.CALENDAR_OUT_OF_DATE"="Your course calendar is out of date";
+/* Course Dates Calendar Shift Message */
+"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Your course dates have been shifted and your course calendar is no longer up to date with your new schedule.";
+/* Course Dates Calendar Shift Prompt Update Now */
+"COURSEDATES.CALENDAR_SHIFT_PROMPT_UPDATE_NOW"="Update now";
+/* Course Dates Calendar Shift Prompt Remove Course Calendar */
+"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
 /* Button text for cancelling any action */
