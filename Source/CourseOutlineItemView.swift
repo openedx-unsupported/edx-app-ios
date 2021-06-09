@@ -33,7 +33,7 @@ public class CourseOutlineItemView: UIView {
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let leadingImageButton = UIButton(type: UIButton.ButtonType.system)
-    private let checkmark = UIImageView()
+    private let subtitleLeadingImageView = UIImageView()
     private let trailingContainer = UIView()
     private let separator = UIView()
     
@@ -45,7 +45,7 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
-    var shouldShowCheckmark = true
+    var shouldShowSubtitleLeadingImageView = true
     
     private var trailingIcon: Icon?
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{3000}")
@@ -68,10 +68,10 @@ public class CourseOutlineItemView: UIView {
     
     public var isGraded: Bool? {
         get {
-            return !checkmark.isHidden
+            return !subtitleLeadingImageView.isHidden
         }
         set {
-            checkmark.isHidden = !(newValue ?? false)
+            subtitleLeadingImageView.isHidden = !(newValue ?? false)
             setNeedsUpdateConstraints()
         }
     }
@@ -92,14 +92,14 @@ public class CourseOutlineItemView: UIView {
     init() {
         super.init(frame: CGRect.zero)
         
-        shouldShowCheckmark = true
+        shouldShowSubtitleLeadingImageView = true
         
         leadingImageButton.tintColor = .clear
         leadingImageButton.accessibilityTraits = UIAccessibilityTraits.image
         leadingImageButton.isAccessibilityElement = false
         
-        checkmark.image = Icon.Graded.imageWithFontSize(size: 10)
-        checkmark.tintColor = OEXStyles.shared().primaryBaseColor()
+        subtitleLeadingImageView.image = Icon.Graded.imageWithFontSize(size: 16)
+        subtitleLeadingImageView.tintColor = OEXStyles.shared().primaryBaseColor()
         
         isGraded = false
         addSubviews()
@@ -117,7 +117,7 @@ public class CourseOutlineItemView: UIView {
         titleLabel.accessibilityIdentifier = "CourseOutlineItemView:title-label"
         subtitleLabel.accessibilityIdentifier = "CourseOutlineItemView:subtitle-label"
         leadingImageButton.accessibilityIdentifier = "CourseOutlineItemView:leading-image-button"
-        checkmark.accessibilityIdentifier = "CourseOutlineItemView:check-image-view"
+        subtitleLeadingImageView.accessibilityIdentifier = "CourseOutlineItemView:check-image-view"
         trailingContainer.accessibilityIdentifier = "CourseOutlineItemView:trailing-container-view"
         trailingView.accessibilityIdentifier = "CourseOutlineItemView:trailing-view"
     }
@@ -239,14 +239,14 @@ public class CourseOutlineItemView: UIView {
             
             if let blockType = blockType {
                 if case CourseBlockType.Section = blockType {
-                    make.leading.equalTo(checkmark.snp.leading).offset(SubtitleLeadingOffset)
+                    make.leading.equalTo(subtitleLeadingImageView.snp.leading).offset(SubtitleLeadingOffset)
                 } else {
-                    make.leading.equalTo(checkmark.snp.leading).offset(0)
+                    make.leading.equalTo(subtitleLeadingImageView.snp.leading).offset(0)
                 }
-            } else if shouldShowCheckmark {
-                make.leading.equalTo(checkmark.snp.leading).offset(SubtitleLeadingOffset)
+            } else if shouldShowSubtitleLeadingImageView {
+                make.leading.equalTo(subtitleLeadingImageView.snp.leading).offset(SubtitleLeadingOffset)
             } else {
-                make.leading.equalTo(checkmark.snp.leading).offset(0)
+                make.leading.equalTo(subtitleLeadingImageView.snp.leading).offset(0)
             }
             make.trailing.lessThanOrEqualTo(self).offset(-StandardHorizontalMargin)
         }
@@ -264,12 +264,12 @@ public class CourseOutlineItemView: UIView {
         addSubview(trailingContainer)
         addSubview(titleLabel)
         addSubview(subtitleLabel)
-        addSubview(checkmark)
+        addSubview(subtitleLeadingImageView)
         addSubview(separator)
         
         // For performance only add the static constraints once
         
-        checkmark.snp.remakeConstraints { make in
+        subtitleLeadingImageView.snp.remakeConstraints { make in
             make.bottom.equalTo(subtitleLabel)
             make.leading.equalTo(titleLabel)
             make.trailing.lessThanOrEqualTo(trailingContainer.snp.leading).offset(5)
@@ -279,10 +279,10 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.snp.remakeConstraints { make in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             
-            if checkmark.isHidden {
-                make.leading.equalTo(checkmark.snp.leading).offset(SubtitleLeadingOffset)
+            if subtitleLeadingImageView.isHidden {
+                make.leading.equalTo(subtitleLeadingImageView.snp.leading).offset(SubtitleLeadingOffset)
             } else {
-                make.leading.equalTo(checkmark.snp.leading).offset(0)
+                make.leading.equalTo(subtitleLeadingImageView.snp.leading).offset(0)
             }
         }
         

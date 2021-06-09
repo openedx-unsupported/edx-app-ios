@@ -92,7 +92,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
                 return
             }
             
-            content.shouldShowCheckmark = false
+            content.shouldShowSubtitleLeadingImageView = false
             content.setDetailText(title: formattedDetailText(with: duration), blockType: block?.type)
         }
     }
