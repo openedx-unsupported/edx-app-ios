@@ -21,6 +21,7 @@ public enum CourseHTMLBlockSubkind {
     case OpenAssesment
     case DragAndDrop
     case WordCloud
+    case LTIConsumer
 }
 
 enum CourseBlockDisplayType {
@@ -48,6 +49,7 @@ extension CourseBlock {
         case .OpenAssesment: return multiDevice ? .HTML(.OpenAssesment) : .Unknown
         case .DragAndDrop: return multiDevice ? .HTML(.DragAndDrop) : .Unknown
         case .WordCloud: return multiDevice ? .HTML(.WordCloud) : .Unknown
+        case .LTIConsumer: return multiDevice ? .HTML(.LTIConsumer) : .Unknown
         case .Course: return .Outline
         case .Chapter: return .Outline
         case .Section: return .Outline

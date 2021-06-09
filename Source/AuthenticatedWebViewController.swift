@@ -313,7 +313,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             decisionHandler(.cancel)
         } else {
             switch navigationAction.navigationType {
-            case .linkActivated, .formSubmitted, .formResubmitted:
+            case .linkActivated:
                 if let url = navigationAction.request.url, UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }

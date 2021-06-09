@@ -111,6 +111,8 @@ public struct CourseOutline {
                             let discussionModel = DiscussionModel(dictionary: bodyData ?? [:])
                             type = .Discussion(discussionModel)
                         }
+                    case .LTIConsumer:
+                        type = .LTIConsumer
                     }
                 }
                 else {
@@ -161,6 +163,7 @@ public enum CourseBlockType: Equatable {
     case DragAndDrop
     case WordCloud
     case HTML
+    case LTIConsumer
     case Discussion(DiscussionModel)
     
     public var asVideo : OEXVideoSummary? {
@@ -188,6 +191,7 @@ public class CourseBlock {
         case Unit = "vertical"
         case Video = "video"
         case Discussion = "discussion"
+        case LTIConsumer = "lti_consumer"
     }
     
     public enum AuthorizationDenialReason : String {
