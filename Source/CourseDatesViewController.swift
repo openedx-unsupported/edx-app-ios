@@ -95,7 +95,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return EnrollmentMode(rawValue: mode) ?? .none
     }
     
-    var calendarState: Bool {
+    private var calendarState: Bool {
         set {
             if newValue {
                 trackCalendarEvent(for: .CalendarToggleOn, eventName: .CalendarToggleOn)
