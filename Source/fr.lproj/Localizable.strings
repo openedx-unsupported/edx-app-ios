@@ -324,8 +324,12 @@
 "COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
 /* Course Dates Add Calendar Dialog Title */
 "COURSEDATES.ADD_CALENDAR_TITLE"="Add Calendar \"{calendar_name}\"";
+/* Course Dates Remove Calendar Dialog Title */
+"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove Calendar \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
 "COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} Calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+/* Course Dates Remove Calendar Message prompt */
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} Calendar \"{calendar_name}\" ";
 /* Course Dates Calendar has been added to your calendar*/
 "COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */
@@ -686,6 +690,8 @@
 "OFFLINE" = "Hors connexion";
 /* Alert dialog okay button */
 "OK"="Ok";
+/* Alert dialog remove button */
+"REMOVE"="Remove";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="Voir dans Safari";
 /* Button label to bring up course finder */
