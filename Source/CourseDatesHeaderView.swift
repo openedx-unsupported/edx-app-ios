@@ -27,6 +27,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     weak var delegate: Delegate?
     
     private lazy var styles = OEXStyles.shared()
+    private lazy var switchStyle = OEXStyles.shared().standardSwitchStyle()
     
     private lazy var titleTextStyle: OEXTextStyle = {
         let style = OEXMutableTextStyle(weight: .bold, size: .xLarge, color: styles.primaryDarkColor())
@@ -212,6 +213,8 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         bottomContainer.backgroundColor = .white
         bottomContainer.addSubview(syncContainer)
         container.addSubview(bottomContainer)
+        
+        switchStyle.apply(to: syncSwitch)
         
         syncToCalenderLabel.attributedText = syncToCalendarLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendar)
         let attributedText = syncMessageTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
