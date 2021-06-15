@@ -45,7 +45,7 @@ private protocol WebContentController {
 protocol AuthenticatedWebViewControllerRequireAuthentication {
 }
 
-protocol AuthenticatedWebViewControllerDelegate {
+protocol AuthenticatedWebViewControllerDelegate: AnyObject {
     func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView)
 }
 
@@ -112,7 +112,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     }
 
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider
-    var delegate: AuthenticatedWebViewControllerDelegate?
+    weak var delegate: AuthenticatedWebViewControllerDelegate?
     internal let environment : Environment
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
