@@ -25,9 +25,11 @@ class CalendarManager: NSObject {
     private let eventStore = EKEventStore()
     private let iCloudCalendar = "icloud"
     private let alertOffset = -1
-    private var calendarKey = "CalendarEntries"
+    private let calendarKey = "CalendarEntries"
     
     private var localCalendar: EKCalendar? {
+        if authorizationStatus != .authorized { return nil }
+        
         var calendars = eventStore.calendars(for: .event).filter { $0.title == calendarName }
         
         if calendars.isEmpty {
@@ -46,6 +48,8 @@ class CalendarManager: NSObject {
     private let calendarColor = OEXStyles.shared().primaryBaseColor()
     
     private var calendarSource: EKSource? {
+        eventStore.refreshSourcesIfNecessary()
+        
         let iCloud = eventStore.sources.first(where: { $0.sourceType == .calDAV && $0.title.localizedCaseInsensitiveContains(iCloudCalendar) })
         let local = eventStore.sources.first(where: { $0.sourceType == .local })
         let fallback = eventStore.defaultCalendarForNewEvents?.source
@@ -80,6 +84,12 @@ class CalendarManager: NSObject {
                 if calendarEntry.identifier == localCalendar.calendarIdentifier {
                     return calendarEntry.isOn
                 }
+            } else {
+                if let localCalendar = localCalendar {
+                    let courseCalendar = CourseCalendar(identifier: localCalendar.calendarIdentifier, courseID: courseID, isOn: true, modalPresented: false)
+                    addOrUpdateCalendarEntry(courseCalendar: courseCalendar)
+                    return true
+                }
             }
             return false
         }
@@ -101,7 +111,8 @@ class CalendarManager: NSObject {
     
     func requestAccess(completion: @escaping (Bool, EKAuthorizationStatus, EKAuthorizationStatus) -> ()) {
         let previousStatus = EKEventStore.authorizationStatus(for: .event)
-        eventStore.requestAccess(to: .event) { access, _ in
+        eventStore.requestAccess(to: .event) { [weak self] access, _ in
+            self?.eventStore.reset()
             let currentStatus = EKEventStore.authorizationStatus(for: .event)
             DispatchQueue.main.async {
                 completion(access, previousStatus, currentStatus)
@@ -133,9 +144,7 @@ class CalendarManager: NSObject {
     }
     
     func checkIfEventsShouldBeShifted(for dateBlocks: [Date : [CourseDateBlock]]) -> Bool {
-        guard let _ = calendarEntry else {
-            return false
-        }
+        guard let _ = calendarEntry else { return false }
         
         let events = generateEvents(for: dateBlocks)
         let allEvents = events.allSatisfy { alreadyExist(event: $0) }
@@ -178,7 +187,7 @@ class CalendarManager: NSObject {
                 courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, isOn: true, modalPresented: false)
             }
             
-            addOrUpdateCalendarEntry(courseCalendar: courseCalendar, isOn: true)
+            addOrUpdateCalendarEntry(courseCalendar: courseCalendar)
             
             return true
         } catch {
@@ -263,7 +272,7 @@ class CalendarManager: NSObject {
         }
     }
     
-    private func addOrUpdateCalendarEntry(courseCalendar: CourseCalendar, isOn: Bool) {
+    private func addOrUpdateCalendarEntry(courseCalendar: CourseCalendar) {
         var calenders: [CourseCalendar] = []
         
         if let decodedCalendars = courseCalendars() {
@@ -272,8 +281,7 @@ class CalendarManager: NSObject {
         
         if let index = calenders.firstIndex(where: { $0.courseID == courseID }) {
             calenders.modifyElement(atIndex: index) { element in
-                element.isOn = isOn
-                element.identifier = courseCalendar.identifier
+                element = courseCalendar
             }
         } else {
             calenders.append(courseCalendar)
@@ -296,7 +304,7 @@ class CalendarManager: NSObject {
     
     private func setModalPresented(presented: Bool) {
         guard var calendars = courseCalendars(),
-            let index = calendars.firstIndex(where: { $0.courseID == courseID })
+              let index = calendars.firstIndex(where: { $0.courseID == courseID })
         else { return }
         
         calendars.modifyElement(atIndex: index) { element in
@@ -315,8 +323,7 @@ class CalendarManager: NSObject {
     }
     
     private func removeCalendarEntry() {
-        guard var calendars = courseCalendars()
-        else { return }
+        guard var calendars = courseCalendars() else { return }
         
         if let index = calendars.firstIndex(where: { $0.courseID == courseID }) {
             calendars.remove(at: index)
@@ -326,8 +333,7 @@ class CalendarManager: NSObject {
     }
     
     private func updateSyncSwitchStatus(isOn: Bool) {
-        guard var calendars = courseCalendars()
-        else { return }
+        guard var calendars = courseCalendars() else { return }
         
         if let index = calendars.firstIndex(where: { $0.courseID == courseID }) {
             calendars.modifyElement(atIndex: index) { element in
@@ -352,8 +358,7 @@ class CalendarManager: NSObject {
     }
     
     private func saveCalendarEntry(calendars: [CourseCalendar]) {
-        guard let data = try? PropertyListEncoder().encode(calendars)
-        else { return }
+        guard let data = try? PropertyListEncoder().encode(calendars) else { return }
         
         UserDefaults.standard.set(data, forKey: calendarKey)
         UserDefaults.standard.synchronize()

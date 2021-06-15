@@ -442,6 +442,7 @@ extension CourseDatesViewController {
             if index == UIAlertControllerBlocksCancelButtonIndex {
                 self?.courseDatesHeaderView.syncState = false
                 self?.calendar.syncOn = false
+                self?.removeCourseCalendar()
                 self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
             }
         }
