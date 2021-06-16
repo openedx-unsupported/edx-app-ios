@@ -327,9 +327,9 @@
 /* Course Dates Remove Calendar Dialog Title */
 "COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove Calendar \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} Calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
 /* Course Dates Remove Calendar Message prompt */
-"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} Calendar \"{calendar_name}\" ";
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
 /* Course Dates Calendar has been added to your calendar*/
 "COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */
