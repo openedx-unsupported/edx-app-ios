@@ -27,7 +27,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     weak var delegate: Delegate?
     
     private lazy var styles = OEXStyles.shared()
-    private lazy var switchStyle = OEXStyles.shared().standardSwitchStyle()
+    private lazy var switchStyle = styles.standardSwitchStyle()
     
     private lazy var titleTextStyle: OEXTextStyle = {
         let style = OEXMutableTextStyle(weight: .bold, size: .xLarge, color: styles.primaryDarkColor())
