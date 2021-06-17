@@ -369,15 +369,11 @@ extension CourseDatesViewController {
     }
     
     private func addCourseEventsIfNecessary() {
-        if calendar.syncOn {
-            if datesShifted {
-                datesShifted = false
-                
-                if calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
-                    showCalendarEventShiftAlert()
-                }
-            } else {
-                addCourseEvents()
+        if datesShifted && calendar.syncOn {
+            datesShifted = false
+            
+            if calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
+                showCalendarEventShiftAlert()
             }
         }
     }
@@ -416,9 +412,8 @@ extension CourseDatesViewController {
     }
     
     private func addCourseEvents(trackAnalytics: Bool = true, completion: ((Bool)->())? = nil) {
-        if calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
-            trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: .background)
-            removeCourseCalendar(trackAnalytics: true)
+        if !calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
+            return
         }
         
         calendar.addEventsToCalendar(for: dateBlocks) { [weak self] success in
