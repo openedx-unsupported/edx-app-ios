@@ -412,6 +412,10 @@ extension CourseDatesViewController {
     }
     
     private func addCourseEvents(trackAnalytics: Bool = true, completion: ((Bool)->())? = nil) {
+        if !calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
+            return
+        }
+        
         calendar.addEventsToCalendar(for: dateBlocks) { [weak self] success in
             if success {
                 if trackAnalytics {
@@ -442,6 +446,7 @@ extension CourseDatesViewController {
             if index == UIAlertControllerBlocksCancelButtonIndex {
                 self?.courseDatesHeaderView.syncState = false
                 self?.calendar.syncOn = false
+                self?.removeCourseCalendar()
                 self?.trackCalendarEvent(for: .CalendarAddCancelled, eventName: .CalendarAddCancelled)
             }
         }
