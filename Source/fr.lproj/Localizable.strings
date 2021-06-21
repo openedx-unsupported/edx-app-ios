@@ -164,6 +164,8 @@
 "ACCOMPLISHMENTS.TITLE" = "Récompenses";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "J'ai obtenu un badge sur {platform_name}! Regarde";
+/* Add */
+"ADD"="Add";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Ajouter un commentaire";
 /* Add a response button title used in discussion's responses screen */

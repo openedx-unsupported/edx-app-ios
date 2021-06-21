@@ -176,6 +176,8 @@
 "ACCOMPLISHMENTS.TITLE" = "الإنجازات";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "لقد نلت للتو وساماً من منصّة {platform_name}! ألق نظرة عليه!";
+/* Add */
+"ADD"="Add";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="أضف تعليقًا";
 /* Add a response button title used in discussion's responses screen */

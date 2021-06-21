@@ -170,6 +170,8 @@
 "ACCOMPLISHMENTS.TITLE" = "הישגים";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "הרווחתי תג ב-{platform_name}! תעיפו מבט";
+/* Add */
+"ADD"="Add";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="הוסיפו תגובה";
 /* Add a response button title used in discussion's responses screen */

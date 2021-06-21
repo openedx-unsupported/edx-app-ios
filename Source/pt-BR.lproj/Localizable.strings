@@ -164,6 +164,8 @@
 "ACCOMPLISHMENTS.TITLE" = "Realizações";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "Eu ganhei um emblema {platform_name}! Confira!";
+/* Add */
+"ADD"="Add";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Adicionar um comentário";
 /* Add a response button title used in discussion's responses screen */

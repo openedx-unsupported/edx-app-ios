@@ -161,6 +161,8 @@
 "ACCOMPLISHMENTS.TITLE" = "Thành tựu";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "Tôi vừa nhận được huy hiệu ở {platform_name}! Xem ngay";
+/* Add */
+"ADD"="Add";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Thêm một bình luận";
 /* Add a response button title used in discussion's responses screen */

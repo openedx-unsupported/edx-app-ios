@@ -164,6 +164,8 @@
 "ACCOMPLISHMENTS.TITLE" = "Başarılar";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "{platform_name} platformunda yeni bir rozet kazandım! Burada görebilirsin";
+/* Add */
+"ADD"="Add";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Bir yorum ekle";
 /* Add a response button title used in discussion's responses screen */
