@@ -75,7 +75,7 @@ extension UIAlertController {
                 controller.addAction(otherAction)
             }
         }
-        
+        controller.view.tintColor = .systemBlue
         pController.present(controller, animated: true, completion: nil)
         
         return controller
