@@ -1,1 +1,0 @@
-../../../FirebaseMessaging/Firebase/InstanceID/Private/FIRInstanceIDCheckinPreferences.h

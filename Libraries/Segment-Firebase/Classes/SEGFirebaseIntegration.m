@@ -63,9 +63,20 @@
 {
     NSString *name = [self formatFirebaseEventNames:payload.event];
     NSDictionary *parameters = [self returnMappedFirebaseParameters:payload.properties];
+    NSDictionary *mappedParameters = [SEGFirebaseIntegration mapToStrings:parameters];
+    NSMutableDictionary *formattedParameters = [[NSMutableDictionary alloc] init];
 
-    [self.firebaseClass logEventWithName:name parameters:parameters];
-    SEGLog(@"[FIRAnalytics logEventWithName:%@ parameters:%@]", name, parameters);
+    [mappedParameters enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+        NSArray* components = [value componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString* formattedValue = [components componentsJoinedByString:@""];
+        if ([formattedValue length] > 100) {
+            formattedValue = [formattedValue substringToIndex:100];
+        }
+        formattedParameters[key] = formattedValue;
+    }];
+
+    [self.firebaseClass logEventWithName:name parameters:formattedParameters];
+    SEGLog(@"[FIRAnalytics logEventWithName:%@ parameters:%@]", name, formattedParameters);
 }
 
 
@@ -99,7 +110,7 @@
 
     NSString *trimmed = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([^a-zA-Z0-9_])" options:0 error:&error];
-    NSString *formatted = [regex stringByReplacingMatchesInString:trimmed options:0 range:NSMakeRange(0, [trimmed length]) withTemplate:@"_"];
+    NSString *formatted = [[regex stringByReplacingMatchesInString:trimmed options:0 range:NSMakeRange(0, [trimmed length]) withTemplate:@"_"] stringByReplacingOccurrencesOfString:@"__" withString:@"_"];
 
     NSLog(@"Output: %@", formatted); 
     return [formatted substringToIndex:MIN(40, [formatted length])];
