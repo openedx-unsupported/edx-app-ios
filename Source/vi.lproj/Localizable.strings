@@ -478,6 +478,8 @@
 "DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Tìm Môn học";
 /*Label text for view all subjects cell*/
 "DISCOVERY.VIEW_ALL_SUBJECTS" = "Xem tất cả Môn học";
+/* Done */
+"DONE"="Done";
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="Hết hạn hôm nay vào {due_date} {time_zone}";
 /* Text describing the course due date*/

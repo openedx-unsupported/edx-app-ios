@@ -528,6 +528,8 @@
 "DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
 /*Label text for view all subjects cell*/
 "DISCOVERY.VIEW_ALL_SUBJECTS" = "View All Subjects";
+/* Done */
+"DONE"="Done";
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="مستحق اليوم في {due_date} {time_zone}";
 /* Text describing the course due date*/

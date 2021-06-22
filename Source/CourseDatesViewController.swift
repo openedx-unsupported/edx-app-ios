@@ -499,7 +499,7 @@ extension CourseDatesViewController {
             }
         }
         
-        alertController.addButton(withTitle: Strings.ok) { [weak self] _ in
+        alertController.addButton(withTitle: Strings.done) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarAddConfirmation, eventName: .CalendarAddConfirmation)
         }
     }

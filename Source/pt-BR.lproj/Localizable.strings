@@ -488,6 +488,8 @@
 "DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Procurar por Assunto";
 /*Label text for view all subjects cell*/
 "DISCOVERY.VIEW_ALL_SUBJECTS" = "Visualizar todos os assuntos";
+/* Done */
+"DONE"="Done";
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="com vencimento hoje às {due_date} {time_zone}";
 /* Text describing the course due date*/

@@ -488,6 +488,8 @@
 "DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Konu Ara";
 /*Label text for view all subjects cell*/
 "DISCOVERY.VIEW_ALL_SUBJECTS" = "Tüm Konulara Göz At";
+/* Done */
+"DONE"="Done";
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="Bugün {time_zone} zaman diliminde {due_date} tarihine dek";
 /* Text describing the course due date*/
