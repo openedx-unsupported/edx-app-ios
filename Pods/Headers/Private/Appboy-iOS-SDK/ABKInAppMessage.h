@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKInAppMessage.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKInAppMessage.h

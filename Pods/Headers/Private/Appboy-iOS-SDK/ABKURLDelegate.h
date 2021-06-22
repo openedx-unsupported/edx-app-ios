@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKURLDelegate.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKURLDelegate.h

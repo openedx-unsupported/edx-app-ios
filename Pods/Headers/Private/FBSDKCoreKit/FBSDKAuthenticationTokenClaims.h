@@ -1,1 +1,1 @@
-../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/Internal/FBSDKAuthenticationTokenClaims.h
+../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/FBSDKAuthenticationTokenClaims.h

@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKInAppMessageImmersive.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKInAppMessageImmersive.h

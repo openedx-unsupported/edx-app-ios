@@ -143,10 +143,10 @@
     NSDictionary* userInfo = @{@"thing" : @"happened"};
     
     id listener = OCMStrictProtocolMock(@protocol(OEXPushListener));
-    [[listener expect] didReceiveRemoteNotificationWithUserInfo:userInfo application:nil completionHandler:nil];
+    [[listener expect] didReceiveRemoteNotificationWithUserInfo:userInfo];
     
     [self.manager addListener:listener];
-    [self.manager didReceiveRemoteNotificationWithUserInfo:userInfo application:nil completionHandler:nil];
+    [self.manager didReceiveRemoteNotificationWithUserInfo:userInfo];
     
     OCMVerifyAll(listener);
 }
@@ -155,11 +155,11 @@
     NSDictionary* userInfo = @{@"thing" : @"happened"};
     
     id listener = OCMStrictProtocolMock(@protocol(OEXPushListener));
-    [[listener reject] didReceiveRemoteNotificationWithUserInfo:userInfo application:nil completionHandler:nil];
+    [[listener reject] didReceiveRemoteNotificationWithUserInfo:userInfo];
     
     [self.manager addListener:listener];
     [self.manager removeListener:listener];
-    [self.manager didReceiveRemoteNotificationWithUserInfo:userInfo application:nil completionHandler:nil];
+    [self.manager didReceiveRemoteNotificationWithUserInfo:userInfo];
     
     OCMVerifyAll(listener);
 }

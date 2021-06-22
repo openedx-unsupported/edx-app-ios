@@ -1,6 +1,6 @@
 #import "ABKInAppMessageUIController.h"
 #import "AppboyKit.h"
-#import "ABKInAppmessageWindowController.h"
+#import "ABKInAppMessageWindowController.h"
 #import "ABKUIUtils.h"
 #import "ABKInAppMessageSlideupViewController.h"
 #import "ABKInAppMessageModalViewController.h"

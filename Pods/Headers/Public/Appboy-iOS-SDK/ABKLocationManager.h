@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKLocationManager.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKLocationManager.h

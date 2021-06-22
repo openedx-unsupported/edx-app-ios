@@ -17,7 +17,7 @@
 #import "GoogleUtilities/ISASwizzler/GULObjectSwizzler+Internal.h"
 #import "GoogleUtilities/ISASwizzler/Public/GoogleUtilities/GULSwizzledObject.h"
 
-NSString *kSwizzlerAssociatedObjectKey = @"gul_objectSwizzler";
+NSString *kGULSwizzlerAssociatedObjectKey = @"gul_objectSwizzler";
 
 @interface GULSwizzledObject ()
 
@@ -46,7 +46,7 @@ NSString *kSwizzlerAssociatedObjectKey = @"gul_objectSwizzler";
 }
 
 - (GULObjectSwizzler *)gul_objectSwizzler {
-  return [GULObjectSwizzler getAssociatedObject:self key:kSwizzlerAssociatedObjectKey];
+  return [GULObjectSwizzler getAssociatedObject:self key:kGULSwizzlerAssociatedObjectKey];
 }
 
 #pragma mark - Donor methods

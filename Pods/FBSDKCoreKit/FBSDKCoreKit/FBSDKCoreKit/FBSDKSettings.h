@@ -18,46 +18,9 @@
 
 #import <UIKit/UIKit.h>
 
+#import "FBSDKLoggingBehavior.h"
+
 NS_ASSUME_NONNULL_BEGIN
-
-/*
- * Constants defining logging behavior.  Use with <[FBSDKSettings setLoggingBehavior]>.
- */
-
-/// typedef for FBSDKAppEventName
-typedef NSString *const FBSDKLoggingBehavior NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(LoggingBehavior);
-
-/** Include access token in logging. */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorAccessTokens;
-
-/** Log performance characteristics */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorPerformanceCharacteristics;
-
-/** Log FBSDKAppEvents interactions */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorAppEvents;
-
-/** Log Informational occurrences */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorInformational;
-
-/** Log cache errors. */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorCacheErrors;
-
-/** Log errors from SDK UI controls */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorUIControlErrors;
-
-/** Log debug warnings from API response, i.e. when friends fields requested, but user_friends permission isn't granted. */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorGraphAPIDebugWarning;
-
-/** Log warnings from API response, i.e. when requested feature will be deprecated in next version of API.
- Info is the lowest level of severity, using it will result in logging all previously mentioned levels.
- */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorGraphAPIDebugInfo;
-
-/** Log errors from SDK network requests */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorNetworkRequests;
-
-/** Log errors likely to be preventable by the developer. This is in the default set of enabled logging behaviors. */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorDeveloperErrors;
 
 NS_SWIFT_NAME(Settings)
 @interface FBSDKSettings : NSObject
@@ -104,11 +67,24 @@ NS_SWIFT_NAME(jpegCompressionQuality);
 @property (class, nonatomic, assign, getter=isAdvertiserIDCollectionEnabled) BOOL advertiserIDCollectionEnabled;
 
 /**
+ Controls the SKAdNetwork report
+ If not explicitly set, the default is true
+ */
+@property (class, nonatomic, assign, getter=isSKAdNetworkReportEnabled) BOOL SKAdNetworkReportEnabled;
+
+/**
  Whether data such as that generated through FBSDKAppEvents and sent to Facebook
  should be restricted from being used for other than analytics and conversions.
  Defaults to NO. This value is stored on the device and persists across app launches.
  */
 @property (class, nonatomic, assign, getter=shouldLimitEventAndDataUsage) BOOL limitEventAndDataUsage;
+
+/**
+ Whether in memory cached values should be used for expensive metadata fields, such as
+ carrier and advertiser ID, that are fetched on many applicationDidBecomeActive notifications.
+ Defaults to NO. This value is stored on the device and persists across app launches.
+ */
+@property (class, nonatomic, assign, getter=shouldUseCachedValuesForExpensiveMetadata) BOOL shouldUseCachedValuesForExpensiveMetadata;
 
 /**
  A convenient way to toggle error recovery for all FBSDKGraphRequest instances created after this is set.

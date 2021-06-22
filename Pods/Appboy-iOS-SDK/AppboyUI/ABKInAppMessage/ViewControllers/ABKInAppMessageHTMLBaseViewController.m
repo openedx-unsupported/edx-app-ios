@@ -32,43 +32,30 @@ static NSString *const ABKHTMLInAppJavaScriptExtension = @"js";
 #pragma mark - View Lifecycle
 
 - (void)loadView {
-  // View is full screen and covers status bar. It needs to be an ABKInAppMessageView to
-  // ensure touches register as per custom logic in ABKInAppMessageWindow
-  self.view = [[ABKInAppMessageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  // View needs to be an ABKInAppMessageView to ensure touches register as per custom logic
+  // in ABKInAppMessageWindow. The frame is set in `beforeMoveInAppMessageViewOnScreen`.
+  self.view = [[ABKInAppMessageView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   self.view.translatesAutoresizingMaskIntoConstraints = NO;
   
-  NSLayoutConstraint *leadConstraint = [NSLayoutConstraint constraintWithItem:self.view
-                                                                    attribute:NSLayoutAttributeLeading
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.view.superview
-                                                                    attribute:NSLayoutAttributeLeading
-                                                                   multiplier:1
-                                                                     constant:0.0];
-  NSLayoutConstraint *trailConstraint = [NSLayoutConstraint constraintWithItem:self.view.superview
-                                                                     attribute:NSLayoutAttributeTrailing
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.view
-                                                                     attribute:NSLayoutAttributeTrailing
-                                                                    multiplier:1
-                                                                      constant:0.0];
-  self.topConstraint = [NSLayoutConstraint constraintWithItem:self.view
-                                                    attribute:NSLayoutAttributeTop
-                                                    relatedBy:NSLayoutRelationEqual
-                                                       toItem:self.view.superview
-                                                    attribute:NSLayoutAttributeTop
-                                                   multiplier:1
-                                                     constant:self.view.frame.size.height];
-  self.bottomConstraint = [NSLayoutConstraint constraintWithItem:self.view
-                                                       attribute:NSLayoutAttributeBottom
-                                                       relatedBy:NSLayoutRelationEqual
-                                                          toItem:self.view.superview
-                                                       attribute:NSLayoutAttributeBottom
-                                                      multiplier:1
-                                                        constant:self.view.frame.size.height];
+  NSLayoutConstraint *leadConstraint = [self.view.leadingAnchor constraintEqualToAnchor:self.view.superview.leadingAnchor];
+  NSLayoutConstraint *trailConstraint = [self.view.trailingAnchor constraintEqualToAnchor:self.view.superview.trailingAnchor];
+
+  // Top and bottom constants will be populated with the actual frame sizes after
+  // the HTML content is fully loaded in `beforeMoveInAppMessageViewOnScreen`
+#if TARGET_OS_MACCATALYST
+  // Within safe zone
+  self.topConstraint = [self.view.topAnchor constraintEqualToAnchor:self.view.superview.layoutMarginsGuide.topAnchor];
+  self.bottomConstraint = [self.view.bottomAnchor constraintEqualToAnchor:self.view.superview.layoutMarginsGuide.bottomAnchor];
+#else
+  // Extends to the edges of the screen
+  self.topConstraint = [self.view.topAnchor constraintEqualToAnchor:self.view.superview.topAnchor];
+  self.bottomConstraint = [self.view.bottomAnchor constraintEqualToAnchor:self.view.superview.bottomAnchor];
+#endif
+
   [self.view.superview addConstraints:@[leadConstraint, trailConstraint, self.topConstraint, self.bottomConstraint]];
 }
 
@@ -173,7 +160,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     return;
   }
   
-  // Handle Appboy specific actions
+  // Handle Braze specific actions
   NSDictionary *queryParams = [self queryParameterDictionaryFromURL:url];
   NSString *buttonId = [self parseButtonIdFromQueryParams:queryParams];
   ABKInAppMessageWindowController *parentViewController =
@@ -396,7 +383,10 @@ runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt
 
 #pragma mark - Animation
 
-- (void)beforeMoveInAppMessageViewOnScreen {}
+- (void)beforeMoveInAppMessageViewOnScreen {
+  self.topConstraint.constant = self.view.frame.size.height;
+  self.bottomConstraint.constant = self.view.frame.size.height;
+}
 
 - (void)moveInAppMessageViewOnScreen {
   // Do nothing - moving the in-app message is handled in didFinishNavigation

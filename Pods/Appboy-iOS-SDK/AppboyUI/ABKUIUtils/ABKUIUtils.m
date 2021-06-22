@@ -11,7 +11,6 @@ static NSUInteger const iPhone12ProMax = 2778.0;
 static NSUInteger const iPhone12Mini = 2340.0;
 
 // Bundles
-static NSString * const ABKUISPMBundleName = @"Appboy_iOS_SDK_AppboyUI.bundle";
 static NSString * const ABKUIPodCCBundleName = @"AppboyUI.ContentCards.bundle";
 static NSString * const ABKUIPodIAMBundleName = @"AppboyUI.InAppMessage.bundle";
 static NSString * const ABKUIPodNFBundleName = @"AppboyUI.NewsFeed.bundle";
@@ -22,13 +21,15 @@ static NSString * const ABKUIPodNFBundleName = @"AppboyUI.NewsFeed.bundle";
 
 + (NSBundle *)bundle:(Class)bundleClass channel:(ABKChannel)channel {
   NSBundle *bundle;
-  
+
   // SPM
-  bundle = [self bundleForName:ABKUISPMBundleName class:bundleClass];
+#if SWIFT_PACKAGE
+  bundle = SWIFTPM_MODULE_BUNDLE;
   if (bundle != nil) {
     return bundle;
   }
-  
+#endif
+
   // Cocoapods
   switch (channel) {
     case ABKContentCardChannel:
@@ -44,7 +45,7 @@ static NSString * const ABKUIPodNFBundleName = @"AppboyUI.NewsFeed.bundle";
       break;
       
     default:
-      NSLog(@"Warning: Received bundle request for unsupported Appboy channel: %ld", (long)channel);
+      NSLog(@"Warning: Received bundle request for unsupported channel: %ld", (long)channel);
       break;
   }
   
@@ -61,7 +62,7 @@ static NSString * const ABKUIPodNFBundleName = @"AppboyUI.NewsFeed.bundle";
   if ([bundleURL checkResourceIsReachableAndReturnError:nil]) {
     return [NSBundle bundleWithURL:bundleURL];
   }
-  
+
   return nil;
 }
 
@@ -310,6 +311,36 @@ static NSString * const ABKUIPodNFBundleName = @"AppboyUI.NewsFeed.bundle";
   }
   
   return resp != nil;
+}
+
++ (UIFont *)preferredFontForTextStyle:(UIFontTextStyle)textStyle weight:(UIFontWeight)weight {
+  if (@available(iOS 11.0, tvOS 11.0, *)) {
+    UIFontMetrics *metrics = [UIFontMetrics metricsForTextStyle:textStyle];
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:textStyle];
+    UIFont *font = [UIFont systemFontOfSize:descriptor.pointSize weight:weight];
+    return [metrics scaledFontForFont:font];
+  } else {
+    // https://apple.co/3snncd9 (Large / Default)
+    static dispatch_once_t once;
+    static NSDictionary *textStyleMap;
+    dispatch_once(&once, ^{
+      textStyleMap = @{
+        UIFontTextStyleTitle1: @(28.0),
+        UIFontTextStyleTitle2: @(22.0),
+        UIFontTextStyleTitle3: @(20.0),
+        UIFontTextStyleHeadline: @(17.0),
+        UIFontTextStyleBody: @(17.0),
+        UIFontTextStyleCallout: @(16.0),
+        UIFontTextStyleSubheadline: @(15.0),
+        UIFontTextStyleFootnote: @(13.0),
+        UIFontTextStyleCaption1: @(12.0),
+        UIFontTextStyleCaption2: @(11.0)
+      };
+    });
+
+    return [UIFont systemFontOfSize:[textStyleMap[textStyle] doubleValue]
+                             weight:weight];
+  }
 }
 
 @end

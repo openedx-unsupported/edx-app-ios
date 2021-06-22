@@ -24,6 +24,8 @@
 #import <FBSDKCoreKit/FBSDKConstants.h>
 #endif
 
+NS_ASSUME_NONNULL_BEGIN
+
 //immutable
 NS_SWIFT_NAME(ErrorRecoveryConfiguration)
 @interface FBSDKErrorRecoveryConfiguration : NSObject<NSCopying, NSSecureCoding>
@@ -41,3 +43,5 @@ NS_SWIFT_NAME(ErrorRecoveryConfiguration)
                                    category:(FBSDKGraphRequestError)category
                          recoveryActionName:(NSString *)recoveryActionName NS_DESIGNATED_INITIALIZER;
 @end
+
+NS_ASSUME_NONNULL_END

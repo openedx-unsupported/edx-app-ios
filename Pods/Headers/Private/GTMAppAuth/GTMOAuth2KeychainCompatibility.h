@@ -1,1 +1,1 @@
-../../../GTMAppAuth/Source/GTMOAuth2KeychainCompatibility/GTMOAuth2KeychainCompatibility.h
+../../../GTMAppAuth/GTMAppAuth/Sources/Public/GTMAppAuth/GTMOAuth2KeychainCompatibility.h

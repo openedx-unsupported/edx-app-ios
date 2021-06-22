@@ -29,23 +29,18 @@
 
 - (void)attemptRecoveryFromError:(NSError *)error
                      optionIndex:(NSUInteger)recoveryOptionIndex
-                        delegate:(id)delegate
-              didRecoverSelector:(SEL)didRecoverSelector
-                     contextInfo:(void *)contextInfo
+               completionHandler:(void (^)(BOOL didRecover))completionHandler
 {
-  void (^handler)(BOOL) = ^(BOOL didRecover) {
-    [super completeRecovery:didRecover delegate:delegate didRecoverSelector:didRecoverSelector contextInfo:contextInfo];
-  };
   NSSet *currentPermissions = [FBSDKAccessToken currentAccessToken].permissions;
   if (recoveryOptionIndex == 0 && currentPermissions.count > 0) {
-    FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+    FBSDKLoginManager *login = [FBSDKLoginManager new];
     [login logInWithPermissions:currentPermissions.allObjects fromViewController:nil handler:^(FBSDKLoginManagerLoginResult *result, NSError *loginError) {
       // we can only consider a recovery successful if there are no declines
       // (note this could still set an updated currentAccessToken).
-      handler(!loginError && !result.isCancelled && result.declinedPermissions.count == 0);
+      completionHandler(!loginError && !result.isCancelled && result.declinedPermissions.count == 0);
     }];
   } else {
-    handler(NO);
+    completionHandler(NO);
   }
 }
 

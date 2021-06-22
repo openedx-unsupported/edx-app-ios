@@ -17,10 +17,16 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import "FBSDKGateKeeperManaging.h"
 
 #define FBSDK_GATEKEEPER_MANAGER_CACHE_TIMEOUT (60 * 60)
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol FBSDKSettings;
+@protocol FBSDKGraphRequestProviding;
+@protocol FBSDKGraphRequestConnectionProviding;
+@protocol FBSDKDataPersisting;
 
 /// typedef for FBSDKAppEventUserDataType
 typedef NSString *const FBSDKGateKeeperKey NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(GateKeeperManager.GateKeeperKey);
@@ -28,9 +34,18 @@ typedef void (^FBSDKGKManagerBlock)(NSError * _Nullable error)
 NS_SWIFT_NAME(GKManagerBlock);
 
 NS_SWIFT_NAME(GateKeeperManager)
-@interface FBSDKGateKeeperManager : NSObject
+@interface FBSDKGateKeeperManager : NSObject<FBSDKGateKeeperManaging>
+
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
+/**
+ Configures the manager with various dependencies that are required to load the gate keepers
+ */
++ (void)configureWithSettings:(Class<FBSDKSettings>)settings
+              requestProvider:(id<FBSDKGraphRequestProviding>)requestProvider
+           connectionProvider:(id<FBSDKGraphRequestConnectionProviding>)connectionProvider
+                        store:(id<FBSDKDataPersisting>)store;
 
 /**
  Returns the locally cached configuration.
@@ -39,6 +54,8 @@ NS_SWIFT_NAME(GateKeeperManager)
 
 /**
  Load the gate keeper configurations from server
+
+ WARNING: Must call `configure` before loading gate keepers.
  */
 + (void)loadGateKeepers:(nullable FBSDKGKManagerBlock)completionBlock;
 

@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKPushUtils.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKPushUtils.h

@@ -82,12 +82,11 @@
     [self.window makeKeyAndVisible];
 
     [self initializeRemoteConfig];
-    [self setupGlobalEnvironment];
+    [self setupGlobalEnvironment:launchOptions];
     [self setUpRemoteConfig];
     [self.environment.session performMigrations];
     [self.environment.router openInWindow:self.window];
     [self configureBranch:launchOptions];
-    [self configureBraze:application launchOptions:launchOptions];
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
     return YES;
@@ -141,10 +140,8 @@
 #pragma mark Push Notifications
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    [self.environment.pushNotificationManager didReceiveRemoteNotificationWithUserInfo:userInfo application:application completionHandler:completionHandler];
-    if (!self.environment.config.brazeConfig.enabled) {
-        completionHandler(UIBackgroundFetchResultNewData);
-    }
+    [self.environment.pushNotificationManager didReceiveRemoteNotificationWithUserInfo:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
@@ -210,7 +207,7 @@
     }
 }
 
-- (void)setupGlobalEnvironment {
+- (void)setupGlobalEnvironment :(NSDictionary *) launchOptions {
     self.environment = [[OEXEnvironment alloc] init];
     [self.environment setupEnvironment];
 
@@ -234,6 +231,13 @@
         if (config.firebaseConfig.requiredKeysAvailable && config.firebaseConfig.isAnalyticsSourceSegment) {
             //Segment to Google Firebase integration
             [configuration use:[SEGFirebaseIntegrationFactory instance]];
+        }
+
+        if (self.environment.config.brazeConfig.enabled) {
+            [configuration use:[SEGAppboyIntegrationFactory instance]];
+            if (self.environment.config.brazeConfig.pushNotificationsEnabled) {
+                [[SEGAppboyIntegrationFactory instance] saveLaunchOptions:launchOptions];
+            }
         }
         
         [SEGAnalytics setupWithConfiguration:configuration];
@@ -276,14 +280,6 @@
                 [[DeepLinkManager sharedInstance] processDeepLinkWith:params environment:self.environment.router.environment];
             }];
         }
-    }
-}
-
-- (void) configureBraze:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
-    if (self.environment.config.brazeConfig.enabled) {
-        NSMutableDictionary *appboyOptions = [NSMutableDictionary dictionary];
-        appboyOptions[ABKEndpointKey] = self.environment.config.brazeConfig.endPointKey;
-        [Appboy startWithApiKey:self.environment.config.brazeConfig.apiKey inApplication:application withLaunchOptions:launchOptions withAppboyOptions:appboyOptions];
     }
 }
 

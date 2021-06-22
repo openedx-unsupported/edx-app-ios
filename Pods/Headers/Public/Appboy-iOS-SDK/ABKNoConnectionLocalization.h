@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKNoConnectionLocalization.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKNoConnectionLocalization.h

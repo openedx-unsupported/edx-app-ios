@@ -41,7 +41,7 @@ static NSMutableDictionary *g_startTimesWithTags = nil;
     _active = [FBSDKSettings.loggingBehaviors containsObject:loggingBehavior];
     _loggingBehavior = loggingBehavior;
     if (_active) {
-      _internalContents = [[NSMutableString alloc] init];
+      _internalContents = [NSMutableString new];
       _loggerSerialNumber = [FBSDKLogger generateSerialNumber];
     }
   }
@@ -117,7 +117,9 @@ static NSMutableDictionary *g_startTimesWithTags = nil;
 
 + (NSUInteger)generateSerialNumber
 {
-  return g_serialNumberCounter++;
+  @synchronized(self) {
+    return ++g_serialNumberCounter;
+  }
 }
 
 + (void)singleShotLogEntry:(NSString *)loggingBehavior
@@ -177,7 +179,7 @@ static NSMutableDictionary *g_startTimesWithTags = nil;
 {
   if ([FBSDKSettings.loggingBehaviors containsObject:loggingBehavior]) {
     if (!g_startTimesWithTags) {
-      g_startTimesWithTags = [[NSMutableDictionary alloc] init];
+      g_startTimesWithTags = [NSMutableDictionary new];
     }
 
     if (g_startTimesWithTags.count >= 1000) {
@@ -201,7 +203,7 @@ static NSMutableDictionary *g_startTimesWithTags = nil;
 
   if (FBSDKSettings.loggingBehaviors.count > 0) { // otherwise there's no logging.
     if (!g_stringsToReplace) {
-      g_stringsToReplace = [[NSMutableDictionary alloc] init];
+      g_stringsToReplace = [NSMutableDictionary new];
     }
 
     [g_stringsToReplace setValue:replaceWith forKey:replace];

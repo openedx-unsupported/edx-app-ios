@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKTextAnnouncementCard.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKTextAnnouncementCard.h

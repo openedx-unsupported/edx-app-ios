@@ -1,1 +1,1 @@
-../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/Internal/FBSDKSessionProviding.h
+../../../FBSDKCoreKit/Sources/FBSDKCoreKit_Basics/include/FBSDKSessionProviding.h

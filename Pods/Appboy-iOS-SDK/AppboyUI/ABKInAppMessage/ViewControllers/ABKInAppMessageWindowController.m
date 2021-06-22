@@ -16,6 +16,7 @@
 #import "ABKUIUtils.h"
 
 static CGFloat const MinimumInAppMessageDismissVelocity = 20.0;
+static CGFloat const SlideUpDragResistanceFactor = 0.055;
 
 @implementation ABKInAppMessageWindowController
 
@@ -134,73 +135,50 @@ static CGFloat const MinimumInAppMessageDismissVelocity = 20.0;
 
 - (void)inAppSlideupWasPanned:(UIPanGestureRecognizer *)panGestureRecognizer {
   ABKInAppMessageSlideupViewController *slideupVC = (ABKInAppMessageSlideupViewController *)self.inAppMessageViewController;
+  BOOL animatesFromTop = ((ABKInAppMessageSlideup *)self.inAppMessage).inAppMessageSlideupAnchor == ABKInAppMessageSlideupFromTop;
+  CGFloat offset = [panGestureRecognizer translationInView:self.view].y;
+  CGFloat velocity = [panGestureRecognizer velocityInView:self.view].y;
   
   switch (panGestureRecognizer.state) {
-    case UIGestureRecognizerStateBegan: {
-      self.slideupConstraintMaxValue = slideupVC.slideConstraint.constant;
-      self.inAppMessagePreviousPanPosition = [panGestureRecognizer locationInView:self.inAppMessageViewController.view];
-      break;
-    }
-      
     case UIGestureRecognizerStateChanged: {
-      CGPoint position = [panGestureRecognizer locationInView:self.inAppMessageViewController.view];
-      CGFloat direction = ((ABKInAppMessageSlideup *)self.inAppMessage).inAppMessageSlideupAnchor
-                          == ABKInAppMessageSlideupFromBottom ? 1.0f : -1.0f;
-      CGFloat diffY = (position.y - self.inAppMessagePreviousPanPosition.y) * direction;
-      
-      if (diffY > 0) {
-        // The in-ap message is moved toward the near edge of the screen. The user is attempting to
-        // dismiss the in-app message.
-        slideupVC.slideConstraint.constant -= diffY * 2.0f;
+      if (animatesFromTop) {
+        slideupVC.offset = offset <= 0 ? offset : (SlideUpDragResistanceFactor * offset);
       } else {
-        // The in-app message is moved away from the near edge of the screen. The user is NOT attempting
-        // to dismiss the in-app message.
-        CGFloat moveY = -diffY * 0.3f;
-        if (slideupVC.slideConstraint.constant + moveY <= self.slideupConstraintMaxValue) {
-          slideupVC.slideConstraint.constant += moveY;
-        } else {
-          slideupVC.slideConstraint.constant = self.slideupConstraintMaxValue;
-        }
+        slideupVC.offset = offset >= 0 ? offset : (SlideUpDragResistanceFactor * offset);
       }
-      self.inAppMessagePreviousPanPosition = position;
       break;
     }
       
     case UIGestureRecognizerStateEnded:
     case UIGestureRecognizerStateCancelled: {
-      // The panning is finished. If the in-app messaged moved more than 25% of the distance towards the
-      // edge, dismiss the in-app message.
-      if ((self.slideupConstraintMaxValue - slideupVC.slideConstraint.constant) >
-          self.slideupConstraintMaxValue / 4) {
-        [self invalidateSlideAwayTimer];
-        
-        if ([self.inAppMessageUIDelegate respondsToSelector:@selector(onInAppMessageDismissed:)]) {
-          [self.inAppMessageUIDelegate onInAppMessageDismissed:self.inAppMessage];
-        }
-        
-        CGFloat velocity = [panGestureRecognizer velocityInView:self.inAppMessageViewController.view].y;
-        velocity = fabs(velocity) > MinimumInAppMessageDismissVelocity ?
-                   velocity : MinimumInAppMessageDismissVelocity;
-        NSTimeInterval animationDuration = slideupVC.slideConstraint.constant / velocity;
-        [self.inAppMessageViewController beforeMoveInAppMessageViewOffScreen];
-        [UIView animateWithDuration:animationDuration
-                              delay:0
-                            options:UIViewAnimationOptionBeginFromCurrentState
-                         animations:^{
-                           [self.inAppMessageViewController moveInAppMessageViewOffScreen];
-                         }
-                         completion:^(BOOL finished){
-                           if (finished) {
-                             [self hideInAppMessageWindow];
-                           }
-                         }];
-      } else {
-        // The in-app message hasn't moved enough to be dismissed. Move it back to the original position.
-        slideupVC.slideConstraint.constant = self.slideupConstraintMaxValue;
-        [UIView animateWithDuration:0.2f animations:^{
+      // Reset position
+      if ((animatesFromTop && slideupVC.offset > 0) ||
+          (!animatesFromTop && slideupVC.offset < 0) ||
+          (fabs(velocity) < MinimumInAppMessageDismissVelocity && fabs(offset) < 16)) {
+        slideupVC.offset = 0;
+        [UIView animateWithDuration:0.2 animations:^{
           [self.view layoutIfNeeded];
         }];
+        return;
       }
+
+      // Dismiss
+      [self invalidateSlideAwayTimer];
+
+      if ([self.inAppMessageUIDelegate respondsToSelector:@selector(onInAppMessageDismissed:)]) {
+        [self.inAppMessageUIDelegate onInAppMessageDismissed:self.inAppMessage];
+      }
+
+      [slideupVC beforeMoveInAppMessageViewOffScreen];
+      [UIView animateWithDuration:0.2
+                       animations:^{
+                         [slideupVC moveInAppMessageViewOffScreen];
+                       }
+                       completion:^(BOOL finished) {
+                         if (finished) {
+                           [self hideInAppMessageWindow];
+                         }
+                       }];
       break;
     }
       
@@ -228,8 +206,11 @@ static CGFloat const MinimumInAppMessageDismissVelocity = 20.0;
   if (![self.inAppMessage isKindOfClass:[ABKInAppMessageModal class]]) {
     return;
   }
-  if (((ABKInAppMessageModalViewController *)self.inAppMessageViewController).enableDismissOnOutsideTap) {
-    [(ABKInAppMessageModalViewController *)self.inAppMessageViewController dismissInAppMessage:self.inAppMessage];
+  if ([self.inAppMessageViewController isKindOfClass:ABKInAppMessageModalViewController.class]) {
+    ABKInAppMessageModalViewController *viewController = (ABKInAppMessageModalViewController *)self.inAppMessageViewController;
+    if (viewController.enableDismissOnOutsideTap) {
+      [viewController dismissInAppMessage:self.inAppMessage];
+    }
   }
 }
 
@@ -354,6 +335,7 @@ static CGFloat const MinimumInAppMessageDismissVelocity = 20.0;
   [self.slideAwayTimer invalidate];
   self.slideAwayTimer = nil;
 
+  self.inAppMessageWindow.rootViewController = nil;
   self.inAppMessageWindow = nil;
   [[NSNotificationCenter defaultCenter] postNotificationName:ABKNotificationInAppMessageWindowDismissed
                                                       object:self
@@ -414,26 +396,24 @@ static CGFloat const MinimumInAppMessageDismissVelocity = 20.0;
 #pragma mark - URL Handling
 
 - (void)handleInAppMessageURL:(NSURL *)url inWebView:(BOOL)openUrlInWebView {
-  if (![self delegateHandlesInAppMessageURL:url]) {
-    [self openInAppMessageURL:url inWebView:openUrlInWebView];
+  // URL Delegate
+  if ([ABKUIURLUtils URLDelegate:Appboy.sharedInstance.appboyUrlDelegate
+                      handlesURL:url
+                     fromChannel:ABKInAppMessageChannel
+                      withExtras:self.inAppMessage.extras]) {
+    return;
   }
-}
 
-- (BOOL)delegateHandlesInAppMessageURL:(NSURL *)url {
-  return [ABKUIURLUtils URLDelegate:[Appboy sharedInstance].appboyUrlDelegate
-                           handlesURL:url
-                          fromChannel:ABKInAppMessageChannel
-                           withExtras:self.inAppMessage.extras];
-}
-
-- (void)openInAppMessageURL:(NSURL *)url inWebView:(BOOL)openUrlInWebView {
+  // WebView
   if ([ABKUIURLUtils URL:url shouldOpenInWebView:openUrlInWebView]) {
     UIViewController *topmostViewController =
-      [ABKUIURLUtils topmostViewControllerWithRootViewController:ABKUIUtils.activeApplicationViewController];
+    [ABKUIURLUtils topmostViewControllerWithRootViewController:ABKUIUtils.activeApplicationViewController];
     [ABKUIURLUtils displayModalWebViewWithURL:url topmostViewController:topmostViewController];
-  } else {
-    [ABKUIURLUtils openURLWithSystem:url fromChannel:ABKInAppMessageChannel];
+    return;
   }
+
+  // System
+  [ABKUIURLUtils openURLWithSystem:url];
 }
 
 #pragma mark - Helpers

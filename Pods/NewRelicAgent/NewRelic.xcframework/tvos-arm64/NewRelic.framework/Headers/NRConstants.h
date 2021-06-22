@@ -102,6 +102,8 @@ typedef NSString NRMetricUnit;
 #define kNRAgentHealthPrefix             @"Supportability/AgentHealth"
 #define kNRMASessionStartMetric          @"Session/Start"
 
+#define kNRSupportabilityDistributedTracing @"Supportability/TraceContext"
+
 #define kNRMAMetricSuffixCount           @"Count"
 #define kNRMAMetricSuffixTime            @"Time"
 

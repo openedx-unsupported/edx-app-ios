@@ -57,6 +57,7 @@ static NSString * const BRANCH_PREFS_KEY_ANALYTICS_MANIFEST = @"bnc_branch_analy
 @property (strong, nonatomic) NSMutableDictionary *creditsDictionary;
 @property (strong, nonatomic) NSMutableDictionary *requestMetadataDictionary;
 @property (strong, nonatomic) NSMutableDictionary *instrumentationDictionary;
+
 @end
 
 @implementation BNCPreferenceHelper
@@ -381,6 +382,30 @@ static NSString * const BRANCH_PREFS_KEY_ANALYTICS_MANIFEST = @"bnc_branch_analy
 
 - (BOOL) appleSearchAdNeedsSend {
     return [self readBoolFromDefaults:@"_appleSearchAdNeedsSend"];
+}
+
+- (void)setAppleAttributionTokenChecked:(BOOL)appleAttributionTokenChecked {
+    [self writeBoolToDefaults:@"_appleAttributionTokenChecked" value:appleAttributionTokenChecked];
+}
+
+- (BOOL)appleAttributionTokenChecked {
+    return [self readBoolFromDefaults:@"_appleAttributionTokenChecked"];
+}
+
+- (void)setHasOptedInBefore:(BOOL)hasOptedInBefore {
+    [self writeBoolToDefaults:@"_hasOptedInBefore" value:hasOptedInBefore];
+}
+
+- (BOOL)hasOptedInBefore {
+    return [self readBoolFromDefaults:@"_hasOptedInBefore"];
+}
+
+- (void)setHasCalledHandleATTAuthorizationStatus:(BOOL)hasCalledHandleATTAuthorizationStatus {
+    [self writeBoolToDefaults:@"_hasCalledHandleATTAuthorizationStatus" value:hasCalledHandleATTAuthorizationStatus];
+}
+
+- (BOOL)hasCalledHandleATTAuthorizationStatus {
+    return [self readBoolFromDefaults:@"_hasCalledHandleATTAuthorizationStatus"];
 }
 
 - (NSString*) lastSystemBuildVersion {
@@ -872,48 +897,10 @@ static NSString * const BRANCH_PREFS_KEY_ANALYTICS_MANIFEST = @"bnc_branch_analy
 
 #pragma mark - Preferences File URL
 
-+ (NSString *)prefsFile_deprecated {
-    NSString * path =
-        [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
-            firstObject]
-                stringByAppendingPathComponent:BRANCH_PREFS_FILE];
-    return path;
-}
-
 + (NSURL* _Nonnull) URLForPrefsFile {
     NSURL *URL = BNCURLForBranchDirectory();
     URL = [URL URLByAppendingPathComponent:BRANCH_PREFS_FILE isDirectory:NO];
     return URL;
-}
-
-+ (void) moveOldPrefsFile {
-    NSString* oldPath = self.prefsFile_deprecated;
-    NSURL *oldURL = (oldPath) ? [NSURL fileURLWithPath:self.prefsFile_deprecated] : nil;
-    NSURL *newURL = [self URLForPrefsFile];
-
-    if (!oldURL || !newURL) { return; }
-
-    NSError *error = nil;
-    [[NSFileManager defaultManager]
-        moveItemAtURL:oldURL
-        toURL:newURL
-        error:&error];
-
-    if (error && error.code != NSFileNoSuchFileError) {
-        if (error.code == NSFileWriteFileExistsError) {
-            [[NSFileManager defaultManager]
-                removeItemAtURL:oldURL
-                error:&error];
-        } else {
-            BNCLogError([NSString stringWithFormat:@"Can't move prefs file: %@.", error]);
-        }
-    }
-}
-
-+ (void) initialize {
-    if (self == [BNCPreferenceHelper self]) {
-        [self moveOldPrefsFile];
-    }
 }
 
 @end

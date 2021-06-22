@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKSDWebImageProxy.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKSDWebImageProxy.h
