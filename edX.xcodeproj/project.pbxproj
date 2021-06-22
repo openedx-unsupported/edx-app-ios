@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -191,6 +191,8 @@
 		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
 		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
 		5F592AD0257521F600D96214 /* ISOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F592ACF257521F600D96214 /* ISOParser.swift */; };
+		5F616B482681E5640057D1BA /* PaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F616B472681E5640057D1BA /* PaymentManager.swift */; };
+		5F616B4A2681EB170057D1BA /* SwiftyStoreKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F616B492681EB170057D1BA /* SwiftyStoreKit.xcframework */; };
 		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
 		5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */; };
 		5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */; };
@@ -1247,6 +1249,9 @@
 		5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePoint.swift; sourceTree = "<group>"; };
 		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		5F592ACF257521F600D96214 /* ISOParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ISOParser.swift; path = Libraries/SwiftDate/ISOParser.swift; sourceTree = SOURCE_ROOT; };
+		5F616B432681E31E0057D1BA /* SwiftyStoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyStoreKit.framework; path = Libraries/SwiftyStoreKit/SwiftyStoreKit.framework; sourceTree = "<group>"; };
+		5F616B472681E5640057D1BA /* PaymentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentManager.swift; sourceTree = "<group>"; };
+		5F616B492681EB170057D1BA /* SwiftyStoreKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SwiftyStoreKit.xcframework; path = Libraries/SwiftyStoreKit/SwiftyStoreKit.xcframework; sourceTree = SOURCE_ROOT; };
 		5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
@@ -2191,6 +2196,7 @@
 				0D157622235ED9990007B0B7 /* AVFoundation.framework in Frameworks */,
 				0D157620235ED98E0007B0B7 /* AudioToolbox.framework in Frameworks */,
 				0D15761E235ED9800007B0B7 /* Accelerate.framework in Frameworks */,
+				5F616B4A2681EB170057D1BA /* SwiftyStoreKit.xcframework in Frameworks */,
 				8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */,
 				77E647A31C90C10300B6740D /* edXCore.framework in Frameworks */,
 				BE8163F61954244E00F9A2C5 /* MessageUI.framework in Frameworks */,
@@ -2571,6 +2577,22 @@
 				5F592ACF257521F600D96214 /* ISOParser.swift */,
 			);
 			name = SwiftDate;
+			sourceTree = "<group>";
+		};
+		5F616B402681E2E00057D1BA /* SwiftyStoreKit */ = {
+			isa = PBXGroup;
+			children = (
+				5F616B492681EB170057D1BA /* SwiftyStoreKit.xcframework */,
+			);
+			path = SwiftyStoreKit;
+			sourceTree = "<group>";
+		};
+		5F616B462681E5220057D1BA /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				5F616B472681E5640057D1BA /* PaymentManager.swift */,
+			);
+			name = Payment;
 			sourceTree = "<group>";
 		};
 		5F6F2B55255AAB7F00AA3708 /* Inter */ = {
@@ -3878,6 +3900,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5F616B402681E2E00057D1BA /* SwiftyStoreKit */,
 				5F7024942624D75000A968CB /* MaterialActivityIndicator */,
 				E096582A25C1963B0004FFCC /* Cast */,
 				E096532625C133390004FFCC /* MSAL */,
@@ -3925,6 +3948,7 @@
 		BECB7B0D1924C0C3009C77F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F616B432681E31E0057D1BA /* SwiftyStoreKit.framework */,
 				E082D60225C0070700C94C9A /* Photos.framework */,
 				0D15762F235EDA040007B0B7 /* Security.framework */,
 				0D15762C235ED9F30007B0B7 /* MediaAccessibility.framework */,
@@ -3985,6 +4009,7 @@
 				191A001D194055DD004F7902 /* Model */,
 				E03E6A131D38C90900944AAA /* Offline */,
 				E0AF4E8C1BFB19A00083753C /* PassthroughView */,
+				5F616B462681E5220057D1BA /* Payment */,
 				7754348A1AD8122E00635A40 /* Push Notifications */,
 				19BB622C1A9C6554007DBF47 /* Settings View */,
 				8FE04B4A1A1E24C7007F88B8 /* SocialLogin */,
@@ -5184,6 +5209,7 @@
 				B70BD00720B57E89005F0D19 /* OEXTabBarItemsCell.m in Sources */,
 				E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */,
 				223CE58F25BEEACC0081C30F /* UIImage+GIF.swift in Sources */,
+				5F616B482681E5640057D1BA /* PaymentManager.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
@@ -6022,6 +6048,7 @@
 					"$(PROJECT_DIR)/Libraries/",
 					"$(PROJECT_DIR)/Libraries/Cast",
 					"$(PROJECT_DIR)/Libraries/MSAL",
+					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6066,7 +6093,10 @@
 				);
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
@@ -6132,7 +6162,11 @@
 					"\"$(TARGET_TEMP_DIR)/../$(PROJECT_NAME).build/DerivedSources\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/SnapKit/OCMock",
@@ -6165,7 +6199,11 @@
 				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
 				PRODUCT_NAME = edXCore;
@@ -6199,7 +6237,11 @@
 				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
 				PRODUCT_NAME = edXCore;
@@ -6232,7 +6274,11 @@
 				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
 				PRODUCT_NAME = edXCore;
@@ -6258,7 +6304,11 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Source/Core/Test/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6283,7 +6333,11 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Source/Core/Test/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6307,7 +6361,11 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Source/Core/Test/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6330,7 +6388,11 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Test/EndToEnd/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6356,7 +6418,11 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Test/EndToEnd/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6381,7 +6447,11 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Test/EndToEnd/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6500,7 +6570,8 @@
 				PRODUCT_NAME = edX;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -6528,6 +6599,7 @@
 					"$(PROJECT_DIR)/Libraries/",
 					"$(PROJECT_DIR)/Libraries/Cast",
 					"$(PROJECT_DIR)/Libraries/MSAL",
+					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/edX-Prefix.pch";
@@ -6571,7 +6643,10 @@
 				);
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
@@ -6615,6 +6690,7 @@
 					"$(PROJECT_DIR)/Libraries/",
 					"$(PROJECT_DIR)/Libraries/Cast",
 					"$(PROJECT_DIR)/Libraries/MSAL",
+					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6659,7 +6735,10 @@
 				);
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
@@ -6725,7 +6804,11 @@
 					"\"$(TARGET_TEMP_DIR)/../$(PROJECT_NAME).build/DerivedSources\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/SnapKit/OCMock",
@@ -6786,7 +6869,11 @@
 					"\"$(TARGET_TEMP_DIR)/../$(PROJECT_NAME).build/DerivedSources\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/SnapKit/OCMock",
