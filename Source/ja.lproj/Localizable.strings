@@ -161,6 +161,8 @@
 "ACCOMPLISHMENTS.TITLE" = "業績";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "{platform_name} でバッジを獲得しました！こちらで確認してください";
+/* Add */
+"ADD"="Add";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="コメントを書く";
 /* Add a response button title used in discussion's responses screen */
@@ -319,9 +321,13 @@
 /* Course Dates Sync To Calendar Message */
 "COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
 /* Course Dates Add Calendar Dialog Title */
-"COURSEDATES.ADD_CALENDAR_TITLE"="Add Calendar \"{calendar_name}\"";
+"COURSEDATES.ADD_CALENDAR_TITLE"="Add calendar \"{calendar_name}\"";
+/* Course Dates Remove Calendar Dialog Title */
+"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove calendar \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} Calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+/* Course Dates Remove Calendar Message prompt */
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
 /* Course Dates Calendar has been added to your calendar*/
 "COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */
@@ -472,6 +478,8 @@
 "DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
 /*Label text for view all subjects cell*/
 "DISCOVERY.VIEW_ALL_SUBJECTS" = "View All Subjects";
+/* Done */
+"DONE"="Done";
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="due today at {due_date} {time_zone}";
 /* Text describing the course due date*/
@@ -674,6 +682,8 @@
 "OFFLINE" = "オフライン";
 /* Alert dialog okay button */
 "OK"="OK";
+/* Alert dialog remove button */
+"REMOVE"="Remove";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="Safari で見る";
 /* Button label to bring up course finder */
