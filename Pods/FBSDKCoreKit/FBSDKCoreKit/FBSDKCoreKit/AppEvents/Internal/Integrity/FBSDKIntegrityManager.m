@@ -22,8 +22,8 @@
 
  #import "FBSDKIntegrityManager.h"
 
+ #import "FBSDKCoreKitBasicsImport.h"
  #import "FBSDKGateKeeperManager.h"
- #import "FBSDKInternalUtility.h"
  #import "FBSDKModelManager.h"
  #import "FBSDKSettings.h"
 
@@ -47,7 +47,7 @@ static BOOL isSampleEnabled = NO;
   NSMutableDictionary<NSString *, id> *restrictiveParams = [NSMutableDictionary dictionary];
 
   for (NSString *key in [parameters keyEnumerator]) {
-    NSString *valueString = [FBSDKTypeUtility stringValue:parameters[key]];
+    NSString *valueString = [FBSDKTypeUtility coercedToStringValue:parameters[key]];
     BOOL shouldFilter = [FBSDKModelManager processIntegrity:key] || [FBSDKModelManager processIntegrity:valueString];
     if (shouldFilter) {
       [FBSDKTypeUtility dictionary:restrictiveParams setObject:isSampleEnabled ? valueString : @"" forKey:key];

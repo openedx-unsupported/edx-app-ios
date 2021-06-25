@@ -10,7 +10,6 @@
          withExtras:(NSDictionary *)extras;
 + (BOOL)URL:(NSURL *)url shouldOpenInWebView:(BOOL)openUrlInWebView;
 + (void)openURLWithSystem:(NSURL *)url;
-+ (void)openURLWithSystem:(NSURL *)url fromChannel:(ABKChannel)channel;
 + (UIViewController *)topmostViewControllerWithRootViewController:(UIViewController *)viewController;
 + (void)displayModalWebViewWithURL:(NSURL *)url
              topmostViewController:(UIViewController *)topmostViewController;

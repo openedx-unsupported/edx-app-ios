@@ -17,8 +17,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-
-#import "FBSDKCoreKit+Internal.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define FBSDK_CANOPENURL_MESSENGER @"fb-messenger-share-api"
 #define FBSDK_CANOPENURL_MSQRD_PLAYER @"msqrdplayer"
 #define FBSDK_CANOPENURL_SHARE_EXTENSION @"fbshareextension"
+
+@protocol FBSDKInfoDictionaryProviding;
 
 /**
  Describes the callback for appLinkFromURLInBackground.
@@ -37,13 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
 typedef id _Nullable (^FBSDKInvalidObjectHandler)(id object, BOOL *stop)
 NS_SWIFT_NAME(InvalidObjectHandler);
 
-
-
 NS_SWIFT_NAME(InternalUtility)
 @interface FBSDKInternalUtility : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
++ (void)configureWithInfoDictionaryProvider:(id<FBSDKInfoDictionaryProviding>)infoDictionaryProvider;
+
+@property (class, nonnull, readonly) FBSDKInternalUtility *sharedUtility;
 
 /**
   Constructs the scheme for apps that come to the current app through the bridge.
@@ -245,7 +248,7 @@ NS_SWIFT_NAME(InternalUtility)
 /**
  returns the current key window
  */
-+ (nullable UIWindow *)findWindow;
+- (nullable UIWindow *)findWindow;
 
 /**
   returns currently displayed top view controller.

@@ -22,14 +22,15 @@
 
 #import <Foundation/Foundation.h>
 
-NS_SWIFT_NAME(WebDialogDelegate)
 @protocol FBSDKWebDialogDelegate;
+@protocol FBSDKWindowFinding;
 
 NS_SWIFT_NAME(WebDialog)
 @interface FBSDKWebDialog : NSObject
 
 + (instancetype)showWithName:(NSString *)name
                   parameters:(NSDictionary *)parameters
+                windowFinder:(id<FBSDKWindowFinding>)windowFinder
                     delegate:(id<FBSDKWebDialogDelegate>)delegate;
 
 @property (nonatomic, assign, getter=shouldDeferVisibility) BOOL deferVisibility;

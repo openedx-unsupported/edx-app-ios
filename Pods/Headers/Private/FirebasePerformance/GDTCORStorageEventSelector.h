@@ -1,1 +1,0 @@
-../../../FirebasePerformance/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORStorageEventSelector.h

@@ -3,7 +3,6 @@
 #import <SDWebImage/UIView+WebCache.h>
 #import <SDWebImage/SDWebImageManager.h>
 #import <SDWebImage/SDImageCache.h>
-#import <SDWebImage/SDWebImagePrefetcher.h>
 
 @implementation ABKSDWebImageProxy
 
@@ -19,10 +18,6 @@
                placeholderImage:placeHolder
                         options: (SDWebImageQueryMemoryData | SDWebImageQueryDiskDataSync)
                       completed:completion];
-}
-
-+ (void)prefetchURLs:(nullable NSArray *)imageURLs {
-  [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:imageURLs];
 }
 
 + (void)loadImageWithURL:(nullable NSURL *)url
@@ -61,10 +56,7 @@
 + (BOOL)isSupportedSDWebImageVersion {
   BOOL imageViewMethodsExist = [UIImageView instancesRespondToSelector:@selector(setSd_imageIndicator:)] &&
                                [UIImageView instancesRespondToSelector:@selector(sd_setImageWithURL:placeholderImage:completed:)];
-  
-  SDWebImagePrefetcher *prefetcher = [SDWebImagePrefetcher sharedImagePrefetcher];
-  BOOL prefetcherMethodsExist = [prefetcher respondsToSelector:@selector(prefetchURLs:)];
-  
+    
   SDWebImageManager *imageManager = [SDWebImageManager sharedManager];
   BOOL managerMethodsExist = [imageManager respondsToSelector:@selector(loadImageWithURL:options:progress:completed:)] &&
                              [imageManager respondsToSelector:@selector(cacheKeyForURL:)];
@@ -76,7 +68,7 @@
                                 [imageCache respondsToSelector:@selector(clearMemory)] &&
                                 [imageCache respondsToSelector:@selector(imageFromCacheForKey:)];
   
-  return imageViewMethodsExist && prefetcherMethodsExist && managerMethodsExist && imageCacheMethodsExist;
+  return imageViewMethodsExist && managerMethodsExist && imageCacheMethodsExist;
 }
 
 @end

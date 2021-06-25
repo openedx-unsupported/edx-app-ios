@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKClassicContentCard.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKClassicContentCard.h

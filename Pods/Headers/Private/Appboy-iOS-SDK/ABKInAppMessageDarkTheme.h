@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKInAppMessageDarkTheme.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKInAppMessageDarkTheme.h

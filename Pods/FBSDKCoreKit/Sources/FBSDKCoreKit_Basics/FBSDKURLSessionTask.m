@@ -18,6 +18,8 @@
 
 #import "FBSDKURLSessionTask.h"
 
+#import "FBSDKSessionProviding.h"
+
 @implementation FBSDKURLSessionTask
 
 - (instancetype)init
@@ -29,7 +31,7 @@
 }
 
 - (instancetype)initWithRequest:(NSURLRequest *)request
-                    fromSession:(NSURLSession *)session
+                    fromSession:(id<FBSDKSessionProviding>)session
               completionHandler:(FBSDKURLSessionTaskBlock)handler
 {
   if ((self = [self init])) {

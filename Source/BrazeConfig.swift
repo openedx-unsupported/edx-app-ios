@@ -10,21 +10,15 @@ import Foundation
 
 fileprivate enum Keys: String, RawStringExtractable {
     case enabled = "ENABLED"
-    case apiKey = "API_KEY"
-    case endPointKey = "END_POINT_KEY"
     case pushNotificationsEnabled = "PUSH_NOTIFICATIONS_ENABLED"
 }
 
 @objc class BrazeConfig: NSObject {
     @objc var enabled: Bool = false
-    @objc let apiKey: String?
-    @objc let endPointKey: String?
     @objc var pushNotificationsEnabled: Bool = false
 
     init(dictionary: [String: AnyObject]) {
         enabled = dictionary[Keys.enabled] as? Bool ?? false
-        apiKey = dictionary[Keys.apiKey] as? String
-        endPointKey = dictionary[Keys.endPointKey] as? String
         pushNotificationsEnabled = enabled && dictionary[Keys.pushNotificationsEnabled] as? Bool ?? false
     }
 }

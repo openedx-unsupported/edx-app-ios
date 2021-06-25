@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKImageDelegate.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKImageDelegate.h

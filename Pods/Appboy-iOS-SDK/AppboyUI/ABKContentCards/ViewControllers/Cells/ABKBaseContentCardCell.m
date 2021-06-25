@@ -64,6 +64,8 @@ static CGFloat AppboyCardLineSpacing = 1.2;
   self.rootViewBottomConstraint.constant = self.cardSpacing / 2.0;
   self.rootViewLeadingConstraint.constant = self.cardSidePadding;
   self.rootViewTrailingConstraint.constant = self.cardSidePadding;
+
+  self.pinImageView.image = [self.pinImageView.image imageFlippedForRightToLeftLayoutDirection];
 }
 
 # pragma mark - Cell UI Configuration

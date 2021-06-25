@@ -52,6 +52,8 @@ static CGFloat AppboyCardCornerRadius = 3.0;
   self.rootViewBottomConstraint.constant = AppboyCardSpacing / 2.0;
   self.rootViewLeadingConstraint.constant = AppboyCardSidePadding;
   self.rootViewTrailingConstraint.constant = AppboyCardSidePadding;
+
+  self.unreadIndicatorView.image = [self.unreadIndicatorView.image imageFlippedForRightToLeftLayoutDirection];
 }
 
 # pragma mark - Cell UI Configuration

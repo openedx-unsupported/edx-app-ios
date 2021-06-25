@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKUser.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKUser.h

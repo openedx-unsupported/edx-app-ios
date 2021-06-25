@@ -32,6 +32,7 @@
 #import "FBSDKAppEvents+Internal.h"
 #import "FBSDKDynamicFrameworkLoader.h"
 #import "FBSDKInternalUtility.h"
+#import "FBSDKSettings+Internal.h"
 #import "FBSDKUtility.h"
 
 #define FB_ARRAY_COUNT(x) sizeof(x) / sizeof(x[0])
@@ -91,7 +92,7 @@ static const u_int FB_GIGABYTE = 1024 * 1024 * 1024; // bytes
 {
   static FBSDKAppEventsDeviceInfo *_sharedDeviceInfo = nil;
   if (_sharedDeviceInfo == nil) {
-    _sharedDeviceInfo = [[FBSDKAppEventsDeviceInfo alloc] init];
+    _sharedDeviceInfo = [FBSDKAppEventsDeviceInfo new];
   }
   return _sharedDeviceInfo;
 }
@@ -177,20 +178,24 @@ static const u_int FB_GIGABYTE = 1024 * 1024 * 1024; // bytes
 // This data is collected only once every GROUP1_RECHECK_DURATION.
 - (void)_collectGroup1Data
 {
-  // Carrier
-  NSString *newCarrierName = [FBSDKAppEventsDeviceInfo _getCarrier];
-  if (![newCarrierName isEqualToString:_carrierName]) {
-    _carrierName = newCarrierName;
-    _isEncodingDirty = YES;
+  const BOOL shouldUseCachedValues = [FBSDKSettings shouldUseCachedValuesForExpensiveMetadata];
+
+  if (!_carrierName || !shouldUseCachedValues) {
+    NSString *newCarrierName = [FBSDKAppEventsDeviceInfo _getCarrier];
+    if (!_carrierName || ![newCarrierName isEqualToString:_carrierName]) {
+      _carrierName = newCarrierName;
+      _isEncodingDirty = YES;
+    }
   }
 
-  // Time zone
-  NSTimeZone *timeZone = [NSTimeZone systemTimeZone];
-  NSString *timeZoneName = timeZone.name;
-  if (![timeZoneName isEqualToString:_timeZoneName]) {
-    _timeZoneName = timeZoneName;
-    _timeZoneAbbrev = timeZone.abbreviation;
-    _isEncodingDirty = YES;
+  if (!_timeZoneName || !_timeZoneAbbrev || !shouldUseCachedValues) {
+    NSTimeZone *timeZone = [NSTimeZone systemTimeZone];
+    NSString *timeZoneName = timeZone.name;
+    if (!_timeZoneName || ![timeZoneName isEqualToString:_timeZoneName]) {
+      _timeZoneName = timeZoneName;
+      _timeZoneAbbrev = timeZone.abbreviation;
+      _isEncodingDirty = YES;
+    }
   }
 
   // Remaining disk space
@@ -235,15 +240,15 @@ static const u_int FB_GIGABYTE = 1024 * 1024 * 1024; // bytes
 
 + (NSNumber *)_getTotalDiskSpace
 {
-  NSDictionary *attrs = [[[NSFileManager alloc] init] attributesOfFileSystemForPath:NSHomeDirectory()
-                                                                              error:nil];
+  NSDictionary *attrs = [[NSFileManager new] attributesOfFileSystemForPath:NSHomeDirectory()
+                                                                     error:nil];
   return attrs[NSFileSystemSize];
 }
 
 + (NSNumber *)_getRemainingDiskSpace
 {
-  NSDictionary *attrs = [[[NSFileManager alloc] init] attributesOfFileSystemForPath:NSHomeDirectory()
-                                                                              error:nil];
+  NSDictionary *attrs = [[NSFileManager new] attributesOfFileSystemForPath:NSHomeDirectory()
+                                                                     error:nil];
   return attrs[NSFileSystemFreeSize];
 }
 
@@ -267,7 +272,7 @@ static const u_int FB_GIGABYTE = 1024 * 1024 * 1024; // bytes
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (NSString *)_getCarrier
 {
-#if TARGET_OS_TV || TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_TV || TARGET_OS_SIMULATOR
   return @"NoCarrier";
 #else
   // Dynamically load class for this so calling app doesn't need to link framework in.

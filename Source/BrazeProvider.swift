@@ -20,7 +20,7 @@ class BrazeProvider: NSObject, OEXPushProvider {
     }
 
     func didRegisterForRemoteNotifications(withDeviceToken device: Data) {
-        Appboy.sharedInstance()?.registerDeviceToken(device)
+        Analytics.shared().registeredForRemoteNotifications(withDeviceToken: device)
     }
 
     func didFailToRegisterForRemoteNotificationsWithError(_ error: Error) {

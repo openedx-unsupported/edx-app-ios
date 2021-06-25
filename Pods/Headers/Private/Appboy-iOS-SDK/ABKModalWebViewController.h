@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKModalWebViewController.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKModalWebViewController.h

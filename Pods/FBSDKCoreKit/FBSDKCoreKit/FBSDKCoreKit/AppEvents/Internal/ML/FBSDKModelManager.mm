@@ -23,12 +23,12 @@
  #import "FBSDKModelManager.h"
 
  #import "FBSDKAppEvents+Internal.h"
+ #import "FBSDKCoreKitBasicsImport.h"
  #import "FBSDKFeatureExtractor.h"
  #import "FBSDKFeatureManager.h"
  #import "FBSDKGraphRequest.h"
  #import "FBSDKGraphRequestConnection.h"
  #import "FBSDKIntegrityManager.h"
- #import "FBSDKInternalUtility.h"
  #import "FBSDKMLMacros.h"
  #import "FBSDKModelParser.h"
  #import "FBSDKModelRuntime.hpp"
@@ -53,9 +53,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation FBSDKModelManager
 
- #pragma mark - Public methods
+typedef void (^FBSDKDownloadCompletionBlock)(void);
 
+// Transitional singleton introduced as a way to change the usage semantics
+// from a type-based interface to an instance-based interface.
++ (instancetype)shared
+{
+  static dispatch_once_t nonce;
+  static id instance;
+  dispatch_once(&nonce, ^{
+    instance = [self new];
+  });
+  return instance;
+}
+
+ #pragma mark - Public methods
 + (void)enable
+{
+  [[self shared] enable];
+}
+
+- (void)enable
 {
   @try {
     static dispatch_once_t onceToken;
@@ -73,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
       _directoryPath = dirPath;
       _modelInfo = [[NSUserDefaults standardUserDefaults] objectForKey:MODEL_INFO_KEY];
       NSDate *timestamp = [[NSUserDefaults standardUserDefaults] objectForKey:MODEL_REQUEST_TIMESTAMP_KEY];
-      if ([_modelInfo count] == 0 || ![FBSDKFeatureManager isEnabled:FBSDKFeatureModelRequest] || ![self isValidTimestamp:timestamp]) {
+      if ([_modelInfo count] == 0 || ![FBSDKFeatureManager.shared isEnabled:FBSDKFeatureModelRequest] || ![self.class isValidTimestamp:timestamp]) {
         // fetch api
         FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
                                       initWithGraphPath:[NSString stringWithFormat:@"%@/model_asset", [FBSDKSettings appID]]];
@@ -81,19 +99,19 @@ NS_ASSUME_NONNULL_BEGIN
         [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
           if (!error) {
             NSDictionary<NSString *, id> *resultDictionary = [FBSDKTypeUtility dictionaryValue:result];
-            NSDictionary<NSString *, id> *modelInfo = [self convertToDictionary:resultDictionary[MODEL_DATA_KEY]];
+            NSDictionary<NSString *, id> *modelInfo = [self.class convertToDictionary:resultDictionary[MODEL_DATA_KEY]];
             if (modelInfo) {
               _modelInfo = [modelInfo mutableCopy];
-              [self processMTML];
+              [self.class processMTML];
               // update cache for model info and timestamp
               [[NSUserDefaults standardUserDefaults] setObject:_modelInfo forKey:MODEL_INFO_KEY];
               [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:MODEL_REQUEST_TIMESTAMP_KEY];
             }
           }
-          [self checkFeaturesAndExecuteForMTML];
+          [self.class checkFeaturesAndExecuteForMTML];
         }];
       } else {
-        [self checkFeaturesAndExecuteForMTML];
+        [self.class checkFeaturesAndExecuteForMTML];
       }
     });
   } @catch (NSException *exception) {
@@ -162,7 +180,7 @@ NS_ASSUME_NONNULL_BEGIN
       return false;
     }
     NSArray<NSString *> *integrityMapping = [self getIntegrityMapping];
-    NSString *text = [FBSDKModelUtility normalizeText:param];
+    NSString *text = [FBSDKModelUtility normalizedText:param];
     const char *bytes = [text UTF8String];
     if ((int)strlen(bytes) == 0) {
       return false;
@@ -187,7 +205,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  #pragma mark - SuggestedEvents Inferencer method
 
-+ (NSString *)processSuggestedEvents:(NSString *)textFeature denseData:(nullable float *)denseData
+- (NSString *)processSuggestedEvents:(NSString *)textFeature denseData:(nullable float *)denseData
 {
   @try {
     NSArray<NSString *> *eventMapping = [FBSDKModelManager getSuggestedEventsMapping];
@@ -257,14 +275,14 @@ NS_ASSUME_NONNULL_BEGIN
       return;
     }
 
-    if ([FBSDKFeatureManager isEnabled:FBSDKFeatureSuggestedEvents]) {
+    if ([FBSDKFeatureManager.shared isEnabled:FBSDKFeatureSuggestedEvents]) {
       [self getModelAndRules:MTMLTaskAppEventPredKey onSuccess:^() {
         [FBSDKFeatureExtractor loadRulesForKey:MTMLTaskAppEventPredKey];
-        [FBSDKSuggestedEventsIndexer enable];
+        [FBSDKSuggestedEventsIndexer.shared enable];
       }];
     }
 
-    if ([FBSDKFeatureManager isEnabled:FBSDKFeatureIntelligentIntegrity]) {
+    if ([FBSDKFeatureManager.shared isEnabled:FBSDKFeatureIntelligentIntegrity]) {
       [self getModelAndRules:MTMLTaskIntegrityDetectKey onSuccess:^() {
         [FBSDKIntegrityManager enable];
       }];

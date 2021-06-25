@@ -1,0 +1,1 @@
+../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/Internal/FBSDKSettings+ClientTokenProviding.h

@@ -112,20 +112,20 @@
 @optional
 
 /*!
- * Asks the delegate if the Appboy SDK should handle the content card click action.
+ * Asks the delegate if the Braze SDK should handle the content card click action.
  *
  * @warning This method might not be called if you overrode handleCardClick:
  *
  * @param viewController The view controller displaying the content card.
  * @param url The content card's url.
- * @return YES to let the Appboy SDK handle the click action, NO if you wish to handle the click action
+ * @return YES to let the Braze SDK handle the click action, NO if you wish to handle the click action
  *         yourself.
  */
 - (BOOL)contentCardTableViewController:(ABKContentCardsTableViewController *)viewController
                  shouldHandleCardClick:(NSURL *)url;
 
 /*!
- * Informs the delegate that the content card click action was handled by the Appboy SDK.
+ * Informs the delegate that the content card click action was handled by the Braze SDK.
  *
  * This method is not called if the delegate method `contentCardTableViewController:shouldHandleCardClick:`
  * returns NO.

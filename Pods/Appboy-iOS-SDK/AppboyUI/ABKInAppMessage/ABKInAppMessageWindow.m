@@ -15,7 +15,7 @@
 
   // Get the view in the hierarchy that contains the point
   UIView *hitTestResult = [super hitTest:point withEvent:event];
-  
+
   // Handles the touch event
   if (self.handleAllTouchEvents ||
       [ABKUIUtils responderChainOf:hitTestResult hasKindOfClass:[ABKInAppMessageView class]] ||

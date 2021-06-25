@@ -67,4 +67,17 @@
  */
 + (BOOL)responderChainOf:(UIResponder *)responder hasClassPrefixedWith:(NSString *)prefix;
 
+/*!
+ * Creates an instance of the font associated with the text style and scaled appropriately for the
+ * user's selected content size category.
+ *
+ * @warning On iOS 10 / tvOS 10 and below, this method does not apply the text style to the
+ * resulting font. The font size is chosen according to https://apple.co/3snncd9 (Large / Default).
+ *
+ * @param textStyle The text style to use
+ * @param weight The weight of the font
+ * @return The font corresponding to the text style with weight applied to it.
+ */
++ (UIFont *)preferredFontForTextStyle:(UIFontTextStyle)textStyle weight:(UIFontWeight)weight;
+
 @end

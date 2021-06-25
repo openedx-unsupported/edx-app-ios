@@ -1,1 +1,1 @@
-../../../GTMAppAuth/Source/GTMAppAuth.h
+../../../GTMAppAuth/GTMAppAuth/Sources/Public/GTMAppAuth/GTMAppAuth.h

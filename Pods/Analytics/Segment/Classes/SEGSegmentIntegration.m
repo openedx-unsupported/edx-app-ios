@@ -13,6 +13,8 @@
 @import UIKit;
 #endif
 
+NSString *const kSEGSegmentDestinationName = @"Segment.io";
+
 NSString *const SEGSegmentDidSendRequestNotification = @"SegmentDidSendRequest";
 NSString *const SEGSegmentRequestDidSucceedNotification = @"SegmentRequestDidSucceed";
 NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
@@ -41,7 +43,6 @@ NSUInteger const kSEGBackgroundTaskInvalid = 0;
 @property (nonatomic, assign) SEGAnalyticsConfiguration *configuration;
 @property (atomic, copy) NSDictionary *referrer;
 @property (nonatomic, copy) NSString *userId;
-@property (nonatomic, strong) NSURL *apiURL;
 @property (nonatomic, strong) SEGHTTPClient *httpClient;
 @property (nonatomic, strong) id<SEGStorage> fileStorage;
 @property (nonatomic, strong) id<SEGStorage> userDefaultsStorage;
@@ -69,7 +70,6 @@ NSUInteger const kSEGBackgroundTaskInvalid = 0;
         self.httpClient.httpSessionDelegate = analytics.oneTimeConfiguration.httpSessionDelegate;
         self.fileStorage = fileStorage;
         self.userDefaultsStorage = userDefaultsStorage;
-        self.apiURL = [SEGMENT_API_BASE URLByAppendingPathComponent:@"import"];
         self.reachability = [SEGReachability reachabilityWithHostname:@"google.com"];
         [self.reachability startNotifier];
         self.serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics.segmentio", DISPATCH_QUEUE_SERIAL);
@@ -260,7 +260,7 @@ NSUInteger const kSEGBackgroundTaskInvalid = 0;
     NSMutableDictionary *dict = [integrations ?: @{} mutableCopy];
     for (NSString *integration in self.analytics.bundledIntegrations) {
         // Don't record Segment.io in the dictionary. It is always enabled.
-        if ([integration isEqualToString:@"Segment.io"]) {
+        if ([integration isEqualToString:kSEGSegmentDestinationName]) {
             continue;
         }
         dict[integration] = @NO;

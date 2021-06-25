@@ -18,11 +18,11 @@
 
 #import "FBSDKAccessToken.h"
 #import "FBSDKAccessToken+Internal.h"
+#import "FBSDKAccessToken+TokenStringProviding.h"
 
 #import "FBSDKGraphRequestPiggybackManager.h"
 #import "FBSDKInternalUtility.h"
 #import "FBSDKMath.h"
-#import "FBSDKSettings+Internal.h"
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 
@@ -40,6 +40,8 @@ NSString *const FBSDKAccessTokenChangeOldKey = @"FBSDKAccessTokenOld";
 NSString *const FBSDKAccessTokenDidExpireKey = @"FBSDKAccessTokenDidExpireKey";
 
 static FBSDKAccessToken *g_currentAccessToken;
+static id<FBSDKTokenCaching> g_tokenCache;
+static id<FBSDKGraphRequestConnectionProviding> g_connectionFactory;
 
 #define FBSDK_ACCESSTOKEN_TOKENSTRING_KEY @"tokenString"
 #define FBSDK_ACCESSTOKEN_PERMISSIONS_KEY @"permissions"
@@ -123,9 +125,31 @@ static FBSDKAccessToken *g_currentAccessToken;
   return [self.expirationDate compare:NSDate.date] == NSOrderedAscending;
 }
 
++ (id<FBSDKTokenCaching>)tokenCache
+{
+  return g_tokenCache;
+}
+
++ (void)setTokenCache:(id<FBSDKTokenCaching>)cache
+{
+  if (g_tokenCache != cache) {
+    g_tokenCache = cache;
+  }
+}
+
++ (void)resetTokenCache
+{
+  [FBSDKAccessToken setTokenCache:nil];
+}
+
 + (FBSDKAccessToken *)currentAccessToken
 {
   return g_currentAccessToken;
+}
+
++ (NSString *)tokenString
+{
+  return FBSDKAccessToken.currentAccessToken.tokenString;
 }
 
 + (void)setCurrentAccessToken:(FBSDKAccessToken *)token
@@ -153,7 +177,7 @@ static FBSDKAccessToken *g_currentAccessToken;
       [FBSDKInternalUtility deleteFacebookCookies];
     }
 
-    [FBSDKSettings tokenCache].accessToken = token;
+    self.tokenCache.accessToken = token;
     if (shouldDispatchNotif) {
       [[NSNotificationCenter defaultCenter] postNotificationName:FBSDKAccessTokenDidChangeNotification
                                                           object:[self class]
@@ -171,7 +195,7 @@ static FBSDKAccessToken *g_currentAccessToken;
 + (void)refreshCurrentAccessToken:(FBSDKGraphRequestBlock)completionHandler
 {
   if ([FBSDKAccessToken currentAccessToken]) {
-    FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];
+    id<FBSDKGraphRequestConnecting> connection = [FBSDKAccessToken.connectionFactory createGraphRequestConnection];
     [FBSDKGraphRequestPiggybackManager addRefreshPiggyback:connection permissionHandler:completionHandler];
     [connection start];
   } else if (completionHandler) {
@@ -182,6 +206,18 @@ static FBSDKAccessToken *g_currentAccessToken;
        errorWithCode:FBSDKErrorAccessTokenRequired
        message:@"No current access token to refresh"]
     );
+  }
+}
+
++ (id<FBSDKGraphRequestConnectionProviding>)connectionFactory
+{
+  return g_connectionFactory;
+}
+
++ (void)setConnectionFactory:(nonnull id<FBSDKGraphRequestConnectionProviding>)connectionFactory
+{
+  if (g_connectionFactory != connectionFactory) {
+    g_connectionFactory = connectionFactory;
   }
 }
 
@@ -299,12 +335,14 @@ static FBSDKAccessToken *g_currentAccessToken;
 #pragma mark - Testability
 
 #if DEBUG
+ #if FBSDKTEST
 
 + (void)resetCurrentAccessTokenCache
 {
   g_currentAccessToken = nil;
 }
 
+ #endif
 #endif
 
 @end

@@ -6,6 +6,7 @@
 //  Copyright © 2016 Segment. All rights reserved.
 //
 
+@import Foundation;
 #if TARGET_OS_IPHONE
 @import UIKit;
 #endif
@@ -20,6 +21,7 @@
 #import "SEGUserDefaultsStorage.h"
 #import "SEGIntegrationsManager.h"
 #import "SEGSegmentIntegrationFactory.h"
+#import "SEGSegmentIntegration.h"
 #import "SEGPayload.h"
 #import "SEGIdentifyPayload.h"
 #import "SEGTrackPayload.h"
@@ -212,15 +214,6 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
 {
     NSCAssert2(payload.userId.length > 0 || payload.traits.count > 0, @"either userId (%@) or traits (%@) must be provided.", payload.userId, payload.traits);
 
-    NSString *anonymousId = payload.anonymousId;
-    NSString *existingAnonymousId = self.cachedAnonymousId;
-    
-    if (anonymousId == nil) {
-        payload.anonymousId = anonymousId;
-    } else if (![anonymousId isEqualToString:existingAnonymousId]) {
-        [self saveAnonymousId:anonymousId];
-    }
-
     [self callIntegrationsWithSelector:NSSelectorFromString(@"identify:")
                              arguments:@[ payload ]
                                options:payload.options
@@ -403,6 +396,12 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
 
 - (void)updateIntegrationsWithSettings:(NSDictionary *)projectSettings
 {
+    // see if we have a new segment API host and set it.
+    NSString *apiHost = projectSettings[kSEGSegmentDestinationName][@"apiHost"];
+    if (apiHost) {
+        [SEGUtils saveAPIHost:apiHost];
+    }
+    
     seg_dispatch_specific_sync(_serialQueue, ^{
         if (self.initialized) {
             return;
@@ -443,8 +442,39 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
     }
 }
 
+- (NSDictionary *)defaultSettings
+{
+    NSDictionary *segment = [self segmentSettings];
+    NSDictionary *result = @{
+        @"integrations" : @{
+            kSEGSegmentDestinationName : segment
+        },
+        @"plan" : @{
+            @"track" : @{}
+        }
+    };
+    return result;
+}
+
+- (NSDictionary *)segmentSettings
+{
+    NSDictionary *result = @{
+        @"apiKey" : self.configuration.writeKey,
+        @"apiHost" : [SEGUtils getAPIHost]
+    };
+    return result;
+}
+
 - (void)refreshSettings
 {
+    // look at our cache immediately, lets try to get things running
+    // with the last values while we wait to see about any updates.
+    NSDictionary *previouslyCachedSettings = [self cachedSettings];
+    if (previouslyCachedSettings && [previouslyCachedSettings count] > 0) {
+        [self setCachedSettings:previouslyCachedSettings];
+        [self configureEdgeFunctions:previouslyCachedSettings];
+    }
+    
     seg_dispatch_specific_async(_serialQueue, ^{
         if (self.settingsRequest) {
             return;
@@ -459,23 +489,24 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
                     NSDictionary *previouslyCachedSettings = [self cachedSettings];
                     if (previouslyCachedSettings && [previouslyCachedSettings count] > 0) {
                         [self setCachedSettings:previouslyCachedSettings];
-                        [self configureEdgeFunctions:settings];
+                        [self configureEdgeFunctions:previouslyCachedSettings];
                     } else if (self.configuration.defaultSettings != nil) {
                         // If settings request fail, load a user-supplied version if present.
                         // but make sure segment.io is in the integrations
                         NSMutableDictionary *newSettings = [self.configuration.defaultSettings serializableMutableDeepCopy];
-                        newSettings[@"integrations"][@"Segment.io"][@"apiKey"] = self.configuration.writeKey;
+                        NSMutableDictionary *integrations = newSettings[@"integrations"];
+                        if (integrations != nil) {
+                            integrations[kSEGSegmentDestinationName] = [self segmentSettings];
+                        } else {
+                            newSettings[@"integrations"] = @{kSEGSegmentDestinationName: [self segmentSettings]};
+                        }
+                        
                         [self setCachedSettings:newSettings];
                         // don't configure edge functions here.  it'll do the right thing on it's own.
                     } else {
                         // If settings request fail, fall back to using just Segment integration.
                         // Doesn't address situations where this callback never gets called (though we don't expect that to ever happen).
-                        [self setCachedSettings:@{
-                            @"integrations" : @{
-                                @"Segment.io" : @{@"apiKey" : self.configuration.writeKey},
-                            },
-                            @"plan" : @{@"track" : @{}}
-                        }];
+                        [self setCachedSettings:[self defaultSettings]];
                         // don't configure edge functions here.  it'll do the right thing on it's own.
                     }
                 }
@@ -490,7 +521,7 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
 + (BOOL)isIntegration:(NSString *)key enabledInOptions:(NSDictionary *)options
 {
     // If the event is in the tracking plan, it should always be sent to api.segment.io.
-    if ([@"Segment.io" isEqualToString:key]) {
+    if ([kSEGSegmentDestinationName isEqualToString:key]) {
         return YES;
     }
     if (options[key]) {
@@ -520,7 +551,7 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
 + (BOOL)isTrackEvent:(NSString *)event enabledForIntegration:(NSString *)key inPlan:(NSDictionary *)plan
 {
     // Whether the event is enabled or disabled, it should always be sent to api.segment.io.
-    if ([key isEqualToString:@"Segment.io"]) {
+    if ([key isEqualToString:kSEGSegmentDestinationName]) {
         return YES;
     }
 

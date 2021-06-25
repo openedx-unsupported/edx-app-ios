@@ -18,8 +18,6 @@
 
 @class GULObjectSwizzler;
 
-FOUNDATION_EXPORT NSString *kSwizzlerAssociatedObjectKey;
-
 /** This class exists as a method donor. These methods will be added to all objects that are
  *  swizzled by the object swizzler. This class should not be instantiated.
  */

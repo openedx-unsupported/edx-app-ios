@@ -14,6 +14,8 @@
 
 #import "GoogleUtilities/ISASwizzler/Public/GoogleUtilities/GULObjectSwizzler.h"
 
+FOUNDATION_EXPORT NSString *kGULSwizzlerAssociatedObjectKey;
+
 @interface GULObjectSwizzler (Internal)
 
 - (void)swizzledObjectHasBeenDeallocatedWithGeneratedSubclass:(BOOL)isInstanceOfGeneratedSubclass;

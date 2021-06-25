@@ -28,6 +28,9 @@
 
 static const CFTimeInterval kFBSDKViewAnimationDuration = 0.25f;
 
+ #pragma clang diagnostic push
+ #pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
 @implementation FBSDKAppLinkReturnToRefererController
 {
   UINavigationController *_navigationController;
@@ -41,8 +44,6 @@ static const CFTimeInterval kFBSDKViewAnimationDuration = 0.25f;
   return [super init];
 }
 
- #pragma clang diagnostic push
- #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)initForDisplayAboveNavController:(UINavigationController *)navController
 {
   self = [self init];

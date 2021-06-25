@@ -9,9 +9,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic, nullable) IBOutlet UIImageView *arrowImage;
 
 /*!
- * The constraint which controls the slideup in-app message animate in and out of the screen.
+ * The offset which controls the slideup in-app message vertical position once visible.
  */
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint *slideConstraint;
+@property (assign, nonatomic) CGFloat offset;
 
 @end
 NS_ASSUME_NONNULL_END

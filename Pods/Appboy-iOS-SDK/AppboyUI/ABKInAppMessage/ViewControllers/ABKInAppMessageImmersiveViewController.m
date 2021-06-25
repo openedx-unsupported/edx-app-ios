@@ -8,6 +8,12 @@ static NSInteger const CloseButtonTag = 50;
 
 #pragma mark - Immersive In-App Message View UI Initialization
 
+- (void)viewDidLoad {
+  [super viewDidLoad];
+
+  self.inAppMessageHeaderLabel.adjustsFontForContentSizeCategory = YES;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
@@ -93,7 +99,9 @@ static NSInteger const CloseButtonTag = 50;
     [self.rightInAppMessageButton removeFromSuperview];
     self.leftInAppMessageButton = nil;
     self.rightInAppMessageButton = nil;
-    if ([[self getInAppMessage] isKindOfClass:[ABKInAppMessageModal class]] && [self getInAppMessage].imageStyle != ABKInAppMessageGraphic) {
+    if (([[self getInAppMessage] isKindOfClass:[ABKInAppMessageModal class]]
+         || [[self getInAppMessage] isKindOfClass:[ABKInAppMessageFull class]])
+        && [self getInAppMessage].imageStyle != ABKInAppMessageGraphic) {
       UIView *bottomView = [self bottomViewWithNoButton];
       if ([ABKUIUtils objectIsValidAndNotEmpty:bottomView]) {
         NSArray *bottomConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-30-|"

@@ -27,9 +27,6 @@
 @implementation GDTCOREvent
 
 + (NSString *)nextEventID {
-  // TODO: Consider a way to make the eventIDs incremental without introducing a storage dependency
-  // to the object.
-  //
   // Replace special non-alphanumeric characters to avoid potential conflicts with storage logic.
   return [[NSUUID UUID].UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""];
 }

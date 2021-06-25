@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKCaptionedImageCard.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKCaptionedImageCard.h

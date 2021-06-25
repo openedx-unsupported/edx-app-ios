@@ -1150,7 +1150,14 @@ static bool pb_release_union_field(pb_istream_t *stream, pb_field_iter_t *iter)
      * This shouldn't fail unless the pb_field_t structure is corrupted. */
     if (!pb_field_iter_find(iter, new_tag))
         PB_RETURN_ERROR(stream, "iterator error");
-    
+
+    if (PB_ATYPE(iter->pos->type) == PB_ATYPE_POINTER)
+    {
+        /* Initialize the pointer to NULL to make sure it is valid
+         * even in case of error return. */
+        *(void**)iter->pData = NULL;
+    }
+
     return true;
 }
 
@@ -1452,6 +1459,9 @@ static bool checkreturn pb_dec_bytes(pb_istream_t *stream, const pb_field_t *fie
 #ifndef PB_ENABLE_MALLOC
         PB_RETURN_ERROR(stream, "no malloc support");
 #else
+        if (stream->bytes_left < size)
+            PB_RETURN_ERROR(stream, "end-of-stream");
+
         if (!allocate_field(stream, dest, alloc_size, 1))
             return false;
         bdest = *(pb_bytes_array_t**)dest;
@@ -1487,6 +1497,9 @@ static bool checkreturn pb_dec_string(pb_istream_t *stream, const pb_field_t *fi
 #ifndef PB_ENABLE_MALLOC
         PB_RETURN_ERROR(stream, "no malloc support");
 #else
+        if (stream->bytes_left < size)
+            PB_RETURN_ERROR(stream, "end-of-stream");
+
         if (!allocate_field(stream, dest, alloc_size, 1))
             return false;
         dest = *(void**)dest;

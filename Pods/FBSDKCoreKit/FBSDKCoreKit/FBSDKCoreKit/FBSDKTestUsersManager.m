@@ -20,6 +20,10 @@
 
 #import "FBSDKCoreKit+Internal.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
 static NSString *const kFBGraphAPITestUsersPathFormat = @"%@/accounts/test-users";
 static NSString *const kAccountsDictionaryTokenKey = @"access_token";
 static NSString *const kAccountsDictionaryPermissionsKey = @"permissions";
@@ -182,7 +186,7 @@ static NSMutableDictionary<NSString *, FBSDKTestUsersManager *> *gInstancesDicti
                                                             tokenString:second.tokenString
                                                                 version:nil
                                                              HTTPMethod:FBSDKHTTPMethodPOST];
-  FBSDKGraphRequestConnection *conn = [[FBSDKGraphRequestConnection alloc] init];
+  FBSDKGraphRequestConnection *conn = [FBSDKGraphRequestConnection new];
   [conn addRequest:one
       batchEntryName:@"first"
    completionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
@@ -255,7 +259,7 @@ static NSMutableDictionary<NSString *, FBSDKTestUsersManager *> *gInstancesDicti
 
 - (void)fetchExistingTestAccountsWithAfterCursor:(NSString *)after handler:(FBSDKErrorBlock)handler
 {
-  FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];
+  FBSDKGraphRequestConnection *connection = [FBSDKGraphRequestConnection new];
   FBSDKGraphRequest *requestForAccountIds = [[FBSDKGraphRequest alloc] initWithGraphPath:[NSString stringWithFormat:kFBGraphAPITestUsersPathFormat, _appID]
                                                                               parameters:@{@"limit" : @"50",
                                                                                            @"after" : after ?: @"",
@@ -265,7 +269,7 @@ static NSMutableDictionary<NSString *, FBSDKTestUsersManager *> *gInstancesDicti
                                                                               HTTPMethod:FBSDKHTTPMethodGET];
   __block NSString *afterCursor = nil;
   __block NSInteger expectedTestAccounts = 0;
-  FBSDKGraphRequestConnection *permissionConnection = [[FBSDKGraphRequestConnection alloc] init];
+  FBSDKGraphRequestConnection *permissionConnection = [FBSDKGraphRequestConnection new];
   [connection addRequest:requestForAccountIds completionHandler:^(FBSDKGraphRequestConnection *innerConnection, id result, NSError *error) {
     if (error) {
       if (handler) {
@@ -336,3 +340,5 @@ static NSMutableDictionary<NSString *, FBSDKTestUsersManager *> *gInstancesDicti
 }
 
 @end
+
+#pragma clang diagnostic pop

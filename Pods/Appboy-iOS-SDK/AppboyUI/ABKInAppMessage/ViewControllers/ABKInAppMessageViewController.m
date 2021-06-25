@@ -23,6 +23,12 @@ static NSString *const FontAwesomeName = @"FontAwesome";
 
 #pragma mark - Lifecycle Methods
 
+- (void)viewDidLoad {
+  [super viewDidLoad];
+
+  self.inAppMessageMessageLabel.adjustsFontForContentSizeCategory = YES;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   [ABKInAppMessageView class];

@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKInAppMessageSlideup.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKInAppMessageSlideup.h

@@ -20,22 +20,26 @@
 
 #import <UIKit/UIKit.h>
 
-#import "FBSDKAccessToken.h"
 #import "FBSDKCoreKit.h"
-#import "FBSDKGraphRequestConnection.h"
+#import "FBSDKGraphRequestConnectionFactory.h"
+#import "FBSDKGraphRequestConnectionProviding.h"
 #import "FBSDKGraphRequestDataAttachment.h"
 #import "FBSDKInternalUtility.h"
 #import "FBSDKLogger.h"
 #import "FBSDKSettings+Internal.h"
+#import "FBSDKTokenStringProviding.h"
 
 // constants
 FBSDKHTTPMethod FBSDKHTTPMethodGET = @"GET";
 FBSDKHTTPMethod FBSDKHTTPMethodPOST = @"POST";
 FBSDKHTTPMethod FBSDKHTTPMethodDELETE = @"DELETE";
 
+static Class<FBSDKTokenStringProviding> _currentAccessTokenStringProvider;
+
 @interface FBSDKGraphRequest ()
 @property (nonatomic, assign) FBSDKGraphRequestFlags flags;
 @property (nonatomic, readwrite, copy) FBSDKHTTPMethod HTTPMethod;
+@property (nonatomic, strong) id<FBSDKGraphRequestConnectionProviding> connectionFactory;
 @end
 
 @implementation FBSDKGraphRequest
@@ -71,7 +75,7 @@ FBSDKHTTPMethod FBSDKHTTPMethodDELETE = @"DELETE";
 {
   return [self initWithGraphPath:graphPath
                       parameters:parameters
-                     tokenString:[FBSDKAccessToken currentAccessToken].tokenString
+                     tokenString:[_currentAccessTokenStringProvider tokenString]
                          version:nil
                       HTTPMethod:method];
 }
@@ -82,7 +86,7 @@ FBSDKHTTPMethod FBSDKHTTPMethodDELETE = @"DELETE";
 {
   return [self initWithGraphPath:graphPath
                       parameters:parameters
-                     tokenString:[FBSDKAccessToken currentAccessToken].tokenString
+                     tokenString:[_currentAccessTokenStringProvider tokenString]
                       HTTPMethod:FBSDKHTTPMethodGET
                            flags:flags];
 }
@@ -106,6 +110,41 @@ FBSDKHTTPMethod FBSDKHTTPMethodDELETE = @"DELETE";
 - (instancetype)initWithGraphPath:(NSString *)graphPath
                        parameters:(NSDictionary *)parameters
                       tokenString:(NSString *)tokenString
+                       HTTPMethod:(NSString *)method
+                            flags:(FBSDKGraphRequestFlags)flags
+                connectionFactory:(id<FBSDKGraphRequestConnectionProviding>)factory
+{
+  return [self initWithGraphPath:graphPath
+                      parameters:parameters
+                     tokenString:tokenString
+                      HTTPMethod:method
+                         version:[FBSDKSettings graphAPIVersion]
+                           flags:flags
+               connectionFactory:factory];
+}
+
+- (instancetype)initWithGraphPath:(NSString *)graphPath
+                       parameters:(NSDictionary *)parameters
+                      tokenString:(NSString *)tokenString
+                       HTTPMethod:(NSString *)method
+                          version:(NSString *)version
+                            flags:(FBSDKGraphRequestFlags)flags
+                connectionFactory:(id<FBSDKGraphRequestConnectionProviding>)factory
+{
+  if ((self = [self initWithGraphPath:graphPath
+                           parameters:parameters
+                          tokenString:tokenString
+                              version:version
+                           HTTPMethod:method])) {
+    self.flags |= flags;
+    self.connectionFactory = factory;
+  }
+  return self;
+}
+
+- (instancetype)initWithGraphPath:(NSString *)graphPath
+                       parameters:(NSDictionary *)parameters
+                      tokenString:(NSString *)tokenString
                           version:(NSString *)version
                        HTTPMethod:(FBSDKHTTPMethod)method
 {
@@ -118,6 +157,7 @@ FBSDKHTTPMethod FBSDKHTTPMethodDELETE = @"DELETE";
     if (!FBSDKSettings.isGraphErrorRecoveryEnabled) {
       _flags = FBSDKGraphRequestFlagDisableErrorRecovery;
     }
+    _connectionFactory = [FBSDKGraphRequestConnectionFactory new];
   }
   return self;
 }
@@ -210,10 +250,18 @@ FBSDKHTTPMethod FBSDKHTTPMethodDELETE = @"DELETE";
   return params;
 }
 
-- (FBSDKGraphRequestConnection *)startWithCompletionHandler:(FBSDKGraphRequestBlock)handler
++ (void)setCurrentAccessTokenStringProvider:(Class<FBSDKTokenStringProviding>)provider
 {
-  FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];
-  [connection addRequest:self completionHandler:handler];
+  if (_currentAccessTokenStringProvider != provider) {
+    _currentAccessTokenStringProvider = provider;
+  }
+}
+
+- (id<FBSDKGraphRequestConnecting>)startWithCompletionHandler:(FBSDKGraphRequestBlock)handler
+{
+  id<FBSDKGraphRequestConnecting> connection = [self.connectionFactory createGraphRequestConnection];
+  id<FBSDKGraphRequest> request = (id<FBSDKGraphRequest>)self;
+  [connection addRequest:request completionHandler:handler];
   [connection start];
   return connection;
 }
@@ -221,6 +269,11 @@ FBSDKHTTPMethod FBSDKHTTPMethodDELETE = @"DELETE";
 #pragma mark - Debugging helpers
 
 - (NSString *)description
+{
+  return [self formattedDescription];
+}
+
+- (NSString *)formattedDescription
 {
   NSMutableString *result = [NSMutableString stringWithFormat:@"<%@: %p",
                              NSStringFromClass([self class]),
@@ -234,5 +287,21 @@ FBSDKHTTPMethod FBSDKHTTPMethodDELETE = @"DELETE";
   [result appendFormat:@", parameters: %@>", self.parameters.description];
   return result;
 }
+
+#if DEBUG
+ #if FBSDKTEST
+
++ (void)reset
+{
+  _currentAccessTokenStringProvider = nil;
+}
+
++ (Class<FBSDKTokenStringProviding>)currentAccessTokenStringProvider
+{
+  return _currentAccessTokenStringProvider;
+}
+
+ #endif
+#endif
 
 @end

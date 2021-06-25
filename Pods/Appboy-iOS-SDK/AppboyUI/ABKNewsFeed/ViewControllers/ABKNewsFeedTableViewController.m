@@ -6,8 +6,6 @@
 #import "ABKFeedWebViewController.h"
 #import "ABKUIURLUtils.h"
 
-#import <SDWebImage/SDWebImagePrefetcher.h>
-
 @implementation ABKNewsFeedTableViewController
 
 #pragma mark - Initialization
@@ -32,7 +30,7 @@
   _categories = ABKCardCategoryAll;
   _cacheTimeout = 60.0;
   _cardImpressions = [NSMutableSet set];
-  
+
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(feedUpdated:)
                                                name:ABKFeedUpdatedNotification
@@ -43,15 +41,14 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
   self.cards = [[Appboy sharedInstance].feedController getCardsInCategories:self.categories];
-  
+
   self.tableView.rowHeight = UITableViewAutomaticDimension;
   self.tableView.estimatedRowHeight = 160;
-  
+
   [self requestNewCardsIfTimeout];
-  [self cacheAllCardImages];
-  
+
   self.emptyFeedLabel.text = [self localizedAppboyFeedString:@"Appboy.feed.no-card.text"];
 }
 
@@ -171,7 +168,7 @@
     // do nothing if we have already logged an impression
     return;
   }
-  
+
   [card logCardImpression];
   [self.cardImpressions addObject:card.idString];
 }
@@ -196,13 +193,25 @@
 
 - (void)handleCardClick:(ABKCard *)card {
   [card logCardClicked];
-  
+
   NSURL *cardURL = [ABKUIURLUtils getEncodedURIFromString:card.urlString];
-   if ([ABKUIURLUtils URL:cardURL shouldOpenInWebView:card.openUrlInWebView]) {
-     [self openURLInWebView:cardURL];
-   } else {
-     [ABKUIURLUtils openURLWithSystem:cardURL fromChannel:ABKNewsFeedChannel];
-   }
+
+  // URL Delegate
+  if ([ABKUIURLUtils URLDelegate:Appboy.sharedInstance.appboyUrlDelegate
+                      handlesURL:cardURL
+                     fromChannel:ABKNewsFeedChannel
+                      withExtras:nil]) {
+    return;
+  }
+
+  // WebView
+  if ([ABKUIURLUtils URL:cardURL shouldOpenInWebView:card.openUrlInWebView]) {
+    [self openURLInWebView:cardURL];
+    return;
+  }
+
+  // System
+  [ABKUIURLUtils openURLWithSystem:cardURL];
 }
 
 - (void)openURLInWebView:(NSURL *)url {
@@ -210,22 +219,6 @@
   webViewController.url = url;
   webViewController.showDoneButton = self.navigationItem.rightBarButtonItem != nil;
   [self.navigationController pushViewController:webViewController animated:YES];
-}
-
-#pragma mark - Image Caching
-
-- (void)cacheAllCardImages {
-  NSMutableArray *images = [NSMutableArray arrayWithCapacity:self.cards.count];
-  for (ABKCard *card in self.cards) {
-    if ([card respondsToSelector:@selector(image)]) {
-      NSString *imageUrlString = [[card performSelector:@selector(image)] copy];
-      NSURL *imageUrl = [ABKUIURLUtils getEncodedURIFromString:imageUrlString];
-      if ([ABKUIUtils objectIsValidAndNotEmpty:imageUrl]) {
-        [images addObject:imageUrl];
-      }
-    }
-  }
-  [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:images];
 }
 
 # pragma mark - Utility Methods

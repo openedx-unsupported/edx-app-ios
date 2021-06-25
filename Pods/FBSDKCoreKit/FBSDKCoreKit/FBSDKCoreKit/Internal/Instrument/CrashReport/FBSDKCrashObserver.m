@@ -19,17 +19,37 @@
 #import "FBSDKCrashObserver.h"
 
 #import "FBSDKCrashShield.h"
-#import "FBSDKFeatureManager.h"
-#import "FBSDKGraphRequest.h"
-#import "FBSDKGraphRequestConnection.h"
-#import "FBSDKSettings.h"
+#import "FBSDKFeatureChecking.h"
+#import "FBSDKFeatureManager+FeatureChecking.h"
+#import "FBSDKGraphRequestFactory.h"
+#import "FBSDKGraphRequestProviding.h"
 #import "FBSDKSettings+Internal.h"
+#import "FBSDKSettings+SettingsLogging.h"
+#import "FBSDKSettings+SettingsProtocols.h"
+#import "FBSDKSettingsProtocol.h"
+
+@interface FBSDKCrashObserver ()
+
+@property (nonatomic, strong) id<FBSDKFeatureChecking> featureChecker;
+@property (nonatomic, strong) id<FBSDKGraphRequestProviding> requestProvider;
+@property (nonatomic, strong) id<FBSDKSettings> settings;
+
+@end
 
 @implementation FBSDKCrashObserver
 
 @synthesize prefixes, frameworks;
 
 - (instancetype)init
+{
+  return [self initWithFeatureChecker:FBSDKFeatureManager.shared
+                 graphRequestProvider:[FBSDKGraphRequestFactory new]
+                             settings:FBSDKSettings.sharedSettings];
+}
+
+- (instancetype)initWithFeatureChecker:(id<FBSDKFeatureChecking>)featureChecker
+                  graphRequestProvider:(id<FBSDKGraphRequestProviding>)requestProvider
+                              settings:(id<FBSDKSettings>)settings
 {
   if ((self = [super init])) {
     prefixes = @[@"FBSDK", @"_FBSDK"];
@@ -38,28 +58,26 @@
                    @"FBSDKShareKit",
                    @"FBSDKGamingServicesKit",
                    @"FBSDKTVOSKit"];
+    _featureChecker = featureChecker;
+    _requestProvider = requestProvider;
+    _settings = settings;
   }
   return self;
 }
 
-+ (void)enable
-{
-  [FBSDKCrashHandler addObserver:[FBSDKCrashObserver sharedInstance]];
-}
-
-+ (FBSDKCrashObserver *)sharedInstance
++ (instancetype)shared
 {
   static FBSDKCrashObserver *_sharedInstance;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    _sharedInstance = [[self alloc] init];
+  static dispatch_once_t nonce;
+  dispatch_once(&nonce, ^{
+    _sharedInstance = [self new];
   });
   return _sharedInstance;
 }
 
 - (void)didReceiveCrashLogs:(NSArray<NSDictionary<NSString *, id> *> *)processedCrashLogs
 {
-  if ([FBSDKSettings isDataProcessingRestricted]) {
+  if ([_settings isDataProcessingRestricted]) {
     return;
   }
   if (0 == processedCrashLogs.count) {
@@ -69,9 +87,10 @@
   NSData *jsonData = [FBSDKTypeUtility dataWithJSONObject:processedCrashLogs options:0 error:nil];
   if (jsonData) {
     NSString *crashReports = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:[NSString stringWithFormat:@"%@/instruments", [FBSDKSettings appID]]
-                                                                   parameters:@{@"crash_reports" : crashReports ?: @""}
-                                                                   HTTPMethod:FBSDKHTTPMethodPOST];
+
+    id<FBSDKGraphRequest> request = [_requestProvider createGraphRequestWithGraphPath:[NSString stringWithFormat:@"%@/instruments", [_settings appID]]
+                                                                           parameters:@{@"crash_reports" : crashReports ?: @""}
+                                                                           HTTPMethod:FBSDKHTTPMethodPOST];
 
     [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
       if (!error && [result isKindOfClass:[NSDictionary class]] && result[@"success"]) {
@@ -79,11 +98,21 @@
       }
     }];
   }
-  [FBSDKFeatureManager checkFeature:FBSDKFeatureCrashShield completionBlock:^(BOOL enabled) {
+  [_featureChecker checkFeature:FBSDKFeatureCrashShield completionBlock:^(BOOL enabled) {
     if (enabled) {
       [FBSDKCrashShield analyze:processedCrashLogs];
     }
   }];
 }
+
+#if DEBUG
+ #if FBSDKTEST
+- (id<FBSDKSettings>)settings
+{
+  return _settings;
+}
+
+ #endif
+#endif
 
 @end

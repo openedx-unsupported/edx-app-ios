@@ -23,10 +23,14 @@
 #import <objc/runtime.h>
 
 #import "FBSDKAppEventsUtility.h"
+#import "FBSDKCoreKit+Internal.h"
+#import "FBSDKDataPersisting.h"
 #import "FBSDKGraphRequest.h"
 #import "FBSDKGraphRequest+Internal.h"
-#import "FBSDKInternalUtility.h"
+#import "FBSDKGraphRequestConnectionProviding.h"
+#import "FBSDKGraphRequestProviding.h"
 #import "FBSDKSettings.h"
+#import "FBSDKSettingsProtocol.h"
 
 #define FBSDK_GATEKEEPERS_USER_DEFAULTS_KEY @"com.facebook.sdk:GateKeepers%@"
 
@@ -35,35 +39,63 @@
 
 @implementation FBSDKGateKeeperManager
 
+static BOOL _canLoadGateKeepers;
 static NSDictionary<NSString *, id> *_gateKeepers;
 static NSMutableArray *_completionBlocks;
 static const NSTimeInterval kTimeout = 4.0;
 static NSDate *_timestamp;
 static BOOL _loadingGateKeepers;
 static BOOL _requeryFinishedForAppStart;
+static id<FBSDKGraphRequestProviding> _requestProvider;
+static id<FBSDKGraphRequestConnectionProviding> _connectionProvider;
+static Class<FBSDKSettings> _settings;
+static id<FBSDKDataPersisting> _store;
+static FBSDKLogger *_logger;
 
 #pragma mark - Public Class Methods
 + (void)initialize
 {
   if (self == [FBSDKGateKeeperManager class]) {
     _completionBlocks = [NSMutableArray array];
+    _logger = [FBSDKLogger new];
+    _store = nil;
+    _requestProvider = nil;
+    _connectionProvider = nil;
+    _settings = nil;
+    _canLoadGateKeepers = NO;
   }
+}
+
++ (void)configureWithSettings:(Class<FBSDKSettings>)settings
+              requestProvider:(id<FBSDKGraphRequestProviding>)requestProvider
+           connectionProvider:(id<FBSDKGraphRequestConnectionProviding>)connectionProvider
+                        store:(id<FBSDKDataPersisting>)store
+{
+  _settings = settings;
+  _requestProvider = requestProvider;
+  _connectionProvider = connectionProvider;
+  _store = store;
+  _canLoadGateKeepers = YES;
 }
 
 + (BOOL)boolForKey:(NSString *)key defaultValue:(BOOL)defaultValue
 {
   [self loadGateKeepers:nil];
 
-  return _gateKeepers[key] ? [_gateKeepers[key] boolValue] : defaultValue;
+  return _gateKeepers[key] != nil ? [_gateKeepers[key] boolValue] : defaultValue;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (void)loadGateKeepers:(FBSDKGKManagerBlock)completionBlock
 {
   @try {
     @synchronized(self) {
-      NSString *appID = [FBSDKSettings appID];
+      if (!_canLoadGateKeepers) {
+        [self.logger.class singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                                     logEntry:@"Cannot load gate keepers before configuring."];
+        return;
+      }
+
+      NSString *appID = [self.settings appID];
       if (!appID) {
         _gateKeepers = nil;
         if (completionBlock != NULL) {
@@ -74,14 +106,18 @@ static BOOL _requeryFinishedForAppStart;
 
       if (!_gateKeepers) {
         // load the defaults
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *defaultKey = [NSString stringWithFormat:FBSDK_GATEKEEPERS_USER_DEFAULTS_KEY,
                                 appID];
-        NSData *data = [defaults objectForKey:defaultKey];
+        NSData *data = [self.store objectForKey:defaultKey];
         if ([data isKindOfClass:[NSData class]]) {
-          NSDictionary<NSString *, id> *gatekeeper = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-          if (gatekeeper != nil && [gatekeeper isKindOfClass:[NSDictionary class]]) {
-            _gateKeepers = gatekeeper;
+          id<FBSDKObjectDecoding> unarchiver = [FBSDKUnarchiverProvider createSecureUnarchiverFor:data];
+          @try {
+            _gateKeepers = [FBSDKTypeUtility dictionaryValue:
+                            [unarchiver decodeObjectOfClasses:
+                             [NSSet setWithObjects:NSDictionary.class, NSString.class, NSNumber.class, nil]
+                                                       forKey:NSKeyedArchiveRootObjectKey]];
+          } @catch (NSException *ex) {
+            // ignore decoding exceptions
           }
         }
       }
@@ -95,10 +131,10 @@ static BOOL _requeryFinishedForAppStart;
         [FBSDKTypeUtility array:_completionBlocks addObject:completionBlock];
         if (!_loadingGateKeepers) {
           _loadingGateKeepers = YES;
-          FBSDKGraphRequest *request = [[self class] requestToLoadGateKeepers];
+          id<FBSDKGraphRequest> request = [[self class] requestToLoadGateKeepers];
 
           // start request with specified timeout instead of the default 180s
-          FBSDKGraphRequestConnection *requestConnection = [FBSDKGraphRequestConnection new];
+          id<FBSDKGraphRequestConnecting> requestConnection = [self.connectionProvider createGraphRequestConnection];
           requestConnection.timeout = kTimeout;
           [requestConnection addRequest:request completionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
             _requeryFinishedForAppStart = YES;
@@ -111,31 +147,26 @@ static BOOL _requeryFinishedForAppStart;
   } @catch (NSException *exception) {}
 }
 
-#pragma clang diagnostic pop
-
 #pragma mark - Internal Class Methods
 
-+ (FBSDKGraphRequest *)requestToLoadGateKeepers
++ (nullable id<FBSDKGraphRequest>)requestToLoadGateKeepers
 {
   NSMutableDictionary<NSString *, id> *parameters = [NSMutableDictionary new];
   [FBSDKTypeUtility dictionary:parameters setObject:@"ios" forKey:@"platform"];
-  [FBSDKTypeUtility dictionary:parameters setObject:[FBSDKSettings sdkVersion] forKey:@"sdk_version"];
+  [FBSDKTypeUtility dictionary:parameters setObject:[self.settings sdkVersion] forKey:@"sdk_version"];
   [FBSDKTypeUtility dictionary:parameters setObject:FBSDK_GATEKEEPER_APP_GATEKEEPER_FIELDS forKey:@"fields"];
   [FBSDKTypeUtility dictionary:parameters setObject:[UIDevice currentDevice].systemVersion forKey:@"os_version"];
 
-  FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:[NSString stringWithFormat:@"%@/%@",
-                                                                             [FBSDKSettings appID], FBSDK_GATEKEEPER_APP_GATEKEEPER_EDGE]
-                                                                 parameters:parameters
-                                                                tokenString:nil
-                                                                 HTTPMethod:nil
-                                                                      flags:FBSDKGraphRequestFlagSkipClientToken | FBSDKGraphRequestFlagDisableErrorRecovery];
-  return request;
+  return [self.requestProvider createGraphRequestWithGraphPath:[NSString stringWithFormat:@"%@/%@",
+                                                                [self.settings appID], FBSDK_GATEKEEPER_APP_GATEKEEPER_EDGE]
+                                                    parameters:parameters
+                                                   tokenString:nil
+                                                    HTTPMethod:nil
+                                                         flags:FBSDKGraphRequestFlagSkipClientToken | FBSDKGraphRequestFlagDisableErrorRecovery];
 }
 
 #pragma mark - Helper Class Methods
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (void)processLoadRequestResponse:(id)result error:(NSError *)error
 {
   @synchronized(self) {
@@ -147,7 +178,7 @@ static BOOL _requeryFinishedForAppStart;
 
       NSMutableDictionary<NSString *, id> *gateKeeper = [_gateKeepers mutableCopy];
       if (!gateKeeper) {
-        gateKeeper = [[NSMutableDictionary alloc] init];
+        gateKeeper = [NSMutableDictionary new];
       }
       NSDictionary<NSString *, id> *resultDictionary = [FBSDKTypeUtility dictionaryValue:result];
       NSDictionary<NSString *, id> *fetchedData = [FBSDKTypeUtility dictionaryValue:[resultDictionary[@"data"] firstObject]];
@@ -157,28 +188,30 @@ static BOOL _requeryFinishedForAppStart;
         // updates gate keeper with fetched data
         for (id gateKeeperEntry in gateKeeperList) {
           NSDictionary<NSString *, id> *entry = [FBSDKTypeUtility dictionaryValue:gateKeeperEntry];
-          NSString *key = [FBSDKTypeUtility stringValue:entry[@"key"]];
-          id value = entry[@"value"];
+          NSString *key = [FBSDKTypeUtility coercedToStringValue:entry[@"key"]];
+          NSNumber *value = [FBSDKTypeUtility numberValue:entry[@"value"]];
           if (entry != nil && key != nil && value != nil) {
             [FBSDKTypeUtility dictionary:gateKeeper setObject:value forKey:key];
           }
         }
         _gateKeepers = [gateKeeper copy];
       }
-
       // update the cached copy in user defaults
-      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
       NSString *defaultKey = [NSString stringWithFormat:FBSDK_GATEKEEPERS_USER_DEFAULTS_KEY,
-                              [FBSDKSettings appID]];
+                              [self.settings appID]];
+
+    #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_11_0
+      NSData *data = [NSKeyedArchiver archivedDataWithRootObject:gateKeeper requiringSecureCoding:NO error:NULL];
+    #else
       NSData *data = [NSKeyedArchiver archivedDataWithRootObject:gateKeeper];
-      [defaults setObject:data forKey:defaultKey];
+    #endif
+
+      [self.store setObject:data forKey:defaultKey];
     }
 
     [self _didProcessGKFromNetwork:error];
   }
 }
-
-#pragma clang diagnostic pop
 
 + (void)_didProcessGKFromNetwork:(NSError *)error
 {
@@ -204,5 +237,90 @@ static BOOL _requeryFinishedForAppStart;
   }
   return NO;
 }
+
++ (FBSDKLogger *)logger
+{
+  return _logger;
+}
+
++ (id<FBSDKGraphRequestProviding>)requestProvider
+{
+  return _requestProvider;
+}
+
++ (Class<FBSDKSettings>)settings
+{
+  return _settings;
+}
+
++ (id<FBSDKGraphRequestConnectionProviding>)connectionProvider
+{
+  return _connectionProvider;
+}
+
++ (NSDictionary *)gateKeepers
+{
+  return _gateKeepers;
+}
+
++ (id<FBSDKDataPersisting>)store
+{
+  return _store;
+}
+
+// MARK: - Testability
+
+#if DEBUG
+
++ (BOOL)canLoadGateKeepers
+{
+  return _canLoadGateKeepers;
+}
+
++ (void)setLogger:(FBSDKLogger *)logger
+{
+  _logger = logger;
+}
+
++ (void)setGateKeepers:(NSDictionary *)gateKeepers
+{
+  _gateKeepers = gateKeepers;
+}
+
++ (void)setRequeryFinishedForAppStart:(BOOL)isFinished
+{
+  _requeryFinishedForAppStart = isFinished;
+}
+
++ (void)setTimestamp:(NSDate *)timestamp
+{
+  _timestamp = timestamp;
+}
+
++ (BOOL)isLoadingGateKeepers
+{
+  return _loadingGateKeepers;
+}
+
++ (void)setIsLoadingGateKeepers:(BOOL)isLoadingGateKeepers
+{
+  _loadingGateKeepers = isLoadingGateKeepers;
+}
+
++ (void)reset
+{
+  _requestProvider = nil;
+  _gateKeepers = nil;
+  _settings = nil;
+  _connectionProvider = nil;
+  _store = nil;
+  _timestamp = nil;
+  _requeryFinishedForAppStart = NO;
+  _completionBlocks = [NSMutableArray array];
+  _loadingGateKeepers = NO;
+  _canLoadGateKeepers = NO;
+}
+
+#endif
 
 @end

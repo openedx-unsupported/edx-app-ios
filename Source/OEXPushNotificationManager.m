@@ -119,9 +119,9 @@
     }
 }
 
-- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo application:( UIApplication * _Nullable ) application completionHandler:(void (^ _Nullable )(UIBackgroundFetchResult))completionHandler {
+- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo {
     for(id <OEXPushListener> listener in self.listeners) {
-        [listener didReceiveRemoteNotificationWithUserInfo:userInfo application:application completionHandler:completionHandler];
+        [listener didReceiveRemoteNotificationWithUserInfo:userInfo];
     }
 }
 

@@ -1,1 +1,1 @@
-../../../GTMAppAuth/Source/GTMAppAuthFetcherAuthorization+Keychain.h
+../../../GTMAppAuth/GTMAppAuth/Sources/Public/GTMAppAuth/GTMAppAuthFetcherAuthorization+Keychain.h

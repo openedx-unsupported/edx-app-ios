@@ -87,13 +87,13 @@ static NSString *const kErrorCategoryLogin = @"login";
            @"recovery_message" : localizedTransientSuggestion,
            @"recovery_options" : @[localizedOK]},
       ];
-      [self parseArray:fallbackArray];
+      [self updateWithArray:fallbackArray];
     }
   }
   return self;
 }
 
-- (FBSDKErrorRecoveryConfiguration *)recoveryConfigurationForCode:(NSString *)code subcode:(NSString *)subcode request:(FBSDKGraphRequest *)request
+- (FBSDKErrorRecoveryConfiguration *)recoveryConfigurationForCode:(NSString *)code subcode:(NSString *)subcode request:(id<FBSDKGraphRequest>)request
 {
   code = code ?: @"*";
   subcode = subcode ?: @"*";
@@ -110,12 +110,12 @@ static NSString *const kErrorCategoryLogin = @"login";
   return configuration;
 }
 
-- (void)parseArray:(NSArray<NSDictionary *> *)array
+- (void)updateWithArray:(NSArray<NSDictionary *> *)array
 {
   for (NSDictionary *dictionary in [FBSDKTypeUtility arrayValue:array]) {
     [FBSDKTypeUtility dictionary:dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
       FBSDKGraphRequestError category;
-      NSString *action = [FBSDKTypeUtility stringValue:dictionary[@"name"]];
+      NSString *action = [FBSDKTypeUtility coercedToStringValue:dictionary[@"name"]];
       if ([action isEqualToString:kErrorCategoryOther]) {
         category = FBSDKGraphRequestErrorOther;
       } else if ([action isEqualToString:kErrorCategoryTransient]) {

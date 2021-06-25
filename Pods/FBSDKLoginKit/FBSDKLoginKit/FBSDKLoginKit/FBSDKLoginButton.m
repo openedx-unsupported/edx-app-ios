@@ -84,7 +84,7 @@ static const CGFloat kPaddingBetweenLogoTitle = 8.0;
 - (void)setNonce:(NSString *)nonce
 {
   if ([FBSDKNonceUtility isValidNonce:nonce]) {
-    _nonce = nonce;
+    _nonce = [nonce copy];
   } else {
     _nonce = nil;
     [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
@@ -162,7 +162,7 @@ static const CGFloat kPaddingBetweenLogoTitle = 8.0;
 
 - (void)configureButton
 {
-  _loginManager = [[FBSDKLoginManager alloc] init];
+  _loginManager = [FBSDKLoginManager new];
 
   NSString *logInTitle = [self _shortLogInTitle];
   NSString *logOutTitle = [self _logOutTitle];
@@ -362,7 +362,7 @@ static const CGFloat kPaddingBetweenLogoTitle = 8.0;
   if (self._isAuthenticated || self.tooltipBehavior == FBSDKLoginButtonTooltipBehaviorDisable) {
     return;
   } else {
-    FBSDKLoginTooltipView *tooltipView = [[FBSDKLoginTooltipView alloc] init];
+    FBSDKLoginTooltipView *tooltipView = [FBSDKLoginTooltipView new];
     tooltipView.colorStyle = self.tooltipColorStyle;
     if (self.tooltipBehavior == FBSDKLoginButtonTooltipBehaviorForceDisplay) {
       tooltipView.forceDisplay = YES;
@@ -406,9 +406,9 @@ static const CGFloat kPaddingBetweenLogoTitle = 8.0;
                                                                  parameters:nil
                                                                       flags:FBSDKGraphRequestFlagDisableErrorRecovery];
   [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-    NSString *userID = [FBSDKTypeUtility stringValue:result[@"id"]];
+    NSString *userID = [FBSDKTypeUtility coercedToStringValue:result[@"id"]];
     if (!error && [FBSDKAccessToken.currentAccessToken.userID isEqualToString:userID]) {
-      self->_userName = [FBSDKTypeUtility stringValue:result[@"name"]];
+      self->_userName = [FBSDKTypeUtility coercedToStringValue:result[@"name"]];
       self->_userID = userID;
     }
   }];
@@ -437,6 +437,7 @@ static const CGFloat kPaddingBetweenLogoTitle = 8.0;
 // MARK: - Testability
 
  #if DEBUG
+  #if FBSDKTEST
 
 - (NSString *)userName
 {
@@ -448,6 +449,7 @@ static const CGFloat kPaddingBetweenLogoTitle = 8.0;
   return _userID;
 }
 
+  #endif
  #endif
 
 @end

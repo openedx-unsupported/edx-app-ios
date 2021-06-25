@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OEXPushListener <NSObject>
 
 - (void)didReceiveLocalNotificationWithUserInfo:(NSDictionary*)userInfo;
-- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo application:(nullable UIApplication *)application completionHandler:(nullable void (^)(UIBackgroundFetchResult))completionHandler;
+- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo;
 
 @end
 

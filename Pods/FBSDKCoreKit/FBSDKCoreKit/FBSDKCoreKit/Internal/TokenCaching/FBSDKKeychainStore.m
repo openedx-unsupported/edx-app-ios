@@ -18,10 +18,11 @@
 
 #import "FBSDKKeychainStore.h"
 
+#import "FBSDKCoreKitBasicsImport.h"
 #import "FBSDKDynamicFrameworkLoader.h"
-#import "FBSDKInternalUtility.h"
 #import "FBSDKLogger.h"
 #import "FBSDKSettings.h"
+#import "FBSDKUnarchiverProvider.h"
 
 @implementation FBSDKKeychainStore
 
@@ -50,12 +51,14 @@
   if (!data) {
     return nil;
   }
+  id<FBSDKObjectDecoding> unarchiver = [FBSDKUnarchiverProvider createInsecureUnarchiverFor:data];
 
-  NSDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-  if (![dict isKindOfClass:[NSDictionary class]]) {
-    return nil;
+  NSDictionary<NSString *, id> *dict = nil;
+  @try {
+    dict = [unarchiver decodeObjectOfClass:NSDictionary.class forKey:NSKeyedArchiveRootObjectKey];
+  } @catch (NSException *ex) {
+    // ignore decoding exceptions
   }
-
   return dict;
 }
 
@@ -159,7 +162,7 @@
   [FBSDKTypeUtility dictionary:query setObject:[FBSDKDynamicFrameworkLoader loadkSecClassGenericPassword] forKey:[FBSDKDynamicFrameworkLoader loadkSecClass]];
   [FBSDKTypeUtility dictionary:query setObject:_service forKey:[FBSDKDynamicFrameworkLoader loadkSecAttrService]];
   [FBSDKTypeUtility dictionary:query setObject:key forKey:[FBSDKDynamicFrameworkLoader loadkSecAttrAccount]];
-#if !TARGET_IPHONE_SIMULATOR
+#if !TARGET_OS_SIMULATOR
   if (_accessGroup) {
     [query setObject:_accessGroup forKey:[FBSDKDynamicFrameworkLoader loadkSecAttrAccessGroup]];
   }
