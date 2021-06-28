@@ -91,7 +91,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         if block.specialExamInfo != nil {
             showSpecialExamMessageView(blockID: block.blockID)
-        } else if block.children.isEmpty {
+        } else if (block.type == .Section && block.children.isEmpty) {
             showEmptySubsectionMessageView(blockID: block.blockID)
         } else if block.isGated {
             if environment.remoteConfig.valuePropEnabled {
