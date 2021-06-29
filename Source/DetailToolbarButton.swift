@@ -55,6 +55,7 @@ class DetailToolbarButton: UIView {
             make.trailing.equalTo(self)
             make.top.equalTo(self)
             make.bottom.equalTo(self)
+            make.width.equalTo(UIScreen.main.bounds.width / 2 - 20)
         }
     }
 

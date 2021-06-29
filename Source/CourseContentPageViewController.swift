@@ -434,6 +434,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return [.portrait , .landscapeLeft , .landscapeRight]
     }
+
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        DispatchQueue.main.async {[weak self] in
+            self?.updateNavigationBars()
+        }
+    }
     
     private func preloadBlock(block: CourseBlock) {
         guard !cacheManager.cacheHitForBlockID(blockID: block.blockID) else {
