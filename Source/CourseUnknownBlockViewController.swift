@@ -178,7 +178,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         if block.specialExamInfo != nil {
             environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: true, courseID: courseID, subsectionID: block.blockID)
-        } else if block.children.isEmpty {
+        } else if (block.type == .Section && block.children.isEmpty) {
             environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: false, courseID: courseID, subsectionID: block.blockID)
         } else {
             environment.analytics.trackOpenInBrowser(withURL: block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
