@@ -401,8 +401,8 @@ extension CourseDatesViewController {
                 self?.addCourseEvents(trackAnalytics: false) { [weak self] success in
                     if success {
                         topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
-                        let syncReason: SyncReason = datesShifted ? .direct : .background
-                        datesShifted = false
+                        let syncReason: SyncReason = self?.datesShifted == true ? .direct : .background
+                        self?.datesShifted = false
                         self?.trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: syncReason)
                     }
                 }
