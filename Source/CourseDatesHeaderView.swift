@@ -199,6 +199,8 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
                 make.width.greaterThanOrEqualTo(buttonMinWidth)
                 make.height.equalTo(buttonHeight)
             }
+        } else {
+            shiftDatesButton.removeFromSuperview()
         }
     }
     
