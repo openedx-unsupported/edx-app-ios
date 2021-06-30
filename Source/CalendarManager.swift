@@ -144,7 +144,7 @@ class CalendarManager: NSObject {
     }
     
     func checkIfEventsShouldBeShifted(for dateBlocks: [Date : [CourseDateBlock]]) -> Bool {
-        guard let _ = calendarEntry else { return false }
+        guard let _ = calendarEntry else { return true }
         
         let events = generateEvents(for: dateBlocks)
         let allEvents = events.allSatisfy { alreadyExist(event: $0) }
