@@ -381,7 +381,7 @@ extension CourseDatesViewController {
         
         let alertController = UIAlertController().showAlert(withTitle: Strings.Coursedates.calendarOutOfDate, message: Strings.Coursedates.calendarShiftMessage, cancelButtonTitle: nil, onViewController: topController)
         
-        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] action in
+        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarSyncUpdateDates, eventName: .CalendarSyncUpdateDates)
             self?.removeCourseCalendar(trackAnalytics: false) { [weak self] _ in
                 self?.addCourseEvents(trackAnalytics: false) { [weak self] success in
@@ -395,7 +395,7 @@ extension CourseDatesViewController {
             }
         }
         
-        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, style: .destructive) { [weak self] action in
+        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, style: .destructive) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
             self?.removeCourseCalendar { [weak self] success in
                 if success {
