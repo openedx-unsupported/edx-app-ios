@@ -377,24 +377,9 @@ extension CourseDatesViewController {
     private func showCalendarEventShiftAlert() {
         guard let topController = UIApplication.shared.topMostController() else { return }
         
-        let title = Strings.Coursedates.calendarOutOfDate
-        let message = Strings.Coursedates.calendarShiftMessage
+        let alertController = UIAlertController(title: Strings.Coursedates.calendarOutOfDate, message: Strings.Coursedates.calendarShiftMessage, preferredStyle: .alert)
         
-        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, onViewController: topController) { [weak self] alertController, _, index in
-            
-            if index == alertController.cancelButtonIndex {
-                self?.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
-                
-                self?.removeCourseCalendar { [weak self] success in
-                    if success {
-                        topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
-                        self?.courseDatesHeaderView.syncState = false
-                    }
-                }
-            }
-        }
-        
-        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] _ in
+        let updateAction = UIAlertAction(title: Strings.Coursedates.calendarShiftPromptUpdateNow, style: .default) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarSyncUpdateDates, eventName: .CalendarSyncUpdateDates)
             
             self?.removeCourseCalendar(trackAnalytics: false) { [weak self] _ in
@@ -408,6 +393,23 @@ extension CourseDatesViewController {
                 }
             }
         }
+        
+        let removeAction = UIAlertAction(title: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, style: .destructive) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
+            
+            self?.removeCourseCalendar { [weak self] success in
+                if success {
+                    topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
+                    self?.courseDatesHeaderView.syncState = false
+                }
+            }
+        }
+        
+        alertController.addAction(updateAction)
+        alertController.addAction(removeAction)
+        alertController.view.tintColor = .systemBlue
+        
+        topController.present(alertController, animated: true, completion: nil)
     }
     
     private func addCourseEvents(trackAnalytics: Bool = true, completion: ((Bool)->())? = nil) {
