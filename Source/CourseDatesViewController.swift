@@ -87,7 +87,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private var calendarSyncEnabled: Bool {
-        return calendarSyncConfig.isSelfPacedEnabled
+        return isSelfPaced && calendarSyncConfig.isSelfPacedEnabled
     }
     
     private var userEnrollment: EnrollmentMode {
@@ -369,6 +369,8 @@ extension CourseDatesViewController {
     }
     
     private func addCourseEventsIfNecessary() {
+        guard calendarSyncEnabled else { return }
+
         if calendar.syncOn && calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
             showCalendarEventShiftAlert()
         }
