@@ -163,8 +163,9 @@ class CalendarManager: NSObject {
                 }
             } else {
                 if let block = blocks.first {
-                    let generatedEvent = calendarEvent(for: block)
-                    events.append(generatedEvent)
+                    if let generatedEvent = calendarEvent(for: block) {
+                        events.append(generatedEvent)
+                    }
                 }
             }
         }
@@ -206,7 +207,9 @@ class CalendarManager: NSObject {
         }
     }
     
-    private func calendarEvent(for block: CourseDateBlock) -> EKEvent {
+    private func calendarEvent(for block: CourseDateBlock) -> EKEvent? {
+        guard !block.title.isEmpty else { return nil }
+        
         let title = block.title + ": " + courseName
         // startDate is the start date and time for the event,
         // it is also being used as first alert for the event
@@ -219,7 +222,7 @@ class CalendarManager: NSObject {
     }
     
     private func calendarEvent(for blocks: [CourseDateBlock]) -> EKEvent? {
-        guard let block = blocks.first else { return nil }
+        guard let block = blocks.first, !block.title.isEmpty else { return nil }
         
         let title = block.title + ": " + courseName
         // startDate is the start date and time for the event,
