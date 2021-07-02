@@ -464,7 +464,7 @@ extension CourseDatesViewController {
         
         let removeAction = UIAlertAction(title: Strings.remove, style: .destructive) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarRemoveDatesOK, eventName: .CalendarRemoveDatesOK)
-            self?.removeCourseCalendar { [weak self] success in
+            self?.removeCourseCalendar { success in
                 if success {
                     self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
                 }
