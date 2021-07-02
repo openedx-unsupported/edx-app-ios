@@ -383,8 +383,8 @@ extension CourseDatesViewController {
         
         alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarSyncUpdateDates, eventName: .CalendarSyncUpdateDates)
-            self?.removeCourseCalendar(trackAnalytics: false) { [weak self] _ in
-                self?.addCourseEvents(trackAnalytics: false) { [weak self] success in
+            self?.removeCourseCalendar(trackAnalytics: false) { _ in
+                self?.addCourseEvents(trackAnalytics: false) { success in
                     if success {
                         topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
                         let syncReason: SyncReason = self?.datesShifted ?? false ? .direct : .background
@@ -397,7 +397,7 @@ extension CourseDatesViewController {
         
         alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, style: .destructive) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
-            self?.removeCourseCalendar { [weak self] success in
+            self?.removeCourseCalendar { success in
                 if success {
                     topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
                     self?.courseDatesHeaderView.syncState = false
