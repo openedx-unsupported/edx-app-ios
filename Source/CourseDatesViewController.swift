@@ -87,7 +87,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private var calendarSyncEnabled: Bool {
-        return calendarSyncConfig.isSelfPacedEnabled
+        return isSelfPaced && calendarSyncConfig.isSelfPacedEnabled
     }
     
     private var userEnrollment: EnrollmentMode {
@@ -369,54 +369,44 @@ extension CourseDatesViewController {
     }
     
     private func addCourseEventsIfNecessary() {
-        if datesShifted && calendar.syncOn {
-            datesShifted = false
-            
-            if calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
-                showCalendarEventShiftAlert()
-            }
+        guard calendarSyncEnabled else { return }
+
+        if calendar.syncOn && calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
+            showCalendarEventShiftAlert()
         }
     }
     
     private func showCalendarEventShiftAlert() {
         guard let topController = UIApplication.shared.topMostController() else { return }
         
-        let title = Strings.Coursedates.calendarOutOfDate
-        let message = Strings.Coursedates.calendarShiftMessage
+        let alertController = UIAlertController().showAlert(withTitle: Strings.Coursedates.calendarOutOfDate, message: Strings.Coursedates.calendarShiftMessage, cancelButtonTitle: nil, onViewController: topController)
         
-        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, onViewController: topController) { [weak self] alertController, _, index in
-            
-            if index == alertController.cancelButtonIndex {
-                self?.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
-                
-                self?.removeCourseCalendar { [weak self] success in
+        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarSyncUpdateDates, eventName: .CalendarSyncUpdateDates)
+            self?.removeCourseCalendar(trackAnalytics: false) { _ in
+                self?.addCourseEvents(trackAnalytics: false) { success in
                     if success {
-                        topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
-                        self?.courseDatesHeaderView.syncState = false
+                        topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
+                        let syncReason: SyncReason = self?.datesShifted ?? false ? .direct : .background
+                        self?.datesShifted = false
+                        self?.trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: syncReason)
                     }
                 }
             }
         }
         
-        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptUpdateNow) { [weak self] _ in
-            self?.trackCalendarEvent(for: .CalendarSyncUpdateDates, eventName: .CalendarSyncUpdateDates)
-            
-            self?.removeCourseCalendar(trackAnalytics: false) { [weak self] _ in
-                self?.addCourseEvents(trackAnalytics: false) { [weak self] success in
-                    if success {
-                        topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
-                        self?.trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: .direct)
-                    }
+        alertController.addButton(withTitle: Strings.Coursedates.calendarShiftPromptRemoveCourseCalendar, style: .destructive) { [weak self] _ in
+            self?.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
+            self?.removeCourseCalendar { success in
+                if success {
+                    topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
+                    self?.courseDatesHeaderView.syncState = false
                 }
             }
         }
     }
     
     private func addCourseEvents(trackAnalytics: Bool = true, completion: ((Bool)->())? = nil) {
-        if !calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
-            return
-        }
-        
         calendar.addEventsToCalendar(for: dateBlocks) { [weak self] success in
             if success {
                 if trackAnalytics {
@@ -474,7 +464,7 @@ extension CourseDatesViewController {
         
         let removeAction = UIAlertAction(title: Strings.remove, style: .destructive) { [weak self] _ in
             self?.trackCalendarEvent(for: .CalendarRemoveDatesOK, eventName: .CalendarRemoveDatesOK)
-            self?.removeCourseCalendar { [weak self] success in
+            self?.removeCourseCalendar { success in
                 if success {
                     self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
                 }
