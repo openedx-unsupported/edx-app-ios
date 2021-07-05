@@ -90,15 +90,15 @@ public class CourseOutlineItemView: UIView {
     }
     
     init() {
-        super.init(frame: CGRect.zero)
+        super.init(frame: .zero)
         
         shouldShowSubtitleLeadingImageView = true
         
         leadingImageButton.tintColor = .clear
-        leadingImageButton.accessibilityTraits = UIAccessibilityTraits.image
+        leadingImageButton.accessibilityTraits = .image
         leadingImageButton.isAccessibilityElement = false
         
-        subtitleLeadingImageView.image = Icon.Graded.imageWithFontSize(size: 16)
+        subtitleLeadingImageView.image = Icon.Graded.imageWithFontSize(size: SmallIconSize)
         subtitleLeadingImageView.tintColor = OEXStyles.shared().primaryBaseColor()
         
         isGraded = false
