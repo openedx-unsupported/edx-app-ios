@@ -10,7 +10,7 @@ import UIKit
 
 class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
 
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider
     
     public let courseID: String
     public let blockID: CourseBlockID?
@@ -107,6 +107,8 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
                 make.height.equalTo(55)
                 make.bottom.equalTo(safeBottom)
             }
+
+            trackOpenInBrowserBannerEvent(displayName: AnalyticsDisplayName.OpenInBrowserBannerDisplayed, eventName: AnalyticsEventName.OpenInBrowserBannerDisplayed)
         }
     }
     
@@ -231,6 +233,13 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
             }
         }
     }
+
+    private func trackOpenInBrowserBannerEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName) {
+        let mode = environment.interface?.enrollmentForCourse(withID: courseID)?.mode ?? ""
+        let enrollment = EnrollmentMode(rawValue: mode) ?? .none
+
+        environment.analytics.trackOpenInBrowserBannerEvent(displayName: displayName, eventName: eventName, userType: enrollment.rawValue, courseID: courseID, componentID: blockID ?? "", componentType: block?.typeName ?? "", openURL: block?.webURL?.absoluteString ?? "")
+    }
     
     private func postCourseDateResetNotification() {
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_SHIFT_COURSE_DATES)))
@@ -286,7 +295,7 @@ extension HTMLBlockViewController: AJAXCompletionCallbackDelegate {
 extension HTMLBlockViewController: OpenInExternalBrowserViewDelegate {
     func openInExternalBrower() {
         guard let webURL = block?.webURL as URL? else { return }
-
+        trackOpenInBrowserBannerEvent(displayName: AnalyticsDisplayName.OpenInBrowserBannerTapped, eventName: AnalyticsEventName.OpenInBrowserBannerTapped)
         if UIApplication.shared.canOpenURL(webURL) {
             UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
         }
