@@ -118,5 +118,6 @@ class ValuePropMessageView: UIView {
         lockImageView.accessibilityIdentifier = "ValuePropMessageView:image-view-lock"
         titleLabel.accessibilityIdentifier = "ValuePropMessageView:label-title"
         messageLabel.accessibilityIdentifier = "ValuePropMessageView:label-message"
+        buttonUpgradeNow.accessibilityIdentifier = "ValuePropMessageView:upgrade-button"
     }
 }
