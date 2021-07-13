@@ -273,7 +273,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     }
 }
 
-fileprivate extension UIView {
+extension UIView {
     func addShadow(offset: CGSize, color: UIColor, radius: CGFloat, opacity: Float, cornerRadius: CGFloat) {
         layer.cornerRadius = cornerRadius
         layer.masksToBounds = false
