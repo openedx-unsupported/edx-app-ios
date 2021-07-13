@@ -31,7 +31,7 @@ class ValuePropMessageView: UIView {
         label.numberOfLines = 0
         return label
     }()
-    private lazy var buttonLearnMore = UIButton()
+    
     private lazy var lockImageView = UIImageView()
     
     private lazy var titleStyle: OEXMutableTextStyle = {
@@ -42,9 +42,7 @@ class ValuePropMessageView: UIView {
         return OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.primaryDarkColor())
     }()
     
-    private lazy var buttonStyle: OEXMutableTextStyle = {
-        return OEXMutableTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralWhiteT())
-    }()
+    private lazy var buttonUpgradeNow = ValuePropUpgradeButtonView()
     
     private let environment: Environment
         
@@ -61,23 +59,23 @@ class ValuePropMessageView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        container.addShadow(offset: CGSize(width: 0, height: 2), color: OEXStyles.shared().primaryDarkColor(), radius: 2, opacity: 0.35, cornerRadius: 5)
+    }
+    
     private func setupViews() {
-        container.backgroundColor = environment.styles.infoXXLight()
+        container.backgroundColor = environment.styles.neutralWhite()
         
         lockImageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.assignmentsAreLocked)
-        messageLabel.attributedText = messageStyle.attributedString(withText: Strings.ValueProp.upgradeToAccessGraded)
-
-        buttonLearnMore.backgroundColor = environment.styles.primaryBaseColor()
-        buttonLearnMore.setAttributedTitle(buttonStyle.attributedString(withText: Strings.ValueProp.learnMore), for: UIControl.State())
-        buttonLearnMore.oex_addAction({ [weak self] _ in
-            self?.delegate?.showValuePropDetailView()
-        }, for: .touchUpInside)
+        let attributedMessage = messageStyle.attributedString(withText: Strings.ValueProp.upgradeToAccessGraded)
+        messageLabel.attributedText = attributedMessage.setLineSpacing(8)
         
         container.addSubview(titleLabel)
         container.addSubview(messageLabel)
-        container.addSubview(buttonLearnMore)
         container.addSubview(lockImageView)
+        container.addSubview(buttonUpgradeNow)
         addSubview(container)
     }
     
@@ -86,7 +84,7 @@ class ValuePropMessageView: UIView {
             make.top.equalTo(self)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
-            make.bottom.equalTo(buttonLearnMore).offset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(buttonUpgradeNow).offset(StandardVerticalMargin * 2)
         }
         
         lockImageView.snp.makeConstraints { make in
@@ -103,15 +101,15 @@ class ValuePropMessageView: UIView {
         
         messageLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin * 2)
-            make.leading.equalTo(titleLabel)
+            make.leading.equalTo(container).offset(StandardHorizontalMargin + 4)
             make.trailing.equalTo(container).inset(StandardHorizontalMargin * 2)
         }
         
-        buttonLearnMore.snp.makeConstraints { make in
+        buttonUpgradeNow.snp.makeConstraints { make  in
+            make.leading.equalTo(container).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(container).inset(StandardHorizontalMargin)
             make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
-            make.height.equalTo(StandardVerticalMargin * 4)
-            make.trailing.equalTo(container).inset(StandardHorizontalMargin * 2)
-            make.width.equalTo(StandardHorizontalMargin * 6)
+            make.height.equalTo(ValuePropUpgradeButtonView.height)
         }
     }
     
@@ -120,6 +118,5 @@ class ValuePropMessageView: UIView {
         lockImageView.accessibilityIdentifier = "ValuePropMessageView:image-view-lock"
         titleLabel.accessibilityIdentifier = "ValuePropMessageView:label-title"
         messageLabel.accessibilityIdentifier = "ValuePropMessageView:label-message"
-        buttonLearnMore.accessibilityIdentifier = "ValuePropMessageView:button-learn-more"
     }
 }
