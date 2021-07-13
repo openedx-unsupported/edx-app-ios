@@ -25,58 +25,75 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
-        tableView.tableHeaderView = headerView
         tableView.tableFooterView = UIView()
         tableView.register(ValuePropMessageCell.self, forCellReuseIdentifier: ValuePropMessageCell.identifier)
         tableView.accessibilityIdentifier = "ValuePropDetailView:tableView"
         return tableView
     }()
     
-    private lazy var headerView: ValuePropDetailHeaderView = {
-        let view = ValuePropDetailHeaderView(frame: .zero)
-        view.backgroundColor = .gray
-        view.setup()
-        //let title = type == .courseEnrollment ? Strings.ValueProp.detailViewTitle : Strings.ValueProp.detailViewTitleLearnMore
-        //view.titleLabel.attributedText = titleStyle.attributedString(withText: title)
-        return view
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.upgrade(courseName: course.name ?? ""))
+        return label
     }()
     
     private lazy var buttonUpgradeNow: UIButton = {
         let button = UIButton()
         button.backgroundColor = OEXStyles.shared().secondaryBaseColor()
-        button.setTitle("Upgrade now for $99", for: UIControl.State())
+        let buttonTitle = Strings.ValueProp.upgradeNowFor(price: "99")
+        
+        let lockedImage = Icon.Closed.imageWithFontSize(size: 16).image(with: environment.styles.neutralWhiteT())
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = lockedImage
+        let imageOffsetY: CGFloat = -2.0
+        if let image = imageAttachment.image {
+            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
+        }
+        
+        let attributedImageString = NSAttributedString(attachment: imageAttachment)
+        let style = OEXTextStyle(weight : .normal, size: .base, color: environment.styles.neutralWhiteT())
+        let attributedStrings = [
+            attributedImageString,
+            NSAttributedString(string: "\u{2000}"),
+            style.attributedString(withText: buttonTitle)
+        ]
+        let buttonAttributedTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
+        button.setAttributedTitle(buttonAttributedTitle, for: .normal)
+        button.contentVerticalAlignment = .center
+        
         return button
     }()
     
     private var titleStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .normal, size: .xxLarge, color: OEXStyles.shared().primaryBaseColor())
+        let style = OEXMutableTextStyle(weight: .bold, size: .xxLarge, color: OEXStyles.shared().primaryBaseColor())
         style.alignment = .left
         return style
     }()
     
-    private var messageTitleStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .normal, size: .xxLarge, color: OEXStyles.shared().primaryBaseColor())
-        style.alignment = .center
-        return style
-    }()
-    
     private let crossButtonSize: CGFloat = 20
+    
+    private let infoMessages = [
+        Strings.ValueProp.infoMessage1,
+        Strings.ValueProp.infoMessage2,
+        Strings.ValueProp.infoMessage3,
+        Strings.ValueProp.infoMessage4(platformName: OEXConfig.shared().platformName())
+    ]
+    
     private var type: ValuePropModalType
+    private let course: OEXCourse
     private let environment: Environment
-    private let infoMessages = [Strings.ValueProp.infoMessage1, Strings.ValueProp.infoMessage2, Strings.ValueProp.infoMessage3, Strings.ValueProp.infoMessage4(platformName: OEXConfig.shared().platformName())]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = environment.styles.standardBackgroundColor()
         configureView()
-        
-        headerView.titleLabel.text = "https://margaret:hamilton@courses.stage.edx.org/api/mobile/v1/users/mumer@edx.org/course_enrollments/, https://margaret:"
-        headerView.titleLabel.backgroundColor = .yellow
     }
     
-    init(type: ValuePropModalType, environment: Environment) {
+    init(type: ValuePropModalType, course: OEXCourse, environment: Environment) {
         self.type = type
+        self.course = course
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
@@ -88,10 +105,10 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     private func configureView() {
         addSubviews()
         setConstraints()
-        tableView.setAndLayoutTableHeaderView(header: headerView)
     }
     
     private func addSubviews() {
+        view.addSubview(titleLabel)
         view.addSubview(tableView)
         view.addSubview(buttonUpgradeNow)
         addCloseButton()
@@ -110,23 +127,22 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
     
     private func setConstraints() {
-        tableView.snp.makeConstraints { make in
-            make.leading.equalTo(view).offset(StandardHorizontalMargin)
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(view).offset(StandardHorizontalMargin * 2)
+            make.trailing.equalTo(view).inset(StandardHorizontalMargin * 2)
             make.top.equalTo(view).offset(StandardVerticalMargin)
-            make.trailing.equalTo(view).inset(StandardHorizontalMargin)
+        }
+        
+        tableView.snp.makeConstraints { make in
+            make.leading.equalTo(view).offset(StandardHorizontalMargin * 1.5)
+            make.trailing.equalTo(view).inset(StandardHorizontalMargin * 2)
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(buttonUpgradeNow.snp.top).inset(StandardVerticalMargin)
         }
         
-        headerView.snp.remakeConstraints { make in
-            make.leading.equalTo(tableView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(tableView).inset(StandardHorizontalMargin)
-            make.top.equalTo(tableView).offset(StandardVerticalMargin)
-//            make.height.equalTo(100)
-        }
-        buttonUpgradeNow.backgroundColor = .red
         buttonUpgradeNow.snp.makeConstraints { make in
-            make.leading.equalTo(view).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(view).inset(StandardHorizontalMargin)
+            make.leading.equalTo(view).offset(StandardHorizontalMargin * 2)
+            make.trailing.equalTo(view).inset(StandardHorizontalMargin * 2)
             make.bottom.equalTo(safeBottom).inset(StandardVerticalMargin)
             make.height.equalTo(36)
         }
@@ -142,7 +158,6 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
 }
 
 extension ValuePropDetailViewController: UITableViewDataSource, UITableViewDelegate {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -235,44 +250,5 @@ private class ValuePropMessageCell: UITableViewCell {
             make.trailing.equalTo(containerView)
             make.bottom.equalTo(containerView).inset(StandardVerticalMargin)
         }
-    }
-}
-
-private class ValuePropDetailHeaderView : UITableViewHeaderFooterView {
-    static let identifier = "ValuePropMessageHeaderIdentifier"
-    
-    lazy var titleLabel: UILabel = {
-        let title = UILabel()
-        title.numberOfLines = 0
-        return title
-    }()
-    
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
-        setup()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    func setup() {
-        addSubviews()
-        setConstraints()
-        setAccessibilityIdentifiers()
-    }
-    
-    private func addSubviews(){
-        addSubview(titleLabel)
-    }
-    
-    private func setConstraints() {
-        titleLabel.snp.makeConstraints { make in
-            make.edges.equalTo(self)
-        }
-    }
-    
-    private func setAccessibilityIdentifiers() {
-        titleLabel.accessibilityIdentifier = "ValuePropDetailHeaderView:title-label"
     }
 }
