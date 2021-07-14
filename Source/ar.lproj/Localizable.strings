@@ -172,6 +172,8 @@
 "ACCESSIBILITY.COMPLETED" = "Completed";
 /*Course upgrade button accessibility hint*/
 "ACCESSIBILITY.UPGRADE_BUTTON_HINT" = "Double tap to upgrade";
+/*Accessibility hint for general button action*/
+"ACCESSIBILITY.BUTTON_ACTION_HINT"="Double tap to open";
 /*Email subject for disabled account*/
 "ACCOUNT_DISABLED" = "Account Disabled";
 /* Title of user profile section for user accomplishments (like badges) */
@@ -1004,7 +1006,7 @@
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
 "VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="Get the most out of your course! Upgrade to get full access to the course material, unlock both graded and non-graded assignments, and earn a verified certificate to showcase on your resume.";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="Unlock to access more features";
 /* Value prop view's learn more button title on enrolled courses*/
 "VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
 /* Value prop detail view title learn more*/
