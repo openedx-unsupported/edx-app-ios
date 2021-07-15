@@ -9,10 +9,13 @@
 import UIKit
 
 class ValuePropUpgradeButtonView: UIView {
-    static var height = 36
+    static var height:CGFloat = {
+        return OEXConfig.shared().inappPurchasesEnabled ? 36 : 0
+    }()
         
     private lazy var buttonUpgradeNow: UIButton = {
         let button = UIButton()
+        button.isAccessibilityElement = false
         button.backgroundColor = OEXStyles.shared().secondaryBaseColor()
         button.oex_addAction({ [weak self] _ in
             self?.tapAction?()
@@ -56,6 +59,11 @@ class ValuePropUpgradeButtonView: UIView {
     
     func setupView() {
         addSubview(buttonUpgradeNow)
+
+        accessibilityTraits = .button
+        isAccessibilityElement = true
+        accessibilityLabel = Strings.ValueProp.upgradeNowFor(price: "99")
+        accessibilityHint = Strings.Accessibility.upgradeButtonHint
         
         buttonUpgradeNow.snp.makeConstraints { make in
             make.edges.equalTo(self)

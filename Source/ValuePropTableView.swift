@@ -10,7 +10,7 @@ import UIKit
 
 class ValuePropTableView: UIView {
     
-    private let infoMessages = [
+    private let messages = [
         Strings.ValueProp.infoMessage1,
         Strings.ValueProp.infoMessage2,
         Strings.ValueProp.infoMessage3,
@@ -18,13 +18,15 @@ class ValuePropTableView: UIView {
     ]
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRect.zero, style: .grouped)
+        let tableView = UITableView()
+        tableView.estimatedRowHeight = 30
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
+        tableView.alwaysBounceVertical = false
         tableView.tableFooterView = UIView()
         tableView.register(ValuePropMessageCell.self, forCellReuseIdentifier: ValuePropMessageCell.identifier)
         tableView.accessibilityIdentifier = "ValuePropDetailView:tableView"
@@ -41,7 +43,7 @@ class ValuePropTableView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupView() {
+    private func setupView() {
         addSubview(tableView)
         
         tableView.snp.makeConstraints { make in
@@ -56,13 +58,13 @@ extension ValuePropTableView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return infoMessages.count
+        return messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ValuePropMessageCell.identifier, for: indexPath) as! ValuePropMessageCell
-        cell.setMessage(message: infoMessages[indexPath.row])
-        cell.backgroundColor = .clear
+        cell.setMessage(message: messages[indexPath.row])
+
         return cell
     }
 }
@@ -83,11 +85,15 @@ private class ValuePropMessageCell: UITableViewCell {
         imageView.backgroundColor = OEXStyles.shared().successXXLight()
         return imageView
     }()
-    
+
+    let messageStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().primaryDarkColor())
+
     private lazy var containerView = UIView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
+
         addSubviews()
         setAccessibilityIdentifiers()
     }
@@ -112,14 +118,13 @@ private class ValuePropMessageCell: UITableViewCell {
     }
     
     func setMessage(message: String) {
-        let messageStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryDarkColor())
         messageLabel.attributedText = messageStyle.attributedString(withText: message)
     }
     
     private func setAccessibilityIdentifiers() {
         containerView.accessibilityIdentifier = "ValuePropMessageCell:container-view"
         bulletImage.accessibilityIdentifier = "ValuePropMessageCell:bullet-image"
-        bulletImage.accessibilityIdentifier = "ValuePropMessageCell:message-label"
+        messageLabel.accessibilityIdentifier = "ValuePropMessageCell:message-label"
     }
     
     private func setConstraints() {
