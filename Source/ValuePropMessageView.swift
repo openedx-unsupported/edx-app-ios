@@ -77,6 +77,7 @@ class ValuePropMessageView: UIView {
         container.addSubview(titleLabel)
         container.addSubview(messageLabel)
         container.addSubview(lockImageView)
+        container.addSubview(buttonLearnMore)
         addSubview(container)
     }
     
