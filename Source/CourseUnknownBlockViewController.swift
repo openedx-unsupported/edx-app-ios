@@ -101,6 +101,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
                 showGatedContentMessageView()
             }
         }
+        else {
+            showCourseContentUnknownView()
+        }
     }
     
     private func showSpecialExamMessageView(blockID: CourseBlockID) {
