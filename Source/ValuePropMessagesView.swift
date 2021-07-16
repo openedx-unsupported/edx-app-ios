@@ -1,5 +1,5 @@
 //
-//  ValuePropTableView.swift
+//  ValuePropMessagesView.swift
 //  edX
 //
 //  Created by Muhammad Umer on 13/07/2021.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ValuePropTableView: UIView {
+class ValuePropMessagesView: UIView {
     
     private let messages = [
         Strings.ValueProp.infoMessage1,
@@ -23,6 +23,7 @@ class ValuePropTableView: UIView {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.alwaysBounceVertical = false
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
@@ -42,11 +43,6 @@ class ValuePropTableView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        tableView.isScrollEnabled = tableView.contentSize.height > tableView.frame.size.height
-    }
-    
     private func setupView() {
         addSubview(tableView)
         
@@ -56,7 +52,7 @@ class ValuePropTableView: UIView {
     }
 }
 
-extension ValuePropTableView: UITableViewDataSource, UITableViewDelegate {
+extension ValuePropMessagesView: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

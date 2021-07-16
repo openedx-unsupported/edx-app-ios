@@ -17,8 +17,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
     
-    private lazy var valuePropTableView: ValuePropTableView = {
-        let tableView = ValuePropTableView()
+    private lazy var valuePropTableView: ValuePropMessagesView = {
+        let tableView = ValuePropMessagesView()
         tableView.accessibilityIdentifier = "ValuePropDetailViewController:table-view"
         return tableView
     }()

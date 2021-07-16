@@ -13,7 +13,7 @@ class ValuePropUpgradeButtonView: UIView {
         return OEXConfig.shared().inappPurchasesEnabled ? 36 : 0
     }()
         
-    private lazy var buttonUpgradeNow: UIButton = {
+    private lazy var upgradeButton: UIButton = {
         let button = UIButton()
         button.isAccessibilityElement = false
         button.backgroundColor = OEXStyles.shared().secondaryBaseColor()
@@ -21,7 +21,7 @@ class ValuePropUpgradeButtonView: UIView {
             self?.tapAction?()
         }, for: .touchUpInside)
         
-        let buttonTitle = Strings.ValueProp.upgradeNowFor(price: "99")
+        let buttonTitle = Strings.ValueProp.upgradeCourseFor(price: "99")
         
         let lockedImage = Icon.Closed.imageWithFontSize(size: 16).image(with: OEXStyles.shared().neutralWhiteT())
         let imageAttachment = NSTextAttachment()
@@ -58,14 +58,14 @@ class ValuePropUpgradeButtonView: UIView {
     }
     
     func setupView() {
-        addSubview(buttonUpgradeNow)
+        addSubview(upgradeButton)
 
         accessibilityTraits = .button
         isAccessibilityElement = true
-        accessibilityLabel = Strings.ValueProp.upgradeNowFor(price: "99")
+        accessibilityLabel = Strings.ValueProp.upgradeCourseFor(price: "99")
         accessibilityHint = Strings.Accessibility.upgradeButtonHint
         
-        buttonUpgradeNow.snp.makeConstraints { make in
+        upgradeButton.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
     }
