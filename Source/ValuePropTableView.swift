@@ -26,7 +26,6 @@ class ValuePropTableView: UIView {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
-        tableView.alwaysBounceVertical = false
         tableView.tableFooterView = UIView()
         tableView.register(ValuePropMessageCell.self, forCellReuseIdentifier: ValuePropMessageCell.identifier)
         tableView.accessibilityIdentifier = "ValuePropDetailView:tableView"
@@ -41,6 +40,11 @@ class ValuePropTableView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        tableView.isScrollEnabled = tableView.contentSize.height > tableView.frame.size.height
     }
     
     private func setupView() {

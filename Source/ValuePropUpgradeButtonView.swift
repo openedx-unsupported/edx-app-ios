@@ -9,7 +9,7 @@
 import UIKit
 
 class ValuePropUpgradeButtonView: UIView {
-    static var height:CGFloat = {
+    static var height: CGFloat = {
         return OEXConfig.shared().inappPurchasesEnabled ? 36 : 0
     }()
         
@@ -32,7 +32,7 @@ class ValuePropUpgradeButtonView: UIView {
         }
         
         let attributedImageString = NSAttributedString(attachment: imageAttachment)
-        let style = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
+        let style = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
         let attributedStrings = [
             attributedImageString,
             NSAttributedString(string: "\u{2000}"),
