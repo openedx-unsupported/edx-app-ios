@@ -22,15 +22,15 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     private let overlayContainer = UIView()
 
     var course: OEXCourse?
-    var tapAction : ((CourseCardView) -> ())?
+    var tapAction: ((CourseCardView) -> ())?
     
-    private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .semiBold, size: .xLarge, color: OEXStyles.shared().primaryBaseColor())
+    private var titleTextStyle: OEXTextStyle {
+        return OEXTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().neutralBlack())
     }
-    private var dateTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().primaryXLightColor())
+    private var dateTextStyle: OEXTextStyle {
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXXDark())
     }
-    private var coverImageAspectRatio : CGFloat {
+    private var coverImageAspectRatio: CGFloat {
         // Let the placeholder image aspect ratio determine the course card image aspect ratio.
         guard let placeholder = UIImage(named:"placeholderCourseCardImage") else {
             return StandardImageAspectRatio
@@ -45,8 +45,8 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         accessibilityHint = Strings.accessibilityShowsCourseContent
     }
     
-    override init(frame : CGRect) {
-        super.init(frame : frame)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupView()
     }
     
@@ -103,7 +103,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
         dateLabel.snp.makeConstraints { make in
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
-            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin/2)
             make.bottom.equalTo(container).offset(-verticalMargin)
             make.trailing.equalTo(titleLabel)
         }
@@ -126,6 +126,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         addGestureRecognizer(tapGesture)
 
         setAccessibilityIdentifiers()
+        applyBorderStyle(style: BorderStyle())
     }
 
     private func setAccessibilityIdentifiers() {
