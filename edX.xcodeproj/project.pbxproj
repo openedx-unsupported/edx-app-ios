@@ -191,6 +191,8 @@
 		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
 		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
 		5F592AD0257521F600D96214 /* ISOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F592ACF257521F600D96214 /* ISOParser.swift */; };
+		5F5FC00B269DA8C500F92B8F /* ValuePropMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */; };
+		5F5FC00D269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift */; };
 		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
 		5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */; };
 		5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */; };
@@ -1247,6 +1249,8 @@
 		5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePoint.swift; sourceTree = "<group>"; };
 		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		5F592ACF257521F600D96214 /* ISOParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ISOParser.swift; path = Libraries/SwiftDate/ISOParser.swift; sourceTree = SOURCE_ROOT; };
+		5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropMessagesView.swift; sourceTree = "<group>"; };
+		5F5FC00C269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropUpgradeButtonView.swift; sourceTree = "<group>"; };
 		5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
@@ -2573,6 +2577,17 @@
 			name = SwiftDate;
 			sourceTree = "<group>";
 		};
+		5F5FC009269DA8AE00F92B8F /* ValueProp */ = {
+			isa = PBXGroup;
+			children = (
+				5FF08644257F91FA0078877A /* ValuePropMessageView.swift */,
+				22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */,
+				5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */,
+				5F5FC00C269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift */,
+			);
+			name = ValueProp;
+			sourceTree = "<group>";
+		};
 		5F6F2B55255AAB7F00AA3708 /* Inter */ = {
 			isa = PBXGroup;
 			children = (
@@ -3859,8 +3874,7 @@
 				22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */,
 				B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */,
 				B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */,
-				5FF08644257F91FA0078877A /* ValuePropMessageView.swift */,
-				22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */,
+				5F5FC009269DA8AE00F92B8F /* ValueProp */,
 				225E9FDB25BAF79E000D6332 /* CelebratoryModalViewController.swift */,
 			);
 			name = Course;
@@ -5195,6 +5209,7 @@
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
 				5F7C0C642534520200A344B9 /* FillBackgroundTextStorage.swift in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
+				5F5FC00D269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift in Sources */,
 				774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */,
 				22F6A15C20B7E62D009C3F4A /* Mappings.swift in Sources */,
 				9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */,
@@ -5221,6 +5236,7 @@
 				77D6A9A61C28F98A00E67CCF /* EnrolledCoursesViewController.swift in Sources */,
 				77691F911B388626003922F2 /* UIGestureRecognizer+BlockActions.swift in Sources */,
 				1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */,
+				5F5FC00B269DA8C500F92B8F /* ValuePropMessagesView.swift in Sources */,
 				B7CCC729209B16B100A66923 /* ConstraintInsetTarget.swift in Sources */,
 				9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */,
 				7725016A1C80FB5C002549A9 /* ServerChangedChecker.swift in Sources */,

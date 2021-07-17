@@ -41,13 +41,13 @@ class ValuePropMessageView: UIView {
     private lazy var messageStyle: OEXMutableTextStyle = {
         return OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.primaryDarkColor())
     }()
-    
+
     private lazy var buttonStyle: OEXMutableTextStyle = {
         return OEXMutableTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralWhiteT())
     }()
-    
+
     private let environment: Environment
-        
+
     init(environment: Environment) {
         self.environment = environment
         super.init(frame: .zero)
@@ -60,10 +60,10 @@ class ValuePropMessageView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func setupViews() {
         container.backgroundColor = environment.styles.infoXXLight()
-        
+
         lockImageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.assignmentsAreLocked)
         messageLabel.attributedText = messageStyle.attributedString(withText: Strings.ValueProp.upgradeToAccessGraded)
@@ -73,11 +73,11 @@ class ValuePropMessageView: UIView {
         buttonLearnMore.oex_addAction({ [weak self] _ in
             self?.delegate?.showValuePropDetailView()
         }, for: .touchUpInside)
-        
+
         container.addSubview(titleLabel)
         container.addSubview(messageLabel)
-        container.addSubview(buttonLearnMore)
         container.addSubview(lockImageView)
+        container.addSubview(buttonLearnMore)
         addSubview(container)
     }
     
@@ -106,7 +106,7 @@ class ValuePropMessageView: UIView {
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(container).inset(StandardHorizontalMargin * 2)
         }
-        
+
         buttonLearnMore.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
             make.height.equalTo(StandardVerticalMargin * 4)

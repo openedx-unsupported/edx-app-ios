@@ -158,6 +158,8 @@
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
 /*Accessibility for completed section, sunsection, units, components */
 "ACCESSIBILITY.COMPLETED" = "Completed";
+/*Course upgrade button accessibility hint*/
+"ACCESSIBILITY.UPGRADE_BUTTON_HINT" = "Double tap to upgrade";
 /*Email subject for disabled account*/
 "ACCOUNT_DISABLED" = "Account Disabled";
 /* Title of user profile section for user accomplishments (like badges) */
@@ -929,6 +931,10 @@
 "USER_ACCOUNT"="Cuenta";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Perfil";
+/* Value prop upgrade text */
+"VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
+/* Value prop upgrade button text with price */
+"VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade now for ${price}";
 /* Message shown when course content is gated, prompt user how to unlock */
 "VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
 /* Message shown when course content is gated, on button */
@@ -936,7 +942,7 @@
 /* Message shown when course content is gated, new message behind feature flag */
 "VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course.";
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
 /* Value prop view's message on enrolled courses*/
 "VALUE_PROP.COURSE_CARD_MESSAGE"="Get the most out of your course! Upgrade to get full access to the course material, unlock both graded and non-graded assignments, and earn a verified certificate to showcase on your resume.";
 /* Value prop view's learn more button title on enrolled courses*/
