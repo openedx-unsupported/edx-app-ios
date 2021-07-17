@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let valuePropViewHeight:CGFloat = 40.0
+private let valuePropViewHeight: CGFloat = 40
 
 class CourseCardCell : UICollectionViewCell {
     
@@ -69,7 +69,7 @@ class CourseCardCell : UICollectionViewCell {
         }
         
         valuePropView.snp.makeConstraints { make in
-            make.top.equalTo(courseView.snp.bottom)
+            make.top.equalTo(courseView.snp.bottom).inset(StandardVerticalMargin/2)
             make.leading.equalTo(containerView).offset(CourseCardCell.margin)
             make.trailing.equalTo(containerView).inset(CourseCardCell.margin)
             make.bottom.equalTo(containerView)
