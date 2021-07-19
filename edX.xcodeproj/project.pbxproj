@@ -863,7 +863,6 @@
 		E037C2A525762809003CE562 /* courseCertificate_large.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2A225762809003CE562 /* courseCertificate_large.png */; };
 		E037C2A625762809003CE562 /* courseCertificate_large@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2A325762809003CE562 /* courseCertificate_large@2x.png */; };
 		E037C2A725762809003CE562 /* courseCertificate_large@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2A425762809003CE562 /* courseCertificate_large@3x.png */; };
-		E037C2B225774430003CE562 /* screen_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E037C2B125774430003CE562 /* screen_3.png */; };
 		E039A8031F74C0D80064ABDB /* loginScreenImage~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E039A8011F74C0D80064ABDB /* loginScreenImage~ipad.png */; };
 		E039A8041F74C0D80064ABDB /* logo~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E039A8021F74C0D80064ABDB /* logo~ipad.png */; };
 		E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A141D38C91F00944AAA /* OfflineSupportViewController.swift */; };
@@ -917,7 +916,6 @@
 		E0D159911EB87658005E2A76 /* WhatsNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */; };
 		E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */; };
 		E0D159971EB87700005E2A76 /* WhatsNewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159961EB87700005E2A76 /* WhatsNewObject.swift */; };
-		E0D9C59523FE76560085218B /* screen_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E0D9C59323FE76550085218B /* screen_2.png */; };
 		E0DB52C720A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E0DB52C620A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png */; };
 		E0DB52C920A1F36600150FF5 /* Default-Landscape-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E0DB52C820A1F36600150FF5 /* Default-Landscape-568h@2x.png */; };
 		E0DB52CF20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E0DB52CE20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png */; };
@@ -930,7 +928,6 @@
 		E0EC115C221AE70900F0574A /* ListenableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC115B221AE70900F0574A /* ListenableObject.m */; };
 		E0EC12AD2216A6910090EEF6 /* NSString+OEXFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E647C51C90C70600B6740D /* NSString+OEXFormatting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */ = {isa = PBXBuildFile; fileRef = E0EEC6E91F1CD279006C8D62 /* whats_new.json */; };
-		E0EFF823261B12700094ABDB /* screen_4.png in Resources */ = {isa = PBXBuildFile; fileRef = E0EFF822261B12700094ABDB /* screen_4.png */; };
 		E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */; };
 		E0FCFCC91EC59DB2000B969C /* WhatsNewObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */; };
 		E0FF457920FDD24400109662 /* BlockCompletionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FF457820FDD24400109662 /* BlockCompletionApi.swift */; };
@@ -2052,7 +2049,6 @@
 		E037C2A225762809003CE562 /* courseCertificate_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate_large.png; sourceTree = "<group>"; };
 		E037C2A325762809003CE562 /* courseCertificate_large@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate_large@2x.png"; sourceTree = "<group>"; };
 		E037C2A425762809003CE562 /* courseCertificate_large@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate_large@3x.png"; sourceTree = "<group>"; };
-		E037C2B125774430003CE562 /* screen_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_3.png; sourceTree = "<group>"; };
 		E039A8011F74C0D80064ABDB /* loginScreenImage~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginScreenImage~ipad.png"; sourceTree = "<group>"; };
 		E039A8021F74C0D80064ABDB /* logo~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo~ipad.png"; sourceTree = "<group>"; };
 		E03E6A141D38C91F00944AAA /* OfflineSupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineSupportViewController.swift; sourceTree = "<group>"; };
@@ -2118,7 +2114,6 @@
 		E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewViewController.swift; sourceTree = "<group>"; };
 		E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewDataModel.swift; sourceTree = "<group>"; };
 		E0D159961EB87700005E2A76 /* WhatsNewObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObject.swift; sourceTree = "<group>"; };
-		E0D9C59323FE76550085218B /* screen_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_2.png; sourceTree = "<group>"; };
 		E0DB52C620A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-375w-667h@2x.png"; sourceTree = "<group>"; };
 		E0DB52C820A1F36600150FF5 /* Default-Landscape-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-568h@2x.png"; sourceTree = "<group>"; };
 		E0DB52CE20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
@@ -2130,7 +2125,6 @@
 		E0EC115A221AE70900F0574A /* ListenableObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListenableObject.h; sourceTree = "<group>"; };
 		E0EC115B221AE70900F0574A /* ListenableObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListenableObject.m; sourceTree = "<group>"; };
 		E0EEC6E81F1CD279006C8D62 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/whats_new.json; sourceTree = "<group>"; };
-		E0EFF822261B12700094ABDB /* screen_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_4.png; sourceTree = "<group>"; };
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
 		E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObjectTests.swift; sourceTree = "<group>"; };
 		E0FF457820FDD24400109662 /* BlockCompletionApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCompletionApi.swift; sourceTree = "<group>"; };
@@ -4310,9 +4304,6 @@
 		E08EFCCC1EC1E462008ECEC9 /* WhatsNew */ = {
 			isa = PBXGroup;
 			children = (
-				E0EFF822261B12700094ABDB /* screen_4.png */,
-				E037C2B125774430003CE562 /* screen_3.png */,
-				E0D9C59323FE76550085218B /* screen_2.png */,
 				E054B09E1EC3178200FACBA6 /* screen_1.png */,
 			);
 			path = WhatsNew;
@@ -4705,7 +4696,6 @@
 				69ECC6191D50D1170030CF87 /* bt_grey_deactive.png in Resources */,
 				5F6F2B67255AABA400AA3708 /* Inter-LightItalic.ttf in Resources */,
 				6926CDAC1D59BE3600A16E22 /* ic_next.png in Resources */,
-				E0D9C59523FE76560085218B /* screen_2.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
 				9ED269D21AF114B900328A34 /* OEXLoginViewController.storyboard in Resources */,
 				B71AA1AA20CEF64D00700C5E /* biology@3x.png in Resources */,
@@ -4721,7 +4711,6 @@
 				B71AA1CB20CEF64D00700C5E /* engineering@2x.png in Resources */,
 				B793455D20B584F500DBFC33 /* subjects.json in Resources */,
 				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
-				E0EFF823261B12700094ABDB /* screen_4.png in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
 				B71AA19F20CEF64D00700C5E /* food_nutrition@3x.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
@@ -4843,7 +4832,6 @@
 				BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */,
 				BD837BBB1DC8D5DF00341EFD /* Icon-40.png in Resources */,
 				B71AA1B520CEF64D00700C5E /* music@2x.png in Resources */,
-				E037C2B225774430003CE562 /* screen_3.png in Resources */,
 				69ECC60B1D50D1170030CF87 /* Icon-40@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6027,7 +6015,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				CURRENT_PROJECT_VERSION = 2.25.2;
+				CURRENT_PROJECT_VERSION = 2.26.2;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "$(inherited)";
@@ -6087,7 +6075,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 2.25;
+				MARKETING_VERSION = 2.26;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
@@ -6533,7 +6521,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				CURRENT_PROJECT_VERSION = 2.25.2;
+				CURRENT_PROJECT_VERSION = 2.26.2;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "$(inherited)";
@@ -6592,7 +6580,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 2.25;
+				MARKETING_VERSION = 2.26;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
@@ -6620,7 +6608,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				CURRENT_PROJECT_VERSION = 2.25.2;
+				CURRENT_PROJECT_VERSION = 2.26.2;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "$(inherited)";
@@ -6680,7 +6668,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 2.25;
+				MARKETING_VERSION = 2.26;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
