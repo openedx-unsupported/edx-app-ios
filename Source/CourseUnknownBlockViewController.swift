@@ -24,8 +24,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private var messageView: IconMessageView?
-    private lazy var valuePropView: ValuePropMessageView = {
-        let view = ValuePropMessageView(environment: environment)
+    private lazy var valuePropView: ValuePropComponentView = {
+        let view = ValuePropComponentView(environment: environment)
         view.delegate = self
         return view
     }()

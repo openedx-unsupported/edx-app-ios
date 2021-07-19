@@ -221,7 +221,7 @@
 		5FC24C222514DBDA0059C0BA /* CourseDateBannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */; };
 		5FD868362637F05E0045A149 /* CourseDatesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */; };
 		5FD868382637F0FC0045A149 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD868372637F0FC0045A149 /* CalendarManager.swift */; };
-		5FF08645257F91FA0078877A /* ValuePropMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF08644257F91FA0078877A /* ValuePropMessageView.swift */; };
+		5FF08645257F91FA0078877A /* ValuePropComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF08644257F91FA0078877A /* ValuePropComponentView.swift */; };
 		67FDC7528B4181D9153A7C36 /* Pods_edXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */; };
 		6919F5FF1D65CD27006935C8 /* OEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6919F5FE1D65CD27006935C8 /* OEXColors.swift */; };
 		6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDA41D59BE3600A16E22 /* ic_next_press.png */; };
@@ -1276,7 +1276,7 @@
 		5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerAPI.swift; sourceTree = "<group>"; };
 		5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesHeaderView.swift; sourceTree = "<group>"; };
 		5FD868372637F0FC0045A149 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
-		5FF08644257F91FA0078877A /* ValuePropMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropMessageView.swift; sourceTree = "<group>"; };
+		5FF08644257F91FA0078877A /* ValuePropComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropComponentView.swift; sourceTree = "<group>"; };
 		61E8D7FCCFA0751E2D510864 /* libPods-EndToEndTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EndToEndTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6919F5FE1D65CD27006935C8 /* OEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColors.swift; sourceTree = "<group>"; };
 		6926CDA41D59BE3600A16E22 /* ic_next_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_next_press.png; sourceTree = "<group>"; };
@@ -2574,7 +2574,7 @@
 		5F5FC009269DA8AE00F92B8F /* ValueProp */ = {
 			isa = PBXGroup;
 			children = (
-				5FF08644257F91FA0078877A /* ValuePropMessageView.swift */,
+				5FF08644257F91FA0078877A /* ValuePropComponentView.swift */,
 				22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */,
 				5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */,
 				5F5FC00C269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift */,
@@ -5525,7 +5525,7 @@
 				2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,
 				BD7C6C421DCA33540004D135 /* OEXFontsDataFactory.swift in Sources */,
-				5FF08645257F91FA0078877A /* ValuePropMessageView.swift in Sources */,
+				5FF08645257F91FA0078877A /* ValuePropComponentView.swift in Sources */,
 				223895D11F25CF76005B9C15 /* SwipeAnimator.swift in Sources */,
 				771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */,
 				B7CCC72E209B16B100A66923 /* ConstraintLayoutSupport.swift in Sources */,
