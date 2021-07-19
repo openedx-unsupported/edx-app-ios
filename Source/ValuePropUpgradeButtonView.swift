@@ -10,7 +10,7 @@ import UIKit
 
 class ValuePropUpgradeButtonView: UIView {
     static var height: CGFloat = {
-        return OEXConfig.shared().IAPEnabled ? 36 : 0
+        return OEXConfig.shared().inappPurchasesEnabled ? 36 : 0
     }()
         
     private lazy var upgradeButton: UIButton = {
