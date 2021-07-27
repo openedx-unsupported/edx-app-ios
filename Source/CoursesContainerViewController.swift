@@ -255,7 +255,7 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private func shouldShowValueProp(for course: OEXCourse) -> Bool {
         let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.valuePropEnabled
+        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.valuePropEnabled && !course.isEndDateOld
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {
