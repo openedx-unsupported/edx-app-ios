@@ -189,8 +189,8 @@ class ValuePropComponentView: UIView {
     }
 
     private func trackShowMorelessAnalytics(showingMore: Bool) {
-        let displayName = showingMore ? AnalyticsDisplayName.ValuePropShowMoreTapped : AnalyticsDisplayName.ValuePropShowLessTapped
-        let eventName = showingMore ? AnalyticsEventName.ValuePropShowMoreTapped : AnalyticsEventName.ValuePropShowLessTapped
+        let displayName = showingMore ? AnalyticsDisplayName.ValuePropShowMoreClicked : AnalyticsDisplayName.ValuePropShowLessClicked
+        let eventName = showingMore ? AnalyticsEventName.ValuePropShowMoreClicked : AnalyticsEventName.ValuePropShowLessClicked
 
         let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
         let selfPaced = course?.isSelfPaced ?? false
