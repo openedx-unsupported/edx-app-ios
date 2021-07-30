@@ -68,5 +68,7 @@ class ValuePropUpgradeButtonView: UIView {
         upgradeButton.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
+
+        OEXConfig.shared().inappPurchasesEnabled ? (isHidden = false) : (isHidden = true)
     }
 }

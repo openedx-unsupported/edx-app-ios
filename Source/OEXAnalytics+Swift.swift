@@ -26,6 +26,8 @@ public enum AnalyticsDisplayName : String {
     case ValuePropModalView = "Value Prop: Modal View"
     case ValuePropLearnMoreClicked = "Value Prop: Learn More Clicked"
     case ValuePropLockedContentClicked = "Value Prop: Locked Content Clicked"
+    case ValuePropShowMoreTapped = "Value Prop Show More Tapped"
+    case ValuePropShowLessTapped = "Value Prop Show Less Tapped"
     case CreateAccount = "Create Account Clicked"
     case RegistrationSuccess = "Registration Success"
     case EnrolledCourseClicked = "Course Enroll Clicked"
@@ -77,6 +79,8 @@ public enum AnalyticsEventName: String {
     case UserRegistrationSuccess = "edx.bi.app.user.register.success"
     case ValuePropLearnMoreClicked = "edx.bi.app.value.prop.learn.more.clicked"
     case ValuePropLockedContentClicked = "edx.bi.app.course.unit.locked.content.clicked"
+    case ValuePropShowMoreTapped = "edx.bi.app.value_prop.show_more.tapped"
+    case ValuePropShowLessTapped = "edx.bi.app.value_prop.show_less.tapped"
     case ViewRating = "edx.bi.app.app_reviews.view_rating"
     case DismissRating = "edx.bi.app.app_reviews.dismiss_rating"
     case SubmitRating = "edx.bi.app.app_reviews.submit_rating"
@@ -369,6 +373,20 @@ extension OEXAnalytics {
         info.setSafeObject(name.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
         
         trackScreen(withName: AnalyticsDisplayName.ValuePropModalView.rawValue, courseID: courseId, value: nil, additionalInfo: info)
+    }
+
+    func trackValuePropShowMoreless(with displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, courseID: String, blockID: String, pacing: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = displayName.rawValue
+        event.name = eventName.rawValue
+
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID,
+            key_course_id: courseID
+        ]
+
+        trackEvent(event, forComponent: nil, withInfo: info)
     }
     
     func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, eventName: String, bannerType: String) {

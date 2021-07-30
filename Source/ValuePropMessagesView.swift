@@ -19,7 +19,7 @@ class ValuePropMessagesView: UIView {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.estimatedRowHeight = 30
+        tableView.estimatedRowHeight = 42
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
         tableView.delegate = self
@@ -50,6 +50,12 @@ class ValuePropMessagesView: UIView {
             make.edges.equalTo(self)
         }
     }
+
+    public func height()-> CGFloat {
+        tableView.layoutIfNeeded()
+        return tableView.contentSize.height
+    }
+
 }
 
 extension ValuePropMessagesView: UITableViewDataSource, UITableViewDelegate {
@@ -145,7 +151,7 @@ private class ValuePropMessageCell: UITableViewCell {
         messageLabel.snp.makeConstraints { make in
             make.top.equalTo(containerView).offset(StandardVerticalMargin)
             make.leading.equalTo(bulletImage.snp.trailing).offset(StandardVerticalMargin)
-            make.trailing.equalTo(containerView)
+            make.trailing.equalTo(containerView).inset(StandardVerticalMargin)
             make.bottom.equalTo(containerView).inset(StandardVerticalMargin)
         }
     }
