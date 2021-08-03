@@ -15,7 +15,7 @@ enum ValuePropModalType {
 
 class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
+    typealias Environment = OEXAnalyticsProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXConfigProvider
     
     private lazy var valuePropTableView: ValuePropMessagesView = {
         let tableView = ValuePropMessagesView()
@@ -120,7 +120,11 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         let pacing = course.isSelfPaced ? "self" : "instructor"
 
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: "", pacing: pacing)
-        showOverlay(withMessage: "Payments are coming soon")
+        
+        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { success, error in
+            
+        }
+        //showOverlay(withMessage: "Payments are coming soon")
     }
 
     override var shouldAutorotate: Bool {

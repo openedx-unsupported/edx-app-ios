@@ -207,8 +207,15 @@ open class NetworkManager : NSObject {
         responseInterceptors.append(interceptor)
     }
     
-    open func URLRequestWithRequest<Out>(_ request : NetworkRequest<Out>) -> Result<URLRequest> {
-        return URL(string: request.path, relativeTo: baseURL).toResult(NetworkManager.unknownError).flatMap { url -> Result<Foundation.URLRequest> in
+    open func URLRequestWithRequest<Out>(base: String? = nil, _ request : NetworkRequest<Out>) -> Result<URLRequest> {
+        var formattedBaseURL: URL
+        if let baseURL = base, let url = URL(string: baseURL) {
+            formattedBaseURL = url
+        } else {
+            formattedBaseURL = self.baseURL
+        }
+        
+        return URL(string: request.path, relativeTo: formattedBaseURL).toResult(NetworkManager.unknownError).flatMap { url -> Result<Foundation.URLRequest> in
             
             let urlRequest = Foundation.URLRequest(url: url)
             if request.query.count == 0 {
@@ -321,8 +328,8 @@ open class NetworkManager : NSObject {
         }
     }
     
-    @discardableResult open func taskForRequest<Out>(_ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
-        let URLRequest = URLRequestWithRequest(networkRequest)
+    @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
+        let URLRequest = URLRequestWithRequest(base: base, networkRequest)
         
         let authenticator = self.authenticator
         let interceptors = jsonInterceptors
@@ -351,7 +358,7 @@ open class NetworkManager : NSObject {
                     authHandler(self, {success in
                         if success {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting original request")
-                            self.taskForRequest(networkRequest, handler: handler)
+                            self.taskForRequest(base: base, networkRequest, handler: handler)
                         }
                         else {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful")
