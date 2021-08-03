@@ -117,6 +117,9 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
 
     private func upgradeCourse() {
+        let pacing = course.isSelfPaced ? "self" : "instructor"
+
+        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: "", pacing: pacing)
         showOverlay(withMessage: "Payments are coming soon")
     }
 

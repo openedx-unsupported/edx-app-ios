@@ -67,6 +67,7 @@ public enum AnalyticsDisplayName : String {
     case SubsectionViewOnWebTapped = "Subsection View On Web Tapped"
     case OpenInBrowserBannerDisplayed = "Open in Browser Banner Displayed"
     case OpenInBrowserBannerTapped = "Open in Browser Banner Tapped"
+    case UpgradeNowClicked = "Upgrade Now Clicked"
 }
 
 public enum AnalyticsEventName: String {
@@ -126,6 +127,7 @@ public enum AnalyticsEventName: String {
     case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
     case OpenInBrowserBannerDisplayed = "edx.bi.app.navigation.component.open_in_browser_banner.displayed"
     case OpenInBrowserBannerTapped = "edx.bi.app.navigation.component.open_in_browser_banner.tapped"
+    case UpgradeNowClicked = "edx.bi.app.upgrade.button.clicked"
 }
 
 public enum AnalyticsScreenName: String {
@@ -518,6 +520,20 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.ComponentType.rawValue: componentType,
             AnalyticsEventDataKey.ComponentID.rawValue: componentID,
             AnalyticsEventDataKey.OpenedURL.rawValue: openURL,
+            key_course_id: courseID
+        ]
+
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+
+    func trackUpgradeNow(with courseID: String, blockID: String, pacing: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.UpgradeNowClicked.rawValue
+        event.name = AnalyticsEventName.UpgradeNowClicked.rawValue
+
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID,
             key_course_id: courseID
         ]
 

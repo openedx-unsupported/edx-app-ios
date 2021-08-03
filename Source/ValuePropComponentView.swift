@@ -32,11 +32,9 @@ class ValuePropComponentView: UIView {
         return label
     }()
     private lazy var upgradeButton: ValuePropUpgradeButtonView = {
-       let button = ValuePropUpgradeButtonView()
+        let button = ValuePropUpgradeButtonView()
         button.tapAction = { [weak self] in
-            if let controller = self?.firstAvailableUIViewController() {
-                controller.showOverlay(withMessage: "Payments are coming soon")
-            }
+            self?.upgradeCourse()
         }
         return button
 
@@ -68,6 +66,13 @@ class ValuePropComponentView: UIView {
     private lazy var showMorelessButtonStyle: OEXMutableTextStyle = {
         return OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.neutralXXDark())
     }()
+
+    private func pacing() -> String {
+        let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
+        let selfPaced = course?.isSelfPaced ?? false
+
+        return selfPaced ? "self" : "instructor"
+    }
 
     private let environment: Environment
     private var courseID: String
@@ -188,15 +193,17 @@ class ValuePropComponentView: UIView {
         })
     }
 
+    private func upgradeCourse() {
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing())
+
+        if let controller = firstAvailableUIViewController() {
+            controller.showOverlay(withMessage: "Payments are coming soon")
+        }
+    }
+
     private func trackShowMorelessAnalytics(showingMore: Bool) {
         let displayName = showingMore ? AnalyticsDisplayName.ValuePropShowMoreClicked : AnalyticsDisplayName.ValuePropShowLessClicked
         let eventName = showingMore ? AnalyticsEventName.ValuePropShowMoreClicked : AnalyticsEventName.ValuePropShowLessClicked
-
-        let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
-        let selfPaced = course?.isSelfPaced ?? false
-
-        let pacing = selfPaced ? "self" : "instructor"
-
-        environment.analytics.trackValuePropShowMoreless(with: displayName, eventName: eventName, courseID: courseID, blockID: blockID, pacing: pacing)
+        environment.analytics.trackValuePropShowMoreless(with: displayName, eventName: eventName, courseID: courseID, blockID: blockID, pacing: pacing())
     }
 }
