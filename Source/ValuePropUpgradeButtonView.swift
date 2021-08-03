@@ -70,5 +70,31 @@ class ValuePropUpgradeButtonView: UIView {
         }
 
         isHidden = OEXConfig.shared().inappPurchasesEnabled ? false : true
+        setPrice("")
+    }
+
+    func setPrice(_ price: String) {
+        // Button will be visisble for a valid price
+        upgradeButton.isHidden = price.isEmpty
+        let buttonTitle = Strings.ValueProp.upgradeCourseFor(price: price)
+
+        let lockedImage = Icon.Closed.imageWithFontSize(size: 16).image(with: OEXStyles.shared().neutralWhiteT())
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = lockedImage
+        let imageOffsetY: CGFloat = -2.0
+        if let image = imageAttachment.image {
+            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
+        }
+
+        let attributedImageString = NSAttributedString(attachment: imageAttachment)
+        let style = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
+        let attributedStrings = [
+            attributedImageString,
+            NSAttributedString(string: "\u{2000}"),
+            style.attributedString(withText: buttonTitle)
+        ]
+        let buttonAttributedTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
+        upgradeButton.setAttributedTitle(buttonAttributedTitle, for: .normal)
+        accessibilityLabel = Strings.ValueProp.upgradeCourseFor(price: price)
     }
 }
