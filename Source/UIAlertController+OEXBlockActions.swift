@@ -8,7 +8,7 @@
 
 import Foundation
 
-let UIAlertControllerBlocksCancelButtonIndex = 0
+private let UIAlertControllerBlocksCancelButtonIndex = 0
 private let UIAlertControllerBlocksDestructiveButtonIndex = 1
 private let UIAlertControllerBlocksFirstOtherButtonIndex = 2
 
@@ -75,7 +75,7 @@ extension UIAlertController {
                 controller.addAction(otherAction)
             }
         }
-        
+        controller.view.tintColor = .systemBlue
         pController.present(controller, animated: true, completion: nil)
         
         return controller

@@ -13,36 +13,39 @@ class BrazeConfigTests: XCTestCase {
     func testNoBrazeConfig() {
         let config = OEXConfig(dictionary:[:])
         XCTAssertFalse(config.brazeConfig.enabled)
-        XCTAssertNil(config.brazeConfig.apiKey)
-        XCTAssertNil(config.brazeConfig.endPointKey)
     }
 
     func testEmptyBrazeConfig() {
         let config = OEXConfig(dictionary:[:])
         XCTAssertFalse(config.brazeConfig.enabled)
-        XCTAssertNil(config.brazeConfig.apiKey)
-        XCTAssertNil(config.brazeConfig.endPointKey)
+        XCTAssertFalse(config.brazeConfig.pushNotificationsEnabled)
     }
 
     func testBrazeConfig() {
-        let apiKey = "a12dsf-fsadfd-112dsr34-ffdsg313"
-        let endPointKey = "sdk.iad-0000.braze.com"
-
         let configDictionary = [
             "BRAZE" : [
                 "ENABLED": true,
-                "API_KEY": apiKey,
-                "END_POINT_KEY": endPointKey,
+                "PUSH_NOTIFICATIONS_ENABLED": true
             ]
         ]
 
         let config = OEXConfig(dictionary: configDictionary)
 
         XCTAssertTrue(config.brazeConfig.enabled)
-        XCTAssertNotNil(config.brazeConfig.apiKey)
-        XCTAssertNotNil(config.brazeConfig.endPointKey)
+        XCTAssertTrue(config.brazeConfig.pushNotificationsEnabled)
+    }
 
-        XCTAssertEqual(config.brazeConfig.apiKey, apiKey)
-        XCTAssertEqual(config.brazeConfig.endPointKey, endPointKey)
+    func testBrazeDisabledConfig() {
+        let configDictionary = [
+            "BRAZE" : [
+                "ENABLED": false,
+                "PUSH_NOTIFICATIONS_ENABLED": true
+            ]
+        ]
+
+        let config = OEXConfig(dictionary: configDictionary)
+
+        XCTAssertFalse(config.brazeConfig.enabled)
+        XCTAssertFalse(config.brazeConfig.pushNotificationsEnabled)
     }
 }

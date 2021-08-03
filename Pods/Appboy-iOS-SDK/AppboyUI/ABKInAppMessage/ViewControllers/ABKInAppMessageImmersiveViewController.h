@@ -2,7 +2,7 @@
 #import "ABKInAppMessageUIButton.h"
 
 // Customize this to set the font for the in-app message header.
-#define HeaderLabelDefaultFont [UIFont boldSystemFontOfSize:20.0]
+#define HeaderLabelDefaultFont [ABKUIUtils preferredFontForTextStyle:UIFontTextStyleTitle3 weight:UIFontWeightBold]
 
 NS_ASSUME_NONNULL_BEGIN
 @interface ABKInAppMessageImmersiveViewController : ABKInAppMessageViewController

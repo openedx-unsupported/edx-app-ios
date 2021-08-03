@@ -1,8 +1,8 @@
 #import "ABKInAppMessageUIButton.h"
 #import "ABKUIUtils.h"
 
+#define DefaultTitleSize UIFontTextStyleSubheadline
 static CGFloat const ButtonCornerRadius = 5.0f;
-static CGFloat const DefaultTitleSize = 14.0f;
 static CGFloat const ButtonTitleSidePadding = 12.0;
 
 @interface ABKInAppMessageUIButton ()
@@ -35,7 +35,8 @@ static CGFloat const ButtonTitleSidePadding = 12.0;
 }
 
 - (void)setUp {
-  self.titleLabel.font = [UIFont boldSystemFontOfSize:DefaultTitleSize];
+  self.titleLabel.font = [ABKUIUtils preferredFontForTextStyle:DefaultTitleSize weight:UIFontWeightBold];
+  self.titleLabel.adjustsFontForContentSizeCategory = YES;
   self.titleLabel.textAlignment = NSTextAlignmentCenter;
   self.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
   self.originalBackgroundColor = self.backgroundColor;

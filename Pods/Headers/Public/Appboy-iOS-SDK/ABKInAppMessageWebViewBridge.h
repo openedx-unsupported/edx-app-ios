@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKInAppMessageWebViewBridge.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKInAppMessageWebViewBridge.h

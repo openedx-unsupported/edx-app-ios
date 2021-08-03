@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKTwitterUser.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKTwitterUser.h

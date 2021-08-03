@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/AppboyKit.h
+../../../Appboy-iOS-SDK/AppboyKit/include/AppboyKit.h

@@ -27,6 +27,7 @@
  #import <objc/message.h>
 
  #import "FBSDKCoreKit+Internal.h"
+ #import "FBSDKGraphRequestProviding.h"
  #import "FBSDKSKAdNetworkConversionConfiguration.h"
 
  #define FBSDK_SKADNETWORK_CONFIG_TIME_OUT 86400
@@ -48,8 +49,29 @@ static NSInteger g_conversionValue = 0;
 static NSDate *g_timestamp = nil;
 static NSMutableSet<NSString *> *g_recordedEvents;
 static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
+static id<FBSDKGraphRequestProviding> _requestProvider;
+static id<FBSDKDataPersisting> _store;
 
 @implementation FBSDKSKAdNetworkReporter
+
++ (void)configureWithRequestProvider:(id<FBSDKGraphRequestProviding>)requestProvider
+                               store:(id<FBSDKDataPersisting>)store
+{
+  if (self == [FBSDKSKAdNetworkReporter class]) {
+    _requestProvider = requestProvider;
+    _store = store;
+  }
+}
+
++ (id<FBSDKGraphRequestProviding>)requestProvider
+{
+  return _requestProvider;
+}
+
++ (id<FBSDKDataPersisting>)store
+{
+  return _store;
+}
 
 + (void)enable
 {
@@ -104,7 +126,7 @@ static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
     return;
   }
   // Executes block if there is cache
-  if ([self _isConfigRefreshTimestampValid] && [[NSUserDefaults standardUserDefaults] objectForKey:FBSDKSKAdNetworkConversionConfigurationKey]) {
+  if ([self _isConfigRefreshTimestampValid] && [self.store objectForKey:FBSDKSKAdNetworkConversionConfigurationKey]) {
     dispatch_async(serialQueue, ^() {
       [FBSDKTypeUtility array:g_completionBlocks addObject:block];
       for (FBSDKSKAdNetworkReporterBlock executionBlock in g_completionBlocks) {
@@ -120,8 +142,7 @@ static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
       return;
     }
     g_isRequestStarted = YES;
-    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
-                                  initWithGraphPath:[NSString stringWithFormat:@"%@/ios_skadnetwork_conversion_config", [FBSDKSettings appID]]];
+    id<FBSDKGraphRequest> request = [self.requestProvider createGraphRequestWithGraphPath:[NSString stringWithFormat:@"%@/ios_skadnetwork_conversion_config", [FBSDKSettings appID]]];
     [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
       dispatch_async(serialQueue, ^{
         if (error) {
@@ -130,7 +151,7 @@ static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
         }
         NSDictionary<NSString *, id> *json = [FBSDKTypeUtility dictionaryValue:result];
         if (json) {
-          [[NSUserDefaults standardUserDefaults] setObject:json forKey:FBSDKSKAdNetworkConversionConfigurationKey];
+          [self.store setObject:json forKey:FBSDKSKAdNetworkConversionConfigurationKey];
           g_configRefreshTimestamp = [NSDate date];
           config = [[FBSDKSKAdNetworkConversionConfiguration alloc] initWithJSON:json];
           for (FBSDKSKAdNetworkReporterBlock executionBlock in g_completionBlocks) {
@@ -234,7 +255,7 @@ static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
   if (!config.cutoffTime) {
     return true;
   }
-  NSDate *installTimestamp = [[NSUserDefaults standardUserDefaults] objectForKey:@"com.facebook.sdk:FBSDKSettingsInstallTimestamp"];
+  NSDate *installTimestamp = [self.store objectForKey:@"com.facebook.sdk:FBSDKSettingsInstallTimestamp"];
   return [installTimestamp isKindOfClass:NSDate.class] && [[NSDate date] timeIntervalSinceDate:installTimestamp] > config.cutoffTime * 86400;
 }
 
@@ -242,9 +263,9 @@ static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (void)_loadReportData
 {
-  id cachedJSON = [[NSUserDefaults standardUserDefaults] objectForKey:FBSDKSKAdNetworkConversionConfigurationKey];
+  id cachedJSON = [self.store objectForKey:FBSDKSKAdNetworkConversionConfigurationKey];
   config = [[FBSDKSKAdNetworkConversionConfiguration alloc] initWithJSON:cachedJSON];
-  NSData *cachedReportData = [[NSUserDefaults standardUserDefaults] objectForKey:FBSDKSKAdNetworkReporterKey];
+  NSData *cachedReportData = [self.store objectForKey:FBSDKSKAdNetworkReporterKey];
   g_recordedEvents = [NSMutableSet new];
   g_recordedValues = [NSMutableDictionary new];
   if ([cachedReportData isKindOfClass:[NSData class]]) {
@@ -267,7 +288,7 @@ static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
   [FBSDKTypeUtility dictionary:reportData setObject:g_recordedValues forKey:@"recorded_values"];
   NSData *cache = [NSKeyedArchiver archivedDataWithRootObject:reportData];
   if (cache) {
-    [[NSUserDefaults standardUserDefaults] setObject:cache forKey:FBSDKSKAdNetworkReporterKey];
+    [self.store setObject:cache forKey:FBSDKSKAdNetworkReporterKey];
   }
 }
 
@@ -281,6 +302,15 @@ static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
  #pragma mark - Testability
 
  #if DEBUG
+  #if FBSDKTEST
+
++ (void)reset
+{
+  _store = nil;
+  _requestProvider = nil;
+  [self setConfiguration:nil];
+  [self setSKAdNetworkReportEnabled:false];
+}
 
 + (void)setConfiguration:(FBSDKSKAdNetworkConversionConfiguration *)configuration
 {
@@ -292,8 +322,8 @@ static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
   g_isSKAdNetworkReportEnabled = enabled;
 }
 
+  #endif
  #endif
-
 @end
 
 #endif

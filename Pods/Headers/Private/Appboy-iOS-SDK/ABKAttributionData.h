@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKAttributionData.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKAttributionData.h

@@ -82,4 +82,8 @@ extension OEXConfig {
         }
         return false
     }
+
+    var inappPurchasesEnabled: Bool {
+        return bool(forKey: "IAP_ENABLED")
+    }
 }

@@ -33,7 +33,3 @@ NS_SWIFT_NAME(ErrorRecoveryAttempter)
 + (instancetype)recoveryAttempterFromConfiguration:(FBSDKErrorRecoveryConfiguration *)configuration;
 
 @end
-
-@interface FBSDKErrorRecoveryAttempter (Protected)
-- (void)completeRecovery:(BOOL)didRecover delegate:(id)delegate didRecoverSelector:(SEL)didRecoverSelector contextInfo:(void *)contextInfo;
-@end

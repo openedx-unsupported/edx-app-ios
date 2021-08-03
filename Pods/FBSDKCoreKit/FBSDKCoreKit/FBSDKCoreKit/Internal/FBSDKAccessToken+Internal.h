@@ -23,8 +23,15 @@
 #endif
 
 #import "FBSDKCoreKit+Internal.h"
+@protocol FBSDKTokenCaching;
+@protocol FBSDKGraphRequestConnectionProviding;
 
 @interface FBSDKAccessToken (Internal)
+
+@property (class, nonatomic, copy) id<FBSDKTokenCaching> tokenCache;
+@property (class, nonatomic, copy) id<FBSDKGraphRequestConnectionProviding> connectionFactory;
+
++ (void)resetTokenCache;
 
 + (void)setCurrentAccessToken:(FBSDKAccessToken *)token
           shouldDispatchNotif:(BOOL)shouldDispatchNotif;

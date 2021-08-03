@@ -20,6 +20,7 @@
 
 #import "FBSDKAppEvents+Internal.h"
 #import "FBSDKAppEventsUtility.h"
+#import "FBSDKCoreKitBasicsImport.h"
 #import "FBSDKInternalUtility.h"
 #import "FBSDKLogger.h"
 #import "FBSDKServerConfiguration.h"
@@ -117,7 +118,7 @@ static const long INACTIVE_SECONDS_QUANTA[] =
   static FBSDKTimeSpentData *shared = nil;
 
   dispatch_once(&pred, ^{
-    shared = [[FBSDKTimeSpentData alloc] init];
+    shared = [FBSDKTimeSpentData new];
   });
   return shared;
 }

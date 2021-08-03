@@ -4,7 +4,7 @@
 #if defined(__has_include) && __has_include(<Analytics/SEGAnalytics.h>)
 #import <Analytics/SEGAnalyticsUtils.h>
 #else
-#import <Segment/SEGAnalyticsUtils.h>
+@import Segment;
 #endif
 
 
@@ -82,9 +82,10 @@
 
 - (void)screen:(SEGScreenPayload *)payload
 {
-    __block SEGFirebaseIntegration *blockSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [blockSelf.firebaseClass setScreenName:payload.name screenClass:nil];
+        [self.firebaseClass logEventWithName:kFIREventScreenView parameters:@{
+            kFIRParameterScreenName: payload.name
+        }];
         SEGLog(@"[FIRAnalytics setScreenName:%@]", payload.name);
     });
 }
@@ -92,9 +93,29 @@
 
 #pragma mark - Utilities
 
-// Event names can be up to 32 characters long, may only contain alphanumeric
-// characters and underscores ("_"), and must start with an alphabetic character. The "firebase_"
-// prefix is reserved and should not be used.
+// Formats the following types of strings to match the Firebase requirements:
+//
+// Event Names: https://firebase.google.com/docs/reference/ios/firebaseanalytics/api/reference/Classes/FIRAnalytics#+logeventwithname:parameters:
+// Should contain 1 to 40 alphanumeric characters or underscores.
+//
+// Parameter Names: https://firebase.google.com/docs/reference/ios/firebaseanalytics/api/reference/Classes/FIRAnalytics#/c:objc(cs)FIRAnalytics(cm)logEventWithName:parameters:
+// Should contain 1 to 40 alphanumeric characters or underscores.
+//
+// Screen Names: https://firebase.google.com/docs/reference/ios/firebaseanalytics/api/reference/Classes/FIRAnalytics#setscreennamescreenclass
+// Should contain 1 to 40 alphanumeric characters or underscores.
+
++ (NSString *)formatFirebaseNameString:(NSString *)name
+{
+    NSError *error = nil;
+
+    NSString *trimmed = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([^a-zA-Z0-9_])" options:0 error:&error];
+    NSString *formatted = [[regex stringByReplacingMatchesInString:trimmed options:0 range:NSMakeRange(0, [trimmed length]) withTemplate:@"_"] stringByReplacingOccurrencesOfString:@"__" withString:@"_"];
+
+    NSLog(@"Output: %@", formatted); 
+    return [formatted substringToIndex:MIN(40, [formatted length])];
+}
+
 
 // Maps Segment Spec to Firebase Constants
 // https://firebase.google.com/docs/reference/ios/firebaseanalytics/api/reference/Constants#/c:FIRParameterNames.h@kFIRParameterCampaign
@@ -109,7 +130,7 @@
                                              kFIREventBeginCheckout, @"Checkout Started",
                                              kFIREventPresentOffer, @"Promotion Viewed",
                                              kFIREventAddPaymentInfo, @"Payment Info Entered",
-                                             kFIREventEcommercePurchase, @"Order Completed",
+                                             kFIREventPurchase, @"Order Completed",
                                              kFIREventPurchaseRefund, @"Order Refunded",
                                              kFIREventViewItemList, @"Product List Viewed",
                                              kFIREventAddToWishlist, @"Product Added to Wishlist",
@@ -118,44 +139,28 @@
                                              kFIREventSearch, @"Products Searched", nil];
 
     NSString *mappedEvent = [mapper objectForKey:event];
-    NSArray *periodSeparatedEvent = [event componentsSeparatedByString:@"."];
-    NSString *regexString = @"^[a-zA-Z0-9_]+$";
-    NSError *error = NULL;
-    NSRegularExpression *regex =
-    [NSRegularExpression regularExpressionWithPattern:regexString
-                                              options:0
-                                                error:&error];
-    NSUInteger numberOfMatches = [regex numberOfMatchesInString:event
-                                                        options:0
-                                                          range:NSMakeRange(0, [event length])];
     if (mappedEvent) {
         return mappedEvent;
-    } else if (numberOfMatches == 0) {
-        NSString *trimmedEvent = [event stringByTrimmingCharactersInSet:
-                                  [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if ([periodSeparatedEvent count] > 1) {
-            return [trimmedEvent stringByReplacingOccurrencesOfString:@"." withString:@"_"];
-        } else {
-            return [[[[trimmedEvent stringByReplacingOccurrencesOfString:@" " withString:@"_"] stringByReplacingOccurrencesOfString:@"-" withString:@"_"] stringByReplacingOccurrencesOfString:@":" withString:@"_"] stringByReplacingOccurrencesOfString:@"__" withString:@"_"];
-        }
     } else {
-        return event;
+        return [SEGFirebaseIntegration formatFirebaseNameString:event];
     }
 }
 
 /// Params supply information that contextualize Events. You can associate up to 25 unique Params
 /// with each Event type. Some Params are suggested below for certain common Events, but you are
 /// not limited to these. You may supply extra Params for suggested Events or custom Params for
-/// Custom events. Param names can be up to 24 characters long, may only contain alphanumeric
+/// Custom events. Param names can be up to 40 characters long, may only contain alphanumeric
 /// characters and underscores ("_"), and must start with an alphabetic character. Param values can
-/// be up to 36 characters long. The "firebase_" prefix is reserved and should not be used.
+/// be up to 100 characters long. The "firebase_" prefix is reserved and should not be used.
 
 - (NSDictionary *)returnMappedFirebaseParameters:(NSDictionary *)properties
 {
     NSDictionary *map = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          kFIRParameterItems, @"products",
                                           kFIRParameterItemCategory, @"category",
                                           kFIRParameterItemID, @"product_id",
                                           kFIRParameterItemName, @"name",
+                                          kFIRParameterItemBrand, @"brand",
                                           kFIRParameterPrice, @"price",
                                           kFIRParameterQuantity, @"quantity",
                                           kFIRParameterSearchTerm, @"query",
@@ -177,6 +182,20 @@
         id data = [properties objectForKey:original];
         if (data) {
             [mappedParams removeObjectForKey:original];
+            if ([data isKindOfClass:[NSDictionary class]]) {
+                data = [self mapToFirebaseParameters:data withMap:mapper];
+            } else if ([data isKindOfClass: [NSArray class]]) {
+                NSMutableArray *newArray = [NSMutableArray array];
+                for (id entry in newArray) {
+                    if ([entry isKindOfClass:[NSDictionary class]]) {
+                        id newEntry = [self mapToFirebaseParameters:entry withMap:mapper];
+                        [newArray addObject:newEntry];
+                    } else {
+                        [newArray addObject:entry];
+                    }
+                }
+                data = newArray;
+            }
             [mappedParams setObject:data forKey:new];
         }
     }];
@@ -189,14 +208,8 @@ NSDictionary *formatEventProperties(NSDictionary *dictionary)
     NSMutableDictionary *output = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id data, BOOL *stop) {
         [output removeObjectForKey:key];
-        NSArray *periodSeparatedKey = [key componentsSeparatedByString:@"."];
-        NSString *trimmedKey = [key stringByTrimmingCharactersInSet:
-                                  [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if ([periodSeparatedKey count] > 1) {
-            key = [trimmedKey stringByReplacingOccurrencesOfString:@"." withString:@"_"];
-        } else {
-            key = [[trimmedKey stringByReplacingOccurrencesOfString:@" " withString:@"_"] stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
-        }
+        key = [SEGFirebaseIntegration formatFirebaseNameString:key];
+
         if ([data isKindOfClass:[NSNumber class]]) {
             data = [NSNumber numberWithDouble:[data doubleValue]];
             [output setObject:data forKey:key];

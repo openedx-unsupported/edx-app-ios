@@ -2,7 +2,7 @@
 #import "ABKInAppMessage.h"
 
 // Customize this to set the font for the in-app message message.
-#define MessageLabelDefaultFont [UIFont systemFontOfSize:14.0]
+#define MessageLabelDefaultFont [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]
 
 static const CGFloat InAppMessageShadowBlurRadius = 4.0f;
 static const CGFloat InAppMessageShadowOpacity = 0.3f;

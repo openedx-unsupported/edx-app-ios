@@ -18,15 +18,17 @@
 
 #import <Foundation/Foundation.h>
 
+#import "FBSDKSessionProviding.h"
+
 typedef void (^FBSDKURLSessionTaskBlock)(NSData *responseData,
                                          NSURLResponse *response,
                                          NSError *error)
-NS_SWIFT_NAME(URLSessionTaskBlock);
+NS_SWIFT_NAME(UrlSessionTaskBlock);
 
-NS_SWIFT_NAME(URLSessionTask)
+NS_SWIFT_NAME(UrlSessionTask)
 @interface FBSDKURLSessionTask : NSObject
 
-@property (nonatomic, strong) NSURLSessionTask *task;
+@property (nonatomic, strong) id<FBSDKSessionDataTask> task;
 @property (atomic, readonly) NSURLSessionTaskState state;
 @property (nonatomic, strong, readonly) NSDate *requestStartDate;
 @property (nonatomic, copy) FBSDKURLSessionTaskBlock handler;
@@ -36,7 +38,7 @@ NS_SWIFT_NAME(URLSessionTask)
 + (instancetype)new NS_UNAVAILABLE;
 
 - (instancetype)initWithRequest:(NSURLRequest *)request
-                    fromSession:(NSURLSession *)session
+                    fromSession:(id<FBSDKSessionProviding>)session
               completionHandler:(FBSDKURLSessionTaskBlock)handler;
 
 - (void)start;

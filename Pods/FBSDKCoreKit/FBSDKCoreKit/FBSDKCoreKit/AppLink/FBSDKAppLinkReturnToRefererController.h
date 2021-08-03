@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  Protocol that a class can implement in order to be notified when the user has navigated back
  to the referer of an App Link.
  */
+DEPRECATED_MSG_ATTRIBUTE("AppLinkReturnToRefererControllerDelegate is deprecated and will be removed in the next major release")
 NS_SWIFT_NAME(AppLinkReturnToRefererControllerDelegate)
 @protocol FBSDKAppLinkReturnToRefererControllerDelegate <NSObject>
 
@@ -56,6 +57,7 @@ NS_SWIFT_NAME(return(to:didNavigateTo:type:));
  A controller class that implements default behavior for a FBSDKAppLinkReturnToRefererView, including
  the ability to display the view above the navigation bar for navigation-based apps.
  */
+DEPRECATED_MSG_ATTRIBUTE("AppLinkReturnToRefererController is deprecated and will be removed in the next major release")
 NS_EXTENSION_UNAVAILABLE_IOS("Not available in app extension")
 NS_SWIFT_NAME(AppLinkReturnToRefererController)
 @interface FBSDKAppLinkReturnToRefererController : NSObject <FBSDKAppLinkReturnToRefererViewDelegate>

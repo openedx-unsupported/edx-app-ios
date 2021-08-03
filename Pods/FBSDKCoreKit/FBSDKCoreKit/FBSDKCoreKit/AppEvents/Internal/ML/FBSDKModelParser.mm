@@ -22,7 +22,7 @@
 
  #import "FBSDKModelParser.h"
 
- #import "FBSDKInternalUtility.h"
+ #import "FBSDKCoreKitBasicsImport.h"
  #import "FBSDKMLMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (bool)validateWeights:(std::unordered_map<std::string, fbsdk::MTensor>)weights forKey:(NSString *)key
 {
-  NSMutableDictionary<NSString *, NSArray *> *weightsInfoDict = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary<NSString *, NSArray *> *weightsInfoDict = [NSMutableDictionary new];
   if ([key hasPrefix:MTMLKey]) {
     [weightsInfoDict addEntriesFromDictionary:[self getMTMLWeightsInfo]];
   }
@@ -123,21 +123,21 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary<NSString *, NSArray *> *)getMTMLWeightsInfo
 {
   return @{
-    @"embed.weight" : @[@(256), @(32)],
-    @"convs.0.weight" : @[@(32), @(32), @(3)],
-    @"convs.0.bias" : @[@(32)],
-    @"convs.1.weight" : @[@(64), @(32), @(3)],
-    @"convs.1.bias" : @[@(64)],
-    @"convs.2.weight" : @[@(64), @(64), @(3)],
-    @"convs.2.bias" : @[@(64)],
-    @"fc1.weight" : @[@(128), @(190)],
-    @"fc1.bias" : @[@(128)],
-    @"fc2.weight" : @[@(64), @(128)],
-    @"fc2.bias" : @[@(64)],
-    @"integrity_detect.weight" : @[@(3), @(64)],
-    @"integrity_detect.bias" : @[@(3)],
-    @"app_event_pred.weight" : @[@(5), @(64)],
-    @"app_event_pred.bias" : @[@(5)]
+    @"embed.weight" : @[@256, @32],
+    @"convs.0.weight" : @[@32, @32, @3],
+    @"convs.0.bias" : @[@32],
+    @"convs.1.weight" : @[@64, @32, @3],
+    @"convs.1.bias" : @[@64],
+    @"convs.2.weight" : @[@64, @64, @3],
+    @"convs.2.bias" : @[@64],
+    @"fc1.weight" : @[@128, @190],
+    @"fc1.bias" : @[@128],
+    @"fc2.weight" : @[@64, @128],
+    @"fc2.bias" : @[@64],
+    @"integrity_detect.weight" : @[@3, @64],
+    @"integrity_detect.bias" : @[@3],
+    @"app_event_pred.weight" : @[@5, @64],
+    @"app_event_pred.bias" : @[@5]
   };
 }
 

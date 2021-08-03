@@ -40,24 +40,16 @@
 }
 
 + (void)openURLWithSystem:(NSURL *)url {
-  [self openURLWithSystem:url fromChannel:ABKUnknownChannel];
-}
-
-+ (void)openURLWithSystem:(NSURL *)url fromChannel:(ABKChannel)channel {
   if (![NSThread isMainThread]) {
     dispatch_sync(dispatch_get_main_queue(), ^{
-      [self openURL:url fromChannel:(ABKChannel)channel];
+      [self openURL:url];
     });
   } else {
-    [self openURL:url fromChannel:(ABKChannel)channel];
+    [self openURL:url];
   }
 }
 
-+ (void)openURL:(NSURL *)url fromChannel:(ABKChannel)channel {
-  if ([ABKUIURLUtils URLDelegate:[Appboy sharedInstance].appboyUrlDelegate handlesURL:url fromChannel:channel withExtras:nil]) {
-    return;
-  }
-  
++ (void)openURL:(NSURL *)url {
   if (@available(iOS 13.0, *)) {
     UIWindowScene *windowScene = ABKUIUtils.activeWindowScene;
     if (windowScene) {

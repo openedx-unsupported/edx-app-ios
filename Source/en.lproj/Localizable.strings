@@ -158,12 +158,18 @@
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
 /*Accessibility for completed section, sunsection, units, components */
 "ACCESSIBILITY.COMPLETED" = "Completed";
+/*Course upgrade button accessibility hint*/
+"ACCESSIBILITY.UPGRADE_BUTTON_HINT" = "Double tap to upgrade";
+/*Accessibility hint for general button action*/
+"ACCESSIBILITY.BUTTON_ACTION_HINT"="Double tap to open";
 /*Email subject for disabled account*/
 "ACCOUNT_DISABLED" = "Account Disabled";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "I earned a badge on {platform_name}! Check it out";
+/* Add */
+"ADD"="Add";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Add a comment";
 /* Add a response button title used in discussion's responses screen */
@@ -323,9 +329,13 @@
 /* Course Dates Sync To Calendar Message */
 "COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
 /* Course Dates Add Calendar Dialog Title */
-"COURSEDATES.ADD_CALENDAR_TITLE"="Add Calendar \"{calendar_name}\"";
+"COURSEDATES.ADD_CALENDAR_TITLE"="Add calendar \"{calendar_name}\"";
+/* Course Dates Remove Calendar Dialog Title */
+"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove calendar \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} Calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+/* Course Dates Remove Calendar Message prompt */
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
 /* Course Dates Calendar has been added to your calendar*/
 "COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */
@@ -482,6 +492,8 @@
 "DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
 /*Label text for view all subjects cell*/
 "DISCOVERY.VIEW_ALL_SUBJECTS" = "View All Subjects";
+/* Done */
+"DONE"="Done";
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="due today at {due_date} {time_zone}";
 /* Text describing the course due date*/
@@ -686,6 +698,8 @@
 "OFFLINE" = "Offline";
 /* Alert dialog okay button */
 "OK"="OK";
+/* Alert dialog remove button */
+"REMOVE"="Remove";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="View in Safari";
 /* Button label to bring up course finder */
@@ -919,6 +933,10 @@
 "USER_ACCOUNT"="Account";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Profile";
+/* Value prop upgrade text */
+"VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
+/* Value prop upgrade button text with price */
+"VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade now for ${price}";
 /* Message shown when course content is gated, prompt user how to unlock */
 "VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
 /* Message shown when course content is gated, on button */
@@ -926,9 +944,9 @@
 /* Message shown when course content is gated, new message behind feature flag */
 "VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course.";
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="Get the most out of your course! Upgrade to get full access to the course material, unlock both graded and non-graded assignments, and earn a verified certificate to showcase on your resume.";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="Unlock to access more features";
 /* Value prop view's learn more button title on enrolled courses*/
 "VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
 /* Value prop detail view title learn more*/

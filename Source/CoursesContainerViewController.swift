@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let valuePropViewHeight:CGFloat = 125.0
+private let valuePropViewHeight: CGFloat = 40
 
 class CourseCardCell : UICollectionViewCell {
     
@@ -17,17 +17,14 @@ class CourseCardCell : UICollectionViewCell {
     fileprivate static let cellIdentifier = "CourseCardCell"
     fileprivate let courseView = CourseCardView(frame: CGRect.zero)
     fileprivate lazy var valuePropView: ValuePropCourseCardView = {
-        let valuePropView = ValuePropCourseCardView()
-        valuePropView.applyBorderStyle(style: BorderStyle())
-        valuePropView.backgroundColor = OEXStyles.shared().infoXXLight()
-        return valuePropView
-    }()
-    fileprivate lazy var containerView = UIView()
-    fileprivate lazy var bottomLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = OEXStyles.shared().infoXXLight()
+        let view = ValuePropCourseCardView()
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 5
+        view.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        view.backgroundColor = OEXStyles.shared().primaryBaseColor()
         return view
     }()
+    fileprivate lazy var containerView = UIView()
     fileprivate var course : OEXCourse?
     
     override init(frame: CGRect) {
@@ -35,6 +32,7 @@ class CourseCardCell : UICollectionViewCell {
         
         contentView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         setAccessibilityIdentifiers()
+        courseView.isAccessibilityElement = true
     }
     
     fileprivate func resetCellView() {
@@ -55,7 +53,6 @@ class CourseCardCell : UICollectionViewCell {
         contentView.addSubview(containerView)
         containerView.addSubview(courseView)
         containerView.addSubview(valuePropView)
-        insertSubview(bottomLine, aboveSubview: valuePropView)
         
         containerView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(CourseCardCell.margin)
@@ -71,15 +68,8 @@ class CourseCardCell : UICollectionViewCell {
             make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
         
-        bottomLine.snp.makeConstraints { make in
-            make.top.equalTo(courseView.snp.bottom).inset(4)
-            make.leading.equalTo(containerView).offset(CourseCardCell.margin)
-            make.trailing.equalTo(containerView).inset(CourseCardCell.margin)
-            make.height.equalTo(6)
-        }
-        
         valuePropView.snp.makeConstraints { make in
-            make.top.equalTo(courseView.snp.bottom)
+            make.top.equalTo(courseView.snp.bottom).inset(StandardVerticalMargin/2)
             make.leading.equalTo(containerView).offset(CourseCardCell.margin)
             make.trailing.equalTo(containerView).inset(CourseCardCell.margin)
             make.bottom.equalTo(containerView)
@@ -105,7 +95,6 @@ class CourseCardCell : UICollectionViewCell {
         courseView.accessibilityIdentifier = "CourseCardCell:course-card-view"
         valuePropView.accessibilityIdentifier = "CourseCardCell:value-prop-view"
         containerView.accessibilityIdentifier = "CourseCardCell:container-view"
-        bottomLine.accessibilityIdentifier = "CourseCardCell:bottom-line-view"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -237,9 +226,9 @@ class CoursesContainerViewController: UICollectionViewController {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CourseCardCell.cellIdentifier, for: indexPath as IndexPath) as! CourseCardCell
         DispatchQueue.main.async {
-            cell.accessibilityLabel = cell.courseView.updateAcessibilityLabel()
+            cell.courseView.accessibilityLabel = cell.courseView.updateAcessibilityLabel()
         }
-        cell.accessibilityHint = Strings.accessibilityShowsCourseContent
+        cell.courseView.accessibilityHint = Strings.accessibilityShowsCourseContent
         cell.courseView.tapAction = { [weak self] card in
             self?.delegate?.coursesContainerChoseCourse(course: course)
         }
@@ -266,7 +255,7 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private func shouldShowValueProp(for course: OEXCourse) -> Bool {
         let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.valuePropEnabled
+        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.valuePropEnabled && !course.isEndDateOld
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {

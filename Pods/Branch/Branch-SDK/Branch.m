@@ -44,6 +44,7 @@
 #import "BNCSKAdNetwork.h"
 #import "BNCAppGroupsData.h"
 #import "BNCPartnerParameters.h"
+#import "BranchEvent.h"
 
 #if !TARGET_OS_TV
 #import "BNCUserAgentCollector.h"
@@ -140,7 +141,7 @@ typedef NS_ENUM(NSInteger, BNCInitStatus) {
 @property (strong, nonatomic) NSMutableDictionary *deepLinkControllers;
 @property (weak,   nonatomic) UIViewController *deepLinkPresentingController;
 @property (strong, nonatomic) NSDictionary *deepLinkDebugParams;
-@property (strong, nonatomic) NSMutableArray *whiteListedSchemeList;
+@property (strong, nonatomic) NSMutableArray *allowedSchemeList;
 @property (strong, nonatomic) BNCURLFilter *urlFilter;
 
 #if !TARGET_OS_TV
@@ -193,7 +194,7 @@ typedef NS_ENUM(NSInteger, BNCInitStatus) {
     _processing_sema = dispatch_semaphore_create(1);
     _networkCount = 0;
     _deepLinkControllers = [[NSMutableDictionary alloc] init];
-    _whiteListedSchemeList = [[NSMutableArray alloc] init];
+    _allowedSchemeList = [[NSMutableArray alloc] init];
 
     #if !TARGET_OS_TV
     _contentDiscoveryManager = [[BNCContentDiscoveryManager alloc] init];
@@ -665,12 +666,12 @@ static BOOL bnc_enableFingerprintIDInCrashlyticsReports = YES;
     self.deepLinkDebugParams = debugParams;
 }
 
-- (void)setWhiteListedSchemes:(NSArray *)schemes {
-    self.whiteListedSchemeList = [schemes mutableCopy];
+- (void)setAllowedSchemes:(NSArray *)schemes {
+    self.allowedSchemeList = [schemes mutableCopy];
 }
 
-- (void)addWhiteListedScheme:(NSString *)scheme {
-    [self.whiteListedSchemeList addObject:scheme];
+- (void)addAllowedScheme:(NSString *)scheme {
+    [self.allowedSchemeList addObject:scheme];
 }
 
 - (void)setUrlPatternsToIgnore:(NSArray<NSString*>*)urlsToIgnore {
@@ -731,8 +732,8 @@ static BOOL bnc_enableFingerprintIDInCrashlyticsReports = YES;
         NSString *urlScheme = [url scheme];
 
         // save the incoming url in the preferenceHelper in the externalIntentURI field
-        if ([self.whiteListedSchemeList count]) {
-            for (NSString *scheme in self.whiteListedSchemeList) {
+        if ([self.allowedSchemeList count]) {
+            for (NSString *scheme in self.allowedSchemeList) {
                 if (urlScheme && [scheme isEqualToString:urlScheme]) {
                     self.preferenceHelper.externalIntentURI = [url absoluteString];
                     self.preferenceHelper.referringURL = [url absoluteString];
@@ -967,6 +968,32 @@ static BOOL bnc_enableFingerprintIDInCrashlyticsReports = YES;
 
 - (void)setAppClipAppGroup:(NSString *)appGroup {
     [BNCAppGroupsData shared].appGroup = appGroup;
+}
+
+- (void)handleATTAuthorizationStatus:(NSUInteger)status {
+    // limits impact if the client fails to check that status = notDetermined before calling
+    if ([BNCPreferenceHelper preferenceHelper].hasCalledHandleATTAuthorizationStatus) {
+        return;
+    } else {
+        [BNCPreferenceHelper preferenceHelper].hasCalledHandleATTAuthorizationStatus = YES;
+    }
+    
+    BranchEvent *event;
+    switch (status) {
+        case 2:
+            // denied
+            event = [BranchEvent standardEvent:BranchStandardEventOptOut];
+            break;
+        case 3:
+            // authorized
+            event = [BranchEvent standardEvent:BranchStandardEventOptIn];
+            break;
+        default:
+            break;
+    }
+    if (event) {
+        [event logEvent];
+    }
 }
 
 - (void)setSKAdNetworkCalloutMaxTimeSinceInstall:(NSTimeInterval)maxTimeInterval {
@@ -1285,7 +1312,7 @@ static BOOL bnc_enableFingerprintIDInCrashlyticsReports = YES;
     });
 }
 
-- (void)lastAttributedTouchDataWithAttributionWindow:(NSInteger)window completion:(void(^) (BranchLastAttributedTouchData * _Nullable latd))completion {
+- (void)lastAttributedTouchDataWithAttributionWindow:(NSInteger)window completion:(void(^) (BranchLastAttributedTouchData * _Nullable latd, NSError * _Nullable error))completion {
     [self initSafetyCheck];
     dispatch_async(self.isolationQueue, ^(){
         [BranchLastAttributedTouchData requestLastTouchAttributedData:self.serverInterface key:self.class.branchKey attributionWindow:window completion:completion];

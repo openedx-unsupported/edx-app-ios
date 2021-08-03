@@ -27,6 +27,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     weak var delegate: Delegate?
     
     private lazy var styles = OEXStyles.shared()
+    private lazy var switchStyle = styles.standardSwitchStyle()
     
     private lazy var titleTextStyle: OEXTextStyle = {
         let style = OEXMutableTextStyle(weight: .bold, size: .xLarge, color: styles.primaryDarkColor())
@@ -198,6 +199,8 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
                 make.width.greaterThanOrEqualTo(buttonMinWidth)
                 make.height.equalTo(buttonHeight)
             }
+        } else {
+            shiftDatesButton.removeFromSuperview()
         }
     }
     
@@ -212,6 +215,8 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         bottomContainer.backgroundColor = .white
         bottomContainer.addSubview(syncContainer)
         container.addSubview(bottomContainer)
+        
+        switchStyle.apply(to: syncSwitch)
         
         syncToCalenderLabel.attributedText = syncToCalendarLabelTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendar)
         let attributedText = syncMessageTextStyle.attributedString(withText: Strings.Coursedates.syncToCalendarMessage)
@@ -268,7 +273,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     }
 }
 
-fileprivate extension UIView {
+extension UIView {
     func addShadow(offset: CGSize, color: UIColor, radius: CGFloat, opacity: Float, cornerRadius: CGFloat) {
         layer.cornerRadius = cornerRadius
         layer.masksToBounds = false

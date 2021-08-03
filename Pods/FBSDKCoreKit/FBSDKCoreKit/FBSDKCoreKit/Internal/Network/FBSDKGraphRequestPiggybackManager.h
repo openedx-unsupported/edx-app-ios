@@ -23,7 +23,7 @@ NS_SWIFT_NAME(GraphRequestPiggybackManager)
 
 + (void)addPiggybackRequests:(FBSDKGraphRequestConnection *)connection;
 
-+ (void)addRefreshPiggyback:(FBSDKGraphRequestConnection *)connection permissionHandler:(FBSDKGraphRequestBlock)permissionHandler;
++ (void)addRefreshPiggyback:(id<FBSDKGraphRequestConnecting>)connection permissionHandler:(FBSDKGraphRequestBlock)permissionHandler;
 
 + (void)addRefreshPiggybackIfStale:(FBSDKGraphRequestConnection *)connection;
 

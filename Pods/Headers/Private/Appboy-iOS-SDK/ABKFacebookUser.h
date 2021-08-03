@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKFacebookUser.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKFacebookUser.h

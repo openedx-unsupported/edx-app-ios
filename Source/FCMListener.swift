@@ -21,8 +21,9 @@ import UIKit
         //Implementation for local Notification
     }
 
-    func didReceiveRemoteNotification(userInfo: [AnyHashable : Any] = [:], application: UIApplication?, completionHandler: ((UIBackgroundFetchResult) -> Void)? = nil) {
+    func didReceiveRemoteNotification(userInfo: [AnyHashable : Any] = [:]) {
         guard let dictionary = userInfo as? [String: Any], isFCMNotification(userInfo: userInfo) else { return }
+
         let link = PushLink(dictionary: dictionary)
         DeepLinkManager.sharedInstance.processNotification(with: link, environment: environment)
         Messaging.messaging().appDidReceiveMessage(userInfo)

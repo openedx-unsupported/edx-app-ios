@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface FBSDKMeasurementEvent (Internal)
 
-+ (void)postNotificationForEventName:(NSString *)name
+- (void)postNotificationForEventName:(NSString *)name
                                 args:(NSDictionary<NSString *, id> *)args;
 
 @end

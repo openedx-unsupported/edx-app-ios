@@ -24,8 +24,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private var messageView: IconMessageView?
-    private lazy var valuePropView: ValuePropMessageView = {
-        let view = ValuePropMessageView(environment: environment)
+    private lazy var valuePropView: ValuePropComponentView = {
+        let view = ValuePropComponentView(environment: environment)
         view.delegate = self
         return view
     }()
@@ -91,7 +91,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         if block.specialExamInfo != nil {
             showSpecialExamMessageView(blockID: block.blockID)
-        } else if block.children.isEmpty {
+        } else if (block.type == .Section && block.children.isEmpty) {
             showEmptySubsectionMessageView(blockID: block.blockID)
         } else if block.isGated {
             if environment.remoteConfig.valuePropEnabled {
@@ -100,6 +100,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             } else {
                 showGatedContentMessageView()
             }
+        }
+        else {
+            showCourseContentUnknownView()
         }
     }
     
@@ -178,7 +181,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         if block.specialExamInfo != nil {
             environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: true, courseID: courseID, subsectionID: block.blockID)
-        } else if block.children.isEmpty {
+        } else if (block.type == .Section && block.children.isEmpty) {
             environment.analytics.trackSubsectionViewOnWebTapped(isSpecialExam: false, courseID: courseID, subsectionID: block.blockID)
         } else {
             environment.analytics.trackOpenInBrowser(withURL: block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)

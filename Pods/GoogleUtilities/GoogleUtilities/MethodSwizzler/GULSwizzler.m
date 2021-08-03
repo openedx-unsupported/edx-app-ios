@@ -65,7 +65,7 @@ dispatch_queue_t GetGULSwizzlingQueue(void) {
         [inv setArgument:&(currentImp) atIndex:2];
         [inv setArgument:&(newImp) atIndex:3];
         [inv setArgument:&(resolvedClass) atIndex:4];
-        [inv setArgument:(void *_Nonnull) & (selector) atIndex:5];
+        [inv setArgument:(void *_Nonnull)&(selector) atIndex:5];
         [inv invoke];
       }
     }

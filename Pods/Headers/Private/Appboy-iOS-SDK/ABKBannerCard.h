@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKBannerCard.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKBannerCard.h

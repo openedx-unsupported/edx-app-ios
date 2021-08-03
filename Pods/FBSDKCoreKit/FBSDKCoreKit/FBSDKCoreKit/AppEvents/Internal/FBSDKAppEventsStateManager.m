@@ -22,9 +22,10 @@
 
 #import "FBSDKAppEventsState.h"
 #import "FBSDKAppEventsUtility.h"
-#import "FBSDKInternalUtility.h"
+#import "FBSDKCoreKitBasicsImport.h"
 #import "FBSDKLogger.h"
 #import "FBSDKSettings.h"
+#import "FBSDKUnarchiverProvider.h"
 
 // A quick optimization to allow returning empty array if we know there are no persisted events.
 static BOOL g_canSkipDiskCheck = NO;
@@ -61,7 +62,16 @@ static BOOL g_canSkipDiskCheck = NO;
 {
   NSMutableArray *eventsStates = [NSMutableArray array];
   if (!g_canSkipDiskCheck) {
-    [eventsStates addObjectsFromArray:[NSKeyedUnarchiver unarchiveObjectWithFile:[[self class] filePath]]];
+    NSData *data = [[NSData alloc] initWithContentsOfFile:[[self class] filePath] options:NSDataReadingMappedIfSafe error:NULL];
+    id<FBSDKObjectDecoding> unarchiver = [FBSDKUnarchiverProvider createSecureUnarchiverFor:data];
+    @try {
+      NSArray<FBSDKAppEventsState *> *retrievedEvents = [unarchiver decodeObjectOfClasses:
+                                                         [NSSet setWithObjects:NSArray.class, FBSDKAppEventsState.class, NSDictionary.class, nil]
+                                                                                   forKey:NSKeyedArchiveRootObjectKey];
+      [eventsStates addObjectsFromArray:[FBSDKTypeUtility arrayValue:retrievedEvents]];
+    } @catch (NSException *ex) {
+      // ignore decoding exceptions from previous versions of the archive, etc
+    }
 
     [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorAppEvents
                        formatString:@"FBSDKAppEvents Persist: Read %lu event states. First state has %lu events",

@@ -95,6 +95,7 @@ public enum Icon {
     case ChevronRight
     case Close
     case CircleO
+    case Check
     case CheckCircle
     case CheckCircleO
     case Closed
@@ -203,6 +204,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .delete)
         case .Announcements:
             return MaterialIconRenderer(icon: .campaign)
+        case .Check:
+            return MaterialIconRenderer(icon: .check)
         case .CheckCircle:
             return MaterialIconRenderer(icon: .checkCircle)
         case .CircleO:

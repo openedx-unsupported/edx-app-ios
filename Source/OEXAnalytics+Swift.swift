@@ -57,10 +57,14 @@ public enum AnalyticsDisplayName : String {
     case CalendarViewEvents = "Dates: Calendar View Events"
     case CalendarAddDatesSuccess = "Dates: Calendar Add Dates Success"
     case CalendarRemoveDatesSuccess = "Dates: Calendar Remove Dates Success"
+    case CalendarRemoveDatesOK = "Dates: Calendar Remove Dates"
+    case CalendarRemoveDatesCancelled = "Dates: Calendar Remove Cancelled"
     case CalendarUpdateDatesSuccess = "Dates: Calendar Update Dates Success"
     case CalendarSyncUpdateDates = "Dates: Calendar Sync Update Dates"
     case CalendarSyncRemoveCalendar = "Dates: Calendar Sync Remove Calendar"
     case SubsectionViewOnWebTapped = "Subsection View On Web Tapped"
+    case OpenInBrowserBannerDisplayed = "Open in Browser Banner Displayed"
+    case OpenInBrowserBannerTapped = "Open in Browser Banner Tapped"
 }
 
 public enum AnalyticsEventName: String {
@@ -110,10 +114,14 @@ public enum AnalyticsEventName: String {
     case CalendarViewEvents = "edx.bi.app.calendar.confirmation_view_events"
     case CalendarAddDatesSuccess = "edx.bi.app.calendar.add_success"
     case CalendarRemoveDatesSuccess = "edx.bi.app.calendar.remove_success"
+    case CalendarRemoveDatesOK = "edx.bi.app.calendar.remove_ok"
+    case CalendarRemoveDatesCancelled = "edx.bi.app.calendar.remove_cancel"
     case CalendarUpdateDatesSuccess = "edx.bi.app.calendar.update_success"
     case CalendarSyncUpdateDates = "edx.bi.app.calendar.sync_update"
     case CalendarSyncRemoveCalendar = "edx.bi.app.calendar.sync_remove"
     case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
+    case OpenInBrowserBannerDisplayed = "edx.bi.app.navigation.component.open_in_browser_banner.displayed"
+    case OpenInBrowserBannerTapped = "edx.bi.app.navigation.component.open_in_browser_banner.tapped"
 }
 
 public enum AnalyticsScreenName: String {
@@ -165,6 +173,9 @@ public enum AnalyticsEventDataKey: String {
     case UserType = "user_type"
     case SyncReason = "sync_reason"
     case SpecialExamInfo = "special_exam_info"
+    case ComponentID = "component_id"
+    case ComponentType = "component_type"
+    case OpenedURL = "opened_url"
 }
 
 
@@ -476,6 +487,22 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.SubsectionID.rawValue: subsectionID
         ]
         
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+
+    func trackOpenInBrowserBannerEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, userType: String, courseID: String, componentID: String, componentType: String, openURL: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = displayName.rawValue
+        event.name = eventName.rawValue
+
+        let info = [
+            AnalyticsEventDataKey.UserType.rawValue: userType,
+            AnalyticsEventDataKey.ComponentType.rawValue: componentType,
+            AnalyticsEventDataKey.ComponentID.rawValue: componentID,
+            AnalyticsEventDataKey.OpenedURL.rawValue: openURL,
+            key_course_id: courseID
+        ]
+
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 }

@@ -13,6 +13,7 @@ import EventKitUI
 struct CourseCalendar: Codable {
     var identifier: String
     let courseID: String
+    let title: String
     var isOn: Bool
     var modalPresented: Bool
 }
@@ -86,7 +87,7 @@ class CalendarManager: NSObject {
                 }
             } else {
                 if let localCalendar = localCalendar {
-                    let courseCalendar = CourseCalendar(identifier: localCalendar.calendarIdentifier, courseID: courseID, isOn: true, modalPresented: false)
+                    let courseCalendar = CourseCalendar(identifier: localCalendar.calendarIdentifier, courseID: courseID, title: calendarName, isOn: true, modalPresented: false)
                     addOrUpdateCalendarEntry(courseCalendar: courseCalendar)
                     return true
                 }
@@ -144,7 +145,7 @@ class CalendarManager: NSObject {
     }
     
     func checkIfEventsShouldBeShifted(for dateBlocks: [Date : [CourseDateBlock]]) -> Bool {
-        guard let _ = calendarEntry else { return false }
+        guard let _ = calendarEntry else { return true }
         
         let events = generateEvents(for: dateBlocks)
         let allEvents = events.allSatisfy { alreadyExist(event: $0) }
@@ -163,8 +164,9 @@ class CalendarManager: NSObject {
                 }
             } else {
                 if let block = blocks.first {
-                    let generatedEvent = calendarEvent(for: block)
-                    events.append(generatedEvent)
+                    if let generatedEvent = calendarEvent(for: block) {
+                        events.append(generatedEvent)
+                    }
                 }
             }
         }
@@ -184,7 +186,7 @@ class CalendarManager: NSObject {
                 calendarEntry.identifier = newCalendar.calendarIdentifier
                 courseCalendar = calendarEntry
             } else {
-                courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, isOn: true, modalPresented: false)
+                courseCalendar = CourseCalendar(identifier: newCalendar.calendarIdentifier, courseID: courseID, title: calendarName, isOn: true, modalPresented: false)
             }
             
             addOrUpdateCalendarEntry(courseCalendar: courseCalendar)
@@ -206,7 +208,9 @@ class CalendarManager: NSObject {
         }
     }
     
-    private func calendarEvent(for block: CourseDateBlock) -> EKEvent {
+    private func calendarEvent(for block: CourseDateBlock) -> EKEvent? {
+        guard !block.title.isEmpty else { return nil }
+        
         let title = block.title + ": " + courseName
         // startDate is the start date and time for the event,
         // it is also being used as first alert for the event
@@ -219,7 +223,7 @@ class CalendarManager: NSObject {
     }
     
     private func calendarEvent(for blocks: [CourseDateBlock]) -> EKEvent? {
-        guard let block = blocks.first else { return nil }
+        guard let block = blocks.first, !block.title.isEmpty else { return nil }
         
         let title = block.title + ": " + courseName
         // startDate is the start date and time for the event,
@@ -279,7 +283,7 @@ class CalendarManager: NSObject {
             calenders = decodedCalendars
         }
         
-        if let index = calenders.firstIndex(where: { $0.courseID == courseID }) {
+        if let index = calenders.firstIndex(where: { $0.title == calendarName }) {
             calenders.modifyElement(atIndex: index) { element in
                 element = courseCalendar
             }
@@ -292,7 +296,7 @@ class CalendarManager: NSObject {
     
     private func updateCalendarState(isOn: Bool) {
         guard var calendars = courseCalendars(),
-              let index = calendars.firstIndex(where: { $0.courseID == courseID })
+              let index = calendars.firstIndex(where: { $0.title == calendarName })
         else { return }
         
         calendars.modifyElement(atIndex: index) { element in
@@ -304,7 +308,7 @@ class CalendarManager: NSObject {
     
     private func setModalPresented(presented: Bool) {
         guard var calendars = courseCalendars(),
-              let index = calendars.firstIndex(where: { $0.courseID == courseID })
+              let index = calendars.firstIndex(where: { $0.title == calendarName })
         else { return }
         
         calendars.modifyElement(atIndex: index) { element in
@@ -316,7 +320,7 @@ class CalendarManager: NSObject {
     
     private func getModalPresented() -> Bool {
         guard let calendars = courseCalendars(),
-              let calendar = calendars.first(where: { $0.courseID == courseID })
+              let calendar = calendars.first(where: { $0.title == calendarName })
         else { return false }
         
         return calendar.modalPresented
@@ -325,7 +329,7 @@ class CalendarManager: NSObject {
     private func removeCalendarEntry() {
         guard var calendars = courseCalendars() else { return }
         
-        if let index = calendars.firstIndex(where: { $0.courseID == courseID }) {
+        if let index = calendars.firstIndex(where: { $0.title == calendarName }) {
             calendars.remove(at: index)
         }
         
@@ -335,7 +339,7 @@ class CalendarManager: NSObject {
     private func updateSyncSwitchStatus(isOn: Bool) {
         guard var calendars = courseCalendars() else { return }
         
-        if let index = calendars.firstIndex(where: { $0.courseID == courseID }) {
+        if let index = calendars.firstIndex(where: { $0.title == calendarName }) {
             calendars.modifyElement(atIndex: index) { element in
                 element.isOn = isOn
             }
@@ -346,7 +350,7 @@ class CalendarManager: NSObject {
     
     private var calendarEntry: CourseCalendar? {
         guard let calendars = courseCalendars() else { return nil }
-        return calendars.first(where: { $0.courseID == courseID })
+        return calendars.first(where: { $0.title == calendarName })
     }
     
     private func courseCalendars() ->  [CourseCalendar]? {

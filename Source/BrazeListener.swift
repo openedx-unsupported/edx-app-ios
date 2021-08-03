@@ -21,10 +21,13 @@ import Foundation
         //Implementation for local Notification
     }
 
-    func didReceiveRemoteNotification(userInfo: [AnyHashable : Any] = [:], application: UIApplication?, completionHandler: ((UIBackgroundFetchResult) -> Void)? = nil) {
-        guard let application = application, let dictionary = userInfo as? [String: Any], isBrazeNotification(userinfo: userInfo) else { return }
-        Appboy.sharedInstance()?.register(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
+    func didReceiveRemoteNotification(userInfo: [AnyHashable : Any] = [:]) {
+        guard let dictionary = userInfo as? [String: Any], isBrazeNotification(userinfo: userInfo) else { return }
 
+        if Appboy.sharedInstance() == nil {
+            SEGAppboyIntegrationFactory.instance().saveRemoteNotification(userInfo)
+        }
+        Analytics.shared().receivedRemoteNotification(userInfo)
         let link = PushLink(dictionary: dictionary)
         DeepLinkManager.sharedInstance.processNotification(with: link, environment: environment)
     }

@@ -64,6 +64,9 @@ static NSString *const FBSDKGateKeeperAppEventsIfAutoLogSubs = @"app_events_if_a
   BOOL _observingTransactions;
 }
 
+// These are stored at the class level so that they can be reset in unit tests
+static dispatch_once_t singletonToken;
+
 + (void)startObservingTransactions
 {
   [[self singleton] startObservingTransactions];
@@ -78,11 +81,9 @@ static NSString *const FBSDKGateKeeperAppEventsIfAutoLogSubs = @"app_events_if_a
 
 + (FBSDKPaymentObserver *)singleton
 {
-  static dispatch_once_t pred;
   static FBSDKPaymentObserver *shared = nil;
-
-  dispatch_once(&pred, ^{
-    shared = [[FBSDKPaymentObserver alloc] init];
+  dispatch_once(&singletonToken, ^{
+    shared = [FBSDKPaymentObserver new];
   });
   return shared;
 }
@@ -138,6 +139,21 @@ static NSString *const FBSDKGateKeeperAppEventsIfAutoLogSubs = @"app_events_if_a
   [productRequest resolveProducts];
 }
 
+#pragma mark - Testability
+
+#if DEBUG
+ #if FBSDKTEST
+
++ (void)resetSingletonToken
+{
+  if (singletonToken) {
+    singletonToken = 0;
+  }
+}
+
+ #endif
+#endif
+
 @end
 
 @interface FBSDKPaymentProductRequestor ()
@@ -154,7 +170,7 @@ static NSString *const FBSDKGateKeeperAppEventsIfAutoLogSubs = @"app_events_if_a
 + (void)initialize
 {
   if ([self class] == [FBSDKPaymentProductRequestor class]) {
-    g_pendingRequestors = [[NSMutableArray alloc] init];
+    g_pendingRequestors = [NSMutableArray new];
   }
 }
 
@@ -163,7 +179,7 @@ static NSString *const FBSDKGateKeeperAppEventsIfAutoLogSubs = @"app_events_if_a
   self = [super init];
   if (self) {
     _transaction = transaction;
-    _formatter = [[NSDateFormatter alloc] init];
+    _formatter = [NSDateFormatter new];
     _formatter.dateFormat = @"yyyy-MM-dd HH:mm:ssZ";
     NSString *data = [[NSUserDefaults standardUserDefaults] stringForKey:FBSDKPaymentObserverOriginalTransactionKey];
     _eventsWithReceipt = [NSSet setWithArray:@[FBSDKAppEventNamePurchased, FBSDKAppEventNameSubscribe,
@@ -171,7 +187,7 @@ static NSString *const FBSDKGateKeeperAppEventsIfAutoLogSubs = @"app_events_if_a
     if (data) {
       _originalTransactionSet = [NSMutableSet setWithArray:[data componentsSeparatedByString:FBSDKPaymentObserverDelimiter]];
     } else {
-      _originalTransactionSet = [[NSMutableSet alloc] init];
+      _originalTransactionSet = [NSMutableSet new];
     }
   }
   return self;

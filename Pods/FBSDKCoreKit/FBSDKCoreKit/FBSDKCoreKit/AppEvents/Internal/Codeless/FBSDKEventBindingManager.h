@@ -22,13 +22,17 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 NS_SWIFT_NAME(EventBindingManager)
 @interface FBSDKEventBindingManager : NSObject
 
-- (FBSDKEventBindingManager*)initWithJSON:(NSDictionary*)dict;
+- (instancetype)initWithJSON:(NSDictionary*)dict;
 - (void)updateBindings:(NSArray *)bindings;
 + (NSArray *)parseArray:(NSArray *)array;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif

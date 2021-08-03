@@ -1,1 +1,1 @@
-../../../Appboy-iOS-SDK/AppboyKit/headers/AppboyKitLibrary/ABKFeedController.h
+../../../Appboy-iOS-SDK/AppboyKit/include/ABKFeedController.h

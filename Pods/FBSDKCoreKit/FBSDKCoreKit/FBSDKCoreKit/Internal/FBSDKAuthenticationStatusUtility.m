@@ -16,17 +16,17 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
 #if !TARGET_OS_TV
 
-#import "FBSDKAuthenticationStatusUtility.h"
+ #import "FBSDKAuthenticationStatusUtility.h"
 
-#ifdef FBSDKCOCOAPODS
- #import <FBSDKCoreKit/FBSDKCoreKit+Internal.h>
-#else
- #import "FBSDKCoreKit+Internal.h"
-#endif
-
-#import "FBSDKAuthenticationToken+Internal.h"
+ #ifdef FBSDKCOCOAPODS
+  #import <FBSDKCoreKit/FBSDKCoreKit+Internal.h>
+ #else
+  #import "FBSDKCoreKit+Internal.h"
+ #endif
 
 static NSString *const FBSDKOIDCStatusPath = @"/platform/oidc/status";
 
