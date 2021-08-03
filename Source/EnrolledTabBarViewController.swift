@@ -36,9 +36,6 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     // add the additional resources options like 'debug'(special developer option) in additionalTabBarItems
     private var additionalTabBarItems : [TabBarItem] = []
     
-    private var userProfileImageView = ProfileImageView()
-    private let UserProfileImageSize = CGSize(width: 30, height: 30)
-    private var profileFeed: Feed<UserProfile>?
     private let tabBarImageFontSize : CGFloat = 22
     static var courseCatalogIndex: Int = 0
     
@@ -60,9 +57,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         super.viewDidLoad()
         navigationItem.title = screenTitle
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        addAccountButton()
-        addProfileButton()
-        setupProfileLoader()
+        addMenuButton()
         prepareTabViewData()
         delegate = self
 
@@ -129,60 +124,14 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         tabBar.isHidden = (tabBarItems.count == 1)
     }
     
-    private func setupProfileLoader() {
-        guard environment.config.profilesEnabled else { return }
-        profileFeed = environment.dataManager.userProfileManager.feedForCurrentUser()
-        
-        profileFeed?.output.listen(self,  success: {[weak self] profile in
-            if let weakSelf = self {
-                weakSelf.userProfileImageView.remoteImage = profile.image(networkManager: weakSelf.environment.networkManager)
-            }
-        }, failure : { _ in
-            Logger.logError("Profiles", "Unable to fetch profile")
-        })
-        profileFeed?.refresh()
-    }
+    private func addMenuButton() {
+        let menuButton = UIBarButtonItem(image: Icon.Menu.imageWithFontSize(size: tabBarImageFontSize), style: .plain, target: nil, action: nil)
+        menuButton.accessibilityLabel = Strings.userAccount
+        menuButton.accessibilityIdentifier = "EnrolledTabBarViewController:menu-button"
+        navigationItem.rightBarButtonItem = menuButton
 
-    private func addProfileButton() {
-        if environment.config.profilesEnabled {
-            let profileView = UIView(frame: CGRect(x: 0, y: 0, width: UserProfileImageSize.width, height: UserProfileImageSize.height))
-            profileView.accessibilityIdentifier = "EnrolledTabBarViewController:profile-view"
-            let profileButton = UIButton()
-            profileButton.accessibilityIdentifier = "EnrolledTabBarViewController:profile-button"
-            profileButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
-            profileButton.accessibilityLabel = Strings.Accessibility.profileLabel
-            profileView.addSubview(userProfileImageView)
-            profileView.addSubview(profileButton)
-            
-            profileButton.snp.makeConstraints { make in
-                make.edges.equalTo(profileView)
-                make.width.equalTo(UserProfileImageSize.width)
-                make.height.equalTo(UserProfileImageSize.height)
-            }
-            
-            userProfileImageView.snp.makeConstraints { make in
-                make.edges.equalTo(profileView)
-                make.width.equalTo(UserProfileImageSize.width)
-                make.height.equalTo(UserProfileImageSize.height)
-            }
-            
-            profileButton.oex_addAction({[weak self] _  in
-                guard let currentUserName = self?.environment.session.currentUser?.username else { return }
-                self?.environment.router?.showProfileForUsername(controller: self, username: currentUserName, modal: true)
-            }, for: .touchUpInside)
-            
-            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileView)
-        }
-    }
-    
-    private func addAccountButton() {
-        let accountButton = UIBarButtonItem(image: Icon.Account.imageWithFontSize(size: tabBarImageFontSize), style: .plain, target: nil, action: nil)
-        accountButton.accessibilityLabel = Strings.userAccount
-        accountButton.accessibilityIdentifier = "EnrolledTabBarViewController:account-button"
-        navigationItem.rightBarButtonItem = accountButton
-
-        accountButton.oex_setAction { [weak self] in
-            self?.environment.router?.showAccount(controller: self, modalTransitionStylePresent: true)
+        menuButton.oex_setAction { [weak self] in
+            self?.environment.router?.showProfile(controller: self)
         }
     }
     

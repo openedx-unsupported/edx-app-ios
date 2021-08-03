@@ -41,6 +41,9 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.largeTitleDisplayMode = .never
+        
         view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
@@ -183,9 +186,27 @@ extension UserProfileViewController {
 extension UINavigationBar {
     // To update navbar color scheme on specific controllers 
     private func apply(barTintColor: UIColor, tintColor: UIColor, titleStyle: OEXTextStyle) {
-        self.barTintColor = barTintColor
-        self.tintColor = tintColor
-        titleTextAttributes = titleStyle.attributes.attributedKeyDictionary()
+        if prefersLargeTitles {
+            if #available(iOS 13.0, *) {
+                let appearance = UINavigationBarAppearance()
+                appearance.configureWithDefaultBackground()
+                appearance.backgroundColor = barTintColor
+                appearance.titleTextAttributes = [.foregroundColor: tintColor]
+                appearance.largeTitleTextAttributes = [.foregroundColor: tintColor]
+                self.tintColor = tintColor
+                standardAppearance = appearance
+                scrollEdgeAppearance = appearance
+                compactAppearance = appearance
+            } else {
+                self.barTintColor = barTintColor
+                self.tintColor = tintColor
+                titleTextAttributes = titleStyle.attributes.attributedKeyDictionary()
+            }
+        } else {
+            self.barTintColor = barTintColor
+            self.tintColor = tintColor
+            titleTextAttributes = titleStyle.attributes.attributedKeyDictionary()
+        }
     }
     
     func applyUserProfileNavbarColorScheme() {

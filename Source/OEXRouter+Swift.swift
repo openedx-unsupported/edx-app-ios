@@ -405,13 +405,24 @@ extension OEXRouter {
         controller?.navigationController?.pushViewController(settingController, animated: true)
     }
     
+    func showProfile(controller: UIViewController? = nil) {
+        let profileViewController = ProfileViewController(environment: environment)
+        let navigationController = ForwardingNavigationController(rootViewController: profileViewController)
+        navigationController.navigationBar.prefersLargeTitles = true
+        controller?.navigationController?.present(navigationController, animated: true, completion: nil)
+    }
+    
     func showAccount(controller: UIViewController? = nil, modalTransitionStylePresent: Bool = false) {
         let accountController = AccountViewController(environment: environment)
+                
         if modalTransitionStylePresent {
             controller?.present(ForwardingNavigationController(rootViewController: AccountViewController(environment:environment)), animated: true, completion: nil)
-        }
-        else {
-            showContentStack(withRootController: accountController, animated: true)
+        } else {
+            if let controller = controller {
+                controller.navigationController?.pushViewController(accountController, animated: true)
+            } else {
+                showContentStack(withRootController: accountController, animated: true)
+            }
         }
     }
     

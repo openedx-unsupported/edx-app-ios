@@ -883,6 +883,42 @@
 "CELEBRATION.EARNED_IT_TEXT"="You earned it!";
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
+/* Settings title for wifi */
+"SETTINGS.WIFI.TITLE" = "WIFI";
+/* Settings heading for wifi */
+"SETTINGS.WIFI.HEADING" = "Wifi only download";
+/* Settings message for wifi */
+"SETTINGS.WIFI.MESSAGE" = "Only download content when wi-fi is turned on";
+/* Settings title for profile information */
+"SETTINGS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
+/* Settings user profile email */
+"SETTINGS.USER_PROFILE.EMAIL" = "Email: {email}";
+/* Settings user profile username */
+"SETTINGS.USER_PROFILE.USERNAME" = "Username: {username}";
+/* Settings message for profile */
+"SETTINGS.USER_PROFILE.MESSAGE" = "You are currently sharing a limited profile";
+/* Settings title for purchases */
+"SETTINGS.PURCHASES.TITLE" = "PURCHASES";
+/* Settings heading for purchases */
+"SETTINGS.PURCHASES.HEADING" = "Restore purchases";
+/* Settings message for purchases */
+"SETTINGS.PURCHASES.MESSAGE" = "Sign into the app store to restore access to courses you have previously paid to upgrade";
+/* Settings title for HELP */
+"SETTINGS.HELP.TITLE" = "HELP";
+/* Settings heading for feedback */
+"SETTINGS.HELP.HEADING.FEEDBACK" = "Submit feedback";
+/* Settings message for feedback */
+"SETTINGS.HELP.MESSAGE.FEEDBACK" = "Looking to make a feature request or give us some feedback on our app?";
+/* Settings message for feedback button title */
+"SETTINGS.HELP.BUTTON_TITLE.FEEDBACK" = "Email the support team";
+/* Settings heading for support */
+"SETTINGS.HELP.HEADING.SUPPORT" = "Get Support";
+/* Settings message for feedback */
+"SETTINGS.HELP.MESSAGE.FEEDBACK" = "To get more help and learn how to use the edX mobile app, visit our frequently asked questions.";
+/* Settings message for view faq button title */
+"SETTINGS.HELP.BUTTON_TITLE.VIEW_FAQ" = "View FAQ";
+/* Settings message for signout button title */
+"SETTINGS.SIGNOUT.BUTTON_TITLE" = "Sign out";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="היכנס";
 /* Message shown while user waits for response to a sign in request */

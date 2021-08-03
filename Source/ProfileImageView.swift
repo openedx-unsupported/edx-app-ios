@@ -11,17 +11,23 @@ import UIKit
 @IBDesignable
 class ProfileImageView: UIImageView {
     
+    private var shouldApplyBorder: Bool = true
+    
     var borderWidth: CGFloat = 1.0
     var borderColor: UIColor?
 
     private func setup() {
-        var borderStyle = OEXStyles.shared().profileImageViewBorder(width: borderWidth)
-        if borderColor != nil {
-            borderStyle = BorderStyle(cornerRadius: borderStyle.cornerRadius, width: borderStyle.width, color: borderColor)
+        if shouldApplyBorder {
+            var borderStyle = OEXStyles.shared().profileImageViewBorder(width: borderWidth)
+            if borderColor != nil {
+                borderStyle = BorderStyle(cornerRadius: borderStyle.cornerRadius, width: borderStyle.width, color: borderColor)
+            }
+            applyBorderStyle(style: borderStyle)
+            tintColor = OEXStyles.shared().profileImageTintColor()
+            backgroundColor = OEXStyles.shared().profileImageBackgroundColor()
+        } else {
+            tintColor = OEXStyles.shared().primaryBaseColor()
         }
-        applyBorderStyle(style: borderStyle)
-        backgroundColor = OEXStyles.shared().profileImageBackgroundColor()
-        tintColor = OEXStyles.shared().profileImageTintColor()
     }
     
     convenience init() {
@@ -35,6 +41,14 @@ class ProfileImageView: UIImageView {
 
     override init (frame: CGRect) {
         super.init(frame: frame)
+        let bundle = Bundle(for: type(of: self))
+        image = UIImage(named: "person_black", in: bundle, compatibleWith: traitCollection)
+        setup()
+    }
+    
+    init(shouldApplyBorder: Bool = true) {
+        super.init(frame: .zero)
+        self.shouldApplyBorder = shouldApplyBorder
         let bundle = Bundle(for: type(of: self))
         image = UIImage(named: "person_black", in: bundle, compatibleWith: traitCollection)
         setup()
