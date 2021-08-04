@@ -43,7 +43,6 @@
 #import "OEXInterface.h"
 #import "OEXLocalizedString.h"
 #import "OEXLoginViewController.h"
-#import "OEXMySettingsViewController.h"
 #import "OEXPlaceholderTextView.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXPushProvider.h"

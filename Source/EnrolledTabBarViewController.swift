@@ -128,6 +128,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         let menuButton = UIBarButtonItem(image: Icon.Menu.imageWithFontSize(size: tabBarImageFontSize), style: .plain, target: nil, action: nil)
         menuButton.accessibilityLabel = Strings.userAccount
         menuButton.accessibilityIdentifier = "EnrolledTabBarViewController:menu-button"
+        menuButton.accessibilityHint = Strings.accessibilityMenu
         navigationItem.rightBarButtonItem = menuButton
 
         menuButton.oex_setAction { [weak self] in

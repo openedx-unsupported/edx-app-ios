@@ -128,11 +128,11 @@ public enum AnalyticsEventName: String {
     case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
     case OpenInBrowserBannerDisplayed = "edx.bi.app.navigation.component.open_in_browser_banner.displayed"
     case OpenInBrowserBannerTapped = "edx.bi.app.navigation.component.open_in_browser_banner.tapped"
-    case PersonalInformationClicked = "edx.bi.app.profile.personal_info.tapped"
-    case FAQClicked = "edx.bi.app.profile.faq.tapped"
+    case PersonalInformationClicked = "edx.bi.app.profile.personal_info.clicked"
+    case FAQClicked = "edx.bi.app.profile.faq.clicked"
     case WifiOn = "edx.bi.app.profile.wifi.switch.on"
     case WifiOff = "edx.bi.app.profile.wifi.switch.off"
-    case EmailSupportClicked = "edx.bi.app.profile.email_support.tapped"
+    case EmailSupportClicked = "edx.bi.app.profile.email_support.clicked"
 }
 
 public enum AnalyticsScreenName: String {
@@ -518,18 +518,10 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
-    func trackPersonalInformationClicked() {
+    func trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName, name: AnalyticsEventName) {
         let event = OEXAnalyticsEvent()
-        event.displayName = AnalyticsDisplayName.PersonalInformationClicked.rawValue
-        event.name = AnalyticsEventName.PersonalInformationClicked.rawValue
-        
-        trackEvent(event, forComponent: nil, withInfo: nil)
-    }
-    
-    func trackFAQClicked() {
-        let event = OEXAnalyticsEvent()
-        event.displayName = AnalyticsDisplayName.FAQClicked.rawValue
-        event.name = AnalyticsEventName.FAQClicked.rawValue
+        event.displayName = displayName.rawValue
+        event.name = name.rawValue
         
         trackEvent(event, forComponent: nil, withInfo: nil)
     }
@@ -538,14 +530,6 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = isOn ? AnalyticsDisplayName.WifiOn.rawValue : AnalyticsDisplayName.WifiOff.rawValue
         event.name = isOn ? AnalyticsEventName.WifiOn.rawValue : AnalyticsEventName.WifiOff.rawValue
-        
-        trackEvent(event, forComponent: nil, withInfo: nil)
-    }
-    
-    func trackEmailSupportClicked() {
-        let event = OEXAnalyticsEvent()
-        event.displayName = AnalyticsDisplayName.EmailSupportClicked.rawValue
-        event.name = AnalyticsEventName.EmailSupportClicked.rawValue
         
         trackEvent(event, forComponent: nil, withInfo: nil)
     }

@@ -111,6 +111,8 @@
 "ACCESSIBILITY_VIDEO" = "视频";
 /* Text spoken for Navigation Button on Course List Screen */
 "ACCESSIBILITY_MENU" = "导航菜单";
+/* Text spoken for Navigation to Profile Screen */
+"ACCESSIBILITY_PROFILE" = "Profile Menu";
 /* Accessibility label for close button when left drawer is open*/
 "ACCESSIBILITY_CLOSE_MENU" = "关闭导航菜单";
 /* Accessibility label for hiding keyboard*/

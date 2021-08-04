@@ -11,13 +11,13 @@ import UIKit
 @IBDesignable
 class ProfileImageView: UIImageView {
     
-    private var shouldApplyBorder: Bool = true
+    private var defaultStyle: Bool = true
     
     var borderWidth: CGFloat = 1.0
     var borderColor: UIColor?
 
     private func setup() {
-        if shouldApplyBorder {
+        if defaultStyle {
             var borderStyle = OEXStyles.shared().profileImageViewBorder(width: borderWidth)
             if borderColor != nil {
                 borderStyle = BorderStyle(cornerRadius: borderStyle.cornerRadius, width: borderStyle.width, color: borderColor)
@@ -46,9 +46,9 @@ class ProfileImageView: UIImageView {
         setup()
     }
     
-    init(shouldApplyBorder: Bool = true) {
+    init(defaultStyle: Bool = true) {
         super.init(frame: .zero)
-        self.shouldApplyBorder = shouldApplyBorder
+        self.defaultStyle = defaultStyle
         let bundle = Bundle(for: type(of: self))
         image = UIImage(named: "person_black", in: bundle, compatibleWith: traitCollection)
         setup()

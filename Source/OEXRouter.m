@@ -188,11 +188,6 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showMySettings {
-    OEXMySettingsViewController* controller = [[OEXMySettingsViewController alloc] initWithNibName:nil bundle:nil];
-    [self showContentStackWithRootController:controller animated:YES];
-}
-
 #pragma Delegate Implementations
 
 - (void)registrationViewControllerDidRegister:(OEXRegistrationViewController *)controller completion:(void (^)(void))completion {

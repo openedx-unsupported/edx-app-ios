@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  ProfileOptionsViewController.swift
 //  edX
 //
 //  Created by Muhammad Umer on 27/07/2021.
@@ -9,9 +9,12 @@
 import UIKit
 import MessageUI
 
-class ProfileViewController: UIViewController {
+fileprivate let titleTextStyle = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
+fileprivate let subtitleTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
+
+class ProfileOptionsViewController: UIViewController {
     
-    private enum SettingCell {
+    private enum ProfileOptions {
         case wifiSetting
         case personalInformation
         case restorePurchase
@@ -32,7 +35,7 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorInset = .zero
-
+        tableView.alwaysBounceVertical = false
         tableView.register(WifiSettingCell.self, forCellReuseIdentifier: WifiSettingCell.identifier)
         tableView.register(PersonalInformationCell.self, forCellReuseIdentifier: PersonalInformationCell.identifier)
         tableView.register(RestorePurchasesCell.self, forCellReuseIdentifier: RestorePurchasesCell.identifier)
@@ -42,7 +45,7 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private var cells: [SettingCell] = []
+    private var options: [ProfileOptions] = []
     
     init(environment: Environment) {
         self.environment = environment
@@ -57,25 +60,22 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         title = Strings.UserAccount.profile
-        navigationItem.largeTitleDisplayMode = .always
         
         environment.analytics.trackScreen(withName: AnalyticsScreenName.Profile.rawValue)
         
-        addSubviews()
+        setupViews()
         addCloseButton()
-        configureTableView()
+        configureOptions()
         setupProfileLoader()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.view.backgroundColor = environment.styles.navigationBarColor()
-        navigationItem.largeTitleDisplayMode = .always
-        
         setupProfileLoader()
     }
     
-    private func addSubviews() {
+    private func setupViews() {
         view.backgroundColor = environment.styles.standardBackgroundColor()
         view.addSubview(tableView)
         
@@ -115,25 +115,25 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    private func configureTableView() {
-        cells.append(.wifiSetting)
+    private func configureOptions() {
+        options.append(.wifiSetting)
         
         if environment.config.profilesEnabled {
-            cells.append(.personalInformation)
+            options.append(.personalInformation)
         }
         
         if environment.config.inappPurchasesEnabled {
-            cells.append(.restorePurchase)
+            options.append(.restorePurchase)
         }
         
         let isFeedbackEnabled =  environment.config.feedbackEmailAddress() != nil
         let isFaqEnabled = environment.config.faqURL != nil
         
         if isFeedbackEnabled || isFaqEnabled {
-            cells.append(.help(isFeedbackEnabled, isFaqEnabled))
+            options.append(.help(isFeedbackEnabled, isFaqEnabled))
         }
         
-        cells.append(.signout)
+        options.append(.signout)
         
         tableView.reloadData()
     }
@@ -147,7 +147,7 @@ class ProfileViewController: UIViewController {
     }
 }
 
-extension ProfileViewController: MFMailComposeViewControllerDelegate {
+extension ProfileOptionsViewController: MFMailComposeViewControllerDelegate {
     func launchEmailComposer() {
         if !MFMailComposeViewController.canSendMail() {
             UIAlertController().showAlert(withTitle: Strings.emailAccountNotSetUpTitle, message: Strings.emailAccountNotSetUpMessage, onViewController: self)
@@ -170,86 +170,85 @@ extension ProfileViewController: MFMailComposeViewControllerDelegate {
     }
 }
 
-extension ProfileViewController: UITableViewDataSource {
+extension ProfileOptionsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cells.count
+        return options.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch cells[indexPath.row] {
+        switch options[indexPath.row] {
         case .wifiSetting:
-            return generateWifiCell(tableView, indexPath: indexPath)
+            return wifiCell(tableView, indexPath: indexPath)
             
         case .personalInformation:
-            return generatePersonalInformationCell(tableView, indexPath: indexPath)
+            return personalInformationCell(tableView, indexPath: indexPath)
         
         case .restorePurchase:
-            return generateRestorePurchaseCell(tableView, indexPath: indexPath)
+            return restorePurchaseCell(tableView, indexPath: indexPath)
             
         case .help(let isFeedbackEnabled, let isFaqEnabled):
-            return generateHelpCell(tableView, indexPath: indexPath, isFeedbackEnabled: isFeedbackEnabled, isFaqEnabled: isFaqEnabled)
+            return helpCell(tableView, indexPath: indexPath, isFeedbackEnabled: isFeedbackEnabled, isFaqEnabled: isFaqEnabled)
             
         case .signout:
-            return generateSignoutCell(tableView, indexPath: indexPath)
+            return signoutCell(tableView, indexPath: indexPath)
         }
     }
     
-    private func generateWifiCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+    private func wifiCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: WifiSettingCell.identifier, for: indexPath) as! WifiSettingCell
         cell.delegate = self
         cell.wifiSwitch.isOn = environment.interface?.shouldDownloadOnlyOnWifi ?? false
         return cell
     }
     
-    private func generatePersonalInformationCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+    private func personalInformationCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PersonalInformationCell.identifier, for: indexPath) as! PersonalInformationCell
         
         guard environment.config.profilesEnabled,
               let username = environment.session.currentUser?.username,
               let email = environment.session.currentUser?.email else { return cell }
-        
-        cell.email = email
-        cell.username = username
-        cell.update()
+        cell.update(username: username, email: email)
         
         return cell
     }
     
-    private func generateRestorePurchaseCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+    private func restorePurchaseCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueReusableCell(withIdentifier: RestorePurchasesCell.identifier, for: indexPath) as! RestorePurchasesCell
     }
 
-    private func generateHelpCell(_ tableView: UITableView, indexPath: IndexPath, isFeedbackEnabled: Bool, isFaqEnabled: Bool) -> UITableViewCell {
+    private func helpCell(_ tableView: UITableView, indexPath: IndexPath, isFeedbackEnabled: Bool, isFaqEnabled: Bool) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HelpCell.identifier, for: indexPath) as! HelpCell
         cell.delegate = self
-        cell.isFeedbackEnabled = isFeedbackEnabled
-        cell.isFaqEnabled = isFaqEnabled
-        cell.update()
+        cell.update(isFeedbackEnabled: isFeedbackEnabled, isFaqEnabled: isFaqEnabled)
         
         return cell
     }
 
-    private func generateSignoutCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+    private func signoutCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SignOutVersionCell.identifier, for: indexPath) as! SignOutVersionCell
+        cell.delegate = self
         return cell
     }
 }
 
-extension ProfileViewController: UITableViewDelegate {
+extension ProfileOptionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let _ = tableView.cellForRow(at: indexPath) as? PersonalInformationCell {
+        switch options[indexPath.row] {
+        case .personalInformation:
             guard environment.config.profilesEnabled, let username = environment.session.currentUser?.username else { return }
             environment.router?.showProfileForUsername(controller: self, username: username, editable: true)
-            environment.analytics.trackPersonalInformationClicked()
+            environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.PersonalInformationClicked, name: AnalyticsEventName.PersonalInformationClicked)
+        default:
+            return
         }
     }
 }
 
-extension ProfileViewController: WifiSettingCellDelagete {
+extension ProfileOptionsViewController: WifiSettingCellDelagete {
     func didSelectedwifiSwitch(isOn: Bool, wifiSwitch: UISwitch) {
         environment.analytics.trackWifi(isOn: isOn)
         if isOn {
@@ -266,22 +265,22 @@ extension ProfileViewController: WifiSettingCellDelagete {
     }
 }
 
-extension ProfileViewController: HelpCellDelegate {
+extension ProfileOptionsViewController: HelpCellDelegate {
     func didSelectEmail() {
-        environment.analytics.trackEmailSupportClicked()
+        environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.EmailSupportClicked, name: AnalyticsEventName.EmailSupportClicked)
         launchEmailComposer()
     }
     
     func didSelectFAQ() {
         guard let faqURL = environment.config.faqURL, let url = URL(string: faqURL) else { return }
-        environment.analytics.trackFAQClicked()
+        environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.FAQClicked, name: AnalyticsEventName.FAQClicked)
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
 }
 
-extension ProfileViewController: SignoutCellDelegate {
+extension ProfileOptionsViewController: SignoutCellDelegate {
     func didSingout() {
         OEXFileUtility.nukeUserPIIData()
         dismiss(animated: true) { [weak self] in
@@ -300,23 +299,20 @@ class WifiSettingCell: UITableViewCell {
     var delegate: WifiSettingCellDelagete?
     
     private lazy var settingLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
         let label = UILabel()
-        label.attributedText = style.attributedString(withText: Strings.Settings.Wifi.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Wifi.title)
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
         let label = UILabel()
-        label.attributedText = style.attributedString(withText: Strings.Settings.Wifi.heading)
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.Wifi.heading)
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
         let label = UILabel()
-        label.attributedText = style.attributedString(withText: Strings.Settings.Wifi.message)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Wifi.message)
         return label
     }()
         
@@ -384,12 +380,10 @@ class WifiSettingCell: UITableViewCell {
 
 class PersonalInformationCell: UITableViewCell {
     static let identifier = "PersonalInformationCell"
-        
-    var username: String?
-    var email: String?
+    
     var profileSubtitle: String? {
         didSet {
-            subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: profileSubtitle)
+            subtitleLabel.attributedText = titleTextStyle.attributedString(withText: profileSubtitle)
         }
     }
     
@@ -404,22 +398,17 @@ class PersonalInformationCell: UITableViewCell {
         return imageView
     }()
     
-    lazy var profileImageView = ProfileImageView(shouldApplyBorder: false)
+    lazy var profileImageView = ProfileImageView(defaultStyle: false)
     
     private lazy var settingLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
         let label = UILabel()
-        label.attributedText = style.attributedString(withText: Strings.Settings.UserProfile.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.UserProfile.title)
         return label
     }()
     
-    private lazy var emailLabelStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
     private lazy var emailLabel = UILabel()
-    
-    private lazy var usernameLabelStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
     private lazy var usernameLabel = UILabel()
     
-    private lazy var subtitleLabelStyle = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
     private lazy var subtitleLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -497,7 +486,7 @@ class PersonalInformationCell: UITableViewCell {
         }
         
         profileImageView.snp.makeConstraints { make in
-            make.edges.equalTo(profileView).inset(4)
+            make.edges.equalTo(profileView)
         }
     }
     
@@ -507,11 +496,9 @@ class PersonalInformationCell: UITableViewCell {
         profileImageView.accessibilityLabel = Strings.Accessibility.profileLabel
     }
     
-    func update() {
-        guard let username = username, let email = email else { return }
-        
-        usernameLabel.attributedText = usernameLabelStyle.attributedString(withText: Strings.Settings.UserProfile.username(username: username))
-        emailLabel.attributedText = emailLabelStyle.attributedString(withText: Strings.Settings.UserProfile.email(email: email))
+    func update(username: String, email: String) {
+        usernameLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.UserProfile.username(username: username))
+        emailLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.UserProfile.email(email: email))
     }
 }
 
@@ -519,24 +506,21 @@ class RestorePurchasesCell: UITableViewCell {
     static let identifier = "RestorePurchasesCell"
         
     private lazy var settingLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
         let label = UILabel()
-        label.attributedText = style.attributedString(withText: Strings.Settings.Purchases.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Purchases.title)
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
         let label = UILabel()
-        label.attributedText = style.attributedString(withText: Strings.Settings.Purchases.heading)
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.Purchases.heading)
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = style.attributedString(withText: Strings.Settings.Purchases.message)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Purchases.message)
         return label
     }()
     
@@ -595,33 +579,30 @@ class HelpCell: UITableViewCell {
     
     var delegate: HelpCellDelegate?
     
-    var isFeedbackEnabled: Bool = false
-    var isFaqEnabled: Bool = false
+    private var isFeedbackEnabled: Bool = false
+    private var isFaqEnabled: Bool = false
     
     private lazy var feedbackSupportContainer = UIView()
     private lazy var faqContainer = UIView()
     
     private lazy var settingLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
         let label = UILabel()
-        label.attributedText = style.attributedString(withText: Strings.Settings.Help.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Help.title)
         return label
     }()
     
     private lazy var buttonStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
     
     private lazy var feedbackLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
         let label = UILabel()
-        label.attributedText = style.attributedString(withText: Strings.Settings.Help.Heading.feedback)
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.Help.Heading.feedback)
         return label
     }()
     
     private lazy var feedbackSubtitleLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = style.attributedString(withText: Strings.Settings.Help.Message.feedback)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Help.Message.feedback)
         return label
     }()
     
@@ -638,17 +619,15 @@ class HelpCell: UITableViewCell {
     }()
     
     private lazy var supportLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
         let label = UILabel()
-        label.attributedText = style.attributedString(withText: Strings.Settings.Help.Heading.support)
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.Help.Heading.support)
         return label
     }()
     
     private lazy var supportSubtitleLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = style.attributedString(withText: Strings.Settings.Help.Message.feedback)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Help.Message.feedback)
         return label
     }()
     
@@ -690,7 +669,9 @@ class HelpCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update() {
+    func update(isFeedbackEnabled: Bool, isFaqEnabled: Bool) {
+        self.isFeedbackEnabled = isFeedbackEnabled
+        self.isFaqEnabled = isFaqEnabled
         setupViews()
         setupConstrains()
     }
@@ -818,10 +799,9 @@ class SignOutVersionCell: UITableViewCell {
     }()
     
     private lazy var versionLabel: UILabel = {
-        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = style.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: ""))
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: ""))
         return label
     }()
     

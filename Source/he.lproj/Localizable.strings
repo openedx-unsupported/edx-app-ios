@@ -120,6 +120,8 @@
 "ACCESSIBILITY_VIDEO" = "וידאו";
 /* Text spoken for Navigation Button on Course List Screen */
 "ACCESSIBILITY_MENU" = "תפריט ניווט";
+/* Text spoken for Navigation to Profile Screen */
+"ACCESSIBILITY_PROFILE" = "Profile Menu";
 /* Accessibility label for close button when left drawer is open*/
 "ACCESSIBILITY_CLOSE_MENU" = "סגור את תפריט הניווט";
 /* Accessibility label for hiding keyboard*/
