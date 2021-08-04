@@ -67,12 +67,12 @@ class ValuePropComponentView: UIView {
         return OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.neutralXXDark())
     }()
 
-    private func pacing() -> String {
+    private lazy var pacing: String = {
         let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
         let selfPaced = course?.isSelfPaced ?? false
 
         return selfPaced ? "self" : "instructor"
-    }
+    }()
 
     private let environment: Environment
     private var courseID: String
@@ -194,7 +194,7 @@ class ValuePropComponentView: UIView {
     }
 
     private func upgradeCourse() {
-        environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing())
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing)
 
         if let controller = firstAvailableUIViewController() {
             controller.showOverlay(withMessage: "Payments are coming soon")
@@ -204,6 +204,6 @@ class ValuePropComponentView: UIView {
     private func trackShowMorelessAnalytics(showingMore: Bool) {
         let displayName = showingMore ? AnalyticsDisplayName.ValuePropShowMoreClicked : AnalyticsDisplayName.ValuePropShowLessClicked
         let eventName = showingMore ? AnalyticsEventName.ValuePropShowMoreClicked : AnalyticsEventName.ValuePropShowLessClicked
-        environment.analytics.trackValuePropShowMoreless(with: displayName, eventName: eventName, courseID: courseID, blockID: blockID, pacing: pacing())
+        environment.analytics.trackValuePropShowMoreless(with: displayName, eventName: eventName, courseID: courseID, blockID: blockID, pacing: pacing )
     }
 }

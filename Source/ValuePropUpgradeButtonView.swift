@@ -69,6 +69,6 @@ class ValuePropUpgradeButtonView: UIView {
             make.edges.equalTo(self)
         }
 
-        OEXConfig.shared().inappPurchasesEnabled ? (isHidden = false) : (isHidden = true)
+        isHidden = OEXConfig.shared().inappPurchasesEnabled ? false : true
     }
 }
