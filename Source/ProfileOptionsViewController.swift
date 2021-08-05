@@ -46,6 +46,15 @@ class ProfileOptionsViewController: UIViewController {
     }()
     
     private var options: [ProfileOptions] = []
+    private var userProfile: UserProfile? {
+        didSet {
+            for cell in tableView.visibleCells where cell is PersonalInformationCell {
+                if let indexPath = tableView.indexPath(for: cell) {
+                    tableView.reloadRows(at: [indexPath], with: .none)
+                }
+            }
+        }
+    }
     
     init(environment: Environment) {
         self.environment = environment
@@ -88,22 +97,19 @@ class ProfileOptionsViewController: UIViewController {
     }
     
     private func setupProfileLoader() {
-        guard environment.config.profilesEnabled
-        else { return }
+        guard environment.config.profilesEnabled else { return }
         let profileFeed = environment.dataManager.userProfileManager.feedForCurrentUser()
         
-        profileFeed.output.listen(self,  success: { [weak self] profile in
-            guard let weakSelf = self else { return }
-            for cell in weakSelf.tableView.visibleCells where cell is PersonalInformationCell {
-                if let personalInformationCell = cell as? PersonalInformationCell {
-                    personalInformationCell.profileSubtitle = profile.sharingLimitedProfile ? Strings.ProfileOptions.UserProfile.message : ""
-                    personalInformationCell.profileImageView.remoteImage = profile.image(networkManager: weakSelf.environment.networkManager)
-                }
-            }
-        }, failure : { _ in
-            Logger.logError("Profiles", "Unable to fetch profile")
-        })
-        profileFeed.refresh()
+        if let profile = profileFeed.output.value {
+            userProfile = profile
+        } else {
+            profileFeed.output.listen(self,  success: { [weak self] profile in
+                self?.userProfile = profile
+            }, failure : { _ in
+                Logger.logError("Profiles", "Unable to fetch profile")
+            })
+            profileFeed.refresh()
+        }
     }
     
     private func addCloseButton() {
@@ -214,6 +220,12 @@ extension ProfileOptionsViewController: UITableViewDataSource {
         guard environment.config.profilesEnabled,
               let username = environment.session.currentUser?.username,
               let email = environment.session.currentUser?.email else { return cell }
+        
+        if let userProfile = userProfile {
+            cell.profileSubtitle = userProfile.sharingLimitedProfile ? Strings.ProfileOptions.UserProfile.message : nil
+            cell.profileImageView.remoteImage = userProfile.image(networkManager: environment.networkManager)
+        }
+        
         cell.update(username: username, email: email)
         
         return cell
@@ -234,6 +246,7 @@ extension ProfileOptionsViewController: UITableViewDataSource {
     private func signoutCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SignOutVersionCell.identifier, for: indexPath) as! SignOutVersionCell
         cell.delegate = self
+        cell.separator(hide: true)
         return cell
     }
 }
@@ -255,11 +268,11 @@ extension ProfileOptionsViewController: WifiSettingCellDelagete {
     func didSelectedwifiSwitch(isOn: Bool, wifiSwitch: UISwitch) {
         environment.analytics.trackWifi(isOn: isOn)
         if isOn {
-            UIAlertController().showIn(viewController: self, title: Strings.cellularDownloadEnabledTitle, message: Strings.cellularDownloadEnabledMessage, preferredStyle: .alert, cancelButtonTitle: Strings.allow, destructiveButtonTitle: nil, otherButtonsTitle: [Strings.doNotAllow]) { [weak self] alertController, _, index in
+            UIAlertController().showIn(viewController: self, title: Strings.cellularDownloadEnabledTitle, message: Strings.cellularDownloadEnabledMessage, preferredStyle: .alert, cancelButtonTitle: Strings.doNotAllow, destructiveButtonTitle: nil, otherButtonsTitle: [Strings.allow]) { [weak self] alertController, _, index in
                 if index == alertController.cancelButtonIndex {
-                    self?.environment.interface?.setDownloadOnlyOnWifiPref(isOn)
+                    wifiSwitch.setOn(false, animated: true)
                 } else {
-                    wifiSwitch.isOn = false
+                    self?.environment.interface?.setDownloadOnlyOnWifiPref(isOn)
                 }
             }
         } else {
@@ -390,6 +403,20 @@ class WifiSettingCell: UITableViewCell {
 class PersonalInformationCell: UITableViewCell {
     static let identifier = "PersonalInformationCell"
     
+    private var username: String? {
+        didSet {
+            guard let username = username else { return }
+            usernameLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.UserProfile.username(username: username))
+        }
+    }
+    
+    private var email: String? {
+        didSet {
+            guard let email = email else { return }
+            emailLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.UserProfile.email(email: email))
+        }
+    }
+    
     var profileSubtitle: String? {
         didSet {
             subtitleLabel.attributedText = titleTextStyle.attributedString(withText: profileSubtitle)
@@ -425,10 +452,6 @@ class PersonalInformationCell: UITableViewCell {
         
         selectionStyle = .none
         accessibilityIdentifier = "ProfileOptionsViewController:wifi-cell"
-        
-        setupViews()
-        setupConstrains()
-        setAccessibilityIdentifiers()
     }
     
     required init?(coder: NSCoder) {
@@ -444,6 +467,7 @@ class PersonalInformationCell: UITableViewCell {
     }
     
     private func setupViews() {
+        contentView.subviews.forEach { $0.removeFromSuperview() }
         contentView.addSubview(optionLabel)
         contentView.addSubview(emailLabel)
         contentView.addSubview(usernameLabel)
@@ -454,47 +478,52 @@ class PersonalInformationCell: UITableViewCell {
     }
     
     private func setupConstrains() {
-        optionLabel.snp.makeConstraints { make in
+        optionLabel.snp.remakeConstraints { make in
             make.top.equalTo(contentView).offset(StandardVerticalMargin + (StandardVerticalMargin / 2))
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
         
-        emailLabel.snp.makeConstraints { make in
+        emailLabel.snp.remakeConstraints { make in
             make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
         
-        usernameLabel.snp.makeConstraints { make in
+        usernameLabel.snp.remakeConstraints { make in
             make.top.equalTo(emailLabel.snp.bottom).offset(StandardVerticalMargin / 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            if profileSubtitle == nil {
+                make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
+            }
         }
         
-        subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(usernameLabel.snp.bottom).offset(StandardVerticalMargin)
-            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
-            make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
+        if profileSubtitle != nil {
+            subtitleLabel.snp.remakeConstraints { make in
+                make.top.equalTo(usernameLabel.snp.bottom).offset(StandardVerticalMargin)
+                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+                make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+                make.height.equalTo(StandardVerticalMargin * 2)
+                make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
+            }
         }
         
-        chevronImageView.snp.makeConstraints { make in
+        chevronImageView.snp.remakeConstraints { make in
             make.height.equalTo(userProfileImageSize.height)
             make.width.equalTo(userProfileImageSize.width)
             make.centerY.equalTo(contentView)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
         
-        profileView.snp.makeConstraints { make in
+        profileView.snp.remakeConstraints { make in
             make.height.equalTo(userProfileImageSize.height)
             make.width.equalTo(userProfileImageSize.height)
             make.centerY.equalTo(contentView)
             make.trailing.equalTo(chevronImageView.snp.leading).inset(-StandardHorizontalMargin / 2)
         }
         
-        profileImageView.snp.makeConstraints { make in
+        profileImageView.snp.remakeConstraints { make in
             make.edges.equalTo(profileView)
         }
     }
@@ -513,8 +542,11 @@ class PersonalInformationCell: UITableViewCell {
     }
     
     func update(username: String, email: String) {
-        usernameLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.UserProfile.username(username: username))
-        emailLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.UserProfile.email(email: email))
+        self.username = username
+        self.email = email
+        setupViews()
+        setupConstrains()
+        setAccessibilityIdentifiers()
     }
 }
 
@@ -603,10 +635,12 @@ class HelpCell: UITableViewCell {
     private var feedbackEnabled: Bool = false
     private var faqEnabled: Bool = false
     
+    private let lineSpacing: CGFloat = 4
+    
     private var platformName: String? {
         didSet {
             guard let platformName = platformName else { return }
-            feedbackSubtitleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.support(platform: platformName))
+            feedbackSubtitleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.support(platform: platformName)).setLineSpacing(lineSpacing)
         }
     }
     
@@ -654,7 +688,7 @@ class HelpCell: UITableViewCell {
     private lazy var supportSubtitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.feedback)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.feedback).setLineSpacing(lineSpacing)
         return label
     }()
     
@@ -750,7 +784,7 @@ class HelpCell: UITableViewCell {
             }
             
             feedbackSubtitleLabel.snp.makeConstraints { make in
-                make.top.equalTo(feedbackLabel.snp.bottom).offset(StandardVerticalMargin / 2)
+                make.top.equalTo(feedbackLabel.snp.bottom).offset(StandardVerticalMargin)
                 make.leading.equalTo(feedbackSupportContainer)
                 make.trailing.equalTo(feedbackSupportContainer)
                 make.height.greaterThanOrEqualTo(StandardVerticalMargin * 2)
@@ -771,9 +805,9 @@ class HelpCell: UITableViewCell {
         if faqEnabled {
             faqContainer.snp.makeConstraints { make in
                 if feedbackEnabled {
-                    make.top.equalTo(feedbackSupportContainer.snp.bottom)
+                    make.top.equalTo(feedbackSupportContainer.snp.bottom).offset(StandardVerticalMargin + (StandardVerticalMargin / 2))
                 } else {
-                    make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
+                    make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin + (StandardVerticalMargin / 2))
                 }
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
@@ -787,7 +821,7 @@ class HelpCell: UITableViewCell {
             }
             
             supportSubtitleLabel.snp.makeConstraints { make in
-                make.top.equalTo(supportLabel.snp.bottom).offset(StandardVerticalMargin / 2)
+                make.top.equalTo(supportLabel.snp.bottom).offset(StandardVerticalMargin)
                 make.leading.equalTo(faqContainer)
                 make.trailing.equalTo(faqContainer)
                 make.height.greaterThanOrEqualTo(StandardVerticalMargin * 2)
@@ -885,5 +919,11 @@ class SignOutVersionCell: UITableViewCell {
     private func setAccessibilityIdentifiers() {
         signoutButton.accessibilityIdentifier = "SignOutVersionCell:signout-button"
         versionLabel.accessibilityIdentifier = "SignOutVersionCell:version-label"
+    }
+}
+
+fileprivate extension UITableViewCell {
+    func separator(hide: Bool) {
+        separatorInset.left = hide ? bounds.size.width : 0
     }
 }
