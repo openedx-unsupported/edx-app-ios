@@ -226,7 +226,7 @@ extension ProfileOptionsViewController: UITableViewDataSource {
     private func helpCell(_ tableView: UITableView, indexPath: IndexPath, feedbackEnabled: Bool, faqEnabled: Bool) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HelpCell.identifier, for: indexPath) as! HelpCell
         cell.delegate = self
-        cell.update(feedbackEnabled: feedbackEnabled, faqEnabled: faqEnabled)
+        cell.update(feedbackEnabled: feedbackEnabled, faqEnabled: faqEnabled, platformName: environment.config.platformName())
         
         return cell
     }
@@ -603,6 +603,13 @@ class HelpCell: UITableViewCell {
     private var feedbackEnabled: Bool = false
     private var faqEnabled: Bool = false
     
+    private var platformName: String? {
+        didSet {
+            guard let platformName = platformName else { return }
+            feedbackSubtitleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.support(platform: platformName))
+        }
+    }
+    
     private lazy var feedbackSupportContainer = UIView()
     private lazy var faqContainer = UIView()
     
@@ -623,7 +630,6 @@ class HelpCell: UITableViewCell {
     private lazy var feedbackSubtitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.support)
         return label
     }()
     
@@ -690,9 +696,10 @@ class HelpCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(feedbackEnabled: Bool, faqEnabled: Bool) {
+    func update(feedbackEnabled: Bool, faqEnabled: Bool, platformName: String) {
         self.feedbackEnabled = feedbackEnabled
         self.faqEnabled = faqEnabled
+        self.platformName = platformName
         setupViews()
         setupConstrains()
         setAccessibilityIdentifiers()
