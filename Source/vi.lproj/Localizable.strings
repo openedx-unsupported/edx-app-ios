@@ -113,6 +113,8 @@
 "ACCESSIBILITY_MENU" = "Menu điều hướng";
 /* Text spoken for Navigation to Profile Screen */
 "ACCESSIBILITY_PROFILE" = "Profile Menu";
+/* Text spoken for Navigation to Profile Screen */
+"ACCESSIBILITY.PROFILE_MENU_HINT" = "Double tap to open profile menu";
 /* Accessibility label for close button when left drawer is open*/
 "ACCESSIBILITY_CLOSE_MENU" = "Đóng menu điều hướng";
 /* Accessibility label for hiding keyboard*/
@@ -847,41 +849,41 @@
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Settings title for wifi */
-"SETTINGS.WIFI.TITLE" = "WIFI";
+"PROFILE_OPTIONS.WIFI.TITLE" = "WIFI";
 /* Settings heading for wifi */
-"SETTINGS.WIFI.HEADING" = "Wifi only download";
+"PROFILE_OPTIONS.WIFI.HEADING" = "Wifi only download";
 /* Settings message for wifi */
-"SETTINGS.WIFI.MESSAGE" = "Only download content when wi-fi is turned on";
+"PROFILE_OPTIONS.WIFI.MESSAGE" = "Only download content when wi-fi is turned on";
 /* Settings title for profile information */
-"SETTINGS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
+"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
 /* Settings user profile email */
-"SETTINGS.USER_PROFILE.EMAIL" = "Email: {email}";
+"PROFILE_OPTIONS.USER_PROFILE.EMAIL" = "Email: {email}";
 /* Settings user profile username */
-"SETTINGS.USER_PROFILE.USERNAME" = "Username: {username}";
+"PROFILE_OPTIONS.USER_PROFILE.USERNAME" = "Username: {username}";
 /* Settings message for profile */
-"SETTINGS.USER_PROFILE.MESSAGE" = "You are currently sharing a limited profile";
+"PROFILE_OPTIONS.USER_PROFILE.MESSAGE" = "You are currently sharing a limited profile";
 /* Settings title for purchases */
-"SETTINGS.PURCHASES.TITLE" = "PURCHASES";
+"PROFILE_OPTIONS.PURCHASES.TITLE" = "PURCHASES";
 /* Settings heading for purchases */
-"SETTINGS.PURCHASES.HEADING" = "Restore purchases";
+"PROFILE_OPTIONS.PURCHASES.HEADING" = "Restore purchases";
 /* Settings message for purchases */
-"SETTINGS.PURCHASES.MESSAGE" = "Sign into the app store to restore access to courses you have previously paid to upgrade";
+"PROFILE_OPTIONS.PURCHASES.MESSAGE" = "Sign into the app store to restore access to courses you have previously paid to upgrade";
 /* Settings title for HELP */
-"SETTINGS.HELP.TITLE" = "HELP";
+"PROFILE_OPTIONS.HELP.TITLE" = "HELP";
 /* Settings heading for feedback */
-"SETTINGS.HELP.HEADING.FEEDBACK" = "Submit feedback";
+"PROFILE_OPTIONS.HELP.HEADING.FEEDBACK" = "Submit feedback";
 /* Settings message for feedback */
-"SETTINGS.HELP.MESSAGE.FEEDBACK" = "Looking to make a feature request or give us some feedback on our app?";
+"PROFILE_OPTIONS.HELP.MESSAGE.FEEDBACK" = "Looking to make a feature request or give us some feedback on our app?";
 /* Settings message for feedback button title */
-"SETTINGS.HELP.BUTTON_TITLE.FEEDBACK" = "Email the support team";
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.FEEDBACK" = "Email the support team";
 /* Settings heading for support */
-"SETTINGS.HELP.HEADING.SUPPORT" = "Get Support";
-/* Settings message for feedback */
-"SETTINGS.HELP.MESSAGE.FEEDBACK" = "To get more help and learn how to use the edX mobile app, visit our frequently asked questions.";
+"PROFILE_OPTIONS.HELP.HEADING.SUPPORT" = "Get Support";
+/* Settings message for support */
+"PROFILE_OPTIONS.HELP.MESSAGE.SUPPORT" = "To get more help and learn how to use the edX mobile app, visit our frequently asked questions.";
 /* Settings message for view faq button title */
-"SETTINGS.HELP.BUTTON_TITLE.VIEW_FAQ" = "View FAQ";
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.VIEW_FAQ" = "View FAQ";
 /* Settings message for signout button title */
-"SETTINGS.SIGNOUT.BUTTON_TITLE" = "Sign out";
+"PROFILE_OPTIONS.SIGNOUT.BUTTON_TITLE" = "Sign out";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="Đăng nhập";
 /* Message shown while user waits for response to a sign in request */

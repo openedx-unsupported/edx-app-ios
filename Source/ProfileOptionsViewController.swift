@@ -60,10 +60,9 @@ class ProfileOptionsViewController: UIViewController {
         super.viewDidLoad()
         
         title = Strings.UserAccount.profile
-        
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.Profile.rawValue)
-        
+                
         setupViews()
+        setAccessibilityIdentifiers()
         addCloseButton()
         configureOptions()
         setupProfileLoader()
@@ -71,7 +70,7 @@ class ProfileOptionsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.view.backgroundColor = environment.styles.navigationBarColor()
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.Profile.rawValue)
         setupProfileLoader()
     }
     
@@ -84,6 +83,10 @@ class ProfileOptionsViewController: UIViewController {
         }
     }
     
+    private func setAccessibilityIdentifiers() {
+        tableView.accessibilityIdentifier = "ProfileOptionsViewController:table-view"
+    }
+    
     private func setupProfileLoader() {
         guard environment.config.profilesEnabled
         else { return }
@@ -93,7 +96,7 @@ class ProfileOptionsViewController: UIViewController {
             guard let weakSelf = self else { return }
             for cell in weakSelf.tableView.visibleCells where cell is PersonalInformationCell {
                 if let personalInformationCell = cell as? PersonalInformationCell {
-                    personalInformationCell.profileSubtitle = profile.sharingLimitedProfile ? Strings.Settings.UserProfile.message : ""
+                    personalInformationCell.profileSubtitle = profile.sharingLimitedProfile ? Strings.ProfileOptions.UserProfile.message : ""
                     personalInformationCell.profileImageView.remoteImage = profile.image(networkManager: weakSelf.environment.networkManager)
                 }
             }
@@ -107,7 +110,7 @@ class ProfileOptionsViewController: UIViewController {
         let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: crossButtonSize), style: .plain, target: nil, action: nil)
         closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
         closeButton.accessibilityHint = Strings.Accessibility.closeHint
-        closeButton.accessibilityIdentifier = "ProfileViewController:close-button"
+        closeButton.accessibilityIdentifier = "ProfileOptionsViewController:close-button"
         navigationItem.rightBarButtonItem = closeButton
         
         closeButton.oex_setAction { [weak self] in
@@ -126,11 +129,11 @@ class ProfileOptionsViewController: UIViewController {
             options.append(.restorePurchase)
         }
         
-        let isFeedbackEnabled =  environment.config.feedbackEmailAddress() != nil
-        let isFaqEnabled = environment.config.faqURL != nil
+        let feedbackEnabled =  environment.config.feedbackEmailAddress() != nil
+        let faqEnabled = environment.config.faqURL != nil
         
-        if isFeedbackEnabled || isFaqEnabled {
-            options.append(.help(isFeedbackEnabled, isFaqEnabled))
+        if feedbackEnabled || faqEnabled {
+            options.append(.help(feedbackEnabled, faqEnabled))
         }
         
         options.append(.signout)
@@ -190,8 +193,8 @@ extension ProfileOptionsViewController: UITableViewDataSource {
         case .restorePurchase:
             return restorePurchaseCell(tableView, indexPath: indexPath)
             
-        case .help(let isFeedbackEnabled, let isFaqEnabled):
-            return helpCell(tableView, indexPath: indexPath, isFeedbackEnabled: isFeedbackEnabled, isFaqEnabled: isFaqEnabled)
+        case .help(let feedbackEnabled, let faqEnabled):
+            return helpCell(tableView, indexPath: indexPath, feedbackEnabled: feedbackEnabled, faqEnabled: faqEnabled)
             
         case .signout:
             return signoutCell(tableView, indexPath: indexPath)
@@ -220,10 +223,10 @@ extension ProfileOptionsViewController: UITableViewDataSource {
         return tableView.dequeueReusableCell(withIdentifier: RestorePurchasesCell.identifier, for: indexPath) as! RestorePurchasesCell
     }
 
-    private func helpCell(_ tableView: UITableView, indexPath: IndexPath, isFeedbackEnabled: Bool, isFaqEnabled: Bool) -> UITableViewCell {
+    private func helpCell(_ tableView: UITableView, indexPath: IndexPath, feedbackEnabled: Bool, faqEnabled: Bool) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HelpCell.identifier, for: indexPath) as! HelpCell
         cell.delegate = self
-        cell.update(isFeedbackEnabled: isFeedbackEnabled, isFaqEnabled: isFaqEnabled)
+        cell.update(feedbackEnabled: feedbackEnabled, faqEnabled: faqEnabled)
         
         return cell
     }
@@ -298,21 +301,21 @@ class WifiSettingCell: UITableViewCell {
     
     var delegate: WifiSettingCellDelagete?
     
-    private lazy var settingLabel: UILabel = {
+    private lazy var optionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Wifi.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.title)
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.Wifi.heading)
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.heading)
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Wifi.message)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.message)
         return label
     }()
         
@@ -331,10 +334,11 @@ class WifiSettingCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
-        accessibilityIdentifier = "ProfileViewController:wifi-cell"
+        accessibilityIdentifier = "ProfileOptionsViewController:wifi-cell"
         
         setupViews()
         setupConstrains()
+        setAccessibilityIdentifiers()
     }
     
     required init?(coder: NSCoder) {
@@ -342,22 +346,21 @@ class WifiSettingCell: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(settingLabel)
+        contentView.addSubview(optionLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(wifiSwitch)
         contentView.addSubview(subtitleLabel)
     }
     
     private func setupConstrains() {
-        settingLabel.snp.makeConstraints { make in
+        optionLabel.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardVerticalMargin + (StandardVerticalMargin / 2))
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
         }
         
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(settingLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(wifiSwitch).inset(StandardHorizontalMargin)
             make.height.equalTo(wifiSwitch)
@@ -372,9 +375,15 @@ class WifiSettingCell: UITableViewCell {
             make.top.equalTo(descriptionLabel.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
             make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
         }
+    }
+    
+    private func setAccessibilityIdentifiers() {
+        optionLabel.accessibilityIdentifier = "WifiSettingCell:option-label"
+        descriptionLabel.accessibilityIdentifier = "WifiSettingCell:description-label"
+        subtitleLabel.accessibilityIdentifier = "WifiSettingCell:subtitle-label"
+        wifiSwitch.accessibilityIdentifier = "WifiSettingCell:wifi-switch"
     }
 }
 
@@ -400,9 +409,9 @@ class PersonalInformationCell: UITableViewCell {
     
     lazy var profileImageView = ProfileImageView(defaultStyle: false)
     
-    private lazy var settingLabel: UILabel = {
+    private lazy var optionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.UserProfile.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.UserProfile.title)
         return label
     }()
     
@@ -415,10 +424,11 @@ class PersonalInformationCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
-        accessibilityIdentifier = "ProfileViewController:wifi-cell"
+        accessibilityIdentifier = "ProfileOptionsViewController:wifi-cell"
         
         setupViews()
         setupConstrains()
+        setAccessibilityIdentifiers()
     }
     
     required init?(coder: NSCoder) {
@@ -429,10 +439,12 @@ class PersonalInformationCell: UITableViewCell {
         super.layoutSubviews()
         let borderStyle = OEXStyles.shared().profileImageViewBorder(width: 1)
         profileView.applyBorderStyle(style: borderStyle)
+        profileView.layer.cornerRadius = 18
+        profileView.clipsToBounds = true
     }
     
     private func setupViews() {
-        contentView.addSubview(settingLabel)
+        contentView.addSubview(optionLabel)
         contentView.addSubview(emailLabel)
         contentView.addSubview(usernameLabel)
         contentView.addSubview(subtitleLabel)
@@ -442,25 +454,22 @@ class PersonalInformationCell: UITableViewCell {
     }
     
     private func setupConstrains() {
-        settingLabel.snp.makeConstraints { make in
+        optionLabel.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardVerticalMargin + (StandardVerticalMargin / 2))
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
         }
         
         emailLabel.snp.makeConstraints { make in
-            make.top.equalTo(settingLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
         }
         
         usernameLabel.snp.makeConstraints { make in
             make.top.equalTo(emailLabel.snp.bottom).offset(StandardVerticalMargin / 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
         }
         
         subtitleLabel.snp.makeConstraints { make in
@@ -490,37 +499,44 @@ class PersonalInformationCell: UITableViewCell {
         }
     }
     
-    private func addAccessibilityIdentifiers() {
-        profileImageView.accessibilityIdentifier = "ProfileViewController:profile-image-view"
+    private func setAccessibilityIdentifiers() {
+        profileImageView.accessibilityIdentifier = "PersonalInformationCell:profile-image-view"
         profileImageView.accessibilityHint = Strings.accessibilityShowUserProfileHint
         profileImageView.accessibilityLabel = Strings.Accessibility.profileLabel
+        optionLabel.accessibilityIdentifier = "PersonalInformationCell:option-label"
+        emailLabel.accessibilityIdentifier = "PersonalInformationCell:email-label"
+        usernameLabel.accessibilityIdentifier = "PersonalInformationCell:username-label"
+        subtitleLabel.accessibilityIdentifier = "PersonalInformationCell:subtitle-label"
+        chevronImageView.accessibilityIdentifier = "PersonalInformationCell:chevron-image-view"
+        profileView.accessibilityIdentifier = "PersonalInformationCell:profile-view"
+        profileImageView.accessibilityIdentifier = "PersonalInformationCell:profile-image-view"
     }
     
     func update(username: String, email: String) {
-        usernameLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.UserProfile.username(username: username))
-        emailLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.UserProfile.email(email: email))
+        usernameLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.UserProfile.username(username: username))
+        emailLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.UserProfile.email(email: email))
     }
 }
 
 class RestorePurchasesCell: UITableViewCell {
     static let identifier = "RestorePurchasesCell"
         
-    private lazy var settingLabel: UILabel = {
+    private lazy var optionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Purchases.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Purchases.title)
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.Purchases.heading)
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.Purchases.heading)
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Purchases.message)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Purchases.message)
         return label
     }()
     
@@ -528,10 +544,11 @@ class RestorePurchasesCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
-        accessibilityIdentifier = "ProfileViewController:restore-purchases-cell"
+        accessibilityIdentifier = "ProfileOptionsViewController:restore-purchases-cell"
         
         setupViews()
         setupConstrains()
+        setAccessibilityIdentifiers()
     }
     
     required init?(coder: NSCoder) {
@@ -539,24 +556,22 @@ class RestorePurchasesCell: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(settingLabel)
+        contentView.addSubview(optionLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(subtitleLabel)
     }
     
     private func setupConstrains() {
-        settingLabel.snp.makeConstraints { make in
+        optionLabel.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardVerticalMargin + (StandardVerticalMargin / 2))
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
         }
         
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(settingLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
         }
         
         subtitleLabel.snp.makeConstraints { make in
@@ -566,6 +581,12 @@ class RestorePurchasesCell: UITableViewCell {
             make.height.greaterThanOrEqualTo(StandardVerticalMargin * 2)
             make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
         }
+    }
+    
+    private func setAccessibilityIdentifiers() {
+        optionLabel.accessibilityIdentifier = "RestorePurchasesCell:option-label"
+        descriptionLabel.accessibilityIdentifier = "RestorePurchasesCell:description-label"
+        subtitleLabel.accessibilityIdentifier = "RestorePurchasesCell:subtitle-label"
     }
 }
 
@@ -579,15 +600,15 @@ class HelpCell: UITableViewCell {
     
     var delegate: HelpCellDelegate?
     
-    private var isFeedbackEnabled: Bool = false
-    private var isFaqEnabled: Bool = false
+    private var feedbackEnabled: Bool = false
+    private var faqEnabled: Bool = false
     
     private lazy var feedbackSupportContainer = UIView()
     private lazy var faqContainer = UIView()
     
-    private lazy var settingLabel: UILabel = {
+    private lazy var optionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Help.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.title)
         return label
     }()
     
@@ -595,14 +616,14 @@ class HelpCell: UITableViewCell {
     
     private lazy var feedbackLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.Help.Heading.feedback)
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Heading.feedback)
         return label
     }()
     
     private lazy var feedbackSubtitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Help.Message.feedback)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.support)
         return label
     }()
     
@@ -614,20 +635,20 @@ class HelpCell: UITableViewCell {
             self?.delegate?.didSelectEmail()
         }, for: .touchUpInside)
         
-        button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.Settings.Help.ButtonTitle.feedback), for: UIControl.State())
+        button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.ProfileOptions.Help.ButtonTitle.feedback), for: .normal)
         return button
     }()
     
     private lazy var supportLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.Settings.Help.Heading.support)
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Heading.support)
         return label
     }()
     
     private lazy var supportSubtitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.Settings.Help.Message.feedback)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.feedback)
         return label
     }()
     
@@ -639,9 +660,9 @@ class HelpCell: UITableViewCell {
             self?.delegate?.didSelectFAQ()
         }, for: .touchUpInside)
         
-        let faqButtonTitle = [buttonStyle.attributedString(withText: Strings.Settings.Help.ButtonTitle.viewFaq), faqButtonIcon]
+        let faqButtonTitle = [buttonStyle.attributedString(withText: Strings.ProfileOptions.Help.ButtonTitle.viewFaq), faqButtonIcon]
         let attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: faqButtonTitle)
-        button.setAttributedTitle(attributedText, for: UIControl.State())
+        button.setAttributedTitle(attributedText, for: .normal)
         
         return button
     }()
@@ -662,31 +683,32 @@ class HelpCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
-        accessibilityIdentifier = "ProfileViewController:help-cell"
+        accessibilityIdentifier = "ProfileOptionsViewController:help-cell"
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(isFeedbackEnabled: Bool, isFaqEnabled: Bool) {
-        self.isFeedbackEnabled = isFeedbackEnabled
-        self.isFaqEnabled = isFaqEnabled
+    func update(feedbackEnabled: Bool, faqEnabled: Bool) {
+        self.feedbackEnabled = feedbackEnabled
+        self.faqEnabled = faqEnabled
         setupViews()
         setupConstrains()
+        setAccessibilityIdentifiers()
     }
     
     private func setupViews() {
-        contentView.addSubview(settingLabel)
+        contentView.addSubview(optionLabel)
         
-        if isFeedbackEnabled {
+        if feedbackEnabled {
             feedbackSupportContainer.addSubview(feedbackLabel)
             feedbackSupportContainer.addSubview(feedbackSubtitleLabel)
             feedbackSupportContainer.addSubview(emailFeedbackButton)
             contentView.addSubview(feedbackSupportContainer)
         }
         
-        if isFaqEnabled {
+        if faqEnabled {
             faqContainer.addSubview(supportLabel)
             faqContainer.addSubview(supportSubtitleLabel)
             faqContainer.addSubview(viewFaqButton)
@@ -695,20 +717,19 @@ class HelpCell: UITableViewCell {
     }
     
     private func setupConstrains() {
-        settingLabel.snp.makeConstraints { make in
+        optionLabel.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardVerticalMargin + (StandardVerticalMargin / 2))
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
         }
         
-        if isFeedbackEnabled {
+        if feedbackEnabled {
             feedbackSupportContainer.snp.makeConstraints { make in
-                make.top.equalTo(settingLabel.snp.bottom).offset(StandardVerticalMargin)
+                make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
                 
-                if isFaqEnabled {
+                if faqEnabled {
                     make.bottom.equalTo(emailFeedbackButton.snp.bottom).offset(StandardVerticalMargin)
                 } else {
                     make.bottom.equalTo(contentView).inset(StandardVerticalMargin)
@@ -719,7 +740,6 @@ class HelpCell: UITableViewCell {
                 make.top.equalTo(feedbackSupportContainer)
                 make.leading.equalTo(feedbackSupportContainer)
                 make.trailing.equalTo(feedbackSupportContainer)
-                make.height.equalTo(StandardVerticalMargin * 2)
             }
             
             feedbackSubtitleLabel.snp.makeConstraints { make in
@@ -735,18 +755,18 @@ class HelpCell: UITableViewCell {
                 make.trailing.equalTo(feedbackSupportContainer)
                 make.height.equalTo(StandardVerticalMargin * 5)
                 
-                if !isFaqEnabled {
+                if !faqEnabled {
                     make.bottom.equalTo(feedbackSupportContainer).inset(StandardVerticalMargin)
                 }
             }
         }
         
-        if isFaqEnabled {
+        if faqEnabled {
             faqContainer.snp.makeConstraints { make in
-                if isFeedbackEnabled {
+                if feedbackEnabled {
                     make.top.equalTo(feedbackSupportContainer.snp.bottom)
                 } else {
-                    make.top.equalTo(settingLabel.snp.bottom).offset(StandardVerticalMargin)
+                    make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
                 }
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
@@ -757,7 +777,6 @@ class HelpCell: UITableViewCell {
                 make.top.equalTo(faqContainer).offset(StandardVerticalMargin)
                 make.leading.equalTo(faqContainer)
                 make.trailing.equalTo(faqContainer)
-                make.height.equalTo(StandardVerticalMargin * 2)
             }
             
             supportSubtitleLabel.snp.makeConstraints { make in
@@ -775,6 +794,18 @@ class HelpCell: UITableViewCell {
                 make.bottom.equalTo(faqContainer).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
             }
         }
+    }
+    
+    private func setAccessibilityIdentifiers() {
+        optionLabel.accessibilityIdentifier = "HelpCell:option-label"
+        feedbackSupportContainer.accessibilityIdentifier = "HelpCell:feedback-support-container"
+        feedbackLabel.accessibilityIdentifier = "HelpCell:feedback-label"
+        feedbackSubtitleLabel.accessibilityIdentifier = "HelpCell:feedback-subtitle-label"
+        emailFeedbackButton.accessibilityIdentifier = "HelpCell:email-feedback-label"
+        faqContainer.accessibilityIdentifier = "HelpCell:faq-container"
+        supportLabel.accessibilityIdentifier = "HelpCell:support-label"
+        supportSubtitleLabel.accessibilityIdentifier = "HelpCell:support-subtitle-label"
+        viewFaqButton.accessibilityIdentifier = "HelpCell:view-faq-button"
     }
 }
 
@@ -795,6 +826,9 @@ class SignOutVersionCell: UITableViewCell {
             self?.delegate?.didSingout()
         }, for: .touchUpInside)
         
+        let style = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
+        button.setAttributedTitle(style.attributedString(withText: Strings.ProfileOptions.Signout.buttonTitle), for: .normal)
+        
         return button
     }()
     
@@ -809,13 +843,11 @@ class SignOutVersionCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
-        accessibilityIdentifier = "ProfileViewController:help-cell"
+        accessibilityIdentifier = "ProfileOptionsViewController:signout-version-cell"
         
         setupViews()
         setupConstrains()
-        
-        let style = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
-        signoutButton.setAttributedTitle(style.attributedString(withText: Strings.Settings.Signout.buttonTitle), for: UIControl.State())
+        setAccessibilityIdentifiers()
     }
     
     required init?(coder: NSCoder) {
@@ -839,8 +871,12 @@ class SignOutVersionCell: UITableViewCell {
             make.top.equalTo(signoutButton.snp.bottom).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 2)
             make.bottom.equalTo(contentView).inset(StandardVerticalMargin * 2)
         }
+    }
+    
+    private func setAccessibilityIdentifiers() {
+        signoutButton.accessibilityIdentifier = "SignOutVersionCell:signout-button"
+        versionLabel.accessibilityIdentifier = "SignOutVersionCell:version-label"
     }
 }
