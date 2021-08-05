@@ -23,9 +23,11 @@ public enum AnalyticsDisplayName : String {
     case DiscoverCourses = "Discover Courses"
     case ExploreCourses = "Explore Courses"
     case UserLogin = "User Login"
-    case ValuePropModalView = "Value Prop: Modal View"
-    case ValuePropLearnMoreClicked = "Value Prop: Learn More Clicked"
-    case ValuePropLockedContentClicked = "Value Prop: Locked Content Clicked"
+    case ValuePropModalView = "Value Prop Modal View"
+    case ValuePropLearnMoreClicked = "Value Prop Learn More Clicked"
+    case ValuePropLockedContentClicked = "Value Prop Locked Content Clicked"
+    case ValuePropShowMoreClicked = "Value Prop Show More Clicked"
+    case ValuePropShowLessClicked = "Value Prop Show Less Clicked"
     case CreateAccount = "Create Account Clicked"
     case RegistrationSuccess = "Registration Success"
     case EnrolledCourseClicked = "Course Enroll Clicked"
@@ -65,6 +67,7 @@ public enum AnalyticsDisplayName : String {
     case SubsectionViewOnWebTapped = "Subsection View On Web Tapped"
     case OpenInBrowserBannerDisplayed = "Open in Browser Banner Displayed"
     case OpenInBrowserBannerTapped = "Open in Browser Banner Tapped"
+    case UpgradeNowClicked = "Upgrade Now Clicked"
 }
 
 public enum AnalyticsEventName: String {
@@ -77,6 +80,8 @@ public enum AnalyticsEventName: String {
     case UserRegistrationSuccess = "edx.bi.app.user.register.success"
     case ValuePropLearnMoreClicked = "edx.bi.app.value.prop.learn.more.clicked"
     case ValuePropLockedContentClicked = "edx.bi.app.course.unit.locked.content.clicked"
+    case ValuePropShowMoreClicked = "edx.bi.app.value_prop.show_more.clicked"
+    case ValuePropShowLessClicked = "edx.bi.app.value_prop.show_less.clicked"
     case ViewRating = "edx.bi.app.app_reviews.view_rating"
     case DismissRating = "edx.bi.app.app_reviews.dismiss_rating"
     case SubmitRating = "edx.bi.app.app_reviews.submit_rating"
@@ -122,6 +127,7 @@ public enum AnalyticsEventName: String {
     case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
     case OpenInBrowserBannerDisplayed = "edx.bi.app.navigation.component.open_in_browser_banner.displayed"
     case OpenInBrowserBannerTapped = "edx.bi.app.navigation.component.open_in_browser_banner.tapped"
+    case UpgradeNowClicked = "edx.bi.app.upgrade.button.clicked"
 }
 
 public enum AnalyticsScreenName: String {
@@ -370,6 +376,20 @@ extension OEXAnalytics {
         
         trackScreen(withName: AnalyticsDisplayName.ValuePropModalView.rawValue, courseID: courseId, value: nil, additionalInfo: info)
     }
+
+    func trackValuePropShowMoreless(with displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, courseID: String, blockID: String, pacing: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = displayName.rawValue
+        event.name = eventName.rawValue
+
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID,
+            key_course_id: courseID
+        ]
+
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
     
     func trackDatesBannerAppearence(screenName: AnalyticsScreenName, courseMode: String, eventName: String, bannerType: String) {
         let event = OEXAnalyticsEvent()
@@ -500,6 +520,20 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.ComponentType.rawValue: componentType,
             AnalyticsEventDataKey.ComponentID.rawValue: componentID,
             AnalyticsEventDataKey.OpenedURL.rawValue: openURL,
+            key_course_id: courseID
+        ]
+
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+
+    func trackUpgradeNow(with courseID: String, blockID: String, pacing: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.UpgradeNowClicked.rawValue
+        event.name = AnalyticsEventName.UpgradeNowClicked.rawValue
+
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID,
             key_course_id: courseID
         ]
 

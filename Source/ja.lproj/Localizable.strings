@@ -948,6 +948,10 @@
 "VALUE_PROP.INFO_MESSAGE_3"="Full access to course content and material, even after the course ends";
 /* Value prop information message number four*/
 "VALUE_PROP.INFO_MESSAGE_4"="Support our non-profit mission at {platform_name}";
+/* Show more button text on the component screen on the value prop banner*/
+"VALUE_PROP.SHOW_MORE_TEXT"="Show more";
+/* Show less button text on the component screen on the value prop banner*/
+"VALUE_PROP.SHOW_LESS_TEXT"="Show less";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "バージョン {number} {environment}";
 /* Error shown when video download fails */
