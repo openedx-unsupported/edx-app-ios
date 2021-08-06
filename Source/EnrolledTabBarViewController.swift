@@ -126,10 +126,9 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     
     private func addMenuButton() {
         let menuButton = UIBarButtonItem(image: Icon.Menu.imageWithFontSize(size: tabBarImageFontSize), style: .plain, target: nil, action: nil)
-        menuButton.accessibilityLabel = Strings.userAccount
+        menuButton.accessibilityLabel = Strings.accessibilityProfile
         menuButton.accessibilityIdentifier = "EnrolledTabBarViewController:menu-button"
         menuButton.accessibilityHint = Strings.Accessibility.profileMenuHint
-        //menuButton.acce
         navigationItem.rightBarButtonItem = menuButton
 
         menuButton.oex_setAction { [weak self] in

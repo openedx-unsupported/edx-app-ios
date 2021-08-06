@@ -70,6 +70,8 @@ public enum AnalyticsDisplayName : String {
     case FAQClicked = "FAQ Clicked"
     case WifiOn = "Wifi On"
     case WifiOff = "Wifi Off"
+    case WifiAllow = "Wifi Allow"
+    case WifiDontAllow = "Wifi Dont Allow"
     case EmailSupportClicked = "Email Support Clicked"
 }
 
@@ -132,6 +134,8 @@ public enum AnalyticsEventName: String {
     case FAQClicked = "edx.bi.app.profile.faq.clicked"
     case WifiOn = "edx.bi.app.profile.wifi.switch.on"
     case WifiOff = "edx.bi.app.profile.wifi.switch.off"
+    case WifiAllow = "edx.bi.app.profile.wifi.allow"
+    case WifiDontAllow = "edx.bi.app.profile.wifi.dont_allow"
     case EmailSupportClicked = "edx.bi.app.profile.email_support.clicked"
 }
 
@@ -530,6 +534,14 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = isOn ? AnalyticsDisplayName.WifiOn.rawValue : AnalyticsDisplayName.WifiOff.rawValue
         event.name = isOn ? AnalyticsEventName.WifiOn.rawValue : AnalyticsEventName.WifiOff.rawValue
+        
+        trackEvent(event, forComponent: nil, withInfo: nil)
+    }
+    
+    func trackWifi(allowed: Bool) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = allowed ? AnalyticsDisplayName.WifiAllow.rawValue : AnalyticsDisplayName.WifiDontAllow.rawValue
+        event.name = allowed ? AnalyticsEventName.WifiAllow.rawValue : AnalyticsEventName.WifiDontAllow.rawValue
         
         trackEvent(event, forComponent: nil, withInfo: nil)
     }

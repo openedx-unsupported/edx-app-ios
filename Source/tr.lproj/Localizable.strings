@@ -892,7 +892,7 @@
 /* Settings heading for support */
 "PROFILE_OPTIONS.HELP.HEADING.SUPPORT" = "Get support";
 /* Settings message for support */
-"PROFILE_OPTIONS.HELP.MESSAGE.SUPPORT" = "To get more help and learn how to use the {platform} mobile app, visit our frequently asked questions.";
+"PROFILE_OPTIONS.HELP.MESSAGE.SUPPORT" = "To get more help and learn how to use the {platform_name} mobile app, visit our frequently asked questions.";
 /* Settings message for view faq button title */
 "PROFILE_OPTIONS.HELP.BUTTON_TITLE.VIEW_FAQ" = "View FAQ";
 /* Settings message for signout button title */
