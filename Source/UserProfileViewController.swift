@@ -186,27 +186,18 @@ extension UserProfileViewController {
 extension UINavigationBar {
     // To update navbar color scheme on specific controllers 
     private func apply(barTintColor: UIColor, tintColor: UIColor, titleStyle: OEXTextStyle) {
-        if prefersLargeTitles {
-            if #available(iOS 13.0, *) {
-                let appearance = UINavigationBarAppearance()
-                appearance.configureWithDefaultBackground()
-                appearance.backgroundColor = barTintColor
-                appearance.titleTextAttributes = [.foregroundColor: tintColor]
-                appearance.largeTitleTextAttributes = [.foregroundColor: tintColor]
-                self.tintColor = tintColor
-                standardAppearance = appearance
-                scrollEdgeAppearance = appearance
-                compactAppearance = appearance
-            } else {
-                self.barTintColor = barTintColor
-                self.tintColor = tintColor
-                titleTextAttributes = titleStyle.attributes.attributedKeyDictionary()
-            }
-        } else {
-            self.barTintColor = barTintColor
-            self.tintColor = tintColor
-            titleTextAttributes = titleStyle.attributes.attributedKeyDictionary()
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithDefaultBackground()
+            appearance.backgroundColor = barTintColor
+            appearance.titleTextAttributes = [.foregroundColor: tintColor]
+            standardAppearance = appearance
+            scrollEdgeAppearance = appearance
+            compactAppearance = appearance
         }
+        self.barTintColor = barTintColor
+        self.tintColor = tintColor
+        titleTextAttributes = titleStyle.attributes.attributedKeyDictionary()
     }
     
     func applyUserProfileNavbarColorScheme() {
