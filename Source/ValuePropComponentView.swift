@@ -14,7 +14,7 @@ protocol ValuePropMessageViewDelegate {
 
 class ValuePropComponentView: UIView {
     
-    typealias Environment = OEXStylesProvider
+    typealias Environment = OEXStylesProvider & DataManagerProvider & OEXAnalyticsProvider
         
     var delegate: ValuePropMessageViewDelegate?
         
@@ -32,15 +32,27 @@ class ValuePropComponentView: UIView {
         return label
     }()
     private lazy var upgradeButton: ValuePropUpgradeButtonView = {
-       let button = ValuePropUpgradeButtonView()
+        let button = ValuePropUpgradeButtonView()
         button.tapAction = { [weak self] in
-            if let controller = self?.firstAvailableUIViewController() {
-                controller.showOverlay(withMessage: "Payments are coming soon")
-            }
+            self?.upgradeCourse()
         }
         return button
 
     }()
+
+    private var showingMore: Bool = false
+
+    private lazy var showMoreLessButton: UIButton = {
+       let button = UIButton()
+        button.setAttributedTitle(showMorelessButtonStyle.attributedString(withText: Strings.ValueProp.showMoreText).addUnderline(), for: .normal)
+        button.oex_addAction({[weak self] (action) in
+            self?.toggleInfoMessagesView()
+        }, for: .touchUpInside)
+        return button
+    }()
+
+    private let infoMessagesView = ValuePropMessagesView()
+
     private lazy var lockImageView = UIImageView()
     
     private lazy var titleStyle: OEXMutableTextStyle = {
@@ -51,10 +63,25 @@ class ValuePropComponentView: UIView {
         return OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.neutralXXDark())
     }()
 
-    private let environment: Environment
+    private lazy var showMorelessButtonStyle: OEXMutableTextStyle = {
+        return OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.neutralXXDark())
+    }()
 
-    init(environment: Environment) {
+    private lazy var pacing: String = {
+        let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
+        let selfPaced = course?.isSelfPaced ?? false
+
+        return selfPaced ? "self" : "instructor"
+    }()
+
+    private let environment: Environment
+    private var courseID: String
+    private var blockID: String
+
+    init(environment: Environment, courseID: String, blockID: CourseBlockID?) {
         self.environment = environment
+        self.courseID = courseID
+        self.blockID = blockID ?? ""
         super.init(frame: .zero)
         
         setupViews()
@@ -82,6 +109,8 @@ class ValuePropComponentView: UIView {
         container.addSubview(titleLabel)
         container.addSubview(messageLabel)
         container.addSubview(lockImageView)
+        container.addSubview(showMoreLessButton)
+        container.addSubview(infoMessagesView)
         container.addSubview(upgradeButton)
         addSubview(container)
     }
@@ -112,10 +141,22 @@ class ValuePropComponentView: UIView {
             make.trailing.equalTo(container).inset(StandardHorizontalMargin)
         }
 
+        showMoreLessButton.snp.makeConstraints { make in
+            make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(messageLabel)
+        }
+
+        infoMessagesView.snp.remakeConstraints { make in
+            make.top.equalTo(showMoreLessButton.snp.bottom)
+            make.leading.equalTo(container)
+            make.trailing.equalTo(container)
+            make.height.equalTo(0)
+        }
+
         upgradeButton.snp.makeConstraints { make  in
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             make.trailing.equalTo(container).inset(StandardHorizontalMargin)
-            make.top.equalTo(messageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.top.equalTo(infoMessagesView.snp.bottom).offset(StandardVerticalMargin * 3)
             make.height.equalTo(ValuePropUpgradeButtonView.height)
         }
     }
@@ -125,6 +166,44 @@ class ValuePropComponentView: UIView {
         lockImageView.accessibilityIdentifier = "ValuePropMessageView:image-view-lock"
         titleLabel.accessibilityIdentifier = "ValuePropMessageView:label-title"
         messageLabel.accessibilityIdentifier = "ValuePropMessageView:label-message"
+        showMoreLessButton.accessibilityIdentifier = "ValuePropMessageView:show-more-less-button"
+        infoMessagesView.accessibilityIdentifier = "ValuePropMessageView:info-messages-view"
         upgradeButton.accessibilityIdentifier = "ValuePropMessageView:upgrade-button"
+    }
+
+    private func toggleInfoMessagesView() {
+        let showingMore = self.showingMore
+        let height = showingMore ? 0 : infoMessagesView.height()
+        let title = showingMore ? Strings.ValueProp.showMoreText : Strings.ValueProp.showLessText
+        showMoreLessButton.setAttributedTitle(showMorelessButtonStyle.attributedString(withText: title).addUnderline(), for: .normal)
+        self.showingMore = !showingMore
+        trackShowMorelessAnalytics(showingMore: !showingMore)
+
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            guard let weakSelf = self else { return }
+
+            weakSelf.infoMessagesView.snp.remakeConstraints { make in
+                make.top.equalTo(weakSelf.showMoreLessButton.snp.bottom).offset(StandardVerticalMargin * (showingMore ? 0 : 2))
+                make.leading.equalTo(weakSelf.container)
+                make.trailing.equalTo(weakSelf.container)
+                make.height.equalTo(height)
+            }
+            
+            weakSelf.layoutIfNeeded()
+        })
+    }
+
+    private func upgradeCourse() {
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing)
+
+        if let controller = firstAvailableUIViewController() {
+            controller.showOverlay(withMessage: "Payments are coming soon")
+        }
+    }
+
+    private func trackShowMorelessAnalytics(showingMore: Bool) {
+        let displayName = showingMore ? AnalyticsDisplayName.ValuePropShowMoreClicked : AnalyticsDisplayName.ValuePropShowLessClicked
+        let eventName = showingMore ? AnalyticsEventName.ValuePropShowMoreClicked : AnalyticsEventName.ValuePropShowLessClicked
+        environment.analytics.trackValuePropShowMoreless(with: displayName, eventName: eventName, courseID: courseID, blockID: blockID, pacing: pacing )
     }
 }

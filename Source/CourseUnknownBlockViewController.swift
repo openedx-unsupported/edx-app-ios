@@ -25,7 +25,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     private var messageView: IconMessageView?
     private lazy var valuePropView: ValuePropComponentView = {
-        let view = ValuePropComponentView(environment: environment)
+        let view = ValuePropComponentView(environment: environment, courseID: courseID, blockID: blockID)
         view.delegate = self
         return view
     }()
@@ -146,7 +146,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     private func showValuePropMessageView() {
         view.addSubview(valuePropView)
-        
+        view.backgroundColor = OEXStyles.shared().neutralWhiteT()
+
         valuePropView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
