@@ -306,14 +306,14 @@ extension ProfileOptionsViewController: SignoutCellDelegate {
     }
 }
 
-protocol WifiSettingCellDelagete {
+protocol WifiSettingCellDelagete: AnyObject {
     func didSelectedwifiSwitch(isOn: Bool, wifiSwitch: UISwitch)
 }
 
 class WifiSettingCell: UITableViewCell {
     static let identifier = "WifiSettingCell"
     
-    var delegate: WifiSettingCellDelagete?
+    weak var delegate: WifiSettingCellDelagete?
     
     private lazy var optionLabel: UILabel = {
         let label = UILabel()
@@ -490,7 +490,6 @@ class PersonalInformationCell: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.subviews.forEach { $0.removeFromSuperview() }
         contentView.addSubview(optionLabel)
         contentView.addSubview(emailLabel)
         contentView.addSubview(usernameLabel)
@@ -626,7 +625,7 @@ class RestorePurchasesCell: UITableViewCell {
     }
 }
 
-protocol HelpCellDelegate {
+protocol HelpCellDelegate: AnyObject {
     func didSelectEmail()
     func didSelectFAQ()
 }
@@ -634,7 +633,7 @@ protocol HelpCellDelegate {
 class HelpCell: UITableViewCell {
     static let identifier = "HelpCell"
     
-    var delegate: HelpCellDelegate?
+    weak var delegate: HelpCellDelegate?
     
     private var feedbackEnabled: Bool = false
     private var faqEnabled: Bool = false
@@ -856,14 +855,14 @@ class HelpCell: UITableViewCell {
     }
 }
 
-protocol SignoutCellDelegate {
+protocol SignoutCellDelegate: AnyObject {
     func didSingout()
 }
 
 class SignOutVersionCell: UITableViewCell {
     static let identifier = "SignOutVersionCell"
     
-    var delegate: SignoutCellDelegate?
+    weak var delegate: SignoutCellDelegate?
     
     private lazy var signoutButton: UIButton = {
         let button = UIButton()
