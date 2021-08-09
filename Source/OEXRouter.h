@@ -58,7 +58,6 @@ extern NSString* OEXSideNavigationChangedStateKey;
 
 #pragma mark Top Level
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated;
-- (void)showMySettings;
 
 #pragma mark Course Structure
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;

@@ -114,6 +114,10 @@
 "ACCESSIBILITY_VIDEO" = "Video";
 /* Text spoken for Navigation Button on Course List Screen */
 "ACCESSIBILITY_MENU" = "Gezinme Menüsü";
+/* Text spoken for Navigation to Profile Screen */
+"ACCESSIBILITY_PROFILE" = "Profile Menu";
+/* Text spoken for Navigation to Profile Screen */
+"ACCESSIBILITY.PROFILE_MENU_HINT" = "Double tap to open profile menu";
 /* Accessibility label for close button when left drawer is open*/
 "ACCESSIBILITY_CLOSE_MENU" = "Gezinme Menüsü'nü Kapat";
 /* Accessibility label for hiding keyboard*/
@@ -857,6 +861,42 @@
 "CELEBRATION.EARNED_IT_TEXT"="You earned it!";
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
+/* Settings title for wifi */
+"PROFILE_OPTIONS.WIFI.TITLE" = "WIFI";
+/* Settings heading for wifi */
+"PROFILE_OPTIONS.WIFI.HEADING" = "Wifi only download";
+/* Settings message for wifi */
+"PROFILE_OPTIONS.WIFI.MESSAGE" = "Only download content when wi-fi is turned on";
+/* Settings title for profile information */
+"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
+/* Settings user profile email */
+"PROFILE_OPTIONS.USER_PROFILE.EMAIL" = "Email: {email}";
+/* Settings user profile username */
+"PROFILE_OPTIONS.USER_PROFILE.USERNAME" = "Username: {username}";
+/* Settings message for profile */
+"PROFILE_OPTIONS.USER_PROFILE.MESSAGE" = "You are currently sharing a limited profile";
+/* Settings title for purchases */
+"PROFILE_OPTIONS.PURCHASES.TITLE" = "PURCHASES";
+/* Settings heading for purchases */
+"PROFILE_OPTIONS.PURCHASES.HEADING" = "Restore purchases";
+/* Settings message for purchases */
+"PROFILE_OPTIONS.PURCHASES.MESSAGE" = "Sign into the app store to restore access to courses you have previously paid to upgrade";
+/* Settings title for HELP */
+"PROFILE_OPTIONS.HELP.TITLE" = "HELP";
+/* Settings heading for feedback */
+"PROFILE_OPTIONS.HELP.HEADING.FEEDBACK" = "Submit feedback";
+/* Settings message for feedback */
+"PROFILE_OPTIONS.HELP.MESSAGE.FEEDBACK" = "Looking to make a feature request or give us some feedback on our app?";
+/* Settings message for feedback button title */
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.FEEDBACK" = "Email the support team";
+/* Settings heading for support */
+"PROFILE_OPTIONS.HELP.HEADING.SUPPORT" = "Get support";
+/* Settings message for support */
+"PROFILE_OPTIONS.HELP.MESSAGE.SUPPORT" = "To get more help and learn how to use the {platform_name} mobile app, visit our frequently asked questions.";
+/* Settings message for view faq button title */
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.VIEW_FAQ" = "View FAQ";
+/* Settings message for signout button title */
+"PROFILE_OPTIONS.SIGNOUT.BUTTON_TITLE" = "Sign out";
 /* Text for a Twitter or Facebook post to a course about page */
 "SHARE_A_COURSE"="{platform_name} üzerinde ders alıyorum! Buna bir bak:";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */

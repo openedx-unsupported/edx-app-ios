@@ -92,7 +92,7 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 
 #pragma mark Wifi Only
 + (BOOL)shouldDownloadOnlyOnWifi;
-+ (void)setDownloadOnlyOnWifiPref:(BOOL)should;
+- (void)setDownloadOnlyOnWifiPref:(BOOL)should;
 @property (readonly, nonatomic) BOOL shouldDownloadOnlyOnWifi;
 
 /*

@@ -104,7 +104,7 @@ typealias DismissCompletion = () -> Void
             return .program
         } else if controller is DiscussionTopicsViewController {
             return .discussions
-        } else if controller is AccountViewController {
+        } else if controller is ProfileOptionsViewController {
             return .account
         } else if controller is UserProfileViewController {
             return .profile
@@ -276,7 +276,7 @@ typealias DismissCompletion = () -> Void
         
         dismiss() { [weak self] in
             if let topViewController = self?.topMostViewController {
-                self?.environment?.router?.showAccount(controller:topViewController, modalTransitionStylePresent: true)
+                self?.environment?.router?.showProfile(controller: topViewController)
             }
         }
     }
@@ -288,10 +288,9 @@ typealias DismissCompletion = () -> Void
             environment?.router?.showProfileForUsername(controller: topMostViewController, username: username, editable: false, modal: modal)
         }
         
-        if topViewController is AccountViewController {
+        if (topViewController as? ForwardingNavigationController)?.visibleViewController is ProfileOptionsViewController {
             showView(modal: false)
-        }
-        else if topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
+        } else if topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
             if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is UserProfileViewController}) {
                 topViewController.navigationController?.popToViewController(viewController, animated: true)
             }

@@ -68,6 +68,14 @@ public enum AnalyticsDisplayName : String {
     case OpenInBrowserBannerDisplayed = "Open in Browser Banner Displayed"
     case OpenInBrowserBannerTapped = "Open in Browser Banner Tapped"
     case UpgradeNowClicked = "Upgrade Now Clicked"
+    case ProfilePageView = "Profile Page View"
+    case PersonalInformationClicked = "Personal Information Clicked"
+    case FAQClicked = "FAQ Clicked"
+    case WifiOn = "Wifi On"
+    case WifiOff = "Wifi Off"
+    case WifiAllow = "Wifi Allow"
+    case WifiDontAllow = "Wifi Dont Allow"
+    case EmailSupportClicked = "Email Support Clicked"    
 }
 
 public enum AnalyticsEventName: String {
@@ -128,6 +136,13 @@ public enum AnalyticsEventName: String {
     case OpenInBrowserBannerDisplayed = "edx.bi.app.navigation.component.open_in_browser_banner.displayed"
     case OpenInBrowserBannerTapped = "edx.bi.app.navigation.component.open_in_browser_banner.tapped"
     case UpgradeNowClicked = "edx.bi.app.upgrade.button.clicked"
+    case PersonalInformationClicked = "edx.bi.app.profile.personal_info.clicked"
+    case FAQClicked = "edx.bi.app.profile.faq.clicked"
+    case WifiOn = "edx.bi.app.profile.wifi.switch.on"
+    case WifiOff = "edx.bi.app.profile.wifi.switch.off"
+    case WifiAllow = "edx.bi.app.profile.wifi.allow"
+    case WifiDontAllow = "edx.bi.app.profile.wifi.dont_allow"
+    case EmailSupportClicked = "edx.bi.app.profile.email_support.clicked"    
 }
 
 public enum AnalyticsScreenName: String {
@@ -152,6 +167,7 @@ public enum AnalyticsScreenName: String {
     case AssignmentScreen = "assignments_screen"
     case SpecialExamBlockedScreen = "Special Exam Blocked Screen"
     case EmptySectionOutline = "Empty Section Outline"
+    case Profile = "profile"
 }
 
 public enum AnalyticsEventDataKey: String {
@@ -525,7 +541,7 @@ extension OEXAnalytics {
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
-
+    
     func trackUpgradeNow(with courseID: String, blockID: String, pacing: String) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.UpgradeNowClicked.rawValue
@@ -538,6 +554,30 @@ extension OEXAnalytics {
         ]
 
         trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName, name: AnalyticsEventName) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = displayName.rawValue
+        event.name = name.rawValue
+        
+        trackEvent(event, forComponent: nil, withInfo: nil)
+    }
+    
+    func trackWifi(isOn: Bool) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = isOn ? AnalyticsDisplayName.WifiOn.rawValue : AnalyticsDisplayName.WifiOff.rawValue
+        event.name = isOn ? AnalyticsEventName.WifiOn.rawValue : AnalyticsEventName.WifiOff.rawValue
+        
+        trackEvent(event, forComponent: nil, withInfo: nil)
+    }
+    
+    func trackWifi(allowed: Bool) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = allowed ? AnalyticsDisplayName.WifiAllow.rawValue : AnalyticsDisplayName.WifiDontAllow.rawValue
+        event.name = allowed ? AnalyticsEventName.WifiAllow.rawValue : AnalyticsEventName.WifiDontAllow.rawValue
+        
+        trackEvent(event, forComponent: nil, withInfo: nil)
     }
 }
 
