@@ -29,7 +29,7 @@ protocol VideoPlayerDelegate: AnyObject {
 }
 
 private var playbackLikelyToKeepUpContext = 0
-class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManagerDelegate {
+class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManagerDelegate, AVPictureInPictureControllerDelegate {
     
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
@@ -165,6 +165,52 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         createPlayer()
         view.backgroundColor = .black
         loadingIndicatorView.hidesWhenStopped = true
+        
+        setupPictureInPicture()
+    }
+    
+    func pipButton(playerControls: VideoPlayerControls) {
+        if pictureInPictureController?.isPictureInPictureActive == true {
+            pictureInPictureController?.stopPictureInPicture()
+        } else {
+            pictureInPictureController?.startPictureInPicture()
+        }
+    }
+    
+    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+        // Restore user interface
+        completionHandler(true)
+    }
+    
+    func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        // hide playback controls
+        // show placeholder artwork
+    }
+    
+    func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        // hide placeholder artwork
+        // show playback controls
+    }
+    
+    var pictureInPictureController: AVPictureInPictureController?
+    var pipPossibleObservation: NSKeyValueObservation?
+    
+    func setupPictureInPicture() {
+        // Ensure PiP is supported by current device.
+        if AVPictureInPictureController.isPictureInPictureSupported() {
+            // Create a new controller, passing the reference to the AVPlayerLayer.
+            pictureInPictureController = AVPictureInPictureController(playerLayer: playerView.playerLayer)!
+            pictureInPictureController?.delegate = self
+
+            pipPossibleObservation = pictureInPictureController?.observe(\AVPictureInPictureController.isPictureInPicturePossible,
+                                                                        options: [.initial, .new]) { [weak self] _, change in
+                // Update the PiP button's enabled state.
+                //self?.pipButton.isEnabled = change.newValue ?? false
+            }
+        } else {
+            // PiP isn't supported by the current device. Disable the PiP button.
+            //pipButton.isEnabled = false
+        }
     }
     
     @objc func zoomInOutVideo(sender: UIPinchGestureRecognizer) {
@@ -196,8 +242,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 } as AnyObject
             
             NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.willResignActiveNotification.rawValue) {(notification, observer, _) in
-                observer.pause()
-                observer.controls?.setPlayPauseButtonState(isSelected: true)
+                //observer.pause()
+                //observer.controls?.setPlayPauseButtonState(isSelected: true)
             }
             
             NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibility.voiceOverStatusDidChangeNotification.rawValue, action: { (_, observer, _) in
@@ -282,6 +328,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        setupPictureInPicture()
+        
         if playerState == .paused {
             return
         }
@@ -380,7 +428,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         
         play(at: timeInterval)
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, object: player.currentItem as Any) {(notification, observer, _) in
-            observer.playerDidFinishPlaying(note: notification)
+            //observer.playerDidFinishPlaying(note: notification)
         }
         playerDelegate?.playerDidFinishLoad(videoPlayer: self)
         perform(#selector(movieTimedOut), with: nil, afterDelay: playerTimeOutInterval)
@@ -502,7 +550,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         isVisible = false
-        pause()
+       // pause()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

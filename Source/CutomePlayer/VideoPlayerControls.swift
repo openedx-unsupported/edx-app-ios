@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreMedia
+import AVKit
 
 enum SeekType {
     case rewind, forward
@@ -23,6 +24,7 @@ protocol VideoPlayerControlsDelegate: AnyObject {
     func sliderTouchBegan(playerControls: VideoPlayerControls)
     func sliderTouchEnded(playerControls: VideoPlayerControls)
     func captionUpdate(playerControls: VideoPlayerControls, language: String)
+    func pipButton(playerControls: VideoPlayerControls)
 }
 
 extension VideoPlayerControlsDelegate {
@@ -262,6 +264,21 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         return bottomBar.frame
     }
     
+    private lazy var pipButton: UIButton = {
+        let button = UIButton()
+        button.oex_addAction({ _ in
+            self.delegate?.pipButton(playerControls: self)
+        }, for: .touchUpInside)
+        
+        let startImage = AVPictureInPictureController.pictureInPictureButtonStartImage(compatibleWith: nil)
+        let stopImage = AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil)
+        
+        button.setImage(startImage, for: .normal)
+        button.setImage(stopImage, for: .selected)
+        
+        return button
+    }()
+    
     init(environment : Environment, player: VideoPlayer) {
         self.environment = environment
         videoPlayer = player
@@ -297,6 +314,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         addSubview(tableSettings)
         addSubview(seekForwardLabel)
         addSubview(seekRewindLabel)
+        addSubview(pipButton)
+        pipButton.superview?.bringSubviewToFront(pipButton)
     }
     
     var durationSliderValue: Float {
@@ -473,6 +492,13 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
             make.centerX.equalTo(snp.centerX)
             make.leadingMargin.greaterThanOrEqualTo(StandardHorizontalMargin*2)
             make.trailingMargin.lessThanOrEqualTo(StandardHorizontalMargin*2)
+        }
+        
+        pipButton.snp.remakeConstraints { make in
+            make.top.equalTo(self).offset(20)
+            make.trailing.equalTo(self).inset(20)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
         }
     }
     
