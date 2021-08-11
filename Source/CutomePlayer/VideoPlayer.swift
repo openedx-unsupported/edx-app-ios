@@ -201,9 +201,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             // Create a new controller, passing the reference to the AVPlayerLayer.
             pictureInPictureController = AVPictureInPictureController(playerLayer: playerView.playerLayer)!
             pictureInPictureController?.delegate = self
-
+            if #available(iOS 14.0, *) {
+                pictureInPictureController?.requiresLinearPlayback = true
+            }
+            
             pipPossibleObservation = pictureInPictureController?.observe(\AVPictureInPictureController.isPictureInPicturePossible,
-                                                                        options: [.initial, .new]) { [weak self] _, change in
+                                                                        options: [.initial, .new]) { _, change in
                 // Update the PiP button's enabled state.
                 //self?.pipButton.isEnabled = change.newValue ?? false
             }
@@ -215,13 +218,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     @objc func zoomInOutVideo(sender: UIPinchGestureRecognizer) {
         if isVerticallyCompact() {
-            let size = (sender.velocity > 0 ? 1 : -1)
-            if size == 1 {
-                playerView.playerLayer.videoGravity = .resizeAspectFill
-            }
-            else {
-                playerView.playerLayer.videoGravity = .resizeAspect
-            }
+            playerView.playerLayer.videoGravity = sender.velocity > 0 ? .resizeAspectFill : .resizeAspect
         }
     }
     
