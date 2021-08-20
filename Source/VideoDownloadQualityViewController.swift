@@ -99,7 +99,7 @@ extension VideoDownloadQualityViewController: UITableViewDataSource {
             let item = VideoDownloadQuality.allCases[indexPath.row - 1]
             
             let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryDarkColor())
-            cell.titleLabel.attributedText = textStyle.attributedString(withText: item.value)
+            cell.titleLabel.attributedText = textStyle.attributedString(withText: item.title)
                         
             if let quality = environment.interface?.getVideoDownladQuality(),
                quality == item {
@@ -118,12 +118,10 @@ extension VideoDownloadQualityViewController: UITableViewDelegate {
         if indexPath.row > 0 {
             let oldQuality = environment.interface?.getVideoDownladQuality()
             let quality = VideoDownloadQuality.allCases[indexPath.row - 1]
-            environment.interface?.saveVideoDownloadQuality(quality: quality)
             tableView.reloadData()
-            
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED)))
-            
+            environment.interface?.saveVideoDownloadQuality(quality: quality)
             environment.analytics.trackVideoDownloadQualityChanged(value: quality.analyticsValue, oldValue: oldQuality?.analyticsValue ?? "" )
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED)))
         }
     }
 }

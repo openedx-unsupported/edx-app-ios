@@ -140,7 +140,7 @@ class CourseVideosHeaderView: UIView {
     private lazy var bottomSubtitleLabel: UILabel = {
         let label = UILabel()
         label.accessibilityIdentifier = "CourseVideosHeader:bottom-subtitle-view"
-        label.attributedText = subTitleLabelStyle.attributedString(withText: environment.interface?.getVideoDownladQuality().value)
+        label.attributedText = subTitleLabelStyle.attributedString(withText: environment.interface?.getVideoDownladQuality().title)
         return label
     }()
     
@@ -296,7 +296,7 @@ class CourseVideosHeaderView: UIView {
         videoImageView.isHidden = state == .downloading
         titleLabel.attributedText = titleLabelStyle.attributedString(withText: title)
         subTitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: subTitle)
-        bottomSubtitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: environment.interface?.getVideoDownladQuality().value)
+        bottomSubtitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: environment.interface?.getVideoDownladQuality().title)
         downloadProgressView.setProgress(bulkDownloadHelper.progress, animated: true)
         showDownloadsButton.isAccessibilityElement = state == .downloading
         toggleSwitch.accessibilityLabel = switchAccessibilityLabel

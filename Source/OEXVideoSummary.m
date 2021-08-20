@@ -80,8 +80,8 @@
             [self.preferredEncoding.name isEqualToString:OEXVideoEncodingFallback]) {
             [self.supportedEncodings addObject:OEXVideoEncodingFallback];
         }
-
-        self.downloadURL = [self getDownloadURLWithAllSources:[summary objectForKey:@"all_sources"]];
+        
+        self.allSources = [summary objectForKey:@"all_sources"];
     }
     
     return self;

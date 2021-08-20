@@ -88,8 +88,8 @@ class ProfileOptionsViewController: UIViewController {
     private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED) { _, observer, _ in
             for cell in observer.tableView.visibleCells where cell is DownloadSettingCell {
-                if let indexPath = observer.tableView.indexPath(for: cell) {
-                    observer.tableView.reloadRows(at: [indexPath], with: .none)
+                if let cell = cell as? DownloadSettingCell {
+                    cell.updateVideoDownloadQualityLabel()
                 }
             }
         }
@@ -227,6 +227,7 @@ extension ProfileOptionsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingCell.identifier, for: indexPath) as! DownloadSettingCell
         cell.delegate = self
         cell.wifiSwitch.isOn = environment.interface?.shouldDownloadOnlyOnWifi ?? false
+        cell.updateVideoDownloadQualityLabel()
         return cell
     }
     
@@ -381,9 +382,7 @@ class DownloadSettingCell: UITableViewCell {
     }()
     
     private lazy var videoQualitySubtitleLabel: UILabel = {
-        let label = UILabel()
-        let preferredVideoQuality = OEXInterface.shared().getVideoDownladQuality()
-        label.attributedText = titleTextStyle.attributedString(withText: preferredVideoQuality.value)
+        let label = UILabel()        
         label.accessibilityIdentifier = "DownloadsCell:video-quality-subtitle-label"
         return label
     }()
@@ -497,6 +496,10 @@ class DownloadSettingCell: UITableViewCell {
         videoQualityButton.snp.makeConstraints { make in
             make.edges.equalTo(videoQualityContainer)
         }
+    }
+    
+    func updateVideoDownloadQualityLabel() {
+        videoQualitySubtitleLabel.attributedText = titleTextStyle.attributedString(withText: OEXInterface.shared().getVideoDownladQuality().title)
     }
 }
 

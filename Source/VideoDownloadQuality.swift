@@ -48,7 +48,7 @@ enum VideoDownloadQuality: CaseIterable {
         }
     }
     
-    var value: String {
+    var title: String {
         switch self {
         case .auto:
             return Strings.VideoDownloadQuality.auto
@@ -102,7 +102,7 @@ extension OEXInterface {
 }
 
 extension OEXVideoSummary {
-    @objc func getDownloadURL(allSources: [String]) -> String? {
+    @objc var downloadURL: String? {
         var downloadURL: String?
         
         if OEXConfig.shared().isUsingVideoPipeline {
@@ -112,6 +112,7 @@ extension OEXVideoSummary {
                 downloadURL = videoURL
             } else {
                 // Loop through the video sources to find a downloadable video URL
+                guard let allSources = allSources as NSArray as? [String] else { return nil }
                 for url in allSources where OEXVideoSummary.isDownloadableVideoURL(url) {
                     downloadURL = url
                     break
