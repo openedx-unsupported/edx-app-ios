@@ -11,11 +11,12 @@ import MessageUI
 
 fileprivate let titleTextStyle = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
 fileprivate let subtitleTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
+fileprivate let imageSize: CGFloat = 36
 
 class ProfileOptionsViewController: UIViewController {
     
     private enum ProfileOptions {
-        case wifiSetting
+        case downloadSetting
         case personalInformation
         case restorePurchase
         case help(Bool, Bool)
@@ -36,7 +37,7 @@ class ProfileOptionsViewController: UIViewController {
         tableView.delegate = self
         tableView.separatorInset = .zero
         tableView.alwaysBounceVertical = false
-        tableView.register(WifiSettingCell.self, forCellReuseIdentifier: WifiSettingCell.identifier)
+        tableView.register(DownloadSettingCell.self, forCellReuseIdentifier: DownloadSettingCell.identifier)
         tableView.register(PersonalInformationCell.self, forCellReuseIdentifier: PersonalInformationCell.identifier)
         tableView.register(RestorePurchasesCell.self, forCellReuseIdentifier: RestorePurchasesCell.identifier)
         tableView.register(HelpCell.self, forCellReuseIdentifier: HelpCell.identifier)
@@ -75,12 +76,23 @@ class ProfileOptionsViewController: UIViewController {
         addCloseButton()
         configureOptions()
         setupProfileLoader()
+        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: AnalyticsScreenName.Profile.rawValue)
         setupProfileLoader()
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED) { _, observer, _ in
+            for cell in observer.tableView.visibleCells where cell is DownloadSettingCell {
+                if let indexPath = observer.tableView.indexPath(for: cell) {
+                    observer.tableView.reloadRows(at: [indexPath], with: .none)
+                }
+            }
+        }
     }
     
     private func setupViews() {
@@ -121,7 +133,7 @@ class ProfileOptionsViewController: UIViewController {
     }
     
     private func configureOptions() {
-        options.append(.wifiSetting)
+        options.append(.downloadSetting)
         
         if environment.config.profilesEnabled {
             options.append(.personalInformation)
@@ -149,6 +161,10 @@ class ProfileOptionsViewController: UIViewController {
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -190,7 +206,7 @@ extension ProfileOptionsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch options[indexPath.row] {
-        case .wifiSetting:
+        case .downloadSetting:
             return wifiCell(tableView, indexPath: indexPath)
             
         case .personalInformation:
@@ -208,7 +224,7 @@ extension ProfileOptionsViewController: UITableViewDataSource {
     }
     
     private func wifiCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: WifiSettingCell.identifier, for: indexPath) as! WifiSettingCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingCell.identifier, for: indexPath) as! DownloadSettingCell
         cell.delegate = self
         cell.wifiSwitch.isOn = environment.interface?.shouldDownloadOnlyOnWifi ?? false
         return cell
@@ -263,8 +279,8 @@ extension ProfileOptionsViewController: UITableViewDelegate {
     }
 }
 
-extension ProfileOptionsViewController: WifiSettingCellDelagete {
-    func didSelectedwifiSwitch(isOn: Bool, wifiSwitch: UISwitch) {
+extension ProfileOptionsViewController: DownloadCellDelagete {
+    func didTapWifiSwitch(isOn: Bool, wifiSwitch: UISwitch) {
         environment.analytics.trackWifi(isOn: isOn)
         if isOn {
             let alertController = UIAlertController().showAlert(withTitle: Strings.cellularDownloadEnabledTitle, message: Strings.cellularDownloadEnabledMessage, cancelButtonTitle: nil, onViewController: self) { _, _, _ in }
@@ -279,6 +295,11 @@ extension ProfileOptionsViewController: WifiSettingCellDelagete {
         } else {
             environment.interface?.setDownloadOnlyOnWifiPref(isOn)
         }
+    }
+    
+    func didTapVideoQualityButton() {
+        environment.analytics.trackVideoDownloadQualityClicked(displayName: AnalyticsDisplayName.ProfileVideoDownloadQualityClicked, name: AnalyticsEventName.ProfileVideoDownloadQualityClicked)
+        environment.router?.showDownloadVideoQuality(from: self)
     }
 }
 
@@ -306,46 +327,83 @@ extension ProfileOptionsViewController: SignoutCellDelegate {
     }
 }
 
-protocol WifiSettingCellDelagete: AnyObject {
-    func didSelectedwifiSwitch(isOn: Bool, wifiSwitch: UISwitch)
+protocol DownloadCellDelagete: AnyObject {
+    func didTapWifiSwitch(isOn: Bool, wifiSwitch: UISwitch)
+    func didTapVideoQualityButton()
 }
 
-class WifiSettingCell: UITableViewCell {
-    static let identifier = "WifiSettingCell"
+class DownloadSettingCell: UITableViewCell {
+    static let identifier = "DownloadsCell"
     
-    weak var delegate: WifiSettingCellDelagete?
+    weak var delegate: DownloadCellDelagete?
+    
+    private lazy var wifiContainer = UIView()
+    private lazy var videoQualityContainer = UIView()
     
     private lazy var optionLabel: UILabel = {
         let label = UILabel()
         label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.title)
-        label.accessibilityIdentifier = "WifiSettingCell:option-label"
+        label.accessibilityIdentifier = "DownloadsCell:option-label"
         return label
     }()
     
-    private lazy var descriptionLabel: UILabel = {
+    private lazy var wifiDescriptionLabel: UILabel = {
         let label = UILabel()
         label.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.heading)
-        label.accessibilityIdentifier = "WifiSettingCell:description-label"
+        label.accessibilityIdentifier = "DownloadsCell:wifi-description-label"
         return label
     }()
     
-    private lazy var subtitleLabel: UILabel = {
+    private lazy var wifiSubtitleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.message)
-        label.accessibilityIdentifier = "WifiSettingCell:subtitle-label"
+        label.accessibilityIdentifier = "DownloadsCell:wifi-subtitle-label"
         return label
     }()
         
     lazy var wifiSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
         toggleSwitch.oex_addAction({ [weak self] _ in
-            self?.delegate?.didSelectedwifiSwitch(isOn: toggleSwitch.isOn, wifiSwitch: toggleSwitch)
+            self?.delegate?.didTapWifiSwitch(isOn: toggleSwitch.isOn, wifiSwitch: toggleSwitch)
         }, for: .valueChanged)
-        toggleSwitch.accessibilityIdentifier = "WifiSettingCell:wifi-switch"
+        toggleSwitch.accessibilityIdentifier = "DownloadsCell:wifi-switch"
         
         OEXStyles.shared().standardSwitchStyle().apply(to: toggleSwitch)
 
         return toggleSwitch
+    }()
+    
+    private lazy var videoQualityDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.VideoDownloadQuality.title)
+        label.accessibilityIdentifier = "DownloadsCell:video-quality-description-label"
+        return label
+    }()
+    
+    private lazy var videoQualitySubtitleLabel: UILabel = {
+        let label = UILabel()
+        let preferredVideoQuality = OEXInterface.shared().getVideoDownladQuality()
+        label.attributedText = titleTextStyle.attributedString(withText: preferredVideoQuality.value)
+        label.accessibilityIdentifier = "DownloadsCell:video-quality-subtitle-label"
+        return label
+    }()
+    
+    private lazy var chevronImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Icon.ChevronRight.imageWithFontSize(size: imageSize)
+        imageView.tintColor = OEXStyles.shared().primaryBaseColor()
+        imageView.isAccessibilityElement = false
+        imageView.accessibilityIdentifier = "DownloadsCell:chevron-image-view"
+        return imageView
+    }()
+    
+    private lazy var videoQualityButton: UIButton = {
+        let button = UIButton()
+        button.oex_addAction({ [weak self] _ in
+            self?.delegate?.didTapVideoQualityButton()
+        }, for: .touchUpInside)
+        button.accessibilityIdentifier = "DownloadsCell:video-quality-button"
+        return button
     }()
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -364,9 +422,15 @@ class WifiSettingCell: UITableViewCell {
     
     private func setupViews() {
         contentView.addSubview(optionLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(wifiSwitch)
-        contentView.addSubview(subtitleLabel)
+        contentView.addSubview(wifiContainer)
+        wifiContainer.addSubview(wifiDescriptionLabel)
+        wifiContainer.addSubview(wifiSwitch)
+        wifiContainer.addSubview(wifiSubtitleLabel)
+        contentView.addSubview(videoQualityContainer)
+        videoQualityContainer.addSubview(videoQualityDescriptionLabel)
+        videoQualityContainer.addSubview(videoQualitySubtitleLabel)
+        videoQualityContainer.addSubview(chevronImageView)
+        videoQualityContainer.addSubview(videoQualityButton)
     }
     
     private func setupConstrains() {
@@ -376,24 +440,62 @@ class WifiSettingCell: UITableViewCell {
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
         
-        descriptionLabel.snp.makeConstraints { make in
+        wifiContainer.snp.makeConstraints { make in
             make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
-            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(wifiSwitch).inset(StandardHorizontalMargin)
-            make.centerY.equalTo(wifiSwitch)
+            make.leading.equalTo(contentView).offset(StandardVerticalMargin)
+            make.trailing.equalTo(contentView).inset(StandardVerticalMargin)
+            make.bottom.equalTo(wifiDescriptionLabel.snp.bottom).offset(StandardVerticalMargin)
         }
         
         wifiSwitch.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel)
-            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            make.centerY.equalTo(contentView)
+            make.trailing.equalTo(wifiContainer).inset(StandardVerticalMargin)
+            make.centerY.equalTo(wifiDescriptionLabel)
         }
         
-        subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(StandardVerticalMargin)
-            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+        wifiDescriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(wifiContainer)
+            make.leading.equalTo(wifiContainer).offset(StandardVerticalMargin)
+            make.trailing.equalTo(wifiSwitch.snp.leading)
+        }
+        
+        wifiSubtitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(wifiDescriptionLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.leading.equalTo(wifiContainer).offset(StandardVerticalMargin)
+            make.trailing.equalTo(wifiContainer)
+            make.height.equalTo(StandardVerticalMargin * 2)
+            make.bottom.equalTo(wifiContainer)
+        }
+        
+        videoQualityContainer.snp.makeConstraints { make in
+            make.top.equalTo(wifiContainer.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(contentView).offset(StandardVerticalMargin)
+            make.trailing.equalTo(contentView).inset(StandardVerticalMargin)
             make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
+        }
+        
+        videoQualityDescriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(videoQualityContainer)
+            make.leading.equalTo(videoQualityContainer).offset(StandardVerticalMargin)
+            make.trailing.equalTo(videoQualityContainer)
+        }
+        
+        chevronImageView.snp.makeConstraints { make in
+            make.height.equalTo(imageSize)
+            make.width.equalTo(imageSize)
+            make.trailing.equalTo(videoQualityContainer).inset(StandardHorizontalMargin / 2)
+            make.centerY.equalTo(videoQualityContainer)
+        }
+        
+        videoQualitySubtitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(videoQualityDescriptionLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.leading.equalTo(videoQualityContainer).offset(StandardVerticalMargin)
+            make.trailing.equalTo(videoQualityContainer)
+            make.height.equalTo(StandardVerticalMargin * 2)
+            make.bottom.equalTo(videoQualityContainer)
+        }
+        
+        videoQualityButton.snp.makeConstraints { make in
+            make.edges.equalTo(videoQualityContainer)
         }
     }
 }
@@ -421,16 +523,15 @@ class PersonalInformationCell: UITableViewCell {
         }
     }
     
-    private lazy var userProfileImageSize = CGSize(width: 36, height: 36)
     private lazy var profileView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: userProfileImageSize.width + 10, height: userProfileImageSize.height + 10))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: imageSize + 10, height: imageSize + 10))
         view.accessibilityIdentifier = "PersonalInformationCell:profile-view"
         return view
     }()
     
     private lazy var chevronImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = Icon.ChevronRight.imageWithFontSize(size: userProfileImageSize.height)
+        imageView.image = Icon.ChevronRight.imageWithFontSize(size: imageSize)
         imageView.tintColor = OEXStyles.shared().primaryBaseColor()
         imageView.isAccessibilityElement = false
         imageView.accessibilityIdentifier = "PersonalInformationCell:chevron-image-view"
@@ -485,7 +586,7 @@ class PersonalInformationCell: UITableViewCell {
         super.layoutSubviews()
         let borderStyle = OEXStyles.shared().profileImageViewBorder(width: 1)
         profileView.applyBorderStyle(style: borderStyle)
-        profileView.layer.cornerRadius = userProfileImageSize.height / 2
+        profileView.layer.cornerRadius = imageSize / 2
         profileView.clipsToBounds = true
     }
     
@@ -531,15 +632,15 @@ class PersonalInformationCell: UITableViewCell {
         }
         
         chevronImageView.snp.remakeConstraints { make in
-            make.height.equalTo(userProfileImageSize.height)
-            make.width.equalTo(userProfileImageSize.width)
+            make.height.equalTo(imageSize)
+            make.width.equalTo(imageSize)
             make.centerY.equalTo(contentView)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
         
         profileView.snp.remakeConstraints { make in
-            make.height.equalTo(userProfileImageSize.height)
-            make.width.equalTo(userProfileImageSize.height)
+            make.height.equalTo(imageSize)
+            make.width.equalTo(imageSize)
             make.centerY.equalTo(contentView)
             make.trailing.equalTo(chevronImageView.snp.leading).inset(-StandardHorizontalMargin / 2)
         }

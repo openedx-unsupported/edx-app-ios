@@ -172,6 +172,10 @@ public class CourseOutlineViewController :
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.refreshCourseOutlineController()
         }
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED) { _, observer, _ in
+            observer.refreshCourseOutlineBlockAPI()
+        }
     }
     
     private func loadCourseOutlineStream() {
@@ -363,6 +367,12 @@ public class CourseOutlineViewController :
     
     private func refreshCourseOutlineController() {
         hideCourseBannerView()
+        courseQuerier.needsRefresh = true
+        loadBackedStreams()
+        loadCourseStream()
+    }
+    
+    private func refreshCourseOutlineBlockAPI() {
         courseQuerier.needsRefresh = true
         loadBackedStreams()
         loadCourseStream()

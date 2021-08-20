@@ -178,6 +178,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
     }
     
+    func didTapVideoQualityButton() {
+        environment.analytics.trackVideoDownloadQualityClicked(displayName: AnalyticsDisplayName.CourseVideosDownloadQualityClicked, name: AnalyticsEventName.CourseVideosDownloadQualityClicked)
+        environment.router?.showDownloadVideoQuality(from: self, isModal: true)
+    }
+    
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
         for (i, group) in groups.enumerated() {
             for (j, block) in group.children.enumerated() {
@@ -485,7 +490,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             }
             courseVideosHeaderView?.snp.makeConstraints { make in
                 make.edges.equalTo(headerContainer)
-                make.height.equalTo(CourseVideosHeaderView.height)
+                make.height.equalTo(CourseVideosHeaderView.height * 2)
             }
             courseVideosHeaderView?.refreshView()
             tableView.setAndLayoutTableHeaderView(header: headerContainer)

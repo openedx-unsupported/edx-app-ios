@@ -11,6 +11,7 @@ import UIKit
 protocol CourseVideosHeaderViewDelegate: AnyObject {
     func courseVideosHeaderViewTapped()
     func invalidOrNoNetworkFound()
+    func didTapVideoQualityButton()
 }
 
 // To remove specific observers we need reference of notification and observer as well.
@@ -23,36 +24,51 @@ class CourseVideosHeaderView: UIView {
     
     typealias Environment =  OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
-    static var height: CGFloat = 72.0
+    static var height: CGFloat = 72
     // We need to execute deletion (on turn off switch) after some delay to avoid accidental deletion.
-    private let toggleActionDelay = 4.0 // In seconds
+    private let toggleActionDelay: Double = 4 // In seconds
+    private let imageSize: CGFloat = 20
     private let bulkDownloadHelper: BulkDownloadHelper
     private var toggleAction: DispatchWorkItem?
-    private var observers:[NotificationObserver] = []
+    private var observers: [NotificationObserver] = []
     private let environment: Environment
     weak var delegate: CourseVideosHeaderViewDelegate?
     private var blockID: CourseBlockID?
     
     // MARK: - UI Properties -
-    lazy private var imageView: UIImageView = {
+    private lazy var topContainer = UIView()
+    private lazy var bottomContainer = UIView()
+    
+    private lazy var separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = environment.styles.neutralDark()
+        view.accessibilityIdentifier = "CourseVideosHeader:seperator-view"
+        return view
+    }()
+    
+    lazy private var videoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.accessibilityIdentifier = "CourseVideosHeader:image-view"
         imageView.isAccessibilityElement = false
-        imageView.tintColor = self.environment.styles.primaryBaseColor()
+        imageView.tintColor = environment.styles.primaryBaseColor()
+        imageView.image = Icon.CourseVideos.imageWithFontSize(size: imageSize)
         return imageView
     }()
+    
     private let spinner: SpinnerView = {
         let spinner = SpinnerView(size: .medium, color: .primary)
         spinner.accessibilityIdentifier = "CourseVideosHeader:spinner"
         spinner.isAccessibilityElement = false
         return spinner
     }()
+    
     lazy private var titleLabel: UILabel = {
         let label = UILabel()
         label.accessibilityIdentifier = "CourseVideosHeader:title-label"
         label.isAccessibilityElement = false
         return label
     }()
+    
     lazy private var subTitleLabel: UILabel = {
         let label = UILabel()
         label.accessibilityIdentifier = "CourseVideosHeader:subtitle-label"
@@ -61,6 +77,7 @@ class CourseVideosHeaderView: UIView {
         label.minimumScaleFactor = 0.7
         return label
     }()
+    
     lazy private var showDownloadsButton: UIButton = {
         let button =  UIButton()
         button.accessibilityIdentifier = "CourseVideosHeader:show-downloads-button"
@@ -74,6 +91,7 @@ class CourseVideosHeaderView: UIView {
         }, for: .touchUpInside)
         return button
     }()
+    
     lazy private var toggleSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
         toggleSwitch.accessibilityIdentifier = "CourseVideosHeader:toggle-switch"
@@ -84,13 +102,55 @@ class CourseVideosHeaderView: UIView {
         }, for: .valueChanged)
         return toggleSwitch
     }()
+    
     lazy private var downloadProgressView: UIProgressView = {
         let progressView = UIProgressView()
         progressView.accessibilityIdentifier = "CourseVideosHeader:download-progress-view"
         progressView.isAccessibilityElement = false
         progressView.tintColor = environment.styles.successBase()
-        progressView.trackTintColor = self.environment.styles.neutralXLight()
+        progressView.trackTintColor = environment.styles.neutralXLight()
         return progressView
+    }()
+    
+    private lazy var settingImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Icon.Settings.imageWithFontSize(size: imageSize)
+        imageView.tintColor = environment.styles.primaryBaseColor()
+        imageView.isAccessibilityElement = false
+        imageView.accessibilityIdentifier = "CourseVideosHeader:setting-image-view"
+        return imageView
+    }()
+    
+    private lazy var chevronImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Icon.ChevronRight.imageWithFontSize(size: imageSize + (imageSize / 2))
+        imageView.tintColor = environment.styles.primaryBaseColor()
+        imageView.isAccessibilityElement = false
+        imageView.accessibilityIdentifier = "CourseVideosHeader:chevron-image-view"
+        return imageView
+    }()
+    
+    private lazy var bottomTitleLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = subTitleLabelStyle.attributedString(withText: Strings.VideoDownloadQuality.title)
+        label.accessibilityIdentifier = "CourseVideosHeader:bottom-title-view"
+        return label
+    }()
+    
+    private lazy var bottomSubtitleLabel: UILabel = {
+        let label = UILabel()
+        label.accessibilityIdentifier = "CourseVideosHeader:bottom-subtitle-view"
+        label.attributedText = subTitleLabelStyle.attributedString(withText: environment.interface?.getVideoDownladQuality().value)
+        return label
+    }()
+    
+    private lazy var videoQualityButton: UIButton = {
+        let button = UIButton()
+        button.oex_addAction({ [weak self] _ in
+            self?.delegate?.didTapVideoQualityButton()
+        }, for: .touchUpInside)
+        button.accessibilityIdentifier = "CourseVideosHeader:video-quality-button"
+        return button
     }()
     
     // MARK: - Styles -
@@ -177,7 +237,12 @@ class CourseVideosHeaderView: UIView {
     
     // MARK: - Methods -
     func addObservers() {
-        for notification in [NSNotification.Name.OEXDownloadStarted, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXDownloadDeleted] {
+        for notification in [
+            NSNotification.Name.OEXDownloadStarted,
+            NSNotification.Name.OEXDownloadEnded,
+            NSNotification.Name.OEXDownloadDeleted,
+            NSNotification.Name(NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED)
+        ] {
             addObserver(notification: notification)
         }
     }
@@ -228,9 +293,10 @@ class CourseVideosHeaderView: UIView {
         toggleSwitch.isOn = toggledOn
         downloadProgressView.isHidden = state != .downloading
         spinner.isHidden = state != .downloading
-        imageView.isHidden = state == .downloading
+        videoImageView.isHidden = state == .downloading
         titleLabel.attributedText = titleLabelStyle.attributedString(withText: title)
         subTitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: subTitle)
+        bottomSubtitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: environment.interface?.getVideoDownladQuality().value)
         downloadProgressView.setProgress(bulkDownloadHelper.progress, animated: true)
         showDownloadsButton.isAccessibilityElement = state == .downloading
         toggleSwitch.accessibilityLabel = switchAccessibilityLabel
@@ -238,7 +304,7 @@ class CourseVideosHeaderView: UIView {
         videoDownloadProgressChangeObserver()
     }
     
-    private func switchToggled(){
+    private func switchToggled() {
         toggleAction?.cancel()
         if toggleSwitch.isOn {
             if (environment.interface?.canDownload() ?? false) {
@@ -289,61 +355,125 @@ class CourseVideosHeaderView: UIView {
         accessibilityIdentifier = "CourseVideosHeader: view"
         backgroundColor = environment.styles.neutralXLight()
         addSubviews()
-        imageView.image = Icon.CourseVideos.imageWithFontSize(size: 20)
         accessibilityElements = [toggleSwitch, showDownloadsButton]
     }
     
     private func addSubviews() {
-        addSubview(imageView)
-        addSubview(spinner)
-        addSubview(titleLabel)
-        addSubview(subTitleLabel)
-        addSubview(showDownloadsButton)
-        addSubview(toggleSwitch)
-        addSubview(downloadProgressView)
+        topContainer.addSubview(videoImageView)
+        topContainer.addSubview(spinner)
+        topContainer.addSubview(titleLabel)
+        topContainer.addSubview(subTitleLabel)
+        topContainer.addSubview(showDownloadsButton)
+        topContainer.addSubview(toggleSwitch)
+        topContainer.addSubview(downloadProgressView)
+        
+        addSubview(topContainer)
+        addSubview(separator)
+        
+        bottomContainer.addSubview(bottomTitleLabel)
+        bottomContainer.addSubview(bottomSubtitleLabel)
+        bottomContainer.addSubview(settingImageView)
+        bottomContainer.addSubview(chevronImageView)
+        bottomContainer.addSubview(videoQualityButton)
+        
+        videoQualityButton.superview?.bringSubviewToFront(videoQualityButton)
+        
+        addSubview(bottomContainer)
+                
         setConstraints()
     }
     
     private func setConstraints() {
+        topContainer.snp.makeConstraints { make in
+            make.top.equalTo(self)
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(separator.snp.top)
+            make.height.equalTo(CourseVideosHeaderView.height)
+        }
         
-        imageView.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(StandardHorizontalMargin)
-            make.centerY.equalTo(snp.centerY)
-            make.height.equalTo(20)
-            make.width.equalTo(20)
+        videoImageView.snp.makeConstraints { make in
+            make.leading.equalTo(topContainer).offset(StandardHorizontalMargin)
+            make.centerY.equalTo(topContainer)
+            make.height.equalTo(imageSize)
+            make.width.equalTo(imageSize)
         }
         
         spinner.snp.makeConstraints { make in
-            make.edges.equalTo(imageView)
+            make.edges.equalTo(videoImageView)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(imageView.snp.trailing).offset(StandardHorizontalMargin)
+            make.leading.equalTo(videoImageView.snp.trailing).offset(StandardHorizontalMargin)
             make.trailing.equalTo(toggleSwitch.snp.leading).offset(-StandardHorizontalMargin)
-            make.top.equalTo(self).offset(1.5 * StandardVerticalMargin)
+            make.bottom.equalTo(topContainer.snp.centerY).inset(StandardVerticalMargin / 2)
         }
         
         subTitleLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(titleLabel)
-            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin / 2)
+            make.top.equalTo(topContainer.snp.centerY).offset(StandardVerticalMargin / 2)
         }
         
         showDownloadsButton.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+            make.edges.equalTo(topContainer)
         }
         
         toggleSwitch.snp.makeConstraints { make in
-            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
-            make.centerY.equalTo(snp.centerY)
+            make.trailing.equalTo(topContainer).inset(StandardHorizontalMargin)
+            make.centerY.equalTo(topContainer)
         }
         
         downloadProgressView.snp.makeConstraints { make in
+            make.leading.equalTo(topContainer)
+            make.trailing.equalTo(topContainer)
+            make.bottom.equalTo(topContainer)
+            make.height.equalTo(2)
+        }
+        
+        separator.snp.makeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(bottomContainer.snp.top)
+            make.height.equalTo(1)
+        }
+        
+        bottomContainer.snp.makeConstraints { make in
+            make.top.equalTo(separator.snp.bottom)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)
-            make.height.equalTo(2)
+            make.height.equalTo(CourseVideosHeaderView.height)
+        }
+        
+        settingImageView.snp.makeConstraints { make in
+            make.leading.equalTo(bottomContainer).offset(StandardHorizontalMargin)
+            make.centerY.equalTo(bottomContainer)
+            make.height.equalTo(imageSize)
+            make.width.equalTo(imageSize)
+        }
+        
+        chevronImageView.snp.makeConstraints { make in
+            make.trailing.equalTo(bottomContainer).inset(StandardHorizontalMargin)
+            make.centerY.equalTo(bottomContainer)
+            make.height.equalTo(imageSize + (imageSize / 2))
+            make.width.equalTo(imageSize + (imageSize / 2))
+        }
+        
+        bottomTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(settingImageView.snp.trailing).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(chevronImageView.snp.leading).inset(StandardHorizontalMargin)
+            make.bottom.equalTo(bottomContainer.snp.centerY).inset(StandardVerticalMargin / 2)
+        }
+        
+        bottomSubtitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(bottomTitleLabel)
+            make.trailing.equalTo(bottomTitleLabel)
+            make.top.equalTo(bottomContainer.snp.centerY).offset(StandardVerticalMargin / 2)
+        }
+        
+        videoQualityButton.snp.makeConstraints { make in
+            make.edges.equalTo(bottomContainer)
         }
     }
-    
 }

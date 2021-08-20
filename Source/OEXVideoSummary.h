@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Generate a simple stub video summary. Used only for testing
 - (id)initWithVideoID:(NSString*)videoID name:(NSString*)name encodings:(NSDictionary<NSString*, OEXVideoEncoding *> *)encodings;
 
++ (BOOL) isDownloadableVideoURL:(NSString*) url;
+
 @property (readonly, nonatomic, copy, nullable) NSString* sectionURL;     // used for OPEN IN BROWSER
 
 @property (readonly, strong, nonatomic, nullable) OEXVideoPathEntry* chapterPathEntry;
@@ -47,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic, assign) BOOL hasVideoSize;
 @property (nonatomic, strong) NSDictionary* encodings;
 @property (nonatomic, copy, nullable) NSString* downloadURL;
+@property (nonatomic, strong) NSMutableArray *supportedEncodings;
 
 // For CC
 // de - German

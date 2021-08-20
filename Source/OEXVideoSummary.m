@@ -27,7 +27,6 @@
 @property (nonatomic, assign) BOOL onlyOnWeb;
 @property (nonatomic, strong) NSDictionary* transcripts;
 @property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
-@property (nonatomic, strong) NSMutableArray *supportedEncodings;
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName;
 
@@ -72,13 +71,17 @@
         
         if (_encodings.count <=0)
             _defaultEncoding = [[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:[summary objectForKey:@"video_url"] size:[summary objectForKey:@"size"]];
-        self.supportedEncodings = [[NSMutableArray alloc] initWithArray:@[OEXVideoEncodingHLS, OEXVideoEncodingMobileHigh, OEXVideoEncodingMobileLow]];
+        self.supportedEncodings = [[NSMutableArray alloc] initWithArray:@[
+            OEXVideoEncodingHLS,
+            OEXVideoEncodingDesktopMP4,
+            OEXVideoEncodingMobileHigh,
+            OEXVideoEncodingMobileLow]];
         if (![[OEXConfig sharedConfig] isUsingVideoPipeline] ||
             [self.preferredEncoding.name isEqualToString:OEXVideoEncodingFallback]) {
             [self.supportedEncodings addObject:OEXVideoEncodingFallback];
         }
 
-        self.downloadURL = [self getDownloadURL:[summary objectForKey:@"all_sources"]];
+        self.downloadURL = [self getDownloadURLWithAllSources:[summary objectForKey:@"all_sources"]];
     }
     
     return self;
@@ -174,38 +177,6 @@
 
 - (BOOL) isDownloadableVideo {
     return (BOOL)self.downloadURL;
-}
-
-- (NSString*)getDownloadURL:(NSArray*) allSources {
-    NSString *downloadURL = nil;
-
-    if ([[OEXConfig sharedConfig] isUsingVideoPipeline]) {
-        // Loop through the available encodings to find a downloadable video URL
-        for(NSString* name in [self supportedEncodings]) {
-            OEXVideoEncoding* encoding = self.encodings[name];
-            NSString *url = [encoding URL];
-            if (url && [OEXVideoSummary isDownloadableVideoURL:url]) {
-                downloadURL = url;
-                break;
-            }
-        }
-    }
-    else {
-
-        // If the preferred encoding video URL is downloadable, then allow it to be downloaded.
-        if ([OEXVideoSummary isDownloadableVideoURL:self.videoURL]) {
-            downloadURL = self.videoURL;
-        } else {
-            // Loop through the video sources to find a downloadable video URL
-            for (NSString *url in allSources) {
-                if ([OEXVideoSummary isDownloadableVideoURL:url]) {
-                    downloadURL = url;
-                    break;
-                }
-            }
-        }
-    }
-    return downloadURL;
 }
 
 - (NSString*)videoURL {

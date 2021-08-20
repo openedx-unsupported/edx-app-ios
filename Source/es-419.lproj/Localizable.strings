@@ -861,6 +861,18 @@
 "CELEBRATION.EARNED_IT_TEXT"="You earned it!";
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
+/* Settigs message for Video Download Quality */
+"VIDEO_DOWNLOAD_QUALITY.MESSAGE" = "This setting is for all video downloads in the {platform_name} app.";
+/* Settigs title for Video Download Quality */
+"VIDEO_DOWNLOAD_QUALITY.TITLE" = "Video download quality";
+/* Settigs message for Video Download Quality Auto */
+"VIDEO_DOWNLOAD_QUALITY.AUTO" = "Auto (Recommended)";
+/* Settigs message for Video Download Quality Low */
+"VIDEO_DOWNLOAD_QUALITY.LOW" = "360p (Smallest file size)";
+/* Settigs message for Video Download Quality Low */
+"VIDEO_DOWNLOAD_QUALITY.MEDIUM" = "540p";
+/* Settigs message for Video Download Quality High */
+"VIDEO_DOWNLOAD_QUALITY.HIGH" = "720p (Best quality)";
 /* Settings title for wifi */
 "PROFILE_OPTIONS.WIFI.TITLE" = "WIFI";
 /* Settings heading for wifi */
