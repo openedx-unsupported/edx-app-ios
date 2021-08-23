@@ -10,6 +10,10 @@ import UIKit
 
 fileprivate let buttonSize: CGFloat = 20
 
+protocol VideoDownloadQualityDelegate: AnyObject {
+    func didUpdateVideoQuality()
+}
+
 class VideoDownloadQualityViewController: UIViewController {
     
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider
@@ -29,10 +33,13 @@ class VideoDownloadQualityViewController: UIViewController {
         return tableView
     }()
     
+    weak var delegate: VideoDownloadQualityDelegate?
+    
     private let environment: Environment
     
-    init(environment: Environment) {
+    init(environment: Environment, delegate: VideoDownloadQualityDelegate?) {
         self.environment = environment
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,7 +59,7 @@ class VideoDownloadQualityViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         
         environment.analytics.trackScreen(withName: AnalyticsScreenName.VideoDownloadQuality.rawValue)
     }
@@ -98,14 +105,11 @@ extension VideoDownloadQualityViewController: UITableViewDataSource {
         } else {
             let item = VideoDownloadQuality.allCases[indexPath.row - 1]
             
-            let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryDarkColor())
-            cell.titleLabel.attributedText = textStyle.attributedString(withText: item.title)
-                        
             if let quality = environment.interface?.getVideoDownladQuality(),
                quality == item {
-                cell.showCheckmark(show: true)
+                cell.update(title: item.title, selected: true)
             } else {
-                cell.showCheckmark(show: false)
+                cell.update(title: item.title, selected: false)
             }
         }
         
@@ -121,7 +125,7 @@ extension VideoDownloadQualityViewController: UITableViewDelegate {
             tableView.reloadData()
             environment.interface?.saveVideoDownloadQuality(quality: quality)
             environment.analytics.trackVideoDownloadQualityChanged(value: quality.analyticsValue, oldValue: oldQuality?.analyticsValue ?? "" )
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED)))
+            delegate?.didUpdateVideoQuality()
         }
     }
 }
@@ -129,14 +133,22 @@ extension VideoDownloadQualityViewController: UITableViewDelegate {
 class VideoQualityCell: UITableViewCell {
     static let identifier = "VideoQualityCell"
     
-    lazy var titleLabel = UILabel()
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.accessibilityIdentifier = "VideoDownloadQualityViewController:title-label"
+        return label
+    }()
     
     private lazy var checkmarkImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Icon.Check.imageWithFontSize(size: buttonSize).image(with: OEXStyles.shared().neutralBlackT())
+        imageView.accessibilityIdentifier = "VideoDownloadQualityViewController:checkmark-image-view"
         return imageView
     }()
     
+    private lazy var textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryDarkColor())
+    private lazy var textStyleSelcted = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -176,5 +188,15 @@ class VideoQualityCell: UITableViewCell {
     
     func showCheckmark(show: Bool) {
         checkmarkImageView.isHidden = !show
+    }
+    
+    func update(title: String, selected: Bool) {
+        checkmarkImageView.isHidden = !selected
+        
+        if selected {
+            titleLabel.attributedText = textStyleSelcted.attributedString(withText: title)
+        } else {
+            titleLabel.attributedText = textStyle.attributedString(withText: title)
+        }
     }
 }

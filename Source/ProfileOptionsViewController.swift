@@ -16,7 +16,7 @@ fileprivate let imageSize: CGFloat = 36
 class ProfileOptionsViewController: UIViewController {
     
     private enum ProfileOptions {
-        case downloadSetting
+        case videoSetting
         case personalInformation
         case restorePurchase
         case help(Bool, Bool)
@@ -37,7 +37,7 @@ class ProfileOptionsViewController: UIViewController {
         tableView.delegate = self
         tableView.separatorInset = .zero
         tableView.alwaysBounceVertical = false
-        tableView.register(DownloadSettingCell.self, forCellReuseIdentifier: DownloadSettingCell.identifier)
+        tableView.register(VideoSettingCell.self, forCellReuseIdentifier: VideoSettingCell.identifier)
         tableView.register(PersonalInformationCell.self, forCellReuseIdentifier: PersonalInformationCell.identifier)
         tableView.register(RestorePurchasesCell.self, forCellReuseIdentifier: RestorePurchasesCell.identifier)
         tableView.register(HelpCell.self, forCellReuseIdentifier: HelpCell.identifier)
@@ -76,23 +76,12 @@ class ProfileOptionsViewController: UIViewController {
         addCloseButton()
         configureOptions()
         setupProfileLoader()
-        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: AnalyticsScreenName.Profile.rawValue)
         setupProfileLoader()
-    }
-    
-    private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED) { _, observer, _ in
-            for cell in observer.tableView.visibleCells where cell is DownloadSettingCell {
-                if let cell = cell as? DownloadSettingCell {
-                    cell.updateVideoDownloadQualityLabel()
-                }
-            }
-        }
     }
     
     private func setupViews() {
@@ -133,7 +122,7 @@ class ProfileOptionsViewController: UIViewController {
     }
     
     private func configureOptions() {
-        options.append(.downloadSetting)
+        options.append(.videoSetting)
         
         if environment.config.profilesEnabled {
             options.append(.personalInformation)
@@ -206,7 +195,7 @@ extension ProfileOptionsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch options[indexPath.row] {
-        case .downloadSetting:
+        case .videoSetting:
             return wifiCell(tableView, indexPath: indexPath)
             
         case .personalInformation:
@@ -224,7 +213,7 @@ extension ProfileOptionsViewController: UITableViewDataSource {
     }
     
     private func wifiCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingCell.identifier, for: indexPath) as! DownloadSettingCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: VideoSettingCell.identifier, for: indexPath) as! VideoSettingCell
         cell.delegate = self
         cell.wifiSwitch.isOn = environment.interface?.shouldDownloadOnlyOnWifi ?? false
         cell.updateVideoDownloadQualityLabel()
@@ -298,9 +287,19 @@ extension ProfileOptionsViewController: DownloadCellDelagete {
         }
     }
     
-    func didTapVideoQualityButton() {
+    func didTapVideoQuality() {
         environment.analytics.trackVideoDownloadQualityClicked(displayName: AnalyticsDisplayName.ProfileVideoDownloadQualityClicked, name: AnalyticsEventName.ProfileVideoDownloadQualityClicked)
-        environment.router?.showDownloadVideoQuality(from: self)
+        environment.router?.showDownloadVideoQuality(from: self, delegate: self)
+    }
+}
+
+extension ProfileOptionsViewController: VideoDownloadQualityDelegate {
+    func didUpdateVideoQuality() {
+        for cell in tableView.visibleCells where cell is VideoSettingCell {
+            if let cell = cell as? VideoSettingCell {
+                cell.updateVideoDownloadQualityLabel()
+            }
+        }
     }
 }
 
@@ -330,11 +329,11 @@ extension ProfileOptionsViewController: SignoutCellDelegate {
 
 protocol DownloadCellDelagete: AnyObject {
     func didTapWifiSwitch(isOn: Bool, wifiSwitch: UISwitch)
-    func didTapVideoQualityButton()
+    func didTapVideoQuality()
 }
 
-class DownloadSettingCell: UITableViewCell {
-    static let identifier = "DownloadsCell"
+class VideoSettingCell: UITableViewCell {
+    static let identifier = "VideoSettingCell"
     
     weak var delegate: DownloadCellDelagete?
     
@@ -344,21 +343,21 @@ class DownloadSettingCell: UITableViewCell {
     private lazy var optionLabel: UILabel = {
         let label = UILabel()
         label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.title)
-        label.accessibilityIdentifier = "DownloadsCell:option-label"
+        label.accessibilityIdentifier = "VideoSettingCell:option-label"
         return label
     }()
     
     private lazy var wifiDescriptionLabel: UILabel = {
         let label = UILabel()
         label.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.heading)
-        label.accessibilityIdentifier = "DownloadsCell:wifi-description-label"
+        label.accessibilityIdentifier = "VideoSettingCell:wifi-description-label"
         return label
     }()
     
     private lazy var wifiSubtitleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.message)
-        label.accessibilityIdentifier = "DownloadsCell:wifi-subtitle-label"
+        label.accessibilityIdentifier = "VideoSettingCell:wifi-subtitle-label"
         return label
     }()
         
@@ -367,7 +366,7 @@ class DownloadSettingCell: UITableViewCell {
         toggleSwitch.oex_addAction({ [weak self] _ in
             self?.delegate?.didTapWifiSwitch(isOn: toggleSwitch.isOn, wifiSwitch: toggleSwitch)
         }, for: .valueChanged)
-        toggleSwitch.accessibilityIdentifier = "DownloadsCell:wifi-switch"
+        toggleSwitch.accessibilityIdentifier = "VideoSettingCell:wifi-switch"
         
         OEXStyles.shared().standardSwitchStyle().apply(to: toggleSwitch)
 
@@ -377,13 +376,13 @@ class DownloadSettingCell: UITableViewCell {
     private lazy var videoQualityDescriptionLabel: UILabel = {
         let label = UILabel()
         label.attributedText = subtitleTextStyle.attributedString(withText: Strings.VideoDownloadQuality.title)
-        label.accessibilityIdentifier = "DownloadsCell:video-quality-description-label"
+        label.accessibilityIdentifier = "VideoSettingCell:video-quality-description-label"
         return label
     }()
     
     private lazy var videoQualitySubtitleLabel: UILabel = {
         let label = UILabel()        
-        label.accessibilityIdentifier = "DownloadsCell:video-quality-subtitle-label"
+        label.accessibilityIdentifier = "VideoSettingCell:video-quality-subtitle-label"
         return label
     }()
     
@@ -392,16 +391,16 @@ class DownloadSettingCell: UITableViewCell {
         imageView.image = Icon.ChevronRight.imageWithFontSize(size: imageSize)
         imageView.tintColor = OEXStyles.shared().primaryBaseColor()
         imageView.isAccessibilityElement = false
-        imageView.accessibilityIdentifier = "DownloadsCell:chevron-image-view"
+        imageView.accessibilityIdentifier = "VideoSettingCell:chevron-image-view"
         return imageView
     }()
     
     private lazy var videoQualityButton: UIButton = {
         let button = UIButton()
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didTapVideoQualityButton()
+            self?.delegate?.didTapVideoQuality()
         }, for: .touchUpInside)
-        button.accessibilityIdentifier = "DownloadsCell:video-quality-button"
+        button.accessibilityIdentifier = "VideoSettingCell:video-quality-button"
         return button
     }()
         
@@ -409,7 +408,7 @@ class DownloadSettingCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
-        accessibilityIdentifier = "ProfileOptionsViewController:wifi-cell"
+        accessibilityIdentifier = "ProfileOptionsViewController:video-setting-cell"
         
         setupViews()
         setupConstrains()

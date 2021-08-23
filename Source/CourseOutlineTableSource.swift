@@ -21,7 +21,7 @@ protocol CourseOutlineTableControllerDelegate: AnyObject {
     func resetCourseDate(controller: CourseOutlineTableController)
 }
 
-class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate {
+class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate, VideoDownloadQualityDelegate {
 
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
@@ -178,9 +178,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
     }
     
-    func didTapVideoQualityButton() {
+    func didTapVideoQuality() {
         environment.analytics.trackVideoDownloadQualityClicked(displayName: AnalyticsDisplayName.CourseVideosDownloadQualityClicked, name: AnalyticsEventName.CourseVideosDownloadQualityClicked)
-        environment.router?.showDownloadVideoQuality(from: self, isModal: true)
+        environment.router?.showDownloadVideoQuality(from: self, delegate: self, modal: true)
+    }
+    
+    func didUpdateVideoQuality() {
+        if courseOutlineMode == .video {
+            courseVideosHeaderView?.refreshView()
+        }
     }
     
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {

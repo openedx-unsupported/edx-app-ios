@@ -11,7 +11,7 @@ import UIKit
 protocol CourseVideosHeaderViewDelegate: AnyObject {
     func courseVideosHeaderViewTapped()
     func invalidOrNoNetworkFound()
-    func didTapVideoQualityButton()
+    func didTapVideoQuality()
 }
 
 // To remove specific observers we need reference of notification and observer as well.
@@ -36,8 +36,17 @@ class CourseVideosHeaderView: UIView {
     private var blockID: CourseBlockID?
     
     // MARK: - UI Properties -
-    private lazy var topContainer = UIView()
-    private lazy var bottomContainer = UIView()
+    private lazy var topContainer: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "CourseVideosHeader:top-container-view"
+        return view
+    }()
+    
+    private lazy var bottomContainer: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "CourseVideosHeader:bottom-container-view"
+        return view
+    }()
     
     private lazy var separator: UIView = {
         let view = UIView()
@@ -147,7 +156,7 @@ class CourseVideosHeaderView: UIView {
     private lazy var videoQualityButton: UIButton = {
         let button = UIButton()
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didTapVideoQualityButton()
+            self?.delegate?.didTapVideoQuality()
         }, for: .touchUpInside)
         button.accessibilityIdentifier = "CourseVideosHeader:video-quality-button"
         return button
@@ -241,7 +250,6 @@ class CourseVideosHeaderView: UIView {
             NSNotification.Name.OEXDownloadStarted,
             NSNotification.Name.OEXDownloadEnded,
             NSNotification.Name.OEXDownloadDeleted,
-            NSNotification.Name(NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED)
         ] {
             addObserver(notification: notification)
         }

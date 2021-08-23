@@ -436,9 +436,9 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(editController, animated: true)
     }
     
-    func showDownloadVideoQuality(from controller: UIViewController, isModal: Bool = false) {
-        let videoQualityController = VideoDownloadQualityViewController(environment: environment)
-        if isModal {
+    func showDownloadVideoQuality(from controller: UIViewController, delegate: VideoDownloadQualityDelegate?, modal: Bool = false) {
+        let videoQualityController = VideoDownloadQualityViewController.init(environment: environment, delegate: delegate)
+        if modal {
             controller.present(ForwardingNavigationController(rootViewController: videoQualityController), animated: true, completion: nil)
         } else {
             controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)

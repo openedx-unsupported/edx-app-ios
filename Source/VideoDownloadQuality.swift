@@ -8,8 +8,6 @@
 
 import Foundation
 
-let NOTIFICATION_VIDEO_DOWNLOAD_QUALITY_CHANGED = "VideoDownloadQuality"
-
 private let OEXVideoDownloadQuality = "OEXVideoDownloadQuality"
 
 enum VideoDownloadQuality: CaseIterable {
@@ -184,15 +182,11 @@ extension OEXVideoSummary {
         
         switch preferredQuality {
         case .desktop:
-            possibleEncodings = [.mobileHigh, .mobileLow]
+            possibleEncodings = VideoDownloadQuality.encodings.filter { $0 != preferredQuality }.reversed()
             break
             
-        case .mobileHigh:
-            possibleEncodings = [.mobileLow, .desktop]
-            break
-            
-        case .mobileLow:
-            possibleEncodings = [.mobileHigh, .desktop]
+        case .mobileHigh, .mobileLow:
+            possibleEncodings = VideoDownloadQuality.encodings.filter { $0 != preferredQuality }
             break
             
         default:
