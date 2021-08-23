@@ -14,37 +14,37 @@ private let OEXVideoDownloadQuality = "OEXVideoDownloadQuality"
 
 enum VideoDownloadQuality: CaseIterable {
     case auto
-    case mobileLow // 640 x 360
-    case mobileHigh // 960 x 540
-    case desktop // 1280 x 720
+    case mobileLow // 640 x 360 - 360p
+    case mobileHigh // 960 x 540 - 540p
+    case desktop // 1280 x 720 - 720p
     
     public typealias RawValue = String
     
     public var rawValue: RawValue {
         switch self {
         case .auto:
-            return "hls"
+            return OEXVideoEncodingHLS
         case .mobileLow:
-            return "mobile_low"
+            return OEXVideoEncodingMobileLow
         case .mobileHigh:
-            return "mobile_high"
+            return OEXVideoEncodingMobileHigh
         case .desktop:
-            return "desktop_mp4"
+            return OEXVideoEncodingDesktopMP4
         }
     }
     
     public init?(rawValue: RawValue) {
         switch rawValue {
-        case "hls":
+        case OEXVideoEncodingHLS:
             self = .auto
-        case "mobile_low":
+        case OEXVideoEncodingMobileLow:
             self = .mobileLow
-        case "mobile_high":
+        case OEXVideoEncodingMobileHigh:
             self = .mobileHigh
-        case "desktop_mp4":
+        case OEXVideoEncodingDesktopMP4:
             self = .desktop
         default:
-            return nil
+            self = .auto
         }
     }
     

@@ -45,7 +45,7 @@ class VideoDownloadQualityViewController: UIViewController {
         
         navigationItem.largeTitleDisplayMode = .never
         
-        title = "Video download quality"
+        title = Strings.VideoDownloadQuality.title
         
         setupViews()
         addCloseButton()
@@ -129,11 +129,7 @@ extension VideoDownloadQualityViewController: UITableViewDelegate {
 class VideoQualityCell: UITableViewCell {
     static let identifier = "VideoQualityCell"
     
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        
-        return label
-    }()
+    lazy var titleLabel = UILabel()
     
     private lazy var checkmarkImageView: UIImageView = {
         let imageView = UIImageView()
