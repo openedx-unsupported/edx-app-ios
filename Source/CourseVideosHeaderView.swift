@@ -141,7 +141,7 @@ class CourseVideosHeaderView: UIView {
     
     private lazy var bottomTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = subTitleLabelStyle.attributedString(withText: Strings.VideoDownloadQuality.title)
+        label.attributedText = titleLabelStyle.attributedString(withText: Strings.VideoDownloadQuality.title)
         label.accessibilityIdentifier = "CourseVideosHeader:bottom-title-view"
         return label
     }()
@@ -167,7 +167,7 @@ class CourseVideosHeaderView: UIView {
         return OEXTextStyle(weight: .normal, size: .base, color: environment.styles.primaryBaseColor())
     }
     private var subTitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color : environment.styles.primaryXLightColor())
+        return OEXTextStyle(weight: .light, size: .base, color : environment.styles.primaryXLightColor())
     }
     
     // MARK: - Properties -

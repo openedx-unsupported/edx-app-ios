@@ -16,7 +16,7 @@ protocol VideoDownloadQualityDelegate: AnyObject {
 
 class VideoDownloadQualityViewController: UIViewController {
     
-    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider
+    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -31,6 +31,27 @@ class VideoDownloadQualityViewController: UIViewController {
         tableView.accessibilityIdentifier = "VideoDownloadQualityViewController:table-view"
         
         return tableView
+    }()
+    
+    private lazy var headerView: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "VideoDownloadQualityViewController:header-view"
+        return view
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        let textStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.neutralBlackT())
+        label.attributedText = textStyle.attributedString(withText: Strings.VideoDownloadQuality.message(platformName: environment.config.platformName()))
+        label.accessibilityIdentifier = "VideoDownloadQualityViewController:title-view"
+        return label
+    }()
+    
+    private lazy var separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = environment.styles.neutralXLight()
+        view.accessibilityIdentifier = "VideoDownloadQualityViewController:seperator-view"
+        return view
     }()
     
     weak var delegate: VideoDownloadQualityDelegate?
@@ -67,10 +88,37 @@ class VideoDownloadQualityViewController: UIViewController {
     private func setupViews() {
         view.addSubview(tableView)
         
+        headerView.addSubview(titleLabel)
+        headerView.addSubview(separator)
+        
+        tableView.tableHeaderView = headerView
+        
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(headerView).offset(StandardVerticalMargin * 2)
+            make.trailing.equalTo(headerView).inset(StandardVerticalMargin * 2)
+            make.top.equalTo(headerView).offset(StandardVerticalMargin)
+            make.bottom.equalTo(headerView).inset(StandardVerticalMargin)
+        }
+        
+        separator.snp.makeConstraints { make in
+            make.leading.equalTo(headerView)
+            make.trailing.equalTo(headerView)
+            make.bottom.equalTo(headerView)
+            make.height.equalTo(1)
+        }
+        
+        headerView.snp.makeConstraints { make in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.height.equalTo(44)
+        }
+        
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view)
         }
-                
+        
+        tableView.setAndLayoutTableHeaderView(header: headerView)
+        
         tableView.reloadData()
     }
     
@@ -93,24 +141,19 @@ extension VideoDownloadQualityViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return VideoDownloadQuality.allCases.count + 1
+        return VideoDownloadQuality.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VideoQualityCell.identifier, for: indexPath) as! VideoQualityCell
         
-        if indexPath.row == 0 {
-            let textStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralBlackT())
-            cell.titleLabel.attributedText = textStyle.attributedString(withText: Strings.VideoDownloadQuality.message(platformName: environment.config.platformName()))
+        let item = VideoDownloadQuality.allCases[indexPath.row]
+        
+        if let quality = environment.interface?.getVideoDownladQuality(),
+           quality == item {
+            cell.update(title: item.title, selected: true)
         } else {
-            let item = VideoDownloadQuality.allCases[indexPath.row - 1]
-            
-            if let quality = environment.interface?.getVideoDownladQuality(),
-               quality == item {
-                cell.update(title: item.title, selected: true)
-            } else {
-                cell.update(title: item.title, selected: false)
-            }
+            cell.update(title: item.title, selected: false)
         }
         
         return cell
@@ -119,14 +162,12 @@ extension VideoDownloadQualityViewController: UITableViewDataSource {
 
 extension VideoDownloadQualityViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row > 0 {
-            let oldQuality = environment.interface?.getVideoDownladQuality()
-            let quality = VideoDownloadQuality.allCases[indexPath.row - 1]
-            tableView.reloadData()
-            environment.interface?.saveVideoDownloadQuality(quality: quality)
-            environment.analytics.trackVideoDownloadQualityChanged(value: quality.analyticsValue, oldValue: oldQuality?.analyticsValue ?? "" )
-            delegate?.didUpdateVideoQuality()
-        }
+        let oldQuality = environment.interface?.getVideoDownladQuality()
+        let quality = VideoDownloadQuality.allCases[indexPath.row]
+        tableView.reloadData()
+        environment.interface?.saveVideoDownloadQuality(quality: quality)
+        environment.analytics.trackVideoDownloadQualityChanged(value: quality.analyticsValue, oldValue: oldQuality?.analyticsValue ?? "")
+        delegate?.didUpdateVideoQuality()
     }
 }
 
@@ -135,14 +176,14 @@ class VideoQualityCell: UITableViewCell {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "VideoDownloadQualityViewController:title-label"
+        label.accessibilityIdentifier = "VideoQualityCell:title-label"
         return label
     }()
     
     private lazy var checkmarkImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Icon.Check.imageWithFontSize(size: buttonSize).image(with: OEXStyles.shared().neutralBlackT())
-        imageView.accessibilityIdentifier = "VideoDownloadQualityViewController:checkmark-image-view"
+        imageView.accessibilityIdentifier = "VideoQualityCell:checkmark-image-view"
         return imageView
     }()
     
