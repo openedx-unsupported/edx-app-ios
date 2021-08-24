@@ -162,11 +162,6 @@ class VideoDownloadQualityHeaderView: UITableViewHeaderFooterView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-        accessibilityIdentifier = "VideoDownloadQualityHeaderView"
-        
-        setupViews()
-        setupConstrains()
     }
     
     private func setupViews() {
@@ -245,10 +240,6 @@ class VideoQualityCell: UITableViewCell {
         }
         
         checkmarkImageView.isHidden = true
-    }
-    
-    func showCheckmark(show: Bool) {
-        checkmarkImageView.isHidden = !show
     }
     
     func update(title: String, selected: Bool) {
