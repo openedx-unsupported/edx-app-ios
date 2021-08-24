@@ -16,14 +16,16 @@ protocol VideoDownloadQualityDelegate: AnyObject {
 
 class VideoDownloadQualityViewController: UIViewController {
     
-    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider
+    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider
+    
+    private lazy var headerView = VideoDownloadQualityHeaderView()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = StandardVerticalMargin * 7
-        tableView.estimatedRowHeight = StandardVerticalMargin * 7
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 20
         tableView.alwaysBounceVertical = false
         tableView.separatorInset = .zero
         tableView.tableFooterView = UIView()
@@ -33,28 +35,7 @@ class VideoDownloadQualityViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var headerView: UIView = {
-        let view = UIView()
-        view.accessibilityIdentifier = "VideoDownloadQualityViewController:header-view"
-        return view
-    }()
-    
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        let textStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.neutralBlackT())
-        label.attributedText = textStyle.attributedString(withText: Strings.VideoDownloadQuality.message(platformName: environment.config.platformName()))
-        label.accessibilityIdentifier = "VideoDownloadQualityViewController:title-view"
-        return label
-    }()
-    
-    private lazy var separator: UIView = {
-        let view = UIView()
-        view.backgroundColor = environment.styles.neutralXLight()
-        view.accessibilityIdentifier = "VideoDownloadQualityViewController:seperator-view"
-        return view
-    }()
-    
-    weak var delegate: VideoDownloadQualityDelegate?
+    private weak var delegate: VideoDownloadQualityDelegate?
     
     private let environment: Environment
     
@@ -88,29 +69,11 @@ class VideoDownloadQualityViewController: UIViewController {
     private func setupViews() {
         view.addSubview(tableView)
         
-        headerView.addSubview(titleLabel)
-        headerView.addSubview(separator)
-        
         tableView.tableHeaderView = headerView
-        
-        titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(headerView).offset(StandardVerticalMargin * 2)
-            make.trailing.equalTo(headerView).inset(StandardVerticalMargin * 2)
-            make.top.equalTo(headerView).offset(StandardVerticalMargin)
-            make.bottom.equalTo(headerView).inset(StandardVerticalMargin)
-        }
-        
-        separator.snp.makeConstraints { make in
-            make.leading.equalTo(headerView)
-            make.trailing.equalTo(headerView)
-            make.bottom.equalTo(headerView)
-            make.height.equalTo(1)
-        }
         
         headerView.snp.makeConstraints { make in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(44)
         }
         
         tableView.snp.makeConstraints { make in
@@ -171,6 +134,63 @@ extension VideoDownloadQualityViewController: UITableViewDelegate {
     }
 }
 
+class VideoDownloadQualityHeaderView: UITableViewHeaderFooterView {
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        let textStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralBlackT())
+        label.attributedText = textStyle.attributedString(withText: Strings.VideoDownloadQuality.message(platformName: OEXConfig.shared().platformName()))
+        label.accessibilityIdentifier = "VideoDownloadQualityHeaderView:title-view"
+        return label
+    }()
+    
+    private lazy var separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = OEXStyles.shared().neutralXLight()
+        view.accessibilityIdentifier = "VideoDownloadQualityHeaderView:seperator-view"
+        return view
+    }()
+    
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        
+        accessibilityIdentifier = "VideoDownloadQualityHeaderView"
+        
+        setupViews()
+        setupConstrains()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        accessibilityIdentifier = "VideoDownloadQualityHeaderView"
+        
+        setupViews()
+        setupConstrains()
+    }
+    
+    private func setupViews() {
+        addSubview(titleLabel)
+        addSubview(separator)
+    }
+    
+    private func setupConstrains() {
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(self).offset(StandardVerticalMargin * 2)
+            make.trailing.equalTo(self).inset(StandardVerticalMargin * 2)
+            make.top.equalTo(self).offset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(self).inset(StandardVerticalMargin * 2)
+        }
+        
+        separator.snp.makeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(self)
+            make.height.equalTo(1)
+        }
+    }
+}
+
 class VideoQualityCell: UITableViewCell {
     static let identifier = "VideoQualityCell"
     
@@ -211,10 +231,10 @@ class VideoQualityCell: UITableViewCell {
     
     private func setupConstrains() {
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(StandardVerticalMargin)
+            make.top.equalTo(contentView).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(contentView).offset(StandardVerticalMargin * 2)
             make.trailing.equalTo(contentView).inset(StandardVerticalMargin * 2)
-            make.bottom.equalTo(contentView).inset(StandardVerticalMargin)
+            make.bottom.equalTo(contentView).inset(StandardVerticalMargin * 2)
         }
         
         checkmarkImageView.snp.makeConstraints { make in
