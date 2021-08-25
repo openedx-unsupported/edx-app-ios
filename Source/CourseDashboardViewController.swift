@@ -28,6 +28,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID
+        
         loadStateController = CourseDashboardLoadStateViewController(environment: environment)
         
         super.init(nibName: nil, bundle: nil)
@@ -187,6 +188,12 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         }
     }
     
+    private func naivagteToComponentScreen(componentID: String?) {
+        if let componentID = componentID {
+            environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
+        }
+    }
+    
     private func shouldShowDiscussions(course: OEXCourse) -> Bool {
         return environment.config.discussionsEnabled && course.hasDiscussionsEnabled
     }
@@ -211,10 +218,16 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     }
     
     // MARK: Deep Linking
-    func switchTab(with type: DeepLinkType) {
+    func switchTab(with type: DeepLinkType, componentID: String? = nil) {
         switch type {
         case .courseDashboard:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+            break
+        case .courseComponent:
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                self?.naivagteToComponentScreen(componentID: componentID)
+            }
             break
         case .courseVideos:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)

@@ -60,6 +60,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return environment.remoteConfig.calendarSyncConfig
     }()
     
+    private lazy var courseQuerier: CourseOutlineQuerier = {
+        return environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
+    }()
+    
     private var courseDateModel: CourseDateModel?
     private var dateBlocks: [Date : [CourseDateBlock]] = [:]
     private var dateBlocksMapSortedKeys: [Date] = []
@@ -75,7 +79,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }()
     
     private lazy var calendar: CalendarManager = {
-        return CalendarManager(courseID: courseID, courseName: course?.name ?? platformName)
+        return CalendarManager(courseID: courseID, courseName: course?.name ?? platformName, courseQuerier: courseQuerier)
     }()
     
     private var course: OEXCourse? {
@@ -370,9 +374,14 @@ extension CourseDatesViewController {
     
     private func addCourseEventsIfNecessary() {
         guard calendarSyncEnabled else { return }
-
-        if calendar.syncOn && calendar.checkIfEventsShouldBeShifted(for: dateBlocks) {
-            showCalendarEventShiftAlert()
+        
+        DispatchQueue.global().async { [weak self] in
+            guard let weakSelf = self else { return }
+            if weakSelf.calendar.syncOn && weakSelf.calendar.checkIfEventsShouldBeShifted(for: weakSelf.dateBlocks) {
+                DispatchQueue.main.async { [weak self] in
+                    self?.showCalendarEventShiftAlert()
+                }
+            }
         }
     }
     
@@ -559,7 +568,6 @@ extension CourseDatesViewController: PullRefreshControllerDelegate {
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLink(with url: URL) {
         let componentID = url.URLString
-        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         
         if let block = courseQuerier.blockWithID(id: componentID).firstSuccess().value {
             environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)

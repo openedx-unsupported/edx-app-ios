@@ -223,7 +223,7 @@ extension OEXRouter {
         }
         
         if let dashboardController = courseDashboardController as? CourseDashboardViewController {
-            dashboardController.switchTab(with: deeplink.type)
+            dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
         }
     }
 
