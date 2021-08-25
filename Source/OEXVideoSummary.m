@@ -26,7 +26,6 @@
 @property (nonatomic, copy) NSString* unitURL;
 @property (nonatomic, assign) BOOL onlyOnWeb;
 @property (nonatomic, strong) NSDictionary* transcripts;
-@property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName;
 
@@ -107,18 +106,6 @@
     return self;
 }
 
-- (OEXVideoEncoding*)preferredEncoding {
-    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
-        OEXVideoEncoding* encoding = self.encodings[name];
-        if (encoding != nil) {
-            return encoding;
-        }
-    }
-    
-    // Don't have a known encoding, so return default encoding
-    return self.defaultEncoding;
-}
-
 - (BOOL) isYoutubeVideo {
     for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
         OEXVideoEncoding* encoding = self.encodings[name];
@@ -181,17 +168,6 @@
 
 - (NSString*)videoURL {
     return self.preferredEncoding.URL;
-}
-
-- (NSNumber*)size {
-    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
-        OEXVideoEncoding* encoding = self.encodings[name];
-        if (encoding.name && ![encoding.name isEqualToString:OEXVideoEncodingHLS]) {
-            return encoding.size;
-        }
-    }
-
-    return self.preferredEncoding.size;
 }
 
 - (NSString *)videoSize {
