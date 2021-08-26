@@ -112,8 +112,8 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         }
     }
     
-    private func loadWebviewStream() {
-        if !loader.hasBacking {
+    private func loadWebviewStream(_ forceLoad: Bool = false) {
+        if !loader.hasBacking || forceLoad {
             let courseQuerierStream = courseQuerier.blockWithID(id: self.blockID).firstSuccess()
             loader.addBackingStream(courseQuerierStream)
             
@@ -292,11 +292,18 @@ extension HTMLBlockViewController: AJAXCompletionCallbackDelegate {
     }
 }
 
-extension HTMLBlockViewController: OpenInExternalBrowserViewDelegate {
+extension HTMLBlockViewController: OpenInExternalBrowserViewDelegate, BrowserViewControllerDelegate {
     func openInExternalBrower() {
-        guard let webURL = block?.webURL as URL? else { return }
+        guard let blockID = block?.blockID else { return }
+        let parent = courseQuerier.parentOfBlockWith(id: blockID).firstSuccess().value
+        guard let unitURL = parent?.blockURL as URL? else { return }
+
         trackOpenInBrowserBannerEvent(displayName: AnalyticsDisplayName.OpenInBrowserBannerTapped, eventName: AnalyticsEventName.OpenInBrowserBannerTapped)
-        
-        environment.router?.showLocalBrowserViewController(from: self, url: webURL)
+
+        environment.router?.showLocalBrowserViewController(from: self, title: parent?.displayName, url: unitURL)
+    }
+
+    func didDissmissBrowser() {
+        loadWebviewStream(true)
     }
 }

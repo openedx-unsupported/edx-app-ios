@@ -411,8 +411,11 @@ extension OEXRouter {
         controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailController), animated: true, completion: completion)
     }
     
-    func showLocalBrowserViewController(from controller: UIViewController, url: URL, completion: (() -> Void)? = nil) {
-        let browserViewController = BrowserViewController(url: url, environment: environment)
+    func showLocalBrowserViewController(from controller: UIViewController, title: String?,  url: URL, completion: (() -> Void)? = nil) {
+        let browserViewController = BrowserViewController(title: title, url: url, environment: environment)
+        if let controller = controller as? BrowserViewControllerDelegate {
+            browserViewController.delegate = controller
+        }
         let navController = ForwardingNavigationController(rootViewController: browserViewController)
         navController.modalPresentationStyle = .fullScreen
         controller.present(navController, animated: true, completion: completion)

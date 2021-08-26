@@ -8,19 +8,25 @@
 
 import UIKit
 
-class BrowserViewController: UIViewController {
+protocol BrowserViewControllerDelegate: AnyObject {
+    func didDissmissBrowser()
+}
+
+class BrowserViewController: UIViewController, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider & OEXStylesProvider
     
     private lazy var webController = AuthenticatedWebViewController(environment: environment)
     
     private let url: URL
     private let environment: Environment
+    weak var delegate: BrowserViewControllerDelegate?
     
-    init(url: URL, environment: Environment) {
+    init(title: String? = nil, url: URL, environment: Environment) {
         self.url = url
         self.environment = environment
         super.init(nibName: nil, bundle :nil)
+        self.title = title
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,7 +35,8 @@ class BrowserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         configureSubview()
         loadRequest()
     }
@@ -56,10 +63,23 @@ class BrowserViewController: UIViewController {
     
     private func addCloseButton() {
         let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: 20), style: .plain, target: nil, action: nil)
+        closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
+        closeButton.accessibilityHint = Strings.Accessibility.closeHint
+        closeButton.accessibilityIdentifier = "BrowserViewController:close-button"
         navigationItem.rightBarButtonItem = closeButton
         
         closeButton.oex_setAction { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
+            self?.dismiss(animated: true, completion: {
+                self?.delegate?.didDissmissBrowser()
+            })
         }
+    }
+
+    override var shouldAutorotate: Bool {
+        return true
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
 }
