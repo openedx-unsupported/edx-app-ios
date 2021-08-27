@@ -8,9 +8,9 @@
 
 import Foundation
 
-private let OEXVideoDownloadQuality = "OEXVideoDownloadQuality"
+private let VideoDownloadQualityKey = "OEXVideoDownloadQuality"
 
-enum VideoDownloadQuality: CaseIterable {
+@objc public enum VideoDownloadQuality: Int {
     case auto
     case mobileLow // 640 x 360 - 360p
     case mobileHigh // 960 x 540 - 540p
@@ -49,16 +49,16 @@ enum VideoDownloadQuality: CaseIterable {
     var title: String {
         switch self {
         case .auto:
-            return Strings.VideoDownloadQuality.auto
+            return Strings.videoDownloadQualityAuto
             
         case .mobileLow:
-            return Strings.VideoDownloadQuality.low
+            return Strings.videoDownloadQualityLow
             
         case .mobileHigh:
-            return Strings.VideoDownloadQuality.medium
+            return Strings.videoDownloadQualityMedium
             
         case .desktop:
-            return Strings.VideoDownloadQuality.high
+            return Strings.videoDownloadQualityHigh
         }
     }
     
@@ -78,116 +78,23 @@ enum VideoDownloadQuality: CaseIterable {
         }
     }
     
-    static var encodings: [VideoDownloadQuality] {
-        return [.mobileLow, .mobileHigh, .desktop]
+    static var allCases: [VideoDownloadQuality] {
+        return [.auto, .mobileLow, .mobileHigh, .desktop]
     }
 }
 
 extension OEXInterface {
     func saveVideoDownloadQuality(quality: VideoDownloadQuality) {
-        UserDefaults.standard.set(quality.rawValue, forKey: OEXVideoDownloadQuality)
+        UserDefaults.standard.set(quality.rawValue, forKey: VideoDownloadQualityKey)
         UserDefaults.standard.synchronize()
     }
     
-    func getVideoDownladQuality() -> VideoDownloadQuality {
-        if let value = UserDefaults.standard.value(forKey: OEXVideoDownloadQuality) as? String,
+    @objc func getVideoDownladQuality() -> VideoDownloadQuality {
+        if let value = UserDefaults.standard.value(forKey: VideoDownloadQualityKey) as? String,
            let quality = VideoDownloadQuality(rawValue: value) {
             return quality
         } else {
             return .auto
         }
-    }
-}
-
-extension OEXVideoSummary {
-    @objc var size: NSNumber? {
-        if let encoding = getPreferredEncoding(), let size = encoding.size {
-            return size
-        } else {
-            guard let supportedencodings = OEXVideoEncoding.knownEncodingNames() as NSArray as? [String] else { return nil }
-            for name in supportedencodings {
-                if let encoding = encodings[name] as? OEXVideoEncoding {
-                    if encoding.name != OEXVideoEncodingHLS {
-                        return encoding.size
-                    }
-                }
-            }
-            return preferredEncoding?.size
-        }
-    }
-    
-    @objc var downloadURL: String? {
-        if let encoding = getPreferredEncoding(), let url = encoding.url {
-            return url
-        } else {
-            if let videoURL = videoURL, OEXVideoSummary.isDownloadableVideoURL(videoURL) {
-                return videoURL
-            } else {
-                // Loop through the video sources to find a downloadable video URL
-                guard !allSources.isEmpty, let allSources = allSources as NSArray as? [String] else { return nil }
-                for url in allSources {
-                    if OEXVideoSummary.isDownloadableVideoURL(url) {
-                        return url
-                    }
-                }
-            }
-        }
-        
-        return nil
-    }
-    
-    private func getPreferredEncoding() -> OEXVideoEncoding? {
-        if OEXConfig.shared().isUsingVideoPipeline {
-            // Loop through the available encodings to find a downloadable video URL
-            if let supportedEncodings = supportedEncodings as NSArray as? [String],
-               let availableEncodings = encodings as? Dictionary<String, OEXVideoEncoding> {
-                
-                let preferredDownloadQuality = OEXInterface.shared().getVideoDownladQuality()
-                
-                if preferredDownloadQuality == .auto {
-                    if let url = findPossibleEncodingIfAvailable(preferredDownloadQuality, availableEncodings) {
-                        return url
-                    }
-                } else if availableEncodings.keys.contains(where: { $0 == preferredDownloadQuality.rawValue }) {
-                    return availableEncodings[preferredDownloadQuality.rawValue]
-                } else {
-                    if let encoding = findPossibleEncodingIfAvailable(preferredDownloadQuality, availableEncodings) {
-                        return encoding
-                    } else {
-                        for name in supportedEncodings {
-                            if let encoding = availableEncodings[name], let url = encoding.url {
-                                if OEXVideoSummary.isDownloadableVideoURL(url) {
-                                    return encoding
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return nil
-    }
-    
-    private func findPossibleEncodingIfAvailable(_ preferredDownloadQuality: VideoDownloadQuality, _ availableEncodings: [String : OEXVideoEncoding]) -> OEXVideoEncoding? {
-        var possibleEncodings: [VideoDownloadQuality] = []
-        
-        switch preferredDownloadQuality {
-        case .desktop:
-            possibleEncodings = VideoDownloadQuality.encodings.filter { $0 != preferredDownloadQuality }.reversed()
-            
-        case .mobileHigh, .mobileLow:
-            possibleEncodings = VideoDownloadQuality.encodings.filter { $0 != preferredDownloadQuality }
-            
-        default:
-            possibleEncodings = VideoDownloadQuality.allCases
-        }
-        
-        for possibleEncoding in possibleEncodings {
-            if let encoding = availableEncodings[possibleEncoding.rawValue], let url = encoding.url, OEXVideoSummary.isDownloadableVideoURL(url) {
-                return encoding
-            }
-        }
-        
-        return nil
     }
 }

@@ -141,7 +141,7 @@ class CourseVideosHeaderView: UIView {
     
     private lazy var bottomTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleLabelStyle.attributedString(withText: Strings.VideoDownloadQuality.title)
+        label.attributedText = titleLabelStyle.attributedString(withText: Strings.videoDownloadQualityTitle)
         label.accessibilityIdentifier = "CourseVideosHeader:bottom-title-view"
         return label
     }()

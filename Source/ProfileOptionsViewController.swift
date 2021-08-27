@@ -375,7 +375,7 @@ class VideoSettingCell: UITableViewCell {
     
     private lazy var videoQualityDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.VideoDownloadQuality.title)
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.videoDownloadQualityTitle)
         label.accessibilityIdentifier = "VideoSettingCell:video-quality-description-label"
         return label
     }()

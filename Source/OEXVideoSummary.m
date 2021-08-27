@@ -178,8 +178,51 @@
     return (BOOL)self.downloadURL;
 }
 
+- (NSString*)downloadURL {
+    NSString *downloadURL = nil;
+    
+    if ([[OEXConfig sharedConfig] isUsingVideoPipeline]) {
+        // Loop through the available encodings to find a downloadable video URL
+        for(NSString* name in [self preferredEncodingSequence]) {
+            OEXVideoEncoding* encoding = self.encodings[name];
+            NSString *url = [encoding URL];
+            if (url && [OEXVideoSummary isDownloadableVideoURL:url]) {
+                downloadURL = url;
+                break;
+            }
+        }
+    }
+    else {
+        
+        // If the preferred encoding video URL is downloadable, then allow it to be downloaded.
+        if ([OEXVideoSummary isDownloadableVideoURL:self.videoURL]) {
+            downloadURL = self.videoURL;
+        } else {
+            // Loop through the video sources to find a downloadable video URL
+            for (NSString *url in self.allSources) {
+                if ([OEXVideoSummary isDownloadableVideoURL:url]) {
+                    downloadURL = url;
+                    break;
+                }
+            }
+        }
+    }
+    return downloadURL;
+}
+
 - (NSString*)videoURL {
     return self.preferredEncoding.URL;
+}
+
+- (NSNumber*)size {
+    for(NSString* name in [self preferredEncodingSequence]) {
+        OEXVideoEncoding* encoding = self.encodings[name];
+        if (encoding.name && ![encoding.name isEqualToString:OEXVideoEncodingHLS]) {
+            return encoding.size;
+        }
+    }
+    
+    return self.preferredEncoding.size;
 }
 
 - (NSString *)videoSize {
@@ -192,6 +235,48 @@
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName {
     return [self.supportedEncodings containsObject:encodingName];
+}
+
+- (NSArray*)preferredEncodingSequence {
+    NSArray *array;
+    
+    VideoDownloadQuality quality = [[OEXInterface sharedInterface] getVideoDownladQuality];
+    
+    switch (quality) {
+        case VideoDownloadQualityAuto:
+            array = [NSArray arrayWithObjects:
+                     OEXVideoEncodingMobileLow,
+                     OEXVideoEncodingMobileHigh,
+                     OEXVideoEncodingDesktopMP4,
+                     OEXVideoEncodingFallback, nil];
+            break;
+            
+        case VideoDownloadQualityMobileHigh:
+            array = [NSArray arrayWithObjects:
+                     OEXVideoEncodingMobileHigh,
+                     OEXVideoEncodingMobileLow,
+                     OEXVideoEncodingDesktopMP4,
+                     OEXVideoEncodingFallback, nil];
+            break;
+            
+        case VideoDownloadQualityMobileLow:
+            array = [NSArray arrayWithObjects:
+                     OEXVideoEncodingMobileLow,
+                     OEXVideoEncodingMobileHigh,
+                     OEXVideoEncodingDesktopMP4,
+                     OEXVideoEncodingFallback, nil];
+            break;
+            
+        case VideoDownloadQualityDesktop:
+            array = [NSArray arrayWithObjects:
+                     OEXVideoEncodingDesktopMP4,
+                     OEXVideoEncodingMobileHigh,
+                     OEXVideoEncodingMobileLow,
+                     OEXVideoEncodingFallback, nil];
+            break;
+    }
+    
+    return array;
 }
 
 @end

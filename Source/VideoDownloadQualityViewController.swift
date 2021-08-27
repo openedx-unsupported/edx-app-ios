@@ -54,7 +54,7 @@ class VideoDownloadQualityViewController: UIViewController {
         
         navigationItem.largeTitleDisplayMode = .never
         
-        title = Strings.VideoDownloadQuality.title
+        title = Strings.videoDownloadQualityTitle
         
         setupViews()
         addCloseButton()
@@ -139,7 +139,7 @@ class VideoDownloadQualityHeaderView: UITableViewHeaderFooterView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         let textStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralBlackT())
-        label.attributedText = textStyle.attributedString(withText: Strings.VideoDownloadQuality.message(platformName: OEXConfig.shared().platformName()))
+        label.attributedText = textStyle.attributedString(withText: Strings.videoDownloadQualityMessage(platformName: OEXConfig.shared().platformName()))
         label.accessibilityIdentifier = "VideoDownloadQualityHeaderView:title-view"
         return label
     }()
