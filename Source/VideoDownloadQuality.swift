@@ -12,9 +12,9 @@ private let VideoDownloadQualityKey = "OEXVideoDownloadQuality"
 
 @objc public enum VideoDownloadQuality: Int {
     case auto
-    case mobileLow // 640 x 360 - 360p
-    case mobileHigh // 960 x 540 - 540p
-    case desktop // 1280 x 720 - 720p
+    case mobileLow // OEXVideoEncodingMobileLow 640 x 360 - 360p
+    case mobileHigh // OEXVideoEncodingMobileHigh 960 x 540 - 540p
+    case desktop // OEXVideoEncodingDesktopMP4 1280 x 720 - 720p
     
     public typealias RawValue = String
     
