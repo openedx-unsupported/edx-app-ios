@@ -264,7 +264,9 @@ class CourseVideosHeaderView: UIView {
     
     fileprivate func addObserver(notification: Notification.Name) {
         let observer = NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (notification, observer, _) -> Void in
-            observer.refreshView()
+            if observer.toggledOn {
+                observer.refreshView()
+            }
         }
         let notificationObserver = NotificationObserver(notification: notification, observer: observer)
         observers.append(notificationObserver)
