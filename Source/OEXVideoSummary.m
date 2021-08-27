@@ -276,6 +276,11 @@
             break;
     }
     
+    NSMutableOrderedSet *set = [NSMutableOrderedSet new];
+    [set addObjectsFromArray:array];
+    [set addObjectsFromArray:self.supportedEncodings];
+    array = [set array];
+    
     return array;
 }
 
