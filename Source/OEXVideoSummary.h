@@ -49,8 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic, assign) BOOL hasVideoSize;
 @property (nonatomic, strong) NSDictionary* encodings;
 @property (nonatomic, copy, nullable) NSString* downloadURL;
-@property (nonatomic, strong) NSMutableArray *supportedEncodings;
-@property (nonatomic, copy) NSArray *allSources;
 
 // For CC
 // de - German

@@ -27,6 +27,8 @@
 @property (nonatomic, assign) BOOL onlyOnWeb;
 @property (nonatomic, strong) NSDictionary* transcripts;
 @property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
+@property (nonatomic, strong) NSMutableArray *supportedEncodings;
+@property (nonatomic, copy) NSArray *allSources;
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName;
 
