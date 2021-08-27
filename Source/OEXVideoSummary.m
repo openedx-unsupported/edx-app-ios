@@ -26,6 +26,7 @@
 @property (nonatomic, copy) NSString* unitURL;
 @property (nonatomic, assign) BOOL onlyOnWeb;
 @property (nonatomic, strong) NSDictionary* transcripts;
+@property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName;
 
@@ -74,7 +75,8 @@
             OEXVideoEncodingHLS,
             OEXVideoEncodingDesktopMP4,
             OEXVideoEncodingMobileHigh,
-            OEXVideoEncodingMobileLow]];
+            OEXVideoEncodingMobileLow
+        ]];
         if (![[OEXConfig sharedConfig] isUsingVideoPipeline] ||
             [self.preferredEncoding.name isEqualToString:OEXVideoEncodingFallback]) {
             [self.supportedEncodings addObject:OEXVideoEncodingFallback];
@@ -106,7 +108,19 @@
     return self;
 }
 
-- (BOOL) isYoutubeVideo {
+- (OEXVideoEncoding*)preferredEncoding {
+    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
+        OEXVideoEncoding* encoding = self.encodings[name];
+        if (encoding != nil) {
+            return encoding;
+        }
+    }
+    
+    // Don't have a known encoding, so return default encoding
+    return self.defaultEncoding;
+}
+
+- (BOOL)isYoutubeVideo {
     for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
         OEXVideoEncoding* encoding = self.encodings[name];
         
@@ -122,16 +136,14 @@
 }
 
 - (BOOL)hasVideoDuration {
-    
     return (self.duration > 0.0);
 }
 
 - (BOOL)hasVideoSize {
-    
     return ([[self size] doubleValue] > 0.0);
 }
 
-- (BOOL) isSupportedVideo {
+- (BOOL)isSupportedVideo {
     BOOL isSupportedEncoding = false;
     for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
         OEXVideoEncoding* encoding = self.encodings[name];
@@ -149,7 +161,7 @@
     return !self.onlyOnWeb && isSupportedEncoding;
 }
 
-+ (BOOL) isDownloadableVideoURL:(NSString*) url {
++ (BOOL)isDownloadableVideoURL:(NSString*) url {
     BOOL canDownload = url.length && [OEXInterface isURLForVideo:url];
     if(canDownload) {
         for (NSString *extension in ONLINE_ONLY_VIDEO_URL_EXTENSIONS) {
@@ -162,7 +174,7 @@
     return canDownload;
 }
 
-- (BOOL) isDownloadableVideo {
+- (BOOL)isDownloadableVideo {
     return (BOOL)self.downloadURL;
 }
 

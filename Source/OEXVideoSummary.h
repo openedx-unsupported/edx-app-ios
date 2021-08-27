@@ -29,7 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic, nullable) OEXVideoPathEntry* chapterPathEntry;
 @property (readonly, strong, nonatomic, nullable) OEXVideoPathEntry* sectionPathEntry;
 
-@property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
 @property (nonatomic, strong, nullable) OEXVideoEncoding* preferredEncoding;
 
 @property (readonly, nonatomic, copy, nullable) NSString* category;

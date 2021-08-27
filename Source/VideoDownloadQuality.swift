@@ -100,137 +100,94 @@ extension OEXInterface {
 }
 
 extension OEXVideoSummary {
-    @objc var preferredEncoding: OEXVideoEncoding? {
-        if OEXConfig.shared().isUsingVideoPipeline {
-            return getPreferredEncoding()
-        } else if let knownEncodings = OEXVideoEncoding.knownEncodingNames() as NSArray as? [String] {
-            for name in knownEncodings {
-                let encoding = encodings[name] as? OEXVideoEncoding
-                if let encoding = encoding {
-                    return encoding
-                }
-            }
-        }
-        
-        // Don't have a known encoding, so return default encoding
-        return defaultEncoding
-    }
-    
     @objc var size: NSNumber? {
-        if let preferredEncoding = getPreferredEncoding(), let size = preferredEncoding.size {
+        if let encoding = getPreferredEncoding(), let size = encoding.size {
             return size
-        } else if let knownEncodings = OEXVideoEncoding.knownEncodingNames() as NSArray as? [String] {
-            for name in knownEncodings {
-                let encoding = encodings[name] as? OEXVideoEncoding
-                if encoding?.name != OEXVideoEncodingHLS {
-                   return encoding?.size
+        } else {
+            guard let supportedencodings = OEXVideoEncoding.knownEncodingNames() as NSArray as? [String] else { return nil }
+            for name in supportedencodings {
+                if let encoding = encodings[name] as? OEXVideoEncoding {
+                    if encoding.name != OEXVideoEncodingHLS {
+                        return encoding.size
+                    }
                 }
             }
+            return preferredEncoding?.size
         }
-        return preferredEncoding?.size
     }
     
     @objc var downloadURL: String? {
-        var downloadURL: String?
-        
-        if OEXConfig.shared().isUsingVideoPipeline {
-            downloadURL = getPreferredEncoding()?.url
+        if let encoding = getPreferredEncoding(), let url = encoding.url {
+            return url
         } else {
             if let videoURL = videoURL, OEXVideoSummary.isDownloadableVideoURL(videoURL) {
-                downloadURL = videoURL
+                return videoURL
             } else {
                 // Loop through the video sources to find a downloadable video URL
-                guard let allSources = allSources as NSArray as? [String] else { return nil }
-                for url in allSources where OEXVideoSummary.isDownloadableVideoURL(url) {
-                    downloadURL = url
-                    break
+                guard !allSources.isEmpty, let allSources = allSources as NSArray as? [String] else { return nil }
+                for url in allSources {
+                    if OEXVideoSummary.isDownloadableVideoURL(url) {
+                        return url
+                    }
                 }
             }
         }
         
-        return downloadURL
+        return nil
     }
     
     private func getPreferredEncoding() -> OEXVideoEncoding? {
-        var encoding: OEXVideoEncoding?
-        
-        let preferredQuality = OEXInterface.shared().getVideoDownladQuality()
-        
-        // Loop through the available encodings to find a downloadable video URL
-        if let supportedEncodings = supportedEncodings as NSArray as? [String],
-           let availableEncodings = encodings as? Dictionary<String, OEXVideoEncoding> {
-            
-            let filteredEncodings = availableEncodings.keys.filter { supportedEncodings.contains($0) }
-            
-            if filteredEncodings.contains(preferredQuality.rawValue) {
-                if preferredQuality == .auto {
-                    encoding = getAutoPreferredAvailableURL(filteredEncodings: filteredEncodings, availableEncodings: availableEncodings)
+        if OEXConfig.shared().isUsingVideoPipeline {
+            // Loop through the available encodings to find a downloadable video URL
+            if let supportedEncodings = supportedEncodings as NSArray as? [String],
+               let availableEncodings = encodings as? Dictionary<String, OEXVideoEncoding> {
+                
+                let preferredDownloadQuality = OEXInterface.shared().getVideoDownladQuality()
+                
+                if preferredDownloadQuality == .auto {
+                    if let url = findPossibleEncodingIfAvailable(preferredDownloadQuality, availableEncodings) {
+                        return url
+                    }
+                } else if availableEncodings.keys.contains(where: { $0 == preferredDownloadQuality.rawValue }) {
+                    return availableEncodings[preferredDownloadQuality.rawValue]
                 } else {
-                    if let possibleEncoding = availableEncodings[preferredQuality.rawValue],
-                       let url = possibleEncoding.url, OEXVideoSummary.isDownloadableVideoURL(url) {
-                        encoding = possibleEncoding
+                    if let encoding = findPossibleEncodingIfAvailable(preferredDownloadQuality, availableEncodings) {
+                        return encoding
                     } else {
-                        encoding = getFirstAvailableURL(preferredQuality: preferredQuality, filteredEncodings: filteredEncodings, availableEncodings: availableEncodings)
+                        for name in supportedEncodings {
+                            if let encoding = availableEncodings[name], let url = encoding.url {
+                                if OEXVideoSummary.isDownloadableVideoURL(url) {
+                                    return encoding
+                                }
+                            }
+                        }
                     }
                 }
-            } else {
-                encoding = getFirstAvailableURL(preferredQuality: preferredQuality, filteredEncodings: filteredEncodings, availableEncodings: availableEncodings)
             }
         }
-        
-        return encoding
+        return nil
     }
     
-    private func getEncoding(with availableEncodings: [String : OEXVideoEncoding], possibleEncoding: VideoDownloadQuality) -> OEXVideoEncoding? {
-        if let encoding = availableEncodings[possibleEncoding.rawValue],
-           let url = encoding.url, OEXVideoSummary.isDownloadableVideoURL(url) {
-            return encoding
-        } else {
-            return nil
-        }
-    }
-    
-    private func getAutoPreferredAvailableURL(filteredEncodings: [Dictionary<String, OEXVideoEncoding>.Keys.Element], availableEncodings: [String : OEXVideoEncoding]) -> OEXVideoEncoding? {
-        
-        var encoding: OEXVideoEncoding?
-        
-        for possibleEncoding in VideoDownloadQuality.encodings where filteredEncodings.contains(possibleEncoding.rawValue) {
-            if let availableEncoding = getEncoding(with: availableEncodings, possibleEncoding: possibleEncoding) {
-                encoding = availableEncoding
-                break
-            }
-        }
-        
-        return encoding
-    }
-    
-    private func getFirstAvailableURL(preferredQuality: VideoDownloadQuality, filteredEncodings: [Dictionary<String, OEXVideoEncoding>.Keys.Element], availableEncodings: [String: OEXVideoEncoding]) -> OEXVideoEncoding? {
-        
-        var encoding: OEXVideoEncoding?
-        
+    private func findPossibleEncodingIfAvailable(_ preferredDownloadQuality: VideoDownloadQuality, _ availableEncodings: [String : OEXVideoEncoding]) -> OEXVideoEncoding? {
         var possibleEncodings: [VideoDownloadQuality] = []
         
-        switch preferredQuality {
+        switch preferredDownloadQuality {
         case .desktop:
-            possibleEncodings = VideoDownloadQuality.encodings.filter { $0 != preferredQuality }.reversed()
-            break
+            possibleEncodings = VideoDownloadQuality.encodings.filter { $0 != preferredDownloadQuality }.reversed()
             
         case .mobileHigh, .mobileLow:
-            possibleEncodings = VideoDownloadQuality.encodings.filter { $0 != preferredQuality }
-            break
+            possibleEncodings = VideoDownloadQuality.encodings.filter { $0 != preferredDownloadQuality }
             
         default:
-            possibleEncodings = VideoDownloadQuality.encodings
-            break
+            possibleEncodings = VideoDownloadQuality.allCases
         }
         
-        for possibleEncoding in possibleEncodings where filteredEncodings.contains(possibleEncoding.rawValue) {
-            if let availableEncoding = getEncoding(with: availableEncodings, possibleEncoding: possibleEncoding) {
-                encoding = availableEncoding
-                break
+        for possibleEncoding in possibleEncodings {
+            if let encoding = availableEncodings[possibleEncoding.rawValue], let url = encoding.url, OEXVideoSummary.isDownloadableVideoURL(url) {
+                return encoding
             }
         }
         
-        return encoding
+        return nil
     }
 }
