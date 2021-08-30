@@ -112,8 +112,8 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         }
     }
     
-    private func loadWebviewStream() {
-        if !loader.hasBacking {
+    private func loadWebviewStream(_ forceLoad: Bool = false) {
+        if !loader.hasBacking || forceLoad {
             let courseQuerierStream = courseQuerier.blockWithID(id: self.blockID).firstSuccess()
             loader.addBackingStream(courseQuerierStream)
             
@@ -292,12 +292,19 @@ extension HTMLBlockViewController: AJAXCompletionCallbackDelegate {
     }
 }
 
-extension HTMLBlockViewController: OpenInExternalBrowserViewDelegate {
+extension HTMLBlockViewController: OpenInExternalBrowserViewDelegate, BrowserViewControllerDelegate {
     func openInExternalBrower() {
-        guard let webURL = block?.webURL as URL? else { return }
+        guard let blockID = block?.blockID,
+              let parent = courseQuerier.parentOfBlockWith(id: blockID).firstSuccess().value,
+              let unitURL = parent.blockURL as URL? else { return }
+
         trackOpenInBrowserBannerEvent(displayName: AnalyticsDisplayName.OpenInBrowserBannerTapped, eventName: AnalyticsEventName.OpenInBrowserBannerTapped)
-        if UIApplication.shared.canOpenURL(webURL) {
-            UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
-        }
+        environment.router?.showBrowserViewController(from: self, title: parent.displayName, url: unitURL)
+    }
+
+    // We want to force reload the component screen because if the learner has taken any action
+    // on the in-app browser screen, the learner get updated experience on the component as well
+    func didDismissBrowser() {
+        loadWebviewStream(true)
     }
 }
