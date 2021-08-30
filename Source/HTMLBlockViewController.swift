@@ -294,16 +294,17 @@ extension HTMLBlockViewController: AJAXCompletionCallbackDelegate {
 
 extension HTMLBlockViewController: OpenInExternalBrowserViewDelegate, BrowserViewControllerDelegate {
     func openInExternalBrower() {
-        guard let blockID = block?.blockID else { return }
-        let parent = courseQuerier.parentOfBlockWith(id: blockID).firstSuccess().value
-        guard let unitURL = parent?.blockURL as URL? else { return }
+        guard let blockID = block?.blockID,
+              let parent = courseQuerier.parentOfBlockWith(id: blockID).firstSuccess().value,
+              let unitURL = parent.blockURL as URL? else { return }
 
         trackOpenInBrowserBannerEvent(displayName: AnalyticsDisplayName.OpenInBrowserBannerTapped, eventName: AnalyticsEventName.OpenInBrowserBannerTapped)
-
-        environment.router?.showLocalBrowserViewController(from: self, title: parent?.displayName, url: unitURL)
+        environment.router?.showBrowserViewController(from: self, title: parent.displayName, url: unitURL)
     }
 
-    func didDissmissBrowser() {
+    // We want to force reload the component screen because if the learner has taken any action
+    // on the in-app browser screen, the learner get updated experience on the component as well
+    func didDismissBrowser() {
         loadWebviewStream(true)
     }
 }

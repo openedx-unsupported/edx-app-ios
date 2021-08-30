@@ -9,7 +9,7 @@
 import UIKit
 
 protocol BrowserViewControllerDelegate: AnyObject {
-    func didDissmissBrowser()
+    func didDismissBrowser()
 }
 
 class BrowserViewController: UIViewController, InterfaceOrientationOverriding {
@@ -69,9 +69,9 @@ class BrowserViewController: UIViewController, InterfaceOrientationOverriding {
         navigationItem.rightBarButtonItem = closeButton
         
         closeButton.oex_setAction { [weak self] in
-            self?.dismiss(animated: true, completion: {
-                self?.delegate?.didDissmissBrowser()
-            })
+            self?.dismiss(animated: true) {
+                self?.delegate?.didDismissBrowser()
+            }
         }
     }
 
