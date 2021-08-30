@@ -75,7 +75,11 @@ public enum AnalyticsDisplayName : String {
     case WifiOff = "Wifi Off"
     case WifiAllow = "Wifi Allow"
     case WifiDontAllow = "Wifi Dont Allow"
-    case EmailSupportClicked = "Email Support Clicked"    
+    case EmailSupportClicked = "Email Support Clicked"
+    case ProfileVideoDownloadQualityClicked = "Profile: Video Download Quality Clicked"
+    case CourseVideosDownloadQualityClicked = "Course Videos: Video Download Quality Clicked"
+    case VideoDownloadQuality = "Video Download Quality"
+    case VideoDownloadQualityChanged = "Video Download Quality Changed"
 }
 
 public enum AnalyticsEventName: String {
@@ -142,7 +146,10 @@ public enum AnalyticsEventName: String {
     case WifiOff = "edx.bi.app.profile.wifi.switch.off"
     case WifiAllow = "edx.bi.app.profile.wifi.allow"
     case WifiDontAllow = "edx.bi.app.profile.wifi.dont_allow"
-    case EmailSupportClicked = "edx.bi.app.profile.email_support.clicked"    
+    case EmailSupportClicked = "edx.bi.app.profile.email_support.clicked"
+    case ProfileVideoDownloadQualityClicked = "edx.bi.app.profile.video_download_quality.clicked"
+    case CourseVideosDownloadQualityClicked = "edx.bi.app.course_videos.video_download_quality.clicked"
+    case VideoDownloadQualityChanged = "edx.bi.app.video_download_quality.changed"
 }
 
 public enum AnalyticsScreenName: String {
@@ -168,6 +175,7 @@ public enum AnalyticsScreenName: String {
     case SpecialExamBlockedScreen = "Special Exam Blocked Screen"
     case EmptySectionOutline = "Empty Section Outline"
     case Profile = "profile"
+    case VideoDownloadQuality = "Video Download Quality"
 }
 
 public enum AnalyticsEventDataKey: String {
@@ -198,6 +206,8 @@ public enum AnalyticsEventDataKey: String {
     case ComponentID = "component_id"
     case ComponentType = "component_type"
     case OpenedURL = "opened_url"
+    case Value = "value"
+    case OldValue = "old_value"
 }
 
 
@@ -578,6 +588,27 @@ extension OEXAnalytics {
         event.name = allowed ? AnalyticsEventName.WifiAllow.rawValue : AnalyticsEventName.WifiDontAllow.rawValue
         
         trackEvent(event, forComponent: nil, withInfo: nil)
+    }
+    
+    func trackVideoDownloadQualityClicked(displayName: AnalyticsDisplayName, name: AnalyticsEventName) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = displayName.rawValue
+        event.name = name.rawValue
+                
+        trackEvent(event, forComponent: nil, withInfo: nil)
+    }
+    
+    func trackVideoDownloadQualityChanged(value: String, oldValue: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.VideoDownloadQualityChanged.rawValue
+        event.name = AnalyticsEventName.VideoDownloadQualityChanged.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Value.rawValue: value,
+            AnalyticsEventDataKey.OldValue.rawValue: oldValue
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
     }
 }
 

@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSDictionary* transcripts;
 @property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
 @property (nonatomic, strong) NSMutableArray *supportedEncodings;
+@property (nonatomic, copy) NSArray *allSources;
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName;
 
@@ -72,13 +73,18 @@
         
         if (_encodings.count <=0)
             _defaultEncoding = [[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:[summary objectForKey:@"video_url"] size:[summary objectForKey:@"size"]];
-        self.supportedEncodings = [[NSMutableArray alloc] initWithArray:@[OEXVideoEncodingHLS, OEXVideoEncodingMobileHigh, OEXVideoEncodingMobileLow]];
+        self.supportedEncodings = [[NSMutableArray alloc] initWithArray:@[
+            OEXVideoEncodingHLS,
+            OEXVideoEncodingDesktopMP4,
+            OEXVideoEncodingMobileHigh,
+            OEXVideoEncodingMobileLow
+        ]];
         if (![[OEXConfig sharedConfig] isUsingVideoPipeline] ||
             [self.preferredEncoding.name isEqualToString:OEXVideoEncodingFallback]) {
             [self.supportedEncodings addObject:OEXVideoEncodingFallback];
         }
-
-        self.downloadURL = [self getDownloadURL:[summary objectForKey:@"all_sources"]];
+        
+        self.allSources = [summary objectForKey:@"all_sources"];
     }
     
     return self;
@@ -116,7 +122,7 @@
     return self.defaultEncoding;
 }
 
-- (BOOL) isYoutubeVideo {
+- (BOOL)isYoutubeVideo {
     for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
         OEXVideoEncoding* encoding = self.encodings[name];
         
@@ -132,16 +138,14 @@
 }
 
 - (BOOL)hasVideoDuration {
-    
     return (self.duration > 0.0);
 }
 
 - (BOOL)hasVideoSize {
-    
     return ([[self size] doubleValue] > 0.0);
 }
 
-- (BOOL) isSupportedVideo {
+- (BOOL)isSupportedVideo {
     BOOL isSupportedEncoding = false;
     for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
         OEXVideoEncoding* encoding = self.encodings[name];
@@ -159,7 +163,7 @@
     return !self.onlyOnWeb && isSupportedEncoding;
 }
 
-+ (BOOL) isDownloadableVideoURL:(NSString*) url {
++ (BOOL)isDownloadableVideoURL:(NSString*) url {
     BOOL canDownload = url.length && [OEXInterface isURLForVideo:url];
     if(canDownload) {
         for (NSString *extension in ONLINE_ONLY_VIDEO_URL_EXTENSIONS) {
@@ -172,16 +176,16 @@
     return canDownload;
 }
 
-- (BOOL) isDownloadableVideo {
+- (BOOL)isDownloadableVideo {
     return (BOOL)self.downloadURL;
 }
 
-- (NSString*)getDownloadURL:(NSArray*) allSources {
+- (NSString*)downloadURL {
     NSString *downloadURL = nil;
-
+    
     if ([[OEXConfig sharedConfig] isUsingVideoPipeline]) {
         // Loop through the available encodings to find a downloadable video URL
-        for(NSString* name in [self supportedEncodings]) {
+        for(NSString* name in [self preferredEncodingSequence]) {
             OEXVideoEncoding* encoding = self.encodings[name];
             NSString *url = [encoding URL];
             if (url && [OEXVideoSummary isDownloadableVideoURL:url]) {
@@ -191,13 +195,13 @@
         }
     }
     else {
-
+        
         // If the preferred encoding video URL is downloadable, then allow it to be downloaded.
         if ([OEXVideoSummary isDownloadableVideoURL:self.videoURL]) {
             downloadURL = self.videoURL;
         } else {
             // Loop through the video sources to find a downloadable video URL
-            for (NSString *url in allSources) {
+            for (NSString *url in self.allSources) {
                 if ([OEXVideoSummary isDownloadableVideoURL:url]) {
                     downloadURL = url;
                     break;
@@ -213,13 +217,13 @@
 }
 
 - (NSNumber*)size {
-    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
+    for(NSString* name in [self preferredEncodingSequence]) {
         OEXVideoEncoding* encoding = self.encodings[name];
         if (encoding.name && ![encoding.name isEqualToString:OEXVideoEncodingHLS]) {
             return encoding.size;
         }
     }
-
+    
     return self.preferredEncoding.size;
 }
 
@@ -233,6 +237,53 @@
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName {
     return [self.supportedEncodings containsObject:encodingName];
+}
+
+- (NSArray*)preferredEncodingSequence {
+    NSArray *array;
+    
+    VideoDownloadQuality quality = [[OEXInterface sharedInterface] getVideoDownladQuality];
+    
+    switch (quality) {
+        case VideoDownloadQualityAuto:
+            array = [NSArray arrayWithObjects:
+                     OEXVideoEncodingMobileLow,
+                     OEXVideoEncodingMobileHigh,
+                     OEXVideoEncodingDesktopMP4,
+                     OEXVideoEncodingFallback, nil];
+            break;
+            
+        case VideoDownloadQualityMobileHigh:
+            array = [NSArray arrayWithObjects:
+                     OEXVideoEncodingMobileHigh,
+                     OEXVideoEncodingMobileLow,
+                     OEXVideoEncodingDesktopMP4,
+                     OEXVideoEncodingFallback, nil];
+            break;
+            
+        case VideoDownloadQualityMobileLow:
+            array = [NSArray arrayWithObjects:
+                     OEXVideoEncodingMobileLow,
+                     OEXVideoEncodingMobileHigh,
+                     OEXVideoEncodingDesktopMP4,
+                     OEXVideoEncodingFallback, nil];
+            break;
+            
+        case VideoDownloadQualityDesktop:
+            array = [NSArray arrayWithObjects:
+                     OEXVideoEncodingDesktopMP4,
+                     OEXVideoEncodingMobileHigh,
+                     OEXVideoEncodingMobileLow,
+                     OEXVideoEncodingFallback, nil];
+            break;
+    }
+    
+    NSMutableOrderedSet *set = [NSMutableOrderedSet new];
+    [set addObjectsFromArray:array];
+    [set addObjectsFromArray:self.supportedEncodings];
+    array = [set array];
+    
+    return array;
 }
 
 @end

@@ -21,7 +21,7 @@ protocol CourseOutlineTableControllerDelegate: AnyObject {
     func resetCourseDate(controller: CourseOutlineTableController)
 }
 
-class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate {
+class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate, VideoDownloadQualityDelegate {
 
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
@@ -176,6 +176,17 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     func invalidOrNoNetworkFound() {
         showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
+    }
+    
+    func didTapVideoQuality() {
+        environment.analytics.trackVideoDownloadQualityClicked(displayName: AnalyticsDisplayName.CourseVideosDownloadQualityClicked, name: AnalyticsEventName.CourseVideosDownloadQualityClicked)
+        environment.router?.showDownloadVideoQuality(from: self, delegate: self, modal: true)
+    }
+    
+    func didUpdateVideoQuality() {
+        if courseOutlineMode == .video {
+            courseVideosHeaderView?.refreshView()
+        }
     }
     
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
@@ -485,7 +496,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             }
             courseVideosHeaderView?.snp.makeConstraints { make in
                 make.edges.equalTo(headerContainer)
-                make.height.equalTo(CourseVideosHeaderView.height)
+                make.height.equalTo(CourseVideosHeaderView.height * 2)
             }
             courseVideosHeaderView?.refreshView()
             tableView.setAndLayoutTableHeaderView(header: headerContainer)

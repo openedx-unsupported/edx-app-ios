@@ -435,7 +435,17 @@ extension OEXRouter {
         let editController = UserProfileEditViewController(profile: profile, environment: environment)
         controller.navigationController?.pushViewController(editController, animated: true)
     }
-
+    
+    func showDownloadVideoQuality(from controller: UIViewController, delegate: VideoDownloadQualityDelegate?, modal: Bool = false) {
+        let videoQualityController = VideoDownloadQualityViewController.init(environment: environment, delegate: delegate)
+        if modal {
+            controller.present(ForwardingNavigationController(rootViewController: videoQualityController), animated: true, completion: nil)
+        } else {
+            controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            controller.navigationController?.pushViewController(videoQualityController, animated: true)
+        }
+    }
+    
     func showCertificate(url: NSURL, title: String?, fromController controller: UIViewController) {
         let c = CertificateViewController(environment: environment)
         c.title = title
