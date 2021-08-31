@@ -291,6 +291,7 @@ typealias DismissCompletion = () -> Void
             if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is ProfileOptionsViewController}) {
                 topViewController.navigationController?.popToViewController(viewController, animated: true)
                 topViewController.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
+                completion?(true)
             }
             else {
                 environment?.router?.showProfile(controller: topViewController, completion: completion)
