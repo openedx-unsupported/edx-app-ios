@@ -263,11 +263,11 @@ class CalendarManager: NSObject {
     
     private func generateDeeplink(componentBlockID: String) -> String? {
         guard !componentBlockID.isEmpty else { return nil }
-        let branchUniversalObject = BranchUniversalObject(canonicalIdentifier: "course_component/\(componentBlockID)")
+        let branchUniversalObject = BranchUniversalObject(canonicalIdentifier: "\(DeepLinkType.courseComponent.rawValue)/\(componentBlockID)")
         let dictionary: NSMutableDictionary = [
-            "screen_name": "course_component",
-            "course_id": courseID,
-            "component_id": componentBlockID
+            DeepLinkPath.screenName.rawValue: DeepLinkType.courseComponent.rawValue,
+            DeepLinkPath.courseId.rawValue: courseID,
+            DeepLinkPath.componentID.rawValue: componentBlockID
         ]
         let metadata = BranchContentMetadata()
         metadata.customMetadata = dictionary
