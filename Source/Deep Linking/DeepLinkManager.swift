@@ -272,31 +272,51 @@ typealias DismissCompletion = () -> Void
     }
 
     // Profile screen having different options like video settings, faq, support email
-    private func showProfile(with link: DeepLink, completion: (() -> ())? = nil) {
-        guard !controllerAlreadyDisplayed(for: link.type) else { return}
-        guard let topViewController = topMostViewController else { return }
+    private func showProfile(with link: DeepLink, completion: ((_ success: Bool) -> ())? = nil) {
+        guard let topViewController = topMostViewController else
+        {
+            completion?(false)
+            return
+        }
+
+        // We can't use controllerAlreadyDisplayed here user the UserProfileViewController can be on the screen from forums
+        // In the forums UserProfileViewController will be for a different user so we need to show the logged in user profile
+        // stackController is ProfileOptionsViewController means the profile opens from new profile (settings) screen
+        if topViewController is ProfileOptionsViewController {
+            completion?(true)
+            return
+        }
 
         if topViewController is UserProfileViewController || topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
             if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is ProfileOptionsViewController}) {
                 topViewController.navigationController?.popToViewController(viewController, animated: true)
                 topViewController.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
-                completion?()
+            }
+            else {
+                environment?.router?.showProfile(controller: topViewController, completion: completion)
             }
         }
         else {
             dismiss() { [weak self] in
                 if let topViewController = self?.topMostViewController {
-                    self?.environment?.router?.showProfile(controller: topViewController)
-                    completion?()
+                    self?.environment?.router?.showProfile(controller: topViewController, completion: completion)
                 }
             }
         }
     }
     
     private func showUserProfile(with link: DeepLink) {
-        guard !controllerAlreadyDisplayed(for: link.type) else { return}
-        guard let topViewController = topMostViewController, let username = environment?.session.currentUser?.username else { return }
-        
+        guard let topViewController = topMostViewController,
+              let username = environment?.session.currentUser?.username else { return }
+
+        // We can't use controllerAlreadyDisplayed here user the UserProfileViewController can be on the screen from forums
+        // In the forums UserProfileViewController will be for a different user so we need to show the logged in user profile
+        // stackController is ProfileOptionsViewController means the profile opens from new profile (settings) screen
+        let stackController = topViewController.navigationController?.viewControllers.first
+        if topViewController is UserProfileViewController && stackController is ProfileOptionsViewController {
+            return
+        }
+
         func showView(modal: Bool) {
             environment?.router?.showProfileForUsername(controller: topMostViewController, username: username, editable: false, modal: modal)
         }
@@ -310,8 +330,10 @@ typealias DismissCompletion = () -> Void
         }
         else {
             dismiss() { [weak self] in
-                self?.showProfile(with: link) {
-                    self?.showUserProfile(with: link)
+                self?.showProfile(with: link) { success in
+                    if success {
+                        self?.showUserProfile(with: link)
+                    }
                 }
             }
         }

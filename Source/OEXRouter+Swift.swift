@@ -399,11 +399,13 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(handoutsViewController, animated: true)
     }
     
-    func showProfile(controller: UIViewController? = nil) {        
+    func showProfile(controller: UIViewController? = nil, completion: ((_ success: Bool) -> ())? = nil) {
         let profileViewController = ProfileOptionsViewController(environment: environment)
         let navigationController = ForwardingNavigationController(rootViewController: profileViewController)
         navigationController.navigationBar.prefersLargeTitles = true
-        controller?.navigationController?.present(navigationController, animated: true, completion: nil)
+        controller?.navigationController?.present(navigationController, animated: true, completion: {
+            completion?(true)
+        })
     }
     
     func showValuePropDetailView(from controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse, completion: (() -> Void)? = nil) {
