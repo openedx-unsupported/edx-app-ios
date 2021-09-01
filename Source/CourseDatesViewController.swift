@@ -87,7 +87,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private var calendarSyncEnabled: Bool {
-        return isSelfPaced && calendarSyncConfig.isSelfPacedEnabled
+        return isSelfPaced ? calendarSyncConfig.selfPacedEnabled : calendarSyncConfig.instructorPacedEnabled
     }
     
     private var userEnrollment: EnrollmentMode {
@@ -208,11 +208,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func handleHeaderView(courseBanner: CourseDateBannerModel) {
-        if isSelfPaced {
-            loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabled)
-        } else {
-            updateCourseHeaderVisibility(visibile: false)
-        }
+        loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabled)
     }
     
     private func loadCourseDateHeaderView(bannerModel: CourseDateBannerModel, calendarSyncEnabled: Bool) {

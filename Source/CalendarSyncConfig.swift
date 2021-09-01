@@ -17,15 +17,11 @@ struct CalendarSyncConfig {
     }
     
     private var disabledVersions: [String] = []
-    private var selfPacedEnabled: Bool = false
-    private var instructorPacedEnabled: Bool = false
+    var selfPacedEnabled: Bool = false
+    var instructorPacedEnabled: Bool = false
     
     private var enabled: Bool {
         return !disabledVersions.contains(Bundle.main.oex_buildVersionString())
-    }
-    
-    var isSelfPacedEnabled: Bool {
-        return enabled && selfPacedEnabled
     }
     
     init() { }
@@ -35,8 +31,8 @@ struct CalendarSyncConfig {
         else { return }
               
         disabledVersions = config[Keys.disabledVersions.rawValue] as? [String] ?? []
-        selfPacedEnabled = config[Keys.selfPacedEnabled.rawValue] as? Bool ?? false
-        instructorPacedEnabled = config[Keys.instructorPacedEnabled.rawValue] as? Bool ?? false
+        selfPacedEnabled = enabled && config[Keys.selfPacedEnabled.rawValue] as? Bool ?? false
+        instructorPacedEnabled = enabled && config[Keys.instructorPacedEnabled.rawValue] as? Bool ?? false
     }
     
     func toDictionary() -> [String : Any] {
