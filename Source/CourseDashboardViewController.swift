@@ -25,6 +25,8 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
 
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
+    private var componentID: String?
+    
     init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID
@@ -57,9 +59,10 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    
+        navigateToComponentScreenIfNeeded()
     }
     
     override var shouldAutorotate: Bool {
@@ -185,12 +188,14 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
             loadStateController.loadController.state = .Loaded
             prepareTabViewData(withCourse: course)
             addNavigationItems(withCourse: course)
+            navigateToComponentScreenIfNeeded()
         }
     }
     
-    private func naivagteToComponentScreen(componentID: String?) {
+    private func navigateToComponentScreenIfNeeded() {
         if let componentID = componentID {
             environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
+            self.componentID = nil
         }
     }
     
@@ -225,8 +230,11 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
             break
         case .courseComponent:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+            self.componentID = componentID
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                self?.naivagteToComponentScreen(componentID: componentID)
+                if self?.isViewLoaded ?? false {
+                    self?.navigateToComponentScreenIfNeeded()
+                }
             }
             break
         case .courseVideos:

@@ -265,9 +265,9 @@ class CalendarManager: NSObject {
         guard !componentBlockID.isEmpty else { return nil }
         let branchUniversalObject = BranchUniversalObject(canonicalIdentifier: "\(DeepLinkType.courseComponent.rawValue)/\(componentBlockID)")
         let dictionary: NSMutableDictionary = [
-            DeepLinkPath.screenName.rawValue: DeepLinkType.courseComponent.rawValue,
-            DeepLinkPath.courseId.rawValue: courseID,
-            DeepLinkPath.componentID.rawValue: componentBlockID
+            DeepLinkKeys.screenName.rawValue: DeepLinkType.courseComponent.rawValue,
+            DeepLinkKeys.courseId.rawValue: courseID,
+            DeepLinkKeys.componentID.rawValue: componentBlockID
         ]
         let metadata = BranchContentMetadata()
         metadata.customMetadata = dictionary
