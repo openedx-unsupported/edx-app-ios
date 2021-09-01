@@ -25,6 +25,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
 
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
+    // componentID is only being used for deeplinking to component
     private var componentID: String?
     
     init(environment: Environment, courseID: String) {
@@ -45,10 +46,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         view.accessibilityIdentifier = "CourseDashboardViewController: view"
         viewControllers = [loadStateController]
-        courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
-        courseStream.listen(self) {[weak self] in
-            self?.resultLoaded(result: $0)
-        }
+        loadCourseStream()
         delegate = self
         progressController.hideProgessView()
         
@@ -59,10 +57,11 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    
-        navigateToComponentScreenIfNeeded()
+    private func loadCourseStream() {
+        courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
+        courseStream.listen(self) { [weak self] in
+            self?.resultLoaded(result: $0)
+        }
     }
     
     override var shouldAutorotate: Bool {
@@ -233,7 +232,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
             self.componentID = componentID
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
                 if self?.isViewLoaded ?? false {
-                    self?.navigateToComponentScreenIfNeeded()
+                    self?.loadCourseStream()
                 }
             }
             break
