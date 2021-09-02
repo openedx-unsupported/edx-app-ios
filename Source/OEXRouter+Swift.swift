@@ -403,9 +403,9 @@ extension OEXRouter {
         let profileViewController = ProfileOptionsViewController(environment: environment)
         let navigationController = ForwardingNavigationController(rootViewController: profileViewController)
         navigationController.navigationBar.prefersLargeTitles = true
-        controller?.navigationController?.present(navigationController, animated: true, completion: {
+        controller?.navigationController?.present(navigationController, animated: true) {
             completion?(true)
-        })
+        }
     }
     
     func showValuePropDetailView(from controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse, completion: (() -> Void)? = nil) {

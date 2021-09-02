@@ -273,15 +273,15 @@ typealias DismissCompletion = () -> Void
 
     // Profile screen having different options like video settings, faq, support email
     private func showProfile(with link: DeepLink, completion: ((_ success: Bool) -> ())? = nil) {
-        guard let topViewController = topMostViewController else
-        {
+        guard let topViewController = topMostViewController else {
             completion?(false)
             return
         }
 
-        // We can't use controllerAlreadyDisplayed here user the UserProfileViewController can be on the screen from forums
-        // In the forums UserProfileViewController will be for a different user so we need to show the logged in user profile
-        // stackController is ProfileOptionsViewController means the profile opens from new profile (settings) screen
+        // We can't use the controllerAlreadyDisplayed method here to check either the user is already on the user profile screen or not
+        // Because the user could have accessed the UserProfileViewController screen from the discussion forums
+        // From the discussion forums, the UserProfileViewController screen will be for a different user so we need to show the profile screen of the logged-in user
+        // if the stackController is equals to the ProfileOptionsViewController, it means the user profile screen opens from new profile (settings) screen
         if topViewController is ProfileOptionsViewController {
             completion?(true)
             return
@@ -310,9 +310,10 @@ typealias DismissCompletion = () -> Void
         guard let topViewController = topMostViewController,
               let username = environment?.session.currentUser?.username else { return }
 
-        // We can't use controllerAlreadyDisplayed here user the UserProfileViewController can be on the screen from forums
-        // In the forums UserProfileViewController will be for a different user so we need to show the logged in user profile
-        // stackController is ProfileOptionsViewController means the profile opens from new profile (settings) screen
+        // We can't use the controllerAlreadyDisplayed method here to check either the user is already on the user profile screen or not
+        // Because the user could have accessed the UserProfileViewController screen from the discussion forums
+        // From the discussion forums, the UserProfileViewController screen will be for a different user so we need to show the profile screen of the logged-in user
+        // if the stackController is equals to the ProfileOptionsViewController, it means the user profile screen opens from new profile (settings) screen
         let stackController = topViewController.navigationController?.viewControllers.first
         if topViewController is UserProfileViewController && stackController is ProfileOptionsViewController {
             return
