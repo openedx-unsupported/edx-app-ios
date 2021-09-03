@@ -105,9 +105,9 @@ typealias DismissCompletion = () -> Void
         } else if controller is DiscussionTopicsViewController {
             return .discussions
         } else if controller is ProfileOptionsViewController {
-            return .account
-        } else if controller is UserProfileViewController {
             return .profile
+        } else if controller is UserProfileViewController {
+            return .userProfile
         }
         
         return .none
@@ -270,34 +270,73 @@ typealias DismissCompletion = () -> Void
             }
         }
     }
-    
-    private func showAccountViewController(with link: DeepLink) {
-        guard !controllerAlreadyDisplayed(for: link.type) else { return}
-        
-        dismiss() { [weak self] in
-            if let topViewController = self?.topMostViewController {
-                self?.environment?.router?.showProfile(controller: topViewController)
+
+    // Profile screen having different options like video settings, faq, support email
+    private func showProfile(with link: DeepLink, completion: ((_ success: Bool) -> ())? = nil) {
+        guard let topViewController = topMostViewController else {
+            completion?(false)
+            return
+        }
+
+        // We can't use the controllerAlreadyDisplayed method here to check either the user is already on the user profile screen or not
+        // Because the user could have accessed the UserProfileViewController screen from the discussion forums
+        // From the discussion forums, the UserProfileViewController screen will be for a different user so we need to show the profile screen of the logged-in user
+        // if the stackController is equals to the ProfileOptionsViewController, it means the user profile screen opens from new profile (settings) screen
+        if topViewController is ProfileOptionsViewController {
+            completion?(true)
+            return
+        }
+
+        if topViewController is UserProfileViewController || topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
+            if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is ProfileOptionsViewController}) {
+                topViewController.navigationController?.popToViewController(viewController, animated: true)
+                topViewController.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
+                completion?(true)
+            }
+            else {
+                environment?.router?.showProfile(controller: topViewController, completion: completion)
+            }
+        }
+        else {
+            dismiss() { [weak self] in
+                if let topViewController = self?.topMostViewController {
+                    self?.environment?.router?.showProfile(controller: topViewController, completion: completion)
+                }
             }
         }
     }
     
-    private func showProfile(with link: DeepLink) {
-        guard let topViewController = topMostViewController, let username = environment?.session.currentUser?.username else { return }
-        
+    private func showUserProfile(with link: DeepLink) {
+        guard let topViewController = topMostViewController,
+              let username = environment?.session.currentUser?.username else { return }
+
+        // We can't use the controllerAlreadyDisplayed method here to check either the user is already on the user profile screen or not
+        // Because the user could have accessed the UserProfileViewController screen from the discussion forums
+        // From the discussion forums, the UserProfileViewController screen will be for a different user so we need to show the profile screen of the logged-in user
+        // if the stackController is equals to the ProfileOptionsViewController, it means the user profile screen opens from new profile (settings) screen
+        let stackController = topViewController.navigationController?.viewControllers.first
+        if topViewController is UserProfileViewController && stackController is ProfileOptionsViewController {
+            return
+        }
+
         func showView(modal: Bool) {
             environment?.router?.showProfileForUsername(controller: topMostViewController, username: username, editable: false, modal: modal)
         }
         
-        if (topViewController as? ForwardingNavigationController)?.visibleViewController is ProfileOptionsViewController {
+        if topViewController is ProfileOptionsViewController {
             showView(modal: false)
         } else if topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
             if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is UserProfileViewController}) {
                 topViewController.navigationController?.popToViewController(viewController, animated: true)
             }
         }
-        else if !controllerAlreadyDisplayed(for: link.type) {
-            dismiss() {
-                showView(modal: true)
+        else {
+            dismiss() { [weak self] in
+                self?.showProfile(with: link) { success in
+                    if success {
+                        self?.showUserProfile(with: link)
+                    }
+                }
             }
         }
     }
@@ -510,11 +549,11 @@ typealias DismissCompletion = () -> Void
             guard environment?.config.programConfig.enabled ?? false else { return }
             showProgramDetail(with: link)
             break
-        case .account:
-            showAccountViewController(with: link)
-            break
         case .profile:
             showProfile(with: link)
+            break
+        case .userProfile:
+            showUserProfile(with: link)
             break
         case .discussionTopic:
             showDiscussionTopic(with: link)
