@@ -274,7 +274,6 @@ class CalendarManager: NSObject {
         branchUniversalObject.contentMetadata = metadata
         let properties = BranchLinkProperties()
         if let block = courseQuerier.blockWithID(id: componentBlockID).value, let webURL = block.webURL {
-            //properties.addControlParam("$ios_url", withValue: OEXConfig.shared().appUpgradeConfig.iOSAppStoreURL()?.absoluteString ?? webURL.absoluteString)
             properties.addControlParam("$desktop_url", withValue: webURL.absoluteString)
         }
         
