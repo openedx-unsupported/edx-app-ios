@@ -193,8 +193,8 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     
     private func navigateToComponentScreenIfNeeded() {
         if let componentID = componentID {
-            environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
             self.componentID = nil
+            environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
         }
     }
     
@@ -230,8 +230,8 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         case .courseComponent:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
             self.componentID = componentID
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                if self?.isViewLoaded ?? false {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                if self?.isViewVisible ?? false {
                     self?.loadCourseStream()
                 }
             }

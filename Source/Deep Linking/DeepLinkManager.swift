@@ -119,7 +119,6 @@ typealias DismissCompletion = () -> Void
         if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
             if !controllerAlreadyDisplayed(for: link.type) {
                 courseDashboardView.switchTab(with: link.type, componentID: link.componentID)
-                return
             }
         }
         
