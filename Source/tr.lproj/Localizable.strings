@@ -873,12 +873,12 @@
 "VIDEO_DOWNLOAD_QUALITY_MEDIUM" = "540p";
 /* Settigs message for Video Download Quality High */
 "VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Best quality)";
-/* Settings title for wifi */
-"PROFILE_OPTIONS.WIFI.TITLE" = "WIFI";
-/* Settings heading for wifi */
-"PROFILE_OPTIONS.WIFI.HEADING" = "Wifi only download";
-/* Settings message for wifi */
-"PROFILE_OPTIONS.WIFI.MESSAGE" = "Only download content when wi-fi is turned on";
+/* Settings title for video settings */
+"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "VIDEO SETTINGS";
+/* Settings heading for video settings */
+"PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Wifi only download";
+/* Settings message for video settings */
+"PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Only download content when wi-fi is turned on";
 /* Settings title for profile information */
 "PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
 /* Settings user profile email */

@@ -130,15 +130,6 @@ class CourseVideosHeaderView: UIView {
         return imageView
     }()
     
-    private lazy var chevronImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = Icon.ChevronRight.imageWithFontSize(size: imageSize + (imageSize / 2))
-        imageView.tintColor = environment.styles.primaryBaseColor()
-        imageView.isAccessibilityElement = false
-        imageView.accessibilityIdentifier = "CourseVideosHeader:chevron-image-view"
-        return imageView
-    }()
-    
     private lazy var bottomTitleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = titleLabelStyle.attributedString(withText: Strings.videoDownloadQualityTitle)
@@ -383,7 +374,6 @@ class CourseVideosHeaderView: UIView {
         bottomContainer.addSubview(bottomTitleLabel)
         bottomContainer.addSubview(bottomSubtitleLabel)
         bottomContainer.addSubview(settingImageView)
-        bottomContainer.addSubview(chevronImageView)
         bottomContainer.addSubview(videoQualityButton)
         
         videoQualityButton.superview?.bringSubviewToFront(videoQualityButton)
@@ -463,16 +453,9 @@ class CourseVideosHeaderView: UIView {
             make.width.equalTo(imageSize)
         }
         
-        chevronImageView.snp.makeConstraints { make in
-            make.trailing.equalTo(bottomContainer).inset(StandardHorizontalMargin)
-            make.centerY.equalTo(bottomContainer)
-            make.height.equalTo(imageSize + (imageSize / 2))
-            make.width.equalTo(imageSize + (imageSize / 2))
-        }
-        
         bottomTitleLabel.snp.makeConstraints { make in
             make.leading.equalTo(settingImageView.snp.trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(chevronImageView.snp.leading).inset(StandardHorizontalMargin)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
             make.bottom.equalTo(bottomContainer.snp.centerY).inset(StandardVerticalMargin / 2)
         }
         
