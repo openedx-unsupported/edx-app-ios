@@ -25,9 +25,6 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
 
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
-    // componentID is only being used for deeplinking to component
-    private var componentID: String?
-    
     init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID
@@ -103,11 +100,13 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         navigationItem.rightBarButtonItems = navigationItems
     }
     
+    private lazy var courseOutlineController = CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full)
+    
     private func prepareTabViewData(withCourse course: OEXCourse) {
         
         tabBarItems = []
         
-        var item = TabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+        var item = TabBarItem(title: Strings.Dashboard.courseCourseware, viewController: courseOutlineController, icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
         tabBarItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
@@ -187,14 +186,6 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
             loadStateController.loadController.state = .Loaded
             prepareTabViewData(withCourse: course)
             addNavigationItems(withCourse: course)
-            navigateToComponentScreenIfNeeded()
-        }
-    }
-    
-    private func navigateToComponentScreenIfNeeded() {
-        if let componentID = componentID {
-            self.componentID = nil
-            environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
         }
     }
     
@@ -229,12 +220,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
             break
         case .courseComponent:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
-            self.componentID = componentID
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-                if self?.isViewVisible ?? false {
-                    self?.loadCourseStream()
-                }
-            }
+            courseOutlineController.componentID = componentID
             break
         case .courseVideos:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)

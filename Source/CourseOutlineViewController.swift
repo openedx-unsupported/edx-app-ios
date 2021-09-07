@@ -86,6 +86,14 @@ public class CourseOutlineViewController :
         tableController.delegate = self
     }
     
+    // componentID is only being used for deeplinking to component
+    var componentID: String? {
+        didSet {
+            guard componentID != nil else { return }
+            navigateToComponentScreenIfNeeded()
+        }
+    }
+    
     public func reloadData() {
         tableController.tableView.reloadData()
     }
@@ -174,12 +182,16 @@ public class CourseOutlineViewController :
         }
     }
     
+    private var courseOutlineLoaded = false
+    
     private func loadCourseOutlineStream() {
         let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
 
         courseOutlineStream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
             if self?.blockID == rootID || self?.blockID == nil {
                 if self?.courseOutlineMode == .full {
+                    self?.courseOutlineLoaded = true
+                    self?.navigateToComponentScreenIfNeeded()
                     self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
                 }
                 else {
@@ -366,6 +378,13 @@ public class CourseOutlineViewController :
         courseQuerier.needsRefresh = true
         loadBackedStreams()
         loadCourseStream()
+    }
+    
+    func navigateToComponentScreenIfNeeded() {
+        if courseOutlineLoaded, let componentID = componentID {
+            self.componentID = nil
+            environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
+        }
     }
     
     deinit {
