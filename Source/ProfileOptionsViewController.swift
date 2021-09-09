@@ -342,22 +342,22 @@ class VideoSettingCell: UITableViewCell {
     
     private lazy var optionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.VideoSettings.title)
         label.accessibilityIdentifier = "VideoSettingCell:option-label"
         return label
     }()
     
-    private lazy var wifiDescriptionLabel: UILabel = {
+    private lazy var videoSettingDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.heading)
-        label.accessibilityIdentifier = "VideoSettingCell:wifi-description-label"
+        label.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.VideoSettings.heading)
+        label.accessibilityIdentifier = "VideoSettingCell:video-setting-description-label"
         return label
     }()
     
-    private lazy var wifiSubtitleLabel: UILabel = {
+    private lazy var videoSettingSubtitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Wifi.message)
-        label.accessibilityIdentifier = "VideoSettingCell:wifi-subtitle-label"
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.VideoSettings.message)
+        label.accessibilityIdentifier = "VideoSettingCell:video-setting-subtitle-label"
         return label
     }()
         
@@ -421,9 +421,9 @@ class VideoSettingCell: UITableViewCell {
     private func setupViews() {
         contentView.addSubview(optionLabel)
         contentView.addSubview(wifiContainer)
-        wifiContainer.addSubview(wifiDescriptionLabel)
+        wifiContainer.addSubview(videoSettingDescriptionLabel)
         wifiContainer.addSubview(wifiSwitch)
-        wifiContainer.addSubview(wifiSubtitleLabel)
+        wifiContainer.addSubview(videoSettingSubtitleLabel)
         contentView.addSubview(videoQualityContainer)
         videoQualityContainer.addSubview(videoQualityDescriptionLabel)
         videoQualityContainer.addSubview(videoQualitySubtitleLabel)
@@ -442,22 +442,22 @@ class VideoSettingCell: UITableViewCell {
             make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardVerticalMargin)
             make.trailing.equalTo(contentView).inset(StandardVerticalMargin)
-            make.bottom.equalTo(wifiDescriptionLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.bottom.equalTo(videoSettingDescriptionLabel.snp.bottom).offset(StandardVerticalMargin)
         }
         
         wifiSwitch.snp.makeConstraints { make in
             make.trailing.equalTo(wifiContainer).inset(StandardVerticalMargin)
-            make.centerY.equalTo(wifiDescriptionLabel)
+            make.centerY.equalTo(videoSettingDescriptionLabel)
         }
         
-        wifiDescriptionLabel.snp.makeConstraints { make in
+        videoSettingDescriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(wifiContainer)
             make.leading.equalTo(wifiContainer).offset(StandardVerticalMargin)
             make.trailing.equalTo(wifiSwitch.snp.leading)
         }
         
-        wifiSubtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(wifiDescriptionLabel.snp.bottom).offset(StandardVerticalMargin)
+        videoSettingSubtitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(videoSettingDescriptionLabel.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(wifiContainer).offset(StandardVerticalMargin)
             make.trailing.equalTo(wifiContainer)
             make.height.equalTo(StandardVerticalMargin * 2)
