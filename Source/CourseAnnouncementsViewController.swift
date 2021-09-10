@@ -55,7 +55,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
         webView.isOpaque = false
         webView.navigationDelegate = self
         
-        loadController.setupInController(controller: self, contentView: self.webView)
+        loadController.setupInController(controller: self, contentView: webView)
         announcementsLoader.listen(self) {[weak self] in
             switch $0 {
             case let Result.success(announcements):
@@ -86,7 +86,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.loadContent()
+        loadContent()
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenAnnouncements, courseID: courseID, value: nil)
     }
     
@@ -127,7 +127,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
     
     private func useAnnouncements(announcements: [OEXAnnouncement]) {
         guard announcements.count > 0 else {
-            self.loadController.state = LoadState.empty(icon: nil, message: Strings.announcementUnavailable)
+            loadController.state = LoadState.empty(icon: nil, message: Strings.announcementUnavailable)
             return
         }
         
@@ -143,8 +143,8 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
                 }
         }
         let displayHTML = OEXStyles.shared().styleHTMLContent(html, stylesheet: "handouts-announcements") ?? ""
-        let baseURL = self.environment.config.apiHostURL()
-        self.webView.loadHTMLString(displayHTML, baseURL: baseURL)
+        let baseURL = environment.config.apiHostURL()
+        webView.loadHTMLString(displayHTML, baseURL: baseURL)
     }
     
     //MARK:- LoadStateViewReloadSupport method
