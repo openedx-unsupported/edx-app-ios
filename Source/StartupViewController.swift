@@ -319,10 +319,9 @@ public class BottomBarView: UIView, NSCopying {
         
         let signinTextStyle = OEXTextStyle(weight: .semiBold, size: .large, color: environment?.styles.secondaryBaseColor())
         signInButton.setAttributedTitle(signinTextStyle.attributedString(withText: Strings.signInText), for: .normal)
-        let signInEvent = OEXAnalytics.loginEvent()
         signInButton.oex_addAction({ [weak self] _ in
             self?.showLogin()
-            }, for: .touchUpInside, analyticsEvent: signInEvent)
+        }, for: .touchUpInside)
 
         registerButton.backgroundColor = environment?.styles.secondaryBaseColor()
         registerButton.applyBorderStyle(style: BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(0), color: environment?.styles.secondaryBaseColor()))
