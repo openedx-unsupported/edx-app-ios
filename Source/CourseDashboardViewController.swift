@@ -54,6 +54,11 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         }
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     private func loadCourseStream() {
         courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
         courseStream.listen(self) { [weak self] in
