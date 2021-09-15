@@ -14,6 +14,7 @@ enum DeepLinkType: String {
     case discussions = "course_discussion"
     case courseDates = "course_dates"
     case courseHandout = "course_handout"
+    case courseComponent = "course_component"
     case courseAnnouncement = "course_announcement"
     case discussionTopic = "discussion_topic"
     case discussionPost = "discussion_post"
@@ -31,23 +32,25 @@ enum DeepLinkType: String {
     case none = "none"
 }
 
-fileprivate enum DataKeys: String, RawStringExtractable {
+enum DeepLinkKeys: String, RawStringExtractable {
     case courseId = "course_id"
     case pathID = "path_id"
     case screenName = "screen_name"
     case topicID = "topic_id"
     case threadID = "thread_id"
     case commentID = "comment_id"
+    case componentID = "component_id"
 }
 
 class DeepLink: NSObject {
-
     let courseId: String?
     let screenName: String?
     let pathID: String?
     let topicID: String?
     let threadID: String?
     let commentID: String?
+    let componentID: String?
+    
     var type: DeepLinkType {
         let type = DeepLinkType(rawValue: screenName ?? DeepLinkType.none.rawValue) ?? .none
         if type == .courseDiscovery && courseId != nil {
@@ -65,12 +68,13 @@ class DeepLink: NSObject {
         return type
     }
     
-    init(dictionary:[String:Any]) {
-        courseId = dictionary[DataKeys.courseId] as? String
-        screenName = dictionary[DataKeys.screenName] as? String
-        pathID = dictionary[DataKeys.pathID] as? String
-        topicID = dictionary[DataKeys.topicID] as? String
-        threadID = dictionary[DataKeys.threadID] as? String
-        commentID = dictionary[DataKeys.commentID] as? String
+    init(dictionary: [String : Any]) {
+        courseId = dictionary[DeepLinkKeys.courseId] as? String
+        screenName = dictionary[DeepLinkKeys.screenName] as? String
+        pathID = dictionary[DeepLinkKeys.pathID] as? String
+        topicID = dictionary[DeepLinkKeys.topicID] as? String
+        threadID = dictionary[DeepLinkKeys.threadID] as? String
+        commentID = dictionary[DeepLinkKeys.commentID] as? String
+        componentID = dictionary[DeepLinkKeys.componentID] as? String
     }
 }

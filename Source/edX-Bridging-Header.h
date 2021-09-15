@@ -10,6 +10,7 @@
 #import <YoutubePlayer-in-WKWebView/WKYTPlayerView.h>
 #import <Appboy-iOS-SDK/AppboyKit.h>
 #import <Segment-Appboy/SEGAppboyIntegrationFactory.h>
+#import <Branch/Branch.h>
 
 #import "DACircularProgressView.h"
 #import <DateTools/NSDate+DateTools.h>

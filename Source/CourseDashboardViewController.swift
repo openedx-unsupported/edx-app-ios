@@ -28,6 +28,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID
+        
         loadStateController = CourseDashboardLoadStateViewController(environment: environment)
         
         super.init(nibName: nil, bundle: nil)
@@ -42,10 +43,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         view.accessibilityIdentifier = "CourseDashboardViewController: view"
         viewControllers = [loadStateController]
-        courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
-        courseStream.listen(self) {[weak self] in
-            self?.resultLoaded(result: $0)
-        }
+        loadCourseStream()
         delegate = self
         progressController.hideProgessView()
         
@@ -59,6 +57,13 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func loadCourseStream() {
+        courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
+        courseStream.listen(self) { [weak self] in
+            self?.resultLoaded(result: $0)
+        }
     }
     
     override var shouldAutorotate: Bool {
@@ -100,11 +105,13 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         navigationItem.rightBarButtonItems = navigationItems
     }
     
+    private lazy var courseOutlineController = CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full)
+    
     private func prepareTabViewData(withCourse course: OEXCourse) {
         
         tabBarItems = []
         
-        var item = TabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+        var item = TabBarItem(title: Strings.Dashboard.courseCourseware, viewController: courseOutlineController, icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
         tabBarItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
@@ -211,10 +218,14 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     }
     
     // MARK: Deep Linking
-    func switchTab(with type: DeepLinkType) {
+    func switchTab(with type: DeepLinkType, componentID: String? = nil) {
         switch type {
         case .courseDashboard:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+            break
+        case .courseComponent:
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+            courseOutlineController.componentID = componentID
             break
         case .courseVideos:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)

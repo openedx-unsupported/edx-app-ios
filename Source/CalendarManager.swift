@@ -22,6 +22,7 @@ class CalendarManager: NSObject {
     
     private let courseName: String
     private let courseID: String
+    private let courseQuerier: CourseOutlineQuerier
     
     private let eventStore = EKEventStore()
     private let iCloudCalendar = "icloud"
@@ -105,9 +106,10 @@ class CalendarManager: NSObject {
         }
     }
     
-    required init(courseID: String, courseName: String) {
+    required init(courseID: String, courseName: String, courseQuerier: CourseOutlineQuerier) {
         self.courseID = courseID
         self.courseName = courseName
+        self.courseQuerier = courseQuerier
     }
     
     func requestAccess(completion: @escaping (Bool, EKAuthorizationStatus, EKAuthorizationStatus) -> ()) {
@@ -127,19 +129,26 @@ class CalendarManager: NSObject {
             return
         }
         
-        let events = generateEvents(for: dateBlocks)
-        
-        if events.isEmpty {
-            //Ideally this shouldn't happen, but in any case if this happen so lets remove the calendar
-            removeCalendar()
-            completion(false)
-        } else {
-            events.forEach { event in addEvent(event: event) }
-            do {
-                try eventStore.commit()
-                completion(true)
-            } catch {
+        DispatchQueue.global().async { [weak self] in
+            guard let weakSelf = self else { return }
+            let events = weakSelf.generateEvents(for: dateBlocks, generateDeepLink: true)
+            
+            if events.isEmpty {
+                //Ideally this shouldn't happen, but in any case if this happen so lets remove the calendar
+                weakSelf.removeCalendar()
                 completion(false)
+            } else {
+                events.forEach { event in weakSelf.addEvent(event: event) }
+                do {
+                    try weakSelf.eventStore.commit()
+                    DispatchQueue.main.async {
+                        completion(true)
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                }
             }
         }
     }
@@ -147,24 +156,24 @@ class CalendarManager: NSObject {
     func checkIfEventsShouldBeShifted(for dateBlocks: [Date : [CourseDateBlock]]) -> Bool {
         guard let _ = calendarEntry else { return true }
         
-        let events = generateEvents(for: dateBlocks)
+        let events = generateEvents(for: dateBlocks, generateDeepLink: false)
         let allEvents = events.allSatisfy { alreadyExist(event: $0) }
         
         return !allEvents
     }
     
-    private func generateEvents(for dateBlocks: [Date : [CourseDateBlock]]) -> [EKEvent] {
+    private func generateEvents(for dateBlocks: [Date : [CourseDateBlock]], generateDeepLink: Bool) -> [EKEvent] {
         var events: [EKEvent] = []
         dateBlocks.forEach { item in
             let blocks = item.value
             
             if blocks.count > 1 {
-                if let generatedEvent = calendarEvent(for: blocks) {
+                if let generatedEvent = calendarEvent(for: blocks, generateDeepLink: generateDeepLink) {
                     events.append(generatedEvent)
                 }
             } else {
                 if let block = blocks.first {
-                    if let generatedEvent = calendarEvent(for: block) {
+                    if let generatedEvent = calendarEvent(for: block, generateDeepLink: generateDeepLink) {
                         events.append(generatedEvent)
                     }
                 }
@@ -208,7 +217,7 @@ class CalendarManager: NSObject {
         }
     }
     
-    private func calendarEvent(for block: CourseDateBlock) -> EKEvent? {
+    private func calendarEvent(for block: CourseDateBlock, generateDeepLink: Bool) -> EKEvent? {
         guard !block.title.isEmpty else { return nil }
         
         let title = block.title + ": " + courseName
@@ -217,12 +226,18 @@ class CalendarManager: NSObject {
         let startDate = block.blockDate.add(.hour, value: alertOffset)
         let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
-        let notes = "\(courseName) \n \(block.title)"
+        var notes = "\(courseName)\n\(block.title)"
+        
+        if generateDeepLink {
+            if let link = generateDeeplink(componentBlockID: block.firstComponentBlockID) {
+                notes = notes + "\n\(link)"
+            }
+        }
         
         return generateEvent(title: title, startDate: startDate, endDate: endDate, secondAlert: secondAlert, notes: notes)
     }
     
-    private func calendarEvent(for blocks: [CourseDateBlock]) -> EKEvent? {
+    private func calendarEvent(for blocks: [CourseDateBlock], generateDeepLink: Bool) -> EKEvent? {
         guard let block = blocks.first, !block.title.isEmpty else { return nil }
         
         let title = block.title + ": " + courseName
@@ -231,9 +246,38 @@ class CalendarManager: NSObject {
         let startDate = block.blockDate.add(.hour, value: alertOffset)
         let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
-        let notes = "\(courseName) \n" + blocks.compactMap { $0.title }.joined(separator: ", ")
+        let notes = "\(courseName)\n" + blocks.compactMap { block -> String in
+            if generateDeepLink {
+                if let link = generateDeeplink(componentBlockID: block.firstComponentBlockID) {
+                    return "\(block.title)\n\(link)"
+                } else {
+                    return block.title
+                }
+            } else {
+                return block.title
+            }
+        }.joined(separator: "\n\n")
         
         return generateEvent(title: title, startDate: startDate, endDate: endDate, secondAlert: secondAlert, notes: notes)
+    }
+    
+    private func generateDeeplink(componentBlockID: String) -> String? {
+        guard !componentBlockID.isEmpty else { return nil }
+        let branchUniversalObject = BranchUniversalObject(canonicalIdentifier: "\(DeepLinkType.courseComponent.rawValue)/\(componentBlockID)")
+        let dictionary: NSMutableDictionary = [
+            DeepLinkKeys.screenName.rawValue: DeepLinkType.courseComponent.rawValue,
+            DeepLinkKeys.courseId.rawValue: courseID,
+            DeepLinkKeys.componentID.rawValue: componentBlockID
+        ]
+        let metadata = BranchContentMetadata()
+        metadata.customMetadata = dictionary
+        branchUniversalObject.contentMetadata = metadata
+        let properties = BranchLinkProperties()
+        if let block = courseQuerier.blockWithID(id: componentBlockID).value, let webURL = block.webURL {
+            properties.addControlParam("$desktop_url", withValue: webURL.absoluteString)
+        }
+        
+        return branchUniversalObject.getShortUrl(with: properties)
     }
     
     private func generateEvent(title: String, startDate: Date, endDate: Date, secondAlert: Date, notes: String) -> EKEvent {

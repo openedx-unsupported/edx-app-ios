@@ -116,9 +116,7 @@ extension UINavigationController {
 /// https://stackoverflow.com/a/33767837
 /// https://iganin.hatenablog.com/entry/2019/07/27/172911
 extension UINavigationController {
-    public typealias CompletionWithTopController = (UIViewController) -> Void
-    
-    public func pushViewController(_ viewController: UIViewController, animated: Bool, completion: UINavigationController.CompletionWithTopController? = nil) {
+    public func pushViewController(_ viewController: UIViewController, animated: Bool, completion: ((UIViewController) -> Void)? = nil) {
         pushViewController(viewController, animated: animated)
         guard animated, let coordinator = transitionCoordinator else {
             DispatchQueue.main.async { [weak self] in
@@ -134,6 +132,37 @@ extension UINavigationController {
             }
         }
     }
+    
+    func popViewController(animated: Bool, completion: (() -> Void)? = nil) {
+        popViewController(animated: animated)
+        guard animated, let coordinator = transitionCoordinator else {
+            DispatchQueue.main.async { completion?() }
+            return
+        }
+        
+        coordinator.animate(alongsideTransition: nil) { _ in completion?() }
+    }
+    
+    func popToViewController<T: UIViewController>(of type: T.Type, animated: Bool, completion: (() -> Void)? = nil) {
+        guard let viewController = self.viewControllers.first(where: { $0 is T }) else { return }
+        popToViewController(viewController, animated: animated)
+        guard animated, let coordinator = transitionCoordinator else {
+            DispatchQueue.main.async { completion?() }
+            return
+        }
+        
+        coordinator.animate(alongsideTransition: nil) { _ in completion?() }
+    }
+    
+    func popToRootViewController(animated: Bool, completion: (() -> Void)? = nil) {
+        popToRootViewController(animated: animated)
+        guard animated, let coordinator = transitionCoordinator else {
+            DispatchQueue.main.async { completion?() }
+            return
+        }
+        
+        coordinator.animate(alongsideTransition: nil) { _ in completion?() }
+    }    
 }
 
 extension ForwardingNavigationController {

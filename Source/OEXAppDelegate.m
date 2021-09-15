@@ -15,7 +15,6 @@
 @import GoogleSignIn;
 
 #import <Analytics/SEGAnalytics.h>
-#import <Branch/Branch.h>
 #import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
 #import "SEGFirebaseIntegrationFactory.h"
 #import "OEXAppDelegate.h"
