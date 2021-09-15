@@ -564,12 +564,13 @@
         // Set the language to blank
         [OEXInterface setCCSelectedLanguage:@""];
         [[NSUserDefaults standardUserDefaults] setObject:_tf_EmailID.text forKey:USER_EMAIL];
-        // Analytics User Login
-        [[OEXAnalytics sharedAnalytics] trackUserLogin:[self.authProvider backendName] ?: @"Password"];
     }
     [self tappedToDismiss];
     [self.activityIndicator stopAnimating];
 
+    // Analytics User Login
+    [[OEXAnalytics sharedAnalytics] trackUserLogin:[self.authProvider backendName] ?: @"Password"];
+    
     //Launch next view
     [self didLogin];
 }
