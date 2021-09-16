@@ -10,12 +10,5 @@ jobs:
         ios: [14.4, 12.4]
         task: [testLTRCurrentOS, testRTLCurrentOS, testLTRPreviousOS, testRTLPreviousOS]
     steps:
-      - name: Git - Checkout
-        uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
       - name: Run Testcase
         run: ./gradlew verifyTestResults
