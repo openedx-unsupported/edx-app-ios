@@ -17,5 +17,9 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Setup - Xcode
+        run: sudo xcode-select -s /Applications/Xcode_12.4.app
+      - name: Setup
+        run: instruments -s devices | grep "iPhone 8 ${{ matrix.ios }}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
       - name: Run Testcase
-        run: ./gradlew verifyTestResults
+        run: ./gradlew -q ${{ matrix.task }} | xcpretty -c
