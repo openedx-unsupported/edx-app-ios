@@ -18,4 +18,8 @@ jobs:
       - name: Setup
         run: instruments -s devices | grep "iPhone 8 14.4" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
       - name: Run Testcase
-        run: xcodebuild -workspace edX.xcworkspace -scheme edX -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8,OS=14.4" test | xcpretty -c
+        id: xcodebuild
+        run: xcodebuild -workspace edX.xcworkspace -scheme edX -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8,OS=14.4" test echo "::set-output name=result::$?" | xcpretty -c
+      - name: Check Tests Passed
+        if: steps.xcodebuild.outputs.result != 0
+        run: exit 1
