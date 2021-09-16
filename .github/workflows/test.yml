@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   test:
-    runs-on: macOS-11.2.3
+    runs-on: macOS-11.5.2
     steps:
       - name: Git - Checkout
         uses: actions/checkout@v2
