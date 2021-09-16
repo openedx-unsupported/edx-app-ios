@@ -5,6 +5,10 @@ on: [push]
 jobs:
   test:
     runs-on: macOS-latest
+    strategy:
+      matrix:
+        ios: [14.4, 12.4]
+        task: [testLTRCurrentOS, testRTLCurrentOS, testLTRPreviousOS, testRTLPreviousOS]
     steps:
       - name: Git - Checkout
         uses: actions/checkout@v2
