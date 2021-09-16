@@ -265,15 +265,19 @@ def RTLSchemeForScheme(scheme) {
     return scheme + '-RTL'
 }
 
-def operatingSystems = ["currentOS": "14.4", "previousOS": "12.4"]
-def directions = ["LTR": scheme, "RTL": RTLSchemeForScheme(scheme)]
+def operatingSystems = ["currentOS": "14.5"]
+def directions = ["LTR": scheme]
 def commands = ["test" : ["record" : false], "recordSnapshots": ["record" : true]] 
+def stdout = new ByteArrayOutputStream()
 
 for(OS in operatingSystems) {
     for(direction in directions) {
         for(command in commands) {
             def record = command.value["record"]
             def task = project.task(type: Exec, command.key + direction.key.capitalize() + OS.key.capitalize()) {
+                println "--------------------------------------------------------------"
+                println testBuildArguments(workspace, direction.value, OS.value, record)
+                println "--------------------------------------------------------------"
                 commandLine testBuildArguments(workspace, direction.value, OS.value, record)
             }
         }
@@ -282,7 +286,13 @@ for(OS in operatingSystems) {
 
 task verifyTestResults() {
     doLast {
-        throw new GradleException("There were failing tests!")
+        exec {
+            commandLine 'echo', 'Hello world!'
+            standardOutput = stdout;
+        }
+        println "Output ----- :\n$stdout";
+        
+        //throw new GradleException("There were failing tests!")
     }
 }
 
