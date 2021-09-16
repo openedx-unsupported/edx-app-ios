@@ -190,6 +190,10 @@ class IOSHelper {
 
 
 // Tasks 
+task example {
+   println "I want to set a breakpoint here"
+}
+
 task printBuildEnvironment(type : Exec) {
     def arguments = [
         'xcodebuild',
@@ -280,6 +284,15 @@ for(OS in operatingSystems) {
     }
 }
 
+task verifyTestResults() {
+    //dependsOn("test1", "test2")    // static naming of test tasks
+    dependsOn tasks.withType(Test)   // dynamically depend on all test tasks
+    doLast {
+        if(failedTests) {
+            throw new GradleException("There were failing tests!")
+        }
+    }
+}
 
 task test(dependsOn: tasks.findAll { task -> task.name.startsWith('test')}) {}
 task recordSnapshots(dependsOn: tasks.findAll { task -> task.name.startsWith('recordSnapshots')}) {}
