@@ -15,3 +15,5 @@ jobs:
           distribution: 'adopt'
       - name: Setup - Xcode
         run: sudo xcode-select -s /Applications/Xcode_12.4.app
+        run: instruments -s devices | grep "iPhone 8 (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
+        run: ./gradlew -q testLTRCurrentOS IOS_VERSION=13.3 | xcpretty -c
