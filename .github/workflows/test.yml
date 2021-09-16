@@ -6,8 +6,6 @@ jobs:
   test:
     runs-on: macOS-latest
     steps:
-      - name: Xcode
-          run: ls -n /Applications/ | grep Xcode*
       # - name: Git - Checkout
       #   uses: actions/checkout@v2
       # - name: Set up JDK 11
@@ -15,5 +13,6 @@ jobs:
       #   with:
       #     java-version: '11'
       #     distribution: 'adopt'
-      # - name: Setup - Xcode
-      #   run: sudo xcode-select -s /Applications/Xcode_12.5.app
+      - name: Setup - Xcode
+        run: ls -n /Applications/ | grep Xcode*
+        #run: sudo xcode-select -s /Applications/Xcode_12.5.app
