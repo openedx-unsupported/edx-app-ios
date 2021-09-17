@@ -265,8 +265,8 @@ def RTLSchemeForScheme(scheme) {
     return scheme + '-RTL'
 }
 
-def operatingSystems = ["currentOS": "14.4"]
-def directions = ["LTR": scheme]
+def operatingSystems = ["currentOS": "14.5"]
+def directions = ["RTL": RTLSchemeForScheme(scheme)]
 def commands = ["test" : ["record" : false], "recordSnapshots": ["record" : true]] 
 def stdout = new ByteArrayOutputStream()
 
@@ -275,7 +275,9 @@ for(OS in operatingSystems) {
         for(command in commands) {
             def record = command.value["record"]
             def task = project.task(type: Exec, command.key + direction.key.capitalize() + OS.key.capitalize()) {
-                commandLine set -eo pipefail
+                println "**************************************************************"
+                println testBuildArguments(workspace, direction.value, OS.value, record)
+                println "**************************************************************"
                 commandLine testBuildArguments(workspace, direction.value, OS.value, record)
             }
         }
