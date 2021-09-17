@@ -17,6 +17,8 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Install ios 12.4 simulator
+        run: xcversion simulators --install='iOS 12.4'
       - name: Run Snapshot Test Cases
         id: xcodebuild
         run: |
