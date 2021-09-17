@@ -4,19 +4,19 @@ on: [push]
 
 jobs:
   xcode-ios:
-    name: "Xcode ${{ matrix.env.xcode }}, ${{ matrix.env.runtime }}, ${{ matrix.env.device }} ${{ matrix.env.direction }}"
+    name: "Xcode ${{ matrix.env.xcode }}, ${{ matrix.env.runtime }}, ${{ matrix.env.device }} ${{ matrix.direction }}"
     runs-on: macOS-10.15
     strategy:
       matrix:
+        direction: ["", "-RTL"]
         env:
           - xcode: 12.4
             runtime: "iOS 14.4"
             device: "iPhone 8"
-            direction: ["", "-RTL"]
           - xcode: 12.4
             runtime: "iOS 12.4"
             device: "iPhone 8"
-            direction: ["", "-RTL"]
+            
     steps:
     - name: Git - Checkout
       uses: actions/checkout@v2
@@ -39,4 +39,4 @@ jobs:
         DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
         xcrun simctl boot $DESTINATION_ID
         set -o pipefail
-        xcodebuild test -workspace "edX.xcworkspace" -scheme "edX${{ matrix.env.direction }}" -destination "id=$DESTINATION_ID" | xcpretty -c || exit ${PIPESTATUS[0]}
+        xcodebuild test -workspace "edX.xcworkspace" -scheme "edX${{ matrix.direction }}" -destination "id=$DESTINATION_ID" | xcpretty -c || exit ${PIPESTATUS[0]}
