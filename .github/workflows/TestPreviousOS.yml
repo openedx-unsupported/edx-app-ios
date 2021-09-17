@@ -3,35 +3,39 @@ name: "TestPreviosOS"
 on: [push]
 
 jobs:
-  test:
+  xcode-ios:
+    name: "Xcode ${{ matrix.env.xcode }}, ${{ matrix.env.runtime }}, ${{ matrix.env.device }}"
     runs-on: macOS-10.15
     strategy:
       matrix:
-        ios: [12.4]
-        direction: ["", "-RTL"]
+        env:
+          - xcode: 12.4
+            runtime: "iOS 14.4"
+            device: "iPhone 8"
+          - xcode: 12.4
+            runtime: "iOS 12.4"
+            device: "iPhone 8"
     steps:
-      - name: Git - Checkout
-        uses: actions/checkout@v2
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-      - name: Prepare iOS 12 simulator
-        run: |
-          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-          sudo ln -s /Applications/Xcode_12.4.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ ${{ matrix.ios }}.simruntime
-      - name: Run Snapshot Test Cases
-        id: xcodebuild
-        run: |
-          sudo xcode-select -s /Applications/Xcode_12.4.app
-          xcodebuild -version -sdk
-          xcrun simctl list
-          RUNTIME="iOS 12.4"
-          DEVICE="iPhone 8"
-          DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-          RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-          DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
-          xcrun simctl boot $DESTINATION_ID
-          set -eo pipefail
-          xcodebuild -workspace edX.xcworkspace -scheme edX${{ matrix.direction }} -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8,OS=${{ matrix.ios }}" test | xcpretty -c || exit ${PIPESTATUS[0]}
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Link simulator runtimes
+      run: |
+        sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+        sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
+        sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.7.simruntime
+    - name: "Select Xcode ${{ matrix.env.xcode }}"
+      run: |
+        sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
+        xcodebuild -version -sdk
+        xcrun simctl list
+    - name: "Build and Test"
+      run: |
+        RUNTIME="${{ matrix.env.runtime }}"
+        DEVICE="${{ matrix.env.device }}"
+        DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
+        xcrun simctl boot $DESTINATION_ID
+        set -o pipefail
+        xcodebuild test -workspace "edX.xcworkspace" -scheme "edX" -destination "id=$DESTINATION_ID" | xcpretty -c || exit ${PIPESTATUS[0]}
