@@ -22,3 +22,5 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_10.3.app
       - name: Show the currently detailed version of Xcode for CLI
         run: xcode-select -p
+      - name: Availabe Simulators
+        run: instruments -s devices
