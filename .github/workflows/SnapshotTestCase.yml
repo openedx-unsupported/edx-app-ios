@@ -18,7 +18,7 @@ jobs:
             device: "iPhone 8"
             
     steps:
-    - name: Git - Checkout
+    - name: Git checkout
       uses: actions/checkout@v2
     - name: Link simulator runtimes
       run: |
