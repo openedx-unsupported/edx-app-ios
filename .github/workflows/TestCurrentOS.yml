@@ -17,5 +17,5 @@ jobs:
         id: xcodebuild
         run: |
           sudo xcode-select -s /Applications/Xcode_12.4.app
-          instruments -s devices | grep "iPhone 8 14.4" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
+          set -eo pipefail
           xcodebuild -workspace edX.xcworkspace -scheme edX -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8,OS=14.4" test | xcpretty -c || exit ${PIPESTATUS[0]}
