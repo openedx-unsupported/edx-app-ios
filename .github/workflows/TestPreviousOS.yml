@@ -25,6 +25,8 @@ jobs:
         id: xcodebuild
         run: |
           sudo xcode-select -s /Applications/Xcode_12.4.app
+          xcodebuild -version -sdk
+          xcrun simctl list
           RUNTIME="iOS 12.4"
           DEVICE="iPhone 8"
           DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
