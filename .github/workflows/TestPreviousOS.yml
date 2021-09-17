@@ -19,8 +19,7 @@ jobs:
           distribution: 'adopt'
       - name: Run Snapshot Test Cases
         id: xcodebuild
-        run: sudo xcode-select -s /Applications/Xcode_10.3.app
-      - name: Show the currently detailed version of Xcode for CLI
-        run: xcode-select -p
-      - name: Availabe Simulators
-        run: instruments -s devices
+        run: |
+          sudo xcode-select -s /Applications/Xcode_10.3.app
+          set -eo pipefail
+          xcodebuild -workspace edX.xcworkspace -scheme edX${{ matrix.direction }} -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8,OS=${{ matrix.ios }}" test | xcpretty -c || exit ${PIPESTATUS[0]}
