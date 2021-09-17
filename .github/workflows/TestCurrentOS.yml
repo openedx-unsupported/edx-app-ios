@@ -22,6 +22,4 @@ jobs:
       - name: Setup
         run: instruments -s devices | grep "iPhone 8 ${{ matrix.ios }}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
       - name: Run Testcase
-        run: |
-          set -eo pipefail
-          ./gradlew -q ${{ matrix.task }} | xcpretty -c
+        run: ./gradlew -q ${{ matrix.task }} | xcpretty -c
