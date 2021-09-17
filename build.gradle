@@ -265,7 +265,7 @@ def RTLSchemeForScheme(scheme) {
     return scheme + '-RTL'
 }
 
-def operatingSystems = ["currentOS": "14.5"]
+def operatingSystems = ["currentOS": "14.4"]
 def directions = ["LTR": scheme]
 def commands = ["test" : ["record" : false], "recordSnapshots": ["record" : true]] 
 def stdout = new ByteArrayOutputStream()
