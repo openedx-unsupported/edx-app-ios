@@ -1,25 +1,25 @@
-name: "TestPresiousOS"
+# name: "TestPresiousOS"
 
-on: [push]
+# on: [push]
 
-jobs:
-  test:
-    runs-on: macOS-latest
-    strategy:
-      matrix:
-        ios: [12.4]
-        task: [testLTRPreviousOS, testRTLPreviousOS]
-    steps:
-      - name: Git - Checkout
-        uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-      - name: Setup - Xcode
-        run: sudo xcode-select -s /Applications/Xcode_10.3.app
-      - name: Setup
-        run: instruments -s devices | grep "iPhone 8 ${{ matrix.ios }}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
-      - name: Run Testcase
-        run: ./gradlew -q ${{ matrix.task }} | xcpretty -c
+# jobs:
+#   test:
+#     runs-on: macOS-latest
+#     strategy:
+#       matrix:
+#         ios: [12.4]
+#         task: [testLTRPreviousOS, testRTLPreviousOS]
+#     steps:
+#       - name: Git - Checkout
+#         uses: actions/checkout@v2
+#       - name: Set up JDK 11
+#         uses: actions/setup-java@v2
+#         with:
+#           java-version: '11'
+#           distribution: 'adopt'
+#       - name: Setup - Xcode
+#         run: sudo xcode-select -s /Applications/Xcode_10.3.app
+#       - name: Setup
+#         run: instruments -s devices | grep "iPhone 8 ${{ matrix.ios }}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
+#       - name: Run Testcase
+#         run: ./gradlew -q ${{ matrix.task }} | xcpretty -c
