@@ -275,24 +275,9 @@ for(OS in operatingSystems) {
         for(command in commands) {
             def record = command.value["record"]
             def task = project.task(type: Exec, command.key + direction.key.capitalize() + OS.key.capitalize()) {
-                println "--------------------------------------------------------------"
-                println testBuildArguments(workspace, direction.value, OS.value, record)
-                println "--------------------------------------------------------------"
                 commandLine testBuildArguments(workspace, direction.value, OS.value, record)
             }
         }
-    }
-}
-
-task verifyTestResults() {
-    doLast {
-        exec {
-            commandLine 'echo', 'Hello world!'
-            standardOutput = stdout;
-        }
-        println "Output ----- :\n$stdout";
-        
-        //throw new GradleException("There were failing tests!")
     }
 }
 
