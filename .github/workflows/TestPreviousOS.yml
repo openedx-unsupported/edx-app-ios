@@ -16,9 +16,8 @@ jobs:
             runtime: "iOS 12.4"
             device: "iPhone 8"
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: recursive
+    - name: Git - Checkout
+      uses: actions/checkout@v2
     - name: Link simulator runtimes
       run: |
         sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
