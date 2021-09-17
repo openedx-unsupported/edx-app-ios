@@ -21,7 +21,7 @@ jobs:
         run: |
           xcversion simulators --install='iOS 12.4
           sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-          /Applications/Xcode_12.4.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
+          <XCODE_PATH>/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
       - name: Run Snapshot Test Cases
         id: xcodebuild
         run: |
