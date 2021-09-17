@@ -1,4 +1,4 @@
-name: "TestCurrentOS"
+name: "TestPReviosOS"
 
 on: [push]
 
@@ -21,5 +21,6 @@ jobs:
         id: xcodebuild
         run: |
           sudo xcode-select -s /Applications/Xcode_10.3.app
+          xcode-select -p
           set -eo pipefail
           xcodebuild -workspace edX.xcworkspace -scheme edX${{ matrix.direction }} -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8,OS=${{ matrix.ios }}" test | xcpretty -c || exit ${PIPESTATUS[0]}
