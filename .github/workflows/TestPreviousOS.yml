@@ -25,5 +25,11 @@ jobs:
         id: xcodebuild
         run: |
           sudo xcode-select -s /Applications/Xcode_12.4.app
+          RUNTIME="iOS 12.4"
+          DEVICE="iPhone 8"
+          DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+          RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+          DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
+          xcrun simctl boot $DESTINATION_ID
           set -eo pipefail
           xcodebuild -workspace edX.xcworkspace -scheme edX${{ matrix.direction }} -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8,OS=${{ matrix.ios }}" test | xcpretty -c || exit ${PIPESTATUS[0]}
