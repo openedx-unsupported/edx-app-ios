@@ -39,4 +39,4 @@ jobs:
         DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
         xcrun simctl boot $DESTINATION_ID
         set -o pipefail
-        xcodebuild test -workspace "edX.xcworkspace" -scheme "edX${{ ${{ matrix.env.direction }}" -destination "id=$DESTINATION_ID" | xcpretty -c || exit ${PIPESTATUS[0]}
+        xcodebuild test -workspace "edX.xcworkspace" -scheme "edX${{ matrix.env.direction }}" -destination "id=$DESTINATION_ID" | xcpretty -c || exit ${PIPESTATUS[0]}
