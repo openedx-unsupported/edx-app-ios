@@ -984,7 +984,7 @@ class SignOutVersionCell: UITableViewCell {
     private lazy var versionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: ""))
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_shortVersionString(), environment: ""))
         label.accessibilityIdentifier = "SignOutVersionCell:version-label"
         return label
     }()

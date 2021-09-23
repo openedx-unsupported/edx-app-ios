@@ -21,7 +21,7 @@ struct CalendarSyncConfig {
     var instructorPacedEnabled: Bool = false
     
     private var enabled: Bool {
-        return !disabledVersions.contains(Bundle.main.oex_buildVersionString())
+        return !disabledVersions.contains(Bundle.main.oex_shortVersionString())
     }
     
     init() { }
