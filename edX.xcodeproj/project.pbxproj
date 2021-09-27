@@ -177,6 +177,7 @@
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
 		5F0248C624AC9ED8000AF1FF /* CourseDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C524AC9ED8000AF1FF /* CourseDates.swift */; };
 		5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */; };
+		5F08321427018D810022971F /* BannerBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F08321327018D810022971F /* BannerBrowserViewController.swift */; };
 		5F1E03FC26CA64B9004F8139 /* VideoDownloadQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */; };
 		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
@@ -1229,6 +1230,7 @@
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
 		5F0248C524AC9ED8000AF1FF /* CourseDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDates.swift; sourceTree = "<group>"; };
 		5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesAPI.swift; sourceTree = "<group>"; };
+		5F08321327018D810022971F /* BannerBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerBrowserViewController.swift; sourceTree = "<group>"; };
 		5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloadQuality.swift; sourceTree = "<group>"; };
 		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
@@ -3859,6 +3861,7 @@
 				5F5FC009269DA8AE00F92B8F /* ValueProp */,
 				225E9FDB25BAF79E000D6332 /* CelebratoryModalViewController.swift */,
 				5FA7FEB0266A2BE5006286B6 /* BrowserViewController.swift */,
+				5F08321327018D810022971F /* BannerBrowserViewController.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -5256,6 +5259,7 @@
 				B7CCC737209B16B100A66923 /* Constraint.swift in Sources */,
 				1A5501A21BBA323700D5F9DD /* ProfileBanner.swift in Sources */,
 				B7CCC738209B16B100A66923 /* Debugging.swift in Sources */,
+				5F08321427018D810022971F /* BannerBrowserViewController.swift in Sources */,
 				77C6BBCA1CB4BC6F0026C37B /* AccomplishmentsView.swift in Sources */,
 				B7CCC72F209B16B100A66923 /* ConstraintConstantTarget.swift in Sources */,
 				77509D981BE1916600B10CD3 /* UserProfileManager.swift in Sources */,

@@ -130,6 +130,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         if shouldListenForAjaxCallbacks {
             addAjaxCallbackScript(in: configurations.userContentController)
         }
+        addHashCallbackScript(in: configurations.userContentController)
         controller.webView.navigationDelegate = self
         controller.webView.uiDelegate = self
         return controller
@@ -206,6 +207,12 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
               let handler = try? String(contentsOf: url, encoding: .utf8) else { return }
         let script = WKUserScript(source: handler, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
         contentController.add(self, name: AJAXCallBackHandler)
+        contentController.addUserScript(script)
+    }
+    
+    private func addHashCallbackScript(in contentController: WKUserContentController) {
+        let script = WKUserScript(source: "(function() { \"use strict\"; addEventListener(\"hashchange\", function(event) { webkit.messageHandlers.hashchangeMessageHandler.postMessage(null); }); }) ();", injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        contentController.add(self, name: "hashchangeMessageHandler")
         contentController.addUserScript(script)
     }
     
@@ -404,6 +411,11 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             if isCompletionCallback(with: data) {
                 ajaxCallbackDelegate?.didCompletionCalled(completion: true)
             }
+        }
+        
+        print("Received message: \(message.name): \(message.body)")
+        if let view = self.webController.view as? WKWebView {
+            print(view.url)
         }
     }
 

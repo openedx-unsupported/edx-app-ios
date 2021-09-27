@@ -10,7 +10,7 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport, InterfaceOrientationOverriding, BannerBrowserViewControllerDelegate {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & RemoteConfigProvider
     
@@ -70,6 +70,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         setupListener()
         setupObservers()
+        
+        fetchBanner()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,13 +79,16 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         super.viewWillAppear(animated)
 
         hideSnackBarForFullScreenError()
-        showWhatsNewIfNeeded()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-         environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
+        
+        // show banner if needed
+        // save banner shown to userdefaults
+        //showWhatsNewIfNeeded()
     }
     
     override func reloadViewData() {
@@ -135,6 +140,59 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                 }
             }
         }
+    }
+    
+    private func fetchBanner() {
+        let request = NetworkRequest<[String]>(
+            method: .GET,
+            path: "/notices/api/v1/unacknowledged",
+            requiresAuth: true,
+            deserializer: .jsonResponse({ response, json in
+                if response.statusCode == OEXHTTPStatusCode.code200OK.rawValue {
+                    let values = json["results"].arrayValue.map { $0.stringValue }
+                    if !values.isEmpty {
+                        return Success(v: values)
+                    } else {
+                        return Failure()
+                    }
+                    
+                } else {
+                    return Failure()
+                }
+        }))
+        environment.networkManager.taskForRequest(request) { result in
+            if let link = result.data?.first,
+               let url = URL(string: link) {
+                self.environment.router?.showBannerBrowserViewController(from: self, url: url, delegate: self)
+            }
+        }
+    }
+    
+    private func acknowledge() {        
+        let request = NetworkRequest<String>(
+            method: .POST,
+            path: "/notices/api/v1/acknowledge",
+            requiresAuth: true,
+            body: .jsonBody(JSON([
+                "notice_id": "",
+                "acknowledgment_type": "confirmed"
+            ])),
+            deserializer: .noContent({ response in
+                if response.statusCode == OEXHTTPStatusCode.code200OK.rawValue {
+                    print("success")
+                    return Success(v: "success")
+                } else {
+                    print("failure")
+                    return Failure()
+                }
+        }))
+        environment.networkManager.taskForRequest(request) { result in
+            print(result.data)
+        }
+    }
+    
+    private func deleteAccount() {
+        
     }
     
     private func enrollmentsEmptyState() {
@@ -226,6 +284,15 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     //MARK:- LoadStateViewReloadSupport method 
     func loadStateViewReload() {
         refreshIfNecessary()
+    }
+    
+    //MARK:- BannerBrowserViewControllerDelegate
+    func didTapOnAcknowledge() {
+        acknowledge()
+    }
+    
+    func didTapOnDeleteAccount() {
+        deleteAccount()
     }
 }
 
