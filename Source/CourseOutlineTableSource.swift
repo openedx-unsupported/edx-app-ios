@@ -179,7 +179,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     func didTapVideoQuality() {
-        environment.analytics.trackVideoDownloadQualityClicked(displayName: AnalyticsDisplayName.CourseVideosDownloadQualityClicked, name: AnalyticsEventName.CourseVideosDownloadQualityClicked)
+        environment.analytics.trackEvent(with: AnalyticsDisplayName.CourseVideosDownloadQualityClicked, name: AnalyticsEventName.CourseVideosDownloadQualityClicked)
         environment.router?.showDownloadVideoQuality(from: self, delegate: self, modal: true)
     }
     

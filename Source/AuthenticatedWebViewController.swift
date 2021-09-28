@@ -43,6 +43,7 @@ private protocol WebContentController {
 
 // A class should implement AlwaysRequireAuthenticationOverriding protocol if it always require authentication.
 protocol AuthenticatedWebViewControllerRequireAuthentication {
+    func alwaysRequireAuth() -> Bool
 }
 
 protocol AuthenticatedWebViewControllerDelegate: AnyObject {
@@ -294,10 +295,13 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         loadController.state = .Initial
         state = webController.initialContentState
         
-        let isAuthRequestRequire = ((parent as? AuthenticatedWebViewControllerRequireAuthentication) != nil) ? true: webController.alwaysRequiresOAuthUpdate
+        var isAuthRequestRequired = webController.alwaysRequiresOAuthUpdate
+        if let parent = parent as? AuthenticatedWebViewControllerRequireAuthentication {
+            isAuthRequestRequired = parent.alwaysRequireAuth()
+        }
 
-        if isAuthRequestRequire {
-            self.state = State.CreatingSession
+        if isAuthRequestRequired {
+            state = State.CreatingSession
             loadOAuthRefreshRequest()
         }
         else {

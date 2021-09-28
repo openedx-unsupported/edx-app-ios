@@ -896,6 +896,12 @@
 "PROFILE_OPTIONS.HELP.BUTTON_TITLE.VIEW_FAQ" = "View FAQ";
 /* Settings message for signout button title */
 "PROFILE_OPTIONS.SIGNOUT.BUTTON_TITLE" = "Sign out";
+/* Settings title for delete account button */
+"PROFILE_OPTIONS.DELETEACCOUNT.BUTTON_TITLE" = "Delete account";
+/* Settings info message for delete account */
+"PROFILE_OPTIONS.DELETEACCOUNT.INFO_MESSAGE" = "Follow the instructions on the next screen to delete your account and all related data.";
+/* Settings title for delete account web view*/
+"PROFILE_OPTIONS.DELETEACCOUNT.WEBVIEW_TITLE" = "Delete your account";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="登录";
 /* Message shown while user waits for response to a sign in request */

@@ -82,10 +82,6 @@ extension OEXConfig {
         }
         return false
     }
-    
-    var faqURL: String? {
-        return string(forKey: "FAQ_URL")
-    }
 
     var inappPurchasesEnabled: Bool {
         return bool(forKey: "IAP_ENABLED")
