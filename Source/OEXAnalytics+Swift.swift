@@ -348,7 +348,7 @@ extension OEXAnalytics {
         event.displayName = AnalyticsDisplayName.CourseSearch.rawValue
         event.category = AnalyticsCategory.Discovery.rawValue
         event.label = query
-        trackEvent(event, forComponent: nil, withInfo: ["action": action, "app_version": Bundle.main.oex_buildVersionString()])
+        trackEvent(event, forComponent: nil, withInfo: ["action": action, "app_version": Bundle.main.oex_shortVersionString()])
     }
     
     func trackChromecastConnected() {
@@ -494,7 +494,7 @@ extension OEXAnalytics {
         event.category = OEXAnalyticsCategoryUserEngagement
         event.label = AnalyticsCategory.Discovery.rawValue
 
-        trackEvent(event, forComponent: nil, withInfo: ["action":"landing_screen","app_version": Bundle.main.oex_buildVersionString()])
+        trackEvent(event, forComponent: nil, withInfo: ["action":"landing_screen","app_version": Bundle.main.oex_shortVersionString()])
     }
 
     func trackResumeCourseTapped(courseID: String, blockID: String) {
