@@ -318,12 +318,12 @@ extension ProfileOptionsViewController: VideoDownloadQualityDelegate {
 }
 
 extension ProfileOptionsViewController: HelpCellDelegate {
-    func didSelectEmail() {
+    func didTapEmail() {
         environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.EmailSupportClicked, name: AnalyticsEventName.EmailSupportClicked)
         launchEmailComposer()
     }
     
-    func didSelectFAQ() {
+    func didTapFAQ() {
         guard let faqURL = environment.config.faqURL, let url = URL(string: faqURL) else { return }
         environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.FAQClicked, name: AnalyticsEventName.FAQClicked)
         if UIApplication.shared.canOpenURL(url) {
@@ -752,8 +752,8 @@ class RestorePurchasesCell: UITableViewCell {
 }
 
 protocol HelpCellDelegate: AnyObject {
-    func didSelectEmail()
-    func didSelectFAQ()
+    func didTapEmail()
+    func didTapFAQ()
 }
 
 class HelpCell: UITableViewCell {
@@ -813,7 +813,7 @@ class HelpCell: UITableViewCell {
         button.layer.borderWidth = 1
         button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didSelectEmail()
+            self?.delegate?.didTapEmail()
         }, for: .touchUpInside)
         
         button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.ProfileOptions.Help.ButtonTitle.feedback), for: .normal)
@@ -841,7 +841,7 @@ class HelpCell: UITableViewCell {
         button.layer.borderWidth = 1
         button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didSelectFAQ()
+            self?.delegate?.didTapFAQ()
         }, for: .touchUpInside)
         
         let faqButtonTitle = [buttonStyle.attributedString(withText: Strings.ProfileOptions.Help.ButtonTitle.viewFaq), faqButtonIcon]
