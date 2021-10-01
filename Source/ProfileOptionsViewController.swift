@@ -21,6 +21,7 @@ class ProfileOptionsViewController: UIViewController {
         case restorePurchase
         case help(Bool, Bool)
         case signout
+        case deleteAccount
     }
     
     typealias Environment = OEXStylesProvider & OEXConfigProvider & NetworkManagerProvider & DataManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXInterfaceProvider & OEXAnalyticsProvider
@@ -42,6 +43,7 @@ class ProfileOptionsViewController: UIViewController {
         tableView.register(RestorePurchasesCell.self, forCellReuseIdentifier: RestorePurchasesCell.identifier)
         tableView.register(HelpCell.self, forCellReuseIdentifier: HelpCell.identifier)
         tableView.register(SignOutVersionCell.self, forCellReuseIdentifier: SignOutVersionCell.identifier)
+        tableView.register(DeleteAccountCell.self, forCellReuseIdentifier: DeleteAccountCell.identifier)
         tableView.accessibilityIdentifier = "ProfileOptionsViewController:table-view"
         
         return tableView
@@ -140,6 +142,10 @@ class ProfileOptionsViewController: UIViewController {
         }
         
         options.append(.signout)
+
+        if environment.config.deleteAccountURL != nil {
+            options.append(.deleteAccount)
+        }
         
         tableView.reloadData()
     }
@@ -209,6 +215,8 @@ extension ProfileOptionsViewController: UITableViewDataSource {
             
         case .signout:
             return signoutCell(tableView, indexPath: indexPath)
+        case .deleteAccount:
+            return deleteAccountCell(tableView, indexPath: indexPath)
         }
     }
     
@@ -254,6 +262,12 @@ extension ProfileOptionsViewController: UITableViewDataSource {
         cell.delegate = self
         return cell
     }
+
+    private func deleteAccountCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: DeleteAccountCell.identifier, for: indexPath) as! DeleteAccountCell
+        cell.delegate = self
+        return cell
+    }
 }
 
 extension ProfileOptionsViewController: UITableViewDelegate {
@@ -288,7 +302,7 @@ extension ProfileOptionsViewController: DownloadCellDelagete {
     }
     
     func didTapVideoQuality() {
-        environment.analytics.trackVideoDownloadQualityClicked(displayName: AnalyticsDisplayName.ProfileVideoDownloadQualityClicked, name: AnalyticsEventName.ProfileVideoDownloadQualityClicked)
+        environment.analytics.trackEvent(with: AnalyticsDisplayName.ProfileVideoDownloadQualityClicked, name: AnalyticsEventName.ProfileVideoDownloadQualityClicked)
         environment.router?.showDownloadVideoQuality(from: self, delegate: self)
     }
 }
@@ -304,12 +318,12 @@ extension ProfileOptionsViewController: VideoDownloadQualityDelegate {
 }
 
 extension ProfileOptionsViewController: HelpCellDelegate {
-    func didSelectEmail() {
+    func didTapEmail() {
         environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.EmailSupportClicked, name: AnalyticsEventName.EmailSupportClicked)
         launchEmailComposer()
     }
     
-    func didSelectFAQ() {
+    func didTapFAQ() {
         guard let faqURL = environment.config.faqURL, let url = URL(string: faqURL) else { return }
         environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.FAQClicked, name: AnalyticsEventName.FAQClicked)
         if UIApplication.shared.canOpenURL(url) {
@@ -324,6 +338,15 @@ extension ProfileOptionsViewController: SignoutCellDelegate {
         dismiss(animated: true) { [weak self] in
             self?.environment.router?.logout()
         }
+    }
+}
+
+extension ProfileOptionsViewController: DeleteAccountCellDelegate {
+    func didTapDeleteAccount() {
+        guard let topController = UIApplication.shared.topMostController(), let URLString = environment.config.deleteAccountURL, let URL = URL(string: URLString) else { return }
+
+        environment.analytics.trackEvent(with: AnalyticsDisplayName.ProfileDeleteAccountClicked, name: AnalyticsEventName.ProfileDeleteAccountClicked)
+        environment.router?.showBrowserViewController(from: topController, title: Strings.ProfileOptions.Deleteaccount.webviewTitle, url: URL, alwaysRequireAuth: true)
     }
 }
 
@@ -729,8 +752,8 @@ class RestorePurchasesCell: UITableViewCell {
 }
 
 protocol HelpCellDelegate: AnyObject {
-    func didSelectEmail()
-    func didSelectFAQ()
+    func didTapEmail()
+    func didTapFAQ()
 }
 
 class HelpCell: UITableViewCell {
@@ -790,7 +813,7 @@ class HelpCell: UITableViewCell {
         button.layer.borderWidth = 1
         button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didSelectEmail()
+            self?.delegate?.didTapEmail()
         }, for: .touchUpInside)
         
         button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.ProfileOptions.Help.ButtonTitle.feedback), for: .normal)
@@ -818,7 +841,7 @@ class HelpCell: UITableViewCell {
         button.layer.borderWidth = 1
         button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didSelectFAQ()
+            self?.delegate?.didTapFAQ()
         }, for: .touchUpInside)
         
         let faqButtonTitle = [buttonStyle.attributedString(withText: Strings.ProfileOptions.Help.ButtonTitle.viewFaq), faqButtonIcon]
@@ -1020,6 +1043,75 @@ class SignOutVersionCell: UITableViewCell {
             make.top.equalTo(signoutButton.snp.bottom).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            make.bottom.equalTo(contentView).inset(StandardVerticalMargin * 2)
+        }
+    }
+}
+
+protocol DeleteAccountCellDelegate: AnyObject {
+    func didTapDeleteAccount()
+}
+
+class DeleteAccountCell: UITableViewCell {
+    static let identifier = "DeleteAccountCell"
+
+    weak var delegate: DeleteAccountCellDelegate?
+    private let infoTextStyle = OEXMutableTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().neutralXDark())
+
+    private lazy var deleteAccountButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderWidth = 1
+        button.layer.borderColor = OEXStyles.shared().errorBase().cgColor
+        button.oex_addAction({ [weak self] _ in
+            self?.delegate?.didTapDeleteAccount()
+        }, for: .touchUpInside)
+
+        let style = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().errorBase())
+        button.setAttributedTitle(style.attributedString(withText: Strings.ProfileOptions.Deleteaccount.buttonTitle), for: .normal)
+        button.accessibilityIdentifier = "DeleteAccountCell:signout-button"
+        return button
+    }()
+
+    private lazy var infoLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.attributedText = infoTextStyle.attributedString(withText: Strings.ProfileOptions.Deleteaccount.infoMessage).setLineSpacing(4)
+        label.accessibilityIdentifier = "DeleteAccountCell:info-label"
+        label.textAlignment = .center
+        return label
+    }()
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        selectionStyle = .none
+        accessibilityIdentifier = "ProfileOptionsViewController:delete-account-cell"
+        contentView.backgroundColor = OEXStyles.shared().neutralWhite()
+        setupViews()
+        setupConstrains()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupViews() {
+        contentView.addSubview(deleteAccountButton)
+        contentView.addSubview(infoLabel)
+    }
+
+    private func setupConstrains() {
+        deleteAccountButton.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(StandardVerticalMargin * 3)
+            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            make.height.equalTo(StandardVerticalMargin * 5)
+        }
+
+        infoLabel.snp.makeConstraints { make in
+            make.top.equalTo(deleteAccountButton.snp.bottom).offset(10)
+            make.leading.equalTo(deleteAccountButton)
+            make.trailing.equalTo(deleteAccountButton)
             make.bottom.equalTo(contentView).inset(StandardVerticalMargin * 2)
         }
     }

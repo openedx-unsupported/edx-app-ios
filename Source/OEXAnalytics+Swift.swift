@@ -80,6 +80,7 @@ public enum AnalyticsDisplayName : String {
     case CourseVideosDownloadQualityClicked = "Course Videos: Video Download Quality Clicked"
     case VideoDownloadQuality = "Video Download Quality"
     case VideoDownloadQualityChanged = "Video Download Quality Changed"
+    case ProfileDeleteAccountClicked = "Profile: Delete Account Clicked"
 }
 
 public enum AnalyticsEventName: String {
@@ -150,6 +151,7 @@ public enum AnalyticsEventName: String {
     case ProfileVideoDownloadQualityClicked = "edx.bi.app.profile.video_download_quality.clicked"
     case CourseVideosDownloadQualityClicked = "edx.bi.app.course_videos.video_download_quality.clicked"
     case VideoDownloadQualityChanged = "edx.bi.app.video_download_quality.changed"
+    case ProfileDeleteAccountClicked = "edx.bi.app.profile.delete_account.clicked"
 }
 
 public enum AnalyticsScreenName: String {
@@ -590,7 +592,7 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: nil)
     }
     
-    func trackVideoDownloadQualityClicked(displayName: AnalyticsDisplayName, name: AnalyticsEventName) {
+    func trackEvent(with displayName: AnalyticsDisplayName, name: AnalyticsEventName) {
         let event = OEXAnalyticsEvent()
         event.displayName = displayName.rawValue
         event.name = name.rawValue

@@ -418,8 +418,8 @@ extension OEXRouter {
         controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailController), animated: true, completion: completion)
     }
     
-    func showBrowserViewController(from controller: UIViewController, title: String?,  url: URL, completion: (() -> Void)? = nil) {
-        let browserViewController = BrowserViewController(title: title, url: url, environment: environment)
+    func showBrowserViewController(from controller: UIViewController, title: String?,  url: URL, alwaysRequireAuth: Bool = false, completion: (() -> Void)? = nil) {
+        let browserViewController = BrowserViewController(title: title, url: url, environment: environment, alwaysRequireAuth: alwaysRequireAuth)
         if let controller = controller as? BrowserViewControllerDelegate {
             browserViewController.delegate = controller
         }
