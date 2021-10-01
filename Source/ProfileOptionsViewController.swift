@@ -1075,7 +1075,7 @@ class DeleteAccountCell: UITableViewCell {
     private lazy var infoLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = infoTextStyle.attributedString(withText: Strings.ProfileOptions.Deleteaccount.infoMessage)
+        label.attributedText = infoTextStyle.attributedString(withText: Strings.ProfileOptions.Deleteaccount.infoMessage).setLineSpacing(4)
         label.accessibilityIdentifier = "DeleteAccountCell:info-label"
         label.textAlignment = .center
         return label
@@ -1109,7 +1109,7 @@ class DeleteAccountCell: UITableViewCell {
         }
 
         infoLabel.snp.makeConstraints { make in
-            make.top.equalTo(deleteAccountButton.snp.bottom).offset(StandardVerticalMargin)
+            make.top.equalTo(deleteAccountButton.snp.bottom).offset(10)
             make.leading.equalTo(deleteAccountButton)
             make.trailing.equalTo(deleteAccountButton)
             make.bottom.equalTo(contentView).inset(StandardVerticalMargin * 2)
