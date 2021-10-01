@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias DismissCompletion = () -> Void
+typealias DismissCompletion = ((Bool)) -> Void
 
 @objc class DeepLinkManager: NSObject {
     
@@ -63,7 +63,7 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showLoginScreen(with link: DeepLink) {
-        dismiss() { [weak self] in
+        dismiss() { [weak self] success in
             self?.environment?.router?.showLoginScreen(completion: {
                 self?.navigateToScreen(with: link.type, link: link)
             })
@@ -123,7 +123,7 @@ typealias DismissCompletion = () -> Void
             }
         }
         
-        dismiss() { [weak self] in
+        dismiss() { [weak self] _ in
             if let topController = self?.topMostViewController {
                 self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController)
             }
@@ -216,7 +216,7 @@ typealias DismissCompletion = () -> Void
         let pathId = link.type == .courseDetail ? link.courseId : link.pathID
         
         if isUserLoggedin() {
-            dismiss() { [weak self] in
+            dismiss() { [weak self] _ in
                 if let topController = self?.topMostViewController {
                     self?.environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: true , pathID: pathId)
                 }
@@ -241,7 +241,7 @@ typealias DismissCompletion = () -> Void
             topController.navigationController?.popViewController(animated: true)
         }
         else if !controllerAlreadyDisplayed(for: link.type) {
-            dismiss() { [weak self] in
+            dismiss() { [weak self] _ in
                 if let topController = self?.topMostViewController {
                     self?.environment?.router?.showProgram(with: link.type, from: topController)
                 }
@@ -264,7 +264,7 @@ typealias DismissCompletion = () -> Void
             }
         }
         else {
-            dismiss() { [weak self] in
+            dismiss() { [weak self] _ in
                 if let topController = self?.topMostViewController {
                     self?.environment?.router?.showProgram(with: link.type, url: url, from: topController)
                 }
@@ -299,7 +299,10 @@ typealias DismissCompletion = () -> Void
             }
         }
         else {
-            dismiss() { [weak self] in
+            dismiss() { [weak self] dismiss in
+                // dissmiss will be false if the notice banner is on screen while dismissing the presented controller
+                if !dismiss { return }
+
                 if let topViewController = self?.topMostViewController {
                     self?.environment?.router?.showProfile(controller: topViewController, completion: completion)
                 }
@@ -332,7 +335,10 @@ typealias DismissCompletion = () -> Void
             }
         }
         else {
-            dismiss() { [weak self] in
+            dismiss() { [weak self] dismiss in
+                // dissmiss will be false if the notice banner is on screen while dismissing the presented controller
+                if !dismiss { return }
+
                 self?.showProfile(with: link) { success in
                     if success {
                         self?.showUserProfile(with: link)
@@ -363,7 +369,7 @@ typealias DismissCompletion = () -> Void
             showDiscussionPosts()
         }
         else {
-            dismiss() { [weak self] in
+            dismiss() { [weak self] _ in
                 guard let topController = self?.topMostViewController, !isControllerAlreadyDisplayed else { return }
                 
                 if let courseDashboardController = topController as? CourseDashboardViewController, courseDashboardController.courseID == link.courseId {
@@ -399,7 +405,7 @@ typealias DismissCompletion = () -> Void
             showResponses()
         }
         else {
-            dismiss() { [weak self] in
+            dismiss() { [weak self] _ in
                 guard let topController = self?.topMostViewController, !isControllerAlreadyDisplayed else { return }
                 if let courseDashboardController = topController as? CourseDashboardViewController, courseDashboardController.courseID == link.courseId {
                     courseDashboardController.switchTab(with: link.type)
@@ -442,7 +448,7 @@ typealias DismissCompletion = () -> Void
             showComment()
         }
         else {
-             dismiss() { [weak self] in
+             dismiss() { [weak self] _ in
                 guard !isControllerAlreadyDisplayed else { return }
                 if isResponseControllerDisplayed {
                     showComment()
@@ -473,7 +479,7 @@ typealias DismissCompletion = () -> Void
         
         guard !controllerAlreadyDisplayed else { return }
         
-         dismiss() { [weak self] in
+         dismiss() { [weak self] _ in
             if let topController = self?.topMostViewController {
                 self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController)
             }
@@ -498,7 +504,7 @@ typealias DismissCompletion = () -> Void
         
         guard !controllerAlreadyDisplayed else { return }
         
-        dismiss() { [weak self] in
+        dismiss() { [weak self] _ in
             if let topController = self?.topMostViewController {
                 self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController)
             }
@@ -515,10 +521,16 @@ typealias DismissCompletion = () -> Void
     
     private func dismiss(completion: @escaping DismissCompletion) {
         if let rootController = UIApplication.shared.keyWindow?.rootViewController, rootController.presentedViewController != nil {
-            rootController.dismiss(animated: false, completion: completion)
+            if let _ = UIApplication.shared.topMostController() as? BannerViewController {
+                completion(false)
+                return
+            }
+            rootController.dismiss(animated: false) {
+                completion(true)
+            }
         }
         else {
-            completion()
+            completion(true)
         }
     }
     

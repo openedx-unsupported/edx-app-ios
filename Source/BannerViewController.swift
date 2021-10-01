@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol BannerBrowserViewControllerDelegate: AnyObject {
+protocol BannerViewControllerDelegate: AnyObject {
     func didTapOnAcknowledge()
     func didTapOnDeleteAccount()
 }
 
-class BannerBrowserViewController: UIViewController, InterfaceOrientationOverriding {
+class BannerViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider & OEXStylesProvider & OEXRouterProvider
     
@@ -21,7 +21,7 @@ class BannerBrowserViewController: UIViewController, InterfaceOrientationOverrid
         
     private let environment: Environment
     private let url: URL
-    weak var delegate: BannerBrowserViewControllerDelegate?
+    weak var delegate: BannerViewControllerDelegate?
     
     private var noticeID: String?
     
@@ -53,6 +53,19 @@ class BannerBrowserViewController: UIViewController, InterfaceOrientationOverrid
         view.backgroundColor = environment.styles.standardBackgroundColor()
         configureSubview()
         loadRequest()
+        addCloseButton()
+    }
+
+    private func addCloseButton() {
+        let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: 20), style: .plain, target: nil, action: nil)
+        closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
+        closeButton.accessibilityHint = Strings.Accessibility.closeHint
+        closeButton.accessibilityIdentifier = "BrowserViewController:close-button"
+        navigationItem.rightBarButtonItem = closeButton
+
+        closeButton.oex_setAction { [weak self] in
+            self?.dismiss(animated: true)
+        }
     }
     
     private func loadRequest() {
@@ -84,7 +97,7 @@ class BannerBrowserViewController: UIViewController, InterfaceOrientationOverrid
     }
 }
 
-extension BannerBrowserViewController: WebViewNavigationDelegate {
+extension BannerViewController: WebViewNavigationDelegate {
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         if let url = request.url?.URLString {
             if url == AllowedBannerURLs.main.rawValue {
@@ -93,13 +106,13 @@ extension BannerBrowserViewController: WebViewNavigationDelegate {
                 if self.url.URLString == AllowedBannerURLs.tos.rawValue {
                     return true
                 } else {
-                    environment.router?.showBannerBrowserViewController(from: self, url: URL(string: AllowedBannerURLs.tos.rawValue)!)
+                    environment.router?.showBannerViewController(from: self, url: URL(string: AllowedBannerURLs.tos.rawValue)!)
                 }
             } else if url == AllowedBannerURLs.policy.rawValue {
                 if self.url.URLString == AllowedBannerURLs.policy.rawValue {
                     return true
                 } else {
-                    environment.router?.showBannerBrowserViewController(from: self, url: URL(string: AllowedBannerURLs.policy.rawValue)!)
+                    environment.router?.showBannerViewController(from: self, url: URL(string: AllowedBannerURLs.policy.rawValue)!)
                 }
             } else if url == AllowedBannerURLs.delete.rawValue {
                 print("debug: delete this user")

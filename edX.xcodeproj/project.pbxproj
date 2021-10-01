@@ -177,7 +177,7 @@
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
 		5F0248C624AC9ED8000AF1FF /* CourseDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C524AC9ED8000AF1FF /* CourseDates.swift */; };
 		5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */; };
-		5F08321427018D810022971F /* BannerBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F08321327018D810022971F /* BannerBrowserViewController.swift */; };
+		5F08321427018D810022971F /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F08321327018D810022971F /* BannerViewController.swift */; };
 		5F1E03FC26CA64B9004F8139 /* VideoDownloadQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */; };
 		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
@@ -912,6 +912,8 @@
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
 		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
+		E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */; };
+		E0D029F827043DE6001F83B1 /* BannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F727043DE6001F83B1 /* BannerAPI.swift */; };
 		E0D159911EB87658005E2A76 /* WhatsNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */; };
 		E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */; };
 		E0D159971EB87700005E2A76 /* WhatsNewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159961EB87700005E2A76 /* WhatsNewObject.swift */; };
@@ -1230,7 +1232,7 @@
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
 		5F0248C524AC9ED8000AF1FF /* CourseDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDates.swift; sourceTree = "<group>"; };
 		5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesAPI.swift; sourceTree = "<group>"; };
-		5F08321327018D810022971F /* BannerBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerBrowserViewController.swift; sourceTree = "<group>"; };
+		5F08321327018D810022971F /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
 		5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloadQuality.swift; sourceTree = "<group>"; };
 		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
@@ -2108,6 +2110,8 @@
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
 		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
+		E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+Banner.swift"; sourceTree = "<group>"; };
+		E0D029F727043DE6001F83B1 /* BannerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAPI.swift; sourceTree = "<group>"; };
 		E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewViewController.swift; sourceTree = "<group>"; };
 		E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewDataModel.swift; sourceTree = "<group>"; };
 		E0D159961EB87700005E2A76 /* WhatsNewObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObject.swift; sourceTree = "<group>"; };
@@ -3861,7 +3865,7 @@
 				5F5FC009269DA8AE00F92B8F /* ValueProp */,
 				225E9FDB25BAF79E000D6332 /* CelebratoryModalViewController.swift */,
 				5FA7FEB0266A2BE5006286B6 /* BrowserViewController.swift */,
-				5F08321327018D810022971F /* BannerBrowserViewController.swift */,
+				5F08321327018D810022971F /* BannerViewController.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -4226,6 +4230,7 @@
 				5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */,
 				5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */,
 				2227A3F725C1E9BA008CB570 /* CelebratoryAPI.swift */,
+				E0D029F727043DE6001F83B1 /* BannerAPI.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -4238,6 +4243,7 @@
 				77D6A9A51C28F98A00E67CCF /* EnrolledCoursesViewController.swift */,
 				223972E01FE92BB500B2BBEC /* EnrolledTabBarViewController.swift */,
 				2240FD551FF266E4001D6589 /* TabBarItem.swift */,
+				E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */,
 			);
 			name = "Front Rear views";
 			sourceTree = "<group>";
@@ -5136,6 +5142,7 @@
 				BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */,
 				77F9C1741B0D496B004D39E7 /* CourseStructureAPI.swift in Sources */,
 				779376571BF15C1B00900A8C /* DiscoveryWebViewHelper.swift in Sources */,
+				E0D029F827043DE6001F83B1 /* BannerAPI.swift in Sources */,
 				6919F5FF1D65CD27006935C8 /* OEXColors.swift in Sources */,
 				1904A14E1A1386C2006A5524 /* VideoData.m in Sources */,
 				7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */,
@@ -5231,6 +5238,7 @@
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
 				E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */,
+				E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */,
 				E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
@@ -5259,7 +5267,7 @@
 				B7CCC737209B16B100A66923 /* Constraint.swift in Sources */,
 				1A5501A21BBA323700D5F9DD /* ProfileBanner.swift in Sources */,
 				B7CCC738209B16B100A66923 /* Debugging.swift in Sources */,
-				5F08321427018D810022971F /* BannerBrowserViewController.swift in Sources */,
+				5F08321427018D810022971F /* BannerViewController.swift in Sources */,
 				77C6BBCA1CB4BC6F0026C37B /* AccomplishmentsView.swift in Sources */,
 				B7CCC72F209B16B100A66923 /* ConstraintConstantTarget.swift in Sources */,
 				77509D981BE1916600B10CD3 /* UserProfileManager.swift in Sources */,

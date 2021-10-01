@@ -10,17 +10,18 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport, InterfaceOrientationOverriding, BannerBrowserViewControllerDelegate {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & RemoteConfigProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & RemoteConfigProvider & OEXSessionProvider
     
-    private let environment : Environment
+    let environment : Environment
     private let coursesContainer : CoursesContainerViewController
     private let loadController = LoadStateViewController()
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
     fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
+    var handleBannerOnStart: Bool = false // this will be used to send first call for the banners
 
     init(environment: Environment) {
         coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
@@ -70,8 +71,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         setupListener()
         setupObservers()
-        
-        fetchBanner()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,10 +84,13 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         super.viewDidAppear(animated)
 
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
-        
-        // show banner if needed
-        // save banner shown to userdefaults
-        //showWhatsNewIfNeeded()
+        showWhatsNewIfNeeded()
+
+        if !handleBannerOnStart {
+            handleBannerOnStart = true
+            handleBanner()
+        }
+
     }
     
     override func reloadViewData() {
@@ -142,59 +144,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
     }
     
-    private func fetchBanner() {
-        let request = NetworkRequest<[String]>(
-            method: .GET,
-            path: "/notices/api/v1/unacknowledged",
-            requiresAuth: true,
-            deserializer: .jsonResponse({ response, json in
-                if response.statusCode == OEXHTTPStatusCode.code200OK.rawValue {
-                    let values = json["results"].arrayValue.map { $0.stringValue }
-                    if !values.isEmpty {
-                        return Success(v: values)
-                    } else {
-                        return Failure()
-                    }
-                    
-                } else {
-                    return Failure()
-                }
-        }))
-        environment.networkManager.taskForRequest(request) { result in
-            if let link = result.data?.first,
-               let url = URL(string: link) {
-                self.environment.router?.showBannerBrowserViewController(from: self, url: url, delegate: self)
-            }
-        }
-    }
-    
-    private func acknowledge() {        
-        let request = NetworkRequest<String>(
-            method: .POST,
-            path: "/notices/api/v1/acknowledge",
-            requiresAuth: true,
-            body: .jsonBody(JSON([
-                "notice_id": "",
-                "acknowledgment_type": "confirmed"
-            ])),
-            deserializer: .noContent({ response in
-                if response.statusCode == OEXHTTPStatusCode.code200OK.rawValue {
-                    print("success")
-                    return Success(v: "success")
-                } else {
-                    print("failure")
-                    return Failure()
-                }
-        }))
-        environment.networkManager.taskForRequest(request) { result in
-            print(result.data)
-        }
-    }
-    
-    private func deleteAccount() {
-        
-    }
-    
     private func enrollmentsEmptyState() {
         if !isCourseDiscoveryEnabled {
             let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
@@ -213,6 +162,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         NotificationCenter.default.oex_addObserver(observer: self, name: AppNewVersionAvailableNotification) { (notification, observer, _) -> Void in
             observer.showVersionUpgradeSnackBarIfNecessary()
+        }
+
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { notification, observer, _ in
+            observer.handleBanner()
         }
     }
     
@@ -274,6 +227,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         coursesContainer.collectionView.collectionViewLayout.invalidateLayout()
     }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     //MARK:- PullRefreshControllerDelegate method
     func refreshControllerActivated(controller: PullRefreshController) {
@@ -284,15 +241,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     //MARK:- LoadStateViewReloadSupport method 
     func loadStateViewReload() {
         refreshIfNecessary()
-    }
-    
-    //MARK:- BannerBrowserViewControllerDelegate
-    func didTapOnAcknowledge() {
-        acknowledge()
-    }
-    
-    func didTapOnDeleteAccount() {
-        deleteAccount()
     }
 }
 

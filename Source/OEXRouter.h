@@ -76,6 +76,8 @@ extern NSString* OEXSideNavigationChangedStateKey;
 - (void)removeCurrentContentController;
 - (void)makeContentControllerCurrent:(UIViewController*)controller;
 
+-(UIViewController *) contentController;
+
 @end
 
 @interface OEXRouter (Testing)

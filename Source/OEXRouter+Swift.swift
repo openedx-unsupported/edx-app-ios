@@ -428,10 +428,12 @@ extension OEXRouter {
         controller.present(navController, animated: true, completion: completion)
     }
     
-    func showBannerBrowserViewController(from controller: UIViewController, url: URL, delegate: BannerBrowserViewControllerDelegate? = nil) {
-        let browserViewController = BannerBrowserViewController(url: url, environment: environment)
-        browserViewController.delegate = delegate
-        controller.navigationController?.pushViewController(browserViewController, animated: true)
+    func showBannerViewController(from controller: UIViewController, url: URL, delegate: BannerViewControllerDelegate? = nil) {
+        let bannerController = BannerViewController(url: url, environment: environment)
+        bannerController.delegate = delegate
+        let navController = ForwardingNavigationController(rootViewController: bannerController)
+        navController.modalPresentationStyle = .fullScreen
+        controller.present(navController, animated: true, completion: nil)
     }
     
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true, modal: Bool = false) {
