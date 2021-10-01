@@ -342,7 +342,7 @@ extension ProfileOptionsViewController: SignoutCellDelegate {
 }
 
 extension ProfileOptionsViewController: DeleteAccountCellDelegate {
-    func deleteAccount() {
+    func didTapDeleteAccount() {
         guard let topController = UIApplication.shared.topMostController(), let URLString = environment.config.deleteAccountURL, let URL = URL(string: URLString) else { return }
 
         environment.analytics.trackEvent(with: AnalyticsDisplayName.ProfileDeleteAccountClicked, name: AnalyticsEventName.ProfileDeleteAccountClicked)
@@ -1049,7 +1049,7 @@ class SignOutVersionCell: UITableViewCell {
 }
 
 protocol DeleteAccountCellDelegate: AnyObject {
-    func deleteAccount()
+    func didTapDeleteAccount()
 }
 
 class DeleteAccountCell: UITableViewCell {
@@ -1063,7 +1063,7 @@ class DeleteAccountCell: UITableViewCell {
         button.layer.borderWidth = 1
         button.layer.borderColor = OEXStyles.shared().errorBase().cgColor
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.deleteAccount()
+            self?.delegate?.didTapDeleteAccount()
         }, for: .touchUpInside)
 
         let style = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().errorBase())
