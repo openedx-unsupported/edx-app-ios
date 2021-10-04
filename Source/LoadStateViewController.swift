@@ -67,7 +67,7 @@ class LoadStateViewController : UIViewController {
     private let spinnerView: SpinnerView = SpinnerView(size: .large, color: .primary)
     private let messageView: IconMessageView = IconMessageView()
     private var contentView: UIView?
-    private var delegate: LoadStateViewReloadSupport?
+    private weak var delegate: LoadStateViewReloadSupport?
     private var madeInitialAppearance : Bool = false
     
     var state : LoadState = .Initial {
