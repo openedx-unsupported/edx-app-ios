@@ -14,7 +14,6 @@ class ValuePropMessagesView: UIView {
         Strings.ValueProp.infoMessage1,
         Strings.ValueProp.infoMessage2,
         Strings.ValueProp.infoMessage3,
-        Strings.ValueProp.infoMessage4(platformName: OEXConfig.shared().platformName())
     ]
     
     private lazy var tableView: UITableView = {
