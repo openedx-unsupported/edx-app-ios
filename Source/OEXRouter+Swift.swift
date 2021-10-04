@@ -428,8 +428,8 @@ extension OEXRouter {
         controller.present(navController, animated: true, completion: completion)
     }
     
-    func showBannerViewController(from controller: UIViewController, url: URL, delegate: BannerViewControllerDelegate? = nil) {
-        let bannerController = BannerViewController(url: url, environment: environment)
+    func showBannerViewController(from controller: UIViewController, url: URL, delegate: BannerViewControllerDelegate? = nil, alwaysRequireAuth: Bool = false) {
+        let bannerController = BannerViewController(url: url, environment: environment, alwaysRequireAuth: alwaysRequireAuth)
         bannerController.delegate = delegate
         let navController = ForwardingNavigationController(rootViewController: bannerController)
         navController.modalPresentationStyle = .fullScreen

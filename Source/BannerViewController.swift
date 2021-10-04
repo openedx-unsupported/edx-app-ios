@@ -22,7 +22,7 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
     private let environment: Environment
     private let url: URL
     weak var delegate: BannerViewControllerDelegate?
-    
+    fileprivate var authRequired: Bool = false
     private var noticeID: String?
     
     private enum AllowedBannerURLs: String {
@@ -32,9 +32,11 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
         case delete = "https://account.edx.org/#delete-account"
     }
     
-    init(url: URL, environment: Environment) {
+    init(url: URL, environment: Environment, alwaysRequireAuth: Bool = false) {
         self.environment = environment
         self.url = url
+        self.authRequired = alwaysRequireAuth
+
         super.init(nibName: nil, bundle: nil)
         
         if url.URLString == AllowedBannerURLs.main.rawValue {
@@ -123,5 +125,11 @@ extension BannerViewController: WebViewNavigationDelegate {
     
     func webViewContainingController() -> UIViewController {
         return self
+    }
+}
+
+extension BannerViewController: AuthenticatedWebViewControllerRequireAuthentication {
+    func alwaysRequireAuth() -> Bool {
+        return authRequired
     }
 }

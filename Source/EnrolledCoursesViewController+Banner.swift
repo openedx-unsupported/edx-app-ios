@@ -8,7 +8,7 @@
 
 import Foundation
 
-//Banner handling
+//Notics/Acquisition Banner handling
 extension EnrolledCoursesViewController: BannerViewControllerDelegate {
     func handleBanner() {
         if !handleBannerOnStart || environment.session.currentUser == nil {
@@ -43,7 +43,9 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
     }
 
     private func showBanner(with link: String, requireAuth: Bool) {
-
+        guard let topController = UIApplication.shared.topMostController(),
+              let URL = URL(string: link) else { return }
+        environment.router?.showBannerViewController(from: topController, url: URL, delegate: self)
     }
 
 //    private func acknowledge() {
