@@ -74,6 +74,8 @@ class ValuePropUpgradeButtonView: UIView {
     }
 
     func setPrice(_ price: String) {
+        // Button will be visisble for a valid price
+        upgradeButton.isHidden = price.isEmpty
         let buttonTitle = Strings.ValueProp.upgradeCourseFor(price: price)
 
         let lockedImage = Icon.Closed.imageWithFontSize(size: 16).image(with: OEXStyles.shared().neutralWhiteT())

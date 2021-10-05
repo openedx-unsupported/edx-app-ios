@@ -10,6 +10,7 @@ import Foundation
 
 protocol ValuePropMessageViewDelegate {
     func showValuePropDetailView()
+    func didTapUpgradeCourse(upgradeView: ValuePropComponentView)
 }
 
 class ValuePropComponentView: UIView {
@@ -31,7 +32,8 @@ class ValuePropComponentView: UIView {
         label.numberOfLines = 0
         return label
     }()
-    private lazy var upgradeButton: ValuePropUpgradeButtonView = {
+
+    lazy var upgradeButton: ValuePropUpgradeButtonView = {
         let button = ValuePropUpgradeButtonView()
         button.tapAction = { [weak self] in
             self?.upgradeCourse()
@@ -39,6 +41,8 @@ class ValuePropComponentView: UIView {
         return button
 
     }()
+
+
 
     private var showingMore: Bool = false
 
@@ -113,6 +117,12 @@ class ValuePropComponentView: UIView {
         container.addSubview(infoMessagesView)
         container.addSubview(upgradeButton)
         addSubview(container)
+
+        PaymentManager.shared.productPrice(TestInAppPurchaseID) { [weak self] price in
+            if let price = price {
+                self?.upgradeButton.setPrice(price)
+            }
+        }
     }
     
     private func setConstraints() {
@@ -194,11 +204,7 @@ class ValuePropComponentView: UIView {
     }
 
     private func upgradeCourse() {
-        environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing)
-
-        if let controller = firstAvailableUIViewController() {
-            controller.showOverlay(withMessage: "Payments are coming soon")
-        }
+        delegate?.didTapUpgradeCourse(upgradeView: self)
     }
 
     private func trackShowMorelessAnalytics(showingMore: Bool) {

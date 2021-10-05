@@ -9,12 +9,12 @@
 import Foundation
 import SwiftyStoreKit
 
-let productID = "org.edx.mobile.integrationtest"
-let simulatesAskToBuyInSandbox: Bool = false
+let TestInAppPurchaseID = "org.edx.mobile.integrationtest"
 private let CourseUpgradeCompleteNotification: String = "CourseUpgradeCompleteNotification"
 
 
-// In case of completeTransctions SDK returns SwiftyStoreKit.Purchase and on the in-app purchase SDK returns SwiftyStoreKit.PurchaseDetails
+// In case of completeTransctions SDK returns SwiftyStoreKit.Purchase
+// And on the in-app purchase SDK returns SwiftyStoreKit.PurchaseDetails
 enum TransctionType: String {
     case transction
     case purchase
@@ -22,10 +22,13 @@ enum TransctionType: String {
 
 enum PurchaseError: String {
     case paymentsNotAvailebe // Device isn't allowed to make payments
-    case invalidUser // App User isn't available
-    case purchaseError // Unable to purchase a product
+    case invalidUser // App user isn't available
+    case paymentError // Unable to purchase a product
     case receiptNotAvailable // Unable to fetech inapp purchase receipt
-    case invalidBasketID // Order basket ID is invalid
+    case basketError // basket API returns error
+    case checkoutError // checkout API returns error
+    case verifyReceiptError // verify receipt API returns error
+    case generalError // General error
 }
 
 @objc class PaymentManager: NSObject {
@@ -36,7 +39,6 @@ enum PurchaseError: String {
 
     typealias PurchaseCompletionHandler = ((success: Bool, receipt: String?, error: PurchaseError?)) -> Void
     var completion: PurchaseCompletionHandler?
-
 
     lazy var isIAPInprocess:Bool = {
         return purchasess.count > 0
@@ -52,17 +54,15 @@ enum PurchaseError: String {
             for purchase in purchases {
                 switch purchase.transaction.transactionState {
                 case .purchased, .restored:
-                    let downloads = purchase.transaction.downloads
-                    if !downloads.isEmpty {
-                        SwiftyStoreKit.start(downloads)
-                    } else if purchase.needsFinishTransaction {
+                    if purchase.needsFinishTransaction {
                         // Deliver content from server, then:
+                        // self?.markPurchaseComplete(productID, type: .transction)
                         // SwiftyStoreKit.finishTransaction(purchase.transaction)
                         self?.purchasess[purchase.productId] =  purchase
-                        self?.markPurchaseComplete(productID, type: .transction)
                     }
-                    print("\(purchase.transaction.transactionState.debugDescription): \(purchase.productId)")
                 case .failed, .purchasing, .deferred:
+                    // TODO: Will handle while implementing the final version
+                    // At the momewnt don't have anything to add here
                     break // do nothing
                 @unknown default:
                     break // do nothing
@@ -71,37 +71,6 @@ enum PurchaseError: String {
         }
     }
 
-    func purchase() {
-        let productId = ""
-        let applicationUserName = ""
-        
-        storeKit.purchaseProduct(productId, atomically: false, applicationUsername: applicationUserName) { result in
-            print(result)
-        }
-    }
-    
-    func getReceipt() {
-        storeKit.fetchReceipt(forceRefresh: true) { _ in
-            
-        }
-    }
-    
-    func verify() {
-        
-    }
-    
-    func restorePurchase() {
-        let applicationUserName = ""
-        storeKit.restorePurchases(atomically: false, applicationUsername: applicationUserName) { restoreResults in
-            for purchase in restoreResults.restoredPurchases {
-                switch purchase.transaction.transactionState {
-                case .purchased, .restored:
-                    print("\(purchase.transaction.transactionState.debugDescription): \(purchase.productId)")
-                case .failed, .purchasing, .deferred:
-                    break // do nothing
-                @unknown default:
-                    break // do nothing
-                }}}}
     func purchaseProduct(_ identifier: String, completion: PurchaseCompletionHandler?) {
         guard storeKit.canMakePayments else {
             if let controller = UIApplication.shared.topMostController() {
@@ -117,42 +86,33 @@ enum PurchaseError: String {
         }
         self.completion = completion
 
-        storeKit.purchaseProduct(identifier, atomically: false, applicationUsername: applicationUserName, simulatesAskToBuyInSandbox: simulatesAskToBuyInSandbox) { [weak self] result in
+        storeKit.purchaseProduct(identifier, atomically: false, applicationUsername: applicationUserName) { [weak self] result in
             switch result {
             case .success(let purchase):
                 self?.purchasess[purchase.productId] = purchase
-                self?.fetchPurchaseReceipt()
+                self?.purchaseReceipt()
                 break
             case .error(let error):
-                completion?((false, receipt: nil, error: .purchaseError))
+                completion?((false, receipt: nil, error: .paymentError))
                 switch error.code {
+                //TOD: handle the following cases according to the requirments
                 case .unknown:
-                    print("Unknown error. Please contact support")
                     break
                 case .clientInvalid:
-                    print("Not allowed to make the payment")
                     break
                 case .paymentCancelled:
-                    print("payment cancled")
                     break
-
                 case .paymentInvalid:
-                    print("The purchase identifier was invalid")
                     break
                 case .paymentNotAllowed:
-                    print("The device is not allowed to make the payment")
                     break
                 case .storeProductNotAvailable:
-                    print("The product is not available in the current storefront")
                     break
                 case .cloudServicePermissionDenied:
-                    print("Access to cloud service information is not allowed")
                     break
                 case .cloudServiceNetworkConnectionFailed:
-                    print("Could not connect to the network")
                     break
                 case .cloudServiceRevoked:
-                    print("User has revoked permission to use this cloud service")
                     break
                 default: print((error as NSError).localizedDescription)
                 }
@@ -160,30 +120,27 @@ enum PurchaseError: String {
         }
     }
 
-    func retrieveProductsInfo(_ identifier: String, completion: @escaping (String?) -> Void) {
+    func productPrice(_ identifier: String, completion: @escaping (String?) -> Void) {
         storeKit.retrieveProductsInfo([identifier]) { result in
             if let product = result.retrievedProducts.first {
                 completion(product.localizedPrice)
             }
-            else if let invalidProductId = result.invalidProductIDs.first {
-                print("Invalid product identifier: \(invalidProductId)")
+            else if let _ = result.invalidProductIDs.first {
                 completion(nil)
             }
             else {
                 completion(nil)
-                print("Error: \(String(describing: result.error))")
             }
         }
     }
     
-    private func fetchPurchaseReceipt() {
+    private func purchaseReceipt() {
         storeKit.fetchReceipt(forceRefresh: false) { [weak self] result in
             switch result {
             case .success(let receiptData):
                 let encryptedReceipt = receiptData.base64EncodedString(options: [])
                 self?.completion?((true, receipt: encryptedReceipt, error: nil))
-            case .error(let error):
-                print("Fetch receipt failed: \(error)")
+            case .error(_):
                 self?.completion?((false, receipt: nil, error: .receiptNotAvailable))
             }
         }
@@ -194,12 +151,11 @@ enum PurchaseError: String {
 
         storeKit.restorePurchases(atomically: false, applicationUsername: applicationUserName) { results in
             if results.restoreFailedPurchases.count > 0 {
-                print("Restore Failed. Please try again.")
+                //TODO: Handle failed restore purchases
             }
             else if results.restoredPurchases.count > 0 {
-                for purchase in results.restoredPurchases {
-                    //handle restore purchases
-                    print(purchase)
+                for _ in results.restoredPurchases {
+                    //TODO: Handle restore purchases
                 }
             }
         }

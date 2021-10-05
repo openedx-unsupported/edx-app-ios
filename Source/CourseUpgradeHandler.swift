@@ -10,7 +10,7 @@ import Foundation
 
 class CourseUpgradeHandler: NSObject {
 
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & ReachabilityProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & ReachabilityProvider & OEXInterfaceProvider
     typealias UpgradeCompletionHandler = ((success: Bool, error: PurchaseError?)) -> Void
 
     private var environment: Environment? = nil
@@ -30,17 +30,26 @@ class CourseUpgradeHandler: NSObject {
                 self?.basketID = basketID
                 self?.checkout()
             }
+            else {
+                completion?((false, .basketError))
+            }
         }
-        
+    }
+
+    func upgradeCourse(_ courseID: String, environment: Environment?, completion: UpgradeCompletionHandler?) {
+        guard let course = environment?.interface?.enrollmentForCourse(withID: courseID)?.course else {
+            completion?((false, .generalError))
+            return
+        }
+
+        upgradeCourse(course, environment: environment, completion: completion)
     }
 
     private func addToBasket(completion: @escaping (OrderBasket?) -> ()) {
         let baseURL = CourseUpgradeAPI.baseURL
-        let request = CourseUpgradeAPI.basketAPI(with: "org.edx.mobile.integrationtest")
+        let request = CourseUpgradeAPI.basketAPI(with: TestInAppPurchaseID)
         environment?.networkManager.taskForRequest(base: baseURL, request) { response in
-            if response.error == nil {
-                completion(response.data)
-            }
+            completion(response.data)
         }
     }
     
@@ -48,6 +57,7 @@ class CourseUpgradeHandler: NSObject {
         // Checkout API
         // Perform the inapp purchase on success
         guard basketID > 0 else {
+            completion?((false, .checkoutError))
             return
         }
         let baseURL = CourseUpgradeAPI.baseURL
@@ -56,16 +66,19 @@ class CourseUpgradeHandler: NSObject {
             if response.error == nil {
                 self?.makePayment()
             }
+            else {
+                self?.completion?((false, .checkoutError))
+            }
         }
     }
 
     private func makePayment() {
-        PaymentManager.shared.purchaseProduct(productID) { [weak self] (success: Bool, receipt: String?, error: PurchaseError?) in
+        PaymentManager.shared.purchaseProduct(TestInAppPurchaseID) { [weak self] (success: Bool, receipt: String?, error: PurchaseError?) in
             if let receipt = receipt, success {
                 self?.executeUpgrade(receipt)
             }
             else {
-                // checkout error
+                self?.completion?((false, error))
             }
         }
     }
@@ -73,12 +86,15 @@ class CourseUpgradeHandler: NSObject {
     private func executeUpgrade(_ receipt: String) {
         // Execute API, pass the payment receipt to complete the course upgrade
         let baseURL = CourseUpgradeAPI.baseURL
-        let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: productID, receipt: receipt)
+        let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: TestInAppPurchaseID, receipt: receipt)
 
         environment?.networkManager.taskForRequest(base: baseURL, request, handler: { [weak self] response in
             if response.error == nil {
                 PaymentManager.shared.markPurchaseComplete(self?.course?.course_id ?? "", type: .purchase)
                 self?.completion?((true, nil))
+            }
+            else {
+                self?.completion?((false, .verifyReceiptError))
             }
         })
     }

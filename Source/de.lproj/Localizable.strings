@@ -362,6 +362,20 @@
 "COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
+/* Course Dates View Events in Calendar */
+"COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
+/*Course upgrade success alert title*/
+"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
+/*Course upgrade success alert message*/
+"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Thank you for your purchase. You can pick up right where you left off and enjoy full access to your course content.";
+/*Course upgrade success alert continue button title*/
+"COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
+/*Course upgrade failure alert title*/
+"COURSE_UPGRADE.FAILURE_ALERT_TITLE"="Upgrade error";
+/*Course upgrade failure alert message*/
+"COURSE_UPGRADE.FAILURE_ALERT_Message"="It looks like something went wrong when upgrading your course.";
+/*Course upgrade failure alert get help button title*/
+"COURSE_UPGRADE.FAILURE_ALERT_GET_HELP"="Get help";
 /* Button text for cancelling any action */
 "CANCEL"="Abbrechen";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
