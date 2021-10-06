@@ -15,12 +15,13 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
             return
         }
 
-        if let _ = UIApplication.shared.topMostController() as? BannerViewController {
+        // If the banner is already ion screen don't send the banner request    
+        if UIApplication.shared.topMostController() is BannerViewController {
             return
         }
 
         let delegate = UIApplication.shared.delegate as? OEXAppDelegate
-        let delay: Double = (delegate?.openedFromDeeplink ?? false) ? 10 : 5
+        let delay: Double = (delegate?.openedFromDeeplink ?? false) ? 10 : 0
         delegate?.openedFromDeeplink = false
 
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
@@ -32,51 +33,74 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
         let request = BannerAPI.unacknowledgedAPI()
 
         environment.networkManager.taskForRequest(request) { [weak self] result in
-            guard let weakSelf = self,
-                  let topController = UIApplication.shared.keyWindow?.rootViewController! else { return }
-//            if let link = result.data?.first,
-            // opening a random link for testing
-               if let url = URL(string: "https://www.google.com.pk") {
-                self?.environment.router?.showBannerViewController(from: topController, url: url, delegate: weakSelf)
+            // "https://courses.stage.edx.org/notices/render/1?mobile=true"
+            if let link = result.data?.first {
+                self?.showBanner(with: link, title: nil, requireAuth: true, showNavbar: false)
             }
         }
     }
 
-    private func showBanner(with link: String, requireAuth: Bool) {
+    private func showBanner(with link: String, title: String?, requireAuth: Bool, modal: Bool = true, showNavbar: Bool) {
         guard let topController = UIApplication.shared.topMostController(),
               let URL = URL(string: link) else { return }
-        environment.router?.showBannerViewController(from: topController, url: URL, delegate: self)
+        environment.router?.showBannerViewController(from: topController, url: URL, title: title, delegate: self, alwaysRequireAuth: requireAuth, modal: modal, showNavbar: showNavbar)
     }
 
-//    private func acknowledge() {
-//        let request = NetworkRequest<String>(
-//            method: .POST,
-//            path: "/notices/api/v1/acknowledge",
-//            requiresAuth: true,
-//            body: .jsonBody(JSON([
-//                "notice_id": "",
-//                "acknowledgment_type": "confirmed"
-//            ])),
-//            deserializer: .noContent({ response in
-//                if response.statusCode == OEXHTTPStatusCode.code200OK.rawValue {
-//                    print("success")
-//                    return Success(v: "success")
-//                } else {
-//                    print("failure")
-//                    return Failure()
-//                }
-//        }))
-//        environment.networkManager.taskForRequest(request) { result in
-//            print(result.data)
-//        }
-//    }
+    private func showBrowserViewController(with link: String, title: String? ,requireAuth: Bool) {
+        guard let topController = UIApplication.shared.topMostController(),
+              let URL = URL(string: link) else { return }
+        environment.router?.showBrowserViewController(from: topController, title: title, url: URL)
+    }
 
     //MARK:- BannerViewControllerDelegate
-    func didTapOnAcknowledge() {
-//        acknowledge()
+
+    func navigate(with action: BannerAction, screen: BannerScreen?) {
+        switch action {
+        case .continueWithoutDismiss:
+            if let screen = screen,
+               let navigationURL = navigationURL(for: screen) {
+                showBanner(with: navigationURL, title: nil, requireAuth: authRequired(for: screen), modal: false, showNavbar: true)
+            }
+            break
+        case .dismiss:
+            dismiss(animated: true) { [weak self] in
+                if let screen = screen,
+                   let navigationURL = self?.navigationURL(for: screen) {
+                    self?.showBrowserViewController(with: navigationURL, title: self?.title(for: screen), requireAuth: self?.authRequired(for: screen) ?? false)
+                }
+            }
+            break
+        }
     }
 
-    func didTapOnDeleteAccount() {
+    private func navigationURL(for screen: BannerScreen) -> String? {
+        switch screen {
+        case .privacyPolicy:
+            return environment.config.agreementURLsConfig.privacyPolicyURL?.absoluteString
+        case .tos:
+            return environment.config.agreementURLsConfig.tosURL?.absoluteString
+        case .deleteAccount:
+            return environment.config.deleteAccountURL
+        }
+    }
 
+    private func title(for screen: BannerScreen) -> String? {
+        switch screen {
+        case .privacyPolicy:
+            return "Privacy Policy"
+        case .tos:
+            return "Terms And Services"
+        case .deleteAccount:
+            return Strings.ProfileOptions.Deleteaccount.webviewTitle
+        }
+    }
+
+    private func authRequired(for screen: BannerScreen) -> Bool {
+        switch screen {
+        case .deleteAccount:
+            return true
+        default:
+            return false
+        }
     }
 }

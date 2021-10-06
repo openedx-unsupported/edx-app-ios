@@ -8,9 +8,24 @@
 
 import UIKit
 
+fileprivate enum URLParameterKeys: String, RawStringExtractable {
+    case screenName = "screen_name";
+}
+
+// Define banner actions here
+enum BannerAction: String {
+    case continueWithoutDismiss = "show_screen_without_dismissing"
+    case dismiss = "dismiss"
+}
+
+enum BannerScreen: String {
+    case privacyPolicy = "privacy_policy"
+    case tos = "terms_of_service"
+    case deleteAccount = "delete_account"
+}
+
 protocol BannerViewControllerDelegate: AnyObject {
-    func didTapOnAcknowledge()
-    func didTapOnDeleteAccount()
+    func navigate(with action: BannerAction, screen: BannerScreen?)
 }
 
 class BannerViewController: UIViewController, InterfaceOrientationOverriding {
@@ -23,26 +38,17 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
     private let url: URL
     weak var delegate: BannerViewControllerDelegate?
     fileprivate var authRequired: Bool = false
-    private var noticeID: String?
+    private var showNavbar: Bool = false
     
-    private enum AllowedBannerURLs: String {
-        case main = "https://courses.stage.edx.org/notices/render/1/"
-        case tos = "https://www.edx.org/edx-terms-service"
-        case policy = "https://www.edx.org/edx-privacy-policy"
-        case delete = "https://account.edx.org/#delete-account"
-    }
-    
-    init(url: URL, environment: Environment, alwaysRequireAuth: Bool = false) {
+    init(url: URL, title: String?, environment: Environment, alwaysRequireAuth: Bool = false, showNavbar: Bool = false) {
         self.environment = environment
         self.url = url
         self.authRequired = alwaysRequireAuth
+        self.showNavbar = showNavbar
 
         super.init(nibName: nil, bundle: nil)
-        
-        if url.URLString == AllowedBannerURLs.main.rawValue {
-            let noticeID = url.URLString.components(separatedBy: .decimalDigits.inverted).joined()
-            self.noticeID = noticeID
-        }
+        webController.webViewDelegate = self
+        self.title = title
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,29 +57,22 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         view.backgroundColor = environment.styles.standardBackgroundColor()
+        
         configureSubview()
         loadRequest()
-        addCloseButton()
     }
 
-    private func addCloseButton() {
-        let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: 20), style: .plain, target: nil, action: nil)
-        closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
-        closeButton.accessibilityHint = Strings.Accessibility.closeHint
-        closeButton.accessibilityIdentifier = "BrowserViewController:close-button"
-        navigationItem.rightBarButtonItem = closeButton
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-        closeButton.oex_setAction { [weak self] in
-            self?.dismiss(animated: true)
-        }
+        navigationController?.isNavigationBarHidden = !showNavbar
     }
     
     private func loadRequest() {
         let request = NSURLRequest(url: url)
         webController.loadRequest(request: request)
-        webController.webViewDelegate = self
     }
     
     private func configureSubview() {
@@ -101,30 +100,40 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
 
 extension BannerViewController: WebViewNavigationDelegate {
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
-        if let url = request.url?.URLString {
-            if url == AllowedBannerURLs.main.rawValue {
-                return true
-            } else if url == AllowedBannerURLs.tos.rawValue {
-                if self.url.URLString == AllowedBannerURLs.tos.rawValue {
-                    return true
-                } else {
-                    environment.router?.showBannerViewController(from: self, url: URL(string: AllowedBannerURLs.tos.rawValue)!)
-                }
-            } else if url == AllowedBannerURLs.policy.rawValue {
-                if self.url.URLString == AllowedBannerURLs.policy.rawValue {
-                    return true
-                } else {
-                    environment.router?.showBannerViewController(from: self, url: URL(string: AllowedBannerURLs.policy.rawValue)!)
-                }
-            } else if url == AllowedBannerURLs.delete.rawValue {
-                print("debug: delete this user")
-            }
-        }
-        return false
+        guard let URL = request.url else { return true }
+
+        return !navigate(url: URL)
     }
     
     func webViewContainingController() -> UIViewController {
         return self
+    }
+
+    private func navigate(url: URL) -> Bool {
+        guard let action = urlAction(from: url) else { return false }
+        let screen = bannerScreen(from: url)
+
+        delegate?.navigate(with: action, screen: screen)
+
+        return true
+    }
+
+    private func urlAction(from url: URL) -> BannerAction? {
+        guard url.isValidAppURLScheme, let url = BannerAction(rawValue: url.appURLHost) else {
+            return nil
+        }
+        return url
+    }
+
+    private  func bannerScreen(from url: URL) -> BannerScreen? {
+        guard url.isValidAppURLScheme,
+              let screenName = url.queryParameters?[URLParameterKeys.screenName] as? String,
+              let bannerScreen = BannerScreen(rawValue: screenName)
+        else {
+            return nil
+        }
+
+        return bannerScreen
     }
 }
 

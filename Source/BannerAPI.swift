@@ -21,7 +21,7 @@ public struct BannerAPI {
     static func unacknowledgedAPI() -> NetworkRequest<[String]> {
         return NetworkRequest<[String]>(
             method: .GET,
-            path: "/notices/api/v1/unacknowledged",
+            path: "/notices/api/v1/unacknowledged?mobile=true",
             requiresAuth: true,
             deserializer: .jsonResponse(unacknowledgeddeserializer))
     }

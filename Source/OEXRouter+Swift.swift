@@ -428,12 +428,17 @@ extension OEXRouter {
         controller.present(navController, animated: true, completion: completion)
     }
     
-    func showBannerViewController(from controller: UIViewController, url: URL, delegate: BannerViewControllerDelegate? = nil, alwaysRequireAuth: Bool = false) {
-        let bannerController = BannerViewController(url: url, environment: environment, alwaysRequireAuth: alwaysRequireAuth)
+    func showBannerViewController(from controller: UIViewController, url: URL, title: String?, delegate: BannerViewControllerDelegate? = nil, alwaysRequireAuth: Bool = false, modal: Bool = true, showNavbar: Bool = false) {
+        let bannerController = BannerViewController(url: url, title: title, environment: environment, alwaysRequireAuth: alwaysRequireAuth, showNavbar: showNavbar)
         bannerController.delegate = delegate
-        let navController = ForwardingNavigationController(rootViewController: bannerController)
-        navController.modalPresentationStyle = .fullScreen
-        controller.present(navController, animated: true, completion: nil)
+        if modal {
+            let navController = ForwardingNavigationController(rootViewController: bannerController)
+            navController.modalPresentationStyle = .fullScreen
+            controller.present(navController, animated: true, completion: nil)
+        }
+        else {
+            controller.navigationController?.pushViewController(bannerController, animated: true)
+        }
     }
     
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true, modal: Bool = false) {

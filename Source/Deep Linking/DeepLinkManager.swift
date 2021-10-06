@@ -26,6 +26,11 @@ typealias DismissCompletion = ((Bool)) -> Void
     
     /// This method process the deep link with response parameters
     @objc func processDeepLink(with params: [String: Any], environment: Environment) {
+        // If the banner is on screen discard the deep link
+        if UIApplication.shared.topMostController() is BannerViewController {
+            return
+        }
+
         self.environment = environment
         let deepLink = DeepLink(dictionary: params)
         let type = deepLink.type

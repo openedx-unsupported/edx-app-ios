@@ -405,11 +405,6 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
                 ajaxCallbackDelegate?.didCompletionCalled(completion: true)
             }
         }
-        
-        print("Received message: \(message.name): \(message.body)")
-        if let view = self.webController.view as? WKWebView {
-            print(view.url)
-        }
     }
 
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
