@@ -20,7 +20,7 @@ class CourseUpgradeHandler: NSObject {
 
     static let shared = CourseUpgradeHandler()
 
-    func upgradeCourse(_ course: OEXCourse, environment: Environment?, completion: UpgradeCompletionHandler?) {
+    func upgradeCourse(_ course: OEXCourse, environment: Environment, completion: UpgradeCompletionHandler?) {
         self.completion = completion
         self.environment = environment
         self.course = course
@@ -36,8 +36,8 @@ class CourseUpgradeHandler: NSObject {
         }
     }
 
-    func upgradeCourse(_ courseID: String, environment: Environment?, completion: UpgradeCompletionHandler?) {
-        guard let course = environment?.interface?.enrollmentForCourse(withID: courseID)?.course else {
+    func upgradeCourse(_ courseID: String, environment: Environment, completion: UpgradeCompletionHandler?) {
+        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else {
             completion?((false, .generalError))
             return
         }
@@ -88,7 +88,7 @@ class CourseUpgradeHandler: NSObject {
         let baseURL = CourseUpgradeAPI.baseURL
         let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: TestInAppPurchaseID, receipt: receipt)
 
-        environment?.networkManager.taskForRequest(base: baseURL, request, handler: { [weak self] response in
+        environment?.networkManager.taskForRequest(base: baseURL, request){ [weak self] response in
             if response.error == nil {
                 PaymentManager.shared.markPurchaseComplete(self?.course?.course_id ?? "", type: .purchase)
                 self?.completion?((true, nil))
@@ -96,6 +96,6 @@ class CourseUpgradeHandler: NSObject {
             else {
                 self?.completion?((false, .verifyReceiptError))
             }
-        })
+        }
     }
 }

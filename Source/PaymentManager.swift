@@ -21,14 +21,14 @@ enum TransctionType: String {
 }
 
 enum PurchaseError: String {
-    case paymentsNotAvailebe // Device isn't allowed to make payments
-    case invalidUser // App user isn't available
-    case paymentError // Unable to purchase a product
-    case receiptNotAvailable // Unable to fetech inapp purchase receipt
+    case paymentsNotAvailebe // device isn't allowed to make payments
+    case invalidUser // app user isn't available
+    case paymentError // unable to purchase a product
+    case receiptNotAvailable // unable to fetech inapp purchase receipt
     case basketError // basket API returns error
     case checkoutError // checkout API returns error
     case verifyReceiptError // verify receipt API returns error
-    case generalError // General error
+    case generalError // general error
 }
 
 @objc class PaymentManager: NSObject {
@@ -40,13 +40,17 @@ enum PurchaseError: String {
     typealias PurchaseCompletionHandler = ((success: Bool, receipt: String?, error: PurchaseError?)) -> Void
     var completion: PurchaseCompletionHandler?
 
-    lazy var isIAPInprocess:Bool = {
+    var isIAPInprocess:Bool {
         return purchasess.count > 0
-    }()
+    }
 
-    lazy var inprocessPurchases: [String: Any] = {
+    var inprocessPurchases: [String: Any] {
         return purchasess
-    }()
+    }
+
+    private override init() {
+
+    }
 
     @objc func completeTransactions() {
         // save and check if purchase is already there
