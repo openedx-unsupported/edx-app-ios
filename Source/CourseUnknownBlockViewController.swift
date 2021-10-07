@@ -199,31 +199,44 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
 
         let pacing = course.isSelfPaced ? "self" : "instructor"
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
-
-        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { success, error in
+        
+        upgradeView.upgradeButton.startAnimating()
+        
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { status in
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
             guard let topController = UIApplication.shared.topMostController() else { return }
-
-            if error == nil {
-                upgradeView.upgradeButton.isHidden = true
-
+            
+            switch status {
+            case .payment:
+                upgradeView.upgradeButton.stopAnimating()
+                
+            case .complete:
+                upgradeView.setUpgradeButtonVisibility(visible: false)
+                
                 let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message:Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-
+                
                 alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
                     // TODO: continue button handling
                 }
-
-            }
-            else {
+                
+            case .error:
+                upgradeView.upgradeButton.stopAnimating()
+                
                 let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message:Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-
-
+                
                 alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { action in
                     // TODO: Add option to send email
                 }
-
+                
                 alertController.addButton(withTitle: Strings.close, style: .default) { action in
                     // TODO: Close button handling
                 }
+                
+            default:
+                break
             }
         }
     }

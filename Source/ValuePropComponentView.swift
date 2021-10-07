@@ -27,23 +27,19 @@ class ValuePropComponentView: UIView {
         label.numberOfLines = 0
         return label
     }()
+    
     private lazy var messageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         return label
     }()
 
-    lazy var upgradeButton: ValuePropUpgradeButtonView = {
-        let button = ValuePropUpgradeButtonView()
-        button.tapAction = { [weak self] in
-            self?.upgradeCourse()
-        }
+    lazy var upgradeButton: UpgradeButtonView = {
+        let button = UpgradeButtonView()
+        button.delegate = self
         return button
-
     }()
-
-
-
+    
     private var showingMore: Bool = false
 
     private lazy var showMoreLessButton: UIButton = {
@@ -167,7 +163,7 @@ class ValuePropComponentView: UIView {
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             make.trailing.equalTo(container).inset(StandardHorizontalMargin)
             make.top.equalTo(infoMessagesView.snp.bottom).offset(StandardVerticalMargin * 3)
-            make.height.equalTo(ValuePropUpgradeButtonView.height)
+            make.height.equalTo(UpgradeButtonView.height)
         }
     }
     
@@ -205,11 +201,22 @@ class ValuePropComponentView: UIView {
 
     private func upgradeCourse() {
         delegate?.didTapUpgradeCourse(upgradeView: self)
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing)
     }
 
     private func trackShowMorelessAnalytics(showingMore: Bool) {
         let displayName = showingMore ? AnalyticsDisplayName.ValuePropShowMoreClicked : AnalyticsDisplayName.ValuePropShowLessClicked
         let eventName = showingMore ? AnalyticsEventName.ValuePropShowMoreClicked : AnalyticsEventName.ValuePropShowLessClicked
         environment.analytics.trackValuePropShowMoreless(with: displayName, eventName: eventName, courseID: courseID, blockID: blockID, pacing: pacing )
+    }
+    
+    func setUpgradeButtonVisibility(visible: Bool) {
+        upgradeButton.isHidden = !visible
+    }
+}
+
+extension ValuePropComponentView: UpgradeButtonDelegate {
+    func didTapOnButton() {
+        upgradeCourse()
     }
 }

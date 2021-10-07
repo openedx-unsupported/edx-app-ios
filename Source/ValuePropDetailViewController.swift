@@ -31,11 +31,9 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         return label
     }()
     
-    private lazy var upgradeButton: ValuePropUpgradeButtonView = {
-        let button = ValuePropUpgradeButtonView()
-        button.tapAction = { [weak self] in
-            self?.upgradeCourse()
-        }
+    private lazy var upgradeButton: UpgradeButtonView = {
+        let button = UpgradeButtonView()
+        button.delegate = self
         button.accessibilityIdentifier = "ValuePropDetailViewController:upgrade-button"
         return button
     }()
@@ -118,39 +116,53 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             make.leading.equalTo(valuePropTableView)
             make.trailing.equalTo(valuePropTableView)
             make.bottom.equalTo(safeBottom).inset(StandardVerticalMargin)
-            make.height.equalTo(ValuePropUpgradeButtonView.height)
+            make.height.equalTo(UpgradeButtonView.height)
         }
     }
-
+    
     private func upgradeCourse() {
         let pacing = course.isSelfPaced ? "self" : "instructor"
-
-        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
         
-        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] success, error in
+        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
+        // disable user interaction
+        upgradeButton.startAnimating()
+        
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
             guard let topController = UIApplication.shared.topMostController() else { return }
-
-            if error == nil {
+            
+            switch status {
+            
+            case .payment:
+                self?.upgradeButton.stopAnimating()
+            
+            case .complete:
                 self?.upgradeButton.isHidden = true
-
+                
                 let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message:Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-
+                
                 alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
                     // TODO: continue button handling
                 }
-
-            }
-            else {
+            
+            case .error:
+                self?.upgradeButton.stopAnimating()
+                
                 let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message:Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-
-
+                
                 alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { action in
                     // TODO: Add option to send email
                 }
-
+                
                 alertController.addButton(withTitle: Strings.close, style: .default) { action in
                     // TODO: Close button handling
                 }
+            
+            default:
+                break
             }
         }
     }
@@ -161,5 +173,11 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+}
+
+extension ValuePropDetailViewController: UpgradeButtonDelegate {
+    func didTapOnButton() {
+        upgradeCourse()
     }
 }
