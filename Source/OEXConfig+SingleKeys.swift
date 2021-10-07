@@ -15,4 +15,8 @@ extension OEXConfig {
     var deleteAccountURL: String? {
         return string(forKey: "DELETE_ACCOUNT_URL")
     }
+
+    var ecommerceURL: String? {
+        return string(forKey: "ECOMMERCE_URL")
+    }
 }

@@ -11,7 +11,7 @@ import Foundation
 private let PaymentProcessor = "ios-iap"
 
 public struct CourseUpgradeAPI {
-    static let baseURL = "https://ecommerce-iap.sandbox.edx.org"
+    static let baseURL = OEXRouter.shared().environment.config.ecommerceURL ?? ""
     private static func basketDeserializer(response: HTTPURLResponse, json: JSON) -> Result<OrderBasket> {
         guard response.httpStatusCode.is2xx else {
             return Failure(e: NSError(domain: "BasketApiErrorDomain", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: json]))

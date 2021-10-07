@@ -84,6 +84,6 @@ extension OEXConfig {
     }
 
     @objc var inappPurchasesEnabled: Bool {
-        return bool(forKey: "IAP_ENABLED")
+        return bool(forKey: "IAP_ENABLED") && ecommerceURL != nil
     }
 }
