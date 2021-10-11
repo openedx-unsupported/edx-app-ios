@@ -10,7 +10,7 @@ import Foundation
 
 class CourseUpgradeHandler: NSObject {
     
-    enum UpgradeExecutionState {
+    enum UpgradeState {
         case initial
         case basket
         case checkout
@@ -21,7 +21,7 @@ class CourseUpgradeHandler: NSObject {
     }
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & ReachabilityProvider & OEXInterfaceProvider
-    typealias UpgradeCompletionHandler = (UpgradeExecutionState) -> Void
+    typealias UpgradeCompletionHandler = (UpgradeState) -> Void
     
     private var environment: Environment? = nil
     private var completion: UpgradeCompletionHandler?

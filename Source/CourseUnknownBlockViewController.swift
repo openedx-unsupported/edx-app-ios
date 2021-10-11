@@ -202,16 +202,19 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         
         upgradeView.upgradeButton.startAnimating()
         
-        UIApplication.shared.beginIgnoringInteractionEvents()
+        if !UIApplication.shared.isIgnoringInteractionEvents {
+            UIApplication.shared.beginIgnoringInteractionEvents()
+        }
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { status in
             UIApplication.shared.endIgnoringInteractionEvents()
-            
             guard let topController = UIApplication.shared.topMostController() else { return }
             
             switch status {
             case .payment:
                 upgradeView.upgradeButton.stopAnimating()
+                
+                break
                 
             case .complete:
                 upgradeView.setUpgradeButtonVisibility(visible: false)
@@ -221,6 +224,8 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
                     // TODO: continue button handling
                 }
+                
+                break
                 
             case .error:
                 upgradeView.upgradeButton.stopAnimating()
@@ -234,6 +239,8 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 alertController.addButton(withTitle: Strings.close, style: .default) { action in
                     // TODO: Close button handling
                 }
+                
+                break
                 
             default:
                 break

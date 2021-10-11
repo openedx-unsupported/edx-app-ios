@@ -22,6 +22,7 @@ class UpgradeButtonView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.accessibilityIdentifier = "UpgradeButtonView:title-label"
         return label
     }()
     
@@ -29,6 +30,7 @@ class UpgradeButtonView: UIView {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.hidesWhenStopped = true
         activityIndicator.color = OEXStyles.shared().neutralWhiteT()
+        activityIndicator.accessibilityIdentifier = "UpgradeButtonView:activity-indicator"
         return activityIndicator
     }()
     
@@ -37,6 +39,7 @@ class UpgradeButtonView: UIView {
         button.oex_addAction({ [weak self] _ in
             self?.delegate?.didTapOnButton()
         }, for: .touchUpInside)
+        button.accessibilityIdentifier = "UpgradeButtonView:background-button"
         return button
     }()
     
@@ -64,8 +67,6 @@ class UpgradeButtonView: UIView {
         accessibilityHint = Strings.Accessibility.upgradeButtonHint
         
         isHidden = OEXConfig.shared().inappPurchasesEnabled ? false : true
-        
-        setPrice("100")
     }
     
     private func addConstraints() {
@@ -122,7 +123,7 @@ class UpgradeButtonView: UIView {
         titleLabel.isHidden = false
     }
     
-    func setVisibility(visible: Bool) {
+    func updateVisibility(visible: Bool) {
         isHidden = !visible
     }
 }

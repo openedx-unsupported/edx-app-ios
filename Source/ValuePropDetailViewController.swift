@@ -127,18 +127,21 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         // disable user interaction
         upgradeButton.startAnimating()
         
-        UIApplication.shared.beginIgnoringInteractionEvents()
+        if !UIApplication.shared.isIgnoringInteractionEvents {
+            UIApplication.shared.beginIgnoringInteractionEvents()
+        }
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             UIApplication.shared.endIgnoringInteractionEvents()
-            
             guard let topController = UIApplication.shared.topMostController() else { return }
             
             switch status {
             
             case .payment:
                 self?.upgradeButton.stopAnimating()
-            
+                
+                break
+                
             case .complete:
                 self?.upgradeButton.isHidden = true
                 
@@ -148,6 +151,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                     // TODO: continue button handling
                 }
             
+                break
+                
             case .error:
                 self?.upgradeButton.stopAnimating()
                 
@@ -161,6 +166,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                     // TODO: Close button handling
                 }
             
+                break
+                
             default:
                 break
             }
