@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ValuePropMessageViewDelegate {
+protocol ValuePropMessageViewDelegate: AnyObject {
     func showValuePropDetailView()
     func didTapUpgradeCourse(upgradeView: ValuePropComponentView)
 }
@@ -17,7 +17,7 @@ class ValuePropComponentView: UIView {
     
     typealias Environment = OEXStylesProvider & DataManagerProvider & OEXAnalyticsProvider
         
-    var delegate: ValuePropMessageViewDelegate?
+    weak var delegate: ValuePropMessageViewDelegate?
         
     private let imageSize: CGFloat = 20
     
@@ -34,8 +34,8 @@ class ValuePropComponentView: UIView {
         return label
     }()
 
-    lazy var upgradeButton: UpgradeButtonView = {
-        let button = UpgradeButtonView()
+    private lazy var upgradeButton: CourseUpgradeButtonView = {
+        let button = CourseUpgradeButtonView()
         button.delegate = self
         return button
     }()
@@ -163,7 +163,7 @@ class ValuePropComponentView: UIView {
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             make.trailing.equalTo(container).inset(StandardHorizontalMargin)
             make.top.equalTo(infoMessagesView.snp.bottom).offset(StandardVerticalMargin * 3)
-            make.height.equalTo(UpgradeButtonView.height)
+            make.height.equalTo(CourseUpgradeButtonView.height)
         }
     }
     
@@ -213,10 +213,18 @@ class ValuePropComponentView: UIView {
     func setUpgradeButtonVisibility(visible: Bool) {
         upgradeButton.isHidden = !visible
     }
+    
+    func startAnimating() {
+        upgradeButton.startAnimating()
+    }
+    
+    func stopAnimating() {
+        upgradeButton.stopAnimating()
+    }
 }
 
-extension ValuePropComponentView: UpgradeButtonDelegate {
-    func didTapOnButton() {
+extension ValuePropComponentView: CourseUpgradeButtonViewDelegate {
+    func didTapOnUpgradeButton() {
         upgradeCourse()
     }
 }

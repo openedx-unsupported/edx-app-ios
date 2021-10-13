@@ -31,8 +31,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         return label
     }()
     
-    private lazy var upgradeButton: UpgradeButtonView = {
-        let button = UpgradeButtonView()
+    private lazy var upgradeButton: CourseUpgradeButtonView = {
+        let button = CourseUpgradeButtonView()
         button.delegate = self
         button.accessibilityIdentifier = "ValuePropDetailViewController:upgrade-button"
         return button
@@ -45,7 +45,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }()
     
     private let crossButtonSize: CGFloat = 20
-        
+    
     private var type: ValuePropModalType
     private let course: OEXCourse
     private let environment: Environment
@@ -60,20 +60,20 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = environment.styles.standardBackgroundColor()
         configureView()
-
+        
         PaymentManager.shared.productPrice(TestInAppPurchaseID) { [weak self] price in
             if let price = price {
                 self?.upgradeButton.setPrice(price)
             }
         }
     }
-
+    
     private func configureView() {
         addSubviews()
         setConstraints()
@@ -104,76 +104,61 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             make.trailing.equalTo(view).inset(StandardHorizontalMargin)
             make.top.equalTo(view).offset(StandardVerticalMargin)
         }
-
+        
         valuePropTableView.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(upgradeButton.snp.top).offset(-StandardVerticalMargin)
         }
-
+        
         upgradeButton.snp.makeConstraints { make in
             make.leading.equalTo(valuePropTableView)
             make.trailing.equalTo(valuePropTableView)
             make.bottom.equalTo(safeBottom).inset(StandardVerticalMargin)
-            make.height.equalTo(UpgradeButtonView.height)
+            make.height.equalTo(CourseUpgradeButtonView.height)
         }
     }
     
     private func upgradeCourse() {
-        let pacing = course.isSelfPaced ? "self" : "instructor"
-        
-        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
-        // disable user interaction
-        upgradeButton.startAnimating()
-        
         if !UIApplication.shared.isIgnoringInteractionEvents {
             UIApplication.shared.beginIgnoringInteractionEvents()
         }
+        
+        let pacing = course.isSelfPaced ? "self" : "instructor"
+        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             UIApplication.shared.endIgnoringInteractionEvents()
             guard let topController = UIApplication.shared.topMostController() else { return }
             
             switch status {
-            
             case .payment:
                 self?.upgradeButton.stopAnimating()
-                
                 break
-                
             case .complete:
                 self?.upgradeButton.isHidden = true
-                
-                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message:Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-                
+                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message: Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
                     // TODO: continue button handling
                 }
-            
                 break
-                
             case .error:
                 self?.upgradeButton.stopAnimating()
-                
-                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message:Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-                
+                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message: Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { action in
                     // TODO: Add option to send email
                 }
-                
                 alertController.addButton(withTitle: Strings.close, style: .default) { action in
                     // TODO: Close button handling
                 }
-            
                 break
-                
             default:
                 break
             }
         }
     }
-
+    
     override var shouldAutorotate: Bool {
         return true
     }
@@ -183,8 +168,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
 }
 
-extension ValuePropDetailViewController: UpgradeButtonDelegate {
-    func didTapOnButton() {
+extension ValuePropDetailViewController: CourseUpgradeButtonViewDelegate {
+    func didTapOnUpgradeButton() {
         upgradeCourse()
     }
 }

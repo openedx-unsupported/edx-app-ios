@@ -13,7 +13,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & DataManagerProvider & RemoteConfigProvider & ReachabilityProvider & NetworkManagerProvider
     
     private let environment: Environment
-        
+    
     let blockID: CourseBlockID?
     let courseID: String
     
@@ -147,7 +147,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func showValuePropMessageView() {
         view.addSubview(valuePropView)
         view.backgroundColor = OEXStyles.shared().neutralWhiteT()
-
+        
         valuePropView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
@@ -192,19 +192,14 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func didTapUpgradeCourse(upgradeView: ValuePropComponentView) {
-
-        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else {
-            return
-        }
-
-        let pacing = course.isSelfPaced ? "self" : "instructor"
-        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
-        
-        upgradeView.upgradeButton.startAnimating()
+        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else { return }
         
         if !UIApplication.shared.isIgnoringInteractionEvents {
             UIApplication.shared.beginIgnoringInteractionEvents()
         }
+        
+        let pacing = course.isSelfPaced ? "self" : "instructor"
+        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { status in
             UIApplication.shared.endIgnoringInteractionEvents()
@@ -212,42 +207,31 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
             
             switch status {
             case .payment:
-                upgradeView.upgradeButton.stopAnimating()
-                
+                upgradeView.stopAnimating()
                 break
-                
             case .complete:
                 upgradeView.setUpgradeButtonVisibility(visible: false)
-                
-                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message:Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-                
+                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message: Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
                     // TODO: continue button handling
                 }
-                
                 break
-                
             case .error:
-                upgradeView.upgradeButton.stopAnimating()
-                
-                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message:Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-                
+                upgradeView.stopAnimating()
+                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message: Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { action in
                     // TODO: Add option to send email
                 }
-                
                 alertController.addButton(withTitle: Strings.close, style: .default) { action in
                     // TODO: Close button handling
                 }
-                
                 break
-                
             default:
                 break
             }
         }
     }
-
+    
     func showValuePropDetailView() {
         guard let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course else { return }
         environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: .CourseUnit, assignmentID: blockID)

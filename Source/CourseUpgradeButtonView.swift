@@ -1,5 +1,5 @@
 //
-//  UpgradeButtonView.swift
+//  CourseUpgradeButtonView.swift
 //  edX
 //
 //  Created by Muhammad Umer on 13/07/2021.
@@ -8,16 +8,16 @@
 
 import UIKit
 
-protocol UpgradeButtonDelegate: AnyObject {
-    func didTapOnButton()
+protocol CourseUpgradeButtonViewDelegate: AnyObject {
+    func didTapOnUpgradeButton()
 }
 
-class UpgradeButtonView: UIView {
+class CourseUpgradeButtonView: UIView {
     static var height: CGFloat = {
         return OEXConfig.shared().inappPurchasesEnabled ? 36 : 0
     }()
     
-    weak var delegate: UpgradeButtonDelegate?
+    weak var delegate: CourseUpgradeButtonViewDelegate?
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -34,15 +34,17 @@ class UpgradeButtonView: UIView {
         return activityIndicator
     }()
     
-    private lazy var backgroundButton: UIButton = {
+    private lazy var button: UIButton = {
         let button = UIButton()
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didTapOnButton()
+            print("debug: didTapOnUpgradeButton")
+            self?.startAnimating()
+            self?.delegate?.didTapOnUpgradeButton()
         }, for: .touchUpInside)
         button.accessibilityIdentifier = "UpgradeButtonView:background-button"
         return button
     }()
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -57,7 +59,7 @@ class UpgradeButtonView: UIView {
     private func setupViews() {
         addSubview(titleLabel)
         addSubview(activityIndicator)
-        addSubview(backgroundButton)
+        addSubview(button)
         
         backgroundColor = OEXStyles.shared().secondaryBaseColor()
         
@@ -80,15 +82,16 @@ class UpgradeButtonView: UIView {
             make.centerX.equalTo(self)
         }
         
-        backgroundButton.snp.makeConstraints { make in
+        button.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
+        
+        setPrice("100")
     }
     
     func setPrice(_ price: String) {
         // view will be visisble for a valid price
         isHidden = price.isEmpty
-        titleLabel.isHidden = price.isEmpty
         
         let title = Strings.ValueProp.upgradeCourseFor(price: price)
         
@@ -112,12 +115,14 @@ class UpgradeButtonView: UIView {
     }
     
     func startAnimating() {
+        button.isUserInteractionEnabled = false
         activityIndicator.startAnimating()
         activityIndicator.isHidden = false
         titleLabel.isHidden = true
     }
     
     func stopAnimating() {
+        button.isUserInteractionEnabled = true
         activityIndicator.stopAnimating()
         activityIndicator.isHidden = true
         titleLabel.isHidden = false
