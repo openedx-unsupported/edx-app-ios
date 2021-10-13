@@ -64,7 +64,6 @@ class CourseUpgradeButtonView: UIView {
         
         accessibilityTraits = .button
         isAccessibilityElement = true
-        accessibilityLabel = Strings.ValueProp.upgradeCourseFor(price: "99")
         accessibilityHint = Strings.Accessibility.upgradeButtonHint
         
         isHidden = OEXConfig.shared().inappPurchasesEnabled ? false : true
@@ -83,12 +82,13 @@ class CourseUpgradeButtonView: UIView {
         
         button.snp.makeConstraints { make in
             make.edges.equalTo(self)
-        }        
+        }
     }
     
     func setPrice(_ price: String) {
         // view will be visisble for a valid price
         isHidden = price.isEmpty
+        accessibilityLabel = Strings.ValueProp.upgradeCourseFor(price: price)
         
         let title = Strings.ValueProp.upgradeCourseFor(price: price)
         
