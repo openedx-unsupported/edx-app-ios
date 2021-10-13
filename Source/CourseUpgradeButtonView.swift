@@ -83,9 +83,7 @@ class CourseUpgradeButtonView: UIView {
         
         button.snp.makeConstraints { make in
             make.edges.equalTo(self)
-        }
-        
-        setPrice("100")
+        }        
     }
     
     func setPrice(_ price: String) {
