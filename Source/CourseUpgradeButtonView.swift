@@ -66,7 +66,7 @@ class CourseUpgradeButtonView: UIView {
         isAccessibilityElement = true
         accessibilityHint = Strings.Accessibility.upgradeButtonHint
         
-        isHidden = OEXConfig.shared().inappPurchasesEnabled ? false : true
+        isHidden = OEXConfig.shared().inappPurchasesEnabled
     }
     
     private func addConstraints() {
@@ -75,9 +75,7 @@ class CourseUpgradeButtonView: UIView {
         }
         
         activityIndicator.snp.makeConstraints { make in
-            make.top.equalTo(self)
-            make.bottom.equalTo(self)
-            make.centerX.equalTo(self)
+            make.center.equalTo(self)
         }
         
         button.snp.makeConstraints { make in

@@ -210,7 +210,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 upgradeView.stopAnimating()
                 break
             case .complete:
-                upgradeView.setUpgradeButtonVisibility(visible: false)
+                upgradeView.updateUpgradeButtonVisibility(visible: false)
                 let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message: Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
                     // TODO: continue button handling

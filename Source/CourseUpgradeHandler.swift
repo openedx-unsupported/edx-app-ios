@@ -27,6 +27,11 @@ class CourseUpgradeHandler: NSObject {
     private var completion: UpgradeCompletionHandler?
     private var course: OEXCourse?
     private var basketID: Int = 0
+    private var state: CourseUpgradeState = .initial {
+        didSet {
+            completion?(state)
+        }
+    }
     
     static let shared = CourseUpgradeHandler()
     
@@ -35,21 +40,21 @@ class CourseUpgradeHandler: NSObject {
         self.environment = environment
         self.course = course
         
-        completion?(.initial)
+        state = .initial
         
         addToBasket { [weak self] orderBasket in
             if let basketID = orderBasket?.basketID {
                 self?.basketID = basketID
                 self?.checkout()
             } else {
-                completion?(.error(.basketError))
+                self?.state = .error(.basketError)
             }
         }
     }
     
     func upgradeCourse(_ courseID: String, environment: Environment, completion: UpgradeCompletionHandler?) {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else {
-            completion?(.error(.generalError))
+            state = .error(.generalError)
             return
         }
         
@@ -57,7 +62,7 @@ class CourseUpgradeHandler: NSObject {
     }
     
     private func addToBasket(completion: @escaping (OrderBasket?) -> ()) {
-        self.completion?(.basket)
+        state = .basket
         
         let baseURL = CourseUpgradeAPI.baseURL
         let request = CourseUpgradeAPI.basketAPI(with: TestInAppPurchaseID)
@@ -71,11 +76,11 @@ class CourseUpgradeHandler: NSObject {
         // Checkout API
         // Perform the inapp purchase on success
         guard basketID > 0 else {
-            completion?(.error(.checkoutError))
+            state = .error(.checkoutError)
             return
         }
         
-        completion?(.checkout)
+        state = .checkout
         
         let baseURL = CourseUpgradeAPI.baseURL
         let request = CourseUpgradeAPI.checkoutAPI(basketID: basketID)
@@ -84,19 +89,19 @@ class CourseUpgradeHandler: NSObject {
             if response.error == nil {
                 self?.makePayment()
             } else {
-                self?.completion?(.error(.checkoutError))
+                self?.state = .error(.checkoutError)
             }
         }
     }
     
     private func makePayment() {
-        completion?(.payment)
+        state = .payment
         
         PaymentManager.shared.purchaseProduct(TestInAppPurchaseID) { [weak self] (success: Bool, receipt: String?, error: PurchaseError?) in
             if let receipt = receipt, success {
                 self?.verifyPayment(receipt)
             } else {
-                self?.completion?(.error(error ?? .paymentError))
+                self?.state = .error(error ?? .paymentError)
             }
         }
     }
@@ -106,14 +111,14 @@ class CourseUpgradeHandler: NSObject {
         let baseURL = CourseUpgradeAPI.baseURL
         let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: TestInAppPurchaseID, receipt: receipt)
         
-        completion?(.verify)
+        state = .verify
         
         environment?.networkManager.taskForRequest(base: baseURL, request){ [weak self] response in
             if response.error == nil {
                 PaymentManager.shared.markPurchaseComplete(self?.course?.course_id ?? "", type: .purchase)
-                self?.completion?(.complete)
+                self?.state = .complete
             } else {
-                self?.completion?(.error(.verifyReceiptError))
+                self?.state = .error(.verifyReceiptError)
             }
         }
     }

@@ -210,8 +210,8 @@ class ValuePropComponentView: UIView {
         environment.analytics.trackValuePropShowMoreless(with: displayName, eventName: eventName, courseID: courseID, blockID: blockID, pacing: pacing )
     }
     
-    func setUpgradeButtonVisibility(visible: Bool) {
-        upgradeButton.isHidden = !visible
+    func updateUpgradeButtonVisibility(visible: Bool) {
+        upgradeButton.updateVisibility(visible: visible)
     }
     
     func startAnimating() {
