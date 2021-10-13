@@ -224,7 +224,7 @@ class ValuePropComponentView: UIView {
 }
 
 extension ValuePropComponentView: CourseUpgradeButtonViewDelegate {
-    func didTapOnUpgradeButton() {
+    func didTapUpgradeCourse() {
         upgradeCourse()
     }
 }

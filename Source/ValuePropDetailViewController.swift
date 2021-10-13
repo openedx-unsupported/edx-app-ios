@@ -169,7 +169,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
 }
 
 extension ValuePropDetailViewController: CourseUpgradeButtonViewDelegate {
-    func didTapOnUpgradeButton() {
+    func didTapUpgradeCourse() {
         upgradeCourse()
     }
 }

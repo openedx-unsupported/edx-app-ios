@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CourseUpgradeButtonViewDelegate: AnyObject {
-    func didTapOnUpgradeButton()
+    func didTapUpgradeCourse()
 }
 
 class CourseUpgradeButtonView: UIView {
@@ -37,9 +37,8 @@ class CourseUpgradeButtonView: UIView {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.oex_addAction({ [weak self] _ in
-            print("debug: didTapOnUpgradeButton")
             self?.startAnimating()
-            self?.delegate?.didTapOnUpgradeButton()
+            self?.delegate?.didTapUpgradeCourse()
         }, for: .touchUpInside)
         button.accessibilityIdentifier = "UpgradeButtonView:background-button"
         return button
