@@ -33,7 +33,6 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
         let request = BannerAPI.unacknowledgedAPI()
 
         environment.networkManager.taskForRequest(request) { [weak self] result in
-            // "https://courses.stage.edx.org/notices/render/1?mobile=true"
             if let link = result.data?.first {
                 self?.showBanner(with: link, title: nil, requireAuth: true, showNavbar: false)
             }
