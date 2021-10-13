@@ -32,10 +32,12 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }()
     
     private lazy var upgradeButton: CourseUpgradeButtonView = {
-        let button = CourseUpgradeButtonView()
-        button.delegate = self
-        button.accessibilityIdentifier = "ValuePropDetailViewController:upgrade-button"
-        return button
+        let upgradeButton = CourseUpgradeButtonView()
+        upgradeButton.tapAction = { [weak self] in
+            self?.upgradeCourse()
+        }
+        upgradeButton.accessibilityIdentifier = "ValuePropDetailViewController:upgrade-button"
+        return upgradeButton
     }()
     
     private var titleStyle: OEXMutableTextStyle = {
@@ -165,11 +167,5 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
-    }
-}
-
-extension ValuePropDetailViewController: CourseUpgradeButtonViewDelegate {
-    func didTapUpgradeCourse() {
-        upgradeCourse()
     }
 }

@@ -8,17 +8,11 @@
 
 import UIKit
 
-protocol CourseUpgradeButtonViewDelegate: AnyObject {
-    func didTapUpgradeCourse()
-}
-
 class CourseUpgradeButtonView: UIView {
     static var height: CGFloat = {
         return OEXConfig.shared().inappPurchasesEnabled ? 36 : 0
     }()
-    
-    weak var delegate: CourseUpgradeButtonViewDelegate?
-    
+        
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -38,11 +32,13 @@ class CourseUpgradeButtonView: UIView {
         let button = UIButton()
         button.oex_addAction({ [weak self] _ in
             self?.startAnimating()
-            self?.delegate?.didTapUpgradeCourse()
+            self?.tapAction?()
         }, for: .touchUpInside)
         button.accessibilityIdentifier = "UpgradeButtonView:background-button"
         return button
     }()
+    
+    var tapAction: (() -> ())?
         
     override init(frame: CGRect) {
         super.init(frame: frame)

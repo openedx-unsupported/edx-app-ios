@@ -35,9 +35,11 @@ class ValuePropComponentView: UIView {
     }()
 
     private lazy var upgradeButton: CourseUpgradeButtonView = {
-        let button = CourseUpgradeButtonView()
-        button.delegate = self
-        return button
+        let upgradeButton = CourseUpgradeButtonView()
+        upgradeButton.tapAction = { [weak self] in
+            self?.upgradeCourse()
+        }
+        return upgradeButton
     }()
     
     private var showingMore: Bool = false
@@ -220,11 +222,5 @@ class ValuePropComponentView: UIView {
     
     func stopAnimating() {
         upgradeButton.stopAnimating()
-    }
-}
-
-extension ValuePropComponentView: CourseUpgradeButtonViewDelegate {
-    func didTapUpgradeCourse() {
-        upgradeCourse()
     }
 }
