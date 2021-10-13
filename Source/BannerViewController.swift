@@ -1,8 +1,8 @@
 //
-//  BannerBrowserViewController.swift
+//  BannerViewController.swift
 //  edX
 //
-//  Created by Muhammad Umer on 27/09/2021.
+//  Created by Saeed Bashir on 9/29/21.
 //  Copyright © 2021 edX. All rights reserved.
 //
 
