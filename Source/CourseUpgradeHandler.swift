@@ -107,11 +107,11 @@ class CourseUpgradeHandler: NSObject {
     }
     
     private func verifyPayment(_ receipt: String) {
+        state = .verify
+        
         // Execute API, pass the payment receipt to complete the course upgrade
         let baseURL = CourseUpgradeAPI.baseURL
         let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: TestInAppPurchaseID, receipt: receipt)
-        
-        state = .verify
         
         environment?.networkManager.taskForRequest(base: baseURL, request){ [weak self] response in
             if response.error == nil {
