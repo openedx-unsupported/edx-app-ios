@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BannerAPI {
+struct BannerAPI {
 
     private static func unacknowledgeddeserializer(response: HTTPURLResponse, json: JSON) -> Result<[String]> {
         guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {

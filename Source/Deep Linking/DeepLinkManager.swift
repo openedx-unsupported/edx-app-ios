@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias DismissCompletion = ((Bool)) -> Void
+typealias DismissCompletion = (Bool) -> Void
 
 @objc class DeepLinkManager: NSObject {
     
@@ -26,7 +26,7 @@ typealias DismissCompletion = ((Bool)) -> Void
     
     /// This method process the deep link with response parameters
     @objc func processDeepLink(with params: [String: Any], environment: Environment) {
-        // If the banner is on screen discard the deep link
+        // If the banner is being displayed, discard the deep link
         if UIApplication.shared.topMostController() is BannerViewController {
             return
         }
@@ -68,7 +68,7 @@ typealias DismissCompletion = ((Bool)) -> Void
     }
     
     private func showLoginScreen(with link: DeepLink) {
-        dismiss() { [weak self] success in
+        dismiss() { [weak self] _ in
             self?.environment?.router?.showLoginScreen(completion: {
                 self?.navigateToScreen(with: link.type, link: link)
             })

@@ -160,11 +160,11 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
             observer.showOverlay(withMessage: message)
         }
         
-        NotificationCenter.default.oex_addObserver(observer: self, name: AppNewVersionAvailableNotification) { (notification, observer, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: AppNewVersionAvailableNotification) { (_, observer, _) -> Void in
             observer.showVersionUpgradeSnackBarIfNecessary()
         }
 
-        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { notification, observer, _ in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
             observer.handleBanner()
         }
     }

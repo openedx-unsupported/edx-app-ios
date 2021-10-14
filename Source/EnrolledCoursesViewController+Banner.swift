@@ -8,6 +8,9 @@
 
 import Foundation
 
+// if the app is open from the deep link, send banner get request after a delay
+private let DeeplinkDelayTime: Double = 10
+
 //Notics/Acquisition Banner handling
 extension EnrolledCoursesViewController: BannerViewControllerDelegate {
     func handleBanner() {
@@ -21,7 +24,7 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
         }
 
         let delegate = UIApplication.shared.delegate as? OEXAppDelegate
-        let delay: Double = (delegate?.openedFromDeeplink ?? false) ? 10 : 0
+        let delay: Double = delegate?.openedFromDeeplink == true ? DeeplinkDelayTime : 0
         delegate?.openedFromDeeplink = false
 
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
@@ -85,12 +88,10 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
 
     private func title(for screen: BannerScreen) -> String? {
         switch screen {
-        case .privacyPolicy:
-            return "Privacy Policy"
-        case .tos:
-            return "Terms And Services"
         case .deleteAccount:
             return Strings.ProfileOptions.Deleteaccount.webviewTitle
+        default:
+            return nil
         }
     }
 

@@ -12,7 +12,6 @@ fileprivate enum URLParameterKeys: String, RawStringExtractable {
     case screenName = "screen_name";
 }
 
-// Define banner actions here
 enum BannerAction: String {
     case continueWithoutDismiss = "show_screen_without_dismissing"
     case dismiss = "dismiss"
@@ -76,10 +75,6 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
     }
     
     private func configureSubview() {
-        addSubviews()
-    }
-    
-    private func addSubviews() {
         addChild(webController)
         webController.didMove(toParent: self)
         view.addSubview(webController.view)
@@ -125,13 +120,11 @@ extension BannerViewController: WebViewNavigationDelegate {
         return url
     }
 
-    private  func bannerScreen(from url: URL) -> BannerScreen? {
+    private func bannerScreen(from url: URL) -> BannerScreen? {
         guard url.isValidAppURLScheme,
               let screenName = url.queryParameters?[URLParameterKeys.screenName] as? String,
               let bannerScreen = BannerScreen(rawValue: screenName)
-        else {
-            return nil
-        }
+        else { return nil }
 
         return bannerScreen
     }
