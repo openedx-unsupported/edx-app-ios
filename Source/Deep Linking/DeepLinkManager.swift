@@ -8,13 +8,12 @@
 
 import UIKit
 
-typealias DismissCompletion = (Bool) -> Void
-
 @objc class DeepLinkManager: NSObject {
     
     @objc static let sharedInstance = DeepLinkManager()
     typealias Environment = OEXSessionProvider & OEXRouterProvider & OEXConfigProvider
     var environment: Environment?
+    typealias DismissCompletion = (Bool) -> Void
     
     private var topMostViewController: UIViewController? {
         return UIApplication.shared.topMostController()
