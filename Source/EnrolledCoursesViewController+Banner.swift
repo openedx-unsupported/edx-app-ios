@@ -18,7 +18,7 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
             return
         }
 
-        // If the banner is already ion screen don't send the banner request    
+        // If the banner is already on screen don't send the banner request
         if UIApplication.shared.topMostController() is BannerViewController {
             return
         }
