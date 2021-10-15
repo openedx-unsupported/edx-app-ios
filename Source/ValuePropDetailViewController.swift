@@ -123,22 +123,23 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
     
     private func upgradeCourse() {
-        if !UIApplication.shared.isIgnoringInteractionEvents {
-            UIApplication.shared.beginIgnoringInteractionEvents()
-        }
+        disableAppTouchs()
         
         let pacing = course.isSelfPaced ? "self" : "instructor"
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
-            UIApplication.shared.endIgnoringInteractionEvents()
-            guard let topController = UIApplication.shared.topMostController() else { return }
+            guard let topController = UIApplication.shared.topMostController() else {
+                self?.enableAppTouches()
+                return
+            }
             
             switch status {
             case .payment:
                 self?.upgradeButton.stopAnimating()
                 break
             case .complete:
+                self?.enableAppTouches()
                 self?.upgradeButton.isHidden = true
                 let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message: Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
@@ -146,6 +147,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 }
                 break
             case .error:
+                self?.enableAppTouches()
                 self?.upgradeButton.stopAnimating()
                 let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message: Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { action in
@@ -157,6 +159,22 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 break
             default:
                 break
+            }
+        }
+    }
+    
+    private func disableAppTouchs() {
+        DispatchQueue.main.async {
+            if !UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.beginIgnoringInteractionEvents()
+            }
+        }
+    }
+    
+    private func enableAppTouches() {
+        DispatchQueue.main.async {
+            if UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.endIgnoringInteractionEvents()
             }
         }
     }

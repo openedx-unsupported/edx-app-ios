@@ -193,23 +193,23 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func didTapUpgradeCourse(upgradeView: ValuePropComponentView) {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else { return }
-        
-        if !UIApplication.shared.isIgnoringInteractionEvents {
-            UIApplication.shared.beginIgnoringInteractionEvents()
-        }
+        disableAppTouchs()
         
         let pacing = course.isSelfPaced ? "self" : "instructor"
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
         
-        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { status in
-            UIApplication.shared.endIgnoringInteractionEvents()
-            guard let topController = UIApplication.shared.topMostController() else { return }
+        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
+            guard let topController = UIApplication.shared.topMostController() else {
+                self?.enableAppTouches()
+                return
+            }
             
             switch status {
             case .payment:
                 upgradeView.stopAnimating()
                 break
             case .complete:
+                self?.enableAppTouches()
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
                 let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message: Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
@@ -217,6 +217,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 }
                 break
             case .error:
+                self?.enableAppTouches()
                 upgradeView.stopAnimating()
                 let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message: Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { action in
@@ -228,6 +229,22 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 break
             default:
                 break
+            }
+        }
+    }
+    
+    private func disableAppTouchs() {
+        DispatchQueue.main.async {
+            if !UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.beginIgnoringInteractionEvents()
+            }
+        }
+    }
+    
+    private func enableAppTouches() {
+        DispatchQueue.main.async {
+            if UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.endIgnoringInteractionEvents()
             }
         }
     }
