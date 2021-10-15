@@ -192,7 +192,7 @@
 		5F592AD0257521F600D96214 /* ISOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F592ACF257521F600D96214 /* ISOParser.swift */; };
 		5F59B40026AFF5B000D6CA3E /* ProfileOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F59B3FF26AFF5B000D6CA3E /* ProfileOptionsViewController.swift */; };
 		5F5FC00B269DA8C500F92B8F /* ValuePropMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */; };
-		5F5FC00D269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift */; };
+		5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */; };
 		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
 		5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */; };
 		5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */; };
@@ -1249,7 +1249,7 @@
 		5F592ACF257521F600D96214 /* ISOParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ISOParser.swift; path = Libraries/SwiftDate/ISOParser.swift; sourceTree = SOURCE_ROOT; };
 		5F59B3FF26AFF5B000D6CA3E /* ProfileOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileOptionsViewController.swift; sourceTree = "<group>"; };
 		5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropMessagesView.swift; sourceTree = "<group>"; };
-		5F5FC00C269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropUpgradeButtonView.swift; sourceTree = "<group>"; };
+		5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUpgradeButtonView.swift; sourceTree = "<group>"; };
 		5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
@@ -2585,7 +2585,7 @@
 				5FF08644257F91FA0078877A /* ValuePropComponentView.swift */,
 				22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */,
 				5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */,
-				5F5FC00C269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift */,
+				5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */,
 			);
 			name = ValueProp;
 			sourceTree = "<group>";
@@ -3978,7 +3978,6 @@
 			isa = PBXGroup;
 			children = (
 				5F59B3FE26AFF59900D6CA3E /* Settings */,
-				5F59B3FE26AFF59900D6CA3E /* ProfileView */,
 				5F54D99B26B9227000F1EA71 /* Payment */,
 				0D157631235EDA5B0007B0B7 /* ChromeCast */,
 				2271C54621634A5F001EA1E6 /* Deep Linking */,
@@ -5206,7 +5205,7 @@
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
 				5F7C0C642534520200A344B9 /* FillBackgroundTextStorage.swift in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
-				5F5FC00D269DA9F800F92B8F /* ValuePropUpgradeButtonView.swift in Sources */,
+				5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */,
 				774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */,
 				22F6A15C20B7E62D009C3F4A /* Mappings.swift in Sources */,
 				9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */,

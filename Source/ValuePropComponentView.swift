@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ValuePropMessageViewDelegate {
+protocol ValuePropMessageViewDelegate: AnyObject {
     func showValuePropDetailView()
     func didTapUpgradeCourse(upgradeView: ValuePropComponentView)
 }
@@ -17,7 +17,7 @@ class ValuePropComponentView: UIView {
     
     typealias Environment = OEXStylesProvider & DataManagerProvider & OEXAnalyticsProvider
         
-    var delegate: ValuePropMessageViewDelegate?
+    weak var delegate: ValuePropMessageViewDelegate?
         
     private let imageSize: CGFloat = 20
     
@@ -27,23 +27,21 @@ class ValuePropComponentView: UIView {
         label.numberOfLines = 0
         return label
     }()
+    
     private lazy var messageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         return label
     }()
 
-    lazy var upgradeButton: ValuePropUpgradeButtonView = {
-        let button = ValuePropUpgradeButtonView()
-        button.tapAction = { [weak self] in
+    private lazy var upgradeButton: CourseUpgradeButtonView = {
+        let upgradeButton = CourseUpgradeButtonView()
+        upgradeButton.tapAction = { [weak self] in
             self?.upgradeCourse()
         }
-        return button
-
+        return upgradeButton
     }()
-
-
-
+    
     private var showingMore: Bool = false
 
     private lazy var showMoreLessButton: UIButton = {
@@ -167,7 +165,7 @@ class ValuePropComponentView: UIView {
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             make.trailing.equalTo(container).inset(StandardHorizontalMargin)
             make.top.equalTo(infoMessagesView.snp.bottom).offset(StandardVerticalMargin * 3)
-            make.height.equalTo(ValuePropUpgradeButtonView.height)
+            make.height.equalTo(CourseUpgradeButtonView.height)
         }
     }
     
@@ -205,11 +203,24 @@ class ValuePropComponentView: UIView {
 
     private func upgradeCourse() {
         delegate?.didTapUpgradeCourse(upgradeView: self)
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing)
     }
 
     private func trackShowMorelessAnalytics(showingMore: Bool) {
         let displayName = showingMore ? AnalyticsDisplayName.ValuePropShowMoreClicked : AnalyticsDisplayName.ValuePropShowLessClicked
         let eventName = showingMore ? AnalyticsEventName.ValuePropShowMoreClicked : AnalyticsEventName.ValuePropShowLessClicked
         environment.analytics.trackValuePropShowMoreless(with: displayName, eventName: eventName, courseID: courseID, blockID: blockID, pacing: pacing )
+    }
+    
+    func updateUpgradeButtonVisibility(visible: Bool) {
+        upgradeButton.updateVisibility(visible: visible)
+    }
+    
+    func startAnimating() {
+        upgradeButton.startAnimating()
+    }
+    
+    func stopAnimating() {
+        upgradeButton.stopAnimating()
     }
 }

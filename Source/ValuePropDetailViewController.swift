@@ -31,13 +31,13 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         return label
     }()
     
-    private lazy var upgradeButton: ValuePropUpgradeButtonView = {
-        let button = ValuePropUpgradeButtonView()
-        button.tapAction = { [weak self] in
+    private lazy var upgradeButton: CourseUpgradeButtonView = {
+        let upgradeButton = CourseUpgradeButtonView()
+        upgradeButton.tapAction = { [weak self] in
             self?.upgradeCourse()
         }
-        button.accessibilityIdentifier = "ValuePropDetailViewController:upgrade-button"
-        return button
+        upgradeButton.accessibilityIdentifier = "ValuePropDetailViewController:upgrade-button"
+        return upgradeButton
     }()
     
     private var titleStyle: OEXMutableTextStyle = {
@@ -47,7 +47,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }()
     
     private let crossButtonSize: CGFloat = 20
-        
+    
     private var type: ValuePropModalType
     private let course: OEXCourse
     private let environment: Environment
@@ -62,20 +62,20 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = environment.styles.standardBackgroundColor()
         configureView()
-
+        
         PaymentManager.shared.productPrice(TestInAppPurchaseID) { [weak self] price in
             if let price = price {
                 self?.upgradeButton.setPrice(price)
             }
         }
     }
-
+    
     private func configureView() {
         addSubviews()
         setConstraints()
@@ -106,55 +106,79 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             make.trailing.equalTo(view).inset(StandardHorizontalMargin)
             make.top.equalTo(view).offset(StandardVerticalMargin)
         }
-
+        
         valuePropTableView.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(upgradeButton.snp.top).offset(-StandardVerticalMargin)
         }
-
+        
         upgradeButton.snp.makeConstraints { make in
             make.leading.equalTo(valuePropTableView)
             make.trailing.equalTo(valuePropTableView)
             make.bottom.equalTo(safeBottom).inset(StandardVerticalMargin)
-            make.height.equalTo(ValuePropUpgradeButtonView.height)
+            make.height.equalTo(CourseUpgradeButtonView.height)
         }
     }
-
+    
     private func upgradeCourse() {
+        disableAppTouchs()
+        
         let pacing = course.isSelfPaced ? "self" : "instructor"
-
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
         
-        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] success, error in
-            guard let topController = UIApplication.shared.topMostController() else { return }
-
-            if error == nil {
+        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
+            guard let topController = UIApplication.shared.topMostController() else {
+                self?.enableAppTouches()
+                return
+            }
+            
+            switch status {
+            case .payment:
+                self?.upgradeButton.stopAnimating()
+                break
+            case .complete:
+                self?.enableAppTouches()
                 self?.upgradeButton.isHidden = true
-
-                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message:Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-
+                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message: Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
                     // TODO: continue button handling
                 }
-
-            }
-            else {
-                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message:Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-
-
+                break
+            case .error:
+                self?.enableAppTouches()
+                self?.upgradeButton.stopAnimating()
+                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message: Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { action in
                     // TODO: Add option to send email
                 }
-
                 alertController.addButton(withTitle: Strings.close, style: .default) { action in
                     // TODO: Close button handling
                 }
+                break
+            default:
+                break
             }
         }
     }
-
+    
+    private func disableAppTouchs() {
+        DispatchQueue.main.async {
+            if !UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.beginIgnoringInteractionEvents()
+            }
+        }
+    }
+    
+    private func enableAppTouches() {
+        DispatchQueue.main.async {
+            if UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.endIgnoringInteractionEvents()
+            }
+        }
+    }
+    
     override var shouldAutorotate: Bool {
         return true
     }
