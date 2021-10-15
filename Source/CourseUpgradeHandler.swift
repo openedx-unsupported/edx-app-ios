@@ -95,9 +95,9 @@ class CourseUpgradeHandler: NSObject {
     }
     
     private func makePayment() {
-        state = .payment
-        
         PaymentManager.shared.purchaseProduct(TestInAppPurchaseID) { [weak self] (success: Bool, receipt: String?, error: PurchaseError?) in
+            self?.state = .payment
+            
             if let receipt = receipt, success {
                 self?.verifyPayment(receipt)
             } else {
