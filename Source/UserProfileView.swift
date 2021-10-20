@@ -212,16 +212,8 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         bioSystemMessage.isHidden = true
         avatarImage.remoteImage = profile.image(networkManager: networkManager)
         setDefaultValues()
-        setMessage(message: messageForProfile(profile: profile, editable: editable))
-        if profile.sharingLimitedProfile {
-            if (profile.parentalConsent ?? false) && editable {
-                let message = NSMutableAttributedString(attributedString: messageStyle.attributedString(withText: Strings.Profile.ageLimit))
-
-                bioSystemMessage.attributedText = message
-                bioSystemMessage.isHidden = false
-            }
-        } else {
-            
+        
+        if !profile.sharingLimitedProfile {
             if let language = profile.language {
                 let icon = Icon.Language.attributedTextWithStyle(style: infoStyle.withSize(.small))
                 let langText = infoStyle.attributedString(withText: language)
