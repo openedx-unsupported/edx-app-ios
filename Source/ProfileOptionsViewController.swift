@@ -236,7 +236,7 @@ extension ProfileOptionsViewController: UITableViewDataSource {
               let email = environment.session.currentUser?.email else { return cell }
         
         if let userProfile = userProfile {
-            cell.profileSubtitle = userProfile.sharingLimitedProfile ? Strings.ProfileOptions.UserProfile.message : nil
+            cell.profileSubtitle = (userProfile.sharingLimitedProfile && userProfile.parentalConsent == false) ? Strings.ProfileOptions.UserProfile.message : nil
             cell.profileImageView.remoteImage = userProfile.image(networkManager: environment.networkManager)
         }
         
@@ -541,13 +541,13 @@ class PersonalInformationCell: UITableViewCell {
             emailLabel.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.UserProfile.email(email: email))
         }
     }
-    
+
     var profileSubtitle: String? {
         didSet {
             subtitleLabel.attributedText = titleTextStyle.attributedString(withText: profileSubtitle)
         }
     }
-    
+
     private lazy var profileView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: imageSize + 10, height: imageSize + 10))
         view.accessibilityIdentifier = "PersonalInformationCell:profile-view"
@@ -587,13 +587,13 @@ class PersonalInformationCell: UITableViewCell {
         label.accessibilityIdentifier = "PersonalInformationCell:username-label"
         return label
     }()
-    
+
     private lazy var subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.accessibilityIdentifier = "PersonalInformationCell:subtitle-label"
-        return label
-    }()
-    
+            let label = UILabel()
+            label.accessibilityIdentifier = "PersonalInformationCell:subtitle-label"
+            return label
+        }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -642,11 +642,12 @@ class PersonalInformationCell: UITableViewCell {
             make.top.equalTo(emailLabel.snp.bottom).offset(StandardVerticalMargin / 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+
             if profileSubtitle == nil {
                 make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
             }
         }
-        
+
         if profileSubtitle != nil {
             subtitleLabel.snp.remakeConstraints { make in
                 make.top.equalTo(usernameLabel.snp.bottom).offset(StandardVerticalMargin)
