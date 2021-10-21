@@ -184,13 +184,8 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
     private func messageForProfile(profile : UserProfile, editable : Bool) -> String? {
         if profile.sharingLimitedProfile {
-            if profile.birthYear != nil && editable {
-                return Strings.Profile.showingLimited
-            } else {
-                return Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.shared().platformName())
-            }
-        }
-        else {
+            return editable ? (profile.parentalConsent == false ? Strings.Profile.showingLimited : nil) : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.shared().platformName())
+        } else {
             return nil
         }
     }
@@ -218,7 +213,8 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         setDefaultValues()
         
         setMessage(message: messageForProfile(profile: profile, editable: editable))
-        if !profile.sharingLimitedProfile {
+        if profile.sharingLimitedProfile { }
+        else {
             if let language = profile.language {
                 let icon = Icon.Language.attributedTextWithStyle(style: infoStyle.withSize(.small))
                 let langText = infoStyle.attributedString(withText: language)
