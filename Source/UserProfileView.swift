@@ -184,7 +184,11 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
     private func messageForProfile(profile : UserProfile, editable : Bool) -> String? {
         if profile.sharingLimitedProfile {
-            return editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.shared().platformName())
+            if profile.birthYear != nil && editable {
+                return Strings.Profile.showingLimited
+            } else {
+                return Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.shared().platformName())
+            }
         }
         else {
             return nil
@@ -213,6 +217,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         avatarImage.remoteImage = profile.image(networkManager: networkManager)
         setDefaultValues()
         
+        setMessage(message: messageForProfile(profile: profile, editable: editable))
         if !profile.sharingLimitedProfile {
             if let language = profile.language {
                 let icon = Icon.Language.attributedTextWithStyle(style: infoStyle.withSize(.small))
