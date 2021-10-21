@@ -82,6 +82,52 @@ extension UserProfile : FormData {
     }
 }
 
+class UserProfileEditFooterView: UITableViewHeaderFooterView {
+
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+
+        setupViews()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Icon.VisibiltyOff.imageWithFontSize(size: 16).image(with: OEXStyles.shared().neutralXDark())
+        return imageView
+    }()
+
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralXDark())
+        style.alignment = .left
+        label.attributedText = style.attributedString(withText: Strings.Profile.visibilityOffMessgae(platformName: OEXRouter.shared().environment.config.platformName())).setLineSpacing(4)
+        return label
+    }()
+
+    private func setupViews() {
+        addSubview(imageView)
+        addSubview(descriptionLabel)
+
+        imageView.snp.makeConstraints { make in
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.width.equalTo(16)
+            make.height.equalTo(16)
+            make.top.equalTo(descriptionLabel)
+        }
+
+        descriptionLabel.snp.makeConstraints { make in
+            make.leading.equalTo(imageView.snp.trailing).offset(StandardHorizontalMargin / 2)
+            make.trailing.equalTo(self)
+            make.top.equalTo(StandardVerticalMargin * 2)
+        }
+    }
+}
+
 class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXStylesProvider
@@ -97,7 +143,15 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         tableView.dataSource = self
         return tableView
     }()
-    let footer = UIView()
+
+    private lazy var footerView: UITableViewHeaderFooterView = {
+        if profile.parentalConsent == true {
+            return UserProfileEditFooterView()
+        }
+        else {
+            return UITableViewHeaderFooterView()
+        }
+    }()
     
     
     init(profile: UserProfile, environment: Environment) {
@@ -164,7 +218,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         tableView.tableHeaderView = makeHeader()
-        tableView.tableFooterView = footer //get rid of extra lines when the content is shorter than a screen
+        tableView.tableFooterView = footerView
         tableView.cellLayoutMarginsFollowReadableWidth = false
 
         
@@ -179,7 +233,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
     private func setAccessibilityIdentifiers() {
         view.accessibilityIdentifier = "UserProfileEditViewController:view"
         tableView.accessibilityIdentifier = "UserProfileEditViewController:table-view"
-        footer.accessibilityIdentifier = "UserProfileEditViewController:footer"
+        footerView.accessibilityIdentifier = "UserProfileEditViewController:footer"
         banner.accessibilityIdentifier = "UserProfileEditViewController:banner-view"
         spinner.accessibilityIdentifier = "UserProfileEditViewController:spinner-view"
     }
@@ -209,10 +263,10 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let viewHeight = view.bounds.height
-        var footerFrame = footer.frame
-        let footerViewRect = footer.superview!.convert(footerFrame, to: view)
+        var footerFrame = footerView.frame
+        let footerViewRect = footerView.superview?.convert(footerFrame, to: view) ?? .zero
         footerFrame.size.height = viewHeight - footerViewRect.minY
-        footer.frame = footerFrame
+        footerView.frame = footerFrame
     }
     
     private func updateProfile() {
@@ -314,13 +368,13 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
                 UserProfile.ProfileFields.LanguagePreferences.rawValue,
                 UserProfile.ProfileFields.Bio.rawValue]
             if profile.parentalConsent ?? false {
-                //If the user needs parental consent, they can only share a limited profile, so disable this field as well */
-                disabledFields.append(UserProfile.ProfileFields.AccountPrivacy.rawValue)
-                banner.changeButton.isEnabled = false 
+                //If the user needs parental consent, they can only share a limited profile, so hide this field and change photo button */
+                fields.removeAll(where: { $0.name == UserProfile.ProfileFields.AccountPrivacy.rawValue})
+                banner.changeButton.isHidden = true
             }
-            footer.backgroundColor = OEXStyles.shared().neutralXLight()
+            footerView.contentView.backgroundColor = OEXStyles.shared().neutralXLight()
         } else {
-            footer.backgroundColor = UIColor.clear
+            footerView.contentView.backgroundColor = UIColor.clear
             disabledFields.removeAll()
         }
     }
