@@ -14,11 +14,13 @@ struct CalendarSyncConfig {
         case disabledVersions = "DISABLED_FOR_VERSIONS"
         case selfPacedEnabled = "SELF_PACED_ENABLED"
         case instructorPacedEnabled = "INSTRUCTOR_PACED_ENABLED"
+        case deeplinksEnabled = "DEEP_LINKS_ENABLED"
     }
     
     private var disabledVersions: [String] = []
     var selfPacedEnabled: Bool = false
     var instructorPacedEnabled: Bool = false
+    var deeplinksEnabled: Bool = false
     
     private var enabled: Bool {
         return !disabledVersions.contains(Bundle.main.oex_shortVersionString())
@@ -33,6 +35,7 @@ struct CalendarSyncConfig {
         disabledVersions = config[Keys.disabledVersions.rawValue] as? [String] ?? []
         selfPacedEnabled = enabled && config[Keys.selfPacedEnabled.rawValue] as? Bool ?? false
         instructorPacedEnabled = enabled && config[Keys.instructorPacedEnabled.rawValue] as? Bool ?? false
+        deeplinksEnabled = enabled && config[Keys.deeplinksEnabled.rawValue] as? Bool ?? false
     }
     
     func toDictionary() -> [String : Any] {
@@ -40,7 +43,8 @@ struct CalendarSyncConfig {
             Keys.iOS.rawValue: [
                 Keys.disabledVersions.rawValue: disabledVersions,
                 Keys.selfPacedEnabled.rawValue: selfPacedEnabled,
-                Keys.instructorPacedEnabled.rawValue: instructorPacedEnabled
+                Keys.instructorPacedEnabled.rawValue: instructorPacedEnabled,
+                Keys.deeplinksEnabled.rawValue: deeplinksEnabled
             ]
         ]
     }

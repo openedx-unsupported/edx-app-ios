@@ -183,12 +183,13 @@ class ValuePropComponentView: UIView {
         let showingMore = self.showingMore
         let height = showingMore ? 0 : infoMessagesView.height()
         let title = showingMore ? Strings.ValueProp.showMoreText : Strings.ValueProp.showLessText
-        showMoreLessButton.setAttributedTitle(showMorelessButtonStyle.attributedString(withText: title).addUnderline(), for: .normal)
         self.showingMore = !showingMore
         trackShowMorelessAnalytics(showingMore: !showingMore)
 
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             guard let weakSelf = self else { return }
+
+            weakSelf.showMoreLessButton.setAttributedTitle(weakSelf.showMorelessButtonStyle.attributedString(withText: title).addUnderline(), for: .normal)
 
             weakSelf.infoMessagesView.snp.remakeConstraints { make in
                 make.top.equalTo(weakSelf.showMoreLessButton.snp.bottom).offset(StandardVerticalMargin * (showingMore ? 0 : 2))
