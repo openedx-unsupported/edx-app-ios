@@ -37,9 +37,7 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
 
         environment.networkManager.taskForRequest(request) { [weak self] result in
             if let link = result.data?.first {
-                DispatchQueue.main.async {
-                    self?.showBanner(with: link, title: nil, requireAuth: true, showNavbar: false)
-                }
+                self?.showBanner(with: link, title: nil, requireAuth: true, showNavbar: false)
             }
         }
     }
