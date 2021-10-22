@@ -184,7 +184,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
     private func messageForProfile(profile : UserProfile, editable : Bool) -> String? {
         if profile.sharingLimitedProfile {
-            return editable ? (profile.parentalConsent == false ? Strings.Profile.showingLimited : nil) : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.shared().platformName())
+            return editable ? (profile.parentalConsent == false ? Strings.Profile.showingLimited : nil) : nil
         } else {
             return nil
         }
