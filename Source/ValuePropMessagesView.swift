@@ -18,7 +18,7 @@ class ValuePropMessagesView: UIView {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.estimatedRowHeight = 42
+        tableView.estimatedRowHeight = 46
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
         tableView.delegate = self
@@ -76,7 +76,8 @@ extension ValuePropMessagesView: UITableViewDataSource, UITableViewDelegate {
 
 private class ValuePropMessageCell: UITableViewCell {
     static let identifier = "ValuePropMessageCell"
-    private let bulletImageSize: CGFloat = 24
+    private let bulletImageSize: CGFloat = 18
+    private let imageContainerSize: CGFloat = 26
     
     private lazy var messageLabel: UILabel = {
         let label = UILabel()
@@ -87,8 +88,13 @@ private class ValuePropMessageCell: UITableViewCell {
     private lazy var bulletImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Icon.Check.imageWithFontSize(size: bulletImageSize).image(with: OEXStyles.shared().successBase())
-        imageView.backgroundColor = OEXStyles.shared().successXXLight()
         return imageView
+    }()
+    
+    private lazy var imageContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = OEXStyles.shared().successXXLight()
+        return view
     }()
 
     let messageStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().primaryDarkColor())
@@ -110,25 +116,27 @@ private class ValuePropMessageCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        bulletImage.layoutIfNeeded()
-        bulletImage.clipsToBounds = true
-        bulletImage.layer.cornerRadius = bulletImage.frame.size.width * 0.5
+        imageContainer.layoutIfNeeded()
+        imageContainer.clipsToBounds = true
+        imageContainer.layer.cornerRadius = bulletImage.frame.size.width * 0.5
     }
     
     private func addSubviews() {
         contentView.addSubview(containerView)
         containerView.addSubview(messageLabel)
-        containerView.addSubview(bulletImage)
+        containerView.addSubview(imageContainer)
+        imageContainer.addSubview(bulletImage)
         setConstraints()
     }
     
     func setMessage(message: String) {
-        messageLabel.attributedText = messageStyle.attributedString(withText: message)
+        messageLabel.attributedText = messageStyle.attributedString(withText: message).setLineSpacing(4)
     }
     
     private func setAccessibilityIdentifiers() {
         containerView.accessibilityIdentifier = "ValuePropMessageCell:container-view"
         bulletImage.accessibilityIdentifier = "ValuePropMessageCell:bullet-image"
+        imageContainer.accessibilityIdentifier = "ValuePropMessageCell:image-container-view"
         messageLabel.accessibilityIdentifier = "ValuePropMessageCell:message-label"
     }
     
@@ -141,10 +149,14 @@ private class ValuePropMessageCell: UITableViewCell {
         }
         
         bulletImage.snp.makeConstraints { make in
+            make.center.equalTo(imageContainer)
+        }
+        
+        imageContainer.snp.makeConstraints { make in
             make.top.equalTo(containerView).offset(StandardVerticalMargin)
             make.leading.equalTo(containerView).offset(StandardVerticalMargin)
-            make.width.equalTo(bulletImageSize)
-            make.height.equalTo(bulletImageSize)
+            make.width.equalTo(imageContainerSize)
+            make.height.equalTo(imageContainerSize)
         }
         
         messageLabel.snp.makeConstraints { make in
