@@ -97,7 +97,7 @@ private class ValuePropMessageCell: UITableViewCell {
         return view
     }()
 
-    let messageStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().primaryDarkColor())
+    let messageStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXXDark())
 
     private lazy var containerView = UIView()
     
