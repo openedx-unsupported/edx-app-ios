@@ -101,7 +101,7 @@ class ValuePropComponentView: UIView {
     }
 
     private func setupViews() {
-        container.backgroundColor = environment.styles.neutralWhite()
+        container.backgroundColor = environment.styles.neutralWhiteT()
 
         lockImageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.neutralBlackT())
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.assignmentsAreLocked)

@@ -118,7 +118,7 @@ private class ValuePropMessageCell: UITableViewCell {
         
         imageContainer.layoutIfNeeded()
         imageContainer.clipsToBounds = true
-        imageContainer.layer.cornerRadius = bulletImage.frame.size.width * 0.5
+        imageContainer.layer.cornerRadius = imageContainer.frame.size.width * 0.5
     }
     
     private func addSubviews() {

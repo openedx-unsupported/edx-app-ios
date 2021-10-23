@@ -66,7 +66,10 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = environment.styles.standardBackgroundColor()
+        view.backgroundColor = environment.styles.neutralWhiteT()
+                
+        navigationController?.navigationBar.apply(barTintColor: environment.styles.neutralWhiteT(), tintColor: environment.styles.primaryBaseColor(), clearShadow: true)
+        
         configureView()
         
         PaymentManager.shared.productPrice(TestInAppPurchaseID) { [weak self] price in
