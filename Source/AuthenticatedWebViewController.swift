@@ -233,7 +233,9 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        insetsController.updateInsets()
+        if headerView != nil {
+            insetsController.updateInsets()
+        }
     }
     
     public func showError(error : NSError?, icon : Icon? = nil, message : String? = nil) {
