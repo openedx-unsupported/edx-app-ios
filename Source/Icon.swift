@@ -118,7 +118,6 @@ public enum Icon {
     case CourseVideoPlay
     case Create
     case Calendar
-    case Done
     case Discussions
     case Dropdown
     case DoubleArrow
@@ -187,8 +186,6 @@ public enum Icon {
             return MaterialIconRenderer(icon: .forum)
         case .Calendar:
             return MaterialIconRenderer(icon: .event)
-        case .Done:
-            return MaterialIconRenderer(icon: .done)
         case .Question:
             return MaterialIconRenderer(icon: .help)
         case .Answered:
