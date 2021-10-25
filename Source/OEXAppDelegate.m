@@ -109,6 +109,7 @@
     if (self.environment.config.branchConfig.enabled) {
         handled = [[Branch getInstance] application:app openURL:url options:options];
         if (handled) {
+            _openedFromDeeplink = true;
             return handled;
         }
     }
@@ -133,7 +134,11 @@
 
 // Respond to Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler {
-    
+
+    if ([userActivity.activityType isEqual:NSUserActivityTypeBrowsingWeb]) {
+        _openedFromDeeplink = true;
+    }
+
     if (self.environment.config.branchConfig.enabled) {
         return [[Branch getInstance] continueUserActivity:userActivity];
     }

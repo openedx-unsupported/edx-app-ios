@@ -10,17 +10,18 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & RemoteConfigProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & RemoteConfigProvider & OEXSessionProvider
     
-    private let environment : Environment
+    let environment : Environment
     private let coursesContainer : CoursesContainerViewController
     private let loadController = LoadStateViewController()
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
     fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
+    var handleBannerOnStart: Bool = false // this will be used to send first call for the banners
 
     init(environment: Environment) {
         coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
@@ -77,13 +78,19 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         super.viewWillAppear(animated)
 
         hideSnackBarForFullScreenError()
-        showWhatsNewIfNeeded()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-         environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
+        showWhatsNewIfNeeded()
+
+        if !handleBannerOnStart {
+            handleBannerOnStart = true
+            handleBanner()
+        }
+
     }
     
     override func reloadViewData() {
@@ -153,8 +160,12 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
             observer.showOverlay(withMessage: message)
         }
         
-        NotificationCenter.default.oex_addObserver(observer: self, name: AppNewVersionAvailableNotification) { (notification, observer, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: AppNewVersionAvailableNotification) { (_, observer, _) -> Void in
             observer.showVersionUpgradeSnackBarIfNecessary()
+        }
+
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
+            observer.handleBanner()
         }
     }
     
@@ -215,6 +226,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         super.viewDidLayoutSubviews()
         
         coursesContainer.collectionView.collectionViewLayout.invalidateLayout()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK:- PullRefreshControllerDelegate method

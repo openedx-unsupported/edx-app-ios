@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OEXAppDelegate : UIResponder
 
 @property (nonatomic, strong) id <Reachability> reachability;
+/// This will be used to figure out either the app was opened from the deep link or not. This will be used to perform app banner functionality
+@property (nonatomic, assign) BOOL openedFromDeeplink;
 
 - (void)callCompletionHandlerForSession:(NSString*)identifier;
 
