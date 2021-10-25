@@ -67,7 +67,10 @@ class CourseUpgradeButtonView: UIView {
     
     private func addConstraints() {
         titleLabel.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.top.equalTo(self).offset(-2)
+            make.bottom.equalTo(self)
         }
         
         activityIndicator.snp.makeConstraints { make in
@@ -86,19 +89,18 @@ class CourseUpgradeButtonView: UIView {
         
         let title = Strings.ValueProp.upgradeCourseFor(price: price)
         
-        let lockedImage = Icon.Closed.imageWithFontSize(size: 16).image(with: OEXStyles.shared().neutralWhiteT())
+        let lockedImage = Icon.Closed.imageWithFontSize(size: 20).image(with: OEXStyles.shared().neutralWhiteT())
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = lockedImage
-        let imageOffsetY: CGFloat = -2.0
         if let image = imageAttachment.image {
-            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
+            imageAttachment.bounds = CGRect(x: 0, y: -3, width: image.size.width, height: image.size.height)
         }
         
         let attributedImageString = NSAttributedString(attachment: imageAttachment)
-        let style = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
+        let style = OEXTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().neutralWhiteT())
         let attributedStrings = [
             attributedImageString,
-            NSAttributedString(string: "\u{2000}"),
+            NSAttributedString(string: "\u{200b}"),
             style.attributedString(withText: title)
         ]
         let attributedTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)

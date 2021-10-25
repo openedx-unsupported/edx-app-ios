@@ -58,7 +58,7 @@ class ValuePropComponentView: UIView {
     private lazy var lockImageView = UIImageView()
     
     private lazy var titleStyle: OEXMutableTextStyle = {
-        return OEXMutableTextStyle(weight: .bold, size: .small, color: environment.styles.neutralBlack())
+        return OEXMutableTextStyle(weight: .bold, size: .small, color: environment.styles.neutralBlackT())
     }()
     
     private lazy var messageStyle: OEXMutableTextStyle = {
@@ -101,9 +101,9 @@ class ValuePropComponentView: UIView {
     }
 
     private func setupViews() {
-        container.backgroundColor = environment.styles.neutralWhite()
+        container.backgroundColor = environment.styles.neutralWhiteT()
 
-        lockImageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.primaryDarkColor())
+        lockImageView.image = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.neutralBlackT())
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.assignmentsAreLocked)
         let attributedMessage = messageStyle.attributedString(withText: Strings.ValueProp.upgradeToAccessGraded)
         messageLabel.attributedText = attributedMessage.setLineSpacing(8)

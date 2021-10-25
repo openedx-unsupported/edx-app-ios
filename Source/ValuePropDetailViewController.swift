@@ -26,7 +26,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.upgrade(courseName: course.name ?? ""))
+        label.attributedText = titleStyle.attributedString(withText: Strings.ValueProp.upgrade(courseName: course.name ?? "")).setLineSpacing(4)
         label.accessibilityIdentifier = "ValuePropDetailViewController:title-label"
         return label
     }()
@@ -66,7 +66,10 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = environment.styles.standardBackgroundColor()
+        view.backgroundColor = environment.styles.neutralWhiteT()
+                
+        navigationController?.navigationBar.apply(barTintColor: environment.styles.neutralWhiteT(), tintColor: environment.styles.primaryBaseColor(), clearShadow: true)
+        
         configureView()
         
         PaymentManager.shared.productPrice(TestInAppPurchaseID) { [weak self] price in
@@ -104,11 +107,11 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(view).offset(StandardHorizontalMargin)
             make.trailing.equalTo(view).inset(StandardHorizontalMargin)
-            make.top.equalTo(view).offset(StandardVerticalMargin)
+            make.top.equalTo(view).offset(StandardVerticalMargin * 5)
         }
         
         valuePropTableView.snp.makeConstraints { make in
-            make.leading.equalTo(titleLabel)
+            make.leading.equalTo(titleLabel).inset(-StandardHorizontalMargin / 2)
             make.trailing.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(upgradeButton.snp.top).offset(-StandardVerticalMargin)
