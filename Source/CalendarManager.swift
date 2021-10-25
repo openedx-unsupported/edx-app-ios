@@ -75,6 +75,10 @@ class CalendarManager: NSObject {
     var calendarName: String {
         return OEXConfig.shared().platformName() + " - " + courseName
     }
+
+    var deeplinksEnabled: Bool {
+        OEXRouter.shared().environment.remoteConfig.calendarSyncConfig.deeplinksEnabled
+    }
     
     var syncOn: Bool {
         set {
@@ -228,7 +232,7 @@ class CalendarManager: NSObject {
         let endDate = block.blockDate
         var notes = "\(courseName)\n\(block.title)"
         
-        if generateDeepLink {
+        if generateDeepLink && deeplinksEnabled {
             if let link = generateDeeplink(componentBlockID: block.firstComponentBlockID) {
                 notes = notes + "\n\(link)"
             }
@@ -247,7 +251,7 @@ class CalendarManager: NSObject {
         let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
         let notes = "\(courseName)\n" + blocks.compactMap { block -> String in
-            if generateDeepLink {
+            if generateDeepLink && deeplinksEnabled {
                 if let link = generateDeeplink(componentBlockID: block.firstComponentBlockID) {
                     return "\(block.title)\n\(link)"
                 } else {

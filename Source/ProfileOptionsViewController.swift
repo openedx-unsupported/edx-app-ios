@@ -635,13 +635,13 @@ class PersonalInformationCell: UITableViewCell {
         emailLabel.snp.remakeConstraints { make in
             make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            make.trailing.equalTo(profileView.snp.leading)
         }
         
         usernameLabel.snp.remakeConstraints { make in
             make.top.equalTo(emailLabel.snp.bottom).offset(StandardVerticalMargin / 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            make.trailing.equalTo(emailLabel)
 
             if profileSubtitle == nil {
                 make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))

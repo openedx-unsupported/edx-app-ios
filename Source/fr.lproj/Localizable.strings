@@ -1020,7 +1020,7 @@
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
 "VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="Unlock to access more features";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="Upgrade to access more features";
 /* Value prop view's learn more button title on enrolled courses*/
 "VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
 /* Value prop detail view title learn more*/
@@ -1030,7 +1030,7 @@
 /* Value prop detail view message heading*/
 "VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
 /* Value prop information message number one*/
-"VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resume";
+"VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
 /* Value prop information message number two*/
 "VALUE_PROP.INFO_MESSAGE_2"="Unlock access to all course activities, including graded assignments";
 /* Value prop information message number three*/

@@ -138,6 +138,7 @@ class VideoDownloadQualityHeaderView: UITableViewHeaderFooterView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         let textStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralBlackT())
         label.attributedText = textStyle.attributedString(withText: Strings.videoDownloadQualityMessage(platformName: OEXConfig.shared().platformName()))
         label.accessibilityIdentifier = "VideoDownloadQualityHeaderView:title-view"

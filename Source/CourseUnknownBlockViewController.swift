@@ -149,7 +149,10 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         view.backgroundColor = OEXStyles.shared().neutralWhiteT()
         
         valuePropView.snp.makeConstraints { make in
-            make.edges.equalTo(safeEdges)
+            make.top.equalTo(view).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.bottom.equalTo(view)
         }
     }
     
