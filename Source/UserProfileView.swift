@@ -184,9 +184,8 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
     private func messageForProfile(profile : UserProfile, editable : Bool) -> String? {
         if profile.sharingLimitedProfile {
-            return editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.shared().platformName())
-        }
-        else {
+            return editable ? (profile.parentalConsent == false ? Strings.Profile.showingLimited : nil) : nil
+        } else {
             return nil
         }
     }
@@ -212,16 +211,10 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         bioSystemMessage.isHidden = true
         avatarImage.remoteImage = profile.image(networkManager: networkManager)
         setDefaultValues()
+        
         setMessage(message: messageForProfile(profile: profile, editable: editable))
-        if profile.sharingLimitedProfile {
-            if (profile.parentalConsent ?? false) && editable {
-                let message = NSMutableAttributedString(attributedString: messageStyle.attributedString(withText: Strings.Profile.ageLimit))
-
-                bioSystemMessage.attributedText = message
-                bioSystemMessage.isHidden = false
-            }
-        } else {
-            
+        if profile.sharingLimitedProfile { }
+        else {
             if let language = profile.language {
                 let icon = Icon.Language.attributedTextWithStyle(style: infoStyle.withSize(.small))
                 let langText = infoStyle.attributedString(withText: language)
