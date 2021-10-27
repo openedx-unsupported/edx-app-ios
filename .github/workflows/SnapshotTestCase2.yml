@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   xcode-ios:
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
     - name: Git checkout
       uses: actions/checkout@v2
