@@ -13,22 +13,22 @@ jobs:
         sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
         sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
         sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.7.simruntime
-    - name: "Select Xcode 13.1"
+    - name: "Select Xcode 12.5.1"
       run: |
         ls -n /Applications/ | grep Xcode*
-        sudo xcode-select -s /Applications/Xcode_13.1.app
+        sudo xcode-select -s /Applications/Xcode_12.5.1.app
         xcodebuild -version -sdk
         xcrun simctl list
     - name: Run tests
       if: always()
       run: |
-        RUNTIME="iOS-13-7"
+        RUNTIME="12.4"
         DEVICE="iPhone 8"
         DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-        DESTINATION_ID=$(xcrun simctl create "$DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
+        DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
         xcrun simctl boot $DESTINATION_ID
-        ./gradlew -q testLTRCurrentOS | xcpretty -c
+        ./gradlew -q testLTRCurrentOS #| xcpretty -c
         if [[ $? -eq 0 ]]; then
         echo "Tests passed. Do something." >&2
         else
