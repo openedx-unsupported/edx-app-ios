@@ -8,6 +8,16 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v2
+    - name: Link simulator runtimes
+      run: |
+        sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+        sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
+        sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.7.simruntime
+    - name: "Select Xcode 12.5.1"
+      run: |
+        sudo xcode-select -s /Applications/Xcode_12.5.1.app
+        xcodebuild -version -sdk
+        xcrun simctl list
     - name: Run tests
       if: always()
       run: |
