@@ -7,11 +7,6 @@ jobs:
     runs-on: macOS-11
     strategy:
       matrix:
-        task:
-          - TEST_TASK=testLTRCurrentOS IOS_VERSION=14.5
-          - TEST_TASK=testRTLCurrentOS IOS_VERSION=14.5
-          - TEST_TASK=testLTRPreviousOS IOS_VERSION=12.4
-          - TEST_TASK=testRTLPreviousOS IOS_VERSION=12.4
         env:
           - xcode: 12.4
             runtime: "iOS-14-5"
