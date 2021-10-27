@@ -21,7 +21,12 @@ jobs:
     - name: Run tests
       if: always()
       run: |
-        instruments -s devices | grep "iPhone 12 (14.4}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
+        RUNTIME="iOS 14.4"
+        DEVICE="iPhone 8"
+        DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
+        xcrun simctl boot $DESTINATION_ID
         ./gradlew -q testLTRCurrentOS | xcpretty -c
         if [[ $? -eq 0 ]]; then
         echo "Tests passed. Do something." >&2
