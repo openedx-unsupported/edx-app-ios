@@ -5,6 +5,20 @@ on: [push]
 jobs:
   xcode-ios:
     runs-on: macOS-11
+    strategy:
+      matrix:
+        task:
+          - TEST_TASK=testLTRCurrentOS IOS_VERSION=14.5
+          - TEST_TASK=testRTLCurrentOS IOS_VERSION=14.5
+          - TEST_TASK=testLTRPreviousOS IOS_VERSION=12.4
+          - TEST_TASK=testRTLPreviousOS IOS_VERSION=12.4
+        env:
+          - xcode: 12.4
+            runtime: "iOS-14-5"
+            device: "iPhone 8"
+          - xcode: 12.4
+            runtime: "iOS-12-4"
+            device: "iPhone 8"
     steps:
     - name: Git checkout
       uses: actions/checkout@v2
@@ -22,16 +36,16 @@ jobs:
     - name: Run tests
       if: always()
       run: |
-        RUNTIME="iOS-14-5"
-        DEVICE="iPhone 8"
+        RUNTIME="${{ matrix.env.runtime }}"
+        DEVICE="${{ matrix.env.device }}"
         DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         DESTINATION_ID=$(xcrun simctl create "$DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
         xcrun simctl boot $DESTINATION_ID
-        ./gradlew -q testLTRCurrentOS #| xcpretty -c
+        ./gradlew -q ${{ matrix.task }} | xcpretty -c
         if [[ $? -eq 0 ]]; then
-        echo "Tests passed. Do something." >&2
+        echo "Tests passed." >&2
         else
-        echo "Tests didn't pass. Do something." >&2
+        echo "Tests didn't pass." >&2
         fi
       shell: bash
