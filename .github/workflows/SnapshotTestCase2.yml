@@ -1,0 +1,21 @@
+name: "Snapshot Test Case Gradle"
+
+on: [push]
+
+jobs:
+  xcode-ios:
+    runs-on: macOS-10.15
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v2
+    - name: Run tests
+        if: always()
+        run: |
+          - instruments -s devices | grep "iPhone 12 (14.4}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
+          ./gradlew -q testLTRCurrentOS | xcpretty -c
+          if [[ $? -eq 0 ]]; then
+          echo "Tests passed. Do something." >&2
+          else
+          echo "Tests didn't pass. Do something." >&2
+          fi
+        shell: bash
