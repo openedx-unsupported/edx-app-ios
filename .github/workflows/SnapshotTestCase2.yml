@@ -42,7 +42,7 @@ jobs:
         RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         DESTINATION_ID=$(xcrun simctl create "$DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
         xcrun simctl boot $DESTINATION_ID
-        ./gradlew -q ${{ matrix.task }} | xcpretty -c
+        ./gradlew -q testLTRCurrentOS IOS_VERSION=14.5 | xcpretty -c
         if [[ $? -eq 0 ]]; then
         echo "Tests passed." >&2
         else
