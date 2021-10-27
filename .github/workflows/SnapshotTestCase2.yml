@@ -22,7 +22,7 @@ jobs:
     - name: Run tests
       if: always()
       run: |
-        RUNTIME="iOS 15"
+        RUNTIME="iOS-13-"
         DEVICE="iPhone 8"
         DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
