@@ -11,36 +11,80 @@ fileprivate enum AgreementURLsKeys: String, RawStringExtractable {
     case eulaURL = "EULA_URL"
     case tosURL = "TOS_URL"
     case privacyPolicyURL = "PRIVACY_POLICY_URL"
+    case supportedlanguages = "SUPPORTED_LANGUAGES"
+
+    var bundlePath: String {
+        switch self {
+        case .eulaURL:
+            return "MobileAppEula"
+        case .tosURL:
+            return "TermsOfServices"
+        case .privacyPolicyURL:
+            return "PrivacyPolicy"
+        default:
+            return ""
+        }
+    }
 }
 
 class AgreementURLsConfig : NSObject {
-    var eulaURL: URL? = nil
-    var tosURL: URL? = nil
-    var privacyPolicyURL: URL? = nil
-    
+    private var eula: String = ""
+    private var tos: String = ""
+    private var privacyPolicy: String = ""
+    private let spiliter = "webview"
+    private var localURLs = false
+
+    var eulaURL: URL? {
+        return localURLs ? URL(fileURLWithPath: eula) : URL(string: completePath(url: eula))
+    }
+
+    var tosURL: URL? {
+        return localURLs ? URL(fileURLWithPath: tos) : URL(string: completePath(url: tos))
+    }
+
+    var privacyPolicyURL: URL? {
+        return localURLs ? URL(fileURLWithPath: privacyPolicy) : URL(string: completePath(url: privacyPolicy))
+    }
+
+    var supportedlanguages: [String] = []
+
     init(dictionary: [String: AnyObject]) {
-        let eulaURL = dictionary[AgreementURLsKeys.eulaURL] as? String
-        let tosURL = dictionary[AgreementURLsKeys.tosURL] as? String
-        let privacyPolicyURL = dictionary[AgreementURLsKeys.privacyPolicyURL] as? String
+        super.init()
 
-        if eulaURL != nil || tosURL != nil || privacyPolicyURL != nil {
-            if let eulaURL = eulaURL, !eulaURL.isEmpty {
-                self.eulaURL = URL(string: eulaURL)
-            }
+        eula = dictionary[AgreementURLsKeys.eulaURL] as? String ?? ""
+        tos = dictionary[AgreementURLsKeys.tosURL] as? String ?? ""
+        privacyPolicy = dictionary[AgreementURLsKeys.privacyPolicyURL] as? String ?? ""
+        supportedlanguages = dictionary[AgreementURLsKeys.supportedlanguages] as? [String] ?? []
 
-            if let tosURL = tosURL, !tosURL.isEmpty {
-                self.tosURL = URL(string: tosURL)
-            }
-
-            if let privacyPolicyURL = privacyPolicyURL, !privacyPolicyURL.isEmpty {
-                self.privacyPolicyURL = URL(string: privacyPolicyURL)
-            }
-        }
+        if !eula.isEmpty || !tos.isEmpty || !privacyPolicy.isEmpty { }
         else {
-            self.eulaURL = Bundle.main.url(forResource: "MobileAppEula", withExtension: "htm")
-            self.tosURL = Bundle.main.url(forResource: "TermsOfServices", withExtension: "htm")
-            self.privacyPolicyURL = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "htm")
+            localURLs = true
+            eula = Bundle.main.path(forResource: AgreementURLsKeys.eulaURL.bundlePath, ofType: "htm") ?? ""
+            tos = Bundle.main.path(forResource: AgreementURLsKeys.tosURL.bundlePath, ofType: "htm") ?? ""
+            privacyPolicy = Bundle.main.path(forResource: AgreementURLsKeys.privacyPolicyURL.bundlePath, ofType: "htm") ?? ""
         }
+    }
+
+    private func completePath(url: String) -> String {
+        let langCode = Locale.current.languageCode ?? ""
+        if !supportedlanguages.contains(langCode) {
+            return url
+        }
+
+        let URL = URL(string: url)
+        let host = URL?.host ?? ""
+
+        let components = url.components(separatedBy: host)
+
+        if components.count != 2 {
+            return url
+        }
+
+        if let firstComponent = components.first, let lastComponent = components.last {
+            return "\(firstComponent)\(host)/\(langCode)\(lastComponent)"
+        }
+
+        return url
     }
 }
 
