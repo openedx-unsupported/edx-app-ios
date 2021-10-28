@@ -12,6 +12,19 @@ fileprivate enum AgreementURLsKeys: String, RawStringExtractable {
     case tosURL = "TOS_URL"
     case privacyPolicyURL = "PRIVACY_POLICY_URL"
     case supportedlanguages = "SUPPORTED_LANGUAGES"
+
+    var bundlePath: String {
+        switch self {
+        case .eulaURL:
+            return "MobileAppEula"
+        case .tosURL:
+            return "TermsOfServices"
+        case .privacyPolicyURL:
+            return "PrivacyPolicy"
+        default:
+            return ""
+        }
+    }
 }
 
 class AgreementURLsConfig : NSObject {
@@ -20,35 +33,19 @@ class AgreementURLsConfig : NSObject {
     private var privacyPolicy: String = ""
     private let spiliter = "webview"
     private var localURLs = false
+
     var eulaURL: URL? {
-        get {
-            if localURLs {
-                return URL(fileURLWithPath: eula)
-            }
-            return URL(string: completePath(url: eula))
-        }
-        set { }
+        return localURLs ? URL(fileURLWithPath: eula) : URL(string: completePath(url: eula))
     }
 
     var tosURL: URL? {
-        get {
-            if localURLs {
-                return URL(fileURLWithPath: tos)
-            }
-            return URL(string: completePath(url: tos))
-        }
-        set { }
+        return localURLs ? URL(fileURLWithPath: tos) : URL(string: completePath(url: tos))
     }
 
     var privacyPolicyURL: URL? {
-        get {
-            if localURLs {
-                return URL(fileURLWithPath: privacyPolicy)
-            }
-            return URL(string: completePath(url: privacyPolicy))
-        }
-        set { }
+        return localURLs ? URL(fileURLWithPath: privacyPolicy) : URL(string: completePath(url: privacyPolicy))
     }
+
     var supportedlanguages: [String] = []
 
     init(dictionary: [String: AnyObject]) {
@@ -62,9 +59,9 @@ class AgreementURLsConfig : NSObject {
         if !eula.isEmpty || !tos.isEmpty || !privacyPolicy.isEmpty { }
         else {
             localURLs = true
-            eula = Bundle.main.path(forResource: "MobileAppEula", ofType: "htm") ?? ""
-            tos = Bundle.main.path(forResource: "TermsOfServices", ofType: "htm") ?? ""
-            privacyPolicy = Bundle.main.path(forResource: "PrivacyPolicy", ofType: "htm") ?? ""
+            eula = Bundle.main.path(forResource: AgreementURLsKeys.eulaURL.bundlePath, ofType: "htm") ?? ""
+            tos = Bundle.main.path(forResource: AgreementURLsKeys.tosURL.bundlePath, ofType: "htm") ?? ""
+            privacyPolicy = Bundle.main.path(forResource: AgreementURLsKeys.privacyPolicyURL.bundlePath, ofType: "htm") ?? ""
         }
     }
 
@@ -83,7 +80,11 @@ class AgreementURLsConfig : NSObject {
             return url
         }
 
-        return "\(components.first ?? "")\(host)/\(langCode)\(components.last ?? "")"
+        if let firstComponent = components.first, let lastComponent = components.last {
+            return "\(firstComponent)\(host)/\(langCode)\(lastComponent)"
+        }
+
+        return url
     }
 }
 
