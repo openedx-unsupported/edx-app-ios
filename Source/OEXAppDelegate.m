@@ -109,7 +109,7 @@
     if (self.environment.config.branchConfig.enabled) {
         handled = [[Branch getInstance] application:app openURL:url options:options];
         if (handled) {
-            _openedFromDeeplink = true;
+            _appOpenedFromExternalLink = true;
             return handled;
         }
     }
@@ -136,7 +136,7 @@
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler {
 
     if ([userActivity.activityType isEqual:NSUserActivityTypeBrowsingWeb]) {
-        _openedFromDeeplink = true;
+        _appOpenedFromExternalLink = true;
     }
 
     if (self.environment.config.branchConfig.enabled) {
@@ -148,6 +148,11 @@
 #pragma mark Push Notifications
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
+        // add delay in banner call feteching if the app opened from notifcation centre
+        _appOpenedFromExternalLink = true;
+    }
+
     [self.environment.pushNotificationManager didReceiveRemoteNotificationWithUserInfo:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
 }
