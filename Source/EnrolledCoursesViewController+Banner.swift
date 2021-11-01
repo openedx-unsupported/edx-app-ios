@@ -24,8 +24,8 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
         }
 
         let delegate = UIApplication.shared.delegate as? OEXAppDelegate
-        let delay: Double = delegate?.openedFromDeeplink == true ? DeeplinkDelayTime : 0
-        delegate?.openedFromDeeplink = false
+        let delay: Double = delegate?.appOpenedFromExternalLink == true ? DeeplinkDelayTime : 0
+        delegate?.appOpenedFromExternalLink = false
 
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
             self?.fetchBanner()
