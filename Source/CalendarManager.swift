@@ -8,7 +8,6 @@
 
 import Foundation
 import EventKit
-import EventKitUI
 
 struct CourseCalendar: Codable {
     var identifier: String

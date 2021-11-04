@@ -362,6 +362,8 @@
 "COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
+/* Course Dates Calendar sync Message */
+"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Syncing calendar...";
 /*Course upgrade success alert title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
 /*Course upgrade success alert message*/

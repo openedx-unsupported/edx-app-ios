@@ -405,23 +405,48 @@ extension CourseDatesViewController {
             self?.removeCourseCalendar { success in
                 if success {
                     topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
-                    self?.courseDatesHeaderView.syncState = false
                 }
             }
         }
     }
     
-    private func addCourseEvents(trackAnalytics: Bool = true, completion: ((Bool)->())? = nil) {
-        calendar.addEventsToCalendar(for: dateBlocks) { [weak self] success in
-            if success {
+    private func addCourseEvents(trackAnalytics: Bool = true, completion: ((Bool) -> ())? = nil) {
+        guard let topController = UIApplication.shared.topMostController() else { return }
+        
+        var alertController: UIAlertController?
+        
+        var calendarOperationHandled = false
+        var calendarEventsAdded = false
+        
+        func updateCalendarState() {
+            if calendarEventsAdded {
                 if trackAnalytics {
-                    self?.trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
+                    trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
                 }
-                self?.calendar.syncOn = success
-                self?.eventsAddedSuccessAlert()
+                calendar.syncOn = calendarEventsAdded
+                eventsAddedSuccessAlert()
             }
-            self?.courseDatesHeaderView.syncState = success
-            completion?(success)
+            courseDatesHeaderView.syncState = calendarEventsAdded
+            completion?(calendarEventsAdded)
+        }
+        
+        let presentationCompletion = { [weak self] in
+            guard let weakSelf = self else { return }
+            weakSelf.calendar.addEventsToCalendar(for: weakSelf.dateBlocks) { success in
+                calendarOperationHandled = true
+                calendarEventsAdded = success
+            }
+        }
+        
+        alertController = UIAlertController().showProgressDialogAlert(viewController: topController, message: Strings.Coursedates.calendarSyncMessage, completion: presentationCompletion)
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            if calendarOperationHandled {
+                timer.invalidate()
+                alertController?.dismiss(animated: true) {
+                    updateCalendarState()
+                }
+            }
         }
     }
     
@@ -430,6 +455,7 @@ extension CourseDatesViewController {
             if success && trackAnalytics {
                 self?.trackCalendarEvent(for: .CalendarRemoveDatesSuccess, eventName: .CalendarRemoveDatesSuccess)
             }
+            self?.courseDatesHeaderView.syncState = !success
             completion?(success)
         }
     }
