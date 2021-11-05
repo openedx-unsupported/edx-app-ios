@@ -287,17 +287,17 @@ extension ProfileOptionsViewController: DownloadCellDelagete {
     func didTapWifiSwitch(isOn: Bool, wifiSwitch: UISwitch) {
         environment.analytics.trackWifi(isOn: isOn)
         if isOn {
+            environment.interface?.setDownloadOnlyOnWifiPref(isOn)
+        } else {
             let alertController = UIAlertController().showAlert(withTitle: Strings.cellularDownloadEnabledTitle, message: Strings.cellularDownloadEnabledMessage, cancelButtonTitle: nil, onViewController: self) { _, _, _ in }
             alertController.addButton(withTitle: Strings.doNotAllow) { [weak self] _ in
                 self?.environment.analytics.trackWifi(allowed: false)
-                wifiSwitch.setOn(false, animated: true)
+                wifiSwitch.setOn(true, animated: true)
             }
             alertController.addButton(withTitle: Strings.allow) { [weak self] _ in
                 self?.environment.interface?.setDownloadOnlyOnWifiPref(isOn)
                 self?.environment.analytics.trackWifi(allowed: true)
             }
-        } else {
-            environment.interface?.setDownloadOnlyOnWifiPref(isOn)
         }
     }
     
