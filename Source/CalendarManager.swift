@@ -75,9 +75,9 @@ class CalendarManager: NSObject {
         return OEXConfig.shared().platformName() + " - " + courseName
     }
 
-    var deeplinksEnabled: Bool {
-        return FirebaseRemoteConfiguration.shared.calendarSyncConfig.deeplinksEnabled
-    }
+    private lazy var branchEnabled: Bool = {
+        return OEXConfig.shared().branchConfig.enabled
+    }()
     
     var syncOn: Bool {
         set {
@@ -229,9 +229,9 @@ class CalendarManager: NSObject {
         let startDate = block.blockDate.add(.hour, value: alertOffset)
         let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
-        var notes = "\(courseName)\n\(block.title)"
+        var notes = "\(courseName)\n\n\(block.title)"
         
-        if generateDeepLink && deeplinksEnabled {
+        if generateDeepLink && branchEnabled {
             if let link = generateDeeplink(componentBlockID: block.firstComponentBlockID) {
                 notes = notes + "\n\(link)"
             }
@@ -249,8 +249,8 @@ class CalendarManager: NSObject {
         let startDate = block.blockDate.add(.hour, value: alertOffset)
         let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
-        let notes = "\(courseName)\n" + blocks.compactMap { block -> String in
-            if generateDeepLink && deeplinksEnabled {
+        let notes = "\(courseName)\n\n" + blocks.compactMap { block -> String in
+            if generateDeepLink && branchEnabled {
                 if let link = generateDeeplink(componentBlockID: block.firstComponentBlockID) {
                     return "\(block.title)\n\(link)"
                 } else {
