@@ -76,7 +76,7 @@ class CalendarManager: NSObject {
     }
 
     var deeplinksEnabled: Bool {
-        OEXRouter.shared().environment.remoteConfig.calendarSyncConfig.deeplinksEnabled
+        return FirebaseRemoteConfiguration.shared.calendarSyncConfig.deeplinksEnabled
     }
     
     var syncOn: Bool {

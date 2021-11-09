@@ -204,6 +204,7 @@ public enum AnalyticsEventDataKey: String {
     case Pacing = "pacing"
     case UserType = "user_type"
     case SyncReason = "sync_reason"
+    case ElapsedTime = "elapsed_time"
     case SpecialExamInfo = "special_exam_info"
     case ComponentID = "component_id"
     case ComponentType = "component_type"
@@ -508,7 +509,7 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: [key_course_id: courseID, OEXAnalyticsKeyBlockID: blockID])
     }
     
-    func trackCalendarEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, userType: String, pacing: String, courseID: String, syncReason: String? = nil) {
+    func trackCalendarEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, userType: String, pacing: String, courseID: String, syncReason: String? = nil, elapsedTime: Int? = nil) {
         let event = OEXAnalyticsEvent()
         event.displayName = displayName.rawValue
         event.name = eventName.rawValue
@@ -520,6 +521,9 @@ extension OEXAnalytics {
         ]
         
         info.setObjectOrNil(syncReason, forKey: AnalyticsEventDataKey.SyncReason.rawValue)
+        if let elapsedTime = elapsedTime {
+            info.setObjectOrNil("\(elapsedTime)", forKey: AnalyticsEventDataKey.ElapsedTime.rawValue)
+        }
         
         trackEvent(event, forComponent: nil, withInfo: info)
     }

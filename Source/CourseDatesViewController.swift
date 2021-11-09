@@ -414,14 +414,15 @@ extension CourseDatesViewController {
         guard let topController = UIApplication.shared.topMostController() else { return }
         
         var alertController: UIAlertController?
-        
         var calendarOperationHandled = false
         var calendarEventsAdded = false
+        let startTime = CACurrentMediaTime()
+        var endTime: CFTimeInterval?
         
         func updateCalendarState() {
             if calendarEventsAdded {
                 if trackAnalytics {
-                    trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess)
+                    trackCalendarEvent(for: .CalendarAddDatesSuccess, eventName: .CalendarAddDatesSuccess, elapsedTime: endTime?.millisecond ?? 0)
                 }
                 calendar.syncOn = calendarEventsAdded
                 eventsAddedSuccessAlert()
@@ -433,6 +434,7 @@ extension CourseDatesViewController {
         let presentationCompletion = { [weak self] in
             guard let weakSelf = self else { return }
             weakSelf.calendar.addEventsToCalendar(for: weakSelf.dateBlocks) { success in
+                endTime = CACurrentMediaTime() - startTime
                 calendarOperationHandled = true
                 calendarEventsAdded = success
             }
@@ -530,10 +532,10 @@ extension CourseDatesViewController {
         }
     }
     
-    private func trackCalendarEvent(for displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, syncReason: SyncReason? = nil) {
+    private func trackCalendarEvent(for displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, syncReason: SyncReason? = nil, elapsedTime: Int? = nil) {
         if userEnrollment == .audit || userEnrollment == .verified {
             let pacing: Pacing = isSelfPaced ? .user : .instructor
-            environment.analytics.trackCalendarEvent(displayName: displayName, eventName: eventName, userType: userEnrollment.rawValue, pacing: pacing.rawValue, courseID: courseID, syncReason: syncReason?.rawValue)
+            environment.analytics.trackCalendarEvent(displayName: displayName, eventName: eventName, userType: userEnrollment.rawValue, pacing: pacing.rawValue, courseID: courseID, syncReason: syncReason?.rawValue, elapsedTime: elapsedTime)
         }
     }
 }
@@ -637,5 +639,11 @@ extension CourseDatesViewController {
     func t_loadData(data: CourseDateModel) {
         populate(with: data)
         loadController.state = .Loaded
+    }
+}
+
+fileprivate extension CFTimeInterval {
+    var millisecond: Int {
+        return Int(self * 1000)
     }
 }
