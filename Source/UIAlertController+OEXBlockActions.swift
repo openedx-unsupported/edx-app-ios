@@ -184,11 +184,7 @@ extension UIAlertController {
                                  activityIndicatorColor: UIColor = OEXStyles.shared().neutralBlackT(),
                                  completion: (() -> Void)? = nil) -> UIAlertController {
         
-        let alertController = UIAlertController(title: "", message: "", preferredStyle: .alert)
-        
-        let textStyle = OEXMutableTextStyle(weight: .semiBold, size: .large, color: textColor)
-        textStyle.alignment = .center
-        alertController.setValue(textStyle.attributedString(withText: message), forKey: "attributedMessage")
+        let alertController = UIAlertController(title: message, message: "", preferredStyle: .alert)
         
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.color = activityIndicatorColor
