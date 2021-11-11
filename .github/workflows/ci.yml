@@ -1,0 +1,41 @@
+name: CI
+on:
+   push:
+     branches:
+       - master
+   pull_request:
+     branches:
+       - "**"
+jobs:
+  test:
+    runs-on: macos-10.15
+    strategy:
+      matrix:
+        IOS_VERSION: [13.3, 12.4]
+        include:
+          - IOS_VERSION: 13.3
+            TEST_TASK: [testLTRCurrentOS, testRTLCurrentOS]
+          - IOS_VERSION: 12.4
+            TEST_TASK: ['testLTRPreviousOS', 'testRTLPreviousOS']
+    timeout-minutes: 15
+    steps:
+      - name: Git - Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: Setup - Xcode
+        run: sudo xcode-select -s /Applications/Xcode_12.3.app
+      - name: Setup - Ruby and bundler dependencies
+        uses: ruby/setup-ruby@v1.57.0
+        with:
+          ruby-version: 2.4.0
+          bundler-cache: true
+      - name: Install Cocoapods
+        run: pod install --repo-update
+      - name: Scripts
+        run: |
+            instruments -s devices | grep "iPhone 8 (${{ matrix.IOS_VERSION }}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
+            set -o pipefail
+            ./gradlew -q ${{matrix.TEST_TASK}} | xcpretty -c
+            bash <(curl -s https://codecov.io/bash)
+      
