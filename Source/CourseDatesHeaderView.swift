@@ -87,7 +87,9 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     private lazy var syncSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
         toggleSwitch.oex_addAction({ [weak self] _ in
-            self?.delegate?.didToggleCalendarSwitch(isOn: toggleSwitch.isOn)
+            guard let weakSelf = self else { return }
+            toggleSwitch.setOn(weakSelf.syncState, animated: true)
+            weakSelf.delegate?.didToggleCalendarSwitch(isOn: !weakSelf.syncState)
         }, for: .valueChanged)
         
         return toggleSwitch
@@ -113,7 +115,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
     
     var syncState: Bool = false {
         didSet {
-            syncSwitch.isOn = syncState
+            syncSwitch.setOn(syncState, animated: true)
         }
     }
     

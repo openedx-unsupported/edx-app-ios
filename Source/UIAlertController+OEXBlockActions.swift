@@ -174,3 +174,44 @@ extension UIAlertController {
         setValue(childController, forKey: "contentViewController")
     }
 }
+
+
+extension UIAlertController {
+    @discardableResult
+    func showProgressDialogAlert(viewController parentController: UIViewController,
+                                 message: String,
+                                 textColor: UIColor = OEXStyles.shared().neutralBlackT(),
+                                 activityIndicatorColor: UIColor = OEXStyles.shared().neutralBlackT(),
+                                 completion: (() -> Void)? = nil) -> UIAlertController {
+        
+        let alertController = UIAlertController(title: message, message: "", preferredStyle: .alert)
+        
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.color = activityIndicatorColor
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.isUserInteractionEnabled = false
+        activityIndicator.startAnimating()
+        activityIndicator.scaleIndicator(factor: 1.5)
+        
+        alertController.view.addSubview(activityIndicator)
+        
+        alertController.view.snp.makeConstraints { make in
+            make.height.equalTo(StandardVerticalMargin * 17)
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.equalTo(alertController.view)
+            make.bottom.equalTo(alertController.view).inset(StandardVerticalMargin * 5)
+        }
+        
+        parentController.present(alertController, animated: true, completion: completion)
+                
+        return alertController
+    }
+}
+
+fileprivate extension UIActivityIndicatorView {
+    func scaleIndicator(factor: CGFloat) {
+        transform = CGAffineTransform(scaleX: factor, y: factor)
+    }
+}
