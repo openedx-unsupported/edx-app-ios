@@ -1,6 +1,3 @@
-.. image:: https://travis-ci.org/edx/edx-app-ios.svg?branch=master
-    :target: https://travis-ci.org/edx/edx-app-ios
-
 edX iOS
 =======
 
