@@ -261,7 +261,7 @@ open class Manager {
             if let info = Bundle.main.infoDictionary {
                 let executable: AnyObject = info[kCFBundleExecutableKey as String] as AnyObject? ?? "Unknown" as AnyObject
                 let bundle: AnyObject = info[kCFBundleIdentifierKey as String] as AnyObject? ?? "Unknown" as AnyObject
-                let version: AnyObject = info[kCFBundleVersionKey as String] as AnyObject? ?? "Unknown" as AnyObject
+                let version: AnyObject = info["CFBundleShortVersionString"] as AnyObject? ?? "Unknown" as AnyObject
                 let os: AnyObject = ProcessInfo.processInfo.operatingSystemVersionString as AnyObject
 
                 var mutableUserAgent = NSMutableString(string: "\(executable)/\(bundle) (\(version); OS \(os))") as CFMutableString
