@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Along with a comment there.
 NSString* OEXLocalizedString(NSString* string,  NSString* __nullable  comment);
 
+NSString* OEXLocalizedStringFromTable(NSString* string, NSString* tbl, NSString* __nullable  comment);
+
 /// Use this for *all* strings displayed to the user that need to handle pluralization
 /// For other strings see OEXLocalizedString
 /// The string should be defined in Localizable.strings
@@ -24,5 +26,6 @@ NSString* OEXLocalizedString(NSString* string,  NSString* __nullable  comment);
 /// https://github.com/Smartling/ios-i18n
 NSString* OEXLocalizedStringPlural(NSString* key, NSInteger value,  NSString* __nullable  comment);
 
+NSString* OEXLocalizedStringPluralFromTable(NSString* key, NSString* tbl, NSInteger value,  NSString* __nullable  comment);
 
 NS_ASSUME_NONNULL_END
