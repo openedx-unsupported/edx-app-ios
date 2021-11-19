@@ -155,8 +155,9 @@ extension BannerViewController: HTTPStatusCodeDelegate {
         guard let errorGroup = statusCode.errorGroup else { return false }
         switch errorGroup {
         case .http4xx, .http5xx:
+            addCloseButton()
+            
             webController.setLoadControllerState(withState: .failed(error: nil, icon: .InternetError, message: Strings.networkNotAvailableMessageTrouble, attributedMessage: nil, accessibilityMessage: Strings.networkNotAvailableMessageTrouble, buttonInfo: MessageButtonInfo(title: Strings.reload) { [weak self] in
-                self?.addCloseButton()
                 self?.loadRequest()
             }))
             return true
