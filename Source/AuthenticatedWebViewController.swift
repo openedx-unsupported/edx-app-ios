@@ -54,6 +54,10 @@ protocol AuthenticatedWebViewControllerDelegate: AnyObject {
     func didCompletionCalled(completion: Bool)
 }
 
+protocol HTTPStatusCodeDelegate: AnyObject {
+    func handleHttpStatusCode(statusCode: OEXHTTPStatusCode) -> Bool
+}
+
 private class WKWebViewContentController : WebContentController {
     fileprivate let webView: WKWebView
 
@@ -120,7 +124,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     private let headerInsets : HeaderViewInsets
     weak var webViewDelegate: WebViewNavigationDelegate?
     weak var ajaxCallbackDelegate: AJAXCompletionCallbackDelegate?
-
+    weak var httpStatusCodeDelegate: HTTPStatusCodeDelegate?
     private lazy var configurations = environment.config.webViewConfiguration()
     
     private var shouldListenForAjaxCallbacks = false
@@ -333,6 +337,12 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         
         if let httpResponse = navigationResponse.response as? HTTPURLResponse, let statusCode = OEXHTTPStatusCode(rawValue: httpResponse.statusCode), let errorGroup = statusCode.errorGroup, state == .LoadingContent {
+            
+            if httpStatusCodeDelegate?.handleHttpStatusCode(statusCode: statusCode) ?? false {
+                decisionHandler(.cancel)
+                return
+            }
+            
             switch errorGroup {
             case .http4xx:
                 state = .NeedingSession
@@ -410,11 +420,15 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     }
 
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        if !loadController.state.isError {
             showError(error: error as NSError?)
+        }
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-          showError(error: error as NSError?)
+        if !loadController.state.isError {
+            showError(error: error as NSError?)
+        }
     }
     
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -430,19 +444,19 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             completionHandler(.performDefaultHandling, nil)
         }
     }
-
+    
     public func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-
+        
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
-
+        
         alertController.addAction(UIAlertAction(title: Strings.ok, style: .default, handler: { action in
             completionHandler(true)
         }))
-
+        
         alertController.addAction(UIAlertAction(title: Strings.cancel, style: .cancel, handler: { action in
             completionHandler(false)
         }))
-
+        
         if let presenter = alertController.popoverPresentationController {
             presenter.sourceView = view
             presenter.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
