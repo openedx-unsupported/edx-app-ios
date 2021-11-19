@@ -106,11 +106,6 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
     }
-    
-    deinit {
-        webController.webViewDelegate = nil
-        webController.httpStatusCodeDelegate = nil
-    }
 }
 
 extension BannerViewController: WebViewNavigationDelegate {
@@ -157,9 +152,11 @@ extension BannerViewController: HTTPStatusCodeDelegate {
         case .http4xx, .http5xx:
             addCloseButton()
             
-            webController.setLoadControllerState(withState: .failed(error: nil, icon: .InternetError, message: Strings.networkNotAvailableMessageTrouble, attributedMessage: nil, accessibilityMessage: Strings.networkNotAvailableMessageTrouble, buttonInfo: MessageButtonInfo(title: Strings.reload) { [weak self] in
+            let state = LoadState.failed(error: nil, icon: .InternetError, message: Strings.networkNotAvailableMessageTrouble, attributedMessage: nil, accessibilityMessage: Strings.networkNotAvailableMessageTrouble, buttonInfo: MessageButtonInfo(title: Strings.reload) { [weak self] in
                 self?.loadRequest()
-            }))
+            })
+            
+            webController.showError(with: state)
             return true
         }
     }

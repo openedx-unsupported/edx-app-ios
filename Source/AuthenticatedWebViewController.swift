@@ -253,6 +253,12 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         refreshAccessibility()
     }
     
+    public func showError(with state: LoadState) {
+        guard state.isError else { return }
+        loadController.state = state
+        refreshAccessibility()
+    }
+    
     // MARK: Header View
     
     var headerView : UIView? {
@@ -420,15 +426,13 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     }
 
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        if !loadController.state.isError {
-            showError(error: error as NSError?)
-        }
+        guard !loadController.state.isError else { return }
+        showError(error: error as NSError?)
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        if !loadController.state.isError {
-            showError(error: error as NSError?)
-        }
+        guard !loadController.state.isError else { return }
+        showError(error: error as NSError?)
     }
     
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
