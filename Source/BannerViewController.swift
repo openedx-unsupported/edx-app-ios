@@ -47,6 +47,7 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
 
         super.init(nibName: nil, bundle: nil)
         webController.webViewDelegate = self
+        webController.webViewNavigationResponseDelegate = self
         self.title = title
     }
     
@@ -81,6 +82,20 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
         
         webController.view.snp.remakeConstraints { make in
             make.edges.equalTo(view)
+        }
+    }
+    
+    private func addCloseButton() {
+        navigationController?.isNavigationBarHidden = false
+        
+        let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: 20), style: .plain, target: nil, action: nil)
+        closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
+        closeButton.accessibilityHint = Strings.Accessibility.closeHint
+        closeButton.accessibilityIdentifier = "BannerViewController:close-button"
+        navigationItem.rightBarButtonItem = closeButton
+        
+        closeButton.oex_setAction { [weak self] in
+            self?.dismiss(animated: true)
         }
     }
     
@@ -130,8 +145,26 @@ extension BannerViewController: WebViewNavigationDelegate {
     }
 }
 
+extension BannerViewController: WebViewNavigationResponseDelegate {
+    func handleHttpStatusCode(statusCode: OEXHTTPStatusCode) -> Bool {
+        guard let errorGroup = statusCode.errorGroup else { return false }
+        switch errorGroup {
+        case .http4xx, .http5xx:
+            addCloseButton()
+            
+            let state = LoadState.failed(error: nil, icon: .InternetError, message: Strings.networkNotAvailableMessageTrouble, attributedMessage: nil, accessibilityMessage: Strings.networkNotAvailableMessageTrouble, buttonInfo: MessageButtonInfo(title: Strings.reload) { [weak self] in
+                self?.loadRequest()
+            })
+            
+            webController.showError(with: state)
+            return true
+        }
+    }
+}
+
 extension BannerViewController: AuthenticatedWebViewControllerRequireAuthentication {
     func alwaysRequireAuth() -> Bool {
         return authRequired
     }
 }
+
