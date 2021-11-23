@@ -10,12 +10,10 @@
 
 #import <Smartling.i18n/SLLocalization.h>
 
-NSString* OEXLocalizedString(NSString* key, NSString* comment) {
-    NSString* result = NSLocalizedString(key, comment);
-    return result;
+NSString* OEXLocalizedStringFromTable(NSString* key, NSString* tbl, NSString* comment) {
+    return NSLocalizedStringFromTable(key, tbl, comment);
 }
 
-NSString* OEXLocalizedStringPlural(NSString* key, NSInteger value, NSString* comment) {
-    NSString* result = SLPluralizedString(key, value, comment);
-    return result;
+NSString* OEXLocalizedStringPluralFromTable(NSString* key, NSString* tbl, NSInteger value, NSString* comment) {
+    return SLPluralizedStringFromTable(key, tbl, value, comment);
 }
