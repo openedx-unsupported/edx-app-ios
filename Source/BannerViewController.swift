@@ -145,7 +145,7 @@ extension BannerViewController: WebViewNavigationDelegate {
     }
 }
 
-extension BannerViewController: HTTPStatusCodeDelegate {
+extension BannerViewController: WebViewNavigationResponseDelegate {
     func handleHttpStatusCode(statusCode: OEXHTTPStatusCode) -> Bool {
         guard let errorGroup = statusCode.errorGroup else { return false }
         switch errorGroup {

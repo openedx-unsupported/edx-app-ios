@@ -54,7 +54,7 @@ protocol AuthenticatedWebViewControllerDelegate: AnyObject {
     func didCompletionCalled(completion: Bool)
 }
 
-protocol HTTPStatusCodeDelegate: AnyObject {
+protocol WebViewNavigationResponseDelegate: AnyObject {
     func handleHttpStatusCode(statusCode: OEXHTTPStatusCode) -> Bool
 }
 
@@ -124,7 +124,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     private let headerInsets : HeaderViewInsets
     weak var webViewDelegate: WebViewNavigationDelegate?
     weak var ajaxCallbackDelegate: AJAXCompletionCallbackDelegate?
-    weak var httpStatusCodeDelegate: HTTPStatusCodeDelegate?
+    weak var httpStatusCodeDelegate: WebViewNavigationResponseDelegate?
     private lazy var configurations = environment.config.webViewConfiguration()
     
     private var shouldListenForAjaxCallbacks = false
@@ -254,7 +254,6 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     }
     
     public func showError(with state: LoadState) {
-        guard state.isError else { return }
         loadController.state = state
         refreshAccessibility()
     }
@@ -426,7 +425,6 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     }
 
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        guard !loadController.state.isError else { return }
         showError(error: error as NSError?)
     }
     
