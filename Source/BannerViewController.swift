@@ -47,7 +47,7 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
 
         super.init(nibName: nil, bundle: nil)
         webController.webViewDelegate = self
-        webController.httpStatusCodeDelegate = self
+        webController.webViewNavigationResponseDelegate = self
         self.title = title
     }
     

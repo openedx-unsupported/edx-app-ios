@@ -124,7 +124,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     private let headerInsets : HeaderViewInsets
     weak var webViewDelegate: WebViewNavigationDelegate?
     weak var ajaxCallbackDelegate: AJAXCompletionCallbackDelegate?
-    weak var httpStatusCodeDelegate: WebViewNavigationResponseDelegate?
+    weak var webViewNavigationResponseDelegate: WebViewNavigationResponseDelegate?
     private lazy var configurations = environment.config.webViewConfiguration()
     
     private var shouldListenForAjaxCallbacks = false
@@ -343,7 +343,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         
         if let httpResponse = navigationResponse.response as? HTTPURLResponse, let statusCode = OEXHTTPStatusCode(rawValue: httpResponse.statusCode), let errorGroup = statusCode.errorGroup, state == .LoadingContent {
             
-            if httpStatusCodeDelegate?.handleHttpStatusCode(statusCode: statusCode) ?? false {
+            if webViewNavigationResponseDelegate?.handleHttpStatusCode(statusCode: statusCode) ?? false {
                 decisionHandler(.cancel)
                 return
             }
