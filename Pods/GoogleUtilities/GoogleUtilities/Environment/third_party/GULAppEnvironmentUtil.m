@@ -17,6 +17,7 @@
 #import <Foundation/Foundation.h>
 #import <dlfcn.h>
 #import <mach-o/dyld.h>
+#import <sys/sysctl.h>
 #import <sys/utsname.h>
 #import <objc/runtime.h>
 
@@ -212,12 +213,32 @@ static BOOL HasEmbeddedMobileProvision() {
   static dispatch_once_t once;
   static NSString *deviceModel;
 
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
+  dispatch_once(&once, ^{
+    // The `uname` function only returns x86_64 for Macs. Use `sysctlbyname` instead, but fall back
+    // to the `uname` function if it fails.
+    size_t size;
+    sysctlbyname("hw.model", NULL, &size, NULL, 0);
+    if (size > 0) {
+      char *machine = malloc(size);
+      sysctlbyname("hw.model", machine, &size, NULL, 0);
+      deviceModel = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
+      free(machine);
+    } else {
+      struct utsname systemInfo;
+      if (uname(&systemInfo) == 0) {
+        deviceModel = [NSString stringWithUTF8String:systemInfo.machine];
+      }
+    }
+  });
+#else
   dispatch_once(&once, ^{
     struct utsname systemInfo;
     if (uname(&systemInfo) == 0) {
       deviceModel = [NSString stringWithUTF8String:systemInfo.machine];
     }
   });
+#endif  // TARGET_OS_OSX || TARGET_OS_MACCATALYST
   return deviceModel;
 }
 

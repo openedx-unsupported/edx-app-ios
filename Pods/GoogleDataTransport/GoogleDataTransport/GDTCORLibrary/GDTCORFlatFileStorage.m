@@ -296,7 +296,7 @@ const uint64_t kGDTCORFlatFileStorageSizeLimit = 20 * 1000 * 1000;  // 20 MB.
       NSDictionary<NSString *, id> *components = [self batchComponentsFromFilename:path];
       NSNumber *targetNumber = components[kGDTCORBatchComponentsTargetKey];
       NSNumber *batchID = components[kGDTCORBatchComponentsBatchIDKey];
-      if (targetNumber.intValue == target) {
+      if (batchID != nil && targetNumber.intValue == target) {
         [batchIDs addObject:batchID];
       }
     }
@@ -474,7 +474,7 @@ const uint64_t kGDTCORFlatFileStorageSizeLimit = 20 * 1000 * 1000;  // 20 MB.
  * cases when the app is terminated while uploading a batch.
  */
 - (nullable NSArray<NSString *> *)batchDirPathsForBatchID:(NSNumber *)batchID
-                                                    error:(NSError **)outError {
+                                                    error:(NSError **_Nonnull)outError {
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSError *error;
   NSArray<NSString *> *batches =
@@ -503,7 +503,7 @@ const uint64_t kGDTCORFlatFileStorageSizeLimit = 20 * 1000 * 1000;  // 20 MB.
 /** Makes a copy of the contents of a directory to a directory at the specified path.*/
 - (BOOL)moveContentsOfDirectoryAtPath:(NSString *)sourcePath
                                    to:(NSString *)destinationPath
-                                error:(NSError **)outError {
+                                error:(NSError **_Nonnull)outError {
   NSFileManager *fileManager = [NSFileManager defaultManager];
 
   NSError *error;
@@ -566,14 +566,19 @@ const uint64_t kGDTCORFlatFileStorageSizeLimit = 20 * 1000 * 1000;  // 20 MB.
       } else {
         NSString *batchDirName = [batchDirPath lastPathComponent];
         NSDictionary<NSString *, id> *components = [self batchComponentsFromFilename:batchDirName];
-        NSNumber *target = components[kGDTCORBatchComponentsTargetKey];
-        NSString *destinationPath = [[GDTCORFlatFileStorage eventDataStoragePath]
-            stringByAppendingPathComponent:target.stringValue];
+        NSString *targetValue = [components[kGDTCORBatchComponentsTargetKey] stringValue];
+        NSString *destinationPath;
+        if (targetValue) {
+          destinationPath = [[GDTCORFlatFileStorage eventDataStoragePath]
+              stringByAppendingPathComponent:targetValue];
+        }
 
         // `- [NSFileManager moveItemAtPath:toPath:error:]` method fails if an item by the
         // destination path already exists (which usually is the case for the current method). Move
         // the events one by one instead.
-        if ([self moveContentsOfDirectoryAtPath:batchDirPath to:destinationPath error:&error]) {
+        if (destinationPath && [self moveContentsOfDirectoryAtPath:batchDirPath
+                                                                to:destinationPath
+                                                             error:&error]) {
           GDTCORLogDebug(@"Batched events at path: %@ moved back to the storage: %@", batchDirPath,
                          destinationPath);
         } else {
@@ -581,7 +586,7 @@ const uint64_t kGDTCORFlatFileStorageSizeLimit = 20 * 1000 * 1000;  // 20 MB.
         }
 
         // Even if not all events where moved back to the storage, there is not much can be done at
-        // this point, so cleanup batch directory now to avoid clattering.
+        // this point, so cleanup batch directory now to avoid cluttering.
         removeBatchDir(batchDirPath);
       }
     }

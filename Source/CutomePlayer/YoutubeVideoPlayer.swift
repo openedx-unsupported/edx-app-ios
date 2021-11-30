@@ -30,10 +30,12 @@ class YoutubeVideoPlayer: VideoPlayer {
         var value: [String:Int] {
             get {
                 return [
+                    "controls": 1,
                     "playsinline": playsinline,
                     "autohide": 1,
-                    "fs": 0,
+                    "fs": 1,
                     "showinfo": 0,
+                    "modestbranding": 1,
                     "start": start
                 ]
             }

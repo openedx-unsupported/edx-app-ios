@@ -20,8 +20,7 @@
 NSString *const kGULHeartbeatStorageDirectory = @"Google/FIRApp";
 
 @interface GULHeartbeatDateStorage ()
-/** The storage to store the date of the last sent heartbeat. */
-@property(nonatomic, readonly) NSFileCoordinator *fileCoordinator;
+
 /** The name of the file that stores heartbeat information. */
 @property(nonatomic, readonly) NSString *fileName;
 @end
@@ -35,7 +34,6 @@ NSString *const kGULHeartbeatStorageDirectory = @"Google/FIRApp";
 
   self = [super init];
   if (self) {
-    _fileCoordinator = [[NSFileCoordinator alloc] initWithFilePresenter:nil];
     _fileName = fileName;
   }
   return self;
@@ -74,59 +72,46 @@ NSString *const kGULHeartbeatStorageDirectory = @"Google/FIRApp";
  * @param directoryPathURL The path to the directory that needs to exist.
  */
 - (void)checkAndCreateDirectory:(NSURL *)directoryPathURL {
-  NSError *fileCoordinatorError = nil;
-  [self.fileCoordinator
-      coordinateWritingItemAtURL:directoryPathURL
-                         options:0
-                           error:&fileCoordinatorError
-                      byAccessor:^(NSURL *writingDirectoryURL) {
-                        NSError *error;
-                        if (![writingDirectoryURL checkResourceIsReachableAndReturnError:&error]) {
-                          NSError *error;
-                          [[NSFileManager defaultManager] createDirectoryAtURL:writingDirectoryURL
-                                                   withIntermediateDirectories:YES
-                                                                    attributes:nil
-                                                                         error:&error];
-                        }
-                      }];
+  NSError *error;
+  if (![directoryPathURL checkResourceIsReachableAndReturnError:&error]) {
+    NSError *error;
+    [[NSFileManager defaultManager] createDirectoryAtURL:directoryPathURL
+                             withIntermediateDirectories:YES
+                                              attributes:nil
+                                                   error:&error];
+  }
 }
 
 - (nullable NSDate *)heartbeatDateForTag:(NSString *)tag {
-  __block NSDictionary *heartbeatDictionary;
-  NSError *error;
-  [self.fileCoordinator coordinateReadingItemAtURL:self.fileURL
-                                           options:0
-                                             error:&error
-                                        byAccessor:^(NSURL *readingURL) {
-                                          heartbeatDictionary =
-                                              [self heartbeatDictionaryWithFileURL:readingURL];
-                                        }];
-  NSDate *heartbeatDate = heartbeatDictionary[tag];
-  if (![heartbeatDate isKindOfClass:[NSDate class]]) {
-    return nil;
+  @synchronized(self.class) {
+    NSDictionary *heartbeatDictionary = [self heartbeatDictionaryWithFileURL:self.fileURL];
+    NSDate *heartbeatDate = heartbeatDictionary[tag];
+
+    // Validate the value type. If the storage file was corrupted or updated with a different format
+    // by a newer SDK version the value type may be different.
+    if (![heartbeatDate isKindOfClass:[NSDate class]]) {
+      heartbeatDate = nil;
+    }
+
+    return heartbeatDate;
   }
-  return heartbeatDate;
 }
 
 - (BOOL)setHearbeatDate:(NSDate *)date forTag:(NSString *)tag {
-  NSError *error;
-  __block BOOL isSuccess = false;
-  [self.fileCoordinator
-      coordinateReadingItemAtURL:self.fileURL
-                         options:0
-                writingItemAtURL:self.fileURL
-                         options:0
-                           error:&error
-                      byAccessor:^(NSURL *readingURL, NSURL *writingURL) {
-                        NSMutableDictionary *heartbeatDictionary =
-                            [[self heartbeatDictionaryWithFileURL:readingURL] mutableCopy];
-                        heartbeatDictionary[tag] = date;
-                        NSError *error;
-                        isSuccess = [self writeDictionary:[heartbeatDictionary copy]
-                                            forWritingURL:writingURL
-                                                    error:&error];
-                      }];
-  return isSuccess;
+  // Synchronize on the class to ensure that the different instances of the class will not access
+  // the same file concurrently.
+  // TODO: Consider a different synchronization strategy here and in `-heartbeatDateForTag:` method.
+  // Currently no heartbeats can be read/written concurrently even if they are in different files.
+  @synchronized(self.class) {
+    NSMutableDictionary *heartbeatDictionary =
+        [[self heartbeatDictionaryWithFileURL:self.fileURL] mutableCopy];
+    heartbeatDictionary[tag] = date;
+    NSError *error;
+    BOOL isSuccess = [self writeDictionary:[heartbeatDictionary copy]
+                             forWritingURL:self.fileURL
+                                     error:&error];
+    return isSuccess;
+  }
 }
 
 - (NSDictionary *)heartbeatDictionaryWithFileURL:(NSURL *)readingFileURL {
@@ -136,7 +121,8 @@ NSString *const kGULHeartbeatStorageDirectory = @"Google/FIRApp";
   NSData *objectData = [NSData dataWithContentsOfURL:readingFileURL options:0 error:&error];
 
   if (objectData.length > 0 && error == nil) {
-    NSSet<Class> *objectClasses = [NSSet setWithArray:@[ NSDictionary.class, NSDate.class ]];
+    NSSet<Class> *objectClasses =
+        [NSSet setWithArray:@[ NSDictionary.class, NSDate.class, NSString.class ]];
     heartbeatDictionary = [GULSecureCoding unarchivedObjectOfClasses:objectClasses
                                                             fromData:objectData
                                                                error:&error];

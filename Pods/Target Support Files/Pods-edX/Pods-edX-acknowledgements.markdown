@@ -2832,7 +2832,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## GoogleAnalytics
 
-Copyright 2016 Google
+Copyright 2021 Google
 
 ## GoogleAppMeasurement
 
