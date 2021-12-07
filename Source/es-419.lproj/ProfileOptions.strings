@@ -1,0 +1,48 @@
+/* Settings title for video settings */
+"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "AJUSTES DE VIDEO";
+/* Settings heading for video settings */
+"PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Descarga solo posible mediante WiFi";
+/* Settings message for video settings */
+"PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Solo descargar contenido cuando el WiFi está encendido";
+/* Settings title for wifi */
+"PROFILE_OPTIONS.WIFI.TITLE" = "WIFI";
+/* Settings heading for wifi */
+"PROFILE_OPTIONS.WIFI.HEADING" = "Descarga solo por Wifi";
+/* Settings message for wifi */
+"PROFILE_OPTIONS.WIFI.MESSAGE" = "Solo descargar contenidos cuando la wi-fi esté conectada";
+/* Settings title for profile information */
+"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "INFORMACIÓN PERSONAL";
+/* Settings user profile email */
+"PROFILE_OPTIONS.USER_PROFILE.EMAIL" = "Correo electrónico: {email}";
+/* Settings user profile username */
+"PROFILE_OPTIONS.USER_PROFILE.USERNAME" = "Usuario: {username}";
+/* Settings message for profile */
+"PROFILE_OPTIONS.USER_PROFILE.MESSAGE" = "Actualmente compartes un perfil limitado";
+/* Settings title for purchases */
+"PROFILE_OPTIONS.PURCHASES.TITLE" = "COMPRAS";
+/* Settings heading for purchases */
+"PROFILE_OPTIONS.PURCHASES.HEADING" = "Restablecer las compras";
+/* Settings message for purchases */
+"PROFILE_OPTIONS.PURCHASES.MESSAGE" = "Inicia sesión en la tienda de aplicaciones para restablecer el acceso a los cursos por los que has pagado anteriormente";
+/* Settings title for HELP */
+"PROFILE_OPTIONS.HELP.TITLE" = "AYUDA";
+/* Settings heading for feedback */
+"PROFILE_OPTIONS.HELP.HEADING.FEEDBACK" = "Enviar retroalimentación";
+/* Settings message for feedback */
+"PROFILE_OPTIONS.HELP.MESSAGE.FEEDBACK" = "¿Quieres solicitar una función o darnos tu opinión sobre nuestra aplicación?";
+/* Settings message for feedback button title */
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.FEEDBACK" = "Envía un email al equipo de soporte";
+/* Settings heading for support */
+"PROFILE_OPTIONS.HELP.HEADING.SUPPORT" = "Obtener ayuda";
+/* Settings message for support */
+"PROFILE_OPTIONS.HELP.MESSAGE.SUPPORT" = "Para obtener más ayuda y aprender a usar la aplicación móvil de  {platform_name}, visita nuestras preguntas frecuentes.";
+/* Settings message for view faq button title */
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.VIEW_FAQ" = "Ver preguntas frecuentas";
+/* Settings message for signout button title */
+"PROFILE_OPTIONS.SIGNOUT.BUTTON_TITLE" = "Salir ";
+/* Settings title for delete account button */
+"PROFILE_OPTIONS.DELETEACCOUNT.BUTTON_TITLE" = "Borrar cuenta";
+/* Settings info message for delete account */
+"PROFILE_OPTIONS.DELETEACCOUNT.INFO_MESSAGE" = "Sigue las instrucciones en la siguiente pantalla para borrar tu cuenta y todos los datos relacionados.";
+/* Settings title for delete account web view*/
+"PROFILE_OPTIONS.DELETEACCOUNT.WEBVIEW_TITLE" = "Borrar tu cuenta";
