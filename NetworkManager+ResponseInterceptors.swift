@@ -82,8 +82,11 @@ public class TokenRefreshHandler: NSObject {
     
     func callNetworkRequest() {
         for (key, value) in list {
-            key.perform(Selector(value))
-            list.removeValue(forKey: key)
+            let selector = Selector(value)
+            if key.responds(to: selector) {
+                key.perform(Selector(value))
+                list.removeValue(forKey: key)
+            }
         }
     }
     

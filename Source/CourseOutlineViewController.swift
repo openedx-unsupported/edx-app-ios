@@ -207,7 +207,7 @@ public class CourseOutlineViewController :
         })
     }
     
-    private func loadCourseBannerStream() {
+    @objc func loadCourseBannerStream() {
         TokenRefreshHandler.shared.add(object: self, functionName: "loadCourseBannerStream")
 
         let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
