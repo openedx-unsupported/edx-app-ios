@@ -549,7 +549,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
                 NSMutableArray *levels = [[NSMutableArray alloc] init];
                 for (NSString *rawQualityValue in rawQualityValues) {
                     WKYTPlaybackQuality quality = [WKYTPlayerView playbackQualityForString:rawQualityValue];
-                    [levels addObject:[NSNumber numberWithInt:quality]];
+                    [levels addObject:[NSNumber numberWithInt:(int)quality]];
                 }
 
                 completionHandler(levels, nil);
@@ -847,7 +847,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     if (ytMatch || adMatch || oauthMatch || staticProxyMatch || syndicationMatch) {
         return YES;
     } else {
-        [[UIApplication sharedApplication] openURL:url];
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
         return NO;
     }
 }
@@ -897,7 +897,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     
     // Remove the existing webView to reset any state
     [self.webView removeFromSuperview];
-    _webView = [self createNewWebView];
+    _webView = [self createNewWebViewWithPlayerParams:playerParams];
     [self addSubview:self.webView];
     
     self.webView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -1080,8 +1080,10 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     _webView = webView;
 }
 
-- (WKWebView *)createNewWebView {
-    
+- (WKWebView *)createNewWebViewWithPlayerParams:(NSDictionary *)additionalPlayerParams {
+
+    NSMutableDictionary *playerVars = [additionalPlayerParams objectForKey:@"playerVars"];
+    NSNumber* playsinline = [playerVars objectForKey:@"playsinline"] ? [playerVars objectForKey:@"playsinline"] : @0;
     // WKWebView equivalent for UI Web View's scalesPageToFit
     // 
     NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
@@ -1095,7 +1097,11 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     configuration.userContentController = wkUController;
     
     configuration.allowsInlineMediaPlayback = YES;
-    configuration.mediaPlaybackRequiresUserAction = NO;
+    if ( [(NSString*)[UIDevice currentDevice].model hasPrefix:@"iPad"] && [playsinline isEqualToNumber:@0]) {
+        configuration.allowsInlineMediaPlayback = NO; /* Device is iPad */
+    }
+
+    configuration.mediaTypesRequiringUserActionForPlayback = NO;
     
     WKWebView *webView = [[WKWebView alloc] initWithFrame:self.bounds configuration:configuration];
     webView.scrollView.scrollEnabled = NO;
@@ -1120,9 +1126,16 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     static NSBundle* frameworkBundle = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
+        NSString* bundleName = @"WKYTPlayerView.bundle";
         NSString* mainBundlePath = [[NSBundle bundleForClass:[WKYTPlayerView class]] resourcePath];
-        NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:@"WKYTPlayerView.bundle"];
+        #ifdef SPM_BUNDLE
+        NSString* spmBundlePath = [NSString stringWithFormat:@"YoutubePlayer-in-WKWebView_YoutubePlayer-in-WKWebView.bundle/%@", bundleName];
+        NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:spmBundlePath];
         frameworkBundle = [NSBundle bundleWithPath:frameworkBundlePath];
+        #else
+        NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:bundleName];
+        frameworkBundle = [NSBundle bundleWithPath:frameworkBundlePath];
+        #endif
     });
     return frameworkBundle;
 }
