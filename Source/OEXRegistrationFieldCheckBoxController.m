@@ -10,6 +10,7 @@
 
 #import "OEXCheckBoxView.h"
 #import "OEXRegistrationFieldCheckBoxView.h"
+#import "edX-Swift.h"
 
 @interface OEXRegistrationFieldCheckBoxController ()
 
@@ -25,7 +26,13 @@
         self.field = field;
         self.view = [[OEXRegistrationFieldCheckBoxView alloc] init];
         self.view.instructionMessage = field.instructions;
-        self.view.label = field.label;
+        self.view.name = field.name;
+        if ([field.name isEqualToString:@"marketing_emails_opt_in"]) {
+            self.view.label = [Strings registrationMarketingOptinMessageWithPlatformName:[[OEXConfig sharedConfig] platformName]];
+        }
+        else {
+            self.view.label = field.label;
+        }
     }
     return self;
 }

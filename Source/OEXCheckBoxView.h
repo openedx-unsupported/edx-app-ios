@@ -13,6 +13,8 @@ IB_DESIGNABLE
 - (void)setLabelText:(NSString*)title IBInspectable;
 
 @property (nonatomic) BOOL selected IBInspectable;
+@property (nonatomic, strong) NSString* name;
+
 @end
 
 NS_ASSUME_NONNULL_END

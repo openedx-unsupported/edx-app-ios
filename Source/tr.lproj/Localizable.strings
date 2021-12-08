@@ -828,7 +828,8 @@
 "REGISTRATION_ERROR_ALERT_TITLE"="Kayıt Hatası";
 /* Detailed info message for registration error alert*/
 "REGISTRATION_ERROR_ALERT_MESSAGE"="Vurgulu alanları güncelle ve tekrar dene";
-
+/*Registration market opt in message*/
+"REGISTRATION_MARKETING_OPTIN_MESSAGE"="By creating an account, I agree that {platform_name} may send me marketing messages.";
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Parolayı Sıfırla";
 /* Alert dialog content prompting user to enter an email address to reset their password */

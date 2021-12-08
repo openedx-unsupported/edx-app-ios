@@ -814,7 +814,8 @@
 "REGISTRATION_ERROR_ALERT_TITLE"="Lỗi đăng ký";
 /* Detailed info message for registration error alert*/
 "REGISTRATION_ERROR_ALERT_MESSAGE"="Cập nhật những trường được đánh dấu và thử lại";
-
+/*Registration market opt in message*/
+"REGISTRATION_MARKETING_OPTIN_MESSAGE"="By creating an account, I agree that {platform_name} may send me marketing messages.";
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Đặt lại mật khẩu";
 /* Alert dialog content prompting user to enter an email address to reset their password */

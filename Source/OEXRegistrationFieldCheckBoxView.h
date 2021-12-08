@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSString* errorMessage;
 @property (nonatomic, strong) NSString* instructionMessage;
 @property (nonatomic, strong) NSString* label;
+@property (nonatomic, strong) NSString* name;
 @property (readonly, nonatomic, strong) OEXCheckBoxView* checkBox;
 
 - (void)clearError;

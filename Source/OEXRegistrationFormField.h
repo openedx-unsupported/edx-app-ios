@@ -32,6 +32,7 @@ typedef enum
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 
 @property (readonly, nonatomic, assign) BOOL isRequired;
+@property (readonly, nonatomic, assign) BOOL isExposed;
 
 @property (readonly, nonatomic, copy) NSString* name;
 @property (readonly, nonatomic, copy) NSString* placeholder;

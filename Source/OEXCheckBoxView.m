@@ -23,6 +23,7 @@
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.checkBox = [[OEXCheckBox alloc] initWithFrame:self.bounds];
+        self.checkBox.name = self.name;
         [self.checkBox addTarget:self action:@selector(checkBoxTapped:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:self.checkBox];
 
@@ -42,22 +43,31 @@
     self.checkBox.checked = selected;
 }
 
+- (void) setName:(NSString *)name {
+    self.checkBox.name = name;
+}
+
 - (BOOL)isSelected {
     return self.checkBox.checked;
 }
 
+- (BOOL) selected {
+    return self.checkBox.checked;
+}
+
 - (void)setLabelText:(NSString*)title {
-    label.text = title;
+    OEXTextStyle *textStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXXSmall color:[[OEXStyles sharedStyles] neutralBlack]];
+    [label setAttributedText:[textStyle attributedStringWithText:title]];
     [self layoutIfNeeded];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    NSInteger horizontalSpacing = 20;
-    NSInteger verticalSpacing = 20;
+    NSInteger horizontalSpacing = 2;
+    NSInteger verticalSpacing = 5;
     NSInteger width = self.frame.size.width - horizontalSpacing;
     NSInteger checkboxWidth = 25;
-    self.checkBox.frame = CGRectMake(horizontalSpacing, verticalSpacing, checkboxWidth, checkboxWidth);
+    self.checkBox.frame = CGRectMake(5, 0, checkboxWidth, checkboxWidth);
 
     NSInteger labelWidth = width - checkboxWidth - horizontalSpacing;
 
@@ -72,7 +82,6 @@
 }
 
 - (void)toggleButtonState {
-    self.checkBox.checked = !self.checkBox.checked;
 }
 
 @end

@@ -14,6 +14,7 @@
 @interface OEXRegistrationFormField ()
 
 @property (nonatomic, assign) BOOL isRequired;
+@property (nonatomic, assign) BOOL isExposed;
 
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic, copy) NSString* placeholder;
@@ -38,6 +39,7 @@
     if(self) {
         self.name = dictionary[@"name"];
         self.isRequired = [dictionary[@"required"] boolValue];
+        self.isExposed = [dictionary[@"exposed"] boolValue];
         self.placeholder = dictionary[@"placeholder"];
         self.defaultValue = dictionary[@"defaultValue"];
         self.instructions = dictionary[@"instructions"];
@@ -92,7 +94,7 @@
         return OEXRegistrationFieldTypeSelect;
     }
     else if([fieldType isEqualToString:@"checkbox"]) {
-        return OEXRegistrationFieldTypeAgreement;
+        return OEXRegistrationFieldTypeCheckbox;
     }
     else {
         return OEXRegistrationFieldTypeUnknown;
@@ -110,6 +112,7 @@
 @dynamic fieldOptions;
 @dynamic fieldType;
 @dynamic isRequired;
+@dynamic isExposed;
 @dynamic name;
 @dynamic placeholder;
 @dynamic instructions;

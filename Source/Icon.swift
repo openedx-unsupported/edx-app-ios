@@ -94,10 +94,10 @@ public enum Icon {
     case Camera
     case ChevronRight
     case Close
-    case CircleO
+    case CheckBoxBlank
     case Check
     case CheckCircle
-    case CheckCircleO
+    case CheckBox
     case Closed
     case Comment
     case Comments
@@ -209,10 +209,10 @@ public enum Icon {
             return MaterialIconRenderer(icon: .check)
         case .CheckCircle:
             return MaterialIconRenderer(icon: .checkCircle)
-        case .CircleO:
-            return MaterialIconRenderer(icon: .addCircle)
-        case .CheckCircleO:
-            return MaterialIconRenderer(icon: .checkCircleOutline)
+        case .CheckBoxBlank:
+            return MaterialIconRenderer(icon: .checkBoxOutlineBlank)
+        case .CheckBox:
+            return MaterialIconRenderer(icon: .checkBox)
         case .ContentCanDownload:
             return MaterialIconRenderer(icon: .download)
         case .ContentDidDownload:

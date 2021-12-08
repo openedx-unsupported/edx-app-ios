@@ -81,6 +81,8 @@ public enum AnalyticsDisplayName : String {
     case VideoDownloadQuality = "Video Download Quality"
     case VideoDownloadQualityChanged = "Video Download Quality Changed"
     case ProfileDeleteAccountClicked = "Profile: Delete Account Clicked"
+    case RegistrationOptinTurnedOn = "Registration: Opt-in Turned On"
+    case RegistrationOptinTurnedOff = "Registration: Opt-in Turned Off"
 }
 
 public enum AnalyticsEventName: String {
@@ -152,6 +154,8 @@ public enum AnalyticsEventName: String {
     case CourseVideosDownloadQualityClicked = "edx.bi.app.course_videos.video_download_quality.clicked"
     case VideoDownloadQualityChanged = "edx.bi.app.video_download_quality.changed"
     case ProfileDeleteAccountClicked = "edx.bi.app.profile.delete_account.clicked"
+    case RegistrationOptinTurnedOn = "edx.bi.app.user.register.opt_in.on"
+    case RegistrationOptinTurnedOff = "edx.bi.app.user.register.opt_in.off"
 }
 
 public enum AnalyticsScreenName: String {
