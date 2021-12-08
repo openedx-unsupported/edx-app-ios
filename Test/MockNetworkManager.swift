@@ -76,8 +76,8 @@ class MockNetworkManager: NetworkManager {
             self.interceptors.remove(at: index)
         }
     }
-    
-    @discardableResult override func taskForRequest<Out>(base: String? = nil, _ request: NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
+        
+    @discardableResult override func taskForRequest<Out>(base: String? = nil, _ request: NetworkRequest<Out>, parent: RemakeRequest? = nil, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
         DispatchQueue.main.async {
             
             for interceptor in self.interceptors {

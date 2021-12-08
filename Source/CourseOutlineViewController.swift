@@ -208,20 +208,27 @@ public class CourseOutlineViewController :
     }
     
     private func loadCourseBannerStream() {
+        TokenRefreshHandler.shared.add(object: self, functionName: "loadCourseBannerStream")
+
         let courseBannerRequest = CourseDateBannerAPI.courseDateBannerRequest(courseID: courseID)
-        let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest)
+        let courseBannerStream = environment.networkManager.streamForRequest(courseBannerRequest, parent: self)
         courseDateBannerLoader.backWithStream(courseBannerStream)
-        
+                
         courseBannerStream.listen(self) { [weak self] result in
+            guard let weakSelf = self else { return }
             switch result {
             case .success(let courseBanner):
                 self?.handleDatesBanner(courseBanner: courseBanner)
                 break
                 
             case .failure(let error):
-                self?.hideCourseBannerView()
-                Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
-                break
+                if error == NSError.oex_refreshTokenError() {
+                    TokenRefreshHandler.shared.add(object: weakSelf, functionName: "loadCourseBannerStream")
+                } else {
+                    self?.hideCourseBannerView()
+                    Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
+                    break
+                }
             }
         }
     }
@@ -476,6 +483,12 @@ extension CourseOutlineViewController: CourseOutlineTableControllerDelegate {
     func outlineTableControllerReload(controller: CourseOutlineTableController) {
         courseQuerier.needsRefresh = true
         reload()
+    }
+}
+
+extension CourseOutlineViewController: RemakeRequest {
+    public func remakeRequest() {
+        loadCourseBannerStream()
     }
 }
 

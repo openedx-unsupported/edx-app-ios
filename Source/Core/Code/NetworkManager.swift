@@ -158,6 +158,10 @@ extension NSError {
         return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.outdatedVersionError.rawValue, userInfo: nil)
     }
     
+    public static func oex_refreshTokenError() -> NSError {
+        return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.refreshTokenError.rawValue, userInfo: nil)
+    }
+    
     @objc public var oex_isNoInternetConnectionError : Bool {
         return self.domain == NSURLErrorDomain && (self.code == NSURLErrorNotConnectedToInternet || self.code == NSURLErrorNetworkConnectionLost)
     }
@@ -167,11 +171,16 @@ extension NSError {
     }
 }
 
+public protocol RemakeRequest {
+    func remakeRequest()
+}
+
 open class NetworkManager : NSObject {
     fileprivate static let errorDomain = "com.edx.NetworkManager"
     enum Error : Int {
         case unknownError = -1
         case outdatedVersionError = -2
+        case refreshTokenError = -3
     }
     
     public static let NETWORK = "NETWORK" // Logger key
@@ -187,6 +196,9 @@ open class NetworkManager : NSObject {
     fileprivate var jsonInterceptors : [JSONInterceptor] = []
     fileprivate var responseInterceptors: [ResponseInterceptor] = []
     open var authenticator : Authenticator?
+    public private(set) var isAuthenticationInProgress = false
+    
+    private var observers: [RemakeRequest] = []
     
     @objc public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
         self.authorizationHeaderProvider = authorizationHeaderProvider
@@ -328,7 +340,7 @@ open class NetworkManager : NSObject {
         }
     }
     
-    @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
+    @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest: NetworkRequest<Out>, parent: RemakeRequest? = nil,  handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
         let URLRequest = URLRequestWithRequest(base: base, networkRequest)
         
         let authenticator = self.authenticator
@@ -340,9 +352,15 @@ open class NetworkManager : NSObject {
             let serializer = { (URLRequest : Foundation.URLRequest, response : HTTPURLResponse?, data : Data?) -> (AnyObject?, NSError?) in
                 switch authenticator?(response, data!) ?? .proceed {
                 case .proceed:
+                    if self.isAuthenticationInProgress {
+                        if let parent = parent {
+                            self.observers.append(parent)
+                        }
+                    }
                     let result = NetworkManager.deserialize(networkRequest.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
                     return (Box(DeserializationResult.deserializedResult(value : result, original : data)), result.error)
                 case .authenticate(let authenticateRequest):
+                    self.isAuthenticationInProgress = true
                     let result = Box<DeserializationResult<Out>>(DeserializationResult.reauthenticationRequest(authenticateRequest, original: data))
                     return (result, nil)
                 }
@@ -357,8 +375,15 @@ open class NetworkManager : NSObject {
                 case let .some(.reauthenticationRequest(authHandler, originalData)):
                     authHandler(self, {success in
                         if success {
+                            self.isAuthenticationInProgress = false
+                            
+                            for (index, observer) in self.observers.enumerated() {
+                                observer.remakeRequest()
+                                self.observers.remove(at: index)
+                            }
+                            
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting original request")
-                            self.taskForRequest(base: base, networkRequest, handler: handler)
+                            self.taskForRequest(base: base, networkRequest, parent: parent, handler: handler)
                         }
                         else {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful")
@@ -420,9 +445,9 @@ open class NetworkManager : NSObject {
         }
     }
     
-    open func streamForRequest<Out>(_ request : NetworkRequest<Out>, persistResponse : Bool = false, autoCancel : Bool = true) -> OEXStream<Out> {
+    open func streamForRequest<Out>(_ request : NetworkRequest<Out>, persistResponse : Bool = false, autoCancel : Bool = true, parent: RemakeRequest? = nil) -> OEXStream<Out> {
         let stream = Sink<NetworkResult<Out>>()
-        let task = self.taskForRequest(request) {[weak stream, weak self] result in
+        let task = self.taskForRequest(request, parent: parent) {[weak stream, weak self] result in
             if let response = result.response, let request = result.request, let data = result.baseData, (persistResponse && data.count > 0) {
                 self?.cache.setCacheResponse(response, withData: data, forRequest: request, completion: nil)
             }

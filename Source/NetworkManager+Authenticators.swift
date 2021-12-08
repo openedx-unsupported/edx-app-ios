@@ -43,7 +43,11 @@ extension NetworkManager {
                 }
                 
                 if error.isAPIError(code: .OAuth2Expired) {
-                    return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
+                    if router?.environment.networkManager.isAuthenticationInProgress == false {
+                        return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
+                    } else {
+                        return .proceed
+                    }
                 }
                 
                 // Retry request with the current access_token if the original access_token used in
