@@ -52,7 +52,7 @@ public class OEXCheckBox: UIButton {
         sendActions(for: .valueChanged)
 
         // Same analytics won't be sent for all type of checkbox elements, only sending for marketing option
-        guard name == "marketing_emails_opt_in" else { return }
+        guard name == RegistrationMarketingEmailsOptIn else { return }
 
         if checked {
             OEXAnalytics.shared().trackEvent(with: .RegistrationOptinTurnedOn, name: .RegistrationOptinTurnedOn)

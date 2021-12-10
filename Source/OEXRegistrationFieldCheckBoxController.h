@@ -17,4 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field;
 @end
 
+extern NSString* const RegistrationMarketingEmailsOptIn;
+
 NS_ASSUME_NONNULL_END
