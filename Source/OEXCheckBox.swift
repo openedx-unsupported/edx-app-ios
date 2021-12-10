@@ -9,7 +9,9 @@
 import UIKit
 
 public class OEXCheckBox: UIButton {
-    
+
+    @objc public var name: String = ""
+
     @IBInspectable public var checked: Bool = false {
         didSet {
             updateState()
@@ -18,7 +20,6 @@ public class OEXCheckBox: UIButton {
     
     private func _setup() {
         imageView?.contentMode = .scaleAspectFit
-        
         addTarget(self, action: #selector(OEXCheckBox.tapped), for: .touchUpInside)
         updateState()
     }
@@ -39,9 +40,8 @@ public class OEXCheckBox: UIButton {
     }
     
     private func updateState() {
-        let newIcon = checked ? Icon.CheckCircleO : Icon.CircleO
-        let size = min(bounds.width, bounds.height)
-        let image = newIcon.imageWithFontSize(size: size)
+        let newIcon = checked ? Icon.CheckBox : Icon.CheckBoxBlank
+        let image = newIcon.imageWithFontSize(size: 14)
         setImage(image, for: .normal)
         accessibilityLabel = checked ? Strings.accessibilityCheckboxChecked : Strings.accessibilityCheckboxUnchecked
         accessibilityHint = checked ? Strings.accessibilityCheckboxHintChecked : Strings.accessibilityCheckboxHintUnchecked
@@ -50,5 +50,15 @@ public class OEXCheckBox: UIButton {
     @objc func tapped() {
         checked = !checked
         sendActions(for: .valueChanged)
+
+        // Same analytics won't be sent for all type of checkbox elements, only sending for marketing option
+        guard name == RegistrationMarketingEmailsOptIn else { return }
+
+        if checked {
+            OEXAnalytics.shared().trackEvent(with: .RegistrationOptinTurnedOn, name: .RegistrationOptinTurnedOn)
+        }
+        else {
+            OEXAnalytics.shared().trackEvent(with: .RegistrationOptinTurnedOff, name: .RegistrationOptinTurnedOff)
+        }
     }
 }

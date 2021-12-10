@@ -22,9 +22,9 @@ class AgreementTextView: UITextView {
     @objc weak var agreementDelegate: AgreementTextViewDelegate?
     
     @objc func setup(for type: AgreementType, config: OEXConfig?) {
-        let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralBlack())
+        let style = OEXMutableTextStyle(weight: .normal, size: .xxxSmall, color: OEXStyles.shared().neutralXDark())
         style.lineBreakMode = .byWordWrapping
-        style.alignment = .center
+        style.alignment = .left
         let platformName = config?.platformName() ?? ""
         let prefix: String
         switch type {
@@ -51,7 +51,7 @@ class AgreementTextView: UITextView {
         if let privacyPolicyUrl = config?.agreementURLsConfig.privacyPolicyURL {
             attributedString = attributedString.addLink(on: privacyPolicyText, value: privacyPolicyUrl)
         }
-        tintColor = OEXStyles.shared().infoBase()
+        tintColor = OEXStyles.shared().primaryDarkColor()
         attributedText = attributedString
         isUserInteractionEnabled = true
         isScrollEnabled = false

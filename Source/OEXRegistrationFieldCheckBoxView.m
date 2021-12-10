@@ -22,6 +22,7 @@
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.checkBox = [[OEXCheckBoxView alloc] initWithFrame:self.bounds];
+        self.checkBox.name = self.name;
         [self.checkBox setLabelText:self.label];
         [self addSubview:self.checkBox];
         self.registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
@@ -43,14 +44,18 @@
     return [self.checkBox selected];
 }
 
+- (void) setName:(NSString *)name {
+    self.checkBox.name = name;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat offset = 0;
     CGFloat paddingHorizontal = 20;
     CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
     [self.checkBox setNeedsDisplay];
-    [self.checkBox setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, self.checkBox.frame.size.height)];
-    offset = offset + 100;
+    [self.checkBox setFrame:CGRectMake(7, offset, frameWidth, self.checkBox.frame.size.height)];
+    offset = offset + 40;
     [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:self.instructionMessage];
     [self.registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, self.registrationWrapper.frame.size.height)];
     [self.registrationWrapper setNeedsLayout];
@@ -61,6 +66,7 @@
     CGRect frame = self.frame;
     frame.size.height = offset;
     self.frame = frame;
+    self.checkBox.frame = CGRectMake(self.checkBox.frame.origin.x, self.checkBox.frame.origin.y, self.checkBox.frame.size.width, frame.size.height);
 }
 
 - (void)clearError {

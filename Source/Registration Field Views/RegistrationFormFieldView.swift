@@ -19,8 +19,8 @@ class RegistrationFormFieldView: UIView {
     
     // MARK: - Properties -
     let titleLabelStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlack())
-    let instructionsLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().neutralBlack())
-    let errorLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().errorBase())
+    let instructionsLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxxSmall, color: OEXStyles.shared().neutralBlack())
+    let errorLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxxSmall, color: OEXStyles.shared().errorBase())
     // This is to keep track of either user tapped out first time from the field or not
     // Show validation error first time on tap out and then while editing
     var tapout: Bool = false

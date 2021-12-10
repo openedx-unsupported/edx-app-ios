@@ -270,7 +270,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)populateDefaultFormFields {
     for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
-        if (([fieldController.field.defaultValue isEqualToString:@""] == NO) ) {
+        if ([fieldController field].fieldType == OEXRegistrationFieldTypeCheckbox) {
+            [fieldController setValue:fieldController.field.defaultValue];
+        }
+        else if (([fieldController.field.defaultValue isEqualToString:@""] == NO) ) {
             
             if([[fieldController field].name isEqualToString:@"name"]) {
                 [fieldController setValue:fieldController.field.defaultValue];
@@ -319,7 +322,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     // Actually show the optional fields if necessary
     if(self.isShowingOptionalFields) {
         for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
-            if(![fieldController field].isRequired && ![self shouldFilterField:fieldController.field]) {
+            if(![fieldController field].isRequired && ![fieldController field].isExposed && ![self shouldFilterField:fieldController.field]) {
                 UIView* view = fieldController.view;
                 [self.scrollView addSubview:view];
                 [view setNeedsLayout];
@@ -327,6 +330,17 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             }
         }
     }
+
+    // Adding optionaol fields those needs to be exposed to user even being an optional
+    for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
+        if(![fieldController field].isRequired && [fieldController field].isExposed && ![self shouldFilterField:fieldController.field]) {
+            UIView* view = fieldController.view;
+            [self.scrollView addSubview:view];
+            [view setNeedsLayout];
+            [view layoutIfNeeded];
+        }
+    }
+
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
     [self viewDidLayoutSubviews];
@@ -401,19 +415,20 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             offset = offset + view.frame.size.height;
         }
     }
-    
-    [self.registerButton setFrame:CGRectMake(horizontalSpacing, offset, contentWidth, 40)];
 
-    const int progressIndicatorCenterX = [self isRTL] ? 40 : self.registerButton.frame.size.width - 40;
-
-    self.progressIndicator.center = CGPointMake(progressIndicatorCenterX, self.registerButton.frame.size.height / 2);
-    
-    [self.scrollView addSubview:self.registerButton];
-    offset = offset + 40;
+    // Reducing space between optional button and below element
+    offset = offset - 10;
     
     [self.scrollView addSubview:self.agreementTextView];
-    [self.agreementTextView setFrame:CGRectMake(horizontalSpacing + 10, offset + 10, width - 3 * horizontalSpacing, self.agreementTextView.frame.size.height)];
-    offset = offset + self.agreementTextView.frame.size.height + [[OEXStyles sharedStyles] standardHorizontalMargin] * 2;
+    [self.agreementTextView setFrame:CGRectMake(14, offset, width - horizontalSpacing, self.agreementTextView.frame.size.height)];
+    offset = offset + self.agreementTextView.frame.size.height;
+    
+    [self.registerButton setFrame:CGRectMake(horizontalSpacing, offset, contentWidth, 40)];
+    const int progressIndicatorCenterX = [self isRTL] ? 40 : self.registerButton.frame.size.width - 40;
+    self.progressIndicator.center = CGPointMake(progressIndicatorCenterX, self.registerButton.frame.size.height / 2);
+    [self.scrollView addSubview:self.registerButton];
+    offset = offset + self.registerButton.frame.size.height + 30;
+
     [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }
 
@@ -529,9 +544,16 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                     } else {
                         hasError = YES;
                     }
-                } else {
+                }
+                else if ([controller field].fieldType == OEXRegistrationFieldTypeCheckbox) {
+                    [parameters setSafeObject:[[controller currentValue] stringValue] forKey:[controller field].name];
+                }
+                else {
                     [parameters setSafeObject:[controller currentValue] forKey:[controller field].name];
                 }
+            }
+            else if ([controller field].fieldType == OEXRegistrationFieldTypeCheckbox) {
+                [parameters setSafeObject:[[controller currentValue] stringValue] forKey:[controller field].name];
             }
         }
         else if(![self shouldFilterField:controller.field]){
