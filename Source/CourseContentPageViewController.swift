@@ -436,6 +436,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
 
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         DispatchQueue.main.async {[weak self] in
             self?.updateNavigationBars()
         }
