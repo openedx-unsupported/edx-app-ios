@@ -9,13 +9,26 @@
 import Foundation
 import edXCore
 
+public enum EnrollmentMode: String {
+    case audit = "audit"
+    case verified = "verified"
+    case honor = "honor"
+    case noIDProfessional = "no-id-professional"
+    case professional = "professional"
+    case credit = "credit"
+    case masters = "masters"
+    case none = "none"
+}
+
 //TODO: remove NSObject when done with @objc
 public class UserCourseEnrollment : NSObject {
     let created: String?
     let mode: String?
     @objc let isActive: Bool
     @objc let course: OEXCourse
-
+    
+    var type: EnrollmentMode
+    
     /** Url if the user has completed a certificate */
     let certificateUrl: String?
 
@@ -23,8 +36,12 @@ public class UserCourseEnrollment : NSObject {
         created = dictionary["created"] as? String
         mode = dictionary["mode"] as? String
         isActive = (dictionary["is_active"] as? NSNumber)?.boolValue ?? false
-
-
+        if let mode = mode {
+            type = EnrollmentMode(rawValue: mode) ?? .audit
+        } else {
+            type = .audit
+        }
+        
         if let certificatesInfo = dictionary["certificate"] as? [String: Any] {
             certificateUrl = certificatesInfo["url"] as? String
         } else {
@@ -42,12 +59,17 @@ public class UserCourseEnrollment : NSObject {
         super.init()
     }
     
-    init(course: OEXCourse, created: String? = nil, mode: String? = nil, isActive: Bool = true, certificateURL: String? = nil) {
+    init(course: OEXCourse, created: String? = nil, mode: String? = nil, isActive: Bool = true, certificateURL: String? = nil, type: EnrollmentMode = .audit) {
         self.created = created
         self.mode = mode
         self.course = course
         self.isActive = isActive
         self.certificateUrl = certificateURL
+        if let mode = mode {
+            self.type = EnrollmentMode(rawValue: mode) ?? .audit
+        } else {
+            self.type = .audit
+        }
     }
     
     convenience init?(json: JSON) {

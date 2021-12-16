@@ -111,17 +111,6 @@ extension CoursesContainerViewControllerDelegate {
     func showValuePropDetailView(with course: OEXCourse) {}
 }
 
-enum EnrollmentMode: String {
-    case audit = "audit"
-    case verified = "verified"
-    case honor = "honor"
-    case noIDProfessional = "no-id-professional"
-    case professional = "professional"
-    case credit = "credit"
-    case masters = "masters"
-    case none = "none"
-}
-
 class CoursesContainerViewController: UICollectionViewController {
     
     enum Context {
@@ -140,7 +129,7 @@ class CoursesContainerViewController: UICollectionViewController {
             if isiPad() {
                 let auditModeCourses = courses.filter { course -> Bool in
                     let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-                    if enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.valuePropEnabled {
+                    if enrollment?.type == .audit && environment.remoteConfig.valuePropEnabled {
                         return true
                     }
                     return false
@@ -255,7 +244,7 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private func shouldShowValueProp(for course: OEXCourse) -> Bool {
         let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-        return enrollment?.mode == EnrollmentMode.audit.rawValue && environment.remoteConfig.valuePropEnabled && !course.isEndDateOld
+        return enrollment?.mode == enrollment?.type.rawValue && environment.remoteConfig.valuePropEnabled && !course.isEndDateOld
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {

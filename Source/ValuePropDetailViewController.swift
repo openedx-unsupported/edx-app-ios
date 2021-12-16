@@ -132,11 +132,6 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
-            guard let topController = UIApplication.shared.topMostController() else {
-                self?.enableAppTouches()
-                return
-            }
-            
             switch status {
             case .payment:
                 self?.upgradeButton.stopAnimating()
@@ -144,20 +139,17 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             case .complete:
                 self?.enableAppTouches()
                 self?.upgradeButton.isHidden = true
-                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message: Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-                alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
-                    // TODO: continue button handling
+                self?.dismiss(animated: true) {
+                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(self?.course.course_id ?? "", nil))
                 }
+                
                 break
             case .error:
                 self?.enableAppTouches()
                 self?.upgradeButton.stopAnimating()
-                let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message: Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-                alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { action in
-                    // TODO: Add option to send email
-                }
-                alertController.addButton(withTitle: Strings.close, style: .default) { action in
-                    // TODO: Close button handling
+                
+                self?.dismiss(animated: true) {
+                    CourseUpgradeCompletion.shared.handleCompletion(state: .error)
                 }
                 break
             default:

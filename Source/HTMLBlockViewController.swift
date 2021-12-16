@@ -235,9 +235,8 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
     }
 
     private func trackOpenInBrowserBannerEvent(displayName: AnalyticsDisplayName, eventName: AnalyticsEventName) {
-        let mode = environment.interface?.enrollmentForCourse(withID: courseID)?.mode ?? ""
-        let enrollment = EnrollmentMode(rawValue: mode) ?? .none
-
+        let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)?.type ?? .none
+        
         environment.analytics.trackOpenInBrowserBannerEvent(displayName: displayName, eventName: eventName, userType: enrollment.rawValue, courseID: courseID, componentID: blockID ?? "", componentType: block?.typeName ?? "", openURL: block?.webURL?.absoluteString ?? "")
     }
     

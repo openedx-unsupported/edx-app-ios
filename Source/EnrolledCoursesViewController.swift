@@ -167,6 +167,27 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
             observer.handleBanner()
         }
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
+            if let dictionary = notification.object as? NSDictionary, let courseID = dictionary["CourseID"] as? String {
+                observer.updateCourseEnrolmentMode(courseID: courseID)
+            }
+        }
+    }
+    
+    func updateCourseEnrolmentMode(courseID: String) {
+        coursesContainer.courses = coursesContainer.courses.map { course in
+            if course.course_id == courseID {
+                let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
+                enrollment?.type = .verified
+            }
+            
+            return course
+        }
+        
+        coursesContainer.collectionView.reloadData()
+        
+        refreshIfNecessary()
     }
     
     func refreshIfNecessary() {
