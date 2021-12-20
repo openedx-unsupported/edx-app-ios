@@ -65,7 +65,7 @@ class CourseVideosHeaderView: UIView {
     }()
     
     private let spinner: SpinnerView = {
-        let spinner = SpinnerView(size: .medium, color: .primary)
+        let spinner = SpinnerView()
         spinner.accessibilityIdentifier = "CourseVideosHeader:spinner"
         spinner.isAccessibilityElement = false
         return spinner

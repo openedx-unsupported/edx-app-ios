@@ -17,7 +17,7 @@ class SpinnerButton: UIButton {
         return spinnerView.intrinsicContentSize.width + 2 * SpinnerHorizontalMargin
     }
     
-    private let spinnerView = SpinnerView(size: .large, color: .white)
+    private let spinnerView = SpinnerView(color: .white)
     
     override func layoutSubviews() {
         super.layoutSubviews()

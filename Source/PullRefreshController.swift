@@ -11,7 +11,7 @@ import UIKit
 private let StandardRefreshHeight : CGFloat = 80
 
 public class PullRefreshView : UIView {
-    fileprivate let spinner = SpinnerView(size: .large, color: .primary)
+    fileprivate let spinner = SpinnerView()
     
     public init() {
         super.init(frame : CGRect.zero)

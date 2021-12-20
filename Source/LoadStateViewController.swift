@@ -64,7 +64,7 @@ public enum LoadState {
 
 class LoadStateViewController : UIViewController {
     
-    private let spinnerView: SpinnerView = SpinnerView(size: .large, color: .primary)
+    private let spinnerView: SpinnerView = SpinnerView()
     private let messageView: IconMessageView = IconMessageView()
     private var contentView: UIView?
     private weak var delegate: LoadStateViewReloadSupport?
