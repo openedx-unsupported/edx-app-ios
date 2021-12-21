@@ -34,7 +34,7 @@ class SpinnerButton: UIButton {
             if let label = titleLabel {
                 make.leading.equalTo(label.snp.trailing).offset(SpinnerHorizontalMargin).priority(.low)
             }
-            make.trailing.equalTo(self.snp.trailing).offset(-SpinnerHorizontalMargin).priority(.high)
+            make.trailing.equalTo(self.snp.trailing).offset(-2 * SpinnerHorizontalMargin).priority(.high)
         }
         self.setNeedsUpdateConstraints()
         if !showProgress { spinnerView.isHidden = true }
