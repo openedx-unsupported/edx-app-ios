@@ -12,21 +12,24 @@ let CourseUpgradeCompletionNotification = "CourseUpgradeCompletionNotification"
 
 class CourseUpgradeCompletion {
     
+    static let courseID = "CourseID"
+    static let blockID = "BlockID"
+    
     static let shared = CourseUpgradeCompletion()
     
-    enum CourseUpgradeCompletionState {
+    enum CompletionState {
         case success(_ courseID: String, _ componentID: String?)
         case error
     }
     
     private init() { }
     
-    func handleCompletion(state: CourseUpgradeCompletionState) {
+    func handleCompletion(state: CompletionState) {
         switch state {
         case .success(let courseID, let blockID):
             let dictionary = [
-                "CourseID": courseID,
-                "BlockID": blockID
+                CourseUpgradeCompletion.courseID: courseID,
+                CourseUpgradeCompletion.blockID: blockID
             ]
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: dictionary))
             showSuccess()

@@ -169,7 +169,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
         
         NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
-            if let dictionary = notification.object as? NSDictionary, let courseID = dictionary["CourseID"] as? String {
+            if let dictionary = notification.object as? NSDictionary,
+                let courseID = dictionary[CourseUpgradeCompletion.courseID] as? String {
                 observer.updateCourseEnrolmentMode(courseID: courseID)
             }
         }

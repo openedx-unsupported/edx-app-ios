@@ -211,7 +211,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
                 
                 self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(course.course_id ?? "", nil))
+                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(course.course_id ?? "", self?.blockID))
                 }
                 
                 break

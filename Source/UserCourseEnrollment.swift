@@ -32,14 +32,14 @@ public class UserCourseEnrollment : NSObject {
     /** Url if the user has completed a certificate */
     let certificateUrl: String?
 
-    @objc init?(dictionary: [String: Any]) {
+    @objc init?(dictionary: [String : Any]) {
         created = dictionary["created"] as? String
         mode = dictionary["mode"] as? String
         isActive = (dictionary["is_active"] as? NSNumber)?.boolValue ?? false
         if let mode = mode {
-            type = EnrollmentMode(rawValue: mode) ?? .audit
+            type = EnrollmentMode(rawValue: mode) ?? .none
         } else {
-            type = .audit
+            type = .none
         }
         
         if let certificatesInfo = dictionary["certificate"] as? [String: Any] {
@@ -59,16 +59,16 @@ public class UserCourseEnrollment : NSObject {
         super.init()
     }
     
-    init(course: OEXCourse, created: String? = nil, mode: String? = nil, isActive: Bool = true, certificateURL: String? = nil, type: EnrollmentMode = .audit) {
+    init(course: OEXCourse, created: String? = nil, mode: String? = nil, isActive: Bool = true, certificateURL: String? = nil) {
         self.created = created
         self.mode = mode
         self.course = course
         self.isActive = isActive
         self.certificateUrl = certificateURL
         if let mode = mode {
-            self.type = EnrollmentMode(rawValue: mode) ?? .audit
+            self.type = EnrollmentMode(rawValue: mode) ?? .none
         } else {
-            self.type = .audit
+            self.type = .none
         }
     }
     
