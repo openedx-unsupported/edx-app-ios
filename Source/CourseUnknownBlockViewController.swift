@@ -196,7 +196,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func didTapUpgradeCourse(upgradeView: ValuePropComponentView) {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
-            let courseSku = UpgradeSKUManager.shared.purchaseID(for: course)else { return }
+            let courseSku = UpgradeSKUManager.shared.courseSku(for: course)else { return }
         
         disableAppTouchs()
         

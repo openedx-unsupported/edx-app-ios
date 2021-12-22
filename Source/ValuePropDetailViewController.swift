@@ -72,7 +72,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         configureView()
         
-        guard let courseSku = UpgradeSKUManager.shared.purchaseID(for: course) else { return }
+        guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         PaymentManager.shared.productPrice(courseSku) { [weak self] price in
             if let price = price {
                 self?.upgradeButton.setPrice(price)
@@ -127,7 +127,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
     
     private func upgradeCourse() {
-        guard let courseSku = UpgradeSKUManager.shared.purchaseID(for: course) else { return }
+        guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         
         disableAppTouchs()
         

@@ -116,7 +116,7 @@ class ValuePropComponentView: UIView {
         container.addSubview(upgradeButton)
         addSubview(container)
         
-        guard let course = course, let courseSku = UpgradeSKUManager.shared.purchaseID(for: course) else { return }
+        guard let course = course, let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         PaymentManager.shared.productPrice(courseSku) { [weak self] price in
             if let price = price {
                 self?.upgradeButton.setPrice(price)

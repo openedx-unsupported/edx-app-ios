@@ -43,7 +43,7 @@ class CourseUpgradeHandler: NSObject {
         
         state = .initial
         
-        if let coursePurchaseSku = UpgradeSKUManager.shared.purchaseID(for: course) {
+        if let coursePurchaseSku = UpgradeSKUManager.shared.courseSku(for: course) {
             courseSku = coursePurchaseSku
         } else {
             state = .error(.generalError)
