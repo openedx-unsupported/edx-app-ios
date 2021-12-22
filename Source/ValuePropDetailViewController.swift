@@ -147,7 +147,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 }
                 
                 break
-            case .error(let purchaseError):
+            case .error:
                 self?.enableAppTouches()
                 self?.upgradeButton.stopAnimating()
                 
