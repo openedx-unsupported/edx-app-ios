@@ -243,8 +243,10 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     private func shouldShowValueProp(for course: OEXCourse) -> Bool {
-        let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-        return enrollment?.type == .audit && environment.remoteConfig.valuePropEnabled && !course.isEndDateOld
+        guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id),
+              CoursePurchaseIDManager.shared.purchaseID(for: course) != nil else { return false }
+        
+        return enrollment.type == .audit && environment.remoteConfig.valuePropEnabled && !course.isEndDateOld
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {

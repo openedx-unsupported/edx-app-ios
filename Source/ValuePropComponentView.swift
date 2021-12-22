@@ -69,10 +69,10 @@ class ValuePropComponentView: UIView {
         return OEXMutableTextStyle(weight: .normal, size: .small, color: environment.styles.neutralXXDark())
     }()
 
+    private lazy var course: OEXCourse? = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
+    
     private lazy var pacing: String = {
-        let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
         let selfPaced = course?.isSelfPaced ?? false
-
         return selfPaced ? "self" : "instructor"
     }()
 
@@ -115,8 +115,9 @@ class ValuePropComponentView: UIView {
         container.addSubview(infoMessagesView)
         container.addSubview(upgradeButton)
         addSubview(container)
-
-        PaymentManager.shared.productPrice(TestInAppPurchaseID) { [weak self] price in
+        
+        guard let course = course, let coursePurchaseID = CoursePurchaseIDManager.shared.purchaseID(for: course) else { return }
+        PaymentManager.shared.productPrice(coursePurchaseID) { [weak self] price in
             if let price = price {
                 self?.upgradeButton.setPrice(price)
             }

@@ -195,11 +195,13 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func didTapUpgradeCourse(upgradeView: ValuePropComponentView) {
-        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else { return }
+        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
+            let coursePurchaseID = CoursePurchaseIDManager.shared.purchaseID(for: course)else { return }
+        
         disableAppTouchs()
         
         let pacing = course.isSelfPaced ? "self" : "instructor"
-        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: TestInAppPurchaseID, pacing: pacing)
+        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: coursePurchaseID, pacing: pacing)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             switch status {

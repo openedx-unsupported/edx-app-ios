@@ -9,9 +9,7 @@
 import Foundation
 import SwiftyStoreKit
 
-let TestInAppPurchaseID = "org.edx.mobile.integrationtest"
 let CourseUpgradeCompleteNotification: String = "CourseUpgradeCompleteNotification"
-
 
 // In case of completeTransctions SDK returns SwiftyStoreKit.Purchase
 // And on the in-app purchase SDK returns SwiftyStoreKit.PurchaseDetails
