@@ -9,42 +9,38 @@
 import UIKit
 
 public class SpinnerView: UIView {
-    
-    public enum Size {
-        case small
-        case medium
-        case large
-    }
-    
-    public enum Color {
-        case primary
-        case white
-        
-        fileprivate var value : UIColor {
-            switch self {
-            case .primary: return OEXStyles.shared().primaryBaseColor()
-            case .white: return OEXStyles.shared().neutralWhite()
+
+        public enum Color {
+            case primary
+            case white
+
+            fileprivate var value : UIColor {
+                switch self {
+                case .primary: return OEXStyles.shared().neutralBlack()
+                case .white: return OEXStyles.shared().neutralWhite()
+                }
             }
         }
-    }
     
-    private var activityIndicator: MaterialActivityIndicatorView?
-    
-    private let size: Size
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.accessibilityIdentifier = "SpinnerView:activity-indicator"
+        indicator.hidesWhenStopped = true
+        indicator.color = color.value
+
+        return indicator
+    }()
+
     private let color: Color
     
-    public init(size: Size, color: Color) {
-        self.size = size
+    public init(color: Color = .primary) {
         self.color = color
         
         super.init(frame : .zero)
         accessibilityIdentifier = "SpinnerView:view"
-        activityIndicator?.accessibilityIdentifier = "SpinnerView:activity-indicator"
-        activityIndicator = MaterialActivityIndicatorView()
-        if let view = activityIndicator {
-            addSubview(view)
-        }
-        activityIndicator?.startAnimating()
+
+        addSubview(activityIndicator)
+        activityIndicator.startAnimating()
         addObservers()        
     }
     
@@ -54,7 +50,7 @@ public class SpinnerView: UIView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        activityIndicator?.frame = bounds
+        activityIndicator.frame = bounds
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -63,17 +59,6 @@ public class SpinnerView: UIView {
     
     public override func didMoveToSuperview() {
         NotificationCenter.default.removeObserver(self)
-    }
-    
-    public override var intrinsicContentSize: CGSize {
-        switch size {
-        case .small:
-            return CGSize(width: 12, height: 12)
-        case .medium:
-            return CGSize(width: 18, height: 18)
-        case .large:
-            return CGSize(width: 24, height: 24)
-        }
     }
     
     private func addObservers() {
@@ -87,22 +72,21 @@ public class SpinnerView: UIView {
     }
     
     func startAnimating() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.animate()
         }
     }
 
     private func animate() {
-            activityIndicator?.removeFromSuperview()
-            activityIndicator = MaterialActivityIndicatorView()
-            if let view = activityIndicator {
-                addSubview(view)
-            }
-            activityIndicator?.color = color.value
-            activityIndicator?.startAnimating()
+
+        if !subviews.contains(activityIndicator) {
+            addSubview(activityIndicator)
         }
+
+        activityIndicator.startAnimating()
+    }
     
     func stopAnimating() {
-        activityIndicator?.removeFromSuperview()
+        activityIndicator.removeFromSuperview()
     }
 }

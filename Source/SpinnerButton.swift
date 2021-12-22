@@ -17,7 +17,7 @@ class SpinnerButton: UIButton {
         return spinnerView.intrinsicContentSize.width + 2 * SpinnerHorizontalMargin
     }
     
-    private let spinnerView = SpinnerView(size: .large, color: .white)
+    private let spinnerView = SpinnerView(color: .white)
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -34,7 +34,7 @@ class SpinnerButton: UIButton {
             if let label = titleLabel {
                 make.leading.equalTo(label.snp.trailing).offset(SpinnerHorizontalMargin).priority(.low)
             }
-            make.trailing.equalTo(self.snp.trailing).offset(-SpinnerHorizontalMargin).priority(.high)
+            make.trailing.equalTo(self.snp.trailing).offset(-2 * SpinnerHorizontalMargin).priority(.high)
         }
         self.setNeedsUpdateConstraints()
         if !showProgress { spinnerView.isHidden = true }

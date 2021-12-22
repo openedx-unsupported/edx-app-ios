@@ -167,7 +167,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
     var fields: [JSONFormBuilder.Field] = []
     
     private let headerHeight: CGFloat = 72
-    private let spinner = SpinnerView(size: .large, color: .primary)
+    private let spinner = SpinnerView()
     
     private func makeHeader() -> UIView {
         banner = ProfileBanner(editable: true) { [weak self] in
