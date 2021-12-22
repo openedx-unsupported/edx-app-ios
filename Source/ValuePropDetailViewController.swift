@@ -72,8 +72,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         configureView()
         
-        guard let coursePurchaseID = CoursePurchaseIDManager.shared.purchaseID(for: course) else { return }
-        PaymentManager.shared.productPrice(coursePurchaseID) { [weak self] price in
+        guard let courseSku = UpgradeSKUManager.shared.purchaseID(for: course) else { return }
+        PaymentManager.shared.productPrice(courseSku) { [weak self] price in
             if let price = price {
                 self?.upgradeButton.setPrice(price)
             }
@@ -127,12 +127,12 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
     
     private func upgradeCourse() {
-        guard let coursePurchaseID = CoursePurchaseIDManager.shared.purchaseID(for: course) else { return }
+        guard let courseSku = UpgradeSKUManager.shared.purchaseID(for: course) else { return }
         
         disableAppTouchs()
         
         let pacing = course.isSelfPaced ? "self" : "instructor"
-        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: coursePurchaseID, pacing: pacing)
+        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: courseSku, pacing: pacing)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             switch status {

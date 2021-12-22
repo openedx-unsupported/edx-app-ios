@@ -27,7 +27,7 @@ class CourseUpgradeHandler: NSObject {
     private var completion: UpgradeCompletionHandler?
     private var course: OEXCourse?
     private var basketID: Int = 0
-    private var coursePurchaseID: String = ""
+    private var courseSku: String = ""
     private var state: CourseUpgradeState = .initial {
         didSet {
             completion?(state)
@@ -43,8 +43,8 @@ class CourseUpgradeHandler: NSObject {
         
         state = .initial
         
-        if let purchaseID = CoursePurchaseIDManager.shared.purchaseID(for: course) {
-            coursePurchaseID = purchaseID
+        if let coursePurchaseSku = UpgradeSKUManager.shared.purchaseID(for: course) {
+            courseSku = coursePurchaseSku
         } else {
             state = .error(.generalError)
             return
@@ -73,7 +73,7 @@ class CourseUpgradeHandler: NSObject {
         state = .basket
         
         let baseURL = CourseUpgradeAPI.baseURL
-        let request = CourseUpgradeAPI.basketAPI(with: coursePurchaseID)
+        let request = CourseUpgradeAPI.basketAPI(with: courseSku)
         
         environment?.networkManager.taskForRequest(base: baseURL, request) { response in
             completion(response.data)
@@ -104,7 +104,7 @@ class CourseUpgradeHandler: NSObject {
     
     private func makePayment() {
         state = .payment
-        PaymentManager.shared.purchaseProduct(coursePurchaseID) { [weak self] (success: Bool, receipt: String?, error: PurchaseError?) in
+        PaymentManager.shared.purchaseProduct(courseSku) { [weak self] (success: Bool, receipt: String?, error: PurchaseError?) in
             if let receipt = receipt, success {
                 self?.verifyPayment(receipt)
             } else {
@@ -118,7 +118,7 @@ class CourseUpgradeHandler: NSObject {
         
         // Execute API, pass the payment receipt to complete the course upgrade
         let baseURL = CourseUpgradeAPI.baseURL
-        let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: coursePurchaseID, receipt: receipt)
+        let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: courseSku, receipt: receipt)
         
         environment?.networkManager.taskForRequest(base: baseURL, request){ [weak self] response in
             if response.error == nil {

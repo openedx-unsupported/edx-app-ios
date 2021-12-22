@@ -195,7 +195,7 @@
 		5F59B40026AFF5B000D6CA3E /* ProfileOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F59B3FF26AFF5B000D6CA3E /* ProfileOptionsViewController.swift */; };
 		5F5FC00B269DA8C500F92B8F /* ValuePropMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */; };
 		5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */; };
-		5F6919E02773090F007F00AD /* CoursePurchaseIDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6919DF2773090F007F00AD /* CoursePurchaseIDManager.swift */; };
+		5F6919E02773090F007F00AD /* UpgradeSKUManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6919DF2773090F007F00AD /* UpgradeSKUManager.swift */; };
 		5F6AD05B27467898007686C2 /* ProfileOptions.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD05927467898007686C2 /* ProfileOptions.strings */; };
 		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
 		5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */; };
@@ -1268,7 +1268,7 @@
 		5F64839D274CEB5B00DB38E0 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/ProfileOptions.strings"; sourceTree = "<group>"; };
 		5F64839E274CEB5E00DB38E0 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
 		5F64839F274CEB6000DB38E0 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
-		5F6919DF2773090F007F00AD /* CoursePurchaseIDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePurchaseIDManager.swift; sourceTree = "<group>"; };
+		5F6919DF2773090F007F00AD /* UpgradeSKUManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeSKUManager.swift; sourceTree = "<group>"; };
 		5F6AD05A27467898007686C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
 		5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -2580,7 +2580,7 @@
 				E0357C4626CA59120041947A /* CourseUpgradeHandler.swift */,
 				E0357C4826CB80BC0041947A /* CourseUpgradeAPI.swift */,
 				5F45030D276B4B290054D266 /* CourseUpgradeCompletion.swift */,
-				5F6919DF2773090F007F00AD /* CoursePurchaseIDManager.swift */,
+				5F6919DF2773090F007F00AD /* UpgradeSKUManager.swift */,
 			);
 			name = Payment;
 			sourceTree = "<group>";
@@ -5215,7 +5215,7 @@
 				E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */,
 				7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */,
 				224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */,
-				5F6919E02773090F007F00AD /* CoursePurchaseIDManager.swift in Sources */,
+				5F6919E02773090F007F00AD /* UpgradeSKUManager.swift in Sources */,
 				223972E11FE92BB500B2BBEC /* EnrolledTabBarViewController.swift in Sources */,
 				B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */,
 				77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */,

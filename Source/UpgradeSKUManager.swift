@@ -1,5 +1,5 @@
 //
-//  CoursePurchaseIDManager.swift
+//  UpgradeSKUManager.swift
 //  edX
 //
 //  Created by Muhammad Umer on 22/12/2021.
@@ -8,10 +8,10 @@
 
 import Foundation
 
-class CoursePurchaseIDManager {
-    static let shared = CoursePurchaseIDManager()
+class UpgradeSKUManager {
+    static let shared = UpgradeSKUManager()
     
-    private lazy var courseMappings: [String : String] = {
+    private lazy var skuMappings: [String : String] = {
         return [
             "course-v1:edX+DemoX+Demo_Course": "org.edx.mobile.integrationtest",
             "course-v1:DemoX+PERF101+course": "org.edx.mobile.test_product1",
@@ -23,11 +23,11 @@ class CoursePurchaseIDManager {
     
     private init() { }
     
-    func purchaseID(for course: OEXCourse) -> String? {
+    func courseSku(for course: OEXCourse) -> String? {
         guard let courseID = course.course_id,
-              courseMappings.keys.contains(courseID),
-              let coursePurchaseID = courseMappings[courseID] else { return nil }
+              skuMappings.keys.contains(courseID),
+              let courseSku = skuMappings[courseID] else { return nil }
         
-        return coursePurchaseID
+        return courseSku
     }
 }
