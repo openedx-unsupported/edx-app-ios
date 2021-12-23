@@ -43,12 +43,12 @@ class CourseUpgradeHandler: NSObject {
         
         state = .initial
         
-        if let coursePurchaseSku = UpgradeSKUManager.shared.courseSku(for: course) {
-            courseSku = coursePurchaseSku
-        } else {
+        guard let coursePurchaseSku = UpgradeSKUManager.shared.courseSku(for: course) else {
             state = .error(.generalError)
             return
         }
+        
+        courseSku = coursePurchaseSku
         
         addToBasket { [weak self] orderBasket in
             if let basketID = orderBasket?.basketID {

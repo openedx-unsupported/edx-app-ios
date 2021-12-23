@@ -122,22 +122,25 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private let environment : Environment
     private let context: Context
-    weak var delegate : CoursesContainerViewControllerDelegate?
-    var isAuditModeCourseAvailable: Bool = false
-    var courses:[OEXCourse] = [] {
+    weak var delegate: CoursesContainerViewControllerDelegate?
+    
+    private var isAuditModeCourseAvailable: Bool = false
+    
+    var courses: [OEXCourse] = [] {
         didSet {
             if isiPad() {
                 let auditModeCourses = courses.filter { course -> Bool in
-                    let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-                    if enrollment?.type == .audit && environment.remoteConfig.valuePropEnabled {
-                        return true
-                    }
-                    return false
+                    guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id),
+                          enrollment.type == .audit,
+                          environment.remoteConfig.valuePropEnabled,
+                          UpgradeSKUManager.shared.courseSku(for: course) != nil else { return false}
+                    return true
                 }
                 isAuditModeCourseAvailable = !auditModeCourses.isEmpty
             }
         }
     }
+    
     private let insetsController = ContentInsetsController()
   
     private var isCourseDiscoveryEnabled: Bool {

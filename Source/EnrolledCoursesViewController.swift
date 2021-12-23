@@ -188,7 +188,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         coursesContainer.collectionView.reloadData()
         
-        refreshIfNecessary()
+        enrollmentFeed.refresh()
     }
     
     func refreshIfNecessary() {

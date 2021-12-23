@@ -11,6 +11,8 @@ import Foundation
 class UpgradeSKUManager {
     static let shared = UpgradeSKUManager()
     
+    /// TODO: Test mapping for course ID to map with registered sku on AppStoreConnect,
+    /// it will be updated with the updated mappings in future
     private lazy var skuMappings: [String : String] = {
         return [
             "course-v1:edX+DemoX+Demo_Course": "org.edx.mobile.integrationtest",
@@ -27,7 +29,6 @@ class UpgradeSKUManager {
         guard let courseID = course.course_id,
               skuMappings.keys.contains(courseID),
               let courseSku = skuMappings[courseID] else { return nil }
-        
         return courseSku
     }
 }

@@ -27,7 +27,7 @@ public class UserCourseEnrollment : NSObject {
     @objc let isActive: Bool
     @objc let course: OEXCourse
     
-    var type: EnrollmentMode
+    var type: EnrollmentMode = .none
     
     /** Url if the user has completed a certificate */
     let certificateUrl: String?
@@ -38,8 +38,6 @@ public class UserCourseEnrollment : NSObject {
         isActive = (dictionary["is_active"] as? NSNumber)?.boolValue ?? false
         if let mode = mode {
             type = EnrollmentMode(rawValue: mode) ?? .none
-        } else {
-            type = .none
         }
         
         if let certificatesInfo = dictionary["certificate"] as? [String: Any] {
@@ -67,8 +65,6 @@ public class UserCourseEnrollment : NSObject {
         self.certificateUrl = certificateURL
         if let mode = mode {
             self.type = EnrollmentMode(rawValue: mode) ?? .none
-        } else {
-            self.type = .none
         }
     }
     
