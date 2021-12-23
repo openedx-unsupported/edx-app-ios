@@ -95,8 +95,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private var userEnrollment: EnrollmentMode {
-        let mode = environment.interface?.enrollmentForCourse(withID: courseID)?.mode ?? ""
-        return EnrollmentMode(rawValue: mode) ?? .none
+        return environment.interface?.enrollmentForCourse(withID: courseID)?.type ?? .none
     }
     
     private var calendarState: Bool {
