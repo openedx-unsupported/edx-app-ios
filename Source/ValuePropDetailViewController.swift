@@ -119,8 +119,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         }
         
         upgradeButton.snp.makeConstraints { make in
-            make.leading.equalTo(valuePropTableView)
-            make.trailing.equalTo(valuePropTableView)
+            make.leading.equalTo(view).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(view).inset(StandardHorizontalMargin)
             make.bottom.equalTo(safeBottom).inset(StandardVerticalMargin)
             make.height.equalTo(CourseUpgradeButtonView.height)
         }
