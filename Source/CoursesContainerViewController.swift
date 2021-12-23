@@ -130,11 +130,11 @@ class CoursesContainerViewController: UICollectionViewController {
         didSet {
             if isiPad() {
                 let auditModeCourses = courses.filter { course -> Bool in
-                    guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id),
-                          enrollment.type == .audit,
-                          environment.remoteConfig.valuePropEnabled,
-                          UpgradeSKUManager.shared.courseSku(for: course) != nil else { return false}
-                    return true
+                    let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
+                    if enrollment?.type == .audit && environment.remoteConfig.valuePropEnabled {
+                        return true
+                    }
+                    return false
                 }
                 isAuditModeCourseAvailable = !auditModeCourses.isEmpty
             }
