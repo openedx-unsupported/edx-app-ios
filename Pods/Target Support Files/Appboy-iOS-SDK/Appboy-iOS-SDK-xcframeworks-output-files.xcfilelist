@@ -1,1 +1,1 @@
-${PODS_XCFRAMEWORKS_BUILD_DIR}/AppboyKitLibrary
+${PODS_XCFRAMEWORKS_BUILD_DIR}/Appboy-iOS-SDK/Core/AppboyKitLibrary.framework
