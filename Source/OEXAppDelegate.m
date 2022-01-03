@@ -75,9 +75,8 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Forcing app to run in Light mode because app isn't configured for dark mode
-    if (@available(iOS 13.0, *)) {
-        self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-    }
+    self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+    
     [self.window makeKeyAndVisible];
 
     [self initializeRemoteConfig];

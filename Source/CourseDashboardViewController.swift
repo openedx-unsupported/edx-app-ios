@@ -43,6 +43,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         view.accessibilityIdentifier = "CourseDashboardViewController: view"
         viewControllers = [loadStateController]
+        tabBar.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         loadCourseStream()
         delegate = self
         progressController.hideProgessView()

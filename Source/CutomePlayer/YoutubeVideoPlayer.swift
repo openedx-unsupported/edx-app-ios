@@ -6,6 +6,8 @@
 //  Copyright © 2018 edX. All rights reserved.
 //
 
+import UIKit
+
 private let playerTimeOutInterval = 60.0
 
 class YoutubeVideoPlayer: VideoPlayer {
@@ -128,7 +130,7 @@ class YoutubeVideoPlayer: VideoPlayer {
         playerView.stopVideo()
     }
 
-    override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
+    override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIDeviceOrientation, forceRotate rotate: Bool) {
         isFullScreen = fullscreen
         let playerVars = YoutubeVideoPlayer.playerVars(playsinline: Int(truncating: NSNumber(value:!fullscreen)), start: Int(currentTime))
 
@@ -203,6 +205,6 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
 
 extension UIDevice {
     var hasNotch: Bool {
-        return UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0 > 0
+        return UIApplication.shared.window?.safeAreaInsets.bottom ?? 0 > 0
     }
 }

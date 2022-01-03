@@ -60,7 +60,8 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         addMenuButton()
         prepareTabViewData()
         delegate = self
-
+        tabBar.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        
         view.accessibilityIdentifier = "EnrolledTabBarViewController:view"
     }
     

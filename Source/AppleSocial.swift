@@ -23,29 +23,21 @@ class AppleSocial: NSObject {
     }
 
     func loginFromController(controller : UIViewController, completion: @escaping AppleLoginCompletionHandler) {
-
+        
         completionHandler = completion
-
-        if #available(iOS 13.0, *) {
-            let authorizationProvider = ASAuthorizationAppleIDProvider()
-            let request = authorizationProvider.createRequest()
-            request.requestedScopes = [.fullName, .email]
-
-            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-            authorizationController.delegate = self
-            authorizationController.presentationContextProvider = self
-            authorizationController.performRequests()
-        }
-        else {
-            let error = NSError(domain: errorDomain, code: -10000, userInfo: [NSLocalizedDescriptionKey: "Apple Sign In not supported prior to iOS 13"])
-            completionHandler?(nil, nil, error)
-        }
+        
+        let authorizationProvider = ASAuthorizationAppleIDProvider()
+        let request = authorizationProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
     }
 }
 
-@available(iOS 13.0, *)
 extension AppleSocial: ASAuthorizationControllerDelegate {
-
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         completionHandler?(nil, nil, error)
     }
@@ -109,10 +101,8 @@ extension AppleSocial: ASAuthorizationControllerDelegate {
 
 }
 
-@available(iOS 13.0, *)
 extension AppleSocial: ASAuthorizationControllerPresentationContextProviding {
-
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return UIApplication.shared.keyWindow!
+        return UIApplication.shared.window!
     }
 }

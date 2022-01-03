@@ -524,7 +524,7 @@ import UIKit
     }
     
     private func dismiss(completion: @escaping DismissCompletion) {
-        if let rootController = UIApplication.shared.keyWindow?.rootViewController, rootController.presentedViewController != nil {
+        if let rootController = UIApplication.shared.window?.rootViewController, rootController.presentedViewController != nil {
             if let _ = UIApplication.shared.topMostController() as? BannerViewController {
                 completion(false)
                 return

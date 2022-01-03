@@ -42,18 +42,16 @@ extension OEXStyles {
     @objc public func applyGlobalAppearance() {
         //Probably want to set the tintColor of UIWindow but it didn't seem necessary right now
         
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.backgroundColor = navigationBarColor()
-            appearance.titleTextAttributes = [.foregroundColor: navigationItemTintColor()]
-            appearance.largeTitleTextAttributes = [.foregroundColor: navigationItemTintColor()]
-            appearance.shadowColor = .clear
-            appearance.shadowImage = UIImage()
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().compactAppearance = appearance
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        }
-        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = navigationBarColor()
+        appearance.titleTextAttributes = [.foregroundColor: navigationItemTintColor()]
+        appearance.largeTitleTextAttributes = [.foregroundColor: navigationItemTintColor()]
+        appearance.shadowColor = .clear
+        appearance.shadowImage = UIImage()
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().barTintColor = navigationBarColor()
         UINavigationBar.appearance().barStyle = UIBarStyle.black
         UINavigationBar.appearance().tintColor = navigationItemTintColor()
@@ -73,8 +71,10 @@ extension OEXStyles {
         
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.classForCoder() as! UIAppearanceContainer.Type]).defaultTextAttributes = searchBarTextStyle.attributes.attributedKeyDictionary()
 
-        if #available(iOS 13.0, *) {
-            UISegmentedControl.appearance().selectedSegmentTintColor = primaryBaseColor()
+        UISegmentedControl.appearance().selectedSegmentTintColor = primaryBaseColor()
+        
+        if #available(iOS 15.0, *) {
+            UITableView.appearance().sectionHeaderTopPadding = 0
         }
     }
     

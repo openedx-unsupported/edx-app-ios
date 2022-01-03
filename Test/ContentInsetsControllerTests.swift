@@ -32,7 +32,7 @@ class ContentInsetsControllerTests: XCTestCase {
         
         insetsController.updateInsets()
         XCTAssertEqual(scrollView.contentInset, insets)
-        XCTAssertEqual(scrollView.scrollIndicatorInsets, UIEdgeInsets.zero)
+        XCTAssertEqual(scrollView.horizontalScrollIndicatorInsets, UIEdgeInsets.zero)
     }
     
     func testSourcesSum() {
@@ -42,7 +42,7 @@ class ContentInsetsControllerTests: XCTestCase {
         insetsController.addSource(source: ConstantInsetsSource(insets: insets, affectsScrollIndicators: true))
         insetsController.updateInsets()
         XCTAssertEqual(scrollView.contentInset, UIEdgeInsets.init(top: 50, left: 0, bottom: 60, right: 0))
-        XCTAssertEqual(scrollView.scrollIndicatorInsets, insets)
+        XCTAssertEqual(scrollView.horizontalScrollIndicatorInsets, insets)
     }
     
     func testKeyboardOverridesBottom() {
@@ -51,7 +51,7 @@ class ContentInsetsControllerTests: XCTestCase {
         insetsController.addSource(source: ConstantInsetsSource(insets: insets, affectsScrollIndicators: true))
         insetsController.updateInsets()
         XCTAssertEqual(scrollView.contentInset, insets)
-        XCTAssertEqual(scrollView.scrollIndicatorInsets, insets)
+        XCTAssertEqual(scrollView.horizontalScrollIndicatorInsets, insets)
         
         // now fire the keyboard
         let keyboardHeight : CGFloat = 100
@@ -66,7 +66,7 @@ class ContentInsetsControllerTests: XCTestCase {
         
         // keyboard height should be used instead of insets bottom
         XCTAssertEqual(scrollView.contentInset, UIEdgeInsets.init(top: insets.top, left: 0, bottom: keyboardHeight - intersectionHeight, right: 0))
-        XCTAssertEqual(scrollView.scrollIndicatorInsets, UIEdgeInsets.init(top: insets.top, left: 0, bottom: keyboardHeight - intersectionHeight, right: 0))
+        XCTAssertEqual(scrollView.horizontalScrollIndicatorInsets, UIEdgeInsets.init(top: insets.top, left: 0, bottom: keyboardHeight - intersectionHeight, right: 0))
         
         // now lower the keyboard.
         
@@ -80,7 +80,7 @@ class ContentInsetsControllerTests: XCTestCase {
         
         // insets.bottom should be back
         XCTAssertEqual(scrollView.contentInset, insets)
-        XCTAssertEqual(scrollView.scrollIndicatorInsets, insets)
+        XCTAssertEqual(scrollView.horizontalScrollIndicatorInsets, insets)
     }
 
 }
