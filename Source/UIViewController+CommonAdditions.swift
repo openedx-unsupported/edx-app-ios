@@ -29,8 +29,8 @@ extension UIViewController {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
     
-    func currentOrientation() -> UIDeviceOrientation {
-        return UIDevice.current.orientation
+    func currentOrientation() -> UIInterfaceOrientation {
+        return UIApplication.shared.statusBarOrientation
     }
     
    @objc func isModal() -> Bool {

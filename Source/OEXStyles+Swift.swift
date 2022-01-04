@@ -73,6 +73,8 @@ extension OEXStyles {
 
         UISegmentedControl.appearance().selectedSegmentTintColor = primaryBaseColor()
         
+        UITabBar.appearance().backgroundColor = standardBackgroundColor()
+        
         if #available(iOS 15.0, *) {
             UITableView.appearance().sectionHeaderTopPadding = 0
         }

@@ -95,6 +95,8 @@ static OEXStyles* sSharedStyles;
             return UIStatusBarStyleLightContent;
         case UIBarStyleDefault:
             return UIStatusBarStyleDefault;
+        default:
+            return UIStatusBarStyleDefault;
     }
 }
 

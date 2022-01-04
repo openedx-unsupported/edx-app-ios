@@ -677,12 +677,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         removeObservers()
     }
     
-    func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIDeviceOrientation, forceRotate rotate: Bool) {
+    func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         if !isVisible { return }
         isFullScreen = fullscreen
         if fullscreen {
             
-            fullScreenContainerView = UIApplication.shared.window ?? UIApplication.shared.windows[0].rootViewController?.view
+            fullScreenContainerView = UIApplication.shared.window?.rootViewController?.view ?? UIApplication.shared.windows[0].rootViewController?.view
             
             if movieBackgroundView.frame == .zero {
                 movieBackgroundView.frame = movieBackgroundFrame
@@ -734,7 +734,7 @@ extension VideoPlayer {
         return UIScreen.main.bounds
     }
     
-    func rotateMoviePlayer(for orientation: UIDeviceOrientation, animated: Bool, forceRotate rotate: Bool, completion: (() -> Void)? = nil) {
+    func rotateMoviePlayer(for orientation: UIInterfaceOrientation, animated: Bool, forceRotate rotate: Bool, completion: (() -> Void)? = nil) {
         var angle: Double = 0
         var movieFrame: CGRect = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.width, height: movieBackgroundFrame.height)
         

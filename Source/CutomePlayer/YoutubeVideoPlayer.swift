@@ -130,7 +130,7 @@ class YoutubeVideoPlayer: VideoPlayer {
         playerView.stopVideo()
     }
 
-    override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIDeviceOrientation, forceRotate rotate: Bool) {
+    override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         isFullScreen = fullscreen
         let playerVars = YoutubeVideoPlayer.playerVars(playsinline: Int(truncating: NSNumber(value:!fullscreen)), start: Int(currentTime))
 
