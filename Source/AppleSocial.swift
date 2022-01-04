@@ -103,6 +103,6 @@ extension AppleSocial: ASAuthorizationControllerDelegate {
 
 extension AppleSocial: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return UIApplication.shared.window!
+        return UIApplication.shared.window ?? UIApplication.shared.windows[0]
     }
 }
