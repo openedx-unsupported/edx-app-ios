@@ -32,7 +32,7 @@ class ContentInsetsControllerTests: XCTestCase {
         
         insetsController.updateInsets()
         XCTAssertEqual(scrollView.contentInset, insets)
-        XCTAssertEqual(scrollView.scrollIndicatorInsets, UIEdgeInsets.zero)
+        XCTAssertEqual(scrollView.horizontalScrollIndicatorInsets, UIEdgeInsets.zero)
         XCTAssertEqual(scrollView.verticalScrollIndicatorInsets, UIEdgeInsets.zero)
     }
     
