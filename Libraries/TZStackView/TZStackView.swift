@@ -118,8 +118,8 @@ public class TZStackView: UIView {
             if let _ = view.layer.animationKeys() {
                 UIView.animate(withDuration: 0.1) {
                     self.animationDidStopQueueEntries.insert(TZAnimationDidStopQueueEntry(view: view, hidden: hidden), at: 0)
-                } completion: { _ in
-                    self.perform(#selector(TZStackView.hiddenAnimationStopped))
+                } completion: { [weak self] _ in
+                    self?.perform(#selector(TZStackView.hiddenAnimationStopped))
                 }
             } else {
                 didFinishSettingHiddenValue(view, hidden: hidden)
