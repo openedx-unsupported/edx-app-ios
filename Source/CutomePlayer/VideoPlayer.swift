@@ -45,7 +45,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private var timeObserver : AnyObject?
     fileprivate let player = AVPlayer()
     lazy var loadingIndicatorView: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        let activityIndicator = UIActivityIndicatorView()
         activityIndicator.color = environment.styles.neutralWhite()
         return activityIndicator
     }()
