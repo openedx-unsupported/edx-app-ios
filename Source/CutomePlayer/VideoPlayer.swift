@@ -44,7 +44,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
     fileprivate let player = AVPlayer()
-    let loadingIndicatorView = UIActivityIndicatorView(style: .medium)
+    lazy var loadingIndicatorView: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.color = environment.styles.neutralWhite()
+        return activityIndicator
+    }()
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
     private var playerTimeBeforeSeek:TimeInterval = 0
