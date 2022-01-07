@@ -58,6 +58,8 @@ extension OEXStyles {
         UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes.attributedKeyDictionary()
         UINavigationBar.appearance().isTranslucent = false
         
+        UIToolbar.appearance().backgroundColor = standardBackgroundColor()
+        
         UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes.attributedKeyDictionary(), for: .normal)
         UIToolbar.appearance().tintColor = navigationItemTintColor()
         
