@@ -110,7 +110,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         super.viewDidLoad()
         
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
-        
+        navigationController?.toolbar.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
         // This is super hacky. Controls like sliders - that depend on pan gestures were getting intercepted
         // by the page view's scroll view. This seemed like the only solution.
