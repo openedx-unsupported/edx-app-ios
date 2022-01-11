@@ -36,13 +36,11 @@ class BannerViewController: UIViewController, InterfaceOrientationOverriding {
     private let environment: Environment
     private let url: URL
     weak var delegate: BannerViewControllerDelegate?
-    fileprivate var authRequired: Bool = false
     private var showNavbar: Bool = false
     
-    init(url: URL, title: String?, environment: Environment, alwaysRequireAuth: Bool = false, showNavbar: Bool = false) {
+    init(url: URL, title: String?, environment: Environment, showNavbar: Bool = false) {
         self.environment = environment
         self.url = url
-        self.authRequired = alwaysRequireAuth
         self.showNavbar = showNavbar
 
         super.init(nibName: nil, bundle: nil)
@@ -159,12 +157,6 @@ extension BannerViewController: WebViewNavigationResponseDelegate {
             webController.showError(with: state)
             return true
         }
-    }
-}
-
-extension BannerViewController: AuthenticatedWebViewControllerRequireAuthentication {
-    func alwaysRequireAuth() -> Bool {
-        return authRequired
     }
 }
 

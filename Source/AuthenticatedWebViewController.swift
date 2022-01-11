@@ -42,6 +42,8 @@ private protocol WebContentController {
 }
 
 // A class should implement AlwaysRequireAuthenticationOverriding protocol if it always require authentication.
+// This will ignore the WebviewCookiesManager session and make a new /oauth2/login/ request within the webview
+// In normal cases this shouldn't be implemented
 protocol AuthenticatedWebViewControllerRequireAuthentication {
     func alwaysRequireAuth() -> Bool
 }
@@ -126,6 +128,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     weak var ajaxCallbackDelegate: AJAXCompletionCallbackDelegate?
     weak var webViewNavigationResponseDelegate: WebViewNavigationResponseDelegate?
     private lazy var configurations = environment.config.webViewConfiguration()
+    private let cookiesManager = WebviewCookiesManager.shared
     
     private var shouldListenForAjaxCallbacks = false
     
@@ -202,6 +205,37 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     private func addObservers() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE) { (_, observer, _) in
             observer.reload()
+        }
+
+        NotificationCenter.default.oex_addObserver(observer: self, name: WebviewCookiesCreatedNotification) { (_, observer, _) in
+            if observer.cookiesManager.cookiesState == .failed {
+                observer.showError(with: .failed())
+            }
+            else {
+                observer.syncCookiesStorage()
+            }
+        }
+    }
+
+    // Sync cookies between HTTview PCookieStorage and WKHTTPCookieStore
+    private func syncCookiesStorage() {
+        let cookies = HTTPCookieStorage.shared.cookies
+        DispatchQueue.global().async { [weak self] in
+            let semaphore = DispatchSemaphore(value: 0)
+            for cookie in cookies ?? [] {
+                if let webview = self?.webController.view as? WKWebView {
+                    DispatchQueue.main.async {
+                        webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+                            semaphore.signal()
+                        }
+                    }
+                }
+                semaphore.wait()
+            }
+            DispatchQueue.main.async {
+                self?.cookiesManager.updateSessionState(state: .created)
+                self?.reload()
+            }
         }
     }
 
@@ -303,15 +337,23 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     
     public func loadRequest(request : NSURLRequest) {
         contentRequest = request
-        loadController.state = .Initial
-        state = webController.initialContentState
-        
-        var isAuthRequestRequired = webController.alwaysRequiresOAuthUpdate
+        var ignoreCookiesManager = webController.alwaysRequiresOAuthUpdate
         if let parent = parent as? AuthenticatedWebViewControllerRequireAuthentication {
-            isAuthRequestRequired = parent.alwaysRequireAuth()
+            ignoreCookiesManager = parent.alwaysRequireAuth()
         }
 
-        if isAuthRequestRequired {
+        let cookiesExpired = cookiesManager.cookiesExpired
+        if cookiesExpired && ignoreCookiesManager {
+            if cookiesManager.cookiesState != .creating && cookiesManager.cookiesState != .cookiesSet {
+                cookiesManager.createOrUpdateCookies()
+            }
+            return
+        }
+
+        loadController.state = .Initial
+        state = webController.initialContentState
+
+        if ignoreCookiesManager {
             state = State.CreatingSession
             loadOAuthRefreshRequest()
         }
@@ -379,7 +421,9 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             }
         case .NeedingSession:
             state = .CreatingSession
-            loadOAuthRefreshRequest()
+            if cookiesManager.cookiesState != .creating && cookiesManager.cookiesState != .cookiesSet {
+                cookiesManager.createOrUpdateCookies()
+            }
         }
         
         refreshAccessibility()
