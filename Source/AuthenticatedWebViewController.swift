@@ -217,7 +217,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         }
     }
 
-    // Sync cookies between HTTview PCookieStorage and WKHTTPCookieStore
+    // Sync cookies between HTTPCookieStorage and WKHTTPCookieStore
     private func syncCookiesStorage() {
         let cookies = HTTPCookieStorage.shared.cookies
         DispatchQueue.global().async { [weak self] in
@@ -342,8 +342,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             ignoreCookiesManager = parent.alwaysRequireAuth()
         }
 
-        let cookiesExpired = cookiesManager.cookiesExpired
-        if cookiesExpired && ignoreCookiesManager {
+        if cookiesManager.cookiesExpired && !ignoreCookiesManager {
             if cookiesManager.cookiesState != .creating && cookiesManager.cookiesState != .cookiesSet {
                 cookiesManager.createOrUpdateCookies()
             }

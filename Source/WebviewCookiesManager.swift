@@ -51,32 +51,18 @@ class WebviewCookiesManager: NSObject {
         cookiesState = .none
         let storage = HTTPCookieStorage.shared
         let cookies = storage.cookies
-        for cookie in cookies! {
+        for cookie in cookies ?? [] {
             storage.deleteCookie(cookie)
         }
     }
 
     private func parseAndSetCookies(response: HTTPURLResponse) {
-
         guard let fields = response.allHeaderFields as? [String : String],
               let url = OEXConfig.shared().apiHostURL()
         else { return }
 
         let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: url)
-
-        for cookie in cookies {
-            var cookieProperties = [HTTPCookiePropertyKey: Any]()
-            cookieProperties[.name] = cookie.name
-            cookieProperties[.value] = cookie.value
-            cookieProperties[.domain] = cookie.domain
-            cookieProperties[.path] = cookie.path
-            cookieProperties[.version] = cookie.version
-            cookieProperties[.expires] = cookie.expiresDate
-
-            if let newCookie = HTTPCookie(properties: cookieProperties) {
-                HTTPCookieStorage.shared.setCookie(newCookie)
-            }
-        }
+        HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: nil)
     }
 
     func updateSessionState(state: WebviewCookiesManagerState) {
