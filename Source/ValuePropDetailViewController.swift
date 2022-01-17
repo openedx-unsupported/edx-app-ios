@@ -10,6 +10,7 @@ import UIKit
 
 enum ValuePropModalType {
     case courseEnrollment
+    case courseDashboard
     case courseUnit
 }
 
