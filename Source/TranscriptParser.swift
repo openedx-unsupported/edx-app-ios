@@ -30,14 +30,17 @@ class TranscriptParser: NSObject {
     private(set) var transcripts: [TranscriptObject] = []
     
     func parse(transcript: String, completion: SubTitleParsingCompletion) {
-        transcripts.removeAll()
+        transcripts = []
+        
         if transcript.isEmpty {
-            completion(false, NSError(domain:"", code:-1, userInfo:[ NSLocalizedDescriptionKey: "Invalid Format"]))
+            completion(false, NSError(domain:"", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid Format"]))
             return
         }
         
-        var transcriptString = transcript.replacingOccurrences(of: "\r\n", with:"\n")
-        transcriptString = transcriptString.replacingOccurrences(of: "\r", with:"\n")
+        let transcriptString = transcript
+            .replacingOccurrences(of: "\r\n", with:"\n")
+            .replacingOccurrences(of: "\r", with:"\n")
+        
         var components = transcriptString.components(separatedBy: "\r\n\r\n")
         
         // Fall back to \n\n separation
@@ -52,55 +55,57 @@ class TranscriptParser: NSObject {
             
             let scanner = Scanner(string: component)
             var indexResult: Int = -1
-            var startResult: NSString?
-            var endResult: NSString?
-            var textResult: NSString?
+            var startResult: String?
+            var endResult: String?
+            var textResult: String?
             
-            let indexScanSuccess = scanner.scanInt(&indexResult)
-            let startTimeScanResult = scanner.scanUpToCharacters(from: CharacterSet.whitespaces, into: &startResult)
-            let dividerScanSuccess = scanner.scanUpTo("> ", into: nil)
-            if scanner.scanLocation + 2 < component.count {
-                scanner.scanLocation += 2
-            }
-            let endTimeScanResult = scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &endResult)
-            var textLineScanResult = false
-            if scanner.scanLocation + 1 < component.count {
-                scanner.scanLocation += 1
-                textLineScanResult = scanner.scanUpTo("", into: &textResult)
-            }
+            scanner.scanInt(&indexResult)
+            startResult = scanner.scanUpToCharacters(from: .whitespaces)
+            _ = scanner.scanUpToString("> ")
+            endResult = scanner.scanUpToCharacters(from: .newlines)?
+                .replacingOccurrences(of: " ", with: "")
+                .replacingOccurrences(of: ">", with: "")
+            textResult = scanner.scanUpToString("\"")
             
-            if let start = startResult as String?,
-                let end = endResult as String?,
-                startTimeScanResult, endTimeScanResult, indexScanSuccess, dividerScanSuccess {
-                if textLineScanResult, let text = textResult as String? {
-                    let transcript = TranscriptObject(with: text, start: timeInterval(from: start), end: timeInterval(from: end), index: indexResult)
-                    transcripts.append(transcript)
-                }
+            if let start = startResult,
+               let end = endResult {
+                let transcript = TranscriptObject(with: textResult ?? "", start: timeInterval(from: start), end: timeInterval(from: end), index: indexResult)
+                transcripts.append(transcript)
             }
-            else {
-                completion(false, NSError(domain:"", code:-1, userInfo:[ NSLocalizedDescriptionKey: "Invalid Format"]))
-                return
-            }
-            
         }
         completion(true, nil)
     }
     
     private func timeInterval(from timeString: String) -> TimeInterval {
-        let scanner = Scanner(string: timeString)
         var hours: Int = 0
         var minutes: Int = 0
         var seconds: Int = 0
         var milliSeconds: Int = 0
         
-        // Extract time components from string
-        scanner.scanInt(&hours)
-        scanner.scanString(":", into: nil)
-        scanner.scanInt(&minutes)
-        scanner.scanString(":", into: nil)
-        scanner.scanInt(&seconds)
-        scanner.scanString(",", into: nil)
-        scanner.scanInt(&milliSeconds)
-        return (Double(hours) * 3600.0 + Double(minutes) * 60.0 + Double(seconds) + Double(Double(milliSeconds)/1000.0)) as TimeInterval
+        let splittedByComma = timeString.components(separatedBy: ",")
+        
+        guard let splittedByColon = splittedByComma.first?.components(separatedBy: ":") else {
+            return .zero
+        }
+        
+        for (key, value) in splittedByColon.enumerated() {
+            if key == 0 {
+                hours = value.intValue
+            } else if key == 1 {
+                minutes = value.intValue
+            } else if key == 2 {
+                seconds = value.intValue
+            }
+        }
+        
+        milliSeconds = splittedByComma.last?.intValue ?? 0
+        
+        return (Double(hours) * 3600 + Double(minutes) * 60 + Double(seconds) + Double(Double(milliSeconds) / 1000)) as TimeInterval
+    }
+}
+
+fileprivate extension String {
+    var intValue: Int {
+        return Int(Double(self) ?? 0)
     }
 }

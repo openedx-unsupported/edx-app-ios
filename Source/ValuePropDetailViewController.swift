@@ -47,6 +47,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }()
     
     private let crossButtonSize: CGFloat = 20
+    private var isModalDismissable = true
     
     private var type: ValuePropModalType
     private let course: OEXCourse
@@ -67,11 +68,13 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         super.viewDidLoad()
         
         view.backgroundColor = environment.styles.neutralWhiteT()
-                
+        
         navigationController?.navigationBar.apply(barTintColor: environment.styles.neutralWhiteT(), tintColor: environment.styles.primaryBaseColor(), clearShadow: true)
         
         configureView()
         
+        navigationController?.presentationController?.delegate = self
+                
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         PaymentManager.shared.productPrice(courseSku) { [weak self] price in
             if let price = price {
@@ -100,7 +103,9 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         navigationItem.rightBarButtonItem = closeButton
         
         closeButton.oex_setAction { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
+            if self?.isModalDismissable == true {
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
@@ -129,7 +134,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     private func upgradeCourse() {
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         
-        disableAppTouchs()
+        disableModalDismissal()
         
         let pacing = course.isSelfPaced ? "self" : "instructor"
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: courseSku, pacing: pacing)
@@ -140,17 +145,15 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 self?.upgradeButton.stopAnimating()
                 break
             case .complete:
-                self?.enableAppTouches()
+                self?.enableModalDismissal()
                 self?.upgradeButton.isHidden = true
                 self?.dismiss(animated: true) {
                     CourseUpgradeCompletion.shared.handleCompletion(state: .success(self?.course.course_id ?? "", nil))
                 }
-                
                 break
             case .error:
-                self?.enableAppTouches()
+                self?.enableModalDismissal()
                 self?.upgradeButton.stopAnimating()
-                
                 self?.dismiss(animated: true) {
                     CourseUpgradeCompletion.shared.handleCompletion(state: .error)
                 }
@@ -161,19 +164,17 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         }
     }
     
-    private func disableAppTouchs() {
-        DispatchQueue.main.async {
-            if !UIApplication.shared.isIgnoringInteractionEvents {
-                UIApplication.shared.beginIgnoringInteractionEvents()
-            }
+    private func disableModalDismissal() {
+        isModalDismissable = false
+        DispatchQueue.main.async { [weak self] in
+            self?.view.isUserInteractionEnabled = false
         }
     }
     
-    private func enableAppTouches() {
-        DispatchQueue.main.async {
-            if UIApplication.shared.isIgnoringInteractionEvents {
-                UIApplication.shared.endIgnoringInteractionEvents()
-            }
+    private func enableModalDismissal() {
+        isModalDismissable = true
+        DispatchQueue.main.async { [weak self] in
+            self?.view.isUserInteractionEnabled = true
         }
     }
     
@@ -183,5 +184,11 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+}
+
+extension ValuePropDetailViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return isModalDismissable
     }
 }

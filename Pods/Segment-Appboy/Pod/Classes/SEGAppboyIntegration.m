@@ -209,7 +209,8 @@
   }
   
   NSDecimalNumber *revenue = [SEGAppboyIntegration extractRevenue:payload.properties withKey:@"revenue"];
-  if (revenue || [payload.event isEqualToString:@"Order Completed"]) {
+  if (revenue || [payload.event isEqualToString:@"Order Completed"]
+              || [payload.event isEqualToString:@"Completed Order"]) {
     NSString *currency = @"USD";  // Make USD as the default currency.
     if ([payload.properties[@"currency"] isKindOfClass:[NSString class]] &&
         [(NSString *)payload.properties[@"currency"] length] == 3) {  // Currency should be an ISO 4217 currency code.
@@ -267,8 +268,8 @@
 
 - (void)flush
 {
-  [[Appboy sharedInstance] flushDataAndProcessRequestQueue];
-  SEGLog(@"[[Appboy sharedInstance] flushDataAndProcessRequestQueue]");
+  [[Appboy sharedInstance] requestImmediateDataFlush];
+  SEGLog(@"[[Appboy sharedInstance] requestImmediateDataFlush]");
 }
 
 #if !TARGET_OS_TV
@@ -281,7 +282,6 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    NSLog(@"notification: %@", [notification userInfo]);
   dispatch_async(dispatch_get_main_queue(), ^{
     if (![[UIApplication sharedApplication].delegate respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)]) {
       [self logPushIfComesInBeforeAppboyInitializedWithIdentifier:nil];

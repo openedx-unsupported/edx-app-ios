@@ -55,11 +55,11 @@
            callback:(BNCServerCallback)callback {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:self.linkData.data];
 
-    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
+    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper sharedInstance];
     if (!preferenceHelper.trackingDisabled) {
-        params[BRANCH_REQUEST_KEY_DEVICE_FINGERPRINT_ID] = preferenceHelper.deviceFingerprintID;
+        params[BRANCH_REQUEST_KEY_RANDOMIZED_DEVICE_TOKEN] = preferenceHelper.randomizedDeviceToken;
         if (!_isSpotlightRequest)
-            params[BRANCH_REQUEST_KEY_BRANCH_IDENTITY] = preferenceHelper.identityID;
+            params[BRANCH_REQUEST_KEY_RANDOMIZED_BUNDLE_TOKEN] = preferenceHelper.randomizedBundleToken;
         params[BRANCH_REQUEST_KEY_SESSION_ID] = preferenceHelper.sessionID;
     }
 
@@ -72,7 +72,7 @@
 - (void)processResponse:(BNCServerResponse *)response error:(NSError *)error {
     if (error) {
         if (self.callback) {
-            BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
+            BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper sharedInstance];
             NSString *baseUrl = preferenceHelper.userUrl;
             if (baseUrl.length)
                 baseUrl = [preferenceHelper sanitizedMutableBaseURL:baseUrl];
@@ -101,7 +101,7 @@
 }
 
 - (NSString *)createLongUrlForUserUrl:(NSString *)userUrl {
-    NSMutableString *longUrl = [[BNCPreferenceHelper preferenceHelper] sanitizedMutableBaseURL:userUrl];
+    NSMutableString *longUrl = [[BNCPreferenceHelper sharedInstance] sanitizedMutableBaseURL:userUrl];
     for (NSString *tag in self.tags) {
         [longUrl appendFormat:@"tags=%@&", [BNCEncodingUtils stringByPercentEncodingStringForQuery:tag]];
     }
@@ -176,6 +176,10 @@
     [coder encodeObject:self.stage forKey:@"stage"];
     [coder encodeObject:self.campaign forKey:@"campaign"];
     [coder encodeObject:[BNCEncodingUtils encodeDictionaryToJsonString:self.params] forKey:@"params"];
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
 @end

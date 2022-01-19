@@ -80,11 +80,11 @@
         [self saveObject:bundleId forKey:@"BranchAppClipBundleId"];
         [self saveObject:installDate forKey:@"BranchAppClipFirstInstallDate"];
         
-        BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
+        BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper sharedInstance];
         
         NSString *url = preferenceHelper.referringURL;
-        NSString *token = preferenceHelper.deviceFingerprintID;
-        NSString *bundleToken = preferenceHelper.identityID;
+        NSString *token = preferenceHelper.randomizedDeviceToken;
+        NSString *bundleToken = preferenceHelper.randomizedBundleToken;
         
         [self saveObject:url forKey:@"BranchAppClipURL"];
         [self saveObject:token forKey:@"BranchAppClipToken"];

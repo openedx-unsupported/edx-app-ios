@@ -50,7 +50,7 @@ extern NSString *const ABKContentCardsProcessedIsSuccessfulKey;
 @property (readonly, nullable) NSDate *lastUpdate;
 
 /*!
- * This method returns the number of currently active content cards which have not been viewed.
+ * Returns the count of unviewed cards, excluding control cards.
  * A "view" happens when a card becomes visible in the Content Cards view.  This differentiates
  * between cards which are off-screen in the scrolling view, and those which
  * are on-screen; when a card scrolls onto the screen, it's counted as viewed.
@@ -63,8 +63,8 @@ extern NSString *const ABKContentCardsProcessedIsSuccessfulKey;
 - (NSInteger)unviewedContentCardCount;
 
 /*!
- * This method returns the total number of currently active content cards. Cards are
- * counted only once even if they appear in multiple Content Cards views.
+ * Returns the count of available cards, including control cards.
+ * Cards are counted only once even if they appear in multiple Content Cards views.
  */
 - (NSInteger)contentCardCount;
 

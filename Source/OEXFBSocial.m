@@ -75,7 +75,7 @@
 - (void)requestUserProfileInfoWithCompletion:(void (^)(NSDictionary*, NSError *))completion {
     if([FBSDKAccessToken currentAccessToken])
     {
-        [[[FBSDKGraphRequest alloc]initWithGraphPath:@"me" parameters:@{@"fields": @"name,email"}] startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+        [[[FBSDKGraphRequest alloc]initWithGraphPath:@"me" parameters:@{@"fields": @"name,email"}] startWithCompletion:^(id<FBSDKGraphRequestConnecting> connection, id result, NSError *error) {
             completion(result, error);
         }];
     }

@@ -9,8 +9,8 @@
 /*!
  * UI elements which are used in the Content Cards table view. You can find them in the Content Cards Storyboard.
  */
-@property (strong, nonatomic) IBOutlet UIView *emptyFeedView;
-@property (weak, nonatomic) IBOutlet UILabel *emptyFeedLabel;
+@property (nonatomic, strong) IBOutlet UIView *emptyFeedView;
+@property (nonatomic, strong) IBOutlet UILabel *emptyFeedLabel;
 
 /*!
  * The ABKContentCardsTableViewController delegate
@@ -57,6 +57,8 @@
 /*!
  * @discussion This method returns an instance of ABKContentCardsTableViewController. You can call it
  * to get a Content Cards view controller for your navigation controller.
+ * @warning To use a custom Content Card view controller, instantiate your own subclass instead
+ * (e.g. via alloc / init).
  */
 + (instancetype)getNavigationContentCardsViewController;
 
@@ -71,6 +73,35 @@
 - (NSString *)localizedAppboyContentCardsString:(NSString *)key;
 
 /*!
+ * @discussion initialization that always occurs for the Content Cards table view controller
+ */
+- (void)setUp;
+
+/*!
+ * @discussion Initialization that is in place of Storyboard or XIB initialization.
+ *             This method should call all the property specific setUp methods.
+ */
+- (void)setUpUI;
+
+/*!
+ * @discussion specific view property initialization that is in place of Storyboard or XIB initialization.
+ *  Called by the setUpUI method and is exposed here to allow overriding.
+ */
+- (void)setUpEmptyFeedLabel;
+- (void)setUpEmptyFeedView;
+
+/*!
+ * @discussion Registers Content Card type identifiers with the cell classes
+ * that implement their view.
+ */
+- (void)registerTableViewCellClasses;
+
+/*!
+ * @discussion Given a Content Card, return its type identifier
+ */
+- (NSString *)findCellIdentifierWithCard:(ABKContentCard *)card;
+
+/*!
  * @param tableView The table view which need the cell to diplay the card UI.
  * @param indexPath The index path of the card UI in the table view.
  * @param card The card model for the cell.
@@ -78,7 +109,7 @@
  * @discussion This method dequeues and returns the corresponding card cell based on card type from
  * the given table view.
  */
-+ (ABKBaseContentCardCell *)dequeueCellFromTableView:(UITableView *)tableView
+- (ABKBaseContentCardCell *)dequeueCellFromTableView:(UITableView *)tableView
                                         forIndexPath:(NSIndexPath *)indexPath
                                              forCard:(ABKContentCard *)card;
 

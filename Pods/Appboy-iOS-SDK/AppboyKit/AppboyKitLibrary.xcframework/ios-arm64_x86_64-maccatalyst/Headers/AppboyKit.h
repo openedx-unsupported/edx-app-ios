@@ -17,6 +17,10 @@
 #import "ABKCaptionedImageContentCard.h"
 #import "ABKClassicContentCard.h"
 
+// SDK Authentication
+#import "ABKSdkAuthenticationError.h"
+#import "ABKSdkAuthenticationDelegate.h"
+
 #if !TARGET_OS_TV
 // In-app Message
 #import "ABKInAppMessage.h"

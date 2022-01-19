@@ -32,5 +32,11 @@ typedef NS_OPTIONS(NSUInteger, ABKImageOptions ) {
 
 - (nullable UIImage *)imageFromCacheForURL:(nullable NSURL *)url;
 
+/*!
+ * @discussion Returns a class that is UIImageView or a subclass of UIImageView to allow the implementor to bring their own
+ * implementation of animated image support.
+ */
+- (Class)imageViewClass;
+
 @end
 NS_ASSUME_NONNULL_END

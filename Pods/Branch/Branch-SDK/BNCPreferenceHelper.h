@@ -22,12 +22,15 @@ NSURL* /* _Nonnull */ BNCURLForBranchDirectory(void);
 @property (strong, nonatomic) NSString *lastRunBranchKey;
 @property (strong, nonatomic) NSDate   *lastStrongMatchDate;
 @property (strong, nonatomic) NSString *appVersion;
-@property (strong, nonatomic) NSString *deviceFingerprintID;
+
+@property (strong, nonatomic) NSString *randomizedDeviceToken;
+@property (strong, nonatomic) NSString *randomizedBundleToken;
+
 @property (strong, nonatomic) NSString *sessionID;
-@property (strong, nonatomic) NSString *identityID;
 @property (strong, nonatomic) NSString *linkClickIdentifier;
 @property (strong, nonatomic) NSString *spotlightIdentifier;
 @property (strong, atomic)    NSString *universalLinkUrl;
+@property (strong, atomic)    NSString *initialReferrer;
 @property (strong, nonatomic) NSString *userUrl;
 @property (strong, nonatomic) NSString *userIdentity;
 @property (strong, nonatomic) NSString *sessionParams;
@@ -65,23 +68,11 @@ NSURL* /* _Nonnull */ BNCURLForBranchDirectory(void);
 @property (assign, atomic) BOOL trackingDisabled;
 - (void) clearTrackingInformation;
 
-+ (BNCPreferenceHelper *)preferenceHelper;
++ (BNCPreferenceHelper *)sharedInstance;
 
 - (NSString *)getAPIBaseURL;
 - (NSString *)getAPIURL:(NSString *)endpoint;
 - (NSString *)getEndpointFromURL:(NSString *)url;
-
-- (void)clearUserCreditsAndCounts;
-- (void)clearUserCredits;
-
-- (id)getBranchUniversalLinkDomains;
-
-- (void)setCreditCount:(NSInteger)count;
-- (void)setCreditCount:(NSInteger)count forBucket:(NSString *)bucket;
-- (void)removeCreditCountForBucket:(NSString *)bucket;
-- (NSDictionary *)getCreditDictionary;
-- (NSInteger)getCreditCount;
-- (NSInteger)getCreditCountForBucket:(NSString *)bucket;
 
 - (void)setRequestMetadataKey:(NSString *)key value:(NSObject *)value;
 - (NSMutableDictionary *)requestMetadataDictionary;

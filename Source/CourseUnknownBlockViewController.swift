@@ -10,7 +10,7 @@ import UIKit
 
 class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & DataManagerProvider & RemoteConfigProvider & ReachabilityProvider & NetworkManagerProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & RemoteConfigProvider & ReachabilityProvider & NetworkManagerProvider
     
     private let environment: Environment
     
@@ -197,7 +197,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func didTapUpgradeCourse(upgradeView: ValuePropComponentView) {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else { return }
         
-        disableAppTouchs()
+        disableUserInteraction()
         
         let pacing = course.isSelfPaced ? "self" : "instructor"
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: self.blockID ?? "", pacing: pacing)
@@ -208,7 +208,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 upgradeView.stopAnimating()
                 break
             case .complete:
-                self?.enableAppTouches()
+                self?.enableUserInteraction()
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
                 
                 self?.dismiss(animated: true) {
@@ -217,7 +217,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 
                 break
             case .error:
-                self?.enableAppTouches()
+                self?.enableUserInteraction()
                 upgradeView.stopAnimating()
                 
                 self?.dismiss(animated: true) {
@@ -231,19 +231,19 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         }
     }
     
-    private func disableAppTouchs() {
-        DispatchQueue.main.async {
-            if !UIApplication.shared.isIgnoringInteractionEvents {
-                UIApplication.shared.beginIgnoringInteractionEvents()
-            }
+    private func disableUserInteraction() {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.toolbar.isUserInteractionEnabled = false
+            self?.navigationController?.navigationBar.isUserInteractionEnabled = false
+            self?.view.isUserInteractionEnabled = false
         }
     }
     
-    private func enableAppTouches() {
-        DispatchQueue.main.async {
-            if UIApplication.shared.isIgnoringInteractionEvents {
-                UIApplication.shared.endIgnoringInteractionEvents()
-            }
+    private func enableUserInteraction() {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.toolbar.isUserInteractionEnabled = true
+            self?.navigationController?.navigationBar.isUserInteractionEnabled = true
+            self?.view.isUserInteractionEnabled = true
         }
     }
     

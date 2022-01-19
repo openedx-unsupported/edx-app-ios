@@ -3,6 +3,7 @@
 #import "ABKUIUtils.h"
 #import "ABKInAppMessageWindowController.h"
 #import "ABKInAppMessageWebViewBridge.h"
+#import "ABKUIURLUtils.h"
 
 static NSString *const ABKBlankURLString = @"about:blank";
 static NSString *const ABKHTMLInAppButtonIdKey = @"abButtonId";
@@ -145,15 +146,20 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
   NSURL *url = navigationAction.request.URL;
-  
+
   // Handle normal html resource loading
-  
+  BOOL isSystemOpen = [ABKUIURLUtils URLHasSystemScheme:url];
+  BOOL isIframeLoad = navigationAction.targetFrame != nil && ![navigationAction.sourceFrame isEqual:navigationAction.targetFrame];
   NSString *assetPath = ((ABKInAppMessageHTMLBase *)self.inAppMessage).assetsLocalDirectoryPath.absoluteString;
   BOOL isHandledByWebView =
-    !url ||
-    [ABKUIUtils string:url.absoluteString isEqualToString:ABKBlankURLString] ||
-    [ABKUIUtils string:url.path isEqualToString:assetPath] ||
-    [ABKUIUtils string:url.lastPathComponent isEqualToString:ABKInAppMessageHTMLFileName];
+    !isSystemOpen &&
+    (
+      !url ||
+      isIframeLoad ||
+      [ABKUIUtils string:url.absoluteString isEqualToString:ABKBlankURLString] ||
+      [ABKUIUtils string:url.path isEqualToString:assetPath] ||
+      [ABKUIUtils string:url.lastPathComponent isEqualToString:ABKInAppMessageHTMLFileName]
+    );
   
   if (isHandledByWebView) {
     decisionHandler(WKNavigationActionPolicyAllow);

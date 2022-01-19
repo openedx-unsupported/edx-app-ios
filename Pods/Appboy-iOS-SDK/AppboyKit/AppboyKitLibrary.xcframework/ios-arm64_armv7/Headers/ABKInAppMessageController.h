@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  * in-app message.
  *
  * @discussion The default of this value is NO but can be overriden by setting the value of ABKEnableDismissModalOnOutsideTapKey in
- *             appboyOptions or in the Appboy dictionary in your Info.plist file.
+ *             appboyOptions or in the Braze dictionary in your Info.plist file.
  */
 @property BOOL enableDismissModalOnOutsideTap;
 
@@ -43,7 +43,15 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * If there are no in-app messages available this returns immediately having taken no action.
  */
-- (void)displayNextInAppMessageWithDelegate:(nullable id<ABKInAppMessageControllerDelegate>)delegate;
+- (void)displayNextInAppMessageWithDelegate:(nullable id<ABKInAppMessageControllerDelegate>)delegate __deprecated_msg("Please use 'displayNextInAppMessage' instead.");
+
+/*!
+ * Displays the next in-app message from the in-app message stack.
+ *
+ * This method pops the next in-app message from the in-app message stack and tries to displays it.
+ * When defined, the current delegate methods are executed to respect any custom behavior.
+ */
+- (void)displayNextInAppMessage;
 
 /*!
  * @return The number of in-app messages that are locally waiting to be displayed.

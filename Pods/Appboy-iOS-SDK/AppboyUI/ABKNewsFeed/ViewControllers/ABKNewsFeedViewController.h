@@ -7,6 +7,6 @@
  * This property is the table view controller which displays all the cards. It's also the root view
  * controller.
  */
-@property (unsafe_unretained, nonatomic) ABKNewsFeedTableViewController *newsFeed;
+@property (nonatomic) ABKNewsFeedTableViewController *newsFeed;
 
 @end
