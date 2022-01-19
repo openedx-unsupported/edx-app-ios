@@ -11,7 +11,7 @@ import Foundation
 let WebviewCookiesCreatedNotification = "CookiesCreatedNotification"
 
 enum WebviewCookiesManagerState {
-    case none, creating, created, cookiesSet, failed
+    case none, creating, set, created, failed
 }
 
 // A class that will manage the session and other relevant cookies for AuthenticatedWebViewController
@@ -42,7 +42,7 @@ class WebviewCookiesManager: NSObject {
         cookiesState = .creating
         let network = OEXRouter.shared().environment.networkManager
         network.taskForRequest(loginAPI()) { [weak self] result in
-            self?.updateSessionState(state: result.error == nil ? .cookiesSet : .failed)
+            self?.updateSessionState(state: result.error == nil ? .set : .failed)
         }
     }
 
@@ -68,7 +68,7 @@ class WebviewCookiesManager: NSObject {
     func updateSessionState(state: WebviewCookiesManagerState) {
         cookiesState = state
         switch state {
-        case .cookiesSet:
+        case .set:
             authSessionCookieExpiration = Date().addingTimeInterval(refreshInterval).timeIntervalSince1970
             postCookiesSetNotification(status: true)
             break
