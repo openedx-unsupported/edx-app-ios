@@ -74,7 +74,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         configureView()
         
         navigationController?.presentationController?.delegate = self
-                
+        
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         PaymentManager.shared.productPrice(courseSku) { [weak self] price in
             if let price = price {
@@ -103,9 +103,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         navigationItem.rightBarButtonItem = closeButton
         
         closeButton.oex_setAction { [weak self] in
-            if self?.isModalDismissable == true {
-                self?.dismiss(animated: true, completion: nil)
-            }
+            self?.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -134,7 +132,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     private func upgradeCourse() {
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         
-        disableModalDismissal()
+        disableUserInteraction()
         
         let pacing = course.isSelfPaced ? "self" : "instructor"
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: courseSku, pacing: pacing)
@@ -145,14 +143,14 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 self?.upgradeButton.stopAnimating()
                 break
             case .complete:
-                self?.enableModalDismissal()
+                self?.enableUserInteraction()
                 self?.upgradeButton.isHidden = true
                 self?.dismiss(animated: true) {
                     CourseUpgradeCompletion.shared.handleCompletion(state: .success(self?.course.course_id ?? "", nil))
                 }
                 break
             case .error:
-                self?.enableModalDismissal()
+                self?.enableUserInteraction()
                 self?.upgradeButton.stopAnimating()
                 self?.dismiss(animated: true) {
                     CourseUpgradeCompletion.shared.handleCompletion(state: .error)
@@ -164,16 +162,18 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         }
     }
     
-    private func disableModalDismissal() {
+    private func disableUserInteraction() {
         isModalDismissable = false
         DispatchQueue.main.async { [weak self] in
+            self?.navigationItem.rightBarButtonItem?.isEnabled = false
             self?.view.isUserInteractionEnabled = false
         }
     }
     
-    private func enableModalDismissal() {
+    private func enableUserInteraction() {
         isModalDismissable = true
         DispatchQueue.main.async { [weak self] in
+            self?.navigationItem.rightBarButtonItem?.isEnabled = true
             self?.view.isUserInteractionEnabled = true
         }
     }

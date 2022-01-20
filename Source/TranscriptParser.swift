@@ -33,7 +33,7 @@ class TranscriptParser: NSObject {
         transcripts = []
         
         if transcript.isEmpty {
-            completion(false, NSError(domain:"", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid Format"]))
+            completion(false, NSError(domain:"", code: -1, userInfo: [NSLocalizedDescriptionKey: "Empty Transcripts"]))
             return
         }
         
