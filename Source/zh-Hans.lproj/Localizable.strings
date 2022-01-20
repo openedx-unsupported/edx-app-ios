@@ -951,6 +951,8 @@
 "USER_ACCOUNT"="账号";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "个人资料";
+/* Value prop unlocking content */
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course...";
 /* Value prop upgrade text */
 "VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
 /* Value prop upgrade button text with price */

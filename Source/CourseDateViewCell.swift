@@ -475,6 +475,18 @@ extension NSAttributedString {
         attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: string.count))
         return NSAttributedString(attributedString: attributedString)
     }
+    
+    func setStyle(spacing: CGFloat, alignment: NSTextAlignment = .left, lineBrakMode: NSLineBreakMode = .byWordWrapping) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(attributedString: self)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = lineBrakMode
+        paragraphStyle.lineSpacing = spacing
+        paragraphStyle.minimumLineHeight = spacing
+        paragraphStyle.paragraphSpacing = spacing
+        paragraphStyle.alignment = alignment
+        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: string.count))
+        return NSAttributedString(attributedString: attributedString)
+    }
 }
 
 extension String {

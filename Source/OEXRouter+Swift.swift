@@ -413,8 +413,8 @@ extension OEXRouter {
         }
     }
     
-    func showValuePropDetailView(from controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse, completion: (() -> Void)? = nil) {
-        let upgradeDetailController = ValuePropDetailViewController(type: type, course: course, environment: environment)
+    func showValuePropDetailView(from controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse, blockID: CourseBlockID? = nil, completion: (() -> Void)? = nil) {
+        let upgradeDetailController = ValuePropDetailViewController(type: type, course: course, blockID: blockID, environment: environment)
         controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailController), animated: true, completion: completion)
     }
     
@@ -483,7 +483,7 @@ extension OEXRouter {
         c.loadRequest(request: URLRequest(url: url as URL) as NSURLRequest)
     }
     
-    func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
+    func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true) {
         let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
         fromController.navigationController?.pushViewController(controller, animated: animated)
     }

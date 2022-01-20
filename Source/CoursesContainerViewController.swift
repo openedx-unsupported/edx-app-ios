@@ -246,9 +246,7 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     private func shouldShowValueProp(for course: OEXCourse) -> Bool {
-        guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id),
-              UpgradeSKUManager.shared.courseSku(for: course) != nil else { return false }
-        
+        guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id) else { return false }
         return enrollment.type == .audit && environment.remoteConfig.valuePropEnabled && !course.isEndDateOld
     }
     

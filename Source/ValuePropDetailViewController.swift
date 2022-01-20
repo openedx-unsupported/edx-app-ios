@@ -51,10 +51,12 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     private var type: ValuePropModalType
     private let course: OEXCourse
     private let environment: Environment
+    private let blockID: CourseBlockID?
     
-    init(type: ValuePropModalType, course: OEXCourse, environment: Environment) {
+    init(type: ValuePropModalType, course: OEXCourse, blockID: CourseBlockID? = nil, environment: Environment) {
         self.type = type
         self.course = course
+        self.blockID = blockID
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
@@ -136,16 +138,15 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             switch status {
-            case .payment:
-                self?.upgradeButton.stopAnimating()
+            case .verify:
+                ValuePropUnlockViewContainer.shared.showView()
                 break
             case .complete:
                 self?.enableAppTouches()
                 self?.upgradeButton.isHidden = true
                 self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(self?.course.course_id ?? "", nil))
+                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(self?.course.course_id ?? "", self?.blockID))
                 }
-                
                 break
             case .error:
                 self?.enableAppTouches()
