@@ -97,9 +97,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 
     private var canShowValueProp: Bool {
-        guard let enrollment = enrollment, enrollment.type == .audit && environment.remoteConfig.valuePropEnabled, UpgradeSKUManager.shared.courseSku(for: enrollment.course) != nil else {
-            return false
-        }
+        guard let enrollment = enrollment, enrollment.type == .audit && environment.remoteConfig.valuePropEnabled
+        else {  return false }
 
         return true
     }
@@ -141,7 +140,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         valuePropView.addSubview(button)
 
         button.snp.remakeConstraints { make in
-            make.height.equalTo(36)
+            make.height.equalTo(StandardVerticalMargin * 4.5)
             make.leading.equalTo(valuePropView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(valuePropView).inset(StandardHorizontalMargin)
             make.top.equalTo(StandardVerticalMargin)
@@ -539,7 +538,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             valuePropView.snp.remakeConstraints { make in
                 make.trailing.equalTo(courseCard)
                 make.leading.equalTo(courseCard)
-                make.top.equalTo(constraintView.snp.bottom)
+                make.top.equalTo(constraintView.snp.bottom).offset(StandardVerticalMargin * 1.4)
                 make.height.equalTo(courseUpgradeViewtHeight)
             }
             constraintView = valuePropView
