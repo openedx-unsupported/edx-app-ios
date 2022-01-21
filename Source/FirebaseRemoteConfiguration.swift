@@ -10,17 +10,17 @@ import UIKit
 
 private let remoteConfigUserDefaultKey = "remote-config"
 
-protocol RemoteConfigProvider {
+public protocol RemoteConfigProvider {
     var remoteConfig: FirebaseRemoteConfiguration { get }
 }
 
-extension RemoteConfigProvider {
+public extension RemoteConfigProvider {
     var remoteConfig: FirebaseRemoteConfiguration {
         return FirebaseRemoteConfiguration.shared
     }
 }
 
-@objc class FirebaseRemoteConfiguration: NSObject {
+@objc public class FirebaseRemoteConfiguration: NSObject {
     enum Keys: String, RawStringExtractable {
         case valuePropEnabled = "VALUE_PROP_ENABLED"
         case courseDatesCalendarSync = "COURSE_DATES_CALENDAR_SYNC"
