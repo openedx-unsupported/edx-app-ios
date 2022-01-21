@@ -143,7 +143,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             make.height.equalTo(StandardVerticalMargin * 4.5)
             make.leading.equalTo(valuePropView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(valuePropView).inset(StandardHorizontalMargin)
-            make.top.equalTo(StandardVerticalMargin)
+            make.center.equalTo(valuePropView)
         }
     }
 
@@ -538,7 +538,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             valuePropView.snp.remakeConstraints { make in
                 make.trailing.equalTo(courseCard)
                 make.leading.equalTo(courseCard)
-                make.top.equalTo(constraintView.snp.bottom).offset(StandardVerticalMargin * 1.4)
+                make.top.equalTo(constraintView.snp.bottom)
                 make.height.equalTo(courseUpgradeViewtHeight)
             }
             constraintView = valuePropView
