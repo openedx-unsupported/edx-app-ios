@@ -418,8 +418,8 @@ extension OEXRouter {
         controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailController), animated: true, completion: completion)
     }
     
-    func showBrowserViewController(from controller: UIViewController, title: String?,  url: URL, alwaysRequireAuth: Bool = false, completion: (() -> Void)? = nil) {
-        let browserViewController = BrowserViewController(title: title, url: url, environment: environment, alwaysRequireAuth: alwaysRequireAuth)
+    func showBrowserViewController(from controller: UIViewController, title: String?,  url: URL, completion: (() -> Void)? = nil) {
+        let browserViewController = BrowserViewController(title: title, url: url, environment: environment)
         if let controller = controller as? BrowserViewControllerDelegate {
             browserViewController.delegate = controller
         }
@@ -428,8 +428,8 @@ extension OEXRouter {
         controller.present(navController, animated: true, completion: completion)
     }
     
-    func showBannerViewController(from controller: UIViewController, url: URL, title: String?, delegate: BannerViewControllerDelegate? = nil, alwaysRequireAuth: Bool = false, modal: Bool = true, showNavbar: Bool = false) {
-        let bannerController = BannerViewController(url: url, title: title, environment: environment, alwaysRequireAuth: alwaysRequireAuth, showNavbar: showNavbar)
+    func showBannerViewController(from controller: UIViewController, url: URL, title: String?, delegate: BannerViewControllerDelegate? = nil, modal: Bool = true, showNavbar: Bool = false) {
+        let bannerController = BannerViewController(url: url, title: title, environment: environment, showNavbar: showNavbar)
         bannerController.delegate = delegate
         if modal {
             let navController = ForwardingNavigationController(rootViewController: bannerController)
