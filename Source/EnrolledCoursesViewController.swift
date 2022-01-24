@@ -22,9 +22,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
     var handleBannerOnStart: Bool = false // this will be used to send first call for the banners
-    var handleCourseUpgradation = false
-    var courseUpgradationForCourseID: CourseBlockID? = nil
-    var courseUpgradationForCourseBlockID: CourseBlockID? = nil
     
     init(environment: Environment) {
         coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
@@ -125,10 +122,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     self?.coursesContainer.collectionView.reloadData()
                     self?.loadController.state = .Loaded
                     
-                    if self?.handleCourseUpgradation == true {
-                        self?.handleCourseUpgradationIfNecessary()
-                    }
-                    
                     if enrollments.count <= 0 {
                         self?.enrollmentsEmptyState()
                     }
@@ -149,18 +142,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     self?.hideSnackBar()
                 }
             }
-        }
-    }
-    
-    private func handleCourseUpgradationIfNecessary() {
-        if let courseID = courseUpgradationForCourseID {
-            if let blockID = courseUpgradationForCourseBlockID {
-                environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: blockID)
-            } else {
-                environment.router?.showCourseWithID(courseID: courseID, fromController: self)
-            }
-            
-            handleCourseUpgradation = false
         }
     }
     
@@ -190,25 +171,18 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
             if let dictionary = notification.object as? NSDictionary,
+               let screenValue = dictionary[CourseUpgradeCompletion.screen] as? String,
+               let screen = ValuePropModalType.init(rawValue: screenValue),
                let courseID = dictionary[CourseUpgradeCompletion.courseID] as? String {
-                let blockID = dictionary[CourseUpgradeCompletion.blockID] as? String
-                observer.updateCourseEnrolmentMode(courseID: courseID, blockID: blockID)
+                observer.handleCourseUpgradation(courseID: courseID, screen: screen)
             }
         }
     }
     
-    func updateCourseEnrolmentMode(courseID: CourseBlockID, blockID: CourseBlockID? = nil) {
-        handleCourseUpgradation = true
-        courseUpgradationForCourseID = courseID
-        courseUpgradationForCourseBlockID = blockID
-        
+    func handleCourseUpgradation(courseID: CourseBlockID, screen: ValuePropModalType) {
+        guard screen == .courseEnrollment else { return }
         environment.interface?.enrollmentForCourse(withID: courseID)?.type = .verified
         coursesContainer.collectionView.reloadData()
-        
-        if blockID == nil {
-            ValuePropUnlockViewContainer.shared.removeView()
-        }
-        
         enrollmentFeed.refresh()
     }
     

@@ -79,6 +79,7 @@ public class CourseOutlineViewController :
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
         addObserver()
+        addCourseUpgradeObserver()
         resumeCourseController.delegate = self
         
         addChild(tableController)
@@ -182,9 +183,39 @@ public class CourseOutlineViewController :
         }
     }
     
+    private func addCourseUpgradeObserver() {
+        guard courseOutlineMode == .full, rootID == nil else { return }
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
+            if let dictionary = notification.object as? NSDictionary,
+               let screenValue = dictionary[CourseUpgradeCompletion.screen] as? String,
+               let screen = ValuePropModalType.init(rawValue: screenValue),
+               let courseID = dictionary[CourseUpgradeCompletion.courseID] as? String {
+                let blockID = dictionary[CourseUpgradeCompletion.blockID] as? String
+                if courseID == observer.courseID {
+                    observer.handleCourseUpgradation(courseID: courseID, blockID: blockID, screen: screen)
+                }
+            }
+        }
+    }
+    
+    func handleCourseUpgradation(courseID: CourseBlockID, blockID: CourseBlockID?, screen: ValuePropModalType) {
+        ValuePropUnlockViewContainer.shared.showView()
+        loadCourseStream { success in
+            if let blockID = blockID, screen == .courseUnit {
+                self.environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: blockID) { _ in
+                    ValuePropUnlockViewContainer.shared.removeView()
+                    CourseUpgradeCompletion.shared.showSuccess()
+                }
+            } else {
+                ValuePropUnlockViewContainer.shared.removeView()
+            }
+        }
+    }
+    
     private var courseOutlineLoaded = false
     
-    private func loadCourseOutlineStream() {
+    private func loadCourseOutlineStream(upgradeCompletion: ((Bool)->())? = nil) {
         let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
 
         courseOutlineStream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
@@ -193,16 +224,19 @@ public class CourseOutlineViewController :
                     self?.courseOutlineLoaded = true
                     self?.navigateToComponentScreenIfNeeded()
                     self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
+                    upgradeCompletion?(true)
                 }
                 else {
                     self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
                 }
             }
             else {
+                upgradeCompletion?(false)
                 self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
                 self?.tableController.isSectionOutline = true
             }
             }, failure: {
+                upgradeCompletion?(false)
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
         })
     }
@@ -243,9 +277,9 @@ public class CourseOutlineViewController :
         }
     }
     
-    private func loadCourseStream() {
+    private func loadCourseStream(completion: ((Bool)->())? = nil) {
         loadController.state = .Initial
-        loadCourseOutlineStream()
+        loadCourseOutlineStream(upgradeCompletion: completion)
         loadCourseBannerStream()
         reload()
     }

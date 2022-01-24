@@ -8,8 +8,9 @@
 
 import UIKit
 
-enum ValuePropModalType {
+enum ValuePropModalType: String {
     case courseEnrollment
+    case courseDashboard
     case courseUnit
 }
 
@@ -138,14 +139,11 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             switch status {
-            case .verify:
-                ValuePropUnlockViewContainer.shared.showView()
-                break
             case .complete:
-                self?.enableAppTouches()
+                self?.enableUserInteraction()
                 self?.upgradeButton.isHidden = true
                 self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(self?.course.course_id ?? "", self?.blockID))
+                    CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID), screen: self?.type ?? .courseDashboard)
                 }
                 break
             case .error:
@@ -153,7 +151,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 self?.upgradeButton.stopAnimating()
                 
                 self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .error)
+                    CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .error, screen: self?.type ?? .courseDashboard)
                 }
                 break
             default:

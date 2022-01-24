@@ -70,7 +70,7 @@ extension OEXRouter {
         return contentPageController
     }
     
-    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID) {
+    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID, completion: ((UIViewController) -> Void)? = nil) {
         let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         guard let childBlock = courseQuerier.blockWithID(id: componentID).firstSuccess().value,
               let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
@@ -92,7 +92,7 @@ extension OEXRouter {
         }
         
         showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: outlineViewController) { [weak self] visibleController in
-            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: nil)
+            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: completion)
         }
     }
     
