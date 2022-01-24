@@ -204,24 +204,15 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             switch status {
-            case .verify:
-                ValuePropUnlockViewContainer.shared.showView()
-                break
             case .complete:
                 self?.enableAppTouches()
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
-                
-                self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(course.course_id ?? "", self?.blockID))
-                }
+                CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .success(self?.courseID ?? "", self?.blockID), screen: .courseUnit)
                 break
             case .error:
                 self?.enableAppTouches()
                 upgradeView.stopAnimating()
-                
-                self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .error)
-                }
+                CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .error, screen: .courseUnit)
                 break
             default:
                 break
