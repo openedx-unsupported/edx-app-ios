@@ -985,6 +985,8 @@
 "VALUE_PROP.SHOW_MORE_TEXT"="Show more";
 /* Show less button text on the component screen on the value prop banner*/
 "VALUE_PROP.SHOW_LESS_TEXT"="Show less";
+/* Value prop button text on course dashbaord screen*/
+"VALUE_PROP.COURSE_DASHBOARD_BUTTON_TITLE"="Upgrade to access more features";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "版本 {number} {environment}";
 /* Error shown when video download fails */
