@@ -281,23 +281,23 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Resources";
 /* Course Dates Success Toast Message */
-"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Your due dates have been successfully shifted to help you stay on track.";
+"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "لقد غُيِّرت المواعيد المقررة لديك لمساعدتك على متابعة التقدم في المسار الصحيح.";
 /* Course Dates navigate to Dates screen*/
-"COURSEDATES.VIEW_ALL_DATES" = "View all dates";
+"COURSEDATES.VIEW_ALL_DATES" = "عرض جميع المواعيد";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
 /* Course Date Type Completed */
-"COURSEDATES.COMPLETED"="Completed";
+"COURSEDATES.COMPLETED"="منجز";
 /* Course Date Type Past Due */
-"COURSEDATES.PAST_DUE"="Past Due";
+"COURSEDATES.PAST_DUE"="تجاوز تاريخ الاستلام";
 /* Course Date Type Due Next */
-"COURSEDATES.DUE_NEXT"="Due Next";
+"COURSEDATES.DUE_NEXT"="موعد الاستلام  التالي";
 /* Course Date Type Unreleased */
-"COURSEDATES.UNRELEASED"="Not Yet Released";
+"COURSEDATES.UNRELEASED"="لم يصدر بعد";
 /* Course Date Completed */
-"COURSEDATES.VERFIED_ONLY"="Verified Only";
+"COURSEDATES.VERFIED_ONLY"="مسجل فقط";
 /* Course Date Today*/
-"COURSEDATES.TODAY"="Today";
+"COURSEDATES.TODAY"="اليوم";
 /* Course date Assignment Due Date*/
 "COURSEDATES.ASSIGNMENT_DUE_DATE"="Assignment Due Date";
 /* Course Date Verified Upgrade Deadline*/
@@ -317,73 +317,73 @@
 /* Course Reset Date Title */
 "COURSEDATES.RESET_DATE.TITLE"="Course Dates";
 /* Course Reset Date Success Message */
-"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Your dates have been successfully shifted.";
+"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="لقد غُيِّرت المواعيد لديك بنجاح.";
 /* Course Reset Date Error Message */
-"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Your dates could not be shifted. Please try again.";
+"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="تعذر تغيير المواعيد لديك. فيُرجى المحاولة مرة أخرى.";
 /* Course Reset Date Tab Info Banner Header */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="We've built a suggested schedule to help you stay on track. ";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"=" لقد وضعنا لك، على سبيل الاقتراح، جدولاً ليساعدك على متابعة التقدم في المسار الصحيح.";
 /* Course Reset Date Tab Info Banner Body */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="But don't worry—it's flexible so you can learn at your own pace. If you happen to fall behind on our suggested dates, you'll be able to adjust them to keep yourself on track.";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="ولا داعي للقلق؛ فهو جدول يتسم بالمرونة بما يُمكِّنك من التعلم على طريقتك الخاصة. فإذا حدث أن تأخرت عن المواعيد المقترحة في هذا الجدول، فباستطاعتك تعديلها لتتابع التقدم في مسارك الصحيح.";
 /* Course Reset Date Upgrade To Complete Graded Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="You are auditing this course, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="أنت تقوم بمراجعة هذه الدورة التدريبية ";
 /* Course Reset Date Upgrade To Complete Graded Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded assignments as part of this course, you can upgrade today.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="مما يعني أنك غير قادر على المشاركة في الواجبات المقدرة. لإكمال الواجبات المقدرة كجزء من هذه الدورة التدريبية ، يمكنك الترقية اليوم.";
 /* Course Reset Date Upgrade To Complete Graded Banner Button */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Upgrade now";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="ترفيع المستوى الآن";
 /* Course Reset Date Upgrade Reset Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="You are auditing this course, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"=" انت تقوم بمراجعة هذه الدورة التدريبية";
 /* Course Reset Date Upgrade Reset Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="which means that you are unable to participate in graded assignments. It looks like you missed some important deadlines based on our suggested schedule. To complete graded assignments as part of this course and shift the past due assignments into the future, you can upgrade today.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="مما يعني انك غير قادر ان تشارك في الواجبات المقدرة. يبدو انك فاتتك بعض المواعيد المهمة بناء على جدولنا .لتكمل الواجبات المقدرة كجزء من هذه الدورة ونقل واجبات الماضي الي المستقبل، يمكنك الترقية اليوم";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
 /* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="It looks like you missed some important deadlines based on our suggested schedule. ";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"=" يبدو انك فاتتك بعض المراعيد المهمة بناء على جدولنا المقترح";
 /* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="لتبقى نفسك على المسار الصحيح، يمكنك ترقية جدولك و نقل واجبات الماضي الي المستقبل. لا تقلق لن تخسر اي تقدم فعلته عندما تنقل التواريخ المحددة";
 /* Course Reset Date Banner Button */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="تغيير المواعيد المقررة";
 /* Course Dates Title */
-"COURSEDATES.COURSE_SCHEDULE"="Course Schedule";
+"COURSEDATES.COURSE_SCHEDULE"="جدول الدورة";
 /* Course Dates Sync To Calendar */
-"COURSEDATES.SYNC_TO_CALENDAR"="Sync to calendar";
+"COURSEDATES.SYNC_TO_CALENDAR"="مزامنة مع التقويم";
 /* Course Dates Sync To Calendar Message */
-"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
+"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="مزامنة جميع المواعيد النهائية وتواريخ الاستحقاق الخاصة بهذه الدورة التدريبية تلقائيًا مع التقويم الخاص بك.";
 /* Course Dates Add Calendar Dialog Title */
-"COURSEDATES.ADD_CALENDAR_TITLE"="Add calendar \"{calendar_name}\"";
+"COURSEDATES.ADD_CALENDAR_TITLE"="إضافة التقويم \"{calendar_name}\"";
 /* Course Dates Remove Calendar Dialog Title */
-"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove calendar \"{calendar_name}\"";
+"COURSEDATES.REMOVE_CALENDAR_TITLE"=">إزالة التقويم \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+"COURSEDATES.ADD_CALENDAR_PROMPT"=">هل ترغب في إضافة تقويم {platform_name} \"{calendar_name}\"؟ \n  يمكنك تحرير أو إزالة تقويم المقرر الدراسي الخاص بك في أي وقت في \"التقويم\" أو \"الإعدادات\".";
 /* Course Dates Remove Calendar Message prompt */
-"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="هل ترغب في إزالة التقويم {platform_name} \"{calendar_name}\"";
 /* Course Dates Calendar has been added to your calendar*/
-"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
+"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "لقد أُضِيفت الدورة \"{calendar_name}\" إلى التقويم في هاتفك.";
 /* Course Dates Open Settings */
 "COURSEDATES.OPEN_SETTINGS"="Open Settings";
 /* Course Dates Events Added to Calendar Success */
-"COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
+"COURSEDATES.CALENDAR_EVENTS_ADDED"="تمت إضافة تقويم المقرر الدراسي الخاص بك.";
 /* Course Dates Events Removed from Calendar */
-"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
+"COURSEDATES.CALENDAR_EVENTS_REMOVED"="لقد تم حذف تقويم دورتك";
 /* Course Dates Events Updated in Calendar */
-"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Your course calendar has been updated.";
+"COURSEDATES.CALENDAR_EVENTS_UPDATED"="تم تحديث تقويم المقرر الدراسي الخاص بك.";
 /* Course Dates Permission Not Determined */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
 /* Course Dates Calendar Out of Date*/
-"COURSEDATES.CALENDAR_OUT_OF_DATE"="Your course calendar is out of date";
+"COURSEDATES.CALENDAR_OUT_OF_DATE"="تقويم الدورة التدريبية الخاص بك قديم";
 /* Course Dates Calendar Shift Message */
-"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Your course dates have been shifted and your course calendar is no longer up to date with your new schedule.";
+"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="تم تغيير تواريخ الدورة التدريبية الخاصة بك ولم يعد تقويم الدورة التدريبية محدثًا مع جدولك الجديد.";
 /* Course Dates Calendar Shift Prompt Update Now */
 "COURSEDATES.CALENDAR_SHIFT_PROMPT_UPDATE_NOW"="Update now";
 /* Course Dates Calendar Shift Prompt Remove Course Calendar */
-"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
+"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="إزالة تقوم الدورة التدريبية";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
 /* Course Dates Calendar sync Message */
-"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Syncing calendar...";
+"COURSEDATES.CALENDAR_SYNC_MESSAGE"="مزامنة التقويم...";
 /*Course upgrade success alert title*/
-"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
+"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="اكتمل ترفيع المستوى";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Thank you for your purchase. You can pick up right where you left off and enjoy full access to your course content.";
+"COURSE_UPGRADE.SUCCESS_ALERT_Message"=">نشكرك على معاملة الشراء هذه. وبإمكانك المتابعة من حيث توقفت، والاستمتاع بالاطلاع التام على محتوى الدورة لديك.";
 /*Course upgrade success alert continue button title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
 /*Course upgrade failure alert title*/
@@ -459,13 +459,13 @@
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="هذا المساق لا يتضمن أي مقاطع فيديو";
 /* 1 hour */
-"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+"COURSE_VIDEO_HOURS##{one}" = "{hours} س";
 /* More than 1 hours */
-"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+"COURSE_VIDEO_HOURS##{other}" = "{hours} ساعات";
 /* 1 minute */
-"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} دقيقة";
 /* More than 1 minute */
-"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} دقائق";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "هذا المكوّن التفاعلي غير متوفر بعد على الأجهزة المحمولة\n\nاستكشف أجزاء المساق الأخرى أو استعرض هذا المكوّن باستخدام الويب.";
 /* Message shown when attempting to display content not available on the app, from dates tab */
@@ -569,7 +569,7 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="أنشىء مشاركة جديدة";
 /* Chrome cast message */
-"CHROMECAST_MESSAGE"="Video is casting to remote device";
+"CHROMECAST_MESSAGE"="جارٍ بث الفيديو على جهاز بعيد";
 /* Button text to initiate or confirm deletion */
 "DELETE"="حذف";
 /* Discussion used in the segmented control Creating a new post */
@@ -659,9 +659,9 @@
 /* Endorsed text */
 "ENDORSED" = "مصادق عليه";
 /*Open in external browser banner message*/
-"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="قد يعمل هذا الجزء من الدورة بشكل أفضل في متصفح الويب";
 /*Open in external browser banner underline text*/
-"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
+"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="فتح في المتصفح";
 /* Facebook login method */
 "FACEBOOK"="فيسبوك";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -809,7 +809,7 @@
 /* Profile edit view title */
 "PROFILE.EDIT_TITLE" = "تعديل الصفحة الشخصيّة";
 /* Profile screen fields visibility off info message */
-"PROFILE.VISIBILITY_OFF_MESSGAE"="Your profile information is only visible to you. Only your username is visible to others on {platform_name}.";
+"PROFILE.VISIBILITY_OFF_MESSGAE"="معلومات ملفك الشخصي مرئية لك فقط. يظهر اسم المستخدم الخاص بك فقط للآخرين على {platform_name}.";
 /* Accessibility label for edit profile button */
 "PROFILE.EDIT_ACCESSIBILITY" = "تعديل الصفحة الشخصيّة";
 /* Accessibility hint for country field in user profile */
@@ -941,17 +941,17 @@
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Settigs message for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "This setting is for all video downloads in the {platform_name} app.";
+"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "هذا الإعداد لجميع تنزيلات الفيديو في تطبيق {platform_name}.";
 /* Settigs title for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Video download quality";
+"VIDEO_DOWNLOAD_QUALITY_TITLE" = "جودة تنزيل الفيديو";
 /* Settigs message for Video Download Quality Auto */
-"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Auto (Recommended)";
+"VIDEO_DOWNLOAD_QUALITY_AUTO" = "تلقائى (موصى به)";
 /* Settigs message for Video Download Quality Low */
-"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (Smallest file size)";
+"VIDEO_DOWNLOAD_QUALITY_LOW" = "360 بكسل (أصغر حجم للملف)";
 /* Settigs message for Video Download Quality Low */
 "VIDEO_DOWNLOAD_QUALITY_MEDIUM" = "540p";
 /* Settigs message for Video Download Quality High */
-"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Best quality)";
+"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720 بكسل (أفضل جودة)";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="تسجيل الدخول";
 /* Message shown while user waits for response to a sign in request */
@@ -1027,37 +1027,33 @@
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "الملف الشخصي";
 /* Value prop upgrade text */
-"VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
+"VALUE_PROP.UPGRADE"= "ترقية {course_name}";
 /* Value prop upgrade button text with price */
-"VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade now for ${price}";
+"VALUE_PROP.UPGRADE_COURSE_FOR"= "دولارً {price} قم بالتحديث  الآن مقابل";
 /* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
+"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "كيفية فتح الواجبات المقدرة";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
-"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
+"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "الواجبات المقدرة مؤمنة";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "قم بالترقية للوصول إلى الميزات المقفلة مثل هذه الميزة وتحقيق أقصى استفادة من الدورة التدريبية الخاصة بك";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="Upgrade to access more features";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="قم بالترقية للوصول إلى المزيد من الميزات";
 /* Value prop view's learn more button title on enrolled courses*/
-"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
+"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="تعلم اكثر";
 /* Value prop detail view title learn more*/
-"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
-/* Value prop detail view title*/
-"VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
-/* Value prop detail view message heading*/
-"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
+"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="تعرف على المزيد حول الميزات المقفلة";
 /* Value prop information message number one*/
-"VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
+"VALUE_PROP.INFO_MESSAGE_1"="احصل على شهادة إتمام موثقة لعرضها في سيرتك الذاتية";
 /* Value prop information message number two*/
-"VALUE_PROP.INFO_MESSAGE_2"="Unlock access to all course activities, including graded assignments";
+"VALUE_PROP.INFO_MESSAGE_2"="افتح الوصول إلى جميع أنشطة المقرر الدراسي ، بما في ذلك الواجبات المقدرة";
 /* Value prop information message number three*/
-"VALUE_PROP.INFO_MESSAGE_3"="Full access to course content and material, even after the course ends";
+"VALUE_PROP.INFO_MESSAGE_3"="الوصول الكامل إلى محتوى الدورة ومواد الدورة التدريبية حتى بعد انتهاء الدورة";
 /* Show more button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_MORE_TEXT"="Show more";
+"VALUE_PROP.SHOW_MORE_TEXT"="اظهر المزيد";
 /* Show less button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_LESS_TEXT"="Show less";
+"VALUE_PROP.SHOW_LESS_TEXT"="اظهر اقل";
 /* Value prop button text on course dashbaord screen*/
 "VALUE_PROP.COURSE_DASHBOARD_BUTTON_TITLE"="Upgrade to access more features";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */

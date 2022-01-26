@@ -273,23 +273,23 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="משאבים";
 /* Course Dates Success Toast Message */
-"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Your due dates have been successfully shifted to help you stay on track.";
+"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "תאריכי היעד שלך הועברו בהצלחה כדי לשמור אותך על המסלול.";
 /* Course Dates navigate to Dates screen*/
-"COURSEDATES.VIEW_ALL_DATES" = "View all dates";
+"COURSEDATES.VIEW_ALL_DATES" = "צפה בכל התאריכים";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="תאריכים חשובים";
 /* Course Date Type Completed */
-"COURSEDATES.COMPLETED"="Completed";
+"COURSEDATES.COMPLETED"="הושלם";
 /* Course Date Type Past Due */
-"COURSEDATES.PAST_DUE"="Past Due";
+"COURSEDATES.PAST_DUE"="עבר מועד";
 /* Course Date Type Due Next */
-"COURSEDATES.DUE_NEXT"="Due Next";
+"COURSEDATES.DUE_NEXT"="למועד הבא";
 /* Course Date Type Unreleased */
-"COURSEDATES.UNRELEASED"="Not Yet Released";
+"COURSEDATES.UNRELEASED"="עדיין לא שוחררו";
 /* Course Date Completed */
-"COURSEDATES.VERFIED_ONLY"="Verified Only";
+"COURSEDATES.VERFIED_ONLY"="מאומת בלבד";
 /* Course Date Today*/
-"COURSEDATES.TODAY"="Today";
+"COURSEDATES.TODAY"="היום";
 /* Course date Assignment Due Date*/
 "COURSEDATES.ASSIGNMENT_DUE_DATE"="Assignment Due Date";
 /* Course Date Verified Upgrade Deadline*/
@@ -309,73 +309,73 @@
 /* Course Reset Date Title */
 "COURSEDATES.RESET_DATE.TITLE"="Course Dates";
 /* Course Reset Date Success Message */
-"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Your dates have been successfully shifted.";
+"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="התאריכים שלך הועברו בהצלחה.";
 /* Course Reset Date Error Message */
-"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Your dates could not be shifted. Please try again.";
+"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="לא ניתן היה לשנות את התאריכים שלך. אנא נסה שוב בפעם אחרת.";
 /* Course Reset Date Tab Info Banner Header */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="We've built a suggested schedule to help you stay on track. ";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="בנינו לוח זמנים מוצע כדי לעזור לך להישאר על המסלול.";
 /* Course Reset Date Tab Info Banner Body */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="But don't worry—it's flexible so you can learn at your own pace. If you happen to fall behind on our suggested dates, you'll be able to adjust them to keep yourself on track.";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="אבל אל דאגה - זה עדיין גמיש כך שתוכל ללמוד בקצב שלך. אם במקרה תיקלע לפיגור בתאריכים המוצעים שלנו, תוכל להתאים אותם כדי לשמור על עצמך על המסלול.";
 /* Course Reset Date Upgrade To Complete Graded Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="You are auditing this course, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="אתה מבקר את הקורס הזה, ";
 /* Course Reset Date Upgrade To Complete Graded Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded assignments as part of this course, you can upgrade today.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="מה שאומר שאינך יכול להשתתף במטלות מדורגות. כדי להשלים מטלות מדורגות במסגרת קורס זה, תוכל לשדרג עוד היום.";
 /* Course Reset Date Upgrade To Complete Graded Banner Button */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Upgrade now";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="שדרג עכשיו";
 /* Course Reset Date Upgrade Reset Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="You are auditing this course, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="אתה מבקר את הקורס הזה, ";
 /* Course Reset Date Upgrade Reset Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="which means that you are unable to participate in graded assignments. It looks like you missed some important deadlines based on our suggested schedule. To complete graded assignments as part of this course and shift the past due assignments into the future, you can upgrade today.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="מה שאומר שאינך יכול להשתתף במטלות מדורגות. נראה שהחמצת כמה מועדים חשובים בהתבסס על לוח הזמנים המוצע שלנו. כדי להשלים מטלות מדורגות כחלק מהקורס הזה ולהעביר את המטלות שנקבעו בעבר אל העתיד, אתה יכול לשדרג היום.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
 /* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="It looks like you missed some important deadlines based on our suggested schedule. ";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="נראה שהחמצת כמה מועדים חשובים בהתבסס על לוח הזמנים המוצע שלנו. ";
 /* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="כדי לשמור על עצמכם על המסלול, תוכלו לעדכן את לוח הזמנים הזה ולהעביר את ההקצאות שהוגשו לעתיד. אל דאגה - לא תאבד שום התקדמות שהשגת כאשר תשנה את תאריכי היעד שלך.";
 /* Course Reset Date Banner Button */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="תאריכי יעד של משמרת";
 /* Course Dates Title */
-"COURSEDATES.COURSE_SCHEDULE"="Course Schedule";
+"COURSEDATES.COURSE_SCHEDULE"="לוח זמנים של הקורס";
 /* Course Dates Sync To Calendar */
-"COURSEDATES.SYNC_TO_CALENDAR"="Sync to calendar";
+"COURSEDATES.SYNC_TO_CALENDAR"="סנכרון ללוח שנה";
 /* Course Dates Sync To Calendar Message */
-"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
+"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="סנכרן אוטומטית את כל המועדים והתאריכים של קורס זה עם היומן שלך.";
 /* Course Dates Add Calendar Dialog Title */
-"COURSEDATES.ADD_CALENDAR_TITLE"="Add calendar \"{calendar_name}\"";
+"COURSEDATES.ADD_CALENDAR_TITLE"=">הוסף יומן \"{calendar_name}\"";
 /* Course Dates Remove Calendar Dialog Title */
-"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove calendar \"{calendar_name}\"";
+"COURSEDATES.REMOVE_CALENDAR_TITLE"="הסר את היומן \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+"COURSEDATES.ADD_CALENDAR_PROMPT"=">האם תרצה להוסיף את לוח השנה של {platform_name} \"{calendar_name}\"? \n אתה יכול לערוך או להסיר את יומן הקורס שלך בכל עת בלוח השנה או בהגדרות.";
 /* Course Dates Remove Calendar Message prompt */
-"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="האם תרצה להסיר את לוח השנה של {platform_name} \"{calendar_name}\"?";
 /* Course Dates Calendar has been added to your calendar*/
-"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
+"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" נוסף ללוח השנה של הטלפון שלך.";
 /* Course Dates Open Settings */
 "COURSEDATES.OPEN_SETTINGS"="Open Settings";
 /* Course Dates Events Added to Calendar Success */
-"COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
+"COURSEDATES.CALENDAR_EVENTS_ADDED"="יומן הקורס שלך נוסף.";
 /* Course Dates Events Removed from Calendar */
-"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
+"COURSEDATES.CALENDAR_EVENTS_REMOVED"="יומן הקורס שלך הוסר.";
 /* Course Dates Events Updated in Calendar */
-"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Your course calendar has been updated.";
+"COURSEDATES.CALENDAR_EVENTS_UPDATED"="יומן הקורס שלך עודכן.";
 /* Course Dates Permission Not Determined */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
 /* Course Dates Calendar Out of Date*/
-"COURSEDATES.CALENDAR_OUT_OF_DATE"="Your course calendar is out of date";
+"COURSEDATES.CALENDAR_OUT_OF_DATE"="לוח השנה של הקורס שלך כבר לא מעודכן";
 /* Course Dates Calendar Shift Message */
-"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Your course dates have been shifted and your course calendar is no longer up to date with your new schedule.";
+"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="תאריכי הקורסים שלך הועברו ויומן הקורס שלך אינו מעודכן עוד בלוח הזמנים החדש שלך.";
 /* Course Dates Calendar Shift Prompt Update Now */
 "COURSEDATES.CALENDAR_SHIFT_PROMPT_UPDATE_NOW"="Update now";
 /* Course Dates Calendar Shift Prompt Remove Course Calendar */
-"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
+"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="הסר לוח שנה של הקורס";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
 /* Course Dates Calendar sync Message */
-"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Syncing calendar...";
+"COURSEDATES.CALENDAR_SYNC_MESSAGE"="מסנכרן את היומן...";
 /*Course upgrade success alert title*/
-"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
+"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="השדרוג הושלם";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Thank you for your purchase. You can pick up right where you left off and enjoy full access to your course content.";
+"COURSE_UPGRADE.SUCCESS_ALERT_Message"="תודה על רכישתך. אתה יכול להמשיך מאיפה שהפסקת וליהנות מגישה מלאה לתוכן הקורס שלך.";
 /*Course upgrade success alert continue button title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
 /*Course upgrade failure alert title*/
@@ -445,13 +445,13 @@
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="קורס זה אינו כולל קבצי וידאו";
 /* 1 hour */
-"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+"COURSE_VIDEO_HOURS##{one}" = "{hours} שָׁעָה";
 /* More than 1 hours */
-"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+"COURSE_VIDEO_HOURS##{other}" = "{hours} שעה (ות";
 /* 1 minute */
-"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} מ";
 /* More than 1 minute */
-"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} דקות";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "רכיב אינטראקטיבי זה אינו זמין עדיין בגרסת המובייל.\n\nגלו חלקים אחרים בבקורס זה או צפו ברכיב זה ברשת.";
 /* Message shown when there is no course dates */
@@ -545,7 +545,7 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="צרו פוסט חדש";
 /* Chrome cast message */
-"CHROMECAST_MESSAGE"="Video is casting to remote device";
+"CHROMECAST_MESSAGE"="הסרטון משודר אל התקן מרוחק";
 /* Button text to initiate or confirm deletion */
 "DELETE"="מחק";
 /* Discussion used in the segmented control Creating a new post */
@@ -631,9 +631,9 @@
 /* Endorsed text */
 "ENDORSED" = "התקבל";
 /*Open in external browser banner message*/
-"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="חלק זה של הקורס עשוי לעבוד בצורה הטובה ביותר בדפדפן אינטרנט.";
 /*Open in external browser banner underline text*/
-"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
+"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="פתוח בדפדפן";
 /* Facebook login method */
 "FACEBOOK"="פייסבוק";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -779,7 +779,7 @@
 /* Profile edit view title */
 "PROFILE.EDIT_TITLE" = "ערוך פרופיל";
 /* Profile screen fields visibility off info message */
-"PROFILE.VISIBILITY_OFF_MESSGAE"="Your profile information is only visible to you. Only your username is visible to others on {platform_name}.";
+"PROFILE.VISIBILITY_OFF_MESSGAE"="פרטי הפרופיל שלך גלויים רק לך. רק שם המשתמש שלך גלוי לאחרים ב-{platform_name}.";
 /* Accessibility label for edit profile button */
 "PROFILE.EDIT_ACCESSIBILITY" = "ערוך פרופיל";
 /* Accessibility hint for country field in user profile */
@@ -905,17 +905,17 @@
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Settigs message for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "This setting is for all video downloads in the {platform_name} app.";
+"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "הגדרה זו מיועדת לכל הורדות הווידאו באפליקציית {platform_name}.";
 /* Settigs title for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Video download quality";
+"VIDEO_DOWNLOAD_QUALITY_TITLE" = "איכות הורדת וידאו";
 /* Settigs message for Video Download Quality Auto */
-"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Auto (Recommended)";
+"VIDEO_DOWNLOAD_QUALITY_AUTO" = "אוטומטי (מומלץ)";
 /* Settigs message for Video Download Quality Low */
-"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (Smallest file size)";
+"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (גודל הקובץ הקטן ביותר)";
 /* Settigs message for Video Download Quality Low */
 "VIDEO_DOWNLOAD_QUALITY_MEDIUM" = "540p";
 /* Settigs message for Video Download Quality High */
-"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Best quality)";
+"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (איכות מקסימלית)";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="היכנס";
 /* Message shown while user waits for response to a sign in request */
@@ -991,37 +991,33 @@
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "פרופיל";
 /* Value prop upgrade text */
-"VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
+"VALUE_PROP.UPGRADE"= "שדרג את {course_name}";
 /* Value prop upgrade button text with price */
-"VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade now for ${price}";
+"VALUE_PROP.UPGRADE_COURSE_FOR"= "${price} שדרג עכשיו תמורת";
 /* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
+"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "כיצד לפתוח מטלות מדורגות";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
-"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
+"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "מטלות עם ציון ננעלות";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "שדרג כדי לקבל גישה מלאה לתכונות נעולות כמו זה ולהפיק את המרב מהקורס שלך";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="Upgrade to access more features";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="שדרג כדי לגשת לתכונות נוספות";
 /* Value prop view's learn more button title on enrolled courses*/
-"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
+"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="למד עוד";
 /* Value prop detail view title learn more*/
-"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
-/* Value prop detail view title*/
-"VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
-/* Value prop detail view message heading*/
-"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
+"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="למידע נוסף על תכונות נעולות";
 /* Value prop information message number one*/
-"VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
+"VALUE_PROP.INFO_MESSAGE_1"="קבל תעודת סיום מאומתת כדי להציג בקורות החיים שלך בבקשה";
 /* Value prop information message number two*/
-"VALUE_PROP.INFO_MESSAGE_2"="Unlock access to all course activities, including graded assignments";
+"VALUE_PROP.INFO_MESSAGE_2"="בטל את הנעילה של גישה לכל פעילויות הקורס, כולל אותן מטלות מדורגות";
 /* Value prop information message number three*/
-"VALUE_PROP.INFO_MESSAGE_3"="Full access to course content and material, even after the course ends";
+"VALUE_PROP.INFO_MESSAGE_3"="ליהנות מגישה מלאה לתכני הקורס ולחומר הקורס גם לאחר סיום הקורס";
 /* Show more button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_MORE_TEXT"="Show more";
+"VALUE_PROP.SHOW_MORE_TEXT"="להראות יותר";
 /* Show less button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_LESS_TEXT"="Show less";
+"VALUE_PROP.SHOW_LESS_TEXT"="הראי פחות";
 /* Value prop button text on course dashbaord screen*/
 "VALUE_PROP.COURSE_DASHBOARD_BUTTON_TITLE"="Upgrade to access more features";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */

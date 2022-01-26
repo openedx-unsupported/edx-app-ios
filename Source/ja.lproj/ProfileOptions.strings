@@ -1,50 +1,42 @@
 /* Settings title for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "VIDEO SETTINGS";
+"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "動画設定";
 /* Settings heading for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Wifi only download";
+"PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Wi-Fi 使用ダウンロード";
 /* Settings message for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Only download content when wi-fi is turned on";
+"PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Wi-Fi がオンになっているときだけダウンロード";
 /* Settings title for profile information */
-"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
-/* Settings title for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "VIDEO SETTINGS";
-/* Settings heading for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Wifi only download";
-/* Settings message for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Only download content when wi-fi is turned on";
-/* Settings title for profile information */
-"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
+"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "個人情報";
 /* Settings user profile email */
-"PROFILE_OPTIONS.USER_PROFILE.EMAIL" = "Email: {email}";
+"PROFILE_OPTIONS.USER_PROFILE.EMAIL" = ">メールアドレス: {email}";
 /* Settings user profile username */
-"PROFILE_OPTIONS.USER_PROFILE.USERNAME" = "Username: {username}";
+"PROFILE_OPTIONS.USER_PROFILE.USERNAME" = "ユーザー名：{username}";
 /* Settings message for profile */
-"PROFILE_OPTIONS.USER_PROFILE.MESSAGE" = "You are currently sharing a limited profile";
+"PROFILE_OPTIONS.USER_PROFILE.MESSAGE" = "現在、限定プロフィールを公開していますe";
 /* Settings title for purchases */
-"PROFILE_OPTIONS.PURCHASES.TITLE" = "PURCHASES";
+"PROFILE_OPTIONS.PURCHASES.TITLE" = "購入";
 /* Settings heading for purchases */
-"PROFILE_OPTIONS.PURCHASES.HEADING" = "Restore purchases";
+"PROFILE_OPTIONS.PURCHASES.HEADING" = "購入内容を復元";
 /* Settings message for purchases */
-"PROFILE_OPTIONS.PURCHASES.MESSAGE" = "Sign into the app store to restore access to courses you have previously paid to upgrade";
+"PROFILE_OPTIONS.PURCHASES.MESSAGE" = "App ストアにサインインして、過去に有料でアップグレードしたコースへのアクセスを復元します";
 /* Settings title for HELP */
-"PROFILE_OPTIONS.HELP.TITLE" = "HELP";
+"PROFILE_OPTIONS.HELP.TITLE" = "ヘルプ";
 /* Settings heading for feedback */
 "PROFILE_OPTIONS.HELP.HEADING.FEEDBACK" = "Submit feedback";
 /* Settings message for feedback */
-"PROFILE_OPTIONS.HELP.MESSAGE.FEEDBACK" = "Looking to make a feature request or give us some feedback on our app?";
+"PROFILE_OPTIONS.HELP.MESSAGE.FEEDBACK" = "機能リクエストまたはアプリのフィードバックを送信しませんか？";
 /* Settings message for feedback button title */
-"PROFILE_OPTIONS.HELP.BUTTON_TITLE.FEEDBACK" = "Email the support team";
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.FEEDBACK" = "サポートチームにメールを送信";
 /* Settings heading for support */
-"PROFILE_OPTIONS.HELP.HEADING.SUPPORT" = "Get support";
+"PROFILE_OPTIONS.HELP.HEADING.SUPPORT" = "サポートを利用";
 /* Settings message for support */
-"PROFILE_OPTIONS.HELP.MESSAGE.SUPPORT" = "To get more help and learn how to use the {platform_name} mobile app, visit our frequently asked questions.";
+"PROFILE_OPTIONS.HELP.MESSAGE.SUPPORT" = "{platform_name}モバイルアプリのヘルプや使い方の詳細は、よくある質問をご覧ください。";
 /* Settings message for view faq button title */
-"PROFILE_OPTIONS.HELP.BUTTON_TITLE.VIEW_FAQ" = "View FAQ";
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.VIEW_FAQ" = "よくある質問を見る";
 /* Settings message for signout button title */
-"PROFILE_OPTIONS.SIGNOUT.BUTTON_TITLE" = "Sign out";
+"PROFILE_OPTIONS.SIGNOUT.BUTTON_TITLE" = "サインアウト";
 /* Settings title for delete account button */
-"PROFILE_OPTIONS.DELETEACCOUNT.BUTTON_TITLE" = "Delete account";
+"PROFILE_OPTIONS.DELETEACCOUNT.BUTTON_TITLE" = "アカウントを削除";
 /* Settings info message for delete account */
-"PROFILE_OPTIONS.DELETEACCOUNT.INFO_MESSAGE" = "Follow the instructions on the next screen to delete your account and all related data.";
+"PROFILE_OPTIONS.DELETEACCOUNT.INFO_MESSAGE" = "次の画面の指示に従って、アカウントおよびすべての関連するデータを削除します。";
 /* Settings title for delete account web view*/
-"PROFILE_OPTIONS.DELETEACCOUNT.WEBVIEW_TITLE" = "Delete your account";
+"PROFILE_OPTIONS.DELETEACCOUNT.WEBVIEW_TITLE" = "アカウントを削除";

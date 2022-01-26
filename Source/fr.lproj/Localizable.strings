@@ -265,23 +265,23 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Ressources";
 /* Course Dates Success Toast Message */
-"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Your due dates have been successfully shifted to help you stay on track.";
+"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Vos dates d'échéance ont été déplacées avec succès pour vous aider à rester sur la bonne voie.";
 /* Course Dates navigate to Dates screen*/
-"COURSEDATES.VIEW_ALL_DATES" = "View all dates";
+"COURSEDATES.VIEW_ALL_DATES" = "Voir toutes les dates";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Dates importantes";
 /* Course Date Type Completed */
-"COURSEDATES.COMPLETED"="Completed";
+"COURSEDATES.COMPLETED"="Terminé";
 /* Course Date Type Past Due */
-"COURSEDATES.PAST_DUE"="Past Due";
+"COURSEDATES.PAST_DUE"="En retard";
 /* Course Date Type Due Next */
-"COURSEDATES.DUE_NEXT"="Due Next";
+"COURSEDATES.DUE_NEXT"="À rendre ensuite";
 /* Course Date Type Unreleased */
-"COURSEDATES.UNRELEASED"="Not Yet Released";
+"COURSEDATES.UNRELEASED"="Pas encore lancé";
 /* Course Date Completed */
-"COURSEDATES.VERFIED_ONLY"="Verified Only";
+"COURSEDATES.VERFIED_ONLY"="Utilisateurs vérifiés uniquement";
 /* Course Date Today*/
-"COURSEDATES.TODAY"="Today";
+"COURSEDATES.TODAY"="Aujourd'hui";
 /* Course date Assignment Due Date*/
 "COURSEDATES.ASSIGNMENT_DUE_DATE"="Assignment Due Date";
 /* Course Date Verified Upgrade Deadline*/
@@ -301,73 +301,73 @@
 /* Course Reset Date Title */
 "COURSEDATES.RESET_DATE.TITLE"="Course Dates";
 /* Course Reset Date Success Message */
-"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Your dates have been successfully shifted.";
+"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Vos dates ont été changées avec succès.";
 /* Course Reset Date Error Message */
-"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Your dates could not be shifted. Please try again.";
+"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Vos dates n'ont pas pu être modifiées. Veuillez réessayer.";
 /* Course Reset Date Tab Info Banner Header */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="We've built a suggested schedule to help you stay on track. ";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="Nous vous suggérons un programme prédéfini pour vous aider à rester sur la bonne voie. ";
 /* Course Reset Date Tab Info Banner Body */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="But don't worry—it's flexible so you can learn at your own pace. If you happen to fall behind on our suggested dates, you'll be able to adjust them to keep yourself on track.";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="Mais ne vous inquiétez pas : il est flexible et vous pouvez donc apprendre à votre rythme. Si vous prenez du retard par rapport aux dates suggérées, vous pouvez les ajuster afin de rester sur la bonne voie.";
 /* Course Reset Date Upgrade To Complete Graded Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="You are auditing this course, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="Vous suivez ce cours en tant qu\'auditeur libre, ";
 /* Course Reset Date Upgrade To Complete Graded Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded assignments as part of this course, you can upgrade today.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="ce qui signifie que vous ne pouvez pas participer aux devoirs notés. Pour faire les devoirs notés dans le cadre de ce cours, vous pouvez mettre à niveau votre inscription dès aujourd'hui.";
 /* Course Reset Date Upgrade To Complete Graded Banner Button */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Upgrade now";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Mettre à jour maintenant";
 /* Course Reset Date Upgrade Reset Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="You are auditing this course, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="Vous suivez ce cours en tant qu'auditeur libre, ";
 /* Course Reset Date Upgrade Reset Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="which means that you are unable to participate in graded assignments. It looks like you missed some important deadlines based on our suggested schedule. To complete graded assignments as part of this course and shift the past due assignments into the future, you can upgrade today.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="ce qui signifie que vous ne pouvez pas participer aux devoirs notés. Il semblerait que vous ayez manqué des échéances importantes de notre programme suggéré. Pour faire les devoirs notés dans le cadre de ce cours et pouvoir rendre les devoirs passés un peu plus tard, vous pouvez mettre à niveau votre inscription dès aujourd'hui.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
 /* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="It looks like you missed some important deadlines based on our suggested schedule. ";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Il semblerait que vous ayez manqué des échéances importantes de notre programme suggéré. ";
 /* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Pour rester sur la bonne voie, vous pouvez mettre à jour ce programme et rendre les devoirs passés un peu plus tard. Ne vous inquiétez pas : en modifiant les échéances, vous ne perdrez pas les progrès que vous avez faits.";
 /* Course Reset Date Banner Button */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Déplacer les dates d'échéances";
 /* Course Dates Title */
-"COURSEDATES.COURSE_SCHEDULE"="Course Schedule";
+"COURSEDATES.COURSE_SCHEDULE"="Programme du cours";
 /* Course Dates Sync To Calendar */
-"COURSEDATES.SYNC_TO_CALENDAR"="Sync to calendar";
+"COURSEDATES.SYNC_TO_CALENDAR"="Synchroniser au calendrier";
 /* Course Dates Sync To Calendar Message */
-"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
+"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Synchronisez automatiquement les échéances et dates importantes à votre calendrier.";
 /* Course Dates Add Calendar Dialog Title */
-"COURSEDATES.ADD_CALENDAR_TITLE"="Add calendar \"{calendar_name}\"";
+"COURSEDATES.ADD_CALENDAR_TITLE"="Ajouter l'agenda « {calendar_name} »";
 /* Course Dates Remove Calendar Dialog Title */
-"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove calendar \"{calendar_name}\"";
+"COURSEDATES.REMOVE_CALENDAR_TITLE"="Retirer le calendrier \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+"COURSEDATES.ADD_CALENDAR_PROMPT"="Voulez-vous ajouter l'agenda {platform_name} « {calendar_name} » ? \n Vous pouvez supprimer ou modifier votre agenda de cours à tout moment dans Agenda ou dans Paramètres.";
 /* Course Dates Remove Calendar Message prompt */
-"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Voulez-vous supprimer l'agenda {platform_name} « {calendar_name} » ?";
 /* Course Dates Calendar has been added to your calendar*/
-"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
+"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "« {calendar_name} » a été ajouté à l'agenda de votre téléphone.";
 /* Course Dates Open Settings */
 "COURSEDATES.OPEN_SETTINGS"="Open Settings";
 /* Course Dates Events Added to Calendar Success */
-"COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
+"COURSEDATES.CALENDAR_EVENTS_ADDED"="Le calendrier de votre cours a été ajouté.";
 /* Course Dates Events Removed from Calendar */
-"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
+"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Votre calendrier de cours a été enlevé.";
 /* Course Dates Events Updated in Calendar */
-"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Your course calendar has been updated.";
+"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Le calendrier de votre cours a été mis à jour.";
 /* Course Dates Permission Not Determined */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
 /* Course Dates Calendar Out of Date*/
-"COURSEDATES.CALENDAR_OUT_OF_DATE"="Your course calendar is out of date";
+"COURSEDATES.CALENDAR_OUT_OF_DATE"="Le calendrier de votre cours n\'est pas à jour";
 /* Course Dates Calendar Shift Message */
-"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Your course dates have been shifted and your course calendar is no longer up to date with your new schedule.";
+"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Les dates de vos cours ont été modifiées et votre agenda de cours ne correspond plus à votre nouveau programme.";
 /* Course Dates Calendar Shift Prompt Update Now */
 "COURSEDATES.CALENDAR_SHIFT_PROMPT_UPDATE_NOW"="Update now";
 /* Course Dates Calendar Shift Prompt Remove Course Calendar */
-"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
+"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Supprimer l'agenda des cours";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
 /* Course Dates Calendar sync Message */
-"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Syncing calendar...";
+"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Synchronisation de l'agenda…";
 /*Course upgrade success alert title*/
-"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
+"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Mise à niveau effectuée";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Thank you for your purchase. You can pick up right where you left off and enjoy full access to your course content.";
+"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Merci pour votre achat. Vous pouvez reprendre là où vous vous étiez arrêtés et profiter d\'un accès complet au contenu de cours.";
 /*Course upgrade success alert continue button title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
 /*Course upgrade failure alert title*/
@@ -431,13 +431,13 @@
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="Ce cours ne contient aucune vidéo";
 /* 1 hour */
-"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+"COURSE_VIDEO_HOURS##{one}" = "{hours} heure";
 /* More than 1 hours */
-"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+"COURSE_VIDEO_HOURS##{other}" = "{hours} heures";
 /* 1 minute */
 "COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
 /* More than 1 minute */
-"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} min";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Ce composant n'est pas encore disponible sur mobile. \n\nExplorer d'autres parties du cours ou le voir sur le web.";
 /* Message shown when attempting to display content not available on the app, from dates tab */
@@ -611,9 +611,9 @@
 /* Endorsed text */
 "ENDORSED" = "Voté";
 /*Open in external browser banner message*/
-"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="Cette partie du cours pourrait mieux fonctionner dans un navigateur web.";
 /*Open in external browser banner underline text*/
-"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
+"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Ouvrir dans le navigateur";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -761,7 +761,7 @@
 /* Profile edit view title */
 "PROFILE.EDIT_TITLE" = "Modifier le profil";
 /* Profile screen fields visibility off info message */
-"PROFILE.VISIBILITY_OFF_MESSGAE"="Your profile information is only visible to you. Only your username is visible to others on {platform_name}.";
+"PROFILE.VISIBILITY_OFF_MESSGAE"="Les informations sur votre profil ne sont visibles que par vous. Seul votre nom d'utilisateur est visible par les autres sur {platform_name}.";
 /* Accessibility label for edit profile button */
 "PROFILE.EDIT_ACCESSIBILITY" = "Modifier le profil";
 /* Accessibility hint for country field in user profile */
@@ -881,17 +881,17 @@
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Settigs message for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "This setting is for all video downloads in the {platform_name} app.";
+"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "Ce paramètre concerne tous les téléchargements vidéo dans l'application {platform_name}.";
 /* Settigs title for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Video download quality";
+"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Qualité de téléchargement vidéo";
 /* Settigs message for Video Download Quality Auto */
-"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Auto (Recommended)";
+"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Auto (Recommandé)";
 /* Settigs message for Video Download Quality Low */
-"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (Smallest file size)";
+"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (plus petite taille de fichier)";
 /* Settigs message for Video Download Quality Low */
 "VIDEO_DOWNLOAD_QUALITY_MEDIUM" = "540p";
 /* Settigs message for Video Download Quality High */
-"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Best quality)";
+"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Meilleure qualité)";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="Connexion";
 /* Message shown while user waits for response to a sign in request */
@@ -967,37 +967,33 @@
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Profil";
 /* Value prop upgrade text */
-"VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
+"VALUE_PROP.UPGRADE"= "Mettre à niveau {course_name}";
 /* Value prop upgrade button text with price */
-"VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade now for ${price}";
+"VALUE_PROP.UPGRADE_COURSE_FOR"= "Mettre à niveau pour {price} $";
 /* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
+"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "Comment déverrouiller les devoirs notés";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
-"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
+"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Les devoirs notés sont verrouillés";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Mettez à niveau votre inscription pour accéder aux fonctionnalités verrouillées comme celle-ci et ainsi tirer le maximum de vos cours";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="Upgrade to access more features";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="Mettez à niveau votre inscription pour accéder à davantage de fonctionnalités";
 /* Value prop view's learn more button title on enrolled courses*/
-"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
+"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="En savoir plus";
 /* Value prop detail view title learn more*/
-"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
-/* Value prop detail view title*/
-"VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
-/* Value prop detail view message heading*/
-"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
+"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="En savoir plus sur les fonctionnalités verrouillées";
 /* Value prop information message number one*/
-"VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
+"VALUE_PROP.INFO_MESSAGE_1"="Obtenez un certificat d'achèvement vérifié à ajouter à votre CV";
 /* Value prop information message number two*/
-"VALUE_PROP.INFO_MESSAGE_2"="Unlock access to all course activities, including graded assignments";
+"VALUE_PROP.INFO_MESSAGE_2"="Débloquez l'accès à toutes les activités du cours, y compris les devoirs notés";
 /* Value prop information message number three*/
-"VALUE_PROP.INFO_MESSAGE_3"="Full access to course content and material, even after the course ends";
+"VALUE_PROP.INFO_MESSAGE_3"="Accès complet au contenu et aux supports de cours, même après la fin du cours";
 /* Show more button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_MORE_TEXT"="Show more";
+"VALUE_PROP.SHOW_MORE_TEXT"="Montrer plus";
 /* Show less button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_LESS_TEXT"="Show less";
+"VALUE_PROP.SHOW_LESS_TEXT"="Montrer moins";
 /* Value prop button text on course dashbaord screen*/
 "VALUE_PROP.COURSE_DASHBOARD_BUTTON_TITLE"="Upgrade to access more features";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
