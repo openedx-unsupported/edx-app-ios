@@ -48,18 +48,22 @@ class ValuePropUnlockViewController: UIViewController {
     
     private func addSubview() {
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.accessibilityIdentifier = "ValuePropUnlockViewController:view"
         
         let indicator = UIActivityIndicatorView()
+        indicator.accessibilityIdentifier = "ValuePropUnlockViewController:activity-indicator"
         indicator.hidesWhenStopped = true
         indicator.startAnimating()
         indicator.color = OEXStyles.shared().neutralBlack()
         
         let label = UILabel()
+        label.accessibilityIdentifier = "ValuePropUnlockViewController:label"
         label.numberOfLines = 0
         let textStyle = OEXMutableTextStyle(weight: .bold, size: .xxLarge, color: OEXStyles.shared().neutralXXDark())
         label.attributedText = textStyle.attributedString(withText: Strings.ValueProp.unlockingCourseAccess).setStyle(spacing: 1.1, alignment: .center)
         
         let container = UIView()
+        container.accessibilityIdentifier = "ValuePropUnlockViewController:container"
         container.addSubview(indicator)
         container.addSubview(label)
         

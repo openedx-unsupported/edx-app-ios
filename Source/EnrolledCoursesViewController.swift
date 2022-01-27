@@ -171,16 +171,13 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
             if let dictionary = notification.object as? NSDictionary,
-               let screenValue = dictionary[CourseUpgradeCompletion.screen] as? String,
-               let screen = ValuePropModalType.init(rawValue: screenValue),
                let courseID = dictionary[CourseUpgradeCompletion.courseID] as? String {
-                observer.handleCourseUpgradation(courseID: courseID, screen: screen)
+                observer.handleCourseUpgradation(courseID: courseID)
             }
         }
     }
     
-    func handleCourseUpgradation(courseID: CourseBlockID, screen: ValuePropModalType) {
-        guard screen == .courseEnrollment else { return }
+    func handleCourseUpgradation(courseID: CourseBlockID) {
         environment.interface?.enrollmentForCourse(withID: courseID)?.type = .verified
         coursesContainer.collectionView.reloadData()
         enrollmentFeed.refresh()

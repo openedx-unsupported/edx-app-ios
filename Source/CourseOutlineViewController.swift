@@ -202,9 +202,11 @@ public class CourseOutlineViewController :
     func handleCourseUpgradation(courseID: CourseBlockID, blockID: CourseBlockID?, screen: ValuePropModalType) {
         ValuePropUnlockViewContainer.shared.showView()
         loadCourseStream { [weak self] success in
-            guard let weakSelf = self else { return }
-            
             if let blockID = blockID, screen == .courseUnit {
+                guard let weakSelf = self else {
+                    ValuePropUnlockViewContainer.shared.removeView()
+                    return
+                }
                 weakSelf.environment.router?.navigateToComponentScreen(from: weakSelf, courseID: courseID, componentID: blockID) { _ in
                     ValuePropUnlockViewContainer.shared.removeView()
                     CourseUpgradeCompletion.shared.showSuccess()
