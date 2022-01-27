@@ -77,7 +77,8 @@ public struct CourseOutline {
                 let isCompleted = body[Fields.isCompleted].boolValue
                 let specialExamInfo = body[Fields.SpecialExamInfo].dictionaryObject
                 
-                // TODO: quick fix for LEARNER-8708, to hide special exam components
+                // quick fix for LEARNER-8708, to hide special exam components
+                // TODO: may or may not change after final decision from product
                 if specialExamInfo != nil {
                     children = []
                 }
