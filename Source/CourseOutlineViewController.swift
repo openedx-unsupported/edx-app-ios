@@ -189,7 +189,7 @@ public class CourseOutlineViewController :
         NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
             if let dictionary = notification.object as? NSDictionary,
                let screenValue = dictionary[CourseUpgradeCompletion.screen] as? String,
-               let screen = ValuePropModalType.init(rawValue: screenValue),
+               let screen = ValuePropModalType(rawValue: screenValue),
                let courseID = dictionary[CourseUpgradeCompletion.courseID] as? String {
                 let blockID = dictionary[CourseUpgradeCompletion.blockID] as? String
                 if courseID == observer.courseID {
