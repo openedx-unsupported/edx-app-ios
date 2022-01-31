@@ -207,9 +207,11 @@ public class CourseOutlineViewController :
                     ValuePropUnlockViewContainer.shared.removeView()
                     return
                 }
-                weakSelf.environment.router?.navigateToComponentScreen(from: weakSelf, courseID: courseID, componentID: blockID) { _ in
-                    ValuePropUnlockViewContainer.shared.removeView()
-                    CourseUpgradeCompletion.shared.showSuccess()
+                weakSelf.navigationController?.popToViewController(of: CourseDashboardViewController.self, animated: true) {
+                    weakSelf.environment.router?.navigateToComponentScreen(from: weakSelf, courseID: courseID, componentID: blockID) { _ in
+                        ValuePropUnlockViewContainer.shared.removeView()
+                        CourseUpgradeCompletion.shared.showSuccess()
+                    }
                 }
             } else {
                 ValuePropUnlockViewContainer.shared.removeView()
