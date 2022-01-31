@@ -7,7 +7,7 @@
 /* Settings title for profile information */
 "PROFILE_OPTIONS.USER_PROFILE.TITLE" = "المعلومات الشخصية";
 /* Settings user profile email */
-"PROFILE_OPTIONS.USER_PROFILE.EMAIL" = "البريد الإلكتروني:{email}";
+"PROFILE_OPTIONS.USER_PROFILE.EMAIL" = "البريد الإلكتروني: {email}";
 /* Settings user profile username */
 "PROFILE_OPTIONS.USER_PROFILE.USERNAME" = "اسم المستخدم: {username}";
 /* Settings message for profile */

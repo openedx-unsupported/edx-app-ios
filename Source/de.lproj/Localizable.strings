@@ -971,7 +971,7 @@
 /* Value prop upgrade button text with price */
 "VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade jetzt durchführen für {price} US-Dollar";
 /* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= ">So entsperren Sie benotete Aufgaben";
+"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "So entsperren Sie benotete Aufgaben";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
@@ -985,7 +985,7 @@
 /* Value prop detail view title learn more*/
 "VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Erfahren Sie mehr über gesperrte Funktionen";
 /* Value prop information message number one*/
-"VALUE_PROP.INFO_MESSAGE_1"=">Verdienen Sie ein verifiziertes Abschlusszertifikat, das Sie in Ihrem Lebenslauf präsentieren können";
+"VALUE_PROP.INFO_MESSAGE_1"="Verdienen Sie ein verifiziertes Abschlusszertifikat, das Sie in Ihrem Lebenslauf präsentieren können";
 /* Value prop information message number two*/
 "VALUE_PROP.INFO_MESSAGE_2"="Schalten Sie den Zugriff auf alle Kursaktivitäten frei, einschließlich benoteter Aufgaben";
 /* Value prop information message number three*/

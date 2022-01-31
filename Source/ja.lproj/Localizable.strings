@@ -868,7 +868,7 @@
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Settigs message for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "この設定は、{platform_name}アプリ内のすべての動画ダウンロードに適用されます。";
+"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "この設定は、{platform_name} アプリ内のすべての動画ダウンロードに適用されます。";
 /* Settigs title for Video Download Quality */
 "VIDEO_DOWNLOAD_QUALITY_TITLE" = "動画のダウンロード品質";
 /* Settigs message for Video Download Quality Auto */
