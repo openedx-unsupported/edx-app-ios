@@ -265,7 +265,7 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Ressourcen";
 /* Course Dates Success Toast Message */
-"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Ihre Fälligkeitstermine wurden erfolgreich verschoben, damit Sie Ihren Zeitplan einhalten können.    ";
+"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Ihre Fälligkeitstermine wurden erfolgreich verschoben, damit Sie Ihren Zeitplan einhalten können.";
 /* Course Dates navigate to Dates screen*/
 "COURSEDATES.VIEW_ALL_DATES" = "Alle Termine anzeigen";
 /* Title of course important dates screen */
