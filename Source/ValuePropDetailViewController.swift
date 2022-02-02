@@ -68,12 +68,15 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         super.viewDidLoad()
         
         view.backgroundColor = environment.styles.neutralWhiteT()
-        
         navigationController?.navigationBar.apply(barTintColor: environment.styles.neutralWhiteT(), tintColor: environment.styles.primaryBaseColor(), clearShadow: true)
+        navigationController?.presentationController?.delegate = self
         
+        addObserver()
         configureView()
         
-        navigationController?.presentationController?.delegate = self
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.disableUserInteraction()
+        }
         
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         PaymentManager.shared.productPrice(courseSku) { [weak self] price in
@@ -93,6 +96,12 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         view.addSubview(valuePropTableView)
         view.addSubview(upgradeButton)
         addCloseButton()
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
+            observer.enableUserInteraction()
+        }
     }
     
     private func addCloseButton() {
