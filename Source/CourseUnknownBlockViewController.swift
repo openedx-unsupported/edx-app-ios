@@ -204,6 +204,9 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             switch status {
+            case .payment:
+                upgradeView.stopAnimating()
+                break
             case .complete:
                 self?.enableAppTouches()
                 upgradeView.updateUpgradeButtonVisibility(visible: false)

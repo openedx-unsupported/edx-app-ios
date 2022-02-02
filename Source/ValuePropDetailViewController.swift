@@ -139,8 +139,11 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             switch status {
+            case .payment:
+                self?.upgradeButton.stopAnimating()
+                break
             case .complete:
-                self?.enableUserInteraction()
+                self?.enableAppTouches()
                 self?.upgradeButton.isHidden = true
                 self?.dismiss(animated: true) {
                     CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID), screen: self?.type ?? .courseDashboard)
