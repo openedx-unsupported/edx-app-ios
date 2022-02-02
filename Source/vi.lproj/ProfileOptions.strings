@@ -1,50 +1,42 @@
 /* Settings title for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "VIDEO SETTINGS";
+"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "Cài đặt video";
 /* Settings heading for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Wifi only download";
+"PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Chỉ tải xuống bằng Wi-Fi";
 /* Settings message for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Only download content when wi-fi is turned on";
+"PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Chỉ tải nội dung xuống khi Wi-Fi đang bật";
 /* Settings title for profile information */
-"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
-/* Settings title for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "VIDEO SETTINGS";
-/* Settings heading for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Wifi only download";
-/* Settings message for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Only download content when wi-fi is turned on";
-/* Settings title for profile information */
-"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
+"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "Thông tin cá nhân";
 /* Settings user profile email */
 "PROFILE_OPTIONS.USER_PROFILE.EMAIL" = "Email: {email}";
 /* Settings user profile username */
-"PROFILE_OPTIONS.USER_PROFILE.USERNAME" = "Username: {username}";
+"PROFILE_OPTIONS.USER_PROFILE.USERNAME" = "Tên người dùng: {username}";
 /* Settings message for profile */
-"PROFILE_OPTIONS.USER_PROFILE.MESSAGE" = "You are currently sharing a limited profile";
+"PROFILE_OPTIONS.USER_PROFILE.MESSAGE" = "Bạn đang chia sẻ hồ sơ cá nhân giới hạe";
 /* Settings title for purchases */
-"PROFILE_OPTIONS.PURCHASES.TITLE" = "PURCHASES";
+"PROFILE_OPTIONS.PURCHASES.TITLE" = "Mua";
 /* Settings heading for purchases */
-"PROFILE_OPTIONS.PURCHASES.HEADING" = "Restore purchases";
+"PROFILE_OPTIONS.PURCHASES.HEADING" = "Khôi phục mua";
 /* Settings message for purchases */
-"PROFILE_OPTIONS.PURCHASES.MESSAGE" = "Sign into the app store to restore access to courses you have previously paid to upgrade";
+"PROFILE_OPTIONS.PURCHASES.MESSAGE" = "Đăng nhập vào App Store để khôi phục quyền truy cập các khóa học mà trước đó bạn đã trả tiền để nâng cấp";
 /* Settings title for HELP */
-"PROFILE_OPTIONS.HELP.TITLE" = "HELP";
+"PROFILE_OPTIONS.HELP.TITLE" = "Trợ giúp";
 /* Settings heading for feedback */
 "PROFILE_OPTIONS.HELP.HEADING.FEEDBACK" = "Submit feedback";
 /* Settings message for feedback */
-"PROFILE_OPTIONS.HELP.MESSAGE.FEEDBACK" = "Looking to make a feature request or give us some feedback on our app?";
+"PROFILE_OPTIONS.HELP.MESSAGE.FEEDBACK" = "Bạn muốn yêu cầu một tính năng hoặc đưa ra một số phản hồi về ứng dụng của chúng tôi?";
 /* Settings message for feedback button title */
-"PROFILE_OPTIONS.HELP.BUTTON_TITLE.FEEDBACK" = "Email the support team";
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.FEEDBACK" = "Gửi email cho nhóm hỗ trợ";
 /* Settings heading for support */
-"PROFILE_OPTIONS.HELP.HEADING.SUPPORT" = "Get support";
+"PROFILE_OPTIONS.HELP.HEADING.SUPPORT" = "Nhận hỗ trợ";
 /* Settings message for support */
-"PROFILE_OPTIONS.HELP.MESSAGE.SUPPORT" = "To get more help and learn how to use the {platform_name} mobile app, visit our frequently asked questions.";
+"PROFILE_OPTIONS.HELP.MESSAGE.SUPPORT" = "Để được trợ giúp thêm và tìm hiểu cách sử dụng ứng dụng di động {platform_name}, hãy truy cập phần hỏi đáp của chúng tôi.";
 /* Settings message for view faq button title */
-"PROFILE_OPTIONS.HELP.BUTTON_TITLE.VIEW_FAQ" = "View FAQ";
+"PROFILE_OPTIONS.HELP.BUTTON_TITLE.VIEW_FAQ" = "Xem Hỏi đáp";
 /* Settings message for signout button title */
-"PROFILE_OPTIONS.SIGNOUT.BUTTON_TITLE" = "Sign out";
+"PROFILE_OPTIONS.SIGNOUT.BUTTON_TITLE" = "Đăng xuất";
 /* Settings title for delete account button */
-"PROFILE_OPTIONS.DELETEACCOUNT.BUTTON_TITLE" = "Delete account";
+"PROFILE_OPTIONS.DELETEACCOUNT.BUTTON_TITLE" = "Xóa tài khoản";
 /* Settings info message for delete account */
-"PROFILE_OPTIONS.DELETEACCOUNT.INFO_MESSAGE" = "Follow the instructions on the next screen to delete your account and all related data.";
+"PROFILE_OPTIONS.DELETEACCOUNT.INFO_MESSAGE" = "Làm theo hướng dẫn trên màn hình tiếp theo để xóa tài khoản của bạn và tất cả dữ liệu liên quan.";
 /* Settings title for delete account web view*/
-"PROFILE_OPTIONS.DELETEACCOUNT.WEBVIEW_TITLE" = "Delete your account";
+"PROFILE_OPTIONS.DELETEACCOUNT.WEBVIEW_TITLE" = "Xóa tài khoản của bạn";

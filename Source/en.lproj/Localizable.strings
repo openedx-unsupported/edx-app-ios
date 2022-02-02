@@ -611,7 +611,7 @@
 /* Endorsed text */
 "ENDORSED" = "Endorsed";
 /*Open in external browser banner message*/
-"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of the course may work best in a web browser.";
 /*Open in external browser banner underline text*/
 "OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
 /* Facebook login method */
@@ -986,8 +986,6 @@
 "VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
 /* Value prop detail view title*/
 "VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
-/* Value prop detail view message heading*/
-"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
 /* Value prop information message number one*/
 "VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
 /* Value prop information message number two*/
