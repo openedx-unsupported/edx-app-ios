@@ -20,7 +20,7 @@ class UpgradeSKUManager {
             "course-v1:edX+Test101+course": "org.edx.mobile.test_product2",
             "course-v1:test2+2+2": "org.edx.mobile.test_product3",
             "course-v1:test3+test3+3": "org.edx.mobile.test_product4",
-            "course-v1:fbe+99+99": "org.edx.mobile.test_product7"
+            "course-v1:fbe+99+99": "org.edx.mobile.test_product5"
         ]
     }()
     
