@@ -59,6 +59,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         super.viewDidLoad()
         
         view.backgroundColor = environment.styles.standardBackgroundColor()
+        
+        addObserver()
     }
     
     override func updateViewConstraints() {
@@ -69,6 +71,12 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
         
         super.updateViewConstraints()
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
+            observer.enableUserInteraction()
+        }
     }
     
     private func showYoutubeMessage(buttonTitle: String, message: String, icon: Icon, videoUrl: String?) {

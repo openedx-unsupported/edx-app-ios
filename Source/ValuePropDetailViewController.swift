@@ -74,10 +74,6 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         addObserver()
         configureView()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.disableUserInteraction()
-        }
-        
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         PaymentManager.shared.productPrice(courseSku) { [weak self] price in
             if let price = price {
