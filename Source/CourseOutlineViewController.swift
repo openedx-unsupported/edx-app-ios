@@ -193,13 +193,12 @@ public class CourseOutlineViewController :
               let screenValue = userInfo[CourseUpgradeCompletion.screen] as? String,
               let screen = CourseUpgradeScreen(rawValue: screenValue),
               let courseID = userInfo[CourseUpgradeCompletion.courseID] as? String,
-              let blockID = userInfo[CourseUpgradeCompletion.blockID] as? String,
-              courseID == observer.courseID
+              courseID == self.courseID
         else { return }
         
         ValuePropUnlockViewContainer.shared.showView()
         loadCourseStream { [weak self] success in
-            if let blockID = blockID, screen == .courseUnit {
+            if let blockID = userInfo[CourseUpgradeCompletion.blockID] as? String, screen == .courseUnit {
                 guard let weakSelf = self else {
                     ValuePropUnlockViewContainer.shared.removeView()
                     return
