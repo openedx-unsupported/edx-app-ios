@@ -131,7 +131,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let button = UIButton(type: .system)
         button.oex_addAction({ [weak self] _ in
             if let course = self?.enrollment?.course {
-                self?.environment.router?.showValuePropDetailView(from: self, type: .courseDashboard, course: course, completion: nil)
+                self?.environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course, completion: nil)
             }
         }, for: .touchUpInside)
 

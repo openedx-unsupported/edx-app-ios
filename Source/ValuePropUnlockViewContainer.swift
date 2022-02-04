@@ -60,7 +60,7 @@ class ValuePropUnlockViewController: UIViewController {
         label.accessibilityIdentifier = "ValuePropUnlockViewController:label"
         label.numberOfLines = 0
         let textStyle = OEXMutableTextStyle(weight: .bold, size: .xxLarge, color: OEXStyles.shared().neutralXXDark())
-        label.attributedText = textStyle.attributedString(withText: Strings.ValueProp.unlockingCourseAccess).setStyle(spacing: 1.1, alignment: .center)
+        label.attributedText = textStyle.attributedString(withText: Strings.ValueProp.unlockingCourseAccess).setLineSpacing(1.1, alignment: .center)
         
         let container = UIView()
         container.accessibilityIdentifier = "ValuePropUnlockViewController:container"

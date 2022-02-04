@@ -78,8 +78,7 @@ public class CourseOutlineViewController :
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
-        addObserver()
-        addCourseUpgradeObserver()
+        addObservers()
         resumeCourseController.delegate = self
         
         addChild(tableController)
@@ -177,29 +176,27 @@ public class CourseOutlineViewController :
         navigationItem.title = (courseOutlineMode == .video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
     }
     
-    private func addObserver() {
+    private func addObservers() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.refreshCourseOutlineController()
         }
-    }
-    
-    private func addCourseUpgradeObserver() {
-        guard courseOutlineMode == .full, rootID == nil else { return }
         
-        NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
-            if let dictionary = notification.object as? NSDictionary,
-               let screenValue = dictionary[CourseUpgradeCompletion.screen] as? String,
-               let screen = ValuePropModalType(rawValue: screenValue),
-               let courseID = dictionary[CourseUpgradeCompletion.courseID] as? String {
-                let blockID = dictionary[CourseUpgradeCompletion.blockID] as? String
-                if courseID == observer.courseID {
-                    observer.handleCourseUpgradation(courseID: courseID, blockID: blockID, screen: screen)
-                }
+        if courseOutlineMode == .full, rootID == nil {
+            NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
+                observer.handleCourseUpgradation(userInfo: (notification.object as? NSDictionary))
             }
         }
     }
     
-    func handleCourseUpgradation(courseID: CourseBlockID, blockID: CourseBlockID?, screen: ValuePropModalType) {
+    private func handleCourseUpgradation(userInfo: NSDictionary?) {
+        guard let userInfo = userInfo,
+              let screenValue = userInfo[CourseUpgradeCompletion.screen] as? String,
+              let screen = CourseUpgradeScreen(rawValue: screenValue),
+              let courseID = userInfo[CourseUpgradeCompletion.courseID] as? String,
+              let blockID = userInfo[CourseUpgradeCompletion.blockID] as? String,
+              courseID == observer.courseID
+        else { return }
+        
         ValuePropUnlockViewContainer.shared.showView()
         loadCourseStream { [weak self] success in
             if let blockID = blockID, screen == .courseUnit {

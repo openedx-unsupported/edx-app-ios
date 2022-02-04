@@ -25,7 +25,7 @@ class CourseUpgradeCompletion {
     
     private init() { }
     
-    func handleCourseUpgrade(state: CompletionState, screen: ValuePropModalType) {
+    func handleCourseUpgrade(state: CompletionState, screen: CourseUpgradeScreen) {
         switch state {
         case .success(let courseID, let blockID):
             let dictionary = [

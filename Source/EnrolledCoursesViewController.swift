@@ -225,7 +225,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     
     func showValuePropDetailView(with course: OEXCourse) {
         environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
-        environment.router?.showValuePropDetailView(from: self, type: .courseEnrollment, course: course) { [weak self] in
+        environment.router?.showValuePropDetailView(from: self, screen: .courseEnrollment, course: course) { [weak self] in
             self?.environment.analytics.trackValuePropModal(with: .CourseEnrollment, courseId: course.course_id ?? "")
         }
     }

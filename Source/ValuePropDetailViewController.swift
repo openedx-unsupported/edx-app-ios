@@ -8,10 +8,11 @@
 
 import UIKit
 
-enum ValuePropModalType: String {
+enum CourseUpgradeScreen: String {
     case courseEnrollment
     case courseDashboard
     case courseUnit
+    case none
 }
 
 class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverriding {
@@ -49,13 +50,13 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     private let crossButtonSize: CGFloat = 20
     
-    private var type: ValuePropModalType
+    private var screen: CourseUpgradeScreen
     private let course: OEXCourse
     private let environment: Environment
     private let blockID: CourseBlockID?
     
-    init(type: ValuePropModalType, course: OEXCourse, blockID: CourseBlockID? = nil, environment: Environment) {
-        self.type = type
+    init(screen: CourseUpgradeScreen, course: OEXCourse, blockID: CourseBlockID? = nil, environment: Environment) {
+        self.screen = screen
         self.course = course
         self.blockID = blockID
         self.environment = environment
@@ -146,7 +147,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 self?.enableAppTouches()
                 self?.upgradeButton.isHidden = true
                 self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID), screen: self?.type ?? .courseDashboard)
+                    CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID), screen: self?.screen ?? .none)
                 }
                 break
             case .error:
@@ -154,7 +155,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 self?.upgradeButton.stopAnimating()
                 
                 self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .error, screen: self?.type ?? .courseDashboard)
+                    CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .error, screen: self?.screen ?? .none)
                 }
                 break
             default:
