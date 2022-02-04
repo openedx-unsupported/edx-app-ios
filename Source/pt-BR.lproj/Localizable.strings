@@ -967,6 +967,8 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 "USER_ACCOUNT"="Conta";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Perfil";
+/* Value prop unlocking content */
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course...";
 /* Value prop upgrade text */
 "VALUE_PROP.UPGRADE"= "Atualizar {course_name}";
 /* Value prop upgrade button text with price */

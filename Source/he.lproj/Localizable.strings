@@ -990,6 +990,8 @@
 "USER_ACCOUNT"="חשבון";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "פרופיל";
+/* Value prop unlocking content */
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course...";
 /* Value prop upgrade text */
 "VALUE_PROP.UPGRADE"= "שדרג את {course_name}";
 /* Value prop upgrade button text with price */

@@ -70,7 +70,7 @@ extension OEXRouter {
         return contentPageController
     }
     
-    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID) {
+    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID, completion: ((UIViewController) -> Void)? = nil) {
         let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         guard let childBlock = courseQuerier.blockWithID(id: componentID).firstSuccess().value,
               let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
@@ -92,7 +92,7 @@ extension OEXRouter {
         }
         
         showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: outlineViewController) { [weak self] visibleController in
-            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: nil)
+            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: completion)
         }
     }
     
@@ -413,8 +413,8 @@ extension OEXRouter {
         }
     }
     
-    func showValuePropDetailView(from controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse, completion: (() -> Void)? = nil) {
-        let upgradeDetailController = ValuePropDetailViewController(type: type, course: course, environment: environment)
+    func showValuePropDetailView(from controller: UIViewController? = nil, screen: CourseUpgradeScreen, course: OEXCourse, blockID: CourseBlockID? = nil, completion: (() -> Void)? = nil) {
+        let upgradeDetailController = ValuePropDetailViewController(screen: screen, course: course, blockID: blockID, environment: environment)
         controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailController), animated: true, completion: completion)
     }
     
@@ -483,7 +483,7 @@ extension OEXRouter {
         c.loadRequest(request: URLRequest(url: url as URL) as NSURLRequest)
     }
     
-    func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
+    func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true) {
         let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
         fromController.navigationController?.pushViewController(controller, animated: animated)
     }

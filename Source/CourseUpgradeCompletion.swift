@@ -14,6 +14,7 @@ class CourseUpgradeCompletion {
     
     static let courseID = "CourseID"
     static let blockID = "BlockID"
+    static let screen = "Screen"
     
     static let shared = CourseUpgradeCompletion()
     
@@ -24,21 +25,21 @@ class CourseUpgradeCompletion {
     
     private init() { }
     
-    func handleCompletion(state: CompletionState) {
+    func handleCourseUpgrade(state: CompletionState, screen: CourseUpgradeScreen) {
         switch state {
         case .success(let courseID, let blockID):
             let dictionary = [
+                CourseUpgradeCompletion.screen: screen.rawValue,
                 CourseUpgradeCompletion.courseID: courseID,
                 CourseUpgradeCompletion.blockID: blockID
             ]
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: dictionary))
-            showSuccess()
         case .error:
             showError()
         }
     }
     
-    private func showSuccess() {
+    func showSuccess() {
         guard let topController = UIApplication.shared.topMostController() else { return }
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message: Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
         alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
@@ -46,7 +47,7 @@ class CourseUpgradeCompletion {
         }
     }
     
-    private func showError() {
+    func showError() {
         guard let topController = UIApplication.shared.topMostController() else { return }
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message: Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
         alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { action in

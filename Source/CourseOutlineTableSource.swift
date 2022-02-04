@@ -98,7 +98,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
 
     private var canShowValueProp: Bool {
         guard let enrollment = enrollment, enrollment.type == .audit && environment.remoteConfig.valuePropEnabled
-        else {  return false }
+        else { return false }
 
         return true
     }
@@ -131,7 +131,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let button = UIButton(type: .system)
         button.oex_addAction({ [weak self] _ in
             if let course = self?.enrollment?.course {
-                self?.environment.router?.showValuePropDetailView(from: self, type: .courseDashboard, course: course, completion: nil)
+                self?.environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course, completion: nil)
             }
         }, for: .touchUpInside)
 
@@ -174,7 +174,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         refreshController.setupInScrollView(scrollView: tableView)
 
         setAccessibilityIdentifiers()
-        addObservers()
+        if courseOutlineMode == .full {
+            addObservers()
+        }
     }
 
     private func addObservers() {
@@ -185,7 +187,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
 
     private func makeCourseUpgradeComplete() {
         enrollment?.type = .verified
-
         valuePropView.removeFromSuperview()
         updateHeaderConstraints()
     }
@@ -535,6 +536,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
 
         if canShowValueProp {
+            if !headerContainer.subviews.contains(valuePropView) {
+                // ideally it should not happen, but in any case,
+                // if after course upgradation, value prop is removed, re add it to header view
+                addValuePropView()
+            }
             valuePropView.snp.remakeConstraints { make in
                 make.trailing.equalTo(courseCard)
                 make.leading.equalTo(courseCard)

@@ -210,20 +210,12 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
             case .complete:
                 self?.enableAppTouches()
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
-                
-                self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(course.course_id ?? "", self?.blockID))
-                }
-                
+                CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .success(self?.courseID ?? "", self?.blockID), screen: .courseUnit)
                 break
             case .error:
                 self?.enableAppTouches()
                 upgradeView.stopAnimating()
-                
-                self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .error)
-                }
-                
+                CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .error, screen: .courseUnit)
                 break
             default:
                 break
@@ -248,12 +240,6 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     }
     
     func showValuePropDetailView() {
-        guard let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course else { return }
-        environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: .CourseUnit, assignmentID: blockID)
-        environment.router?.showValuePropDetailView(from: self, type: .courseUnit, course: course) { [weak self] in
-            if let weakSelf = self {
-                weakSelf.environment.analytics.trackValuePropModal(with: .CourseUnit, courseId: weakSelf.courseID, assignmentID: weakSelf.blockID)
-            }
-        }
+        
     }
 }
