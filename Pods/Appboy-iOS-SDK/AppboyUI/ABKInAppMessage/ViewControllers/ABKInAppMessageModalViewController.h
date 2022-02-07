@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
  * in-app message.
  *
  * @discussion The default of this value is NO but can be overriden by setting the value of ABKEnableDismissModalOnOutsideTapKey in
- *             appboyOptions or in the Appboy dictionary in your Info.plist file.
+ *             appboyOptions or in the Braze dictionary in your Info.plist file.
  */
 @property (nonatomic, assign) BOOL enableDismissOnOutsideTap;
 

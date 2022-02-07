@@ -1,3 +1,9 @@
+## Developer Feedback Requested: Analytics-Swift Pilot
+
+**A pilot release of the new Analytics-Swift library is available at the [Analytics-Swift repository](https://github.com/segmentio/analytics-swift). This library is governed by [Segment’s First-Access and Beta terms](https://segment.com/legal/first-access-beta-preview/), and should not be used in production scenarios.**
+
+During the pilot phase, Segment wants your feedback, contributions, and ideas. If you have requirements or ideas for features for Analytics-Swift and Segment's integration with the Apple platform, let us know.
+
 # Analytics
 [![Circle CI](https://circleci.com/gh/segmentio/analytics-ios.svg?style=shield&circle-token=31c5b3e5edeb404b30141ead9dcef3eb37d16d4d)](https://circleci.com/gh/segmentio/analytics-ios)
 [![Version](https://img.shields.io/cocoapods/v/Analytics.svg?style=flat)](https://cocoapods.org//pods/Analytics)
@@ -68,6 +74,39 @@ Note: Segment _strongly_ recommends that you use a dynamic framework to manage y
 ```
 github "segmentio/analytics-ios"
 ```
+
+### Swift Package Manager (SPM)
+
+To add analytics-ios via Swift Package Mangaer, it is possible to add it one of two ways:
+
+#### Xcode
+![Xcode Add SPM Package](https://user-images.githubusercontent.com/917994/119199146-69765200-ba3f-11eb-9173-93cfb5f3cabd.png)
+
+![ChoosePackageRepository](https://user-images.githubusercontent.com/917994/119199143-68ddbb80-ba3f-11eb-9bf2-5dc11c208abd.png)
+
+![ChoosePackageOptions](https://user-images.githubusercontent.com/917994/119199139-67ac8e80-ba3f-11eb-9941-fc541030f3df.png)
+
+
+#### Package.swift
+```
+import PackageDescription
+
+let package = Package(
+    name: "MyApplication",
+    dependencies: [
+        // Add a package containing Analytics as the name along with the git url
+        .package(
+            name: "Segment",
+            url: "git@github.com:segmentio/analytics-ios.git"
+        )
+    ],
+    targets: [
+        name: "MyApplication",
+        dependencies: ["Segment"] // Add Analytics as a dependency of your application
+    ]
+)
+```
+Note: Segment recommends that you use Xcode to add your package.
 
 ## Quickstart
 

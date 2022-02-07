@@ -26,6 +26,7 @@
 // Number of gauge data information after which that gets flushed to Google Data Transport.
 NSInteger const kGaugeDataBatchSize = 25;
 
+NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 @interface FPRGaugeManager () <FPRCPUGaugeCollectorDelegate, FPRMemoryGaugeCollectorDelegate>
 
 /** @brief List of gauges that are currently being actively captured. */
@@ -182,8 +183,8 @@ NSInteger const kGaugeDataBatchSize = 25;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       if (dispatchGauges.count > 0 && sessionId != nil) {
         [[FPRClient sharedInstance] logGaugeMetric:dispatchGauges forSessionId:sessionId];
-        FPRLogDebug(kFPRGaugeManagerDataCollected, @"Logging %lu gauge metrics.",
-                    (unsigned long)dispatchGauges.count);
+        FPRLogInfo(kFPRGaugeManagerDataCollected, @"Logging %lu gauge metrics.",
+                   (unsigned long)dispatchGauges.count);
       }
     });
   });

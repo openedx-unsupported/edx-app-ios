@@ -17,6 +17,13 @@
 
 static CGFloat const MinimumInAppMessageDismissVelocity = 20.0;
 static CGFloat const SlideUpDragResistanceFactor = 0.055;
+static NSInteger const KeyWindowRetryMaxCount = 10;
+
+@interface ABKInAppMessageWindowController ()
+
+@property (nonatomic, assign) NSInteger keyWindowRetryCount;
+
+@end
 
 @implementation ABKInAppMessageWindowController
 
@@ -33,10 +40,9 @@ static CGFloat const SlideUpDragResistanceFactor = 0.055;
     _inAppMessageWindow.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
     _inAppMessageIsTapped = NO;
     _clickedButtonId = -1;
-    return self;
-  } else {
-    return nil;
+    _keyWindowRetryCount = 0;
   }
+  return self;
 }
 
 #pragma mark - Lifecycle Methods
@@ -74,6 +80,12 @@ static CGFloat const SlideUpDragResistanceFactor = 0.055;
       [self.view addGestureRecognizer:inAppModalOutsideTapGesture];
     }
   }
+
+  if ([self.inAppMessageViewController isKindOfClass:[ABKInAppMessageImmersiveViewController class]] ||
+      [self.inAppMessageViewController isKindOfClass:[ABKInAppMessageHTMLBaseViewController class]]) {
+    self.inAppMessageWindow.accessibilityViewIsModal = YES;
+  }
+
   [self.view addSubview:self.inAppMessageViewController.view];
 }
 
@@ -243,23 +255,38 @@ static CGFloat const SlideUpDragResistanceFactor = 0.055;
 #pragma mark - Windows
 
 /*!
- * React to windows changes in the view hierarchy. This is needed to ensure that the in-app message stays visible in cases where the
- * host app decides to display a window (possibly the app's main window) over our in-app message.
+ * React to windows changes in the view hierarchy. This is needed to ensure that the in-app message
+ * stays visible in cases where the host app decides to display a window (possibly the app's main
+ * window) over our in-app message.
  *
- * e.g. Some clients have extra logic when bootstrapping their app that can lead to the app's main window being made key and visible
- * after a delay at startup. In the case of test in-app messages delivered via push notifications, our in-app messages would be displayed
- * before the host app window being made key and visible. Soon after, the host app window takes over and hides our in-app message.
+ * This method tries to make the in-app message window visible up to 10 times. The in-app message
+ * is dismissed when reaching that value to prevent infinite loops when another window in the view
+ * hierarchy has a similar behavior.
+ *
+ * e.g. Some clients have extra logic when bootstrapping their app that can lead to the app's main
+ * window being made key and visible after a delay at startup. In the case of test in-app messages
+ * delivered via push notifications, our in-app messages would be displayed before the host app
+ * window being made key and visible. Soon after, the host app window takes over and hides our
+ * in-app message.
  */
 - (void)handleWindowDidBecomeKeyNotification:(NSNotification *)notification {
   UIWindow *window = notification.object;
 
-  // Skip for the in-app message window
-  if (window == self.inAppMessageWindow) {
+  // Skip for any in-app message window
+  if ([window isKindOfClass:[ABKInAppMessageWindow class]]) {
     return;
   }
   // Skip if the new key window is meant to be displayed above the in-app message (alert, sheet,
   // host app toast)
   if (window.windowLevel > UIWindowLevelNormal) {
+    return;
+  }
+
+  // Dismiss in-app message if we can't guarantee its visibility.
+  self.keyWindowRetryCount += 1;
+  if (self.keyWindowRetryCount >= KeyWindowRetryMaxCount) {
+    NSLog(@"Error: Failed to make in-app message window key and visible %ld times, dismissing the in-app message.", (long)self.keyWindowRetryCount);
+    [self hideInAppMessageViewWithAnimation:YES];
     return;
   }
   
@@ -273,6 +300,7 @@ static CGFloat const SlideUpDragResistanceFactor = 0.055;
   dispatch_async(dispatch_get_main_queue(), ^{
     // Set the root view controller after the inAppMessagewindow becomes the key window so it gets the
     // correct window size during and after rotation.
+    self.keyWindowRetryCount = 0;
     [self.inAppMessageWindow makeKeyWindow];
     self.inAppMessageWindow.rootViewController = self;
     self.inAppMessageWindow.hidden = NO;

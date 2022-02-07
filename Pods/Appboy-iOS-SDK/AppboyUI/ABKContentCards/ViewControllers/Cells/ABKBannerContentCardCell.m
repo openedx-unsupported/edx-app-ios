@@ -2,10 +2,49 @@
 #import "ABKBannerCard.h"
 #import "Appboy.h"
 #import "ABKImageDelegate.h"
-
-static const CGFloat ImageMinResizingMultiplier = 0.1f;
+#import "ABKUIUtils.h"
 
 @implementation ABKBannerContentCardCell
+
+#pragma mark - Properties
+
+- (UIImageView *)bannerImageView {
+  if (_bannerImageView != nil) {
+    return _bannerImageView;
+  }
+
+  UIImageView *bannerImageView = [[[self imageViewClass] alloc] init];
+  bannerImageView.contentMode = UIViewContentModeScaleAspectFit;
+  bannerImageView.translatesAutoresizingMaskIntoConstraints = NO;
+  _bannerImageView = bannerImageView;
+  return bannerImageView;
+}
+
+#pragma mark - SetUp
+
+- (void)setUpUI {
+  [super setUpUI];
+
+  // Views
+  [self.rootView addSubview:self.bannerImageView];
+  [self.rootView bringSubviewToFront:self.pinImageView];
+  [self.rootView bringSubviewToFront:self.unviewedLineView];
+
+  // AutoLayout
+  self.imageRatioConstraint = [self.bannerImageView.heightAnchor constraintEqualToAnchor:self.bannerImageView.widthAnchor];
+  self.imageRatioConstraint.priority = UILayoutPriorityDefaultHigh;
+
+  NSArray *constraints = @[
+    [self.bannerImageView.topAnchor constraintEqualToAnchor:self.rootView.topAnchor],
+    [self.bannerImageView.bottomAnchor constraintEqualToAnchor:self.rootView.bottomAnchor],
+    [self.bannerImageView.leadingAnchor constraintEqualToAnchor:self.rootView.leadingAnchor],
+    [self.bannerImageView.trailingAnchor constraintEqualToAnchor:self.rootView.trailingAnchor],
+    self.imageRatioConstraint
+  ];
+  [NSLayoutConstraint activateConstraints:constraints];
+}
+
+#pragma mark - ApplyCard
 
 - (void)applyCard:(ABKBannerContentCard *)card {
   if (![card isKindOfClass:[ABKBannerContentCard class]]) {
@@ -13,9 +52,7 @@ static const CGFloat ImageMinResizingMultiplier = 0.1f;
   }
   
   [super applyCard:card];
-  if ([self shouldResizeImageWithNewRatio:card.imageAspectRatio]) {
-    [self updateImageConstraintsWithRatio:card.imageAspectRatio];
-  }
+  [self updateImageConstraintIfNeededWithAspectRatio:card.imageAspectRatio];
   
   if (![Appboy sharedInstance].imageDelegate) {
     NSLog(@"[APPBOY][WARN] %@ %s",
@@ -27,52 +64,38 @@ static const CGFloat ImageMinResizingMultiplier = 0.1f;
   [[Appboy sharedInstance].imageDelegate setImageForView:self.bannerImageView
                                    showActivityIndicator:NO
                                                  withURL:[NSURL URLWithString:card.image]
-                                        imagePlaceHolder:nil
+                                        imagePlaceHolder:[self getPlaceHolderImage]
                                                completed:^(UIImage * _Nullable image,
                                                            NSError * _Nullable error,
                                                            NSInteger cacheType,
                                                            NSURL * _Nullable imageURL) {
-    if (weakSelf == nil) {
-      return;
-    }
-    if (image && image.size.height > 0.0) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        CGFloat newRatio = image.size.width / image.size.height;
-        if ([self shouldResizeImageWithNewRatio:newRatio]) {
-          // Update image size based on actual downloaded image
-          [weakSelf updateImageConstraintsWithRatio:newRatio];
-          [weakSelf.delegate refreshTableViewCellHeights];
-          card.imageAspectRatio = newRatio;
-        }
-      });
-    } else {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        weakSelf.bannerImageView.image = [weakSelf getPlaceHolderImage];
-      });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+      typeof(self) __strong strongSelf = weakSelf;
+      if (strongSelf == nil) {
+        return;
+      }
+
+      UIImage *finalImage = image != nil ? image : [strongSelf getPlaceHolderImage];
+      strongSelf.bannerImageView.image = finalImage;
+
+      CGFloat aspectRatio = finalImage.size.width / finalImage.size.height;
+      card.imageAspectRatio = aspectRatio;
+      [strongSelf updateImageConstraintIfNeededWithAspectRatio:aspectRatio];
+    });
   }];
 }
 
-- (void)updateImageConstraintsWithRatio:(CGFloat)newRatio {
-  if (self.imageRatioConstraint) {
-    self.imageRatioConstraint.active = NO;
+- (void)updateImageConstraintIfNeededWithAspectRatio:(CGFloat)aspectRatio {
+  if (aspectRatio == 0 || ABK_CGFLT_EQ(self.imageRatioConstraint.multiplier, 1 / aspectRatio)) {
+    return;
   }
-  self.imageRatioConstraint = [NSLayoutConstraint constraintWithItem:self.bannerImageView
-                                                           attribute:NSLayoutAttributeWidth
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:self.bannerImageView
-                                                           attribute:NSLayoutAttributeHeight
-                                                          multiplier:newRatio
-                                                            constant:0];
+
+  self.imageRatioConstraint.active = NO;
+  self.imageRatioConstraint = [self.bannerImageView.heightAnchor constraintEqualToAnchor:self.bannerImageView.widthAnchor
+                                                                                multiplier:1 / aspectRatio];
+  self.imageRatioConstraint.priority = UILayoutPriorityDefaultHigh;
   self.imageRatioConstraint.active = YES;
-  [self setNeedsLayout];
-}
-
-#pragma mark - Private methods
-
-- (BOOL)shouldResizeImageWithNewRatio:(CGFloat)newRatio {
-  return self.imageRatioConstraint &&
-      fabs(newRatio - self.imageRatioConstraint.multiplier) > ImageMinResizingMultiplier;
+  [self.delegate cellRequestSizeUpdate:self];
 }
 
 @end

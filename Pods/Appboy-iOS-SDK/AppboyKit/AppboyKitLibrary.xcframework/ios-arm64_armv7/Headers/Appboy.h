@@ -13,7 +13,7 @@
 #import <UserNotifications/UserNotifications.h>
 
 #ifndef APPBOY_SDK_VERSION
-#define APPBOY_SDK_VERSION @"4.1.0"
+#define APPBOY_SDK_VERSION @"4.3.4"
 #endif
 
 #if !TARGET_OS_TV
@@ -30,6 +30,7 @@
 @protocol ABKIDFADelegate;
 @protocol ABKURLDelegate;
 @protocol ABKImageDelegate;
+@protocol ABKSdkAuthenticationDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 /* ------------------------------------------------------------------------------------------------------
@@ -108,6 +109,18 @@ extern NSString *const ABKInAppMessageControllerDelegateKey;
 extern NSString *const ABKEnableDismissModalOnOutsideTapKey;
 
 /*!
+ * This key can be set YES or NO and will configure whether the SDK Authentication feature is enabled.
+ */
+extern NSString *const ABKEnableSDKAuthenticationKey;
+
+/*!
+ * This key can can be set to an instance of a class that conforms to the ABKSdkAuthenticationDelegate protocol, allowing it to handle
+ * SDK Authentication errors. Setting this delegate will cause the delegate method `handleSdkAuthenticationError:` to get called in
+ * the event of an SDK Authentication error.
+ */
+extern NSString *const ABKSdkAuthenticationDelegateKey;
+
+/*!
  * Set the time interval for session time out (in seconds). This will affect the case when user has a session shorter than
  * the set time interval. In that case, the session won't be close even though the user closed the app, but will continue until
  * it times out. The value should be an integer bigger than 0.
@@ -160,7 +173,7 @@ extern NSString *const ABKPushStoryAppGroupKey;
  *   ABKAutomaticRequestProcessingExceptForDataFlush - Deprecated. Use ABKManualRequestProcessing.
  *   ABKManualRequestProcessing - The same as ABKAutomaticRequestProcessing, except that updates to
  *        custom attributes and triggering of custom events will not automatically flush to the server. Instead, you
- *        must call flushDataAndProcessRequestQueue when you want to synchronize newly updated user data with Braze. Note that
+ *        must call requestImmediateDataFlush when you want to synchronize newly updated user data with Braze. Note that
  *        the configuration does not turn off all networking, i.e. requests important to the proper functionality of the Braze
  *        SDK will still occur.
  *
@@ -293,7 +306,7 @@ typedef NS_ENUM(NSInteger, ABKChannel) {
 *
 * Setting the request policy does not automatically cause a flush to occur, it just allows for a flush to be scheduled
 * the next time an eligible request is enqueued. To force an immediate flush after changing the request processing
-* policy, invoke <pre>[[Appboy sharedInstance] flushDataAndProcessRequestQueue]</pre>.
+* policy, invoke <pre>[[Appboy sharedInstance] requestImmediateDataFlush]</pre>.
 */
 @property ABKRequestProcessingPolicy requestProcessingPolicy;
 
@@ -301,6 +314,11 @@ typedef NS_ENUM(NSInteger, ABKChannel) {
  * A class extending ABKIDFADelegate can be set to provide the IDFA to Braze.
  */
 @property (nonatomic, strong, nullable) id<ABKIDFADelegate> idfaDelegate;
+
+/*!
+ * A class conforming to ABKSdkAuthenticationDelegate can be set to handle SDK Authentication errors.
+ */
+@property (nonatomic, strong, nullable) id<ABKSdkAuthenticationDelegate> sdkAuthenticationDelegate;
 
 #if !TARGET_OS_TV
 /*!
@@ -344,7 +362,9 @@ typedef NS_ENUM(NSInteger, ABKChannel) {
  * If you're using ABKManualRequestProcessing, you only need to call this when you want to force
  * an immediate flush of updated user data.
  */
-- (void)flushDataAndProcessRequestQueue;
+- (void)requestImmediateDataFlush;
+
+- (void)flushDataAndProcessRequestQueue __deprecated_msg("Please use `requestImmediateDataFlush` instead.");
 
 /*!
  * Stops all in flight server communication and enables manual request processing control to ensure that no automatic
@@ -394,6 +414,28 @@ typedef NS_ENUM(NSInteger, ABKChannel) {
 - (void)changeUser:(NSString *)userId;
 
 /*!
+ * @param userId The new user's ID (from the host application)
+ * @param signature The SDK Authentication signature for the user being identified.
+ *
+ * @discussion See documantation for `changeUser:` above 
+ */
+- (void)changeUser:(NSString *)userId sdkAuthSignature:(nullable NSString *)signature;
+
+/*!
+ * @param signature The SDK Authentication signature for the current user
+ *
+ * @discussion Sets the signature used for SDK authentication for the current user.
+ */
+- (void)setSdkAuthenticationSignature:(NSString *)signature;
+
+/*!
+ * @discussion Unsubscribe from SDK Authentication errors. After this method is called,
+ * the ABKSdkAuthenticationDelegate method `handleSdkAuthenticationError:` will not be called in the event of
+ * an SDK Authentication error.
+ */
+- (void)unsubscribeFromSdkAuthenticationErrors;
+
+/*!
  * @param eventName The name of the event to log.
  *
  * @discussion Adds an app specific event to event tracking log that's lazily pushed up to the server. Think of
@@ -410,8 +452,8 @@ typedef NS_ENUM(NSInteger, ABKChannel) {
 /*!
  * @param eventName The name of the event to log.
  * @param properties An <code>NSDictionary</code> of properties to associate with this purchase. Property keys are non-empty <code>NSString</code> objects with
- * <= 255 characters and no leading dollar signs.  Property values can be <code>NSNumber</code> booleans, integers, floats < 62 bits, <code>NSDate</code> objects or
- * <code>NSString</code> objects with <= 255 characters.
+ * <= 255 characters and no leading dollar signs.  Property values can be <code>NSNumber</code> booleans, integers, floats < 62 bits, <code>NSDate</code> objects,
+ * <code>NSString</code> objects with <= 255 characters, or any JSON Encodable object including NSArray and NSDictionary of the previous data types (nested properties). Total length of encoded properties must be under 50 KB.
  *
  * @discussion Adds an app specific event to event tracking log that's lazily pushed up to the server. Think of
  *   events like counters. That is, each time you log an event, we'll update a counter for that user. Events should be
@@ -595,10 +637,13 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 /*!
  * @discussion This method immediately wipes all data from the Braze iOS SDK. After this method is
  * called, the sharedInstance singleton will be nulled out and Braze functionality will be disabled
- * until the next call to startWithApiKey:. All references to the previous singleton should be
- * released.
+ * until the next call to startWithApiKey: in a subsequent app run. All references to the previous
+ * singleton should be released.
  *
- * The SDK will automatically re-enable itself when startWithApiKey: is next called. There is
+ * Note that the next call to startWithApiKey: must take place in a subsequent app run. Initializing the SDK
+ * within the same app run after calling this method is not supported.
+ *
+ * The SDK will automatically re-enable itself when startWithApiKey: is called. There is
  * no need to call requestEnableSDKOnNextAppRun: to re-enable the SDK. wipeDataAndDisableForAppRun:
  * may be used at any time, including while the SDK is otherwise disabled.
  *
@@ -611,8 +656,11 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 /*!
  * @discussion This method immediately disables the Braze iOS SDK. After this method is called, the
  * sharedInstance singleton will be nulled out and Braze functionality will be disabled until the
- * SDK is re-enabled via requestEnableSDKOnNextAppRun: and a subsequent call to startWithApiKey:.
- * All references to the previous singleton should be released.
+ * SDK is re-enabled via a call to requestEnableSDKOnNextAppRun: and re-initialized in a subsequent
+ * app run via a call to startWithApiKey:. All references to the previous singleton should be released.
+ *
+ * Note that the next call to startWithApiKey: must take place in a subsequent app run. Initializing the SDK
+ * within the same app run after calling this method is not supported.
  *
  * Unlike with wipeDataAndDisableForAppRun:, calling requestEnableSDKOnNextAppRun: is required to
  * re-enable the SDK after the method is called.

@@ -5,14 +5,24 @@
 @implementation ABKNewsFeedViewController
 
 - (instancetype)init {
-  UIStoryboard *st = [UIStoryboard storyboardWithName:@"ABKNewsFeedCardStoryboard"
-                                               bundle:[ABKUIUtils bundle:[ABKNewsFeedViewController class] channel:ABKNewsFeedChannel]];
-  ABKNewsFeedViewController *nf = [st instantiateViewControllerWithIdentifier:@"ABKNewsFeedViewController"];
-  self = nf;
-  _newsFeed = self.viewControllers[0];
-  [self addDoneButton];
-  
+  self = [super init];
+  if (self) {
+    self.newsFeed = [[ABKNewsFeedTableViewController alloc] init];
+    [self pushViewController:self.newsFeed animated:NO];
+    [self addDoneButton];
+#if !TARGET_OS_TV
+    if (@available(iOS 15.0, *)) {
+      self.view.backgroundColor = UIColor.systemGroupedBackgroundColor;
+    }
+#endif
+  }
   return self;
+}
+
+- (void)awakeFromNib {
+  [super awakeFromNib];
+  self.newsFeed = self.viewControllers.firstObject;
+  [self addDoneButton];
 }
 
 - (void)addDoneButton {

@@ -18,6 +18,10 @@ extension UIApplication {
             .flatMap { $0.windows }
             .first { $0.isKeyWindow }
     }
+    
+    var interfaceOrientation: UIInterfaceOrientation {
+        return window?.windowScene?.interfaceOrientation ?? .portrait
+    }
 
     @objc func topMostController() -> UIViewController?  {
         guard var topController = window?.rootViewController?.children.first else {

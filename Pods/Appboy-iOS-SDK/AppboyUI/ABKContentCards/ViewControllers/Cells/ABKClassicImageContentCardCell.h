@@ -1,5 +1,4 @@
 #import "ABKClassicContentCardCell.h"
-#import <SDWebImage/SDAnimatedImageView+WebCache.h>
 
 /*!
  * The ABKClassicContentCard has an optional image property.
@@ -8,7 +7,7 @@
  */
 @interface ABKClassicImageContentCardCell : ABKClassicContentCardCell
 
-@property (weak, nonatomic) IBOutlet SDAnimatedImageView *classicImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *classicImageView;
 
 - (void)applyCard:(ABKClassicContentCard *)classicCard;
 

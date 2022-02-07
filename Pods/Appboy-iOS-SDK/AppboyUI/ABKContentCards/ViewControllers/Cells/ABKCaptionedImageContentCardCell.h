@@ -1,24 +1,17 @@
 #import "ABKBaseContentCardCell.h"
 #import "ABKCaptionedImageContentCard.h"
-#import <SDWebImage/SDAnimatedImageView+WebCache.h>
 
 @interface ABKCaptionedImageContentCardCell : ABKBaseContentCardCell
 
-@property (weak, nonatomic) IBOutlet SDAnimatedImageView *captionedImageView;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
-@property (weak, nonatomic) IBOutlet UIView *TitleBackgroundView;
-@property (weak, nonatomic) IBOutlet UILabel *linkLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageHeightContraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionBottomConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *linkBottomConstraint;
+@property (class, nonatomic) UIColor *titleLabelColor;
+@property (class, nonatomic) UIColor *descriptionLabelColor;
+@property (class, nonatomic) UIColor *linkLabelColor;
 
-/*!
- * This method adjusts the constraints and hides or shows the link label.
- */
-- (void)hideLinkLabel:(BOOL)hide;
-
-- (void)updateImageConstraintsWithNewConstant:(CGFloat)newConstant;
+@property (strong, nonatomic) IBOutlet UIImageView *captionedImageView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *imageRatioConstraint;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *linkLabel;
 
 - (void)applyCard:(ABKCaptionedImageContentCard *)captionedImageCard;
 
