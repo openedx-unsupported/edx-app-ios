@@ -6,8 +6,6 @@
 //  Copyright © 2018 edX. All rights reserved.
 //
 
-import UIKit
-
 private let playerTimeOutInterval = 60.0
 
 class YoutubeVideoPlayer: VideoPlayer {
@@ -205,6 +203,6 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
 
 extension UIDevice {
     var hasNotch: Bool {
-        return UIApplication.shared.window?.safeAreaInsets.bottom ?? 0 > 0
+        return UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0 > 0
     }
 }

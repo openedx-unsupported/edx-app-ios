@@ -44,11 +44,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
     fileprivate let player = AVPlayer()
-    lazy var loadingIndicatorView: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.color = environment.styles.neutralWhite()
-        return activityIndicator
-    }()
+    let loadingIndicatorView = UIActivityIndicatorView(style: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
     private var playerTimeBeforeSeek:TimeInterval = 0
@@ -591,7 +587,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     func fullscreenPressed(playerControls: VideoPlayerControls) {
         DispatchQueue.main.async{ [weak self] in
             if let weakSelf = self {
-                weakSelf.setFullscreen(fullscreen: !weakSelf.isFullScreen, animated: true, with: .landscapeLeft, forceRotate:!weakSelf.isVerticallyCompact())
+                weakSelf.setFullscreen(fullscreen: !weakSelf.isFullScreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:!weakSelf.isVerticallyCompact())
             }
         }
     }
@@ -686,7 +682,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         isFullScreen = fullscreen
         if fullscreen {
             
-            fullScreenContainerView = UIApplication.shared.window?.rootViewController?.view ?? UIApplication.shared.windows[0].rootViewController?.view
+            fullScreenContainerView = UIApplication.shared.keyWindow?.rootViewController?.view ?? UIApplication.shared.windows[0].rootViewController?.view
             
             if movieBackgroundView.frame == .zero {
                 movieBackgroundView.frame = movieBackgroundFrame

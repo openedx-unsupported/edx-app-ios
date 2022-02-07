@@ -34,7 +34,7 @@
     if(self != nil) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.styles = [[OEXRegistrationStyles alloc] init];
-        self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+        self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         self.activityIndicator.hidden = YES;
         __weak __typeof(self) owner = self;
         self.authOptionsView = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.bounds providers:providers accessibilityLabel:[Strings registrationRegisterPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {

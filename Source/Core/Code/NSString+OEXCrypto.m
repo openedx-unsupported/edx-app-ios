@@ -10,9 +10,6 @@
 
 #import <CommonCrypto/CommonCrypto.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-
 @implementation NSString (OEXCrypto)
 
 - (NSString*)oex_md5 {
@@ -28,5 +25,3 @@
 }
 
 @end
-
-#pragma clang diagnostic pop

@@ -490,6 +490,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void) showDisabledUserMessage {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
     UIAlertController *alertController = [[UIAlertController alloc] showAlertWithTitle:[Strings floatingErrorLoginTitle] message:[Strings authProviderDisabledUserError] cancelButtonTitle:[Strings cancel] onViewController:self];
 
     __block OEXRegistrationViewController *blockSelf = self;
@@ -621,12 +623,12 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     if(status) {
         [self.progressIndicator startAnimating];
         [self.registerButton applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings registrationCreatingAccount]];
-        self.view.userInteractionEnabled = false;
+        [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     }
     else {
         [self.progressIndicator stopAnimating];
         [self.registerButton applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
-        self.view.userInteractionEnabled = true;
+        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
 }
 
