@@ -42,16 +42,18 @@ extension OEXStyles {
     @objc public func applyGlobalAppearance() {
         //Probably want to set the tintColor of UIWindow but it didn't seem necessary right now
         
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = navigationBarColor()
-        appearance.titleTextAttributes = [.foregroundColor: navigationItemTintColor()]
-        appearance.largeTitleTextAttributes = [.foregroundColor: navigationItemTintColor()]
-        appearance.shadowColor = .clear
-        appearance.shadowImage = UIImage()
-
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = navigationBarColor()
+            appearance.titleTextAttributes = [.foregroundColor: navigationItemTintColor()]
+            appearance.largeTitleTextAttributes = [.foregroundColor: navigationItemTintColor()]
+            appearance.shadowColor = .clear
+            appearance.shadowImage = UIImage()
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().compactAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
+        
         UINavigationBar.appearance().barTintColor = navigationBarColor()
         UINavigationBar.appearance().barStyle = UIBarStyle.black
         UINavigationBar.appearance().tintColor = navigationItemTintColor()
@@ -60,7 +62,6 @@ extension OEXStyles {
         
         UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes.attributedKeyDictionary(), for: .normal)
         UIToolbar.appearance().tintColor = navigationItemTintColor()
-        UIToolbar.appearance().backgroundColor = standardBackgroundColor()
         
         let style = OEXTextStyle(weight: .normal, size : .small, color : neutralBlack())
         let selectedStyle = OEXTextStyle(weight: .normal, size : .small, color : neutralWhiteT())
@@ -72,12 +73,8 @@ extension OEXStyles {
         
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.classForCoder() as! UIAppearanceContainer.Type]).defaultTextAttributes = searchBarTextStyle.attributes.attributedKeyDictionary()
 
-        UISegmentedControl.appearance().selectedSegmentTintColor = primaryBaseColor()
-        
-        UITabBar.appearance().backgroundColor = standardBackgroundColor()
-        
-        if #available(iOS 15.0, *) {
-            UITableView.appearance().sectionHeaderTopPadding = 0
+        if #available(iOS 13.0, *) {
+            UISegmentedControl.appearance().selectedSegmentTintColor = primaryBaseColor()
         }
     }
     

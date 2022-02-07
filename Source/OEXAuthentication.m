@@ -42,6 +42,8 @@ typedef void (^OEXNSDataTaskRequestHandler)(NSData* data, NSURLResponse* respons
 OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion) {
     return ^(NSData* data, NSURLResponse* response, NSError* error) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            // Hacky - We should be using a networking library that manages this for us
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             completion(data, (NSHTTPURLResponse*)response, error);
         });
     };
@@ -96,6 +98,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 
 + (void)requestTokenWithProvider:(id <OEXExternalAuthProvider>)provider externalToken:(NSString *)token completion:(OEXURLRequestHandler)completionBlock {
     [OEXAuthentication logNonFatalErrorAndClearCookiesIfNeeded];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
     NSMutableDictionary* parameters = [[NSMutableDictionary alloc] init];
     [parameters setSafeObject:token forKey:@"access_token"];
@@ -160,6 +163,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 - (void)getUserDetailsWith:(OEXAccessToken*)edxToken completionHandler:(OEXURLRequestHandler)completionBlock {
     self.edxToken = edxToken;
 
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession* session = [NSURLSession sessionWithConfiguration:config
                                                           delegate:self

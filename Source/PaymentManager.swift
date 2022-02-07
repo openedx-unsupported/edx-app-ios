@@ -118,8 +118,6 @@ enum PurchaseError: String {
                     break
                 default: print((error as NSError).localizedDescription)
                 }
-            case .deferred(let purchase):
-                print(purchase.product.productIdentifier)
             }
         }
     }

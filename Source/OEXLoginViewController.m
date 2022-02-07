@@ -511,6 +511,7 @@
 }
 
 - (void)loginFailedWithErrorMessage:(NSString*)errorStr title:(NSString*)title {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     if(title) {
         [[UIAlertController alloc] showAlertWithTitle:title
@@ -529,6 +530,7 @@
 }
 
 - (void) showDisabledUserMessage {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self setLoginDefaultState];
     [self tappedToDismiss];
 
@@ -541,6 +543,7 @@
 }
 
 - (void) showUpdateRequiredMessage {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self setLoginDefaultState];
     [self tappedToDismiss];
     
