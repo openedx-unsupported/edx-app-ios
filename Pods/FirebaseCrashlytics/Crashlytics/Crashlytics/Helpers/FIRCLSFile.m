@@ -49,8 +49,8 @@ static void FIRCLSFileWriteBool(FIRCLSFile* file, bool value);
 
 static void FIRCLSFileWriteCollectionStart(FIRCLSFile* file, const char openingChar);
 static void FIRCLSFileWriteCollectionEnd(FIRCLSFile* file, const char closingChar);
-static void FIRCLSFileWriteCollectionEntryProlog(FIRCLSFile* file);
-static void FIRCLSFileWriteCollectionEntryEpilog(FIRCLSFile* file);
+static void FIRCLSFileWriteColletionEntryProlog(FIRCLSFile* file);
+static void FIRCLSFileWriteColletionEntryEpilog(FIRCLSFile* file);
 
 #define CLS_FILE_DEBUG_LOGGING 0
 
@@ -210,11 +210,6 @@ static void FIRCLSFileWriteToFileDescriptorOrBuffer(FIRCLSFile* file,
   }
 }
 
-void FIRCLSFileWriteStringUnquoted(FIRCLSFile* file, const char* string) {
-  size_t length = strlen(string);
-  FIRCLSFileWriteToFileDescriptorOrBuffer(file, string, length);
-}
-
 static void FIRCLSFileWriteToFileDescriptor(FIRCLSFile* file, const char* string, size_t length) {
   if (!FIRCLSFileWriteWithRetries(file->fd, string, length)) {
     return;
@@ -242,14 +237,7 @@ bool FIRCLSFileLoopWithWriteBlock(const void* buffer,
   for (size_t count = 0; length > 0 && count < CLS_FILE_MAX_WRITE_ATTEMPTS; ++count) {
     // try to write all that is left
     ssize_t ret = writeBlock(buffer, length);
-
-    if (length > SIZE_MAX) {
-      // if this happens we can't convert it to a signed version due to overflow
-      return false;
-    }
-    const ssize_t signedLength = (ssize_t)length;
-
-    if (ret >= 0 && ret == signedLength) {
+    if (ret >= 0 && ret == length) {
       return true;
     }
 
@@ -259,7 +247,7 @@ bool FIRCLSFileLoopWithWriteBlock(const void* buffer,
     }
 
     // We wrote more bytes than we expected, abort
-    if (ret > signedLength) {
+    if (ret > length) {
       return false;
     }
 
@@ -499,13 +487,13 @@ void FIRCLSFileWriteCollectionEnd(FIRCLSFile* file, const char closingChar) {
   file->needComma = file->collectionDepth > 0;
 }
 
-void FIRCLSFileWriteCollectionEntryProlog(FIRCLSFile* file) {
+void FIRCLSFileWriteColletionEntryProlog(FIRCLSFile* file) {
   if (file->needComma) {
     FIRCLSFileWriteToFileDescriptorOrBuffer(file, ",", 1);
   }
 }
 
-void FIRCLSFileWriteCollectionEntryEpilog(FIRCLSFile* file) {
+void FIRCLSFileWriteColletionEntryEpilog(FIRCLSFile* file) {
   file->needComma = true;
 }
 
@@ -518,7 +506,7 @@ void FIRCLSFileWriteHashEnd(FIRCLSFile* file) {
 }
 
 void FIRCLSFileWriteHashKey(FIRCLSFile* file, const char* key) {
-  FIRCLSFileWriteCollectionEntryProlog(file);
+  FIRCLSFileWriteColletionEntryProlog(file);
 
   FIRCLSFileWriteStringWithSuffix(file, key, strlen(key), ':');
 
@@ -531,7 +519,7 @@ void FIRCLSFileWriteHashEntryUint64(FIRCLSFile* file, const char* key, uint64_t 
   FIRCLSFileWriteHashKey(file, key);
   FIRCLSFileWriteUInt64(file, value, false);
 
-  FIRCLSFileWriteCollectionEntryEpilog(file);
+  FIRCLSFileWriteColletionEntryEpilog(file);
 }
 
 void FIRCLSFileWriteHashEntryInt64(FIRCLSFile* file, const char* key, int64_t value) {
@@ -539,14 +527,14 @@ void FIRCLSFileWriteHashEntryInt64(FIRCLSFile* file, const char* key, int64_t va
   FIRCLSFileWriteHashKey(file, key);
   FIRCLSFileWriteInt64(file, value);
 
-  FIRCLSFileWriteCollectionEntryEpilog(file);
+  FIRCLSFileWriteColletionEntryEpilog(file);
 }
 
 void FIRCLSFileWriteHashEntryString(FIRCLSFile* file, const char* key, const char* value) {
   FIRCLSFileWriteHashKey(file, key);
   FIRCLSFileWriteString(file, value);
 
-  FIRCLSFileWriteCollectionEntryEpilog(file);
+  FIRCLSFileWriteColletionEntryEpilog(file);
 }
 
 void FIRCLSFileWriteHashEntryNSString(FIRCLSFile* file, const char* key, NSString* string) {
@@ -567,14 +555,14 @@ void FIRCLSFileWriteHashEntryHexEncodedString(FIRCLSFile* file,
   FIRCLSFileWriteHashKey(file, key);
   FIRCLSFileWriteHexEncodedString(file, value);
 
-  FIRCLSFileWriteCollectionEntryEpilog(file);
+  FIRCLSFileWriteColletionEntryEpilog(file);
 }
 
 void FIRCLSFileWriteHashEntryBoolean(FIRCLSFile* file, const char* key, bool value) {
   FIRCLSFileWriteHashKey(file, key);
   FIRCLSFileWriteBool(file, value);
 
-  FIRCLSFileWriteCollectionEntryEpilog(file);
+  FIRCLSFileWriteColletionEntryEpilog(file);
 }
 
 void FIRCLSFileWriteArrayStart(FIRCLSFile* file) {
@@ -586,27 +574,27 @@ void FIRCLSFileWriteArrayEnd(FIRCLSFile* file) {
 }
 
 void FIRCLSFileWriteArrayEntryUint64(FIRCLSFile* file, uint64_t value) {
-  FIRCLSFileWriteCollectionEntryProlog(file);
+  FIRCLSFileWriteColletionEntryProlog(file);
 
   FIRCLSFileWriteUInt64(file, value, false);
 
-  FIRCLSFileWriteCollectionEntryEpilog(file);
+  FIRCLSFileWriteColletionEntryEpilog(file);
 }
 
 void FIRCLSFileWriteArrayEntryString(FIRCLSFile* file, const char* value) {
-  FIRCLSFileWriteCollectionEntryProlog(file);
+  FIRCLSFileWriteColletionEntryProlog(file);
 
   FIRCLSFileWriteString(file, value);
 
-  FIRCLSFileWriteCollectionEntryEpilog(file);
+  FIRCLSFileWriteColletionEntryEpilog(file);
 }
 
 void FIRCLSFileWriteArrayEntryHexEncodedString(FIRCLSFile* file, const char* value) {
-  FIRCLSFileWriteCollectionEntryProlog(file);
+  FIRCLSFileWriteColletionEntryProlog(file);
 
   FIRCLSFileWriteHexEncodedString(file, value);
 
-  FIRCLSFileWriteCollectionEntryEpilog(file);
+  FIRCLSFileWriteColletionEntryEpilog(file);
 }
 
 NSArray* FIRCLSFileReadSections(const char* path,

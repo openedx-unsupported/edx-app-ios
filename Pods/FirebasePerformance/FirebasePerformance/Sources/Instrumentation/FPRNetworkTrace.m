@@ -50,11 +50,8 @@ NSString *const kFPRNetworkTracePropertyName = @"fpr_networkTrace";
 /** @brief Serial queue to manage the updation of session Ids. */
 @property(nonatomic, readwrite) dispatch_queue_t sessionIdSerialQueue;
 
-/**
- * Updates the current trace with the current session details.
- * @param sessionDetails Updated session details of the currently active session.
- */
-- (void)updateTraceWithCurrentSession:(FPRSessionDetails *)sessionDetails;
+/** Updates the current trace with the current session details. */
+- (void)updateTraceWithCurrentSession;
 
 @end
 
@@ -94,7 +91,7 @@ NSString *const kFPRNetworkTracePropertyName = @"fpr_networkTrace";
 
   NSString *trimmedURLString = [FPRNetworkTrace stringByTrimmingURLString:URLRequest];
   if (!trimmedURLString || trimmedURLString.length <= 0) {
-    FPRLogWarning(kFPRNetworkTraceURLLengthExceeds, @"URL length outside limits, returning nil.");
+    FPRLogInfo(kFPRNetworkTraceURLLengthExceeds, @"URL length outside limits, returning nil.");
     return nil;
   }
 
@@ -140,20 +137,14 @@ NSString *const kFPRNetworkTracePropertyName = @"fpr_networkTrace";
   return [NSString stringWithFormat:@"Request: %@", _URLRequest];
 }
 
-- (void)sessionChanged:(NSNotification *)notification {
+- (void)updateTraceWithCurrentSession {
   if (self.traceStarted && !self.traceCompleted) {
-    NSDictionary<NSString *, FPRSessionDetails *> *userInfo = notification.userInfo;
-    FPRSessionDetails *sessionDetails = [userInfo valueForKey:kFPRSessionIdNotificationKey];
-    if (sessionDetails) {
-      [self updateTraceWithCurrentSession:sessionDetails];
-    }
-  }
-}
-
-- (void)updateTraceWithCurrentSession:(FPRSessionDetails *)sessionDetails {
-  if (sessionDetails != nil) {
-    dispatch_sync(self.sessionIdSerialQueue, ^{
-      [self.activeSessions addObject:sessionDetails];
+    dispatch_async(self.sessionIdSerialQueue, ^{
+      FPRSessionManager *sessionManager = [FPRSessionManager sharedInstance];
+      FPRSessionDetails *sessionDetails = sessionManager.sessionDetails;
+      if (sessionDetails) {
+        [self.activeSessions addObject:sessionDetails];
+      }
     });
   }
 }
@@ -200,9 +191,9 @@ NSString *const kFPRNetworkTracePropertyName = @"fpr_networkTrace";
     [self checkpointState:FPRNetworkTraceCheckpointStateInitiated];
 
     FPRSessionManager *sessionManager = [FPRSessionManager sharedInstance];
-    [self updateTraceWithCurrentSession:[sessionManager.sessionDetails copy]];
+    [self updateTraceWithCurrentSession];
     [sessionManager.sessionNotificationCenter addObserver:self
-                                                 selector:@selector(sessionChanged:)
+                                                 selector:@selector(updateTraceWithCurrentSession)
                                                      name:kFPRSessionIdUpdatedNotification
                                                    object:sessionManager];
   }
@@ -450,10 +441,6 @@ NSString *const kFPRNetworkTracePropertyName = @"fpr_networkTrace";
                                      value:nil
                                association:GUL_ASSOCIATION_RETAIN_NONATOMIC];
   }
-}
-
-- (BOOL)isValid {
-  return _hasValidResponseCode;
 }
 
 @end

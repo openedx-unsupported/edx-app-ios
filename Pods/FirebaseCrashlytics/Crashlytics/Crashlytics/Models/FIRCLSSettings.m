@@ -279,16 +279,6 @@ NSString *const AppVersion = @"app_version";
   return YES;
 }
 
-- (BOOL)metricKitCollectionEnabled {
-  NSNumber *value = [self featuresSettings][@"collect_metric_kit"];
-
-  if (value != nil) {
-    return value.boolValue;
-  }
-
-  return NO;
-}
-
 #pragma mark - Optional Limit Overrides
 
 - (uint32_t)errorLogBufferSize {

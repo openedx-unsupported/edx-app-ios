@@ -3,18 +3,16 @@
 
 @interface ABKClassicContentCardCell : ABKBaseContentCardCell
 
-@property (class, nonatomic) UIColor *titleLabelColor;
-@property (class, nonatomic) UIColor *descriptionLabelColor;
-@property (class, nonatomic) UIColor *linkLabelColor;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *linkLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *linkBottomConstraint;
 
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
-@property (strong, nonatomic) IBOutlet UILabel *linkLabel;
-
-@property (strong, nonatomic) NSArray *descriptionConstraints;
-@property (strong, nonatomic) NSArray *linkConstraints;
-
-@property (nonatomic, assign) CGFloat padding;
+/*!
+ * This method adjusts the constraints and hides or shows the link label.
+ */
+- (void)hideLinkLabel:(BOOL)hide;
 
 - (void)applyCard:(ABKClassicContentCard *)classicCard;
 

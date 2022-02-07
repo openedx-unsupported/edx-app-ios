@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+#import <TargetConditionals.h>
+#if TARGET_OS_IOS || TARGET_OS_TV
+
 #import <Foundation/Foundation.h>
 
 @class FIRApp;
@@ -38,12 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      Swift or YES/NO (objective-c).
  *   2. Set `FirebaseInAppMessagingAutomaticDataCollectionEnabled` to false in the app's plist file.
  *   3. Global Firebase data collection setting.
- *
- * This class is unavailable on macOS, macOS Catalyst, and watchOS.
  **/
-
-NS_EXTENSION_UNAVAILABLE("Firebase In App Messaging is not supported for iOS extensions.")
-API_UNAVAILABLE(macos, watchos)
 NS_SWIFT_NAME(InAppMessaging)
 @interface FIRInAppMessaging : NSObject
 /** @fn inAppMessaging
@@ -94,3 +92,5 @@ NS_SWIFT_NAME(InAppMessaging)
 
 @end
 NS_ASSUME_NONNULL_END
+
+#endif  // TARGET_OS_IOS || TARGET_OS_TV

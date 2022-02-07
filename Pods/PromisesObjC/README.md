@@ -38,7 +38,7 @@ Objective-C and Swift to facilitate writing asynchronous code.
     *   [All](g3doc/index.md#all)
     *   [Always](g3doc/index.md#always)
     *   [Any](g3doc/index.md#any)
-    *   [AwaitPromise](g3doc/index.md#awaitpromise)
+    *   [Await](g3doc/index.md#await)
     *   [Delay](g3doc/index.md#delay)
     *   [Race](g3doc/index.md#race)
     *   [Recover](g3doc/index.md#recover)

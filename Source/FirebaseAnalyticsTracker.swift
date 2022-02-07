@@ -16,7 +16,7 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     @objc static let minifiedBlockIDKey: NSString = "minifiedBlockID"
     
     var currentOrientationValue : String {
-        return UIApplication.shared.interfaceOrientation.isLandscape ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
+        return UIApplication.shared.statusBarOrientation.isLandscape ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
     
     //Skipping these keys for Firebase analytics

@@ -26,7 +26,7 @@ static NSString *const FontAwesomeName = @"FontAwesome";
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  [ABKUIUtils enableAdjustsFontForContentSizeCategory:self.inAppMessageMessageLabel];
+  self.inAppMessageMessageLabel.adjustsFontForContentSizeCategory = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

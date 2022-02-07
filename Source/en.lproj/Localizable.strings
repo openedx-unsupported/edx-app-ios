@@ -611,7 +611,7 @@
 /* Endorsed text */
 "ENDORSED" = "Endorsed";
 /*Open in external browser banner message*/
-"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of the course may work best in a web browser.";
 /*Open in external browser banner underline text*/
 "OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
 /* Facebook login method */
@@ -966,6 +966,8 @@
 "USER_ACCOUNT"="Account";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Profile";
+/* Value prop unlocking content */
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course...";
 /* Value prop upgrade text */
 "VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
 /* Value prop upgrade button text with price */
@@ -986,8 +988,6 @@
 "VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
 /* Value prop detail view title*/
 "VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
-/* Value prop detail view message heading*/
-"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
 /* Value prop information message number one*/
 "VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
 /* Value prop information message number two*/
@@ -998,6 +998,8 @@
 "VALUE_PROP.SHOW_MORE_TEXT"="Show more";
 /* Show less button text on the component screen on the value prop banner*/
 "VALUE_PROP.SHOW_LESS_TEXT"="Show less";
+/* Value prop button text on course dashbaord screen*/
+"VALUE_PROP.COURSE_DASHBOARD_BUTTON_TITLE"="Upgrade to access more features";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "Version {number} {environment}";
 /* Error shown when video download fails */

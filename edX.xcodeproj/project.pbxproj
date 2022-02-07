@@ -182,6 +182,7 @@
 		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
+		5F35022427901E7400F76CB4 /* ValuePropUnlockViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */; };
 		5F371470260B3BC9004937DA /* Observeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F37146F260B3BC9004937DA /* Observeable.swift */; };
 		5F3A619A265796A7005329A4 /* CalendarSyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */; };
 		5F45030E276B4B290054D266 /* CourseUpgradeCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F45030D276B4B290054D266 /* CourseUpgradeCompletion.swift */; };
@@ -193,6 +194,8 @@
 		5F59B40026AFF5B000D6CA3E /* ProfileOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F59B3FF26AFF5B000D6CA3E /* ProfileOptionsViewController.swift */; };
 		5F5FC00B269DA8C500F92B8F /* ValuePropMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */; };
 		5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */; };
+		5F61E8F8278303EC00FC68B6 /* SwiftyStoreKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F61E8F7278303EC00FC68B6 /* SwiftyStoreKit.xcframework */; };
+		5F61E8F9278303EC00FC68B6 /* SwiftyStoreKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F61E8F7278303EC00FC68B6 /* SwiftyStoreKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F6919E02773090F007F00AD /* UpgradeSKUManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6919DF2773090F007F00AD /* UpgradeSKUManager.swift */; };
 		5F6AD05B27467898007686C2 /* ProfileOptions.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD05927467898007686C2 /* ProfileOptions.strings */; };
 		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
@@ -206,10 +209,6 @@
 		5F6F2B68255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */; };
 		5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */; };
 		5F6F2B6F255AABC400AA3708 /* inter_fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B6E255AABC400AA3708 /* inter_fonts.json */; };
-		5F700E97278C35AE00B17044 /* MSAL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F700E90278C301400B17044 /* MSAL.xcframework */; };
-		5F700E98278C35AE00B17044 /* MSAL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F700E90278C301400B17044 /* MSAL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5F700E99278C35B000B17044 /* SwiftyStoreKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F700E95278C358D00B17044 /* SwiftyStoreKit.xcframework */; };
-		5F700E9A278C35B000B17044 /* SwiftyStoreKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F700E95278C358D00B17044 /* SwiftyStoreKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F7024A32624D96400A968CB /* MaterialIconsSharp.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */; };
 		5F7C0C642534520200A344B9 /* FillBackgroundTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */; };
 		5F7C0C6A2534521300A344B9 /* FillBackgroundLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */; };
@@ -894,6 +893,8 @@
 		E08863F31F209B9C0009A06D /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08863F21F209B9C0009A06D /* DateFormatting.swift */; };
 		E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */; };
 		E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */; };
+		E096532D25C133910004FFCC /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E096532725C133390004FFCC /* MSAL.framework */; };
+		E096532E25C133910004FFCC /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E096532725C133390004FFCC /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E096583525C1963B0004FFCC /* strip_unused_archs.sh in Resources */ = {isa = PBXBuildFile; fileRef = E096582C25C1963B0004FFCC /* strip_unused_archs.sh */; };
 		E096583625C1963B0004FFCC /* absl_base_LICENSE.html in Resources */ = {isa = PBXBuildFile; fileRef = E096582E25C1963B0004FFCC /* absl_base_LICENSE.html */; };
 		E096583725C1963B0004FFCC /* android_nanoproto_LICENSE.html in Resources */ = {isa = PBXBuildFile; fileRef = E096582F25C1963B0004FFCC /* android_nanoproto_LICENSE.html */; };
@@ -910,6 +911,7 @@
 		E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461C1D5CA6950066C766 /* LogoutApi.swift */; };
 		E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */; };
 		E0A246211D5DB3FD0066C766 /* AppUpgradeConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */; };
+		E0A948132786A6DE00BE79D9 /* WebviewCookiesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
@@ -981,10 +983,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5F700E9A278C35B000B17044 /* SwiftyStoreKit.xcframework in Embed Frameworks */,
-				5F700E98278C35AE00B17044 /* MSAL.xcframework in Embed Frameworks */,
+				5F61E8F9278303EC00FC68B6 /* SwiftyStoreKit.xcframework in Embed Frameworks */,
 				E096584225C196470004FFCC /* GoogleCast.framework in Embed Frameworks */,
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
+				E096532E25C133910004FFCC /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1240,6 +1242,7 @@
 		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
+		5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropUnlockViewContainer.swift; sourceTree = "<group>"; };
 		5F37146F260B3BC9004937DA /* Observeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observeable.swift; sourceTree = "<group>"; };
 		5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSyncConfig.swift; sourceTree = "<group>"; };
 		5F45030D276B4B290054D266 /* CourseUpgradeCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUpgradeCompletion.swift; sourceTree = "<group>"; };
@@ -1251,6 +1254,7 @@
 		5F59B3FF26AFF5B000D6CA3E /* ProfileOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileOptionsViewController.swift; sourceTree = "<group>"; };
 		5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropMessagesView.swift; sourceTree = "<group>"; };
 		5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUpgradeButtonView.swift; sourceTree = "<group>"; };
+		5F61E8F7278303EC00FC68B6 /* SwiftyStoreKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SwiftyStoreKit.xcframework; path = Libraries/SwiftyStoreKit/SwiftyStoreKit.xcframework; sourceTree = "<group>"; };
 		5F648396274CE66E00DB38E0 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
 		5F648397274CEB5300DB38E0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ProfileOptions.strings"; sourceTree = "<group>"; };
 		5F648398274CEB5400DB38E0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
@@ -1274,8 +1278,6 @@
 		5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-BoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B6E255AABC400AA3708 /* inter_fonts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = inter_fonts.json; sourceTree = "<group>"; };
-		5F700E90278C301400B17044 /* MSAL.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MSAL.xcframework; sourceTree = "<group>"; };
-		5F700E95278C358D00B17044 /* SwiftyStoreKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SwiftyStoreKit.xcframework; path = Libraries/SwiftyStoreKit/SwiftyStoreKit.xcframework; sourceTree = SOURCE_ROOT; };
 		5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIconsSharp.otf; sourceTree = "<group>"; };
 		5F7C0C632534520200A344B9 /* FillBackgroundTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundTextStorage.swift; sourceTree = "<group>"; };
 		5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundLayoutManager.swift; sourceTree = "<group>"; };
@@ -1287,6 +1289,7 @@
 		5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationSelectOptionViewController.swift; sourceTree = "<group>"; };
 		5FB69A8D24BC2CD800BBCAD7 /* RegistrationFormValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationFormValidation.swift; sourceTree = "<group>"; };
 		5FC24C212514DBDA0059C0BA /* CourseDateBannerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerAPI.swift; sourceTree = "<group>"; };
+		5FC5621B277DAAB700E8F688 /* SwiftyStoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyStoreKit.framework; path = Libraries/SwiftyStoreKit/SwiftyStoreKit.framework; sourceTree = "<group>"; };
 		5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesHeaderView.swift; sourceTree = "<group>"; };
 		5FD868372637F0FC0045A149 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		5FF08644257F91FA0078877A /* ValuePropComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropComponentView.swift; sourceTree = "<group>"; };
@@ -2105,6 +2108,7 @@
 		E08CC57C1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/profiles.json"; sourceTree = "<group>"; };
 		E08CC57E1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/languages.json"; sourceTree = "<group>"; };
 		E08CC57F1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/whats_new.json"; sourceTree = "<group>"; };
+		E096532725C133390004FFCC /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MSAL.framework; sourceTree = "<group>"; };
 		E096582C25C1963B0004FFCC /* strip_unused_archs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = strip_unused_archs.sh; sourceTree = "<group>"; };
 		E096582E25C1963B0004FFCC /* absl_base_LICENSE.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = absl_base_LICENSE.html; sourceTree = "<group>"; };
 		E096582F25C1963B0004FFCC /* android_nanoproto_LICENSE.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = android_nanoproto_LICENSE.html; sourceTree = "<group>"; };
@@ -2120,6 +2124,7 @@
 		E0A2461C1D5CA6950066C766 /* LogoutApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutApi.swift; sourceTree = SOURCE_ROOT; };
 		E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreConfig.swift; sourceTree = "<group>"; };
 		E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUpgradeConfigTests.swift; sourceTree = "<group>"; };
+		E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewCookiesManager.swift; sourceTree = "<group>"; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
@@ -2195,16 +2200,16 @@
 				805329121B0EA2DC0093B177 /* QuartzCore.framework in Frameworks */,
 				0D15762D235ED9F30007B0B7 /* MediaPlayer.framework in Frameworks */,
 				0D15762E235ED9F30007B0B7 /* MediaAccessibility.framework in Frameworks */,
-				5F700E97278C35AE00B17044 /* MSAL.xcframework in Frameworks */,
 				0D15762A235ED9DF0007B0B7 /* CoreText.framework in Frameworks */,
 				B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */,
 				BECB7B111924C0C3009C77F1 /* CoreGraphics.framework in Frameworks */,
+				E096532D25C133910004FFCC /* MSAL.framework in Frameworks */,
 				0D157628235ED9B80007B0B7 /* CoreData.framework in Frameworks */,
 				0D157624235ED9A10007B0B7 /* CFNetwork.framework in Frameworks */,
 				0D157622235ED9990007B0B7 /* AVFoundation.framework in Frameworks */,
 				0D157620235ED98E0007B0B7 /* AudioToolbox.framework in Frameworks */,
 				0D15761E235ED9800007B0B7 /* Accelerate.framework in Frameworks */,
-				5F700E99278C35B000B17044 /* SwiftyStoreKit.xcframework in Frameworks */,
+				5F61E8F8278303EC00FC68B6 /* SwiftyStoreKit.xcframework in Frameworks */,
 				8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */,
 				77E647A31C90C10300B6740D /* edXCore.framework in Frameworks */,
 				BE8163F61954244E00F9A2C5 /* MessageUI.framework in Frameworks */,
@@ -2598,6 +2603,7 @@
 				22B58A4F2566C734007664FC /* ValuePropDetailViewController.swift */,
 				5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */,
 				5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */,
+				5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */,
 			);
 			name = ValueProp;
 			sourceTree = "<group>";
@@ -2617,14 +2623,6 @@
 				5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */,
 			);
 			path = Inter;
-			sourceTree = "<group>";
-		};
-		5F700E92278C302F00B17044 /* SwiftStoreKit */ = {
-			isa = PBXGroup;
-			children = (
-				5F700E95278C358D00B17044 /* SwiftyStoreKit.xcframework */,
-			);
-			name = SwiftStoreKit;
 			sourceTree = "<group>";
 		};
 		5F7C0C3425344E1500A344B9 /* UITextView */ = {
@@ -3080,6 +3078,7 @@
 				77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */,
 				7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */,
 				9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */,
+				E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */,
 			);
 			name = "Controller Helpers";
 			sourceTree = "<group>";
@@ -3904,7 +3903,6 @@
 				B7CCC6F9209B16B000A66923 /* SnapKit */,
 				77509D8B1BE1710200B10CD3 /* TZStackView */,
 				77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */,
-				5F700E92278C302F00B17044 /* SwiftStoreKit */,
 				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
 				7772BEB31AFA6C140081CA7A /* MaterialSharp.swift */,
 				80F7DBA81AF2ECEC00649B6F /* Alamofire_1.2.1 */,
@@ -3942,6 +3940,8 @@
 		BECB7B0D1924C0C3009C77F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F61E8F7278303EC00FC68B6 /* SwiftyStoreKit.xcframework */,
+				5FC5621B277DAAB700E8F688 /* SwiftyStoreKit.framework */,
 				E082D60225C0070700C94C9A /* Photos.framework */,
 				0D15762F235EDA040007B0B7 /* Security.framework */,
 				0D15762C235ED9F30007B0B7 /* MediaAccessibility.framework */,
@@ -4320,7 +4320,7 @@
 		E096532625C133390004FFCC /* MSAL */ = {
 			isa = PBXGroup;
 			children = (
-				5F700E90278C301400B17044 /* MSAL.xcframework */,
+				E096532725C133390004FFCC /* MSAL.framework */,
 			);
 			name = MSAL;
 			path = Libraries/MSAL;
@@ -4915,7 +4915,6 @@
 		};
 		77BDD65E1A44BD7300EA2A9C /* Process Config */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 12;
 			files = (
 			);
@@ -4958,8 +4957,9 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/Appboy-iOS-SDK/AppboyUI.InAppMessage.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Appboy-iOS-SDK/AppboyUI.NewsFeed.bundle",
 				"${PODS_ROOT}/DateTools/DateTools/DateTools/DateTools.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInAppMessaging/InAppMessagingDisplayResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -4969,6 +4969,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppboyUI.InAppMessage.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppboyUI.NewsFeed.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DateTools.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/InAppMessagingDisplayResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
@@ -4985,18 +4986,10 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-edX/Pods-edX-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBAEMKit/FBAEMKit.framework/FBAEMKit",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework/FBSDKCoreKit",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.framework/FBSDKCoreKit_Basics",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework/FBSDKLoginKit",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelicAgent/NewRelic.framework/NewRelic",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBAEMKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit_Basics.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NewRelic.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5254,6 +5247,7 @@
 				77092C751B42E4C1004AA1A1 /* UIStatusBarStyle+Styles.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */,
+				E0A948132786A6DE00BE79D9 /* WebviewCookiesManager.swift in Sources */,
 				B7CCC723209B16B100A66923 /* ConstraintPriorityTarget.swift in Sources */,
 				77E647CE1C90CAB800B6740D /* NSAttributedString+OEXFormatting.m in Sources */,
 				E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */,
@@ -5474,6 +5468,7 @@
 				773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */,
 				77AFD10B1C1A04C3001985FD /* UserAgentGenerator.swift in Sources */,
 				77D5F43F1C1F1C8F0079E228 /* OEXCourse+TestData.swift in Sources */,
+				5F35022427901E7400F76CB4 /* ValuePropUnlockViewContainer.swift in Sources */,
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
 				1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */,
 				2227A3F825C1E9BA008CB570 /* CelebratoryAPI.swift in Sources */,

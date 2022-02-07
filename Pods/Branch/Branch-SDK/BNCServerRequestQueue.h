@@ -18,16 +18,17 @@
 - (void)insert:(BNCServerRequest *)request at:(NSUInteger)index;
 - (BNCServerRequest *)removeAt:(NSUInteger)index;
 - (void)remove:(BNCServerRequest *)request;
+- (void)persistEventually;
+- (void)persistImmediately;
 - (void)clearQueue;
-- (NSInteger)queueDepth;
 
 - (BOOL)containsInstallOrOpen;
 - (BOOL)removeInstallOrOpen;
 - (BOOL)containsClose;
 - (BranchOpenRequest *)moveInstallOrOpenToFront:(NSInteger)networkCount;
 
-- (void)persistEventually;
-- (void)persistImmediately;
-
 + (id)getInstance;
+
+@property (readonly, assign, atomic) NSInteger queueDepth;
+@property (readonly, assign, atomic) BOOL isDirty;
 @end

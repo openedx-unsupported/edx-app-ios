@@ -40,7 +40,6 @@ static dispatch_queue_t GetInstrumentationQueue() {
  *  @param instrumentor The FPRClassInstrumentor to add the selector instrumentor to.
  */
 FOUNDATION_STATIC_INLINE
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 void InstrumentURLSessionTaskDidCompleteWithError(FPRClassInstrumentor *instrumentor) {
   SEL selector = @selector(URLSession:task:didCompleteWithError:);
   FPRSelectorInstrumentor *selectorInstrumentor =
@@ -54,7 +53,7 @@ void InstrumentURLSessionTaskDidCompleteWithError(FPRClassInstrumentor *instrume
         [trace didCompleteRequestWithResponse:task.response error:error];
         [FPRNetworkTrace removeNetworkTraceFromObject:task];
       } @catch (NSException *exception) {
-        FPRLogWarning(kFPRNetworkTraceNotTrackable, @"Unable to track network request.");
+        FPRLogInfo(kFPRNetworkTraceNotTrackable, @"Unable to track network request.");
       } @finally {
         typedef void (*OriginalImp)(id, SEL, NSURLSession *, NSURLSessionTask *, NSError *);
         ((OriginalImp)currentIMP)(object, selector, session, task, error);
@@ -68,7 +67,6 @@ void InstrumentURLSessionTaskDidCompleteWithError(FPRClassInstrumentor *instrume
  *  @param instrumentor The FPRClassInstrumentor to add the selector instrumentor to.
  */
 FOUNDATION_STATIC_INLINE
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 void InstrumentURLSessionTaskDidSendBodyDataTotalBytesSentTotalBytesExpectedToSend(
     FPRClassInstrumentor *instrumentor) {
   SEL selector = @selector(URLSession:
@@ -85,10 +83,14 @@ void InstrumentURLSessionTaskDidSendBodyDataTotalBytesSentTotalBytesExpectedToSe
             FPRNetworkTrace *trace = [FPRNetworkTrace networkTraceFromObject:task];
             trace.requestSize = totalBytesSent;
             if (totalBytesSent >= totalBytesExpectedToSend) {
-              [trace checkpointState:FPRNetworkTraceCheckpointStateRequestCompleted];
+              if ([task.response isKindOfClass:[NSHTTPURLResponse class]]) {
+                NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+                [trace didCompleteRequestWithResponse:response error:task.error];
+                [FPRNetworkTrace removeNetworkTraceFromObject:task];
+              }
             }
           } @catch (NSException *exception) {
-            FPRLogWarning(kFPRNetworkTraceNotTrackable, @"Unable to track network request.");
+            FPRLogInfo(kFPRNetworkTraceNotTrackable, @"Unable to track network request.");
           } @finally {
             typedef void (*OriginalImp)(id, SEL, NSURLSession *, NSURLSessionTask *, int64_t,
                                         int64_t, int64_t);
@@ -106,7 +108,6 @@ void InstrumentURLSessionTaskDidSendBodyDataTotalBytesSentTotalBytesExpectedToSe
  *  @param instrumentor The FPRClassInstrumentor to add the selector instrumentor to.
  */
 FOUNDATION_STATIC_INLINE
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 void InstrumentURLSessionDataTaskDidReceiveData(FPRClassInstrumentor *instrumentor) {
   SEL selector = @selector(URLSession:dataTask:didReceiveData:);
   FPRSelectorInstrumentor *selectorInstrumentor =
@@ -131,7 +132,6 @@ void InstrumentURLSessionDataTaskDidReceiveData(FPRClassInstrumentor *instrument
  *  @param instrumentor The FPRClassInstrumentor to add the selector instrumentor to.
  */
 FOUNDATION_STATIC_INLINE
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 void InstrumentURLSessionDownloadTaskDidFinishDownloadToURL(FPRClassInstrumentor *instrumentor) {
   SEL selector = @selector(URLSession:downloadTask:didFinishDownloadingToURL:);
   FPRSelectorInstrumentor *selectorInstrumentor =
@@ -156,7 +156,6 @@ void InstrumentURLSessionDownloadTaskDidFinishDownloadToURL(FPRClassInstrumentor
  *  @param instrumentor The FPRClassInstrumentor to add the selector instrumentor to.
  */
 FOUNDATION_STATIC_INLINE
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 void InstrumentURLSessionDownloadTaskDidWriteDataTotalBytesWrittenTotalBytesExpectedToWrite(
     FPRClassInstrumentor *instrumentor) {
   SEL selector = @selector(URLSession:
@@ -190,7 +189,6 @@ void InstrumentURLSessionDownloadTaskDidWriteDataTotalBytesWrittenTotalBytesExpe
 #pragma mark - Helper functions
 
 FOUNDATION_STATIC_INLINE
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 void CopySelector(SEL selector, FPRObjectInstrumentor *instrumentor) {
   static Class fromClass = Nil;
   static dispatch_once_t onceToken;

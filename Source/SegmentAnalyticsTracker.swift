@@ -16,7 +16,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     private let GoogleDeviceKey = "device_model"
     
     var currentOrientationValue : String {
-        return UIApplication.shared.interfaceOrientation.isLandscape ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
+        return UIApplication.shared.statusBarOrientation.isLandscape ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
 
     func identifyUser(_ user : OEXUserDetails?) {

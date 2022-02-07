@@ -1,1 +1,1 @@
-../../../FirebasePerformance/FirebasePerformance/Sources/Public/FirebasePerformance/FIRTrace.h
+../../../FirebasePerformance/FirebasePerformance/Sources/Public/FIRTrace.h

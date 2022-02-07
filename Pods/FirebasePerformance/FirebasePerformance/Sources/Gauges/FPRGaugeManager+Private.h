@@ -18,7 +18,6 @@
 #import "FirebasePerformance/Sources/Gauges/Memory/FPRMemoryGaugeCollector.h"
 
 /** This extension should only be used for testing. */
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 @interface FPRGaugeManager ()
 
 /** @brief Tracks if gauge collection is enabled. */

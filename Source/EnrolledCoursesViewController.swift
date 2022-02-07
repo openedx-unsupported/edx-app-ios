@@ -22,7 +22,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
     var handleBannerOnStart: Bool = false // this will be used to send first call for the banners
-
+    
     init(environment: Environment) {
         coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
         enrollmentFeed = environment.dataManager.enrollmentManager.feed
@@ -33,17 +33,17 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         navigationItem.title = Strings.courses
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.accessibilityIdentifier = "enrolled-courses-screen"
         view.backgroundColor = environment.styles.standardBackgroundColor()
-
+        
         addChild(coursesContainer)
         coursesContainer.didMove(toParent: self)
         loadController.setupInController(controller: self, contentView: coursesContainer.view)
@@ -59,7 +59,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         insetsController.setupInController(owner: self, scrollView: coursesContainer.collectionView)
         insetsController.addSource(source: refreshController)
-
+        
         // We visually separate each course card so we also need a little padding
         // at the bottom to match
         insetsController.addSource(
@@ -76,21 +76,21 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     override func viewWillAppear(_ animated: Bool) {
         showVersionUpgradeSnackBarIfNecessary()
         super.viewWillAppear(animated)
-
+        
         hideSnackBarForFullScreenError()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
         showWhatsNewIfNeeded()
-
+        
         if !handleBannerOnStart {
             handleBannerOnStart = true
             handleBanner()
         }
-
+        
     }
     
     override func reloadViewData() {
@@ -121,6 +121,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     self?.coursesContainer.courses = enrollments.compactMap { $0.course }
                     self?.coursesContainer.collectionView.reloadData()
                     self?.loadController.state = .Loaded
+                    
                     if enrollments.count <= 0 {
                         self?.enrollmentsEmptyState()
                     }
@@ -163,31 +164,22 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         NotificationCenter.default.oex_addObserver(observer: self, name: AppNewVersionAvailableNotification) { (_, observer, _) -> Void in
             observer.showVersionUpgradeSnackBarIfNecessary()
         }
-
+        
         NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
             observer.handleBanner()
         }
         
         NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
             if let dictionary = notification.object as? NSDictionary,
-                let courseID = dictionary[CourseUpgradeCompletion.courseID] as? String {
-                observer.updateCourseEnrolmentMode(courseID: courseID)
+               let courseID = dictionary[CourseUpgradeCompletion.courseID] as? String {
+                observer.handleCourseUpgradation(courseID: courseID)
             }
         }
     }
     
-    func updateCourseEnrolmentMode(courseID: String) {
-        coursesContainer.courses = coursesContainer.courses.map { course in
-            if course.course_id == courseID {
-                let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-                enrollment?.type = .verified
-            }
-            
-            return course
-        }
-        
+    func handleCourseUpgradation(courseID: CourseBlockID) {
+        environment.interface?.enrollmentForCourse(withID: courseID)?.type = .verified
         coursesContainer.collectionView.reloadData()
-        
         enrollmentFeed.refresh()
     }
     
@@ -233,7 +225,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     
     func showValuePropDetailView(with course: OEXCourse) {
         environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
-        environment.router?.showValuePropDetailView(from: self, type: .courseEnrollment, course: course) { [weak self] in
+        environment.router?.showValuePropDetailView(from: self, screen: .courseEnrollment, course: course) { [weak self] in
             self?.environment.analytics.trackValuePropModal(with: .CourseEnrollment, courseId: course.course_id ?? "")
         }
     }

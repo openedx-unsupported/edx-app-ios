@@ -53,12 +53,10 @@ NSString* FIRCLSApplicationGetPlatform(void) {
 
 NSString* FIRCLSApplicationGetFirebasePlatform(void) {
   NSString* firebasePlatform = [GULAppEnvironmentUtil applePlatform];
+
 #if TARGET_OS_IOS
-  // This check is necessary because iOS-only apps running on iPad
-  // will report UIUserInterfaceIdiomPhone via UI_USER_INTERFACE_IDIOM().
   if ([firebasePlatform isEqualToString:@"ios"] &&
-      ([[UIDevice currentDevice].model.lowercaseString containsString:@"ipad"] ||
-       [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)) {
+      UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
     return @"ipados";
   }
 #endif

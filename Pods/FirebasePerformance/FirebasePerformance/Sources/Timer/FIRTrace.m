@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "FirebasePerformance/Sources/Public/FirebasePerformance/FIRTrace.h"
+#import "FirebasePerformance/Sources/Public/FIRTrace.h"
 
 #import "FirebasePerformance/Sources/AppActivity/FPRAppActivityTracker.h"
 #import "FirebasePerformance/Sources/AppActivity/FPRSessionManager.h"
@@ -49,11 +49,8 @@
 /** Stops an active stage that is currently active. */
 - (void)stopActiveStage;
 
-/**
- * Updates the current trace with the session id.
- * @param sessionDetails Updated session details of the currently active session.
- */
-- (void)updateTraceWithSessionId:(FPRSessionDetails *)sessionDetails;
+/** Updates the current trace with the session id. */
+- (void)updateTraceWithSessionId;
 
 @end
 
@@ -142,9 +139,9 @@
     self.backgroundActivityTracker = [[FPRTraceBackgroundActivityTracker alloc] init];
     FPRSessionManager *sessionManager = [FPRSessionManager sharedInstance];
     if (!self.isStage) {
-      [self updateTraceWithSessionId:[sessionManager.sessionDetails copy]];
+      [self updateTraceWithSessionId];
       [sessionManager.sessionNotificationCenter addObserver:self
-                                                   selector:@selector(sessionChanged:)
+                                                   selector:@selector(updateTraceWithSessionId)
                                                        name:kFPRSessionIdUpdatedNotification
                                                      object:sessionManager];
     }
@@ -403,20 +400,16 @@
 
 #pragma mark - Utility methods
 
-- (void)sessionChanged:(NSNotification *)notification {
+- (void)updateTraceWithSessionId {
   if ([self isTraceActive]) {
-    NSDictionary<NSString *, FPRSessionDetails *> *userInfo = notification.userInfo;
-    FPRSessionDetails *sessionDetails = [userInfo valueForKey:kFPRSessionIdNotificationKey];
-    if (sessionDetails) {
-      [self updateTraceWithSessionId:sessionDetails];
-    }
+    dispatch_async(self.sessionIdSerialQueue, ^{
+      FPRSessionManager *sessionManager = [FPRSessionManager sharedInstance];
+      FPRSessionDetails *sessionDetails = sessionManager.sessionDetails;
+      if (sessionDetails) {
+        [self.activeSessions addObject:sessionDetails];
+      }
+    });
   }
-}
-
-- (void)updateTraceWithSessionId:(FPRSessionDetails *)sessionDetails {
-  dispatch_sync(self.sessionIdSerialQueue, ^{
-    [self.activeSessions addObject:sessionDetails];
-  });
 }
 
 - (BOOL)isTraceStarted {

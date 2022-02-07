@@ -247,7 +247,7 @@
         
         // if endpoint is not linking related, fail it.
         if (![self isLinkingRelatedRequest:endpoint]) {
-            [[BNCPreferenceHelper sharedInstance] clearTrackingInformation];
+            [[BNCPreferenceHelper preferenceHelper] clearTrackingInformation];
             NSError *error = [NSError branchErrorWithCode:BNCTrackingDisabledError];
             BNCLogWarning([NSString stringWithFormat:@"Dropping Request %@: - %@", endpoint, error]);
             if (callback) {
@@ -271,21 +271,21 @@
 }
 
 - (BOOL)isLinkingRelatedRequest:(NSString *)endpoint {
-    BNCPreferenceHelper *prefs = [BNCPreferenceHelper sharedInstance];
+    BNCPreferenceHelper *prefs = [BNCPreferenceHelper preferenceHelper];
     BOOL hasIdentifier = (prefs.linkClickIdentifier.length > 0 ) || (prefs.spotlightIdentifier.length > 0 ) || (prefs.universalLinkUrl.length > 0);
     
     // Allow install to resolve a link.
-    if ([endpoint containsString:@"/v1/install"] && hasIdentifier) {
+    if ([endpoint bnc_containsString:@"/v1/install"] && hasIdentifier) {
         return YES;
     }
     
     // Allow open to resolve a link.
-    if ([endpoint containsString:@"/v1/open"] && hasIdentifier) {
+    if ([endpoint bnc_containsString:@"/v1/open"] && hasIdentifier) {
         return YES;
     }
     
     // Allow short url creation requests
-    if ([endpoint containsString:@"/v1/url"]) {
+    if ([endpoint bnc_containsString:@"/v1/url"]) {
         return YES;
     }
     
@@ -395,8 +395,8 @@
         preparedParams[@"hardware_id"] = nil;
         preparedParams[@"hardware_id_type"] = nil;
         preparedParams[@"is_hardware_id_real"] = nil;
-        preparedParams[@"randomized_device_token"] = nil;
-        preparedParams[@"randomized_bundle_token"] = nil;
+        preparedParams[@"device_fingerprint_id"] = nil;
+        preparedParams[@"identity_id"] = nil;
         preparedParams[@"identity"] = nil;
         preparedParams[@"update"] = nil;
     }
@@ -462,7 +462,7 @@
 
     NSString *sendCloseRequests = httpResponse.allHeaderFields[@"X-Branch-Send-Close-Request"];
     if (sendCloseRequests != nil) {
-        [[BNCPreferenceHelper sharedInstance] setSendCloseRequests:sendCloseRequests.boolValue];
+        [[BNCPreferenceHelper preferenceHelper] setSendCloseRequests:sendCloseRequests.boolValue];
     }
     
     if (!error) {
@@ -532,7 +532,7 @@
         
         if ([self installDateIsRecent] && [deviceInfo isFirstOptIn]) {
             [self safeSetValue:@(deviceInfo.isFirstOptIn) forKey:BRANCH_REQUEST_KEY_FIRST_OPT_IN onDict:dict];
-            [BNCPreferenceHelper sharedInstance].hasOptedInBefore = YES;
+            [BNCPreferenceHelper preferenceHelper].hasOptedInBefore = YES;
         }
         
         [self safeSetValue:@(deviceInfo.isAdTrackingEnabled) forKey:BRANCH_REQUEST_KEY_AD_TRACKING_ENABLED onDict:dict];

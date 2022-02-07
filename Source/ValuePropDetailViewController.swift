@@ -8,9 +8,11 @@
 
 import UIKit
 
-enum ValuePropModalType {
+enum CourseUpgradeScreen: String {
     case courseEnrollment
+    case courseDashboard
     case courseUnit
+    case none
 }
 
 class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverriding {
@@ -47,15 +49,16 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }()
     
     private let crossButtonSize: CGFloat = 20
-    private var isModalDismissable = true
     
-    private var type: ValuePropModalType
+    private var screen: CourseUpgradeScreen
     private let course: OEXCourse
     private let environment: Environment
+    private let blockID: CourseBlockID?
     
-    init(type: ValuePropModalType, course: OEXCourse, environment: Environment) {
-        self.type = type
+    init(screen: CourseUpgradeScreen, course: OEXCourse, blockID: CourseBlockID? = nil, environment: Environment) {
+        self.screen = screen
         self.course = course
+        self.blockID = blockID
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
@@ -68,10 +71,9 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         super.viewDidLoad()
         
         view.backgroundColor = environment.styles.neutralWhiteT()
+                
         navigationController?.navigationBar.apply(barTintColor: environment.styles.neutralWhiteT(), tintColor: environment.styles.primaryBaseColor(), clearShadow: true)
-        navigationController?.presentationController?.delegate = self
         
-        addObserver()
         configureView()
         
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
@@ -92,12 +94,6 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         view.addSubview(valuePropTableView)
         view.addSubview(upgradeButton)
         addCloseButton()
-    }
-    
-    private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
-            observer.enableUserInteraction()
-        }
     }
     
     private func addCloseButton() {
@@ -137,7 +133,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     private func upgradeCourse() {
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         
-        disableUserInteraction()
+        disableAppTouchs()
         
         let pacing = course.isSelfPaced ? "self" : "instructor"
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: courseSku, pacing: pacing)
@@ -148,17 +144,18 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 self?.upgradeButton.stopAnimating()
                 break
             case .complete:
-                self?.enableUserInteraction()
+                self?.enableAppTouches()
                 self?.upgradeButton.isHidden = true
                 self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(self?.course.course_id ?? "", nil))
+                    CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID), screen: self?.screen ?? .none)
                 }
                 break
             case .error:
-                self?.enableUserInteraction()
+                self?.enableAppTouches()
                 self?.upgradeButton.stopAnimating()
+                
                 self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .error)
+                    CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .error, screen: self?.screen ?? .none)
                 }
                 break
             default:
@@ -167,19 +164,19 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         }
     }
     
-    private func disableUserInteraction() {
-        isModalDismissable = false
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationItem.rightBarButtonItem?.isEnabled = false
-            self?.view.isUserInteractionEnabled = false
+    private func disableAppTouchs() {
+        DispatchQueue.main.async {
+            if !UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.beginIgnoringInteractionEvents()
+            }
         }
     }
     
-    private func enableUserInteraction() {
-        isModalDismissable = true
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationItem.rightBarButtonItem?.isEnabled = true
-            self?.view.isUserInteractionEnabled = true
+    private func enableAppTouches() {
+        DispatchQueue.main.async {
+            if UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.endIgnoringInteractionEvents()
+            }
         }
     }
     
@@ -189,11 +186,5 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
-    }
-}
-
-extension ValuePropDetailViewController: UIAdaptivePresentationControllerDelegate {
-    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        return isModalDismissable
     }
 }

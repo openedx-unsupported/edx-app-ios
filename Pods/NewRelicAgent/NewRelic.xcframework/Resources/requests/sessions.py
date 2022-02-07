@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.sessions
-~~~~~~~~~~~~~~~~~
+requests.session
+~~~~~~~~~~~~~~~~
 
 This module provides a Session object to manage and persist settings across
 requests (cookies, auth, proxies).

@@ -17,7 +17,6 @@ extern NSString * _Nonnull const BranchJsonConfigDelayInitToCheckForSearchAdsOpt
 extern NSString * _Nonnull const BranchJsonConfigAppleSearchAdsDebugModeOption;
 extern NSString * _Nonnull const BranchJsonConfigDeferInitializationForJSLoadOption;
 extern NSString * _Nonnull const BranchJsonConfigEnableFacebookLinkCheck;
-extern NSString * _Nonnull const BranchJsonConfigCheckPasteboardOnInstall;
 
 @interface BranchJsonConfig : NSObject
 
@@ -32,7 +31,6 @@ extern NSString * _Nonnull const BranchJsonConfigCheckPasteboardOnInstall;
 @property (nonatomic, readonly) BOOL appleSearchAdsDebugMode;
 @property (nonatomic, readonly) BOOL deferInitializationForJSLoad;
 @property (nonatomic, readonly) BOOL enableFacebookLinkCheck;
-@property (nonatomic, readonly) BOOL checkPasteboardOnInstall;
 
 - (nullable id)objectForKey:(NSString * _Nonnull)key;
 - (nullable id)objectForKeyedSubscript:(NSString * _Nonnull)key;

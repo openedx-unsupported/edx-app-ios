@@ -156,9 +156,7 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
 
 - (void)onAppForeground:(NSNotification *)note
 {
-    seg_dispatch_specific_async(_serialQueue, ^{
-        [self refreshSettings];
-    });
+    [self refreshSettings];
 }
 
 - (void)handleAppStateNotification:(NSString *)notificationName

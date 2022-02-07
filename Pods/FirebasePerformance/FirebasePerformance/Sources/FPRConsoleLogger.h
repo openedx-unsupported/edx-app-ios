@@ -89,7 +89,4 @@ FOUNDATION_EXTERN NSString* const kFPRMemoryCollection;
 // FPRSDKConfiguration message codes.
 FOUNDATION_EXTERN NSString* const kFPRSDKFeaturesBlock;
 
-// FPRGDTEvent message codes.
-FOUNDATION_EXTERN NSString* const kFPRTransportBytesError;
-
 NS_ASSUME_NONNULL_END

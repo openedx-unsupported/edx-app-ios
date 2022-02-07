@@ -37,7 +37,7 @@ class MicrosoftSocial: NSObject {
         do {
             let clientApplication = try createClientApplication()
 
-            let webParameters = MSALWebviewParameters(authPresentationViewController: controller)
+            let webParameters = MSALWebviewParameters(parentViewController: controller)
             let parameters = MSALInteractiveTokenParameters(scopes: kScopes, webviewParameters: webParameters)
             clientApplication.acquireToken(with: parameters) {
                 (result: MSALResult?, error: Error?) in

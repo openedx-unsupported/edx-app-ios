@@ -40,10 +40,10 @@ monetize your app. More information about Firebase can be found on the
 ## Installation
 
 See the subsections below for details about the different installation methods.
-1. [Standard pod install](#standard-pod-install)
-1. [Swift Package Manager](#swift-package-manager)
-1. [Installing from the GitHub repo](#installing-from-github)
-1. [Experimental Carthage](#carthage-ios-only)
+1. [Standard pod install](README.md#standard-pod-install)
+1. [Swift Package Manager](SwiftPackageManager.md)
+1. [Installing from the GitHub repo](README.md#installing-from-github)
+1. [Experimental Carthage](README.md#carthage-ios-only)
 
 ### Standard pod install
 
@@ -53,7 +53,7 @@ Go to
 ### Swift Package Manager
 
 Instructions for [Swift Package Manager](https://swift.org/package-manager/) support can be
-found at [SwiftPackageManager](SwiftPackageManager.md) Markdown file.
+found at [SwiftPackageManager.md](SwiftPackageManager.md).
 
 ### Installing from GitHub
 
@@ -123,7 +123,7 @@ those platforms. Since 10.2, Xcode does not properly handle multi-platform
 CocoaPods workspaces.
 
 Firestore has a self contained Xcode project. See
-[Firestore/README](Firestore/README.md) Markdown file.
+[Firestore/README.md](Firestore/README.md).
 
 #### Development for Catalyst
 * `pod gen {name here}.podspec --local-sources=./ --auto-open --platforms=ios`
@@ -149,11 +149,11 @@ Alternatively disable signing in each target:
 
 ### Adding a New Firebase Pod
 
-See [AddNewPod](AddNewPod.md) Markdown file.
+See [AddNewPod.md](AddNewPod.md).
 
 ### Managing Headers and Imports
 
-See [HeadersImports](HeadersImports.md) Markdown file.
+See [HeadersImports.md](HeadersImports.md).
 
 ### Code Formatting
 
@@ -187,7 +187,7 @@ identifier (e.g. `com.google.Database-Example`)
 
 ### Coverage Report Generation
 
-See [scripts/code_coverage_report/README](scripts/code_coverage_report/README.md) Markdown file.
+See [scripts/code_coverage_report/README.md](scripts/code_coverage_report/README.md).
 
 ## Specific Component Instructions
 See the sections below for any special instructions for those components.

@@ -17,7 +17,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /** This class instruments the UIViewController class. */
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 @interface FPRUIViewControllerInstrument : FPRInstrument
 
 @end

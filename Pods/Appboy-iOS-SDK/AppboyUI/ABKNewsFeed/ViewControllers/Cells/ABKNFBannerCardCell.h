@@ -3,13 +3,8 @@
 
 @interface ABKNFBannerCardCell : ABKNFBaseCardCell
 
-@property (nonatomic) IBOutlet UIImageView *bannerImageView;
-@property (nonatomic) IBOutlet NSLayoutConstraint *imageRatioConstraint;
-
-/*!
- * @discussion Programmatic initialization and layout of the banner imageView, exposed for customization.
- */
-- (void)setUpBannerImageView;
+@property (weak, nonatomic) IBOutlet SDAnimatedImageView *bannerImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageRatioConstraint;
 
 - (void)applyCard:(ABKCard *)bannerCard;
 
