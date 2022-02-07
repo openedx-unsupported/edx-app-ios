@@ -168,11 +168,11 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
-    UINavigationController* navigation = OEXSafeCastAsClass(UIApplication.sharedApplication.keyWindow.rootViewController, UINavigationController);
+    UINavigationController* navigation = OEXSafeCastAsClass(UIApplication.sharedApplication.window.rootViewController, UINavigationController);
     CourseAnnouncementsViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, CourseAnnouncementsViewController);
     BOOL showingChosenCourse = [currentController.courseID isEqual:courseID];
-    
-    if(!showingChosenCourse) { 
+
+    if(!showingChosenCourse) {
         CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:self.environment courseID:courseID];
         [navigation pushViewController:announcementController animated:YES];
     }
@@ -221,7 +221,7 @@ OEXRegistrationViewControllerDelegate
 @implementation OEXRouter(Testing)
 
 - (NSArray*)t_navigationHierarchy {
-    return OEXSafeCastAsClass([[UIApplication sharedApplication] keyWindow].rootViewController, UINavigationController).viewControllers ?: @[];
+    return OEXSafeCastAsClass([[UIApplication sharedApplication] window].rootViewController, UINavigationController).viewControllers ?: @[];
 }
 
 - (BOOL)t_showingLogin {

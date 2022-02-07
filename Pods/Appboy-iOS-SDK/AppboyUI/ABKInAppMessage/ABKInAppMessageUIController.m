@@ -116,7 +116,7 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     // ignore deprecation warning to support client integrations using the deprecated method
     inAppMessageDisplayChoice = [self.uiDelegate beforeInAppMessageDisplayed:inAppMessage
-                                                        withKeyboardIsUp:self.keyboardVisible];
+                                                            withKeyboardIsUp:self.keyboardVisible];
 #pragma clang diagnostic pop
   } else if ([[Appboy sharedInstance].inAppMessageController.delegate
               respondsToSelector:@selector(beforeInAppMessageDisplayed:)]) {

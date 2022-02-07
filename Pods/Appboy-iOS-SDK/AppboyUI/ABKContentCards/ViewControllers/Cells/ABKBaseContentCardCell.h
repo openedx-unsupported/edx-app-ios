@@ -3,7 +3,7 @@
 
 @protocol ABKBaseContentCardCellDelegate <NSObject>
 
-- (void)refreshTableViewCellHeights;
+- (void)cellRequestSizeUpdate:(UITableViewCell *)cell;
 
 @end
 
@@ -14,27 +14,28 @@
  * configure the outline of the card like card width, background color board width, etc, you can
  * update this property accordingly.
  */
-@property (weak, nonatomic) IBOutlet UIView *rootView;
+@property (nonatomic) IBOutlet UIView *rootView;
 
 /*!
  * This is the triangle image which shows if a card has been viewed by the user.
  */
-@property (weak, nonatomic) IBOutlet UIImageView *pinImageView;
+@property (nonatomic) IBOutlet UIImageView *pinImageView;
 
 /*!
  * This is the blue line under unviewed cards.
  */
-@property (weak, nonatomic) IBOutlet UIView *unviewedLineView;
+@property (nonatomic) IBOutlet UIView *unviewedLineView;
+@property (nonatomic) UIColor *unviewedLineViewColor;
 
 /*!
  * Card root view related constraints
  */
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rootViewLeadingConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rootViewTrailingConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rootViewTopConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rootViewBottomConstraint;
+@property (nonatomic) IBOutlet NSLayoutConstraint *rootViewLeadingConstraint;
+@property (nonatomic) IBOutlet NSLayoutConstraint *rootViewTrailingConstraint;
+@property (nonatomic) IBOutlet NSLayoutConstraint *rootViewTopConstraint;
+@property (nonatomic) IBOutlet NSLayoutConstraint *rootViewBottomConstraint;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cardWidthConstraint;
+@property (nonatomic) IBOutlet NSLayoutConstraint *cardWidthConstraint;
 
 /*!
  * These are basic UI configuration for the Content Cards feed. They are set to the default values in the
@@ -63,9 +64,25 @@
  */
 - (UIImage *)getPlaceHolderImage;
 
+- (Class)imageViewClass;
+
+/*!
+ * @discussion initialization that always occurs for the content card cells
+ */
+- (void)setUp;
+
+/*!
+ * @discussion Initialization that is in place of Storyboard or XIB initialization.
+ *             This method should call all the property specific setUp methods.
+ */
+- (void)setUpUI;
+
 /*!
  * @discussion This is a utility method to make text styled.
  */
 - (void)applyAppboyAttributedTextStyleFrom:(NSString *)text forLabel:(UILabel *)label;
 
 @end
+
+static const UILayoutPriority ABKContentCardPriorityLayoutRequiredBelowAppleRequired = UILayoutPriorityRequired - 1;
+

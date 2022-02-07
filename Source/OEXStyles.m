@@ -92,9 +92,10 @@ static OEXStyles* sSharedStyles;
 - (UIStatusBarStyle)standardStatusBarStyle {
     switch(self.standardNavigationBarStyle) {
         case UIBarStyleBlack:
-        case UIBarStyleBlackTranslucent:
             return UIStatusBarStyleLightContent;
         case UIBarStyleDefault:
+            return UIStatusBarStyleDefault;
+        default:
             return UIStatusBarStyleDefault;
     }
 }

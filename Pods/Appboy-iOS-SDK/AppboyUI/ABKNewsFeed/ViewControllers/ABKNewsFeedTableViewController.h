@@ -5,10 +5,38 @@
 @interface ABKNewsFeedTableViewController : UITableViewController <ABKBaseNewsFeedCellDelegate>
 
 /*!
+ * @discussion Initialization that is done for all ABKNewsFeedTableViewControllers with or without storyboard/XIB.
+ */
+- (void)setUp;
+
+/*!
+ * @discussion Initialization that is done for ABKNewsFeedTableViewControllers with programmatic layout only.
+ */
+- (void)setUpUI;
+
+/*!
+ * @discussion Registers Cell classes with the tableview, override this method when implementing custom
+ * cell classes to register the new subclasses.
+ */
+- (void)registerTableViewCellClasses;
+
+/*!
+ * @param tableView The table view which need the cell to diplay the card UI.
+ * @param indexPath The index path of the card UI in the table view.
+ * @param card The card model for the cell.
+ *
+ * @discussion This method dequeues and returns the corresponding card cell based on card type from
+ * the given table view.
+ */
+- (ABKNFBaseCardCell *)dequeueCellFromTableView:(UITableView *)tableView
+                                   forIndexPath:(NSIndexPath *)indexPath
+                                        forCard:(ABKCard *)card;
+
+/*!
  * UI elements which are used in the News Feed table view. You can find them in the News Feed Card Storyboard.
  */
-@property (strong, nonatomic) IBOutlet UIView *emptyFeedView;
-@property (unsafe_unretained, nonatomic) IBOutlet UILabel *emptyFeedLabel;
+@property (nonatomic) IBOutlet UIView *emptyFeedView;
+@property (nonatomic) IBOutlet UILabel *emptyFeedLabel;
 
 /*!
  *  This property allows you to enable or disable the unread indicator on the news feed. The default
@@ -48,8 +76,16 @@
 /*!
  * @discussion This method returns an instance of ABKNewsFeedTableViewController. You can call it
  * to get a News Feed view controller for your navigation controller.
+ * @warning To use a custom News Feed view controller, instantiate your own subclass instead
+ * (e.g. via alloc / init).
  */
 + (instancetype)getNavigationFeedViewController;
+
+ /*!
+  * @discussion Given a content card return the type identifier for the above
+  * registration.
+  */
+ - (NSString *)findCellIdentifierWithCard:(ABKCard *)card;
 
 /*!
  * @discussion This method returns the localized string from AppboyFeedLocalizable.strings file.

@@ -70,8 +70,13 @@ upload_map_file_to_new_relic() {
         MAP_SCRIPT=`/usr/bin/find "${SRCROOT}" -name generateMap.py | head -n 1`
 
         if [ -z ${MAP_SCRIPT} ]; then
-            echo "unable to find generateMap.py"
-            return -1
+            ARTIFACT_DIR="${BUILD_DIR%Build/*}SourcePackages/artifacts"
+            MAP_SCRIPT=`/usr/bin/find "${ARTIFACT_DIR}" -name generateMap.py | head -n 1`
+
+            if [ -z ${MAP_SCRIPT} ]; then
+                echo "unable to find generateMap.py"
+                return -1
+            fi
         fi
 
         echo "Using URL: ${DSYM_UPLOAD_URL}"

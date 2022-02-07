@@ -60,7 +60,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         addMenuButton()
         prepareTabViewData()
         delegate = self
-
+        
         view.accessibilityIdentifier = "EnrolledTabBarViewController:view"
     }
     

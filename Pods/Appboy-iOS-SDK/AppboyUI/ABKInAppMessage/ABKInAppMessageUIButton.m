@@ -36,7 +36,7 @@ static CGFloat const ButtonTitleSidePadding = 12.0;
 
 - (void)setUp {
   self.titleLabel.font = [ABKUIUtils preferredFontForTextStyle:DefaultTitleSize weight:UIFontWeightBold];
-  self.titleLabel.adjustsFontForContentSizeCategory = YES;
+  [ABKUIUtils enableAdjustsFontForContentSizeCategory:self.titleLabel];
   self.titleLabel.textAlignment = NSTextAlignmentCenter;
   self.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
   self.originalBackgroundColor = self.backgroundColor;

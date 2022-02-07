@@ -30,7 +30,7 @@ extension UIViewController {
     }
     
     func currentOrientation() -> UIInterfaceOrientation {
-        return UIApplication.shared.statusBarOrientation
+        return UIApplication.shared.interfaceOrientation
     }
     
    @objc func isModal() -> Bool {

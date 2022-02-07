@@ -7,6 +7,8 @@
 #import "ABKBannerContentCardCell.h"
 #import "ABKCaptionedImageContentCardCell.h"
 #import "ABKClassicContentCardCell.h"
+#import "ABKClassicImageContentCardCell.h"
+#import "ABKControlTableViewCell.h"
 
 #import "ABKUIUtils.h"
 #import "ABKUIURLUtils.h"
@@ -27,16 +29,15 @@ static CGFloat const ABKContentCardsCellEstimatedHeight = 400.0f;
 @property (nonatomic) NSMutableSet<NSString *> *unviewedOnScreenCards;
 
 /*!
- * Stores the cell heights to provide for a smooth scrolling experience when cells need
- * to resize themselves as you scroll through the ViewController
+ *  There is some initialization such as associating which cell class to use in the table view that
+ *  is the responsibility of the storyboard if one is provided. If no story board is used then
+ *  the code in viewDidLoad will handle it. We can tell based on which init method is used.
  */
-@property (nonatomic) NSMutableDictionary<NSIndexPath *, NSNumber *> *cellHeights;
+@property (nonatomic) BOOL usesStoryboard;
 
 - (void)logCardImpressionIfNeeded:(ABKContentCard *)card;
 - (void)requestContentCardsRefresh;
 - (void)contentCardsUpdated:(NSNotification *)notification;
-
-+ (NSString *)findCellIdentifierWithCard:(ABKContentCard *)card;
 
 @end
 
@@ -45,36 +46,76 @@ static CGFloat const ABKContentCardsCellEstimatedHeight = 400.0f;
 #pragma mark - Initialization
 
 - (instancetype)init {
-  UIStoryboard *st = [UIStoryboard storyboardWithName:@"ABKContentCardsStoryboard"
-                                               bundle:[ABKUIUtils bundle:[ABKContentCardsTableViewController class] channel:ABKContentCardChannel]];
-  ABKContentCardsTableViewController *vc = [st instantiateViewControllerWithIdentifier:@"ABKContentCardsTableViewController"];
-  self = vc;
+  self = [super init];
+  if (self) {
+    self.usesStoryboard = NO;
+    [self setUp];
+    [self setUpUI];
+  }
+
   return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
   self = [super initWithCoder:aDecoder];
   if (self) {
+    self.usesStoryboard = YES;
     [self setUp];
   }
   return self;
 }
 
+#pragma mark - SetUp
+
 - (void)setUp {
   _cacheTimeout = ABKContentCardsCacheTimeout;
   _cardImpressions = [NSMutableSet set];
   _unviewedOnScreenCards = [NSMutableSet set];
-  _cellHeights = [NSMutableDictionary dictionary];
   _enableDarkTheme = YES;
-
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(contentCardsUpdated:)
                                                name:ABKContentCardsProcessedNotification
                                              object:nil];
 }
 
+- (void)setUpUI {
+  [self setUpEmptyFeedLabel];
+  [self setUpEmptyFeedView];
+}
+
+- (void)setUpEmptyFeedLabel {
+  self.emptyFeedLabel = [[UILabel alloc] init];
+  self.emptyFeedLabel.font = [ABKUIUtils preferredFontForTextStyle:UIFontTextStyleBody weight:UIFontWeightRegular];
+  self.emptyFeedLabel.textAlignment = NSTextAlignmentCenter;
+  self.emptyFeedLabel.numberOfLines = 2;
+  self.emptyFeedLabel.translatesAutoresizingMaskIntoConstraints = NO;
+}
+
+- (void)setUpEmptyFeedView {
+  self.emptyFeedView = [[UIView alloc] init];
+  self.emptyFeedView.backgroundColor = [UIColor clearColor];
+  [self.emptyFeedView addSubview:self.emptyFeedLabel];
+
+  NSLayoutConstraint *centerXConstraint = [self.emptyFeedLabel.centerXAnchor constraintEqualToAnchor:self.emptyFeedView.centerXAnchor];
+  NSLayoutConstraint *centerYConstraint = [self.emptyFeedLabel.centerYAnchor constraintEqualToAnchor:self.emptyFeedView.centerYAnchor];
+  [NSLayoutConstraint activateConstraints:@[centerXConstraint, centerYConstraint]];
+}
+
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)registerTableViewCellClasses {
+  [self.tableView registerClass:[ABKCaptionedImageContentCardCell class]
+         forCellReuseIdentifier:@"ABKCaptionedImageContentCardCell"];
+  [self.tableView registerClass:[ABKBannerContentCardCell class]
+         forCellReuseIdentifier:@"ABKBannerContentCardCell"];
+  [self.tableView registerClass:[ABKClassicContentCardCell class]
+         forCellReuseIdentifier:@"ABKClassicCardCell"];
+  [self.tableView registerClass:[ABKControlTableViewCell class]
+         forCellReuseIdentifier:@"ABKControlCardCell"];
+  [self.tableView registerClass:[ABKClassicImageContentCardCell class]
+         forCellReuseIdentifier:@"ABKClassicImageCardCell"];
 }
 
 # pragma mark - View Controller Life Cycle Methods
@@ -89,7 +130,25 @@ static CGFloat const ABKContentCardsCellEstimatedHeight = 400.0f;
       self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
     }
   }
-  self.emptyFeedLabel.text = [self localizedAppboyContentCardsString:@"Appboy.content-cards.no-card.text"];
+
+  if (!self.usesStoryboard) {
+    self.emptyFeedLabel.text = [self localizedAppboyContentCardsString:@"Appboy.content-cards.no-card.text"];
+
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    if (@available(iOS 13.0, *)) {
+      self.view.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    } else {
+      self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    }
+
+    [self registerTableViewCellClasses];
+
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshContentCards:)
+             forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
+  }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -162,9 +221,9 @@ static CGFloat const ABKContentCardsCellEstimatedHeight = 400.0f;
 - (void)updateAndDisplayCardsFromCache {
   [self populateContentCards];
   if (self.cards == nil || self.cards.count == 0) {
-    [self hideTableViewAndShowViewInHeader:self.emptyFeedView];
+    [self hideTableViewAndShowViewInBackground:self.emptyFeedView];
   } else {
-    [self showTableViewAndHideHeaderViews];
+    [self showTableViewAndHideBackgroundViews];
   }
   [self.tableView reloadData];
 }
@@ -186,20 +245,16 @@ static CGFloat const ABKContentCardsCellEstimatedHeight = 400.0f;
 
 #pragma mark - Table view header view
 
-- (void)hideTableViewAndShowViewInHeader:(UIView *)view {
+- (void)hideTableViewAndShowViewInBackground:(UIView *)view {
   view.hidden = NO;
   view.frame = self.view.bounds;
   [view layoutIfNeeded];
-  self.tableView.sectionHeaderHeight = self.tableView.frame.size.height;
-  self.tableView.tableHeaderView = view;
-  self.tableView.scrollEnabled = NO;
+  self.tableView.backgroundView = view;
 }
 
-- (void)showTableViewAndHideHeaderViews {
+- (void)showTableViewAndHideBackgroundViews {
   self.emptyFeedView.hidden = YES;
-  self.tableView.tableHeaderView = nil;
-  self.tableView.sectionHeaderHeight = 0;
-  self.tableView.scrollEnabled = YES;
+  self.tableView.backgroundView = nil;
 }
 
 #pragma mark - Configuration Update
@@ -214,40 +269,33 @@ static CGFloat const ABKContentCardsCellEstimatedHeight = 400.0f;
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+  return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.cards.count;
+  return self.cards.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   if ([self.cards[indexPath.row] isControlCard]) {
     return 0;
   }
-   return UITableViewAutomaticDimension;
+  return UITableViewAutomaticDimension;
 }
 
 // Overrides the storyboard to get accurate cell height estimates to prevent from having
 // the scrollView jump if a cell needs to resize itself
 - (CGFloat)tableView:(UITableView *)tableView
-estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-  NSNumber *height = self.cellHeights[indexPath];
-  if (height) {
-    return [height floatValue];
-  }
+  estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
   return ABKContentCardsCellEstimatedHeight;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (self.maxContentCardWidth > 0.0 && [cell isKindOfClass:[ABKBaseContentCardCell class]]) {
-    ABKBaseContentCardCell *contentCardCell = (ABKBaseContentCardCell*)cell;
-    contentCardCell.cardWidthConstraint.constant = self.maxContentCardWidth;
-  }
-  self.cellHeights[indexPath] = @(cell.frame.size.height);
+- (void)tableView:(UITableView *)tableView
+  willDisplayCell:(UITableViewCell *)cell
+forRowAtIndexPath:(NSIndexPath *)indexPath {
+  ABKContentCard *card = self.cards[indexPath.row];
   BOOL cellVisible = [[tableView indexPathsForVisibleRows] containsObject:indexPath];
   if (cellVisible) {
-    ABKContentCard *card = self.cards[indexPath.row];
     [self logCardImpressionIfNeeded:card];
   }
 }
@@ -268,9 +316,13 @@ estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   ABKContentCard *card = self.cards[indexPath.row];
-  ABKBaseContentCardCell *cell = [ABKContentCardsTableViewController dequeueCellFromTableView:tableView
-                                                                                 forIndexPath:indexPath
-                                                                                      forCard:card];
+  ABKBaseContentCardCell *cell = [self dequeueCellFromTableView:tableView
+                                                   forIndexPath:indexPath
+                                                        forCard:card];
+  if (self.maxContentCardWidth > 0.0) {
+    cell.cardWidthConstraint.constant = self.maxContentCardWidth;
+  }
+
   BOOL viewedSetting = card.viewed;
   if ([self.unviewedOnScreenCards containsObject:card.idString]) {
     card.viewed = NO;
@@ -279,7 +331,6 @@ estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
   [cell applyCard:card];
   card.viewed = viewedSetting;
   cell.hideUnreadIndicator = self.disableUnreadIndicator;
-  [cell layoutIfNeeded];
   return cell;
 }
 
@@ -289,7 +340,9 @@ estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
 
   // Remove card from unviewedOnScreenCards
   [self.unviewedOnScreenCards removeObject:card.idString];
-  [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+  // Hide unviewed indicator
+  ABKBaseContentCardCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  cell.unviewedLineView.hidden = YES;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -301,27 +354,29 @@ estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
   return UITableViewCellEditingStyleDelete;
 }
 
-- (void)tableView:(UITableView *)tableView
-    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-     forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     ABKContentCard *card = self.cards[indexPath.row];
     [card logContentCardDismissed];
     [self.cards removeObjectAtIndex:indexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+    if (self.cards.count == 0) {
+      [self hideTableViewAndShowViewInBackground:self.emptyFeedView];
+    }
   }
 }
 
 #pragma mark - Dequeue cells
 
-+ (ABKBaseContentCardCell *)dequeueCellFromTableView:(UITableView *)tableView
-                                   forIndexPath:(NSIndexPath *)indexPath
-                                        forCard:(ABKContentCard *)card {
+- (ABKBaseContentCardCell *)dequeueCellFromTableView:(UITableView *)tableView
+                                        forIndexPath:(NSIndexPath *)indexPath
+                                             forCard:(ABKContentCard *)card {
   return [tableView dequeueReusableCellWithIdentifier:[self findCellIdentifierWithCard:card]
                                          forIndexPath:indexPath];
 }
 
-+ (NSString *)findCellIdentifierWithCard:(ABKContentCard *)card {
+- (NSString *)findCellIdentifierWithCard:(ABKContentCard *)card {
   if ([card isControlCard]) {
     return @"ABKControlCardCell";
   }
@@ -389,10 +444,7 @@ estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
 #pragma mark - Utility Methods
 
 + (instancetype)getNavigationContentCardsViewController {
-  UIStoryboard *st = [UIStoryboard storyboardWithName:@"ABKContentCardsStoryboard"
-                                               bundle:[ABKUIUtils bundle:[ABKContentCardsTableViewController class] channel:ABKContentCardChannel]];
-  ABKContentCardsTableViewController *vc = [st instantiateViewControllerWithIdentifier:@"ABKContentCardsTableViewController"];
-  return vc;
+  return [[ABKContentCardsTableViewController alloc] init];
 }
 
 - (NSString *)localizedAppboyContentCardsString:(NSString *)key {
@@ -403,10 +455,14 @@ estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
 
 #pragma mark - ABKBaseContentCardCellDelegate
 
-- (void)refreshTableViewCellHeights {
+- (void)cellRequestSizeUpdate:(UITableViewCell *)cell {
+  NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+  if (indexPath == nil) {
+    return;
+  }
+
   [UIView performWithoutAnimation:^{
-    [self.tableView beginUpdates];
-    [self.tableView endUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
   }];
 }
 

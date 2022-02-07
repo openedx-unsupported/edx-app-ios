@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  * - A in-app message is added by ABKInAppMessageController method addInAppMessage:.
  *
  * You can choose to manually display any in-app messages that are waiting locally to be displayed by calling:
- * [[Appboy sharedInstance].inAppMessageController displayNextInAppMessageWithDelegate:<your delegate>].
+ * [[Appboy sharedInstance].inAppMessageController displayNextInAppMessage].
  */
 typedef NS_ENUM(NSInteger, ABKInAppMessageDisplayChoice) {
   ABKDisplayInAppMessageNow,

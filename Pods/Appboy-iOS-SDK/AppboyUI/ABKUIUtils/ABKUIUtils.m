@@ -225,12 +225,9 @@ static NSString * const ABKUIPodNFBundleName = @"AppboyUI.NewsFeed.bundle";
           [[UIScreen mainScreen] nativeBounds].size.height == iPhone12Mini);
 }
 
-+ (UIImage *)getImageWithName:(NSString *)name
-                         type:(NSString *)type
-               inAppboyBundle:(NSBundle *)appboyBundle {
-  NSString *imagePath = [appboyBundle pathForResource:name ofType:type];
-  UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
-  return image;
++ (UIImage *)imageNamed:(NSString *)name bundle:(Class)bundleClass channel:(ABKChannel)channel {
+  NSBundle *bundle = [ABKUIUtils bundle:bundleClass channel:channel];
+  return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
 }
 
 + (UIInterfaceOrientation)getInterfaceOrientation {
@@ -340,6 +337,15 @@ static NSString * const ABKUIPodNFBundleName = @"AppboyUI.NewsFeed.bundle";
 
     return [UIFont systemFontOfSize:[textStyleMap[textStyle] doubleValue]
                              weight:weight];
+  }
+}
+
++ (void)enableAdjustsFontForContentSizeCategory:(id)label {
+  if (@available(iOS 10.0, tvOS 10.0, *)) {
+    id<UIContentSizeCategoryAdjusting> adjustableLabel = label;
+    if ([adjustableLabel respondsToSelector:@selector(setAdjustsFontForContentSizeCategory:)]) {
+      adjustableLabel.adjustsFontForContentSizeCategory = YES;
+    }
   }
 }
 
