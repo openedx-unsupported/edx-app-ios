@@ -45,12 +45,12 @@
 - (void)makeRequest:(BNCServerInterface *)serverInterface key:(NSString *)key callback:(BNCServerCallback)callback {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
 
-    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
-    if (preferenceHelper.deviceFingerprintID) {
-        params[BRANCH_REQUEST_KEY_DEVICE_FINGERPRINT_ID] = preferenceHelper.deviceFingerprintID;
+    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper sharedInstance];
+    if (preferenceHelper.randomizedDeviceToken) {
+        params[BRANCH_REQUEST_KEY_RANDOMIZED_DEVICE_TOKEN] = preferenceHelper.randomizedDeviceToken;
     }
 
-    params[BRANCH_REQUEST_KEY_BRANCH_IDENTITY] = preferenceHelper.identityID;
+    params[BRANCH_REQUEST_KEY_RANDOMIZED_BUNDLE_TOKEN] = preferenceHelper.randomizedBundleToken;
     params[BRANCH_REQUEST_KEY_DEBUG] = @(preferenceHelper.isDebug);
 
     [self safeSetValue:[BNCSystemObserver getBundleID] forKey:BRANCH_REQUEST_KEY_BUNDLE_ID onDict:params];
@@ -64,6 +64,7 @@
     [self safeSetValue:preferenceHelper.linkClickIdentifier forKey:BRANCH_REQUEST_KEY_LINK_IDENTIFIER onDict:params];
     [self safeSetValue:preferenceHelper.spotlightIdentifier forKey:BRANCH_REQUEST_KEY_SPOTLIGHT_IDENTIFIER onDict:params];
     [self safeSetValue:preferenceHelper.universalLinkUrl forKey:BRANCH_REQUEST_KEY_UNIVERSAL_LINK_URL onDict:params];
+    [self safeSetValue:preferenceHelper.initialReferrer forKey:BRANCH_REQUEST_KEY_INITIAL_REFERRER onDict:params];
     [self safeSetValue:preferenceHelper.externalIntentURI forKey:BRANCH_REQUEST_KEY_EXTERNAL_INTENT_URI onDict:params];
     if (preferenceHelper.limitFacebookTracking)
         params[@"limit_facebook_tracking"] = (__bridge NSNumber*) kCFBooleanTrue;
@@ -135,7 +136,7 @@ typedef NS_ENUM(NSInteger, BNCUpdateState) {
 }
 
 - (void)processResponse:(BNCServerResponse *)response error:(NSError *)error {
-    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
+    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper sharedInstance];
     if (error && preferenceHelper.dropURLOpen) {
         // Ignore this response from the server. Dummy up a response:
         error = nil;
@@ -161,7 +162,7 @@ typedef NS_ENUM(NSInteger, BNCUpdateState) {
         userIdentity = [userIdentity stringValue];
     }
 
-    preferenceHelper.deviceFingerprintID = data[BRANCH_RESPONSE_KEY_DEVICE_FINGERPRINT_ID];
+    preferenceHelper.randomizedDeviceToken = data[BRANCH_RESPONSE_KEY_RANDOMIZED_DEVICE_TOKEN];
     preferenceHelper.userUrl = data[BRANCH_RESPONSE_KEY_USER_URL];
     preferenceHelper.userIdentity = userIdentity;
     preferenceHelper.sessionID = data[BRANCH_RESPONSE_KEY_SESSION_ID];
@@ -173,12 +174,6 @@ typedef NS_ENUM(NSInteger, BNCUpdateState) {
         if (invokeRegister.boolValue) {
             [[BNCSKAdNetwork sharedInstance] registerAppForAdNetworkAttribution];
         }
-    }
-    
-    if (Branch.enableFingerprintIDInCrashlyticsReports) {
-        BNCCrashlyticsWrapper *crashlytics = [BNCCrashlyticsWrapper wrapper];
-        [crashlytics setObjectValue:preferenceHelper.deviceFingerprintID
-            forKey:BRANCH_CRASHLYTICS_FINGERPRINT_ID_KEY];
     }
 
     NSString *sessionData = data[BRANCH_RESPONSE_KEY_SESSION_DATA];
@@ -258,8 +253,8 @@ typedef NS_ENUM(NSInteger, BNCUpdateState) {
     preferenceHelper.referringURL = referringURL;
     preferenceHelper.dropURLOpen = NO;
 
-    NSString *string = BNCStringFromWireFormat(data[BRANCH_RESPONSE_KEY_BRANCH_IDENTITY]);
-    if (string) preferenceHelper.identityID = string;
+    NSString *string = BNCStringFromWireFormat(data[BRANCH_RESPONSE_KEY_RANDOMIZED_BUNDLE_TOKEN]);
+    if (string) preferenceHelper.randomizedBundleToken = string;
 
     [BranchOpenRequest releaseOpenResponseLock];
 

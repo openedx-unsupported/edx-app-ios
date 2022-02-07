@@ -261,23 +261,23 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Nguồn";
 /* Course Dates Success Toast Message */
-"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Các ngày đến hạn đã được di chuyển thành công để giúp bạn luôn đi đúng hướng.";
+"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Your due dates have been successfully shifted to help you stay on track.";
 /* Course Dates navigate to Dates screen*/
-"COURSEDATES.VIEW_ALL_DATES" = "Xem tất cả mốc thời gian";
+"COURSEDATES.VIEW_ALL_DATES" = "View all dates";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Những ngày quan trọng";
 /* Course Date Type Completed */
-"COURSEDATES.COMPLETED"="Đã hoàn thành";
+"COURSEDATES.COMPLETED"="Completed";
 /* Course Date Type Past Due */
-"COURSEDATES.PAST_DUE"="Đã quá hạn";
+"COURSEDATES.PAST_DUE"="Past Due";
 /* Course Date Type Due Next */
-"COURSEDATES.DUE_NEXT"="Sắp đến hạn";
+"COURSEDATES.DUE_NEXT"="Due Next";
 /* Course Date Type Unreleased */
-"COURSEDATES.UNRELEASED"="Chưa phát hành";
+"COURSEDATES.UNRELEASED"="Not Yet Released";
 /* Course Date Completed */
-"COURSEDATES.VERFIED_ONLY"="Chỉ dành cho đã xác minh";
+"COURSEDATES.VERFIED_ONLY"="Verified Only";
 /* Course Date Today*/
-"COURSEDATES.TODAY"="Hôm nay";
+"COURSEDATES.TODAY"="Today";
 /* Course date Assignment Due Date*/
 "COURSEDATES.ASSIGNMENT_DUE_DATE"="Assignment Due Date";
 /* Course Date Verified Upgrade Deadline*/
@@ -297,71 +297,73 @@
 /* Course Reset Date Title */
 "COURSEDATES.RESET_DATE.TITLE"="Course Dates";
 /* Course Reset Date Success Message */
-"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Các mốc thời gian của bạn đã được di chuyển thành công.";
+"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Your dates have been successfully shifted.";
 /* Course Reset Date Error Message */
-"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Không thể di chuyển các mốc thời gian của bạn. Vui lòng thử lại.";
+"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Your dates could not be shifted. Please try again.";
 /* Course Reset Date Tab Info Banner Header */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="Criamos uma programação como sugestão para ajudar você a se manter no caminho certo. ";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="We've built a suggested schedule to help you stay on track. ";
 /* Course Reset Date Tab Info Banner Body */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="Mas não se preocupe: ela é flexível, possibilitando que você aprenda no seu próprio ritmo. Se não conseguir se manter em dia com as datas sugeridas, você poderá ajustá-las da forma que for melhor para você.";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="But don't worry—it's flexible so you can learn at your own pace. If you happen to fall behind on our suggested dates, you'll be able to adjust them to keep yourself on track.";
 /* Course Reset Date Upgrade To Complete Graded Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="Bạn đang dự thính khóa học này, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="You are auditing this course, ";
 /* Course Reset Date Upgrade To Complete Graded Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="điều này có nghĩa là bạn không thể tham gia vào các bài tập chấm điểm. Để hoàn thành các bài tập chấm điểm thuộc khóa học này, bạn có thể nâng cấp hôm nay.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded assignments as part of this course, you can upgrade today.";
 /* Course Reset Date Upgrade To Complete Graded Banner Button */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Nâng cấp ngay";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Upgrade now";
 /* Course Reset Date Upgrade Reset Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="Bạn đang dự thính khóa học này, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="You are auditing this course, ";
 /* Course Reset Date Upgrade Reset Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="điều này có nghĩa là bạn không thể tham gia vào các bài tập chấm điểm. Có vẻ như bạn đã bỏ lỡ một số hạn chót quan trọng dựa trên lịch biểu gợi ý của chúng tôi. Để hoàn thành các bài tập chấm điểm thuộc khóa học này và di chuyển các bài tập đã quá hạn đến tương lai, bạn có thể nâng cấp hôm nay.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="which means that you are unable to participate in graded assignments. It looks like you missed some important deadlines based on our suggested schedule. To complete graded assignments as part of this course and shift the past due assignments into the future, you can upgrade today.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
 /* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Có vẻ như bạn đã bỏ lỡ một số hạn chót quan trọng dựa trên lịch biểu gợi ý của chúng tôi. ";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="It looks like you missed some important deadlines based on our suggested schedule. ";
 /* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"=" Để duy trì đúng hướng đi, bạn có thể cập nhật lịch biểu này và di chuyển các bài tập đã quá hạn đến tương lai. Đừng lo lắng—bạn sẽ không mất bất kỳ tiến bộ nào mà bạn đã đạt được khi di chuyển ngày đến hạn.";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
 /* Course Reset Date Banner Button */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Di chuyển ngày đến hạn";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
 /* Course Dates Title */
-"COURSEDATES.SYNC_TO_CALENDAR"="Lịch";
+"COURSEDATES.COURSE_SCHEDULE"="Course Schedule";
+/* Course Dates Sync To Calendar */
+"COURSEDATES.SYNC_TO_CALENDAR"="Sync to calendar";
 /* Course Dates Sync To Calendar Message */
-"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Tự động đồng bộ tất cả các hạn chót và ngày đến hạn cho khóa học này với lịch của bạn.";
+"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
 /* Course Dates Add Calendar Dialog Title */
-"COURSEDATES.ADD_CALENDAR_TITLE"="Thêm lịch \"{calendar_name}\"";
+"COURSEDATES.ADD_CALENDAR_TITLE"="Add calendar \"{calendar_name}\"";
 /* Course Dates Remove Calendar Dialog Title */
-"COURSEDATES.REMOVE_CALENDAR_TITLE"="Xóa lịch \"{calendar_name}\"";
+"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove calendar \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="Bạn có muốn thêm lịch {platform_name} \"{calendar_name}\" không? \n Bạn có thể chỉnh sửa hoặc xóa lịch khóa học của mình bất cứ lúc nào trong Lịch hoặc Cài đặt.";
+"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
 /* Course Dates Remove Calendar Message prompt */
-"COURSEDATES.REMOVE_CALENDAR_PROMPT"=">Bạn có muốn xóa lịch {platform_name} \"{calendar_name}\" không?";
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
 /* Course Dates Calendar has been added to your calendar*/
-"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" đã được thêm vào lịch trên điện thoại của bạn.";
+"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */
 "COURSEDATES.OPEN_SETTINGS"="Open Settings";
 /* Course Dates Events Added to Calendar Success */
-"COURSEDATES.CALENDAR_EVENTS_ADDED"="Lịch khóa học của bạn đã được thêm.";
+"COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
 /* Course Dates Events Removed from Calendar */
-"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Lịch khóa học của bạn đã được xóa.";
+"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
 /* Course Dates Events Updated in Calendar */
-"COURSEDATES.CALENDAR_EVENTS_UPDATED"=">Lịch khóa học của bạn đã được cập nhật.";
+"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Your course calendar has been updated.";
 /* Course Dates Permission Not Determined */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
 /* Course Dates Calendar Out of Date*/
-"COURSEDATES.CALENDAR_OUT_OF_DATE"="Lịch khóa học của bạn không cập nhật";
+"COURSEDATES.CALENDAR_OUT_OF_DATE"="Your course calendar is out of date";
 /* Course Dates Calendar Shift Message */
-"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Các mốc thời gian của khóa học đã được di chuyển và lịch khóa học không còn cập nhật với lịch biểu mới của bạn nữa.";
+"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Your course dates have been shifted and your course calendar is no longer up to date with your new schedule.";
 /* Course Dates Calendar Shift Prompt Update Now */
 "COURSEDATES.CALENDAR_SHIFT_PROMPT_UPDATE_NOW"="Update now";
 /* Course Dates Calendar Shift Prompt Remove Course Calendar */
-"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Gỡ Lịch khóa học";
+"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
 /* Course Dates Calendar sync Message */
-"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Đang đồng bộ lịch...";
+"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Syncing calendar...";
 /*Course upgrade success alert title*/
-"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Hoàn thành nâng cấp";
+"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Cảm ơn bạn đã mua. Bạn có thể tiếp tục từ nơi bạn đã bở dở và tận hưởng quyền truy cập toàn bộ nội dung khóa học.";
+"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Thank you for your purchase. You can pick up right where you left off and enjoy full access to your course content.";
 /*Course upgrade success alert continue button title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
 /*Course upgrade failure alert title*/
@@ -422,13 +424,13 @@
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="Khóa học này không có video";
 /* 1 hour */
-"COURSE_VIDEO_HOURS##{one}" = "{hours} giờ";
+"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
 /* More than 1 hours */
-"COURSE_VIDEO_HOURS##{other}" = "{hours} giờ";
+"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
 /* 1 minute */
-"COURSE_VIDEO_MINUTES##{one}" = "{minutes} phút";
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
 /* More than 1 minute */
-"COURSE_VIDEO_MINUTES##{other}" = "{minutes} phút";
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Thành phần tương tác này chưa sẵn sàng trên di động.\n\nKhám phá những phần khác của khóa học hoặc xem phần này trên web.";
 /* Message shown when attempting to display content not available on the app, from dates tab */
@@ -517,7 +519,7 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Tạo bài đăng mới";
 /* Chrome cast message */
-"CHROMECAST_MESSAGE"="Đang phát video đến một thiết bị từ xa";
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Xóa";
 /* Discussion used in the segmented control Creating a new post */
@@ -597,9 +599,9 @@
 /* Endorsed text */
 "ENDORSED" = "Chứng thực";
 /*Open in external browser banner message*/
-"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="Phần này của khóa học có thể hoạt động tốt nhất trên một trình duyệt web.";
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
 /*Open in external browser banner underline text*/
-"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Mở trong trình duyệt";
+"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -747,7 +749,7 @@
 /* Profile edit view title */
 "PROFILE.EDIT_TITLE" = "Chỉnh sửa hồ sơ";
 /* Profile screen fields visibility off info message */
-"PROFILE.VISIBILITY_OFF_MESSGAE"="Thông tin hồ sơ của bạn chỉ hiển thị trước bạn. Chỉ có tên người dùng của bạn mới hiển thị trước những người khác trên {platform_name}.";
+"PROFILE.VISIBILITY_OFF_MESSGAE"="Your profile information is only visible to you. Only your username is visible to others on {platform_name}.";
 /* Accessibility label for edit profile button */
 "PROFILE.EDIT_ACCESSIBILITY" = "Chỉnh sửa hồ sơ";
 /* Accessibility hint for country field in user profile */
@@ -864,17 +866,17 @@
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Settigs message for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "Cài đặt này áp dụng cho tất cả video tải xuống trong ứng dụng {platform_name}.";
+"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "This setting is for all video downloads in the {platform_name} app.";
 /* Settigs title for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Chất lượng tải xuống video";
+"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Video download quality";
 /* Settigs message for Video Download Quality Auto */
-"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Tự động (Khuyên dùng)";
+"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Auto (Recommended)";
 /* Settigs message for Video Download Quality Low */
-"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (Kích thước tệp nhỏ nhất)";
+"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (Smallest file size)";
 /* Settigs message for Video Download Quality Low */
 "VIDEO_DOWNLOAD_QUALITY_MEDIUM" = "540p";
 /* Settigs message for Video Download Quality High */
-"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Chất lượng cao nhất)";
+"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Best quality)";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="Đăng nhập";
 /* Message shown while user waits for response to a sign in request */
@@ -949,38 +951,38 @@
 "USER_ACCOUNT"="Tài khoản";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Hồ sơ";
-/* Value prop unlocking content */
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course...";
 /* Value prop upgrade text */
-"VALUE_PROP.UPGRADE"= "Nâng cấp {course_name}";
+"VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
 /* Value prop upgrade button text with price */
-"VALUE_PROP.UPGRADE_COURSE_FOR"= "Nâng cấp ngay với giá {price}$";
+"VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade now for ${price}";
 /* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "Cách mở khóa bài tập chấm điểm";
+"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
-"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Bài tập chấm điểm bị khóa";
+"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Nâng cấp để có quyền truy cập các tính năng bị khóa như tính năng này và khai thác tối đa khóa học của bạn";
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="Nâng cấp để truy cập thêm tính năng";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="Upgrade to access more features";
 /* Value prop view's learn more button title on enrolled courses*/
-"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Tìm hiểu thêm";
+"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
 /* Value prop detail view title learn more*/
-"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Tìm hiểu thêm về các tính năng bị khóa";
+"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
+/* Value prop detail view title*/
+"VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
+/* Value prop detail view message heading*/
+"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
 /* Value prop information message number one*/
-"VALUE_PROP.INFO_MESSAGE_1"="Giành chứng nhận hoàn thành được xác minh để thể hiện trên lý lịch của bạn";
+"VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
 /* Value prop information message number two*/
-"VALUE_PROP.INFO_MESSAGE_2"="Mở khóa quyền truy cập tất cả các hoạt động khóa học, bao gồm bài tập chấm điểm";
+"VALUE_PROP.INFO_MESSAGE_2"="Unlock access to all course activities, including graded assignments";
 /* Value prop information message number three*/
-"VALUE_PROP.INFO_MESSAGE_3"="Quyền truy cập toàn bộ nội dung khóa học và tài liệu khóa học ngay cả sau khi kết thúc khóa học";
+"VALUE_PROP.INFO_MESSAGE_3"="Full access to course content and material, even after the course ends";
 /* Show more button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_MORE_TEXT"="Hiển thị thêm";
+"VALUE_PROP.SHOW_MORE_TEXT"="Show more";
 /* Show less button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_LESS_TEXT"="Hiển thị ít hơn";
-/* Value prop button text on course dashbaord screen*/
-"VALUE_PROP.COURSE_DASHBOARD_BUTTON_TITLE"="Upgrade to access more features";
+"VALUE_PROP.SHOW_LESS_TEXT"="Show less";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "Phiên bản {number} {environment}";
 /* Error shown when video download fails */

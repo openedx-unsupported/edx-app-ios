@@ -261,23 +261,23 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="资源";
 /* Course Dates Success Toast Message */
-"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "您已成功更改截止日期，因此可以保持学习进度。";
+"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Your due dates have been successfully shifted to help you stay on track.";
 /* Course Dates navigate to Dates screen*/
-"COURSEDATES.VIEW_ALL_DATES" = "查看所有日期";
+"COURSEDATES.VIEW_ALL_DATES" = "View all dates";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="重要日期";
 /* Course Date Type Completed */
-"COURSEDATES.COMPLETED"="完成的";
+"COURSEDATES.COMPLETED"="Completed";
 /* Course Date Type Past Due */
-"COURSEDATES.PAST_DUE"="逾期的";
+"COURSEDATES.PAST_DUE"="Past Due";
 /* Course Date Type Due Next */
-"COURSEDATES.DUE_NEXT"="即将到期";
+"COURSEDATES.DUE_NEXT"="Due Next";
 /* Course Date Type Unreleased */
-"COURSEDATES.UNRELEASED"="尚未发布";
+"COURSEDATES.UNRELEASED"="Not Yet Released";
 /* Course Date Completed */
-"COURSEDATES.VERFIED_ONLY"="仅验证";
+"COURSEDATES.VERFIED_ONLY"="Verified Only";
 /* Course Date Today*/
-"COURSEDATES.TODAY"="今天";
+"COURSEDATES.TODAY"="Today";
 /* Course date Assignment Due Date*/
 "COURSEDATES.ASSIGNMENT_DUE_DATE"="Assignment Due Date";
 /* Course Date Verified Upgrade Deadline*/
@@ -297,73 +297,73 @@
 /* Course Reset Date Title */
 "COURSEDATES.RESET_DATE.TITLE"="Course Dates";
 /* Course Reset Date Success Message */
-"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="您的日期已成功更改。";
+"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Your dates have been successfully shifted.";
 /* Course Reset Date Error Message */
-"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="您的日期无法更改。请再次尝试。";
+"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Your dates could not be shifted. Please try again.";
 /* Course Reset Date Tab Info Banner Header */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="我们制定了一个建议的时间表，以帮助您保持合理进度。";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="We've built a suggested schedule to help you stay on track. ";
 /* Course Reset Date Tab Info Banner Body */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="它很灵活，所以您可以按照自己的节奏学习。 如果您碰巧落后于我们建议的日期，您可以调整日期，让自己的学习保持进度。";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="But don't worry—it's flexible so you can learn at your own pace. If you happen to fall behind on our suggested dates, you'll be able to adjust them to keep yourself on track.";
 /* Course Reset Date Upgrade To Complete Graded Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="您正在以审阅模式访问本课程，";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="You are auditing this course, ";
 /* Course Reset Date Upgrade To Complete Graded Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="这意味着你不能参加分级作业。要完成本课程一部分的分级作业，您可以今天进行功能升级。";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded assignments as part of this course, you can upgrade today.";
 /* Course Reset Date Upgrade To Complete Graded Banner Button */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="立即升级";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Upgrade now";
 /* Course Reset Date Upgrade Reset Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="您正在以审阅模式访问本课程，";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="You are auditing this course, ";
 /* Course Reset Date Upgrade Reset Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="这意味着你不能参加分级作业。根据我们建议的日程安排，您似乎错过了一些重要的截止日期。要完成本课程一部分的分级作业，并将过去到期的作业转移到未来，您可以今天进行功能升级。";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="which means that you are unable to participate in graded assignments. It looks like you missed some important deadlines based on our suggested schedule. To complete graded assignments as part of this course and shift the past due assignments into the future, you can upgrade today.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
 /* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="根据我们建议的日程安排，您似乎错过了一些重要的截止日期。";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="It looks like you missed some important deadlines based on our suggested schedule. ";
 /* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="为了让自己赶上进程，您可以更新此计划并将过期的任务转移到未来。不要担心，当你改变你的截止日期时，你不会失去你已经取得的任何过程记录。";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
 /* Course Reset Date Banner Button */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="改变截止日期";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
 /* Course Dates Title */
-"COURSEDATES.COURSE_SCHEDULE"="课程表";
+"COURSEDATES.COURSE_SCHEDULE"="Course Schedule";
 /* Course Dates Sync To Calendar */
-"COURSEDATES.SYNC_TO_CALENDAR"="同步到日程表";
+"COURSEDATES.SYNC_TO_CALENDAR"="Sync to calendar";
 /* Course Dates Sync To Calendar Message */
-"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="自动同步本课程所有最后期限和截止日期到你的日程表。";
+"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
 /* Course Dates Add Calendar Dialog Title */
-"COURSEDATES.ADD_CALENDAR_TITLE"="在添加 \"{calendar_name}\"课程的日程安排内容";
+"COURSEDATES.ADD_CALENDAR_TITLE"="Add calendar \"{calendar_name}\"";
 /* Course Dates Remove Calendar Dialog Title */
-"COURSEDATES.REMOVE_CALENDAR_TITLE"="删除\"{calendar_name}\" 课程相关的日程安排";
+"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove calendar \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="需要在{platform_name} 日程中添加\"{calendar_name}\" 课程相关内容吗? \n 你可以在任意时间通过日程或设置编辑或者删除你课程的日程安排。";
+"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
 /* Course Dates Remove Calendar Message prompt */
-"COURSEDATES.REMOVE_CALENDAR_PROMPT"="你想从 {platform_name} 日程安排中删除 \"{calendar_name}\" 课程相关内容吗 ?";
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
 /* Course Dates Calendar has been added to your calendar*/
-"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" 已添加到您手机上的日历。";
+"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */
 "COURSEDATES.OPEN_SETTINGS"="Open Settings";
 /* Course Dates Events Added to Calendar Success */
-"COURSEDATES.CALENDAR_EVENTS_ADDED"="你的课程日程已经被添加";
+"COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
 /* Course Dates Events Removed from Calendar */
-"COURSEDATES.CALENDAR_EVENTS_REMOVED"="你课程的日程已经被删除。";
+"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
 /* Course Dates Events Updated in Calendar */
-"COURSEDATES.CALENDAR_EVENTS_UPDATED"="你的课程日程安排已经被更新。";
+"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Your course calendar has been updated.";
 /* Course Dates Permission Not Determined */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
 /* Course Dates Calendar Out of Date*/
-"COURSEDATES.CALENDAR_OUT_OF_DATE"="您的课程日程已过期";
+"COURSEDATES.CALENDAR_OUT_OF_DATE"="Your course calendar is out of date";
 /* Course Dates Calendar Shift Message */
-"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="您的课程日期已更改，当前您的课程日程表不再与您的新时间表保持同步";
+"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Your course dates have been shifted and your course calendar is no longer up to date with your new schedule.";
 /* Course Dates Calendar Shift Prompt Update Now */
 "COURSEDATES.CALENDAR_SHIFT_PROMPT_UPDATE_NOW"="Update now";
 /* Course Dates Calendar Shift Prompt Remove Course Calendar */
-"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="删除课程日历";
+"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
 /* Course Dates Calendar sync Message */
-"COURSEDATES.CALENDAR_SYNC_MESSAGE"="同步日历...";
+"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Syncing calendar...";
 /*Course upgrade success alert title*/
-"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="升级已完成";
+"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="感谢您的购买。您可以继续此前的学习，完全访问课程内容。";
+"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Thank you for your purchase. You can pick up right where you left off and enjoy full access to your course content.";
 /*Course upgrade success alert continue button title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
 /*Course upgrade failure alert title*/
@@ -424,13 +424,13 @@
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="此课程没有任何视频。";
 /* 1 hour */
-"COURSE_VIDEO_HOURS##{one}" = "{hours} 小时";
+"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
 /* More than 1 hours */
-"COURSE_VIDEO_HOURS##{other}" = "{hours} 小时";
+"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
 /* 1 minute */
-"COURSE_VIDEO_MINUTES##{one}" = "{minutes} 分钟";
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
 /* More than 1 minute */
-"COURSE_VIDEO_MINUTES##{other}" = "{minutes} 分钟";
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "此组件在手机上不可用。\n\n请浏览此课程的其他部分或在网页中观看。";
 /* Message shown when there is no course dates */
@@ -519,7 +519,7 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="创建新帖子";
 /* Chrome cast message */
-"CHROMECAST_MESSAGE"="视频将投射到远程设备上";
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="删除";
 /* Discussion used in the segmented control Creating a new post */
@@ -599,9 +599,9 @@
 /* Endorsed text */
 "ENDORSED" = "已认可";
 /*Open in external browser banner message*/
-"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="课程这部分的内容最好在web浏览器中访问。";
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
 /*Open in external browser banner underline text*/
-"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="在浏览器打开";
+"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -749,7 +749,7 @@
 /* Profile edit view title */
 "PROFILE.EDIT_TITLE" = "编辑资料";
 /* Profile screen fields visibility off info message */
-"PROFILE.VISIBILITY_OFF_MESSGAE"="你的属性信息只能由你浏览。对于{paltform_name}上的其他用户只显示你的用户名。";
+"PROFILE.VISIBILITY_OFF_MESSGAE"="Your profile information is only visible to you. Only your username is visible to others on {platform_name}.";
 /* Accessibility label for edit profile button */
 "PROFILE.EDIT_ACCESSIBILITY" = "编辑资料";
 /* Accessibility hint for country field in user profile */
@@ -866,17 +866,17 @@
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Settigs message for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "这个设置是关于如何在{platform_name} app中下载视频的。";
+"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "This setting is for all video downloads in the {platform_name} app.";
 /* Settigs title for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_TITLE" = "视频下载质量";
+"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Video download quality";
 /* Settigs message for Video Download Quality Auto */
-"VIDEO_DOWNLOAD_QUALITY_AUTO" = "自动 (建议的)";
+"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Auto (Recommended)";
 /* Settigs message for Video Download Quality Low */
-"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (最小的文件尺寸)";
+"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (Smallest file size)";
 /* Settigs message for Video Download Quality Low */
 "VIDEO_DOWNLOAD_QUALITY_MEDIUM" = "540p";
 /* Settigs message for Video Download Quality High */
-"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (最好质量)";
+"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Best quality)";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="登录";
 /* Message shown while user waits for response to a sign in request */
@@ -951,38 +951,38 @@
 "USER_ACCOUNT"="账号";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "个人资料";
-/* Value prop unlocking content */
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course...";
 /* Value prop upgrade text */
-"VALUE_PROP.UPGRADE"= "升级{course_name}的访问模式";
+"VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
 /* Value prop upgrade button text with price */
-"VALUE_PROP.UPGRADE_COURSE_FOR"= "现在升级仅需 ${price}";
+"VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade now for ${price}";
 /* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "如何解锁分级作业";
+"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
-"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "分级作业已锁定";
+"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "升级以获得对锁定功能的访问，如此功能或更多关于本课程的访问能力";
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="升级以访问更多功能";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="Upgrade to access more features";
 /* Value prop view's learn more button title on enrolled courses*/
-"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="了解更多详情";
+"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
 /* Value prop detail view title learn more*/
-"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="了解关于锁定功能的更多详情";
+"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
+/* Value prop detail view title*/
+"VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
+/* Value prop detail view message heading*/
+"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
 /* Value prop information message number one*/
-"VALUE_PROP.INFO_MESSAGE_1"="获得一份经过验证的结业证书，以便在简历上展示";
+"VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
 /* Value prop information message number two*/
-"VALUE_PROP.INFO_MESSAGE_2"="解锁所有课程活动的访问权限，包括分级作业";
+"VALUE_PROP.INFO_MESSAGE_2"="Unlock access to all course activities, including graded assignments";
 /* Value prop information message number three*/
-"VALUE_PROP.INFO_MESSAGE_3"="即使在课程结束后，也可以完全访问课程内容和课程材料";
+"VALUE_PROP.INFO_MESSAGE_3"="Full access to course content and material, even after the course ends";
 /* Show more button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_MORE_TEXT"="显示更多";
+"VALUE_PROP.SHOW_MORE_TEXT"="Show more";
 /* Show less button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_LESS_TEXT"="简略显示";
-/* Value prop button text on course dashbaord screen*/
-"VALUE_PROP.COURSE_DASHBOARD_BUTTON_TITLE"="Upgrade to access more features";
+"VALUE_PROP.SHOW_LESS_TEXT"="Show less";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "版本 {number} {environment}";
 /* Error shown when video download fails */

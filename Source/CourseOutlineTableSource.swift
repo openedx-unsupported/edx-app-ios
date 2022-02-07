@@ -10,7 +10,6 @@ import UIKit
 
 private let resumeCourseViewPortraitHeight: CGFloat = 72
 private let resumeCourseViewLandscapeHeight: CGFloat = 52
-private let courseUpgradeViewtHeight: CGFloat = 62
 
 protocol CourseOutlineTableControllerDelegate: AnyObject {
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, parent: CourseBlockID)
@@ -24,7 +23,7 @@ protocol CourseOutlineTableControllerDelegate: AnyObject {
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate, VideoDownloadQualityDelegate {
 
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & RemoteConfigProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     weak var delegate: CourseOutlineTableControllerDelegate?
     private let environment: Environment
@@ -37,7 +36,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private var courseCertificateView: CourseCertificateView?
     private let headerContainer = UIView()
     private lazy var resumeCourseView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText: Strings.resume, subtitleText: "Placeholder")
-    private lazy var valuePropView = UIView()
     
     var courseVideosHeaderView: CourseVideosHeaderView?
     private var isResumeCourse = false
@@ -96,57 +94,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
     }
 
-    private var canShowValueProp: Bool {
-        guard let enrollment = enrollment, enrollment.type == .audit && environment.remoteConfig.valuePropEnabled
-        else { return false }
-
-        return true
-    }
-
-    private var enrollment: UserCourseEnrollment? {
-        return environment.interface?.enrollmentForCourse(withID: courseID)
-    }
-
-    private func addValuePropView() {
-        if !canShowValueProp { return }
-
-        headerContainer.addSubview(valuePropView)
-        valuePropView.backgroundColor = environment.styles.standardBackgroundColor()
-
-        let lockedImage = Icon.Closed.imageWithFontSize(size: 20).image(with: OEXStyles.shared().neutralWhiteT())
-        let imageAttachment = NSTextAttachment()
-        imageAttachment.image = lockedImage
-        if let image = imageAttachment.image {
-            imageAttachment.bounds = CGRect(x: 0, y: -4, width: image.size.width, height: image.size.height)
-        }
-        let attributedImageString = NSAttributedString(attachment: imageAttachment)
-        let style = OEXTextStyle(weight: .semiBold, size: .base, color: environment.styles.neutralWhiteT())
-        let attributedStrings = [
-            attributedImageString,
-            NSAttributedString(string: "\u{200b}"),
-            style.attributedString(withText: Strings.ValueProp.courseDashboardButtonTitle)
-        ]
-        let attributedTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
-        
-        let button = UIButton(type: .system)
-        button.oex_addAction({ [weak self] _ in
-            if let course = self?.enrollment?.course {
-                self?.environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course, completion: nil)
-            }
-        }, for: .touchUpInside)
-
-        button.backgroundColor = environment.styles.secondaryDarkColor()
-        button.setAttributedTitle(attributedTitle, for: .normal)
-        valuePropView.addSubview(button)
-
-        button.snp.remakeConstraints { make in
-            make.height.equalTo(StandardVerticalMargin * 4.5)
-            make.leading.equalTo(valuePropView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(valuePropView).inset(StandardHorizontalMargin)
-            make.center.equalTo(valuePropView)
-        }
-    }
-
     private func setAccessibilityIdentifiers() {
         tableView.accessibilityIdentifier = "CourseOutlineTableController:table-view"
         headerContainer.accessibilityIdentifier = "CourseOutlineTableController:header-container"
@@ -154,7 +101,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         courseCertificateView?.accessibilityIdentifier = "CourseOutlineTableController:certificate-view"
         resumeCourseView.accessibilityIdentifier = "CourseOutlineTableController:resume-course-view"
         courseCard.accessibilityIdentifier = "CourseOutlineTableController:course-card"
-        valuePropView.accessibilityIdentifier = "CourseOutlineTableController:value-prop-view"
     }
     
     override func viewDidLoad() {
@@ -174,21 +120,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         refreshController.setupInScrollView(scrollView: tableView)
 
         setAccessibilityIdentifiers()
-        if courseOutlineMode == .full {
-            addObservers()
-        }
-    }
-
-    private func addObservers() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
-            observer.makeCourseUpgradeComplete()
-        }
-    }
-
-    private func makeCourseUpgradeComplete() {
-        enrollment?.type = .verified
-        valuePropView.removeFromSuperview()
-        updateHeaderConstraints()
     }
     
     private func configureHeaderView() {
@@ -198,7 +129,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             headerContainer.addSubview(courseCard)
             headerContainer.addSubview(resumeCourseView)
             addCertificateView()
-            addValuePropView()
             
             courseDateBannerView.snp.remakeConstraints { make in
                 make.trailing.equalTo(headerContainer)
@@ -534,26 +464,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             }
             constraintView = courseCertificateView
         }
-
-        if canShowValueProp {
-            if !headerContainer.subviews.contains(valuePropView) {
-                // ideally it should not happen, but in any case,
-                // if after course upgradation, value prop is removed, re add it to header view
-                addValuePropView()
-            }
-            valuePropView.snp.remakeConstraints { make in
-                make.trailing.equalTo(courseCard)
-                make.leading.equalTo(courseCard)
-                make.top.equalTo(constraintView.snp.bottom)
-                make.height.equalTo(courseUpgradeViewtHeight)
-            }
-            constraintView = valuePropView
-        }
-        else {
-            valuePropView.snp.remakeConstraints { make in
-                make.height.equalTo(0)
-            }
-        }
         
         resumeCourseView.snp.remakeConstraints { make in
             make.trailing.equalTo(courseCard)
@@ -603,7 +513,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     deinit {
         courseQuerier.remove(observer: self)
-        NotificationCenter.default.removeObserver(self)
     }
 }
 

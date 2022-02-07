@@ -70,7 +70,7 @@ extension OEXRouter {
         return contentPageController
     }
     
-    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID, completion: ((UIViewController) -> Void)? = nil) {
+    func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID) {
         let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         guard let childBlock = courseQuerier.blockWithID(id: componentID).firstSuccess().value,
               let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
@@ -92,7 +92,7 @@ extension OEXRouter {
         }
         
         showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: outlineViewController) { [weak self] visibleController in
-            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: completion)
+            self?.showContainerForBlockWithID(blockID: childBlock.blockID, type: childBlock.displayType, parentID: unitBlock.blockID, courseID: courseID, fromController: visibleController, completion: nil)
         }
     }
     
@@ -413,13 +413,13 @@ extension OEXRouter {
         }
     }
     
-    func showValuePropDetailView(from controller: UIViewController? = nil, screen: CourseUpgradeScreen, course: OEXCourse, blockID: CourseBlockID? = nil, completion: (() -> Void)? = nil) {
-        let upgradeDetailController = ValuePropDetailViewController(screen: screen, course: course, blockID: blockID, environment: environment)
+    func showValuePropDetailView(from controller: UIViewController? = nil, type: ValuePropModalType, course: OEXCourse, completion: (() -> Void)? = nil) {
+        let upgradeDetailController = ValuePropDetailViewController(type: type, course: course, environment: environment)
         controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailController), animated: true, completion: completion)
     }
     
-    func showBrowserViewController(from controller: UIViewController, title: String?,  url: URL, completion: (() -> Void)? = nil) {
-        let browserViewController = BrowserViewController(title: title, url: url, environment: environment)
+    func showBrowserViewController(from controller: UIViewController, title: String?,  url: URL, alwaysRequireAuth: Bool = false, completion: (() -> Void)? = nil) {
+        let browserViewController = BrowserViewController(title: title, url: url, environment: environment, alwaysRequireAuth: alwaysRequireAuth)
         if let controller = controller as? BrowserViewControllerDelegate {
             browserViewController.delegate = controller
         }
@@ -428,8 +428,8 @@ extension OEXRouter {
         controller.present(navController, animated: true, completion: completion)
     }
     
-    func showBannerViewController(from controller: UIViewController, url: URL, title: String?, delegate: BannerViewControllerDelegate? = nil, modal: Bool = true, showNavbar: Bool = false) {
-        let bannerController = BannerViewController(url: url, title: title, environment: environment, showNavbar: showNavbar)
+    func showBannerViewController(from controller: UIViewController, url: URL, title: String?, delegate: BannerViewControllerDelegate? = nil, alwaysRequireAuth: Bool = false, modal: Bool = true, showNavbar: Bool = false) {
+        let bannerController = BannerViewController(url: url, title: title, environment: environment, alwaysRequireAuth: alwaysRequireAuth, showNavbar: showNavbar)
         bannerController.delegate = delegate
         if modal {
             let navController = ForwardingNavigationController(rootViewController: bannerController)
@@ -483,7 +483,7 @@ extension OEXRouter {
         c.loadRequest(request: URLRequest(url: url as URL) as NSURLRequest)
     }
     
-    func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true) {
+    func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
         let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
         fromController.navigationController?.pushViewController(controller, animated: animated)
     }

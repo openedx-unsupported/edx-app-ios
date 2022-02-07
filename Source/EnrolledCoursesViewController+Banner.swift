@@ -37,18 +37,18 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
 
         environment.networkManager.taskForRequest(request) { [weak self] result in
             if let link = result.data?.first {
-                self?.showBanner(with: link, title: nil, showNavbar: false)
+                self?.showBanner(with: link, title: nil, requireAuth: true, showNavbar: false)
             }
         }
     }
 
-    private func showBanner(with link: String, title: String?, modal: Bool = true, showNavbar: Bool) {
+    private func showBanner(with link: String, title: String?, requireAuth: Bool, modal: Bool = true, showNavbar: Bool) {
         guard let topController = UIApplication.shared.topMostController(),
               let URL = URL(string: link) else { return }
-        environment.router?.showBannerViewController(from: topController, url: URL, title: title, delegate: self, modal: modal, showNavbar: showNavbar)
+        environment.router?.showBannerViewController(from: topController, url: URL, title: title, delegate: self, alwaysRequireAuth: requireAuth, modal: modal, showNavbar: showNavbar)
     }
 
-    private func showBrowserViewController(with link: String, title: String?) {
+    private func showBrowserViewController(with link: String, title: String? ,requireAuth: Bool) {
         guard let topController = UIApplication.shared.topMostController(),
               let URL = URL(string: link) else { return }
         environment.router?.showBrowserViewController(from: topController, title: title, url: URL)
@@ -61,14 +61,14 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
         case .continueWithoutDismiss:
             if let screen = screen,
                let navigationURL = navigationURL(for: screen) {
-                showBanner(with: navigationURL, title: nil, modal: false, showNavbar: true)
+                showBanner(with: navigationURL, title: nil, requireAuth: authRequired(for: screen), modal: false, showNavbar: true)
             }
             break
         case .dismiss:
             dismiss(animated: true) { [weak self] in
                 if let screen = screen,
                    let navigationURL = self?.navigationURL(for: screen) {
-                    self?.showBrowserViewController(with: navigationURL, title: self?.title(for: screen))
+                    self?.showBrowserViewController(with: navigationURL, title: self?.title(for: screen), requireAuth: self?.authRequired(for: screen) ?? false)
                 }
             }
             break
@@ -92,6 +92,15 @@ extension EnrolledCoursesViewController: BannerViewControllerDelegate {
             return Strings.ProfileOptions.Deleteaccount.webviewTitle
         default:
             return nil
+        }
+    }
+
+    private func authRequired(for screen: BannerScreen) -> Bool {
+        switch screen {
+        case .deleteAccount:
+            return true
+        default:
+            return false
         }
     }
 }

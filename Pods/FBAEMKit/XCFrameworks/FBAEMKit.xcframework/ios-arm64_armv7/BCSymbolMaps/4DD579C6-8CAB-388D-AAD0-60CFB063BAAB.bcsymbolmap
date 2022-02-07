@@ -1,0 +1,676 @@
+BCSymbolMap Version: 2.0
+Apple clang version 12.0.5 (clang-1205.0.22.9)
+/Applications/Xcode_12.5.0_fb.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.5.sdk
+iPhoneOS14.5.sdk
+/Users/jawwad/Library/Developer/Xcode/DerivedData/FacebookSDK-cemfugqejgyihshdojeedwbtidoh/Build/Intermediates.noindex/ArchiveIntermediates/FBAEMKit-Dynamic/IntermediateBuildFilesPath/FBAEMKit.build/Release-iphoneos/FBAEMKit-Dynamic.build/DerivedSources/FBAEMKit_vers.c
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBAEMKit
+-[FBAEMAdvertiserMultiEntryRule initWithOperator:rules:]
+-[FBAEMAdvertiserMultiEntryRule isMatchedEventParameters:]
++[FBAEMAdvertiserMultiEntryRule supportsSecureCoding]
+-[FBAEMAdvertiserMultiEntryRule initWithCoder:]
+-[FBAEMAdvertiserMultiEntryRule encodeWithCoder:]
+-[FBAEMAdvertiserMultiEntryRule copyWithZone:]
+-[FBAEMAdvertiserMultiEntryRule operator]
+-[FBAEMAdvertiserMultiEntryRule rules]
+-[FBAEMAdvertiserMultiEntryRule .cxx_destruct]
+_OBJC_SELECTOR_REFERENCES_
+_OBJC_SELECTOR_REFERENCES_.4
+_OBJC_SELECTOR_REFERENCES_.6
+_OBJC_SELECTOR_REFERENCES_.8
+_OBJC_CLASSLIST_REFERENCES_$_
+_OBJC_CLASSLIST_REFERENCES_$_.9
+_OBJC_SELECTOR_REFERENCES_.11
+_OBJC_CLASSLIST_REFERENCES_$_.12
+_OBJC_CLASSLIST_REFERENCES_$_.13
+_OBJC_SELECTOR_REFERENCES_.15
+_OBJC_SELECTOR_REFERENCES_.17
+_OBJC_SELECTOR_REFERENCES_.19
+_OBJC_SELECTOR_REFERENCES_.21
+_OBJC_SELECTOR_REFERENCES_.23
+_OBJC_SELECTOR_REFERENCES_.25
+__OBJC_$_CLASS_METHODS_FBAEMAdvertiserMultiEntryRule
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_NSObject
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_OPT_NSObject
+__OBJC_$_PROP_LIST_NSObject
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSObject
+__OBJC_PROTOCOL_$_NSObject
+__OBJC_LABEL_PROTOCOL_$_NSObject
+__OBJC_$_PROTOCOL_REFS_FBAEMAdvertiserRuleMatching
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_FBAEMAdvertiserRuleMatching
+__OBJC_$_PROTOCOL_METHOD_TYPES_FBAEMAdvertiserRuleMatching
+__OBJC_PROTOCOL_$_FBAEMAdvertiserRuleMatching
+__OBJC_LABEL_PROTOCOL_$_FBAEMAdvertiserRuleMatching
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_NSCopying
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSCopying
+__OBJC_PROTOCOL_$_NSCopying
+__OBJC_LABEL_PROTOCOL_$_NSCopying
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_NSCoding
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSCoding
+__OBJC_PROTOCOL_$_NSCoding
+__OBJC_LABEL_PROTOCOL_$_NSCoding
+__OBJC_$_PROTOCOL_REFS_NSSecureCoding
+__OBJC_$_PROTOCOL_CLASS_METHODS_NSSecureCoding
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSSecureCoding
+__OBJC_$_CLASS_PROP_LIST_NSSecureCoding
+__OBJC_PROTOCOL_$_NSSecureCoding
+__OBJC_LABEL_PROTOCOL_$_NSSecureCoding
+__OBJC_CLASS_PROTOCOLS_$_FBAEMAdvertiserMultiEntryRule
+__OBJC_$_CLASS_PROP_LIST_FBAEMAdvertiserMultiEntryRule
+__OBJC_METACLASS_RO_$_FBAEMAdvertiserMultiEntryRule
+__OBJC_$_INSTANCE_METHODS_FBAEMAdvertiserMultiEntryRule
+_OBJC_IVAR_$_FBAEMAdvertiserMultiEntryRule._operator
+_OBJC_IVAR_$_FBAEMAdvertiserMultiEntryRule._rules
+__OBJC_$_INSTANCE_VARIABLES_FBAEMAdvertiserMultiEntryRule
+__OBJC_$_PROP_LIST_FBAEMAdvertiserMultiEntryRule
+__OBJC_CLASS_RO_$_FBAEMAdvertiserMultiEntryRule
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMAdvertiserMultiEntryRule.m
+Sources/FBAEMKit/FBAEMAdvertiserMultiEntryRule.m
+/Users/jawwad/fbsource/fbobjc/ios-sdk
+Sources/FBAEMKit/FBAEMAdvertiserMultiEntryRule.h
+-[FBAEMAdvertiserRuleFactory createRuleWithJson:]
+-[FBAEMAdvertiserRuleFactory createRuleWithDict:]
+-[FBAEMAdvertiserRuleFactory createMultiEntryRuleWithDict:]
+-[FBAEMAdvertiserRuleFactory createSingleEntryRuleWithDict:]
+-[FBAEMAdvertiserRuleFactory primaryKeyForRule:]
+-[FBAEMAdvertiserRuleFactory getOperator:]
+-[FBAEMAdvertiserRuleFactory isOperatorForMultiEntryRule:]
+_OBJC_CLASSLIST_REFERENCES_$_.1
+_OBJC_SELECTOR_REFERENCES_.3
+_OBJC_SELECTOR_REFERENCES_.5
+_OBJC_SELECTOR_REFERENCES_.7
+_OBJC_SELECTOR_REFERENCES_.9
+_OBJC_SELECTOR_REFERENCES_.13
+_OBJC_CLASSLIST_REFERENCES_$_.20
+_OBJC_SELECTOR_REFERENCES_.22
+_OBJC_SELECTOR_REFERENCES_.24
+_OBJC_CLASSLIST_REFERENCES_$_.25
+_OBJC_SELECTOR_REFERENCES_.27
+_OBJC_SELECTOR_REFERENCES_.29
+_OBJC_SELECTOR_REFERENCES_.31
+_OBJC_SELECTOR_REFERENCES_.33
+_OBJC_CLASSLIST_REFERENCES_$_.34
+_OBJC_SELECTOR_REFERENCES_.36
+_OBJC_CLASSLIST_REFERENCES_$_.37
+_OBJC_CLASSLIST_REFERENCES_$_.38
+_OBJC_CLASSLIST_REFERENCES_$_.39
+_OBJC_CLASSLIST_REFERENCES_$_.40
+_OBJC_SELECTOR_REFERENCES_.42
+_OBJC_SELECTOR_REFERENCES_.44
+_OBJC_SELECTOR_REFERENCES_.46
+_OBJC_SELECTOR_REFERENCES_.90
+_OBJC_SELECTOR_REFERENCES_.92
+_OBJC_SELECTOR_REFERENCES_.94
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_FBAEMAdvertiserRuleProviding
+__OBJC_$_PROTOCOL_METHOD_TYPES_FBAEMAdvertiserRuleProviding
+__OBJC_PROTOCOL_$_FBAEMAdvertiserRuleProviding
+__OBJC_LABEL_PROTOCOL_$_FBAEMAdvertiserRuleProviding
+__OBJC_CLASS_PROTOCOLS_$_FBAEMAdvertiserRuleFactory
+__OBJC_METACLASS_RO_$_FBAEMAdvertiserRuleFactory
+__OBJC_$_INSTANCE_METHODS_FBAEMAdvertiserRuleFactory
+__OBJC_CLASS_RO_$_FBAEMAdvertiserRuleFactory
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMAdvertiserRuleFactory.m
+Sources/FBAEMKit/FBAEMAdvertiserRuleFactory.m
+-[FBAEMAdvertiserSingleEntryRule initWithOperator:paramKey:linguisticCondition:numericalCondition:arrayCondition:]
+-[FBAEMAdvertiserSingleEntryRule isMatchedEventParameters:]
+-[FBAEMAdvertiserSingleEntryRule isMatchedEventParameters:paramPath:]
+-[FBAEMAdvertiserSingleEntryRule isMatchedWithAsteriskParam:eventParameters:paramPath:]
+-[FBAEMAdvertiserSingleEntryRule isMatchedWithStringValue:numericalValue:]
+-[FBAEMAdvertiserSingleEntryRule isRegexMatch:]
+-[FBAEMAdvertiserSingleEntryRule isAnyOf:stringValue:ignoreCase:]
++[FBAEMAdvertiserSingleEntryRule supportsSecureCoding]
+-[FBAEMAdvertiserSingleEntryRule initWithCoder:]
+-[FBAEMAdvertiserSingleEntryRule encodeWithCoder:]
+-[FBAEMAdvertiserSingleEntryRule copyWithZone:]
+-[FBAEMAdvertiserSingleEntryRule operator]
+-[FBAEMAdvertiserSingleEntryRule paramKey]
+-[FBAEMAdvertiserSingleEntryRule linguisticCondition]
+-[FBAEMAdvertiserSingleEntryRule numericalCondition]
+-[FBAEMAdvertiserSingleEntryRule arrayCondition]
+-[FBAEMAdvertiserSingleEntryRule .cxx_destruct]
+_OBJC_SELECTOR_REFERENCES_.14
+_OBJC_SELECTOR_REFERENCES_.16
+_OBJC_SELECTOR_REFERENCES_.18
+_OBJC_SELECTOR_REFERENCES_.20
+_OBJC_SELECTOR_REFERENCES_.26
+_OBJC_SELECTOR_REFERENCES_.28
+_OBJC_SELECTOR_REFERENCES_.30
+_OBJC_SELECTOR_REFERENCES_.32
+_OBJC_CLASSLIST_REFERENCES_$_.33
+_OBJC_SELECTOR_REFERENCES_.35
+_OBJC_SELECTOR_REFERENCES_.37
+_OBJC_SELECTOR_REFERENCES_.40
+_OBJC_CLASSLIST_REFERENCES_$_.41
+_OBJC_SELECTOR_REFERENCES_.43
+_OBJC_SELECTOR_REFERENCES_.45
+_OBJC_SELECTOR_REFERENCES_.47
+_OBJC_CLASSLIST_REFERENCES_$_.48
+_OBJC_SELECTOR_REFERENCES_.50
+_OBJC_SELECTOR_REFERENCES_.52
+_OBJC_SELECTOR_REFERENCES_.54
+_OBJC_SELECTOR_REFERENCES_.56
+_OBJC_SELECTOR_REFERENCES_.58
+_OBJC_SELECTOR_REFERENCES_.60
+_OBJC_SELECTOR_REFERENCES_.62
+_OBJC_SELECTOR_REFERENCES_.64
+_OBJC_CLASSLIST_REFERENCES_$_.65
+_OBJC_SELECTOR_REFERENCES_.67
+_OBJC_SELECTOR_REFERENCES_.69
+_OBJC_CLASSLIST_REFERENCES_$_.70
+_OBJC_SELECTOR_REFERENCES_.72
+_OBJC_SELECTOR_REFERENCES_.74
+_OBJC_SELECTOR_REFERENCES_.76
+_OBJC_SELECTOR_REFERENCES_.78
+_OBJC_SELECTOR_REFERENCES_.80
+_OBJC_SELECTOR_REFERENCES_.82
+_OBJC_SELECTOR_REFERENCES_.84
+__OBJC_$_CLASS_METHODS_FBAEMAdvertiserSingleEntryRule
+__OBJC_CLASS_PROTOCOLS_$_FBAEMAdvertiserSingleEntryRule
+__OBJC_$_CLASS_PROP_LIST_FBAEMAdvertiserSingleEntryRule
+__OBJC_METACLASS_RO_$_FBAEMAdvertiserSingleEntryRule
+__OBJC_$_INSTANCE_METHODS_FBAEMAdvertiserSingleEntryRule
+_OBJC_IVAR_$_FBAEMAdvertiserSingleEntryRule._operator
+_OBJC_IVAR_$_FBAEMAdvertiserSingleEntryRule._paramKey
+_OBJC_IVAR_$_FBAEMAdvertiserSingleEntryRule._linguisticCondition
+_OBJC_IVAR_$_FBAEMAdvertiserSingleEntryRule._numericalCondition
+_OBJC_IVAR_$_FBAEMAdvertiserSingleEntryRule._arrayCondition
+__OBJC_$_INSTANCE_VARIABLES_FBAEMAdvertiserSingleEntryRule
+__OBJC_$_PROP_LIST_FBAEMAdvertiserSingleEntryRule
+__OBJC_CLASS_RO_$_FBAEMAdvertiserSingleEntryRule
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMAdvertiserSingleEntryRule.m
+Sources/FBAEMKit/FBAEMAdvertiserSingleEntryRule.m
+Sources/FBAEMKit/FBAEMAdvertiserSingleEntryRule.h
++[FBAEMConfiguration configureWithRuleProvider:]
++[FBAEMConfiguration ruleProvider]
+-[FBAEMConfiguration initWithJSON:]
+-[FBAEMConfiguration initWithDefaultCurrency:cutoffTime:validFrom:configMode:businessID:matchingRule:conversionValueRules:]
++[FBAEMConfiguration parseRules:]
+___33+[FBAEMConfiguration parseRules:]_block_invoke
++[FBAEMConfiguration getEventSetFromRules:]
++[FBAEMConfiguration getCurrencySetFromRules:]
+-[FBAEMConfiguration isSameValidFrom:businessID:]
+-[FBAEMConfiguration isSameBusinessID:]
++[FBAEMConfiguration supportsSecureCoding]
+-[FBAEMConfiguration initWithCoder:]
+-[FBAEMConfiguration encodeWithCoder:]
+-[FBAEMConfiguration copyWithZone:]
+-[FBAEMConfiguration cutoffTime]
+-[FBAEMConfiguration validFrom]
+-[FBAEMConfiguration defaultCurrency]
+-[FBAEMConfiguration configMode]
+-[FBAEMConfiguration businessID]
+-[FBAEMConfiguration matchingRule]
+-[FBAEMConfiguration conversionValueRules]
+-[FBAEMConfiguration eventSet]
+-[FBAEMConfiguration currencySet]
+-[FBAEMConfiguration .cxx_destruct]
+__ruleProvider
+_OBJC_CLASSLIST_REFERENCES_$_.17
+_OBJC_CLASSLIST_REFERENCES_$_.23
+_OBJC_CLASSLIST_REFERENCES_$_.28
+_OBJC_SELECTOR_REFERENCES_.34
+_OBJC_SELECTOR_REFERENCES_.38
+_OBJC_SELECTOR_REFERENCES_.41
+_OBJC_CLASSLIST_REFERENCES_$_.44
+_OBJC_SELECTOR_REFERENCES_.48
+___block_descriptor_20_e32_i12?0"FBAEMRule"4"FBAEMRule"8l
+___block_literal_global
+_OBJC_SELECTOR_REFERENCES_.51
+_OBJC_SELECTOR_REFERENCES_.53
+_OBJC_SELECTOR_REFERENCES_.55
+_OBJC_CLASSLIST_REFERENCES_$_.56
+_OBJC_SELECTOR_REFERENCES_.66
+_OBJC_SELECTOR_REFERENCES_.68
+_OBJC_SELECTOR_REFERENCES_.70
+_OBJC_CLASSLIST_REFERENCES_$_.75
+_OBJC_CLASSLIST_REFERENCES_$_.76
+_OBJC_CLASSLIST_REFERENCES_$_.77
+_OBJC_SELECTOR_REFERENCES_.79
+_OBJC_SELECTOR_REFERENCES_.81
+_OBJC_SELECTOR_REFERENCES_.83
+_OBJC_CLASSLIST_REFERENCES_$_.84
+_OBJC_SELECTOR_REFERENCES_.86
+_OBJC_SELECTOR_REFERENCES_.88
+__OBJC_$_CLASS_METHODS_FBAEMConfiguration
+__OBJC_CLASS_PROTOCOLS_$_FBAEMConfiguration
+__OBJC_$_CLASS_PROP_LIST_FBAEMConfiguration
+__OBJC_METACLASS_RO_$_FBAEMConfiguration
+__OBJC_$_INSTANCE_METHODS_FBAEMConfiguration
+_OBJC_IVAR_$_FBAEMConfiguration._cutoffTime
+_OBJC_IVAR_$_FBAEMConfiguration._validFrom
+_OBJC_IVAR_$_FBAEMConfiguration._defaultCurrency
+_OBJC_IVAR_$_FBAEMConfiguration._configMode
+_OBJC_IVAR_$_FBAEMConfiguration._businessID
+_OBJC_IVAR_$_FBAEMConfiguration._matchingRule
+_OBJC_IVAR_$_FBAEMConfiguration._conversionValueRules
+_OBJC_IVAR_$_FBAEMConfiguration._eventSet
+_OBJC_IVAR_$_FBAEMConfiguration._currencySet
+__OBJC_$_INSTANCE_VARIABLES_FBAEMConfiguration
+__OBJC_$_PROP_LIST_FBAEMConfiguration
+__OBJC_CLASS_RO_$_FBAEMConfiguration
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMConfiguration.m
+Sources/FBAEMKit/FBAEMConfiguration.m
+Sources/FBAEMKit/FBAEMConfiguration.h
+__33+[FBAEMConfiguration parseRules:]_block_invoke
+-[FBAEMEvent initWithJSON:]
+-[FBAEMEvent initWithEventName:values:]
++[FBAEMEvent supportsSecureCoding]
+-[FBAEMEvent initWithCoder:]
+-[FBAEMEvent encodeWithCoder:]
+-[FBAEMEvent copyWithZone:]
+-[FBAEMEvent eventName]
+-[FBAEMEvent values]
+-[FBAEMEvent .cxx_destruct]
+_OBJC_CLASSLIST_REFERENCES_$_.14
+_OBJC_CLASSLIST_REFERENCES_$_.22
+_OBJC_CLASSLIST_REFERENCES_$_.31
+__OBJC_$_CLASS_METHODS_FBAEMEvent
+__OBJC_CLASS_PROTOCOLS_$_FBAEMEvent
+__OBJC_$_CLASS_PROP_LIST_FBAEMEvent
+__OBJC_METACLASS_RO_$_FBAEMEvent
+__OBJC_$_INSTANCE_METHODS_FBAEMEvent
+_OBJC_IVAR_$_FBAEMEvent._eventName
+_OBJC_IVAR_$_FBAEMEvent._values
+__OBJC_$_INSTANCE_VARIABLES_FBAEMEvent
+__OBJC_$_PROP_LIST_FBAEMEvent
+__OBJC_CLASS_RO_$_FBAEMEvent
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMEvent.m
+Sources/FBAEMKit/FBAEMEvent.m
+Sources/FBAEMKit/FBAEMEvent.h
++[FBAEMInvocation invocationWithAppLinkData:]
+-[FBAEMInvocation initWithCampaignID:ACSToken:ACSSharedSecret:ACSConfigID:businessID:isTestMode:hasSKAN:]
+-[FBAEMInvocation initWithCampaignID:ACSToken:ACSSharedSecret:ACSConfigID:businessID:timestamp:configMode:configID:recordedEvents:recordedValues:conversionValue:priority:conversionTimestamp:isAggregated:isTestMode:hasSKAN:]
+-[FBAEMInvocation attributeEvent:currency:value:parameters:configs:]
+-[FBAEMInvocation updateConversionValueWithConfigs:]
+-[FBAEMInvocation isOutOfWindowWithConfigs:]
+-[FBAEMInvocation getHMAC:]
+-[FBAEMInvocation decodeBase64UrlSafeString:]
+-[FBAEMInvocation processedParameters:]
+-[FBAEMInvocation _isOutOfWindowWithConfig:]
+-[FBAEMInvocation _findConfig:]
+-[FBAEMInvocation _setConfig:]
++[FBAEMInvocation supportsSecureCoding]
+-[FBAEMInvocation initWithCoder:]
+-[FBAEMInvocation encodeWithCoder:]
+-[FBAEMInvocation copyWithZone:]
+-[FBAEMInvocation campaignID]
+-[FBAEMInvocation ACSToken]
+-[FBAEMInvocation ACSSharedSecret]
+-[FBAEMInvocation ACSConfigID]
+-[FBAEMInvocation businessID]
+-[FBAEMInvocation isTestMode]
+-[FBAEMInvocation hasSKAN]
+-[FBAEMInvocation timestamp]
+-[FBAEMInvocation configMode]
+-[FBAEMInvocation configID]
+-[FBAEMInvocation recordedEvents]
+-[FBAEMInvocation recordedValues]
+-[FBAEMInvocation conversionValue]
+-[FBAEMInvocation priority]
+-[FBAEMInvocation conversionTimestamp]
+-[FBAEMInvocation isAggregated]
+-[FBAEMInvocation setIsAggregated:]
+-[FBAEMInvocation .cxx_destruct]
+_OBJC_SELECTOR_REFERENCES_.39
+_OBJC_CLASSLIST_REFERENCES_$_.42
+_OBJC_CLASSLIST_REFERENCES_$_.45
+_OBJC_SELECTOR_REFERENCES_.49
+_OBJC_CLASSLIST_REFERENCES_$_.54
+_OBJC_CLASSLIST_REFERENCES_$_.59
+_OBJC_SELECTOR_REFERENCES_.61
+_OBJC_CLASSLIST_REFERENCES_$_.62
+_OBJC_CLASSLIST_REFERENCES_$_.85
+_OBJC_SELECTOR_REFERENCES_.87
+_OBJC_SELECTOR_REFERENCES_.89
+_OBJC_SELECTOR_REFERENCES_.91
+_OBJC_SELECTOR_REFERENCES_.93
+_OBJC_SELECTOR_REFERENCES_.95
+_OBJC_SELECTOR_REFERENCES_.97
+_OBJC_SELECTOR_REFERENCES_.99
+_OBJC_SELECTOR_REFERENCES_.101
+_OBJC_SELECTOR_REFERENCES_.103
+_OBJC_SELECTOR_REFERENCES_.105
+_OBJC_CLASSLIST_REFERENCES_$_.106
+_OBJC_SELECTOR_REFERENCES_.108
+_OBJC_SELECTOR_REFERENCES_.112
+_OBJC_SELECTOR_REFERENCES_.116
+_OBJC_SELECTOR_REFERENCES_.118
+_OBJC_SELECTOR_REFERENCES_.120
+_OBJC_SELECTOR_REFERENCES_.122
+_OBJC_SELECTOR_REFERENCES_.124
+_OBJC_SELECTOR_REFERENCES_.126
+_OBJC_SELECTOR_REFERENCES_.132
+_OBJC_SELECTOR_REFERENCES_.142
+_OBJC_SELECTOR_REFERENCES_.144
+_OBJC_CLASSLIST_REFERENCES_$_.145
+_OBJC_SELECTOR_REFERENCES_.147
+_OBJC_SELECTOR_REFERENCES_.149
+_OBJC_SELECTOR_REFERENCES_.151
+_OBJC_SELECTOR_REFERENCES_.153
+_OBJC_SELECTOR_REFERENCES_.155
+_OBJC_SELECTOR_REFERENCES_.157
+_OBJC_CLASSLIST_REFERENCES_$_.158
+_OBJC_SELECTOR_REFERENCES_.160
+_OBJC_SELECTOR_REFERENCES_.162
+_OBJC_SELECTOR_REFERENCES_.164
+_OBJC_SELECTOR_REFERENCES_.166
+_OBJC_SELECTOR_REFERENCES_.168
+_OBJC_SELECTOR_REFERENCES_.170
+_OBJC_SELECTOR_REFERENCES_.172
+_OBJC_SELECTOR_REFERENCES_.174
+_OBJC_SELECTOR_REFERENCES_.176
+_OBJC_SELECTOR_REFERENCES_.178
+_OBJC_SELECTOR_REFERENCES_.180
+_OBJC_SELECTOR_REFERENCES_.182
+_OBJC_SELECTOR_REFERENCES_.184
+_OBJC_SELECTOR_REFERENCES_.186
+__OBJC_$_CLASS_METHODS_FBAEMInvocation
+__OBJC_CLASS_PROTOCOLS_$_FBAEMInvocation
+__OBJC_$_CLASS_PROP_LIST_FBAEMInvocation
+__OBJC_METACLASS_RO_$_FBAEMInvocation
+__OBJC_$_INSTANCE_METHODS_FBAEMInvocation
+_OBJC_IVAR_$_FBAEMInvocation._isTestMode
+_OBJC_IVAR_$_FBAEMInvocation._hasSKAN
+_OBJC_IVAR_$_FBAEMInvocation._isAggregated
+_OBJC_IVAR_$_FBAEMInvocation._campaignID
+_OBJC_IVAR_$_FBAEMInvocation._ACSToken
+_OBJC_IVAR_$_FBAEMInvocation._ACSSharedSecret
+_OBJC_IVAR_$_FBAEMInvocation._ACSConfigID
+_OBJC_IVAR_$_FBAEMInvocation._businessID
+_OBJC_IVAR_$_FBAEMInvocation._timestamp
+_OBJC_IVAR_$_FBAEMInvocation._configMode
+_OBJC_IVAR_$_FBAEMInvocation._configID
+_OBJC_IVAR_$_FBAEMInvocation._recordedEvents
+_OBJC_IVAR_$_FBAEMInvocation._recordedValues
+_OBJC_IVAR_$_FBAEMInvocation._conversionValue
+_OBJC_IVAR_$_FBAEMInvocation._priority
+_OBJC_IVAR_$_FBAEMInvocation._conversionTimestamp
+__OBJC_$_INSTANCE_VARIABLES_FBAEMInvocation
+__OBJC_$_PROP_LIST_FBAEMInvocation
+__OBJC_CLASS_RO_$_FBAEMInvocation
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMInvocation.m
+Sources/FBAEMKit/FBAEMInvocation.m
+Sources/FBAEMKit/FBAEMInvocation.h
+-[FBAEMNetworker startGraphRequestWithGraphPath:parameters:tokenString:HTTPMethod:completion:]
+___94-[FBAEMNetworker startGraphRequestWithGraphPath:parameters:tokenString:HTTPMethod:completion:]_block_invoke
+___copy_helper_block_e4_20s24b
+___destroy_helper_block_e4_20s24s
+-[FBAEMNetworker parseJSONResponse:error:statusCode:]
+-[FBAEMNetworker parseJSONOrOtherwise:error:]
+-[FBAEMNetworker appendAttachments:toBody:addFormData:]
+___55-[FBAEMNetworker appendAttachments:toBody:addFormData:]_block_invoke
+___copy_helper_block_e4_20s
+___destroy_helper_block_e4_20s
+-[FBAEMNetworker userAgent]
+___27-[FBAEMNetworker userAgent]_block_invoke
+___clang_at_available_requires_core_foundation_framework
+_OBJC_SELECTOR_REFERENCES_.10
+_OBJC_CLASSLIST_REFERENCES_$_.11
+_OBJC_CLASSLIST_REFERENCES_$_.26
+_OBJC_CLASSLIST_REFERENCES_$_.29
+_OBJC_CLASSLIST_REFERENCES_$_.32
+_OBJC_CLASSLIST_REFERENCES_$_.66
+___block_descriptor_28_e4_20s24bs_e45_v16?0"NSData"4"NSURLResponse"8"NSError"12l
+_OBJC_SELECTOR_REFERENCES_.77
+_OBJC_CLASSLIST_REFERENCES_$_.78
+_OBJC_CLASSLIST_REFERENCES_$_.91
+_OBJC_CLASSLIST_REFERENCES_$_.94
+_OBJC_SELECTOR_REFERENCES_.96
+_OBJC_SELECTOR_REFERENCES_.98
+_OBJC_CLASSLIST_REFERENCES_$_.99
+_OBJC_SELECTOR_REFERENCES_.109
+___block_descriptor_25_e4_20s_e14_v16?048^c12l
+_OBJC_SELECTOR_REFERENCES_.114
+_userAgent.agent
+_userAgent.onceToken
+___block_descriptor_20_e5_v4?0l
+_OBJC_CLASSLIST_REFERENCES_$_.120
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_FBAEMNetworking
+__OBJC_$_PROTOCOL_METHOD_TYPES_FBAEMNetworking
+__OBJC_PROTOCOL_$_FBAEMNetworking
+__OBJC_LABEL_PROTOCOL_$_FBAEMNetworking
+__OBJC_$_PROTOCOL_REFS_NSURLSessionDelegate
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_OPT_NSURLSessionDelegate
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSURLSessionDelegate
+__OBJC_PROTOCOL_$_NSURLSessionDelegate
+__OBJC_LABEL_PROTOCOL_$_NSURLSessionDelegate
+__OBJC_$_PROTOCOL_REFS_NSURLSessionTaskDelegate
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_OPT_NSURLSessionTaskDelegate
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSURLSessionTaskDelegate
+__OBJC_PROTOCOL_$_NSURLSessionTaskDelegate
+__OBJC_LABEL_PROTOCOL_$_NSURLSessionTaskDelegate
+__OBJC_$_PROTOCOL_REFS_NSURLSessionDataDelegate
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_OPT_NSURLSessionDataDelegate
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSURLSessionDataDelegate
+__OBJC_PROTOCOL_$_NSURLSessionDataDelegate
+__OBJC_LABEL_PROTOCOL_$_NSURLSessionDataDelegate
+__OBJC_CLASS_PROTOCOLS_$_FBAEMNetworker
+__OBJC_METACLASS_RO_$_FBAEMNetworker
+__OBJC_$_INSTANCE_METHODS_FBAEMNetworker
+__OBJC_$_PROP_LIST_FBAEMNetworker
+__OBJC_CLASS_RO_$_FBAEMNetworker
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMNetworker.m
+__27-[FBAEMNetworker userAgent]_block_invoke
+Sources/FBAEMKit/FBAEMNetworker.m
+/Applications/Xcode_12.5.0_fb.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.5.sdk/usr/include/dispatch/once.h
+__destroy_helper_block_e4_20s
+__copy_helper_block_e4_20s
+__55-[FBAEMNetworker appendAttachments:toBody:addFormData:]_block_invoke
+__destroy_helper_block_e4_20s24s
+__copy_helper_block_e4_20s24b
+__94-[FBAEMNetworker startGraphRequestWithGraphPath:parameters:tokenString:HTTPMethod:completion:]_block_invoke
++[FBAEMReporter configureWithNetworker:appID:]
++[FBAEMReporter configureWithNetworker:appID:reporter:]
++[FBAEMReporter networker]
++[FBAEMReporter reporter]
++[FBAEMReporter enable]
+___23+[FBAEMReporter enable]_block_invoke
+___23+[FBAEMReporter enable]_block_invoke_2
+___copy_helper_block_e4_
+___destroy_helper_block_e4_
+___23+[FBAEMReporter enable]_block_invoke.51
++[FBAEMReporter handleURL:]
++[FBAEMReporter parseURL:]
++[FBAEMReporter recordAndUpdateEvent:currency:value:parameters:]
+___64+[FBAEMReporter recordAndUpdateEvent:currency:value:parameters:]_block_invoke
+___copy_helper_block_e4_24s28s32s36s
+___destroy_helper_block_e4_24s28s32s36s
++[FBAEMReporter _attributedInvocation:Event:currency:value:parameters:configs:]
++[FBAEMReporter _isDoubleCounting:event:]
++[FBAEMReporter _appendAndSaveInvocation:]
+___42+[FBAEMReporter _appendAndSaveInvocation:]_block_invoke
++[FBAEMReporter _loadConfigurationWithBlock:]
+___45+[FBAEMReporter _loadConfigurationWithBlock:]_block_invoke
+___45+[FBAEMReporter _loadConfigurationWithBlock:]_block_invoke_2
+___45+[FBAEMReporter _loadConfigurationWithBlock:]_block_invoke_3
+___copy_helper_block_e4_20s24s
+___copy_helper_block_e4_20b
++[FBAEMReporter _requestParameters]
++[FBAEMReporter _isConfigRefreshTimestampValid]
++[FBAEMReporter _shouldRefresh]
++[FBAEMReporter _sendDebuggingRequest:]
+___39+[FBAEMReporter _sendDebuggingRequest:]_block_invoke
++[FBAEMReporter _debuggingRequestParameters:]
++[FBAEMReporter _loadConfigs]
++[FBAEMReporter _saveConfigs]
++[FBAEMReporter _addConfigs:]
++[FBAEMReporter _addConfig:]
+___28+[FBAEMReporter _addConfig:]_block_invoke
++[FBAEMReporter _loadReportData]
++[FBAEMReporter _saveReportData]
++[FBAEMReporter _sendAggregationRequest]
+___40+[FBAEMReporter _sendAggregationRequest]_block_invoke
+___40+[FBAEMReporter _sendAggregationRequest]_block_invoke_2
+___copy_helper_block_e4_24s
+___destroy_helper_block_e4_24s
++[FBAEMReporter _aggregationRequestParameters:]
++[FBAEMReporter dispatchOnQueue:block:]
++[FBAEMReporter _clearCache]
++[FBAEMReporter _clearConfigs]
++[FBAEMReporter _clearInvocations]
++[FBAEMReporter _isUsingConfig:forInvocations:]
+__networker
+__reporter
+__appId
+_enable.onceToken
+_g_reportFile
+_g_configFile
+_g_completionBlocks
+_g_serialQueue
+_g_configs
+_g_invocations
+___block_descriptor_24_e4__e5_v4?0l
+___block_descriptor_24_e4__e16_v8?0"NSError"4l
+_OBJC_SELECTOR_REFERENCES_.59
+_OBJC_CLASSLIST_REFERENCES_$_.60
+_g_isAEMReportEnabled
+_OBJC_CLASSLIST_REFERENCES_$_.82
+___block_descriptor_40_e4_24s28s32s36s_e16_v8?0"NSError"4l
+_OBJC_SELECTOR_REFERENCES_.107
+_OBJC_SELECTOR_REFERENCES_.111
+_OBJC_SELECTOR_REFERENCES_.113
+___block_descriptor_28_e4_20s_e5_v4?0l
+_OBJC_SELECTOR_REFERENCES_.115
+_OBJC_SELECTOR_REFERENCES_.117
+_g_isLoadingConfiguration
+_OBJC_SELECTOR_REFERENCES_.119
+_OBJC_CLASSLIST_REFERENCES_$_.127
+_OBJC_SELECTOR_REFERENCES_.129
+_g_configRefreshTimestamp
+_OBJC_CLASSLIST_REFERENCES_$_.132
+_OBJC_SELECTOR_REFERENCES_.134
+_OBJC_SELECTOR_REFERENCES_.136
+___block_descriptor_32_e4_20s24s_e5_v4?0l
+___block_descriptor_24_e4__e19_v12?04"NSError"8l
+___block_descriptor_28_e4_20bs_e5_v4?0l
+_OBJC_CLASSLIST_REFERENCES_$_.143
+_OBJC_SELECTOR_REFERENCES_.145
+_OBJC_SELECTOR_REFERENCES_.159
+_OBJC_CLASSLIST_REFERENCES_$_.164
+___block_descriptor_20_e19_v12?04"NSError"8l
+_OBJC_CLASSLIST_REFERENCES_$_.173
+_OBJC_SELECTOR_REFERENCES_.175
+_OBJC_SELECTOR_REFERENCES_.177
+_OBJC_CLASSLIST_REFERENCES_$_.180
+_OBJC_CLASSLIST_REFERENCES_$_.185
+_OBJC_CLASSLIST_REFERENCES_$_.186
+_OBJC_CLASSLIST_REFERENCES_$_.187
+_OBJC_SELECTOR_REFERENCES_.189
+_OBJC_SELECTOR_REFERENCES_.191
+_OBJC_CLASSLIST_REFERENCES_$_.192
+_OBJC_SELECTOR_REFERENCES_.194
+_OBJC_SELECTOR_REFERENCES_.196
+_OBJC_CLASSLIST_REFERENCES_$_.197
+_OBJC_SELECTOR_REFERENCES_.199
+_OBJC_SELECTOR_REFERENCES_.201
+_OBJC_SELECTOR_REFERENCES_.203
+_OBJC_SELECTOR_REFERENCES_.205
+_OBJC_SELECTOR_REFERENCES_.207
+_OBJC_SELECTOR_REFERENCES_.209
+_OBJC_SELECTOR_REFERENCES_.211
+_OBJC_SELECTOR_REFERENCES_.213
+___block_descriptor_20_e50_i12?0"FBAEMConfiguration"4"FBAEMConfiguration"8l
+___block_literal_global.215
+_OBJC_SELECTOR_REFERENCES_.217
+_OBJC_SELECTOR_REFERENCES_.219
+_OBJC_SELECTOR_REFERENCES_.221
+_OBJC_SELECTOR_REFERENCES_.223
+_OBJC_SELECTOR_REFERENCES_.225
+___block_descriptor_28_e4_24s_e19_v12?04"NSError"8l
+_OBJC_SELECTOR_REFERENCES_.230
+_OBJC_SELECTOR_REFERENCES_.232
+_OBJC_SELECTOR_REFERENCES_.234
+_OBJC_SELECTOR_REFERENCES_.236
+_OBJC_SELECTOR_REFERENCES_.238
+_OBJC_SELECTOR_REFERENCES_.240
+_OBJC_SELECTOR_REFERENCES_.242
+_OBJC_SELECTOR_REFERENCES_.244
+_OBJC_SELECTOR_REFERENCES_.246
+_OBJC_SELECTOR_REFERENCES_.248
+_OBJC_SELECTOR_REFERENCES_.250
+__OBJC_$_CLASS_METHODS_FBAEMReporter
+__OBJC_METACLASS_RO_$_FBAEMReporter
+__OBJC_CLASS_RO_$_FBAEMReporter
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMReporter.m
+Sources/FBAEMKit/FBAEMReporter.m
+__destroy_helper_block_e4_24s
+__copy_helper_block_e4_24s
+__40+[FBAEMReporter _sendAggregationRequest]_block_invoke_2
+__40+[FBAEMReporter _sendAggregationRequest]_block_invoke
+__28+[FBAEMReporter _addConfig:]_block_invoke
+__39+[FBAEMReporter _sendDebuggingRequest:]_block_invoke
+__copy_helper_block_e4_20b
+__copy_helper_block_e4_20s24s
+__45+[FBAEMReporter _loadConfigurationWithBlock:]_block_invoke_3
+__45+[FBAEMReporter _loadConfigurationWithBlock:]_block_invoke_2
+__45+[FBAEMReporter _loadConfigurationWithBlock:]_block_invoke
+__42+[FBAEMReporter _appendAndSaveInvocation:]_block_invoke
+__destroy_helper_block_e4_24s28s32s36s
+__copy_helper_block_e4_24s28s32s36s
+__64+[FBAEMReporter recordAndUpdateEvent:currency:value:parameters:]_block_invoke
+__23+[FBAEMReporter enable]_block_invoke.51
+__destroy_helper_block_e4_
+__copy_helper_block_e4_
+__23+[FBAEMReporter enable]_block_invoke_2
+__23+[FBAEMReporter enable]_block_invoke
+-[FBAEMRequestBody init]
+-[FBAEMRequestBody appendUTF8:]
+-[FBAEMRequestBody appendWithKey:formValue:]
+___44-[FBAEMRequestBody appendWithKey:formValue:]_block_invoke
+-[FBAEMRequestBody data]
+-[FBAEMRequestBody _appendWithKey:filename:contentType:contentBlock:]
+-[FBAEMRequestBody compressedData]
+-[FBAEMRequestBody setData:]
+-[FBAEMRequestBody json]
+-[FBAEMRequestBody setJson:]
+-[FBAEMRequestBody .cxx_destruct]
+_OBJC_SELECTOR_REFERENCES_.2
+_OBJC_CLASSLIST_REFERENCES_$_.3
+_OBJC_CLASSLIST_REFERENCES_$_.8
+_OBJC_SELECTOR_REFERENCES_.12
+___block_descriptor_28_e4_20s24s_e5_v4?0l
+_OBJC_CLASSLIST_REFERENCES_$_.55
+_OBJC_SELECTOR_REFERENCES_.57
+__OBJC_METACLASS_RO_$_FBAEMRequestBody
+__OBJC_$_INSTANCE_METHODS_FBAEMRequestBody
+_OBJC_IVAR_$_FBAEMRequestBody._data
+_OBJC_IVAR_$_FBAEMRequestBody._json
+__OBJC_$_INSTANCE_VARIABLES_FBAEMRequestBody
+__OBJC_$_PROP_LIST_FBAEMRequestBody
+__OBJC_CLASS_RO_$_FBAEMRequestBody
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMRequestBody.m
+Sources/FBAEMKit/FBAEMRequestBody.m
+__44-[FBAEMRequestBody appendWithKey:formValue:]_block_invoke
+-[FBAEMRule initWithJSON:]
+-[FBAEMRule initWithConversionValue:priority:events:]
+-[FBAEMRule isMatchedWithRecordedEvents:recordedValues:]
+-[FBAEMRule _isMatchedWithValues:recordedEventValues:]
++[FBAEMRule parseEvents:]
++[FBAEMRule supportsSecureCoding]
+-[FBAEMRule initWithCoder:]
+-[FBAEMRule encodeWithCoder:]
+-[FBAEMRule copyWithZone:]
+-[FBAEMRule conversionValue]
+-[FBAEMRule setConversionValue:]
+-[FBAEMRule priority]
+-[FBAEMRule setPriority:]
+-[FBAEMRule events]
+-[FBAEMRule setEvents:]
+-[FBAEMRule .cxx_destruct]
+_OBJC_CLASSLIST_REFERENCES_$_.7
+_OBJC_CLASSLIST_REFERENCES_$_.30
+_OBJC_CLASSLIST_REFERENCES_$_.35
+_OBJC_CLASSLIST_REFERENCES_$_.47
+__OBJC_$_CLASS_METHODS_FBAEMRule
+__OBJC_CLASS_PROTOCOLS_$_FBAEMRule
+__OBJC_$_CLASS_PROP_LIST_FBAEMRule
+__OBJC_METACLASS_RO_$_FBAEMRule
+__OBJC_$_INSTANCE_METHODS_FBAEMRule
+_OBJC_IVAR_$_FBAEMRule._conversionValue
+_OBJC_IVAR_$_FBAEMRule._priority
+_OBJC_IVAR_$_FBAEMRule._events
+__OBJC_$_INSTANCE_VARIABLES_FBAEMRule
+__OBJC_$_PROP_LIST_FBAEMRule
+__OBJC_CLASS_RO_$_FBAEMRule
+/Users/jawwad/fbsource/fbobjc/ios-sdk/Sources/FBAEMKit/FBAEMRule.m
+Sources/FBAEMKit/FBAEMRule.m
+Sources/FBAEMKit/FBAEMRule.h

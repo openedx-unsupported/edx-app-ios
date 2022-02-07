@@ -265,23 +265,23 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Kaynaklar";
 /* Course Dates Success Toast Message */
-"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Plana uygun kalmanıza yardımcı olması için bitiş tarihleriniz başarıyla değiştirildi.";
+"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Your due dates have been successfully shifted to help you stay on track.";
 /* Course Dates navigate to Dates screen*/
-"COURSEDATES.VIEW_ALL_DATES" = "Tüm tarihleri görüntüle";
+"COURSEDATES.VIEW_ALL_DATES" = "View all dates";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Önemli Tarihler";
 /* Course Date Type Completed */
-"COURSEDATES.COMPLETED"="Tamamlandı";
+"COURSEDATES.COMPLETED"="Completed";
 /* Course Date Type Past Due */
-"COURSEDATES.PAST_DUE"="Tarihi Geçti";
+"COURSEDATES.PAST_DUE"="Past Due";
 /* Course Date Type Due Next */
-"COURSEDATES.DUE_NEXT"="Sırada Tarihi Gelen";
+"COURSEDATES.DUE_NEXT"="Due Next";
 /* Course Date Type Unreleased */
-"COURSEDATES.UNRELEASED"="Henüz Yayınlanmadı";
+"COURSEDATES.UNRELEASED"="Not Yet Released";
 /* Course Date Completed */
-"COURSEDATES.VERFIED_ONLY"="Yalnızca Onaylı";
+"COURSEDATES.VERFIED_ONLY"="Verified Only";
 /* Course Date Today*/
-"COURSEDATES.TODAY"="Bugün";
+"COURSEDATES.TODAY"="Today";
 /* Course date Assignment Due Date*/
 "COURSEDATES.ASSIGNMENT_DUE_DATE"="Assignment Due Date";
 /* Course Date Verified Upgrade Deadline*/
@@ -301,73 +301,73 @@
 /* Course Reset Date Title */
 "COURSEDATES.RESET_DATE.TITLE"="Course Dates";
 /* Course Reset Date Success Message */
-"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Tarihleriniz başarıyla değiştirildi.";
+"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Your dates have been successfully shifted.";
 /* Course Reset Date Error Message */
-"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Tarihleriniz değiştirilemedi. Lütfen tekrar deneyin.";
+"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Your dates could not be shifted. Please try again.";
 /* Course Reset Date Tab Info Banner Header */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="Öğreniminizin planlandığı gibi gitmesine yardımcı olmak için önerilen bir program oluşturduk. ";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="We've built a suggested schedule to help you stay on track. ";
 /* Course Reset Date Tab Info Banner Body */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="Ancak endişelenmeyin, bu esnek bir program olduğu için kendi hızınızda öğrenebilirsiniz. Önerdiğimiz tarihlerin gerisinde kalırsanız bunları plana uygun kalmanızı sağlayacak şekilde ayarlayabileceksiniz.";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="But don't worry—it's flexible so you can learn at your own pace. If you happen to fall behind on our suggested dates, you'll be able to adjust them to keep yourself on track.";
 /* Course Reset Date Upgrade To Complete Graded Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="Bu kursu denetlemektesiniz, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="You are auditing this course, ";
 /* Course Reset Date Upgrade To Complete Graded Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="dolayısıyla notlu ödevlere katılamazsınız. Bu kursun parçası olarak notlu ödevler tamamlamak için bugün yükseltme yapabilirsiniz.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded assignments as part of this course, you can upgrade today.";
 /* Course Reset Date Upgrade To Complete Graded Banner Button */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Şimdi yükselt";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Upgrade now";
 /* Course Reset Date Upgrade Reset Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="Bu kursu denetlemektesiniz, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="You are auditing this course, ";
 /* Course Reset Date Upgrade Reset Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="dolayısıyla notlu ödevlere katılamazsınız. Önerilen programımıza göre bazı önemli son tarihleri kaçırmışsınız gibi görünüyor. Bu kursun parçası olarak notlu ödevler tamamlamak ve tarihi geçmiş ödevleri geleceğe taşımak için bugün yükseltme yapabilirsiniz.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="which means that you are unable to participate in graded assignments. It looks like you missed some important deadlines based on our suggested schedule. To complete graded assignments as part of this course and shift the past due assignments into the future, you can upgrade today.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
 /* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Önerilen programımıza göre bazı önemli son tarihleri kaçırmışsınız gibi görünüyor. ";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="It looks like you missed some important deadlines based on our suggested schedule. ";
 /* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Plana uygun kalmak için bu programı güncelleyebilir ve tarihi geçmiş ödevleri geleceğe taşıyabilirsiniz. Endişelenmeyin, bitiş tarihlerinizi değiştirdiğinizde ilerlemenizin hiçbir kısmını kaybetmeyeceksiniz.";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
 /* Course Reset Date Banner Button */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Bitiş tarihlerini değiştir";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
 /* Course Dates Title */
-"COURSEDATES.COURSE_SCHEDULE"="Kurs Programı";
+"COURSEDATES.COURSE_SCHEDULE"="Course Schedule";
 /* Course Dates Sync To Calendar */
-"COURSEDATES.SYNC_TO_CALENDAR"="Takvim ile senkronize et";
+"COURSEDATES.SYNC_TO_CALENDAR"="Sync to calendar";
 /* Course Dates Sync To Calendar Message */
-"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Bu kursa yönelik tüm son tarihleri ve bitiş tarihlerini otomatik olarak takviminizle senkronize edin.";
+"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
 /* Course Dates Add Calendar Dialog Title */
-"COURSEDATES.ADD_CALENDAR_TITLE"="\"{calendar_name}\" Takvimini Ekleyin";
+"COURSEDATES.ADD_CALENDAR_TITLE"="Add calendar \"{calendar_name}\"";
 /* Course Dates Remove Calendar Dialog Title */
-"COURSEDATES.REMOVE_CALENDAR_TITLE"="\"{calendar_name}\" takvimini kaldırın";
+"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove calendar \"{calendar_name}\"";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="{platform_name} \"{calendar_name}\" takvimini eklemek ister misiniz? \n Kurs takviminizi Takvim veya Ayarlar kısmından herhangi bir zamanda düzenleyebilir veya kaldırabilirsiniz.";
+"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
 /* Course Dates Remove Calendar Message prompt */
-"COURSEDATES.REMOVE_CALENDAR_PROMPT"="{platform_name} \"{calendar_name}\" takvimini kaldırmak istiyor musunuz?";
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
 /* Course Dates Calendar has been added to your calendar*/
-"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" telefonunuzun takvimine eklendi.";
+"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
 /* Course Dates Open Settings */
 "COURSEDATES.OPEN_SETTINGS"="Open Settings";
 /* Course Dates Events Added to Calendar Success */
-"COURSEDATES.CALENDAR_EVENTS_ADDED"="Kurs takviminiz eklendi.";
+"COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
 /* Course Dates Events Removed from Calendar */
-"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Kurs takviminiz kaldırıldı.";
+"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
 /* Course Dates Events Updated in Calendar */
-"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Kurs takviminiz güncellendi.";
+"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Your course calendar has been updated.";
 /* Course Dates Permission Not Determined */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
 /* Course Dates Calendar Out of Date*/
-"COURSEDATES.CALENDAR_OUT_OF_DATE"="Kurs takviminiz güncel değil";
+"COURSEDATES.CALENDAR_OUT_OF_DATE"="Your course calendar is out of date";
 /* Course Dates Calendar Shift Message */
-"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Kurs tarihleriniz değiştirildi ve kurs takviminiz artık yeni programınıza göre güncel değil.";
+"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Your course dates have been shifted and your course calendar is no longer up to date with your new schedule.";
 /* Course Dates Calendar Shift Prompt Update Now */
 "COURSEDATES.CALENDAR_SHIFT_PROMPT_UPDATE_NOW"="Update now";
 /* Course Dates Calendar Shift Prompt Remove Course Calendar */
-"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Ders Takvimini Kaldır";
+"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
 /* Course Dates Calendar sync Message */
-"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Takvim senkronize ediliyor...";
+"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Syncing calendar...";
 /*Course upgrade success alert title*/
-"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Yükseltme tamamlandı";
+"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Satın alım işleminiz için teşekkür ederiz. Tam kaldığınız yerden devam edebilir ve kurs içeriğinize tam erişimin tadını çıkarabilirsiniz.";
+"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Thank you for your purchase. You can pick up right where you left off and enjoy full access to your course content.";
 /*Course upgrade success alert continue button title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
 /*Course upgrade failure alert title*/
@@ -431,13 +431,13 @@
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="Bu ders herhangi bir video içermiyor";
 /* 1 hour */
-"COURSE_VIDEO_HOURS##{one}" = "{hours} saat";
+"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
 /* More than 1 hours */
-"COURSE_VIDEO_HOURS##{other}" = "{hours} saat";
+"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
 /* 1 minute */
-"COURSE_VIDEO_MINUTES##{one}" = "{minutes} dakika";
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} minute";
 /* More than 1 minute */
-"COURSE_VIDEO_MINUTES##{other}" = "{minutes} dakika";
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} minutes";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Bu etkileşimli bileşen henüz mobilde mevcut değil. \n\n Bu diğer diğer kısımlarını keşfedin ya da web tarayıcısı üzerinden bakın.";
 /* Message shown when attempting to display content not available on the app, from dates tab */
@@ -529,7 +529,7 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Yeni bir gönderi oluştur";
 /* Chrome cast message */
-"CHROMECAST_MESSAGE"="Video uzaktaki aygıta yayınlanıyor";
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Sil";
 /* Discussion used in the segmented control Creating a new post */
@@ -611,9 +611,9 @@
 /* Endorsed text */
 "ENDORSED" = "En İyi Cevap Olarak Seçildi";
 /*Open in external browser banner message*/
-"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="Kursun bu kısmı en iyi bir web tarayıcısında çalışabilir.";
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
 /*Open in external browser banner underline text*/
-"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Tarayıcıda açın";
+"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -761,7 +761,7 @@
 /* Profile edit view title */
 "PROFILE.EDIT_TITLE" = "Profili düzenle";
 /* Profile screen fields visibility off info message */
-"PROFILE.VISIBILITY_OFF_MESSGAE"="Profil bilgileriniz yalnızca size görünür. {platform_name} üzerinde yalnızca kullanıcı adınız başkalarına görünür olur.";
+"PROFILE.VISIBILITY_OFF_MESSGAE"="Your profile information is only visible to you. Only your username is visible to others on {platform_name}.";
 /* Accessibility label for edit profile button */
 "PROFILE.EDIT_ACCESSIBILITY" = "Profili düzenle";
 /* Accessibility hint for country field in user profile */
@@ -879,17 +879,17 @@
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Settigs message for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "Bu ayar {platform_name} uygulamasındaki tüm video indirme işlemleri içindir.";
+"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "This setting is for all video downloads in the {platform_name} app.";
 /* Settigs title for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Video indirme kalitesi";
+"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Video download quality";
 /* Settigs message for Video Download Quality Auto */
-"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Otomatik (Önerilen)";
+"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Auto (Recommended)";
 /* Settigs message for Video Download Quality Low */
-"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (En küçük dosya boyutu)";
+"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (Smallest file size)";
 /* Settigs message for Video Download Quality Low */
 "VIDEO_DOWNLOAD_QUALITY_MEDIUM" = "540p";
 /* Settigs message for Video Download Quality High */
-"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (En iyi kalite)";
+"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Best quality)";
 /* Text for a Twitter or Facebook post to a course about page */
 "SHARE_A_COURSE"="{platform_name} üzerinde ders alıyorum! Buna bir bak:";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
@@ -966,38 +966,38 @@
 "USER_ACCOUNT"="Hesap";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Profil";
-/* Value prop unlocking content */
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course...";
 /* Value prop upgrade text */
-"VALUE_PROP.UPGRADE"= "{course_name} kursunu yükseltin";
+"VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
 /* Value prop upgrade button text with price */
-"VALUE_PROP.UPGRADE_COURSE_FOR"= "{price}$ karşılığında hemen yükseltin";
+"VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade now for ${price}";
 /* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "Notlu ödevlerin kilidi nasıl açılır?";
+"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
-"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Notlu ödevler kilitli";
+"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Bunun gibi kilitli özelliklere erişim kazanmak ve kursunuzdan en iyi verimi almak için yükseltme yapın";
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="Daha fazla özelliğe erişmek için yükseltme yapın";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="Upgrade to access more features";
 /* Value prop view's learn more button title on enrolled courses*/
-"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Daha fazlası";
+"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
 /* Value prop detail view title learn more*/
-"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"=">Kilitli özellikler hakkında daha fazlasını öğrenin";
+"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
+/* Value prop detail view title*/
+"VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
+/* Value prop detail view message heading*/
+"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
 /* Value prop information message number one*/
-"VALUE_PROP.INFO_MESSAGE_1"="Özgeçmişinizde sergileyebileceğiniz, doğrulanmış bir tamamlama sertifikası kazanın";
+"VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
 /* Value prop information message number two*/
-"VALUE_PROP.INFO_MESSAGE_2"="Notlu ödevler dahil olmak üzere tüm kurs aktivitelerine erişimin kilidini açın";
+"VALUE_PROP.INFO_MESSAGE_2"="Unlock access to all course activities, including graded assignments";
 /* Value prop information message number three*/
-"VALUE_PROP.INFO_MESSAGE_3"="Kurs bittikten sonra dahi kurs içeriklerine ve kurs materyaline tam erişim";
+"VALUE_PROP.INFO_MESSAGE_3"="Full access to course content and material, even after the course ends";
 /* Show more button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_MORE_TEXT"="Daha fazlasını göster";
+"VALUE_PROP.SHOW_MORE_TEXT"="Show more";
 /* Show less button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_LESS_TEXT"="Daha azını göster";
-/* Value prop button text on course dashbaord screen*/
-"VALUE_PROP.COURSE_DASHBOARD_BUTTON_TITLE"="Upgrade to access more features";
+"VALUE_PROP.SHOW_LESS_TEXT"="Show less";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "Sürüm {number} {environment}";
 /* Error shown when video download fails */

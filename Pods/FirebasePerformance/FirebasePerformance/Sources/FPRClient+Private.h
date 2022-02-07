@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "FirebasePerformance/ProtoSupport/PerfMetric.pbobjc.h"
 #import "FirebasePerformance/Sources/FPRClient.h"
+#import "FirebasePerformance/Sources/Protogen/nanopb/perf_metric.nanopb.h"
 
 @class FPRGDTLogger;
 @class FPRConfigurations;
@@ -42,6 +42,11 @@
 /** Firebase Installations object for FPRClient. */
 @property(nonatomic) FIRInstallations *installations;
 
+/** The Firebase Project ID of the project. */
+@property(nonatomic, readonly) NSString *projectID;
+
+/** The bundle ID of the project*/
+@property(nonatomic, readonly) NSString *bundleID;
 /**
  * Determines the log directory path in the caches directory.
  *
@@ -57,9 +62,9 @@
  */
 + (void)cleanupClearcutCacheDirectory;
 
-/** Performs post processing and logs a FPRMSGPerfMetric object to Google Data Transport.
- *  @param event Reference to a FPRMSGPerfMetric proto object.
+/** Performs post processing and logs a firebase_perf_v1_PerfMetric object to Google Data Transport.
+ *  @param event Reference to a firebase_perf_v1_PerfMetric proto object.
  */
-- (void)processAndLogEvent:(FPRMSGPerfMetric *)event;
+- (void)processAndLogEvent:(firebase_perf_v1_PerfMetric)event;
 
 @end

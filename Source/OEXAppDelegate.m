@@ -121,7 +121,7 @@
     }
     
     if (self.environment.config.googleConfig.enabled){
-        handled = [[GIDSignIn sharedInstance] handleURL:url];
+        handled = [GIDSignIn.sharedInstance handleURL:url];
     }
     
     if (self.environment.config.microsoftConfig.enabled) {

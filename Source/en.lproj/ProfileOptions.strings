@@ -6,6 +6,14 @@
 "PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Only download content when wi-fi is turned on";
 /* Settings title for profile information */
 "PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
+/* Settings title for video settings */
+"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "VIDEO SETTINGS";
+/* Settings heading for video settings */
+"PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Wifi only download";
+/* Settings message for video settings */
+"PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Only download content when wi-fi is turned on";
+/* Settings title for profile information */
+"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
 /* Settings user profile email */
 "PROFILE_OPTIONS.USER_PROFILE.EMAIL" = "Email: {email}";
 /* Settings user profile username */

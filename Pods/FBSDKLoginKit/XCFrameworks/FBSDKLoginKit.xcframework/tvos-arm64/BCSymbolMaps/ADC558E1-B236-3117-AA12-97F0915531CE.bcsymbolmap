@@ -1,0 +1,258 @@
+BCSymbolMap Version: 2.0
+Apple clang version 12.0.5 (clang-1205.0.22.9)
+/Applications/Xcode_12.5.0_fb.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS14.5.sdk
+AppleTVOS14.5.sdk
+/Users/jawwad/Library/Developer/Xcode/DerivedData/FacebookSDK-cemfugqejgyihshdojeedwbtidoh/Build/Intermediates.noindex/ArchiveIntermediates/FBSDKLoginKit_TV-Dynamic/IntermediateBuildFilesPath/FBSDKLoginKit.build/Release-appletvos/FBSDKLoginKit_TV-Dynamic.build/DerivedSources/FBSDKLoginKit_vers.c
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit
+-[FBSDKDeviceLoginCodeInfo initWithIdentifier:loginCode:verificationURL:expirationDate:pollingInterval:]
+-[FBSDKDeviceLoginCodeInfo identifier]
+-[FBSDKDeviceLoginCodeInfo loginCode]
+-[FBSDKDeviceLoginCodeInfo verificationURL]
+-[FBSDKDeviceLoginCodeInfo expirationDate]
+-[FBSDKDeviceLoginCodeInfo pollingInterval]
+-[FBSDKDeviceLoginCodeInfo .cxx_destruct]
+_OBJC_SELECTOR_REFERENCES_
+_OBJC_SELECTOR_REFERENCES_.2
+__OBJC_METACLASS_RO_$_FBSDKDeviceLoginCodeInfo
+__OBJC_$_INSTANCE_METHODS_FBSDKDeviceLoginCodeInfo
+_OBJC_IVAR_$_FBSDKDeviceLoginCodeInfo._identifier
+_OBJC_IVAR_$_FBSDKDeviceLoginCodeInfo._loginCode
+_OBJC_IVAR_$_FBSDKDeviceLoginCodeInfo._verificationURL
+_OBJC_IVAR_$_FBSDKDeviceLoginCodeInfo._expirationDate
+_OBJC_IVAR_$_FBSDKDeviceLoginCodeInfo._pollingInterval
+__OBJC_$_INSTANCE_VARIABLES_FBSDKDeviceLoginCodeInfo
+__OBJC_$_PROP_LIST_FBSDKDeviceLoginCodeInfo
+__OBJC_CLASS_RO_$_FBSDKDeviceLoginCodeInfo
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit/FBSDKLoginKit/FBSDKDeviceLoginCodeInfo.m
+FBSDKLoginKit/FBSDKDeviceLoginCodeInfo.m
+FBSDKLoginKit/FBSDKDeviceLoginCodeInfo.h
++[FBSDKDeviceLoginManager initialize]
+-[FBSDKDeviceLoginManager initWithPermissions:enableSmartLogin:graphRequestFactory:devicePoller:]
+-[FBSDKDeviceLoginManager initWithPermissions:enableSmartLogin:]
+-[FBSDKDeviceLoginManager start]
+___32-[FBSDKDeviceLoginManager start]_block_invoke
+___copy_helper_block_e8_32s
+___destroy_helper_block_e8_32s
+-[FBSDKDeviceLoginManager cancel]
+-[FBSDKDeviceLoginManager _notifyError:]
+-[FBSDKDeviceLoginManager _notifyToken:withExpirationDate:withDataAccessExpirationDate:]
+___88-[FBSDKDeviceLoginManager _notifyToken:withExpirationDate:withDataAccessExpirationDate:]_block_invoke
+___88-[FBSDKDeviceLoginManager _notifyToken:withExpirationDate:withDataAccessExpirationDate:]_block_invoke.122
+___copy_helper_block_e8_32s40s48s56b64s
+___destroy_helper_block_e8_32s40s48s56s64s
+-[FBSDKDeviceLoginManager _processError:]
+-[FBSDKDeviceLoginManager _schedulePoll:]
+___41-[FBSDKDeviceLoginManager _schedulePoll:]_block_invoke
+___41-[FBSDKDeviceLoginManager _schedulePoll:]_block_invoke_2
+-[FBSDKDeviceLoginManager netService:didNotPublish:]
+-[FBSDKDeviceLoginManager setCodeInfo:]
+-[FBSDKDeviceLoginManager delegate]
+-[FBSDKDeviceLoginManager setDelegate:]
+-[FBSDKDeviceLoginManager permissions]
+-[FBSDKDeviceLoginManager redirectURL]
+-[FBSDKDeviceLoginManager setRedirectURL:]
+-[FBSDKDeviceLoginManager codeInfo]
+-[FBSDKDeviceLoginManager isCancelled]
+-[FBSDKDeviceLoginManager setIsCancelled:]
+-[FBSDKDeviceLoginManager loginAdvertisementService]
+-[FBSDKDeviceLoginManager setLoginAdvertisementService:]
+-[FBSDKDeviceLoginManager isSmartLoginEnabled]
+-[FBSDKDeviceLoginManager setIsSmartLoginEnabled:]
+-[FBSDKDeviceLoginManager graphRequestFactory]
+-[FBSDKDeviceLoginManager setGraphRequestFactory:]
+-[FBSDKDeviceLoginManager poller]
+-[FBSDKDeviceLoginManager setPoller:]
+-[FBSDKDeviceLoginManager .cxx_destruct]
+_OBJC_CLASSLIST_REFERENCES_$_
+_OBJC_CLASSLIST_REFERENCES_$_.1
+_OBJC_SELECTOR_REFERENCES_.3
+_g_loginManagerInstances
+_OBJC_SELECTOR_REFERENCES_.5
+_OBJC_CLASSLIST_REFERENCES_$_.6
+_OBJC_SELECTOR_REFERENCES_.8
+_OBJC_CLASSLIST_REFERENCES_$_.9
+_OBJC_SELECTOR_REFERENCES_.11
+_OBJC_SELECTOR_REFERENCES_.13
+_OBJC_CLASSLIST_REFERENCES_$_.14
+_OBJC_SELECTOR_REFERENCES_.16
+_OBJC_SELECTOR_REFERENCES_.18
+_OBJC_CLASSLIST_REFERENCES_$_.19
+_OBJC_SELECTOR_REFERENCES_.21
+_OBJC_SELECTOR_REFERENCES_.23
+_OBJC_SELECTOR_REFERENCES_.27
+_OBJC_SELECTOR_REFERENCES_.33
+_OBJC_SELECTOR_REFERENCES_.35
+_OBJC_CLASSLIST_REFERENCES_$_.38
+_OBJC_SELECTOR_REFERENCES_.40
+_OBJC_CLASSLIST_REFERENCES_$_.41
+_OBJC_SELECTOR_REFERENCES_.43
+_OBJC_SELECTOR_REFERENCES_.47
+_OBJC_SELECTOR_REFERENCES_.51
+_OBJC_SELECTOR_REFERENCES_.53
+_OBJC_SELECTOR_REFERENCES_.55
+_OBJC_CLASSLIST_REFERENCES_$_.58
+_OBJC_SELECTOR_REFERENCES_.60
+_OBJC_SELECTOR_REFERENCES_.68
+_OBJC_CLASSLIST_REFERENCES_$_.71
+_OBJC_SELECTOR_REFERENCES_.73
+_OBJC_CLASSLIST_REFERENCES_$_.74
+_OBJC_CLASSLIST_REFERENCES_$_.75
+_OBJC_SELECTOR_REFERENCES_.77
+_OBJC_CLASSLIST_REFERENCES_$_.78
+_OBJC_SELECTOR_REFERENCES_.80
+_OBJC_SELECTOR_REFERENCES_.82
+_OBJC_SELECTOR_REFERENCES_.84
+_OBJC_SELECTOR_REFERENCES_.86
+_OBJC_SELECTOR_REFERENCES_.88
+_OBJC_SELECTOR_REFERENCES_.90
+_OBJC_SELECTOR_REFERENCES_.92
+_OBJC_SELECTOR_REFERENCES_.94
+_OBJC_SELECTOR_REFERENCES_.96
+_OBJC_CLASSLIST_REFERENCES_$_.97
+_OBJC_SELECTOR_REFERENCES_.101
+_OBJC_SELECTOR_REFERENCES_.103
+___block_descriptor_40_e8_32s_e54_v32?0"<FBSDKGraphRequestConnecting>"816"NSError"24l
+_OBJC_SELECTOR_REFERENCES_.106
+_OBJC_SELECTOR_REFERENCES_.108
+_OBJC_SELECTOR_REFERENCES_.110
+_OBJC_SELECTOR_REFERENCES_.112
+___block_descriptor_40_e8_32s_e39_v16?0"FBSDKDeviceLoginManagerResult"8l
+_OBJC_SELECTOR_REFERENCES_.124
+_OBJC_CLASSLIST_REFERENCES_$_.129
+_OBJC_SELECTOR_REFERENCES_.131
+_OBJC_SELECTOR_REFERENCES_.133
+_OBJC_CLASSLIST_REFERENCES_$_.134
+_OBJC_SELECTOR_REFERENCES_.136
+_OBJC_CLASSLIST_REFERENCES_$_.137
+_OBJC_SELECTOR_REFERENCES_.139
+_OBJC_SELECTOR_REFERENCES_.141
+_OBJC_SELECTOR_REFERENCES_.143
+_OBJC_CLASSLIST_REFERENCES_$_.144
+_OBJC_SELECTOR_REFERENCES_.146
+_OBJC_SELECTOR_REFERENCES_.148
+_OBJC_SELECTOR_REFERENCES_.152
+___block_descriptor_72_e8_32s40s48s56bs64s_e54_v32?0"<FBSDKGraphRequestConnecting>"816"NSError"24l
+_OBJC_SELECTOR_REFERENCES_.154
+_OBJC_SELECTOR_REFERENCES_.156
+_OBJC_SELECTOR_REFERENCES_.158
+_OBJC_SELECTOR_REFERENCES_.160
+_OBJC_SELECTOR_REFERENCES_.162
+_OBJC_SELECTOR_REFERENCES_.168
+_OBJC_SELECTOR_REFERENCES_.170
+_OBJC_SELECTOR_REFERENCES_.172
+_OBJC_SELECTOR_REFERENCES_.176
+_OBJC_SELECTOR_REFERENCES_.180
+___block_descriptor_40_e8_32s_e5_v8?0l
+_OBJC_SELECTOR_REFERENCES_.183
+_OBJC_SELECTOR_REFERENCES_.185
+__OBJC_$_CLASS_METHODS_FBSDKDeviceLoginManager
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_NSObject
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_OPT_NSObject
+__OBJC_$_PROP_LIST_NSObject
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSObject
+__OBJC_PROTOCOL_$_NSObject
+__OBJC_LABEL_PROTOCOL_$_NSObject
+__OBJC_$_PROTOCOL_REFS_NSNetServiceDelegate
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_OPT_NSNetServiceDelegate
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSNetServiceDelegate
+__OBJC_PROTOCOL_$_NSNetServiceDelegate
+__OBJC_LABEL_PROTOCOL_$_NSNetServiceDelegate
+__OBJC_CLASS_PROTOCOLS_$_FBSDKDeviceLoginManager
+__OBJC_METACLASS_RO_$_FBSDKDeviceLoginManager
+__OBJC_$_INSTANCE_METHODS_FBSDKDeviceLoginManager
+_OBJC_IVAR_$_FBSDKDeviceLoginManager._isCancelled
+_OBJC_IVAR_$_FBSDKDeviceLoginManager._isSmartLoginEnabled
+_OBJC_IVAR_$_FBSDKDeviceLoginManager._delegate
+_OBJC_IVAR_$_FBSDKDeviceLoginManager._permissions
+_OBJC_IVAR_$_FBSDKDeviceLoginManager._redirectURL
+_OBJC_IVAR_$_FBSDKDeviceLoginManager._codeInfo
+_OBJC_IVAR_$_FBSDKDeviceLoginManager._loginAdvertisementService
+_OBJC_IVAR_$_FBSDKDeviceLoginManager._graphRequestFactory
+_OBJC_IVAR_$_FBSDKDeviceLoginManager._poller
+__OBJC_$_INSTANCE_VARIABLES_FBSDKDeviceLoginManager
+__OBJC_$_PROP_LIST_FBSDKDeviceLoginManager
+__OBJC_CLASS_RO_$_FBSDKDeviceLoginManager
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit/FBSDKLoginKit/FBSDKDeviceLoginManager.m
+FBSDKLoginKit/FBSDKDeviceLoginManager.m
+FBSDKLoginKit/FBSDKDeviceLoginManager.h
+__41-[FBSDKDeviceLoginManager _schedulePoll:]_block_invoke_2
+__41-[FBSDKDeviceLoginManager _schedulePoll:]_block_invoke
+__destroy_helper_block_e8_32s40s48s56s64s
+__copy_helper_block_e8_32s40s48s56b64s
+__88-[FBSDKDeviceLoginManager _notifyToken:withExpirationDate:withDataAccessExpirationDate:]_block_invoke.122
+__88-[FBSDKDeviceLoginManager _notifyToken:withExpirationDate:withDataAccessExpirationDate:]_block_invoke
+__destroy_helper_block_e8_32s
+__copy_helper_block_e8_32s
+__32-[FBSDKDeviceLoginManager start]_block_invoke
+-[FBSDKDeviceLoginManagerResult initWithToken:isCancelled:]
+-[FBSDKDeviceLoginManagerResult accessToken]
+-[FBSDKDeviceLoginManagerResult isCancelled]
+-[FBSDKDeviceLoginManagerResult .cxx_destruct]
+__OBJC_METACLASS_RO_$_FBSDKDeviceLoginManagerResult
+__OBJC_$_INSTANCE_METHODS_FBSDKDeviceLoginManagerResult
+_OBJC_IVAR_$_FBSDKDeviceLoginManagerResult._cancelled
+_OBJC_IVAR_$_FBSDKDeviceLoginManagerResult._accessToken
+__OBJC_$_INSTANCE_VARIABLES_FBSDKDeviceLoginManagerResult
+__OBJC_$_PROP_LIST_FBSDKDeviceLoginManagerResult
+__OBJC_CLASS_RO_$_FBSDKDeviceLoginManagerResult
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit/FBSDKLoginKit/FBSDKDeviceLoginManagerResult.m
+FBSDKLoginKit/FBSDKDeviceLoginManagerResult.m
+FBSDKLoginKit/FBSDKDeviceLoginManagerResult.h
+-[FBSDKDevicePoller scheduleBlock:interval:]
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_FBSDKDevicePolling
+__OBJC_$_PROTOCOL_METHOD_TYPES_FBSDKDevicePolling
+__OBJC_PROTOCOL_$_FBSDKDevicePolling
+__OBJC_LABEL_PROTOCOL_$_FBSDKDevicePolling
+__OBJC_CLASS_PROTOCOLS_$_FBSDKDevicePoller
+__OBJC_METACLASS_RO_$_FBSDKDevicePoller
+__OBJC_$_INSTANCE_METHODS_FBSDKDevicePoller
+__OBJC_CLASS_RO_$_FBSDKDevicePoller
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit/FBSDKLoginKit/Internal/FBSDKDevicePoller.m
+FBSDKLoginKit/Internal/FBSDKDevicePoller.m
++[FBSDKDeviceRequestsHelper initialize]
++[FBSDKDeviceRequestsHelper getDeviceInfo]
++[FBSDKDeviceRequestsHelper startAdvertisementService:withDelegate:]
+___68+[FBSDKDeviceRequestsHelper startAdvertisementService:withDelegate:]_block_invoke
++[FBSDKDeviceRequestsHelper isDelegate:forAdvertisementService:]
++[FBSDKDeviceRequestsHelper cleanUpAdvertisementService:]
+_g_mdnsAdvertisementServices
+_OBJC_SELECTOR_REFERENCES_.10
+_OBJC_CLASSLIST_REFERENCES_$_.11
+_startAdvertisementService:withDelegate:.sdkVersion
+_startAdvertisementService:withDelegate:.onceToken
+___block_descriptor_32_e5_v8?0l
+___block_literal_global
+_OBJC_CLASSLIST_REFERENCES_$_.20
+_OBJC_SELECTOR_REFERENCES_.22
+_OBJC_SELECTOR_REFERENCES_.24
+_OBJC_SELECTOR_REFERENCES_.30
+_OBJC_SELECTOR_REFERENCES_.32
+_OBJC_CLASSLIST_REFERENCES_$_.33
+_OBJC_SELECTOR_REFERENCES_.37
+_OBJC_SELECTOR_REFERENCES_.39
+_OBJC_CLASSLIST_REFERENCES_$_.52
+_OBJC_SELECTOR_REFERENCES_.58
+_OBJC_SELECTOR_REFERENCES_.62
+_OBJC_CLASSLIST_REFERENCES_$_.63
+_OBJC_SELECTOR_REFERENCES_.65
+_OBJC_SELECTOR_REFERENCES_.67
+_OBJC_SELECTOR_REFERENCES_.69
+_OBJC_SELECTOR_REFERENCES_.71
+__OBJC_$_CLASS_METHODS_FBSDKDeviceRequestsHelper
+__OBJC_$_CLASS_PROP_LIST_FBSDKDeviceRequestsHelper
+__OBJC_METACLASS_RO_$_FBSDKDeviceRequestsHelper
+__OBJC_CLASS_RO_$_FBSDKDeviceRequestsHelper
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit/FBSDKLoginKit/Internal/FBSDKDeviceRequestsHelper.m
+FBSDKLoginKit/Internal/FBSDKDeviceRequestsHelper.m
+__68+[FBSDKDeviceRequestsHelper startAdvertisementService:withDelegate:]_block_invoke
+/Applications/Xcode_12.5.0_fb.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS14.5.sdk/usr/include/dispatch/once.h
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit/FBSDKLoginKit/Internal/FBSDKLoginAppEventName.m
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit/FBSDKLoginKit/FBSDKLoginConstants.m
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit/FBSDKLoginKit/Internal/FBSDKLoginRecoveryAttempter.m
++[FBSDKNonceUtility isValidNonce:]
+_OBJC_SELECTOR_REFERENCES_.7
+__OBJC_$_CLASS_METHODS_FBSDKNonceUtility
+__OBJC_METACLASS_RO_$_FBSDKNonceUtility
+__OBJC_CLASS_RO_$_FBSDKNonceUtility
+/Users/jawwad/fbsource/fbobjc/ios-sdk/FBSDKLoginKit/FBSDKLoginKit/Internal/FBSDKNonceUtility.m
+FBSDKLoginKit/Internal/FBSDKNonceUtility.m

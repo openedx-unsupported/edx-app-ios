@@ -22,7 +22,7 @@ public class CourseOutlineViewController :
     LoadStateViewReloadSupport,
     InterfaceOrientationOverriding
 {
-    public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider & RemoteConfigProvider
+    public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider
     
     
     private var rootID : CourseBlockID?
@@ -78,7 +78,7 @@ public class CourseOutlineViewController :
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
-        addObservers()
+        addObserver()
         resumeCourseController.delegate = self
         
         addChild(tableController)
@@ -176,48 +176,15 @@ public class CourseOutlineViewController :
         navigationItem.title = (courseOutlineMode == .video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
     }
     
-    private func addObservers() {
+    private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.refreshCourseOutlineController()
-        }
-        
-        if courseOutlineMode == .full, rootID == nil {
-            NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
-                observer.handleCourseUpgradation(userInfo: (notification.object as? NSDictionary))
-            }
-        }
-    }
-    
-    private func handleCourseUpgradation(userInfo: NSDictionary?) {
-        guard let userInfo = userInfo,
-              let screenValue = userInfo[CourseUpgradeCompletion.screen] as? String,
-              let screen = CourseUpgradeScreen(rawValue: screenValue),
-              let courseID = userInfo[CourseUpgradeCompletion.courseID] as? String,
-              courseID == self.courseID
-        else { return }
-        
-        ValuePropUnlockViewContainer.shared.showView()
-        loadCourseStream { [weak self] success in
-            if let blockID = userInfo[CourseUpgradeCompletion.blockID] as? String, screen == .courseUnit {
-                guard let weakSelf = self else {
-                    ValuePropUnlockViewContainer.shared.removeView()
-                    return
-                }
-                weakSelf.navigationController?.popToViewController(of: CourseDashboardViewController.self, animated: true) {
-                    weakSelf.environment.router?.navigateToComponentScreen(from: weakSelf, courseID: courseID, componentID: blockID) { _ in
-                        ValuePropUnlockViewContainer.shared.removeView()
-                        CourseUpgradeCompletion.shared.showSuccess()
-                    }
-                }
-            } else {
-                ValuePropUnlockViewContainer.shared.removeView()
-            }
         }
     }
     
     private var courseOutlineLoaded = false
     
-    private func loadCourseOutlineStream(upgradeCompletion: ((Bool)->())? = nil) {
+    private func loadCourseOutlineStream() {
         let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
 
         courseOutlineStream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
@@ -226,19 +193,16 @@ public class CourseOutlineViewController :
                     self?.courseOutlineLoaded = true
                     self?.navigateToComponentScreenIfNeeded()
                     self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
-                    upgradeCompletion?(true)
                 }
                 else {
                     self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
                 }
             }
             else {
-                upgradeCompletion?(false)
                 self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
                 self?.tableController.isSectionOutline = true
             }
             }, failure: {
-                upgradeCompletion?(false)
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
         })
     }
@@ -279,9 +243,9 @@ public class CourseOutlineViewController :
         }
     }
     
-    private func loadCourseStream(completion: ((Bool)->())? = nil) {
+    private func loadCourseStream() {
         loadController.state = .Initial
-        loadCourseOutlineStream(upgradeCompletion: completion)
+        loadCourseOutlineStream()
         loadCourseBannerStream()
         reload()
     }

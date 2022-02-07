@@ -2,6 +2,8 @@
 #import <UIKit/UIKit.h>
 #import "Appboy.h"
 
+#define ABK_CGFLT_EQ(lhs, rhs) (fabs(lhs - rhs) < 10 * FLT_EPSILON * fabs(lhs + rhs))
+
 @interface ABKUIUtils : NSObject
 
 /*!
@@ -38,13 +40,13 @@
  */
 + (NSBundle *)bundle:(Class)bundleClass channel:(ABKChannel)channel;
 
++ (UIImage *)imageNamed:(NSString *)name bundle:(Class)bundleClass channel:(ABKChannel)channel;
+
 + (NSString *)getLocalizedString:(NSString *)key inAppboyBundle:(NSBundle *)appboyBundle table:(NSString *)table;
 + (BOOL)objectIsValidAndNotEmpty:(id)object;
 + (Class)getModalFeedViewControllerClass;
 + (BOOL)isNotchedPhone;
-+ (UIImage *)getImageWithName:(NSString *)name
-                         type:(NSString *)type
-               inAppboyBundle:(NSBundle *)appboyBundle;
+
 + (UIInterfaceOrientation)getInterfaceOrientation;
 + (CGSize)getStatusBarSize;
 + (UIColor *)dynamicColorForLightColor:(UIColor *)lightColor
@@ -79,5 +81,14 @@
  * @return The font corresponding to the text style with weight applied to it.
  */
 + (UIFont *)preferredFontForTextStyle:(UIFontTextStyle)textStyle weight:(UIFontWeight)weight;
+
+/*!
+ * Enables `adjustsFontForContentSizeCategory` on the label if available (iOS 10+).
+ *
+ * This method has no effect on iOS / tvOS versions prior to 10.0.
+ *
+ * @param label Any object conforming to `UIContentSizeCategoryAdjusting`
+ */
++ (void)enableAdjustsFontForContentSizeCategory:(id)label;
 
 @end

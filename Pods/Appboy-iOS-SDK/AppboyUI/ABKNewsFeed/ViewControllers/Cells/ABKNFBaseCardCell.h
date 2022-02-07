@@ -8,29 +8,37 @@
 
 @end
 
+extern CGFloat ABKNFLabelHorizontalSpace;
+extern CGFloat ABKNFLabelVerticalSpace;
+extern CGFloat ABKNFTopSpace;
+
 @interface ABKNFBaseCardCell : UITableViewCell
+
++ (UIColor *)ABKNFDescriptionLabelColor;
++ (UIColor *)ABKNFTitleLabelColor;
++ (UIColor *)ABKNFTitleLabelColorOnGray;
 
 /*!
  * This view displays the card contents and is the base view container for each card. To change or
  * configure the outline of the card like card width, background color board width, etc, you can
  * update this property accordingly.
  */
-@property (weak, nonatomic) IBOutlet UIView *rootView;
+@property (nonatomic) IBOutlet UIView *rootView;
 
 /*!
  * This is the triangle image which shows if a card has been viewed by the user.
  */
-@property (weak, nonatomic) IBOutlet UIImageView *unreadIndicatorView;
+@property (nonatomic) IBOutlet UIImageView *unreadIndicatorView;
 
-@property (weak, nonatomic) id <ABKBaseNewsFeedCellDelegate> delegate;
+@property (nonatomic) id <ABKBaseNewsFeedCellDelegate> delegate;
 
 /*!
  * Card root view related constraints
  */
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rootViewLeadingConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rootViewTrailingConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rootViewTopConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rootViewBottomConstraint;
+@property (nonatomic) IBOutlet NSLayoutConstraint *rootViewLeadingConstraint;
+@property (nonatomic) IBOutlet NSLayoutConstraint *rootViewTrailingConstraint;
+@property (nonatomic) IBOutlet NSLayoutConstraint *rootViewTopConstraint;
+@property (nonatomic) IBOutlet NSLayoutConstraint *rootViewBottomConstraint;
 
 /*!
  * These are basic UI configuration for the News Feed. They are set to the default value in `setUp`
@@ -43,16 +51,29 @@
 @property (nonatomic) BOOL hideUnreadIndicator;
 
 /*!
- * @param tableView The table view which need the cell to diplay the card UI.
- * @param indexPath The index path of the card UI in the table view.
- * @param card The card model for the cell.
- *
- * @discussion This method dequeues and returns the corresponding card cell based on card type from
- * the given table view.
+ * @discussion Initialization of cell called even with storyboard/XIB, exposed for customization.
  */
-+ (ABKNFBaseCardCell *)dequeueCellFromTableView:(UITableView *)tableView
-                                   forIndexPath:(NSIndexPath *)indexPath
-                                        forCard:(ABKCard *)card;
+- (void)setUp;
+
+/*!
+ * @discussion Programmatic initialization and layout cell, exposed for customization.
+ */
+- (void)setUpUI;
+
+/*!
+ * @discussion Programmatic initialization and layout of cell rootView, exposed for customization.
+ */
+- (void)setUpRootView;
+
+/*!
+ * @discussion Programmatic initialization and layout of cell border, exposed for customization.
+ */
+- (void)setUpRootViewBorder;
+
+/*!
+ * @discussion Programmatic initialization and layout of unread indicator image, exposed for customization.
+ */
+- (void)setUpUnreadIndicatorView;
 
 /*!
  * @param card The card model for the cell.
@@ -65,4 +86,10 @@
  * @discussion This is a utility method to return the place holder image.
  */
 - (UIImage *)getPlaceHolderImage;
+
+/*!
+ * @discussion This is a utility method to return the image view class from the ABKImageDelegate.
+ */
+- (Class)imageViewClass;
+
 @end

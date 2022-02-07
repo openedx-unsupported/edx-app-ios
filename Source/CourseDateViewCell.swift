@@ -465,16 +465,13 @@ extension CourseDateViewCell: NSLayoutManagerDelegate {
 }
 
 extension NSAttributedString {
-    func setLineSpacing(_ spacing: CGFloat, alignment: NSTextAlignment? = nil, lineBreakMode: NSLineBreakMode = .byWordWrapping) -> NSAttributedString {
+    func setLineSpacing(_ spacing: CGFloat) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(attributedString: self)
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = lineBreakMode
+        paragraphStyle.lineBreakMode = .byWordWrapping
         paragraphStyle.lineSpacing = spacing
         paragraphStyle.minimumLineHeight = spacing
         paragraphStyle.paragraphSpacing = spacing
-        if let alignment = alignment {
-            paragraphStyle.alignment = alignment
-        }
         attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: string.count))
         return NSAttributedString(attributedString: attributedString)
     }

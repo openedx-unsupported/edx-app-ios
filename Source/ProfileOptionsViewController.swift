@@ -346,7 +346,7 @@ extension ProfileOptionsViewController: DeleteAccountCellDelegate {
         guard let topController = UIApplication.shared.topMostController(), let URLString = environment.config.deleteAccountURL, let URL = URL(string: URLString) else { return }
 
         environment.analytics.trackEvent(with: AnalyticsDisplayName.ProfileDeleteAccountClicked, name: AnalyticsEventName.ProfileDeleteAccountClicked)
-        environment.router?.showBrowserViewController(from: topController, title: Strings.ProfileOptions.Deleteaccount.webviewTitle, url: URL)
+        environment.router?.showBrowserViewController(from: topController, title: Strings.ProfileOptions.Deleteaccount.webviewTitle, url: URL, alwaysRequireAuth: true)
     }
 }
 

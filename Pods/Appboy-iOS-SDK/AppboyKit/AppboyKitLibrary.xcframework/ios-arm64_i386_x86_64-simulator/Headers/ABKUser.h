@@ -94,7 +94,7 @@ typedef NS_ENUM(NSInteger, ABKNotificationSubscriptionType) {
  */
 @property (nonatomic, copy, nullable) NSString *phone;
 
-@property (nonatomic, copy, readonly) NSString *userID;
+@property (nonatomic, copy, nullable, readonly) NSString *userID;
 
 /*!
  * The User's avatar image URL. This URL will be processed by the server and used in their user profile on the
@@ -152,6 +152,22 @@ typedef NS_ENUM(NSInteger, ABKNotificationSubscriptionType) {
  * @return YES if the field is set successfully, else NO.
  */
 - (BOOL)setPushNotificationSubscriptionType:(ABKNotificationSubscriptionType)pushNotificationSubscriptionType;
+
+/*!
+ * Adds the user to a Subscription Group.
+ *
+ * @param groupId The string UUID corresponding to the subscription group, provided by the Braze dashboard.
+ * @return YES if the user was successfully added, else NO. If not, the groupId might have been nil or invalid.
+ */
+- (BOOL)addToSubscriptionGroupWithGroupId:(NSString *)groupId;
+
+/*!
+ * Removes the user from a Subscription Group.
+ *
+ * @param groupId The string UUID corresponding to the subscription group, provided by the Braze dashboard.
+ * @return YES if the user was successfully removed, else NO. If not, the groupId might have been nil or invalid.
+ */
+- (BOOL)removeFromSubscriptionGroupWithGroupId:(NSString *)groupId;
 
 /*!
  * @param key The String name of the custom user attribute

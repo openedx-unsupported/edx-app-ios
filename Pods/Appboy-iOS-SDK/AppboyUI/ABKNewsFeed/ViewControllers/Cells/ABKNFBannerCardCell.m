@@ -4,6 +4,39 @@
 
 @implementation ABKNFBannerCardCell
 
+#pragma mark - SetUp
+
+- (void)setUpUI {
+  [super setUpUI];
+  [self setUpBannerImageView];
+}
+
+- (void)setUpBannerImageView {
+  self.bannerImageView =  [[[self imageViewClass] alloc] init];
+  self.bannerImageView.contentMode = UIViewContentModeScaleAspectFit;
+  self.bannerImageView.translatesAutoresizingMaskIntoConstraints = NO;
+  [self.bannerImageView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+  [self.bannerImageView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+  [self.bannerImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+  [self.rootView addSubview:self.bannerImageView];
+  [self.bannerImageView.leadingAnchor constraintEqualToAnchor:self.rootView.leadingAnchor].active = YES;
+  [self.bannerImageView.trailingAnchor constraintEqualToAnchor:self.rootView.trailingAnchor].active = YES;
+  [self.bannerImageView.topAnchor constraintEqualToAnchor:self.rootView.topAnchor].active = YES;
+  [self.bannerImageView.bottomAnchor constraintEqualToAnchor:self.rootView.bottomAnchor].active = YES;
+
+  NSLayoutConstraint *estimatedWidth = [self.bannerImageView.widthAnchor constraintEqualToAnchor:self.rootView.widthAnchor];
+  estimatedWidth.priority = UILayoutPriorityDefaultHigh;
+  estimatedWidth.active = YES;
+  self.imageRatioConstraint = [self.bannerImageView.widthAnchor constraintEqualToAnchor:self.bannerImageView.heightAnchor multiplier:355.0/79.0];
+  self.imageRatioConstraint.priority = UILayoutPriorityRequired-1;
+  self.imageRatioConstraint.active = YES;
+  NSLayoutConstraint *estimatedHeight = [self.rootView.heightAnchor constraintGreaterThanOrEqualToConstant:100];
+  estimatedHeight.priority = UILayoutPriorityDefaultLow;
+  estimatedHeight.active = YES;
+}
+
+#pragma mark - ApplyCard
+
 - (void)applyCard:(ABKCard *)card {
   if (![card isKindOfClass:[ABKBannerCard class]]) {
     return;
@@ -14,7 +47,7 @@
   
   [self updateImageRatioConstraintToRatio:bannerCard.imageAspectRatio];
   [self setNeedsUpdateConstraints];
-  [self setNeedsDisplay];
+  [self setNeedsLayout];
 
   if (![Appboy sharedInstance].imageDelegate) {
     NSLog(@"[APPBOY][WARN] %@ %s",
@@ -40,7 +73,7 @@
         if (fabs(newRatio - weakSelf.imageRatioConstraint.multiplier) > 0.1f) {
           [weakSelf updateImageRatioConstraintToRatio:newRatio];
           [weakSelf setNeedsUpdateConstraints];
-          [weakSelf setNeedsDisplay];
+          [weakSelf setNeedsLayout];
         }
       });
     } else {
@@ -53,16 +86,14 @@
 
 - (void)updateImageRatioConstraintToRatio:(CGFloat)newRatio {
   if (self.imageRatioConstraint) {
-    [self.bannerImageView removeConstraint:self.imageRatioConstraint];
+    self.imageRatioConstraint.active = NO;
   }
-  self.imageRatioConstraint = [NSLayoutConstraint constraintWithItem:self.bannerImageView
-                                                           attribute:NSLayoutAttributeWidth
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:self.bannerImageView
-                                                           attribute:NSLayoutAttributeHeight
-                                                          multiplier:newRatio
-                                                            constant:0];
-  [self.bannerImageView addConstraint:self.imageRatioConstraint];
+  self.imageRatioConstraint = [self.bannerImageView.widthAnchor constraintEqualToAnchor:self.bannerImageView.heightAnchor multiplier:newRatio];
+  self.imageRatioConstraint.priority = UILayoutPriorityRequired-1;
+  NSLayoutConstraint *estimatedHeight = [self.rootView.heightAnchor constraintGreaterThanOrEqualToConstant:ceil(self.rootView.frame.size.width/self.imageRatioConstraint.multiplier)];
+  estimatedHeight.priority = UILayoutPriorityDefaultLow;
+  estimatedHeight.active = YES;
+  self.imageRatioConstraint.active = YES;
 }
 
 @end
