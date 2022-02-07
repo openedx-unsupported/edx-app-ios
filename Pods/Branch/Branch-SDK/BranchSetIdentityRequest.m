@@ -32,12 +32,12 @@
 }
 
 - (void)makeRequest:(BNCServerInterface *)serverInterface key:(NSString *)key callback:(BNCServerCallback)callback {
-    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper sharedInstance];
+    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
     NSMutableDictionary *params = [NSMutableDictionary new];
     params[BRANCH_REQUEST_KEY_DEVELOPER_IDENTITY] = self.userId;
-    params[BRANCH_REQUEST_KEY_RANDOMIZED_DEVICE_TOKEN] = preferenceHelper.randomizedDeviceToken;
+    params[BRANCH_REQUEST_KEY_DEVICE_FINGERPRINT_ID] = preferenceHelper.deviceFingerprintID;
     params[BRANCH_REQUEST_KEY_SESSION_ID] = preferenceHelper.sessionID;
-    params[BRANCH_REQUEST_KEY_RANDOMIZED_BUNDLE_TOKEN] = preferenceHelper.randomizedBundleToken;
+    params[BRANCH_REQUEST_KEY_BRANCH_IDENTITY] = preferenceHelper.identityID;
     [serverInterface postRequest:params url:[preferenceHelper getAPIURL:BRANCH_REQUEST_ENDPOINT_SET_IDENTITY] key:key callback:callback];
 }
 
@@ -51,8 +51,8 @@
         return;
     }
     
-    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper sharedInstance];
-    preferenceHelper.randomizedBundleToken = BNCStringFromWireFormat(response.data[BRANCH_RESPONSE_KEY_RANDOMIZED_BUNDLE_TOKEN]);
+    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
+    preferenceHelper.identityID = BNCStringFromWireFormat(response.data[BRANCH_RESPONSE_KEY_BRANCH_IDENTITY]);
     preferenceHelper.userUrl = response.data[BRANCH_RESPONSE_KEY_USER_URL];
     preferenceHelper.userIdentity = self.userId;
     if (response.data[BRANCH_RESPONSE_KEY_SESSION_ID]) {
@@ -84,10 +84,6 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder:coder];
     [coder encodeObject:self.userId forKey:@"userId"];
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
 }
 
 @end

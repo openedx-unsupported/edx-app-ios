@@ -149,7 +149,7 @@
     self.optedInStatus = [BNCSystemObserver attOptedInStatus];
     
     // indicate if this is first time we've seen the user opt in, this reduces work on the server
-    if ([self.optedInStatus isEqualToString:@"authorized"] && ![BNCPreferenceHelper sharedInstance].hasOptedInBefore) {
+    if ([self.optedInStatus isEqualToString:@"authorized"] && ![BNCPreferenceHelper preferenceHelper].hasOptedInBefore) {
         self.isFirstOptIn = YES;
     } else {
         self.isFirstOptIn = NO;
@@ -157,7 +157,7 @@
     
     self.isAdTrackingEnabled = [BNCSystemObserver adTrackingSafe];
     self.advertiserId = [BNCSystemObserver getAdId];
-    BOOL ignoreIdfa = [BNCPreferenceHelper sharedInstance].isDebug;
+    BOOL ignoreIdfa = [BNCPreferenceHelper preferenceHelper].isDebug;
 
     if (self.advertiserId && !ignoreIdfa) {
         self.hardwareId = self.advertiserId;
@@ -181,12 +181,12 @@
     @synchronized (self) {
         [self checkAdvertisingIdentifier];
 
-        BOOL disableAdNetworkCallouts = [BNCPreferenceHelper sharedInstance].disableAdNetworkCallouts;
+        BOOL disableAdNetworkCallouts = [BNCPreferenceHelper preferenceHelper].disableAdNetworkCallouts;
         if (disableAdNetworkCallouts) {
             dictionary[@"disable_ad_network_callouts"] = [NSNumber numberWithBool:disableAdNetworkCallouts];
         }
 
-        if ([BNCPreferenceHelper sharedInstance].isDebug) {
+        if ([BNCPreferenceHelper preferenceHelper].isDebug) {
             dictionary[@"unidentified_device"] = @(YES);
         } else {
             [dictionary bnc_safeSetObject:self.vendorId forKey:@"idfv"];
@@ -199,7 +199,7 @@
             dictionary[@"limit_ad_tracking"] = @(YES);
         }
 
-        if ([BNCPreferenceHelper sharedInstance].limitFacebookTracking) {
+        if ([BNCPreferenceHelper preferenceHelper].limitFacebookTracking) {
             dictionary[@"limit_facebook_tracking"] = @(YES);
         }
         [dictionary bnc_safeSetObject:self.brandName forKey:@"brand"];
@@ -219,9 +219,8 @@
         [dictionary bnc_safeSetObject:[self connectionType] forKey:@"connection_type"];
         [dictionary bnc_safeSetObject:[self userAgentString] forKey:@"user_agent"];
 
-        [dictionary bnc_safeSetObject:[BNCPreferenceHelper sharedInstance].userIdentity forKey:@"developer_identity"];
-        
-        [dictionary bnc_safeSetObject:[BNCPreferenceHelper sharedInstance].randomizedDeviceToken forKey:@"randomized_device_token"];
+        [dictionary bnc_safeSetObject:[BNCPreferenceHelper preferenceHelper].userIdentity forKey:@"developer_identity"];
+        [dictionary bnc_safeSetObject:[BNCPreferenceHelper preferenceHelper].deviceFingerprintID forKey:@"device_fingerprint_id"];
 
         [dictionary bnc_safeSetObject:self.applicationVersion forKey:@"app_version"];
 

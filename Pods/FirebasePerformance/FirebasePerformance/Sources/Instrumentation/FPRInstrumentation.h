@@ -23,7 +23,6 @@ FOUNDATION_EXTERN NSString *const kFPRInstrumentationGroupNetworkKey;
 FOUNDATION_EXTERN NSString *const kFPRInstrumentationGroupUIKitKey;
 
 /** This class manages all automatic instrumentation. */
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 @interface FPRInstrumentation : NSObject
 
 /** Registers the instrument group.

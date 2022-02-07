@@ -57,6 +57,10 @@ bool FIRCLSProcessInit(FIRCLSProcess *process, thread_t crashedThread, void *uap
   return true;
 }
 
+bool FIRCLSProcessDestroy(FIRCLSProcess *process) {
+  return false;
+}
+
 // https://developer.apple.com/library/mac/#qa/qa2004/qa1361.html
 bool FIRCLSProcessDebuggerAttached(void) {
   int junk;

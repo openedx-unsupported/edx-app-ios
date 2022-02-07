@@ -9,12 +9,12 @@
 #import "BNCCrashlyticsWrapper.h"
 
 @interface BNCCrashlyticsWrapper()
-@property (nonatomic, nullable) id firCrashlytics;
+@property (nonatomic, nullable) id crashlytics;
 @end
 
 @implementation BNCCrashlyticsWrapper
 
-+ (id)crashlytics
++ (id)sharedInstance
 {
     // This just exists so that sharedInstance is not an unknown selector.
     return nil;
@@ -30,21 +30,42 @@
     self = [super init];
     if (self) {
         // Dynamically obtain Crashlytics.sharedInstance if the Crashlytics SDK is linked.
-        Class FIRCrashlytics = NSClassFromString(@"FIRCrashlytics");
-        if ([FIRCrashlytics respondsToSelector:@selector(crashlytics)]) {
-            id crashlyticsInstance = [FIRCrashlytics crashlytics];
-            if ([crashlyticsInstance isKindOfClass:FIRCrashlytics] &&
-                [crashlyticsInstance respondsToSelector:@selector(setCustomValue:forKey:)])
-                _firCrashlytics = crashlyticsInstance;
+        Class Crashlytics = NSClassFromString(@"Crashlytics");
+        if ([Crashlytics respondsToSelector:@selector(sharedInstance)]) {
+            id crashlyticsInstance = [Crashlytics sharedInstance];
+            if ([crashlyticsInstance isKindOfClass:Crashlytics] &&
+                [crashlyticsInstance respondsToSelector:@selector(setObjectValue:forKey:)] &&
+                [crashlyticsInstance respondsToSelector:@selector(setBoolValue:forKey:)] &&
+                [crashlyticsInstance respondsToSelector:@selector(setFloatValue:forKey:)] &&
+                [crashlyticsInstance respondsToSelector:@selector(setIntValue:forKey:)])
+                _crashlytics = crashlyticsInstance;
         }
     }
     return self;
 }
 
-- (void)setCustomValue:(id)value forKey:(NSString *)key
+- (void)setObjectValue:(id)value forKey:(NSString *)key
 {
-    if (!self.firCrashlytics) return;
-    [self.firCrashlytics setCustomValue:value forKey:key];
+    if (!self.crashlytics) return;
+    [self.crashlytics setObjectValue:value forKey:key];
+}
+
+- (void)setIntValue:(int)value forKey:(NSString *)key
+{
+    if (!self.crashlytics) return;
+    [self.crashlytics setIntValue:value forKey:key];
+}
+
+- (void)setFloatValue:(float)value forKey:(NSString *)key
+{
+    if (!self.crashlytics) return;
+    [self.crashlytics setFloatValue:value forKey:key];
+}
+
+- (void)setBoolValue:(BOOL)value forKey:(NSString *)key
+{
+    if (!self.crashlytics) return;
+    [self.crashlytics setBoolValue:value forKey:key];
 }
 
 @end

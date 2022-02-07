@@ -261,23 +261,23 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Resources";
 /* Course Dates Success Toast Message */
-"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "Your due dates have been successfully shifted to help you stay on track.";
+"COURSEDATES.TOAST_SUCCESS_MESSAGE" = "締め切り日を移動しました。この調子で学習を続けましょう。";
 /* Course Dates navigate to Dates screen*/
-"COURSEDATES.VIEW_ALL_DATES" = "View all dates";
+"COURSEDATES.VIEW_ALL_DATES" = "すべての日付を見る";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
 /* Course Date Type Completed */
-"COURSEDATES.COMPLETED"="Completed";
+"COURSEDATES.COMPLETED"="完了";
 /* Course Date Type Past Due */
-"COURSEDATES.PAST_DUE"="Past Due";
+"COURSEDATES.PAST_DUE"="期限切れ";
 /* Course Date Type Due Next */
-"COURSEDATES.DUE_NEXT"="Due Next";
+"COURSEDATES.DUE_NEXT"="まもなく期限";
 /* Course Date Type Unreleased */
-"COURSEDATES.UNRELEASED"="Not Yet Released";
+"COURSEDATES.UNRELEASED"="リリース待ち";
 /* Course Date Completed */
-"COURSEDATES.VERFIED_ONLY"="Verified Only";
+"COURSEDATES.VERFIED_ONLY"="課金ユーザーのみ";
 /* Course Date Today*/
-"COURSEDATES.TODAY"="Today";
+"COURSEDATES.TODAY"=">今日";
 /* Course date Assignment Due Date*/
 "COURSEDATES.ASSIGNMENT_DUE_DATE"="Assignment Due Date";
 /* Course Date Verified Upgrade Deadline*/
@@ -297,73 +297,75 @@
 /* Course Reset Date Title */
 "COURSEDATES.RESET_DATE.TITLE"="Course Dates";
 /* Course Reset Date Success Message */
-"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Your dates have been successfully shifted.";
+"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="日付を移動しました。";
 /* Course Reset Date Error Message */
-"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Your dates could not be shifted. Please try again.";
+"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="日付を移動できませんでした。もう一度お試しください。";
 /* Course Reset Date Tab Info Banner Header */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="We've built a suggested schedule to help you stay on track. ";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="スムーズに学習を進められるよう、推奨スケジュールをご用意しています。";
 /* Course Reset Date Tab Info Banner Body */
-"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="But don't worry—it's flexible so you can learn at your own pace. If you happen to fall behind on our suggested dates, you'll be able to adjust them to keep yourself on track.";
+"COURSEDATES.RESET_DATE.TAB_INFO_BANNER.BODY"="忙しい方も心配無用。自分のペースに合わせて柔軟に学習できるので、万が一予定より遅れても その都度、調整が可能です。";
 /* Course Reset Date Upgrade To Complete Graded Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="You are auditing this course, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="あなたはこのクラスを聴講しています。";
 /* Course Reset Date Upgrade To Complete Graded Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded assignments as part of this course, you can upgrade today.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="採点対象の課題には参加できません。このコースで採点対象の課題を完了するには、アップグレードしてください。";
 /* Course Reset Date Upgrade To Complete Graded Banner Button */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Upgrade now";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="今すぐアップグレード";
 /* Course Reset Date Upgrade Reset Banner Header */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="You are auditing this course, ";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.HEADER"="あなたはこのクラスを聴講しています。";
 /* Course Reset Date Upgrade Reset Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="which means that you are unable to participate in graded assignments. It looks like you missed some important deadlines based on our suggested schedule. To complete graded assignments as part of this course and shift the past due assignments into the future, you can upgrade today.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="採点対象の課題には参加できません。推奨スケジュールにある重要な期限が守られなかったようです。このコースで採点対象の課題を完了し、過去の期限付き課題を未来日付に移動させるには、アップグレードしてください。";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
 /* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="It looks like you missed some important deadlines based on our suggested schedule. ";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="推奨スケジュールにある重要な期限が守られなかったようです。";
 /* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="このスケジュールを更新し、過去の課題を未来日付に移動させることで、学習を計画通りに進めることができます。期限をずらしてもこれまでの進捗が失われることはありませんので、ご安心ください。";
 /* Course Reset Date Banner Button */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="期限を移動";
 /* Course Dates Title */
-"COURSEDATES.COURSE_SCHEDULE"="Course Schedule";
+"COURSEDATES.COURSE_SCHEDULE"="コーススケジュール";
 /* Course Dates Sync To Calendar */
-"COURSEDATES.SYNC_TO_CALENDAR"="Sync to calendar";
+"COURSEDATES.COURSE_SCHEDULE"="Lịch biểu khóa học";
+/* Course Dates Sync To Calendar */
+"COURSEDATES.SYNC_TO_CALENDAR"="カレンダーに同期";
 /* Course Dates Sync To Calendar Message */
-"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="Automatically sync all deadlines and due dates for this course to your calendar.";
+"COURSEDATES.SYNC_TO_CALENDAR_MESSAGE"="このコースのすべての期限と締め切り日をカレンダーに自動で同期します。";
 /* Course Dates Add Calendar Dialog Title */
-"COURSEDATES.ADD_CALENDAR_TITLE"="Add calendar \"{calendar_name}\"";
+"COURSEDATES.ADD_CALENDAR_TITLE"="カレンダー \"{calendar_name}\" を追加";
 /* Course Dates Remove Calendar Dialog Title */
-"COURSEDATES.REMOVE_CALENDAR_TITLE"="Remove calendar \"{calendar_name}\"";
+"COURSEDATES.REMOVE_CALENDAR_TITLE"="カレンダー \"{calendar_name}\" を削除";
 /* Course Dates Add Calendar Message prompt */
-"COURSEDATES.ADD_CALENDAR_PROMPT"="Would you like to add the {platform_name} calendar \"{calendar_name}\" ? \n You can edit or remove the course calendar any time in Calendar or Settings";
+"COURSEDATES.ADD_CALENDAR_PROMPT"="{platform_name}のカレンダー \"{calendar_name}\" を追加しますか？\n コースカレンダーは、カレンダーまたは設定でいつでも編集・削除できます。";
 /* Course Dates Remove Calendar Message prompt */
-"COURSEDATES.REMOVE_CALENDAR_PROMPT"="Would you like to remove the {platform_name} calendar \"{calendar_name}\" ?";
+"COURSEDATES.REMOVE_CALENDAR_PROMPT"="{platform_name}のカレンダー \"{calendar_name}\" を削除しますか？";
 /* Course Dates Calendar has been added to your calendar*/
-"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "\"{calendar_name}\" has been added to your calendar.";
+"COURSEDATES.DATES_ADDED_ALERT_MESSAGE" = "携帯電話のカレンダーに \"{calendar_name}\" を追加しました。";
 /* Course Dates Open Settings */
 "COURSEDATES.OPEN_SETTINGS"="Open Settings";
 /* Course Dates Events Added to Calendar Success */
-"COURSEDATES.CALENDAR_EVENTS_ADDED"="Your course calendar has been added.";
+"COURSEDATES.CALENDAR_EVENTS_ADDED"="コースカレンダーを追加しました。";
 /* Course Dates Events Removed from Calendar */
-"COURSEDATES.CALENDAR_EVENTS_REMOVED"="Your course calendar has been removed.";
+"COURSEDATES.CALENDAR_EVENTS_REMOVED"="コースカレンダーを削除しました。";
 /* Course Dates Events Updated in Calendar */
-"COURSEDATES.CALENDAR_EVENTS_UPDATED"="Your course calendar has been updated.";
+"COURSEDATES.CALENDAR_EVENTS_UPDATED"="コースカレンダーを更新しました。";
 /* Course Dates Permission Not Determined */
 "COURSEDATES.CALENDAR_PERMISSION_NOT_DETERMINED"="{platform_name} does not have calendar permission. Please go to settings and give calender permission.";
 /* Course Dates Calendar Out of Date*/
-"COURSEDATES.CALENDAR_OUT_OF_DATE"="Your course calendar is out of date";
+"COURSEDATES.CALENDAR_OUT_OF_DATE"="コースカレンダーが古くなっています";
 /* Course Dates Calendar Shift Message */
-"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="Your course dates have been shifted and your course calendar is no longer up to date with your new schedule.";
+"COURSEDATES.CALENDAR_SHIFT_MESSAGE"="コースの日付が移動されました。コースカレンダーが新しいスケジュールと連携していません。";
 /* Course Dates Calendar Shift Prompt Update Now */
 "COURSEDATES.CALENDAR_SHIFT_PROMPT_UPDATE_NOW"="Update now";
 /* Course Dates Calendar Shift Prompt Remove Course Calendar */
-"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="Remove course calendar";
+"COURSEDATES.CALENDAR_SHIFT_PROMPT_REMOVE_COURSE_CALENDAR"="講座カレンダーを削除";
 /* Course Dates View Events in Calendar */
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="View Events";
 /* Course Dates Calendar sync Message */
-"COURSEDATES.CALENDAR_SYNC_MESSAGE"="Syncing calendar...";
+"COURSEDATES.CALENDAR_SYNC_MESSAGE"="カレンダーを同期しています...";
 /*Course upgrade success alert title*/
-"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
+"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="アップグレードが完了しました";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Thank you for your purchase. You can pick up right where you left off and enjoy full access to your course content.";
+"COURSE_UPGRADE.SUCCESS_ALERT_Message"="ご購入いただきありがとうございます。前回進んだところからすぐにコースを再開し、すべてのコンテンツにアクセスできます。";
 /*Course upgrade success alert continue button title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
 /*Course upgrade failure alert title*/
@@ -424,13 +426,13 @@
 /* Message shown when there is no course video */
 "COURSE_VIDEO_UNAVAILABLE"="この講座は動画がありません。";
 /* 1 hour */
-"COURSE_VIDEO_HOURS##{one}" = "{hours} hour";
+"COURSE_VIDEO_HOURS##{one}" = "{hours} 時間";
 /* More than 1 hours */
-"COURSE_VIDEO_HOURS##{other}" = "{hours} hours";
+"COURSE_VIDEO_HOURS##{other}" = "{hours} 時間";
 /* 1 minute */
-"COURSE_VIDEO_MINUTES##{one}" = "{minutes} min";
+"COURSE_VIDEO_MINUTES##{one}" = "{minutes} 分";
 /* More than 1 minute */
-"COURSE_VIDEO_MINUTES##{other}" = "{minutes} mins";
+"COURSE_VIDEO_MINUTES##{other}" = "{minutes} 分";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "この内容はモバイルでは使えません。\n\n他の内容を見るか、ウェブ上でこの内容をご覧ください。";
 /* Message shown when attempting to display content not available on the app, from dates tab */
@@ -519,7 +521,7 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="新規投稿を作成する";
 /* Chrome cast message */
-"CHROMECAST_MESSAGE"="Video is casting to remote device";
+"CHROMECAST_MESSAGE"="動画をリモートデバイスにキャストしています";
 /* Button text to initiate or confirm deletion */
 "DELETE"="削除";
 /* Discussion used in the segmented control Creating a new post */
@@ -599,9 +601,9 @@
 /* Endorsed text */
 "ENDORSED" = "いいね！";
 /*Open in external browser banner message*/
-"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="This part of course may work best in a web browser.";
+"OPEN_IN_EXTERNAL_BROWSER.MESSAGE"="このコースコンテンツの閲覧には、Webブラウザの利用を推奨します。";
 /*Open in external browser banner underline text*/
-"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="Open in browser";
+"OPEN_IN_EXTERNAL_BROWSER.OPEN_IN_BROSWER"="ブラウザで開";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -749,7 +751,7 @@
 /* Profile edit view title */
 "PROFILE.EDIT_TITLE" = "プロフィールを編集";
 /* Profile screen fields visibility off info message */
-"PROFILE.VISIBILITY_OFF_MESSGAE"="Your profile information is only visible to you. Only your username is visible to others on {platform_name}.";
+"PROFILE.VISIBILITY_OFF_MESSGAE"="プロフィール情報はあなただけが閲覧できます。{platform_name}の他のユーザーにはあなたのユーザー名のみが表示されます。";
 /* Accessibility label for edit profile button */
 "PROFILE.EDIT_ACCESSIBILITY" = "プロフィールを編集";
 /* Accessibility hint for country field in user profile */
@@ -866,17 +868,17 @@
 /*Button title for celebratory modal*/
 "CELEBRATION.KEEP_GOING_BUTTON_TITLE"="Keep going";
 /* Settigs message for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "This setting is for all video downloads in the {platform_name} app.";
+"VIDEO_DOWNLOAD_QUALITY_MESSAGE" = "この設定は、{platform_name} アプリ内のすべての動画ダウンロードに適用されます。";
 /* Settigs title for Video Download Quality */
-"VIDEO_DOWNLOAD_QUALITY_TITLE" = "Video download quality";
+"VIDEO_DOWNLOAD_QUALITY_TITLE" = "動画のダウンロード品質";
 /* Settigs message for Video Download Quality Auto */
-"VIDEO_DOWNLOAD_QUALITY_AUTO" = "Auto (Recommended)";
+"VIDEO_DOWNLOAD_QUALITY_AUTO" = "自動 (推奨)";
 /* Settigs message for Video Download Quality Low */
-"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (Smallest file size)";
+"VIDEO_DOWNLOAD_QUALITY_LOW" = "360p (最小ファイルサイズ)";
 /* Settigs message for Video Download Quality Low */
 "VIDEO_DOWNLOAD_QUALITY_MEDIUM" = "540p";
 /* Settigs message for Video Download Quality High */
-"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (Best quality)";
+"VIDEO_DOWNLOAD_QUALITY_HIGH" = "720p (最高品質)";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
 "SIGN_IN_TEXT"="サインイン";
 /* Message shown while user waits for response to a sign in request */
@@ -951,38 +953,38 @@
 "USER_ACCOUNT"="Account";
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Profile";
+/* Value prop unlocking content */
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course...";
 /* Value prop upgrade text */
-"VALUE_PROP.UPGRADE"= "Upgrade {course_name}";
+"VALUE_PROP.UPGRADE"= "{course_name}をアップグレード";
 /* Value prop upgrade button text with price */
-"VALUE_PROP.UPGRADE_COURSE_FOR"= "Upgrade now for ${price}";
+"VALUE_PROP.UPGRADE_COURSE_FOR"= "${price}で今すぐアップグレード";
 /* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "How to unlock graded assignments";
+"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "採点対象課題のロックを解除する方法";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
-"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "Graded assignments are locked";
+"VALUE_PROP.ASSIGNMENTS_ARE_LOCKED"= "採点対象の課題がロックされています";
 /* Message shown when course content is gated, upgrade to access, new message behind feature flag */
-"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "Upgrade to gain access to locked features like this one and get the most out of your course";
+"VALUE_PROP.UPGRADE_TO_ACCESS_GRADED" = "アップグレードしてロックされた機能にアクセスし、コースを最大限に活用しましょう";
 /* Value prop view's message on enrolled courses*/
-"VALUE_PROP.COURSE_CARD_MESSAGE"="Upgrade to access more features";
+"VALUE_PROP.COURSE_CARD_MESSAGE"="アップグレードしてより多くの機能にアクセス";
 /* Value prop view's learn more button title on enrolled courses*/
-"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="Learn more";
+"VALUE_PROP.LEARN_MORE_BUTTON_TITLE"="詳細はこちら";
 /* Value prop detail view title learn more*/
-"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="Learn more about locked features";
-/* Value prop detail view title*/
-"VALUE_PROP.DETAIL_VIEW_TITLE"="Access to edX course features";
-/* Value prop detail view message heading*/
-"VALUE_PROP.DETAIL_VIEW_MESSAGE_TITLE"="When you upgrade, you:";
+"VALUE_PROP.DETAIL_VIEW_TITLE_LEARN_MORE"="制限付き機能についての詳細";
 /* Value prop information message number one*/
-"VALUE_PROP.INFO_MESSAGE_1"="Earn a verified certificate of completion to showcase on your resumé";
+"VALUE_PROP.INFO_MESSAGE_1"="完了したコースの認定証を取得して、履歴書に表示させましょう";
 /* Value prop information message number two*/
-"VALUE_PROP.INFO_MESSAGE_2"="Unlock access to all course activities, including graded assignments";
+"VALUE_PROP.INFO_MESSAGE_2"="採点対象の課題を含む、すべてのコースアクティビティへのアクセスを入手";
 /* Value prop information message number three*/
-"VALUE_PROP.INFO_MESSAGE_3"="Full access to course content and material, even after the course ends";
+"VALUE_PROP.INFO_MESSAGE_3"="コース終了後でもコース内のすべてのコンテンツや資料を閲覧できます";
 /* Show more button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_MORE_TEXT"="Show more";
+"VALUE_PROP.SHOW_MORE_TEXT"="もっと表示";
 /* Show less button text on the component screen on the value prop banner*/
-"VALUE_PROP.SHOW_LESS_TEXT"="Show less";
+"VALUE_PROP.SHOW_LESS_TEXT"="表示を隠す";
+/* Value prop button text on course dashbaord screen*/
+"VALUE_PROP.COURSE_DASHBOARD_BUTTON_TITLE"="Upgrade to access more features";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "バージョン {number} {environment}";
 /* Error shown when video download fails */

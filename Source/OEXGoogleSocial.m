@@ -18,7 +18,7 @@
 #import "OEXRouter.h"
 #import "OEXSession.h"
 
-@interface OEXGoogleSocial ()
+@interface OEXGoogleSocial () <GIDSignInDelegate>
 
 @property (copy, nonatomic) OEXGoogleOEXLoginCompletionHandler completionHandler;
 @property (strong, nonatomic) UIViewController* presentingController;
@@ -49,29 +49,28 @@
     self.handledOpenUrl = NO;
     self.completionHandler = completionHandler;
     self.presentingController = controller;
-    
-    GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:[OEXConfig sharedConfig].googleConfig.apiKey];
-    GIDSignIn* signIn = GIDSignIn.sharedInstance;
-    
-    __weak __auto_type weakSelf = self;
-    [signIn signInWithConfiguration:config presentingViewController:self.presentingController callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
-        __auto_type strongSelf = weakSelf;
-        if (strongSelf == nil) { return; }
-        
-        NSString* serverCode = signIn.currentUser.authentication.accessToken;
-        
-        if(strongSelf.completionHandler != nil) {
-            strongSelf.completionHandler(serverCode, error);
-        }
-        [self clearHandler];
-    }];
+    GIDSignIn* signIn = [GIDSignIn sharedInstance];
+
+    signIn.shouldFetchBasicProfile = YES;
+
+    // You previously set kClientId in the "Initialize the Google+ client" step
+    OEXGoogleConfig* googleConfig = [OEXConfig sharedConfig].googleConfig;
+    signIn.clientID = googleConfig.apiKey;
+
+    // Uncomment one of these two statements for the scope you chose in the previous step
+    // signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope
+    signIn.scopes = @[ @"profile" ];            // "profile" scope
+    // Optional: declare signIn.actions, see "app activities"
+    signIn.delegate = self;
+    signIn.presentingViewController = self.presentingController;
+    [signIn signIn];
 }
 
 - (BOOL)isLogin {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
-        return [GIDSignIn.sharedInstance hasPreviousSignIn];
+        return [[GIDSignIn sharedInstance] hasPreviousSignIn];
     }
 
     return NO;
@@ -82,7 +81,7 @@
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
-        [GIDSignIn.sharedInstance signOut];
+        [[GIDSignIn sharedInstance] signOut];
     }
 }
 
@@ -91,8 +90,26 @@
     self.presentingController = nil;
 }
 
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    OEXLogInfo(@"SOCIAL", @"Google Auth Received error %@ and auth object %@", error, signIn);
+    NSString* serverCode = signIn.currentUser.authentication.accessToken;
+    
+    if(self.completionHandler != nil) {
+        self.completionHandler(serverCode, error);
+    }
+    [self clearHandler];
+}
+
 - (void)requestUserProfileInfoWithCompletion:(void (^)(GIDProfileData*))completion {
-    completion(GIDSignIn.sharedInstance.currentUser.profile);
+    completion([GIDSignIn sharedInstance].currentUser.profile);
+}
+
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+    [self.presentingController presentViewController:viewController animated:YES completion:nil];
+}
+
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

@@ -1,1 +1,1 @@
-../../../FirebasePerformance/FirebasePerformance/Sources/Public/FirebasePerformance/FirebasePerformance.h
+../../../FirebasePerformance/FirebasePerformance/Sources/Public/FirebasePerformance.h

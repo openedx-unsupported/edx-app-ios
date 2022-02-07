@@ -53,10 +53,10 @@ static const int64_t kMaxCheckinRetryIntervalInSeconds = 1 << 5;
 
 @implementation FIRMessagingAuthService
 
-- (instancetype)init {
+- (instancetype)initWithCheckinStore:(FIRMessagingCheckinStore *)checkinStore {
   self = [super init];
   if (self) {
-    _checkinStore = [[FIRMessagingCheckinStore alloc] init];
+    _checkinStore = checkinStore;
     _checkinPreferences = [_checkinStore cachedCheckinPreferences];
     _checkinService = [[FIRMessagingCheckinService alloc] init];
     _checkinHandlers = [[NSMutableArray alloc] init];
@@ -69,10 +69,6 @@ static const int64_t kMaxCheckinRetryIntervalInSeconds = 1 << 5;
 }
 
 #pragma mark - Schedule Checkin
-
-- (BOOL)hasCheckinPlist {
-  return [_checkinStore hasCheckinPlist];
-}
 
 - (void)scheduleCheckin:(BOOL)immediately {
   // Checkin is still valid, so a remote checkin is not required.

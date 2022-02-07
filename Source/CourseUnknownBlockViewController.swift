@@ -10,7 +10,7 @@ import UIKit
 
 class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & RemoteConfigProvider & ReachabilityProvider & NetworkManagerProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & DataManagerProvider & RemoteConfigProvider & ReachabilityProvider & NetworkManagerProvider
     
     private let environment: Environment
     
@@ -59,8 +59,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         super.viewDidLoad()
         
         view.backgroundColor = environment.styles.standardBackgroundColor()
-        
-        addObserver()
     }
     
     override func updateViewConstraints() {
@@ -71,12 +69,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
         
         super.updateViewConstraints()
-    }
-    
-    private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
-            observer.enableUserInteraction()
-        }
     }
     
     private func showYoutubeMessage(buttonTitle: String, message: String, icon: Icon, videoUrl: String?) {
@@ -205,7 +197,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func didTapUpgradeCourse(upgradeView: ValuePropComponentView) {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else { return }
         
-        disableUserInteraction()
+        disableAppTouchs()
         
         let pacing = course.isSelfPaced ? "self" : "instructor"
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: self.blockID ?? "", pacing: pacing)
@@ -216,22 +208,14 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 upgradeView.stopAnimating()
                 break
             case .complete:
-                self?.enableUserInteraction()
+                self?.enableAppTouches()
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
-                
-                self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .success(course.course_id ?? "", self?.blockID))
-                }
-                
+                CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .success(self?.courseID ?? "", self?.blockID), screen: .courseUnit)
                 break
             case .error:
-                self?.enableUserInteraction()
+                self?.enableAppTouches()
                 upgradeView.stopAnimating()
-                
-                self?.dismiss(animated: true) {
-                    CourseUpgradeCompletion.shared.handleCompletion(state: .error)
-                }
-                
+                CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .error, screen: .courseUnit)
                 break
             default:
                 break
@@ -239,29 +223,23 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         }
     }
     
-    private func disableUserInteraction() {
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.toolbar.isUserInteractionEnabled = false
-            self?.navigationController?.navigationBar.isUserInteractionEnabled = false
-            self?.view.isUserInteractionEnabled = false
+    private func disableAppTouchs() {
+        DispatchQueue.main.async {
+            if !UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.beginIgnoringInteractionEvents()
+            }
         }
     }
     
-    private func enableUserInteraction() {
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.toolbar.isUserInteractionEnabled = true
-            self?.navigationController?.navigationBar.isUserInteractionEnabled = true
-            self?.view.isUserInteractionEnabled = true
+    private func enableAppTouches() {
+        DispatchQueue.main.async {
+            if UIApplication.shared.isIgnoringInteractionEvents {
+                UIApplication.shared.endIgnoringInteractionEvents()
+            }
         }
     }
     
     func showValuePropDetailView() {
-        guard let course = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course else { return }
-        environment.analytics.trackValuePropLearnMore(courseID: courseID, screenName: .CourseUnit, assignmentID: blockID)
-        environment.router?.showValuePropDetailView(from: self, type: .courseUnit, course: course) { [weak self] in
-            if let weakSelf = self {
-                weakSelf.environment.analytics.trackValuePropModal(with: .CourseUnit, courseId: weakSelf.courseID, assignmentID: weakSelf.blockID)
-            }
-        }
+        
     }
 }

@@ -105,5 +105,5 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/Appboy-iOS-SDK/AppboyKit/AppboyKitLibrary.xcframework" "Appboy-iOS-SDK/Core" "library" "ios-arm64_i386_x86_64-simulator" "ios-arm64_armv7" "ios-arm64_x86_64-maccatalyst"
+install_xcframework "${PODS_ROOT}/Appboy-iOS-SDK/AppboyKit/AppboyKitLibrary.xcframework" "Appboy-iOS-SDK/Core" "library" "ios-arm64_armv7" "ios-arm64_x86_64-maccatalyst" "ios-arm64_i386_x86_64-simulator"
 

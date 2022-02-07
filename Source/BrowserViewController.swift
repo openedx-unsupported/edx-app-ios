@@ -12,7 +12,7 @@ protocol BrowserViewControllerDelegate: AnyObject {
     func didDismissBrowser()
 }
 
-class BrowserViewController: UIViewController, InterfaceOrientationOverriding, AuthenticatedWebViewControllerRequireAuthentication {
+class BrowserViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider & OEXStylesProvider
     
@@ -20,13 +20,11 @@ class BrowserViewController: UIViewController, InterfaceOrientationOverriding, A
     
     private let url: URL
     private let environment: Environment
-    private var authRequired: Bool = false
     weak var delegate: BrowserViewControllerDelegate?
     
     init(title: String? = nil, url: URL, environment: Environment, alwaysRequireAuth: Bool = false) {
         self.url = url
         self.environment = environment
-        self.authRequired = alwaysRequireAuth
         super.init(nibName: nil, bundle :nil)
         self.title = title
     }
@@ -83,9 +81,5 @@ class BrowserViewController: UIViewController, InterfaceOrientationOverriding, A
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
-    }
-
-    func alwaysRequireAuth() -> Bool {
-        return authRequired
     }
 }

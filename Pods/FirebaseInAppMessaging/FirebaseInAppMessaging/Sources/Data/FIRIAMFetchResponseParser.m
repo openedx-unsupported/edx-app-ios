@@ -230,8 +230,6 @@
 
       imageURLStr = modalNode[@"imageUrl"];
       actionButtonText = modalNode[@"actionButton"][@"text"][@"text"];
-      btnTxtColor =
-          [UIColor firiam_colorWithHexString:modalNode[@"actionButton"][@"text"][@"hexColor"]];
       btnBgColor =
           [UIColor firiam_colorWithHexString:modalNode[@"actionButton"][@"buttonHexColor"]];
 
@@ -287,10 +285,12 @@
       return nil;
     }
 
-    NSURL *imageURL = [self imageURLFromURLString:imageURLStr];
-    NSURL *landscapeImageURL = [self imageURLFromURLString:landscapeImageURLStr];
-    NSURL *actionURL = [self urlFromURLString:actionURLStr];
-    NSURL *secondaryActionURL = [self urlFromURLString:secondaryActionURLStr];
+    NSURL *imageURL = (imageURLStr.length == 0) ? nil : [NSURL URLWithString:imageURLStr];
+    NSURL *landscapeImageURL =
+        (landscapeImageURLStr.length == 0) ? nil : [NSURL URLWithString:landscapeImageURLStr];
+    NSURL *actionURL = (actionURLStr.length == 0) ? nil : [NSURL URLWithString:actionURLStr];
+    NSURL *secondaryActionURL =
+        (secondaryActionURLStr.length == 0) ? nil : [NSURL URLWithString:secondaryActionURLStr];
     FIRIAMRenderingEffectSetting *renderEffect =
         [FIRIAMRenderingEffectSetting getDefaultRenderingEffectSetting];
     renderEffect.viewMode = mode;
@@ -374,28 +374,6 @@
     return nil;
   }
 }
-
-- (nullable NSURL *)imageURLFromURLString:(NSString *)string {
-  NSURL *url = [self urlFromURLString:string];
-
-  // Image URLs must be valid HTTPS links, according to the Firebase Console.
-  if (![url.scheme.lowercaseString isEqualToString:@"https"]) return nil;
-
-  return url;
-}
-
-- (nullable NSURL *)urlFromURLString:(NSString *)string {
-  NSString *sanitizedString = [self sanitizedURLStringFromString:string];
-
-  if (sanitizedString.length == 0) return nil;
-
-  return [NSURL URLWithString:sanitizedString];
-}
-
-- (NSString *)sanitizedURLStringFromString:(NSString *)string {
-  return [string stringByReplacingOccurrencesOfString:@" " withString:@""];
-}
-
 @end
 
 #endif  // TARGET_OS_IOS || TARGET_OS_TV

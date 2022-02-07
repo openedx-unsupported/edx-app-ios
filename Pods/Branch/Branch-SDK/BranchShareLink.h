@@ -7,7 +7,6 @@
 //
 
 #import "BranchUniversalObject.h"
-#import <LinkPresentation/LinkPresentation.h>
 @class BranchShareLink;
 
 @protocol BranchShareLinkDelegate <NSObject>
@@ -56,7 +55,7 @@ A delegate on the BranchShareLink can further configure the share experience. Fo
 parameters can be changed depending on the activity that the user selects.
 */
 
-@interface BranchShareLink : NSObject <UIActivityItemSource>
+@interface BranchShareLink : NSObject
 
 /**
 Creates a BranchShareLink object.
@@ -92,9 +91,6 @@ Presents a UIActivityViewController that shares the Branch link.
 // By default, we use the Branch bnc.lt link, but if you wish more control override it here.
 @property (nonatomic, strong, nullable) NSURL *placeholderURL;
 
-// iOS 13+ : LinkPresentation metadata for the preview header.
-@property (nonatomic, strong, nullable) LPLinkMetadata *lpMetaData API_AVAILABLE(ios(13.0));
-
 ///Share text for the item.  This is not the text in the iOS 13+ preview header.
 ///This text can be changed later when the `branchShareSheetWillShare:` delegate method is called.
 @property (nonatomic, strong) NSString*_Nullable shareText;
@@ -124,8 +120,4 @@ Presents a UIActivityViewController that shares the Branch link.
 
 ///The delegate. See 'BranchShareLinkDelegate' above for a description.
 @property (nonatomic, weak)   id<BranchShareLinkDelegate>_Nullable delegate;
-
-@property void (^ _Nullable completion)(NSString * _Nullable activityType, BOOL completed);
-@property void (^ _Nullable completionError)(NSString * _Nullable activityType, BOOL completed, NSError*_Nullable error);
-
 @end

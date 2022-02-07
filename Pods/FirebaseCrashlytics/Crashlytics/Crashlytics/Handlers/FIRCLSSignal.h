@@ -45,10 +45,7 @@ void FIRCLSSignalInitialize(FIRCLSSignalReadContext* roContext);
 void FIRCLSSignalCheckHandlers(void);
 
 void FIRCLSSignalSafeRemoveHandlers(bool includingAbort);
-bool FIRCLSSignalSafeInstallPreexistingHandlers(FIRCLSSignalReadContext* roContext,
-                                                const int signal,
-                                                siginfo_t* info,
-                                                void* uapVoid);
+bool FIRCLSSignalSafeInstallPreexistingHandlers(FIRCLSSignalReadContext* roContext);
 
 void FIRCLSSignalNameLookup(int number, int code, const char** name, const char** codeName);
 

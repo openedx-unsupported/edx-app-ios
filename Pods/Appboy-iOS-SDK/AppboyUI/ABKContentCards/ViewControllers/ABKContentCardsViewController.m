@@ -4,16 +4,12 @@
 @implementation ABKContentCardsViewController
 
 - (instancetype)init {
-  self = [super initWithRootViewController:[[ABKContentCardsTableViewController alloc] init]];
-  if (self) {
-    self.contentCardsViewController = self.viewControllers.firstObject;
-    [self addDoneButton];
-#if !TARGET_OS_TV
-    if (@available(iOS 15.0, *)) {
-      self.view.backgroundColor = UIColor.systemGroupedBackgroundColor;
-    }
-#endif
-  }
+  UIStoryboard *st = [UIStoryboard storyboardWithName:@"ABKContentCardsStoryboard"
+                                               bundle:[ABKUIUtils bundle:[ABKContentCardsViewController class] channel:ABKContentCardChannel]];
+  ABKContentCardsViewController *nf = [st instantiateViewControllerWithIdentifier:@"ABKContentCardsViewController"];
+  self = nf;
+  self.contentCardsViewController = self.viewControllers[0];
+  [self addDoneButton];
   return self;
 }
 

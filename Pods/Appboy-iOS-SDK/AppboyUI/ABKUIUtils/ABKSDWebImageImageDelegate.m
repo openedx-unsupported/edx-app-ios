@@ -1,6 +1,5 @@
 #import "ABKSDWebImageImageDelegate.h"
 #import "ABKSDWebImageProxy.h"
-#import <SDWebImage/SDAnimatedImageView+WebCache.h>
 
 @implementation ABKSDWebImageImageDelegate
 
@@ -32,10 +31,6 @@
 
 - (nullable UIImage *)imageFromCacheForURL:(nullable NSURL *)url {
   return [ABKSDWebImageProxy imageFromCacheForKey:[ABKSDWebImageProxy cacheKeyForURL:url]];
-}
-
-- (Class)imageViewClass {
-  return [SDAnimatedImageView class];
 }
 
 @end

@@ -21,7 +21,6 @@
 #import "Interop/Analytics/Public/FIRInteropEventNames.h"
 #import "Interop/Analytics/Public/FIRInteropParameterNames.h"
 
-#import "FirebaseMessaging/Sources/FIRMessagingConstants.h"
 #import "FirebaseMessaging/Sources/FIRMessagingLogger.h"
 
 static NSString *const kLogTag = @"FIRMessagingAnalytics";
@@ -36,16 +35,29 @@ static NSString *const kApsContentAvailableKey = @"badge";
 // Data Key
 static NSString *const kDataKey = @"data";
 
+// Messaging From Key
+static NSString *const kFIRMessagingFromKey = @"from";
+
 static NSString *const kFIRParameterLabel = @"label";
 
 static NSString *const kReengagementSource = @"Firebase";
 static NSString *const kReengagementMedium = @"notification";
 
 // Analytics
-static NSString *const kAnalyticsEnabled = @"google.c.a.e";
-static NSString *const kAnalyticsMessageTimestamp = @"google.c.a.ts";
-static NSString *const kAnalyticsMessageUseDeviceTime = @"google.c.a.udt";
-static NSString *const kAnalyticsTrackConversions = @"google.c.a.tc";
+static NSString *const kAnalyticsEnabled = @"google.c.a."
+                                           @"e";
+static NSString *const kAnalyticsComposerIdentifier = @"google.c.a."
+                                                      @"c_id";
+static NSString *const kAnalyticsComposerLabel = @"google.c.a."
+                                                 @"c_l";
+static NSString *const kAnalyticsMessageLabel = @"google.c.a."
+                                                @"m_l";
+static NSString *const kAnalyticsMessageTimestamp = @"google.c.a."
+                                                    @"ts";
+static NSString *const kAnalyticsMessageUseDeviceTime = @"google.c.a."
+                                                        @"udt";
+static NSString *const kAnalyticsTrackConversions = @"google.c.a."
+                                                    @"tc";
 
 @implementation FIRMessagingAnalytics
 
@@ -107,17 +119,17 @@ static NSString *const kAnalyticsTrackConversions = @"google.c.a.tc";
   }
 
   NSMutableDictionary *params = [NSMutableDictionary dictionary];
-  NSString *composerIdentifier = analyticsDataMap[kFIRMessagingAnalyticsComposerIdentifier];
+  NSString *composerIdentifier = analyticsDataMap[kAnalyticsComposerIdentifier];
   if ([composerIdentifier isKindOfClass:[NSString class]] && composerIdentifier.length) {
     params[kFIRIParameterMessageIdentifier] = [composerIdentifier copy];
   }
 
-  NSString *composerLabel = analyticsDataMap[kFIRMessagingAnalyticsComposerLabel];
+  NSString *composerLabel = analyticsDataMap[kAnalyticsComposerLabel];
   if ([composerLabel isKindOfClass:[NSString class]] && composerLabel.length) {
     params[kFIRIParameterMessageName] = [composerLabel copy];
   }
 
-  NSString *messageLabel = analyticsDataMap[kFIRMessagingAnalyticsMessageLabel];
+  NSString *messageLabel = analyticsDataMap[kAnalyticsMessageLabel];
   if ([messageLabel isKindOfClass:[NSString class]] && messageLabel.length) {
     params[kFIRParameterLabel] = [messageLabel copy];
   }
@@ -149,7 +161,7 @@ static NSString *const kAnalyticsTrackConversions = @"google.c.a.tc";
     return;
   }
 
-  NSString *composerIdentifier = notification[kFIRMessagingAnalyticsComposerIdentifier];
+  NSString *composerIdentifier = notification[kAnalyticsComposerIdentifier];
   if ([composerIdentifier isKindOfClass:[NSString class]] && composerIdentifier.length) {
     // Set user property for event.
     [analytics setUserPropertyWithOrigin:@"fcm"
@@ -177,7 +189,6 @@ static NSString *const kAnalyticsTrackConversions = @"google.c.a.tc";
 + (void)logMessage:(NSDictionary *)notification
        toAnalytics:(id<FIRAnalyticsInterop> _Nullable)analytics {
   // iOS only because Analytics doesn't support other platforms.
-
 #if TARGET_OS_IOS
   if (![self canLogNotification:notification]) {
     return;
@@ -190,12 +201,9 @@ static NSString *const kAnalyticsTrackConversions = @"google.c.a.tc";
   UIApplicationState applicationState = application.applicationState;
   switch (applicationState) {
     case UIApplicationStateInactive:
-      // App was in background and in transition to open when user tapped
-      // on a display notification.
-      // Needs to check notification is displayed.
-      if ([[self class] isDisplayNotification:notification]) {
-        [self logOpenNotification:notification toAnalytics:analytics];
-      }
+      // App was either in background(suspended) or inactive and user tapped on a display
+      // notification.
+      [self logOpenNotification:notification toAnalytics:analytics];
       break;
 
     case UIApplicationStateActive:
@@ -204,34 +212,11 @@ static NSString *const kAnalyticsTrackConversions = @"google.c.a.tc";
       break;
 
     default:
-      // App was either in background state or in transition from closed
-      // to open.
-      // Needs to check notification is displayed.
-      if ([[self class] isDisplayNotification:notification]) {
-        [self logOpenNotification:notification toAnalytics:analytics];
-      }
+      // Only a silent notification (i.e. 'content-available' is true) can be received while the app
+      // is in the background. These messages aren't loggable anyway.
       break;
   }
 #endif
-}
-
-+ (BOOL)isDisplayNotification:(NSDictionary *)notification {
-  NSDictionary *aps = notification[kApsKey];
-  if (!aps || ![aps isKindOfClass:[NSDictionary class]]) {
-    return NO;
-  }
-  NSDictionary *alert = aps[kApsAlertKey];
-  if (!alert) {
-    return NO;
-  }
-  if ([alert isKindOfClass:[NSDictionary class]]) {
-    return alert.allKeys.count > 0;
-  }
-  // alert can be string sometimes (if only body is specified)
-  if ([alert isKindOfClass:[NSString class]]) {
-    return YES;
-  }
-  return NO;
 }
 
 @end

@@ -77,7 +77,7 @@ typedef NS_ENUM(int32_t, ABTExperimentPayloadExperimentOverflowPolicy) {
 
 /// Parses an ABTExperimentPayload directly from JSON data.
 /// @param data  JSON object as NSData. Must be reconstructible as an NSDictionary<NSString* , id>.
-+ (nullable instancetype)parseFromData:(NSData *)data;
++ (instancetype)parseFromData:(NSData *)data;
 
 /// Initializes an ABTExperimentPayload from a dictionary with experiment metadata.
 - (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dictionary

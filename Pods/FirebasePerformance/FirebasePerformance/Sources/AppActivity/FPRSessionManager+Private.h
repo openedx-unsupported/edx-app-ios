@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FPRSessionManager ()
 
 /** The current active session managed by the session manager. Modifiable for unit tests */
-@property(atomic, nullable, readwrite) FPRSessionDetails *sessionDetails;
+@property(nonatomic, nullable, readwrite) FPRSessionDetails *sessionDetails;
 
 /**
  * Checks if the currently active session is beyond maximum allowed time. If so renew the session,

@@ -13,6 +13,7 @@
 #import "BNCKeyChain.h"
 
 static NSString*const kBranchKeychainService          = @"BranchKeychainService";
+static NSString*const kBranchKeychainDevicesKey       = @"BranchKeychainDevices";
 static NSString*const kBranchKeychainFirstBuildKey    = @"BranchKeychainFirstBuild";
 static NSString*const kBranchKeychainFirstInstalldKey = @"BranchKeychainFirstInstall";
 
@@ -100,14 +101,14 @@ static NSString*const kBranchKeychainFirstInstalldKey = @"BranchKeychainFirstIns
 + (NSDate*) firstInstallBuildDate {
     NSError *error = nil;
     NSDate *firstBuildDate =
-        [BNCKeyChain retrieveDateForService:kBranchKeychainService
+        [BNCKeyChain retrieveValueForService:kBranchKeychainService
             key:kBranchKeychainFirstBuildKey
             error:&error];
     if (firstBuildDate)
         return firstBuildDate;
 
     firstBuildDate = [self currentBuildDate];
-    error = [BNCKeyChain storeDate:firstBuildDate
+    error = [BNCKeyChain storeValue:firstBuildDate
         forService:kBranchKeychainService
         key:kBranchKeychainFirstBuildKey
         cloudAccessGroup:nil];
@@ -144,7 +145,7 @@ static NSString*const kBranchKeychainFirstInstalldKey = @"BranchKeychainFirstIns
 + (NSDate*) firstInstallDate {
     // check keychain for stored install date, on iOS this is lost on app deletion.
     NSError *error = nil;
-    NSDate* firstInstallDate = [BNCKeyChain retrieveDateForService:kBranchKeychainService key:kBranchKeychainFirstInstalldKey error:&error];
+    NSDate* firstInstallDate = [BNCKeyChain retrieveValueForService:kBranchKeychainService key:kBranchKeychainFirstInstalldKey error:&error];
     if (firstInstallDate) {
         return firstInstallDate;
     }
@@ -153,11 +154,24 @@ static NSString*const kBranchKeychainFirstInstalldKey = @"BranchKeychainFirstIns
     firstInstallDate = [self currentInstallDate];
     
     // save filesystem time to keychain
-    error = [BNCKeyChain storeDate:firstInstallDate forService:kBranchKeychainService key:kBranchKeychainFirstInstalldKey cloudAccessGroup:nil];
+    error = [BNCKeyChain storeValue:firstInstallDate forService:kBranchKeychainService key:kBranchKeychainFirstInstalldKey cloudAccessGroup:nil];
     if (error) {
         BNCLogError([NSString stringWithFormat:@"Keychain store: %@.", error]);
     }
     return firstInstallDate;
+}
+
+- (NSDictionary*) deviceKeyIdentityValueDictionary {
+    @synchronized (self.class) {
+        NSError *error = nil;
+        NSDictionary *deviceDictionary =
+            [BNCKeyChain retrieveValueForService:kBranchKeychainService
+                key:kBranchKeychainDevicesKey
+                error:&error];
+        if (error) BNCLogWarning([NSString stringWithFormat:@"While retrieving deviceKeyIdentityValueDictionary: %@.", error]);
+        if (!deviceDictionary) deviceDictionary = @{};
+        return deviceDictionary;
+    }
 }
 
 @end

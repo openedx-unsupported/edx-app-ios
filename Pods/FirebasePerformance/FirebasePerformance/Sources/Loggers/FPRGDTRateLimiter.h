@@ -18,7 +18,6 @@
  * FPRGDTRateLimiter class helps in limiting the number of events that are sent
  * to the backend. This is based on the token bucket rate limiting algorithm.
  */
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 @interface FPRGDTRateLimiter : NSObject <GDTCOREventTransformer>
 
 @end

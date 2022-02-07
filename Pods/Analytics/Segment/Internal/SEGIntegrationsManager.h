@@ -36,7 +36,7 @@ NS_SWIFT_NAME(IntegrationsManager)
 
 // @Deprecated - Exposing for backward API compat reasons only
 - (NSString *_Nonnull)getAnonymousId;
-- (void)saveAnonymousId:(NSString *_Nonnull)anonymousId;
+- (void)saveAnonymousId:(NSString *)anonymousId;
 
 @end
 

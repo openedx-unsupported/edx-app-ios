@@ -60,7 +60,7 @@ public struct CourseOutline {
             for (blockID, blockBody) in blocks {
                 let body = JSON(blockBody)
                 let webURL = NSURL(string: body[Fields.LMSWebURL].stringValue)
-                let children = body[Fields.Descendants].arrayObject as? [String] ?? []
+                var children = body[Fields.Descendants].arrayObject as? [String] ?? []
                 let name = body[Fields.DisplayName].string
                 let dueDate = body[Fields.DueDate].string
                 let blockURL = body[Fields.StudentViewURL].string.flatMap { NSURL(string:$0) }
@@ -76,6 +76,12 @@ public struct CourseOutline {
                 let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
                 let isCompleted = body[Fields.isCompleted].boolValue
                 let specialExamInfo = body[Fields.SpecialExamInfo].dictionaryObject
+                
+                // quick fix for LEARNER-8708, to hide special exam components
+                // TODO: may or may not change after final decision from product
+                if specialExamInfo != nil {
+                    children = []
+                }
                 
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {

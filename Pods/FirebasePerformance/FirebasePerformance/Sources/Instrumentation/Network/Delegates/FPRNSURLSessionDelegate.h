@@ -18,7 +18,6 @@
  *  methods. While swizzling a delegate, if their class doesn't implement the below methods, these
  *  implementations will be copied onto the delegate class.
  */
-NS_EXTENSION_UNAVAILABLE("Firebase Performance is not supported for extensions.")
 @interface FPRNSURLSessionDelegate : NSObject <NSURLSessionDelegate,
                                                NSURLSessionDataDelegate,
                                                NSURLSessionTaskDelegate,
