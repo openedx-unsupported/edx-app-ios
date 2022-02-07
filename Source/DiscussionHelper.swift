@@ -36,7 +36,7 @@ class DiscussionHelper: NSObject {
     
     class func showErrorMessage(controller: UIViewController?, error: NSError?) {
         
-        let controller = controller ?? UIApplication.shared.keyWindow?.rootViewController
+        let controller = controller ?? UIApplication.shared.window?.rootViewController
         
         if let error = error, error.oex_isNoInternetConnectionError {
             UIAlertController().showAlert(withTitle: Strings.networkNotAvailableTitle, message: Strings.networkNotAvailableMessageTrouble, onViewController: controller ?? UIViewController())

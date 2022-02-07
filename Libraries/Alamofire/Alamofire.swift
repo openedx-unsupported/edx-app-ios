@@ -296,7 +296,7 @@ open class Manager {
     /**
         :param: configuration The configuration used to construct the managed session.
     */
-    required public init(configuration: URLSessionConfiguration = URLSessionConfiguration()) {
+    required public init(configuration: URLSessionConfiguration = URLSessionConfiguration.default) {
         self.delegate = SessionDelegate()
         self.session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
 

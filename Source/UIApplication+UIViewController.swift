@@ -9,10 +9,19 @@
 import UIKit
 
 extension UIApplication {
+    
+    @objc var window: UIWindow? {
+        return UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
+    }
 
     @objc func topMostController() -> UIViewController?  {
-        guard var topController = keyWindow?.rootViewController?.children.first else {
-            return keyWindow?.rootViewController
+        guard var topController = window?.rootViewController?.children.first else {
+            return window?.rootViewController
         }
         while true {
             if let presented = topController.presentedViewController {
