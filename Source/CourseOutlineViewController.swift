@@ -180,39 +180,6 @@ public class CourseOutlineViewController :
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.refreshCourseOutlineController()
         }
-        
-        if courseOutlineMode == .full, rootID == nil {
-            NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
-                observer.handleCourseUpgradation(userInfo: (notification.object as? NSDictionary))
-            }
-        }
-    }
-    
-    private func handleCourseUpgradation(userInfo: NSDictionary?) {
-        guard let userInfo = userInfo,
-              let screenValue = userInfo[CourseUpgradeCompletion.screen] as? String,
-              let screen = CourseUpgradeScreen(rawValue: screenValue),
-              let courseID = userInfo[CourseUpgradeCompletion.courseID] as? String,
-              courseID == self.courseID
-        else { return }
-        
-        ValuePropUnlockViewContainer.shared.showView()
-        loadCourseStream { [weak self] success in
-            if let blockID = userInfo[CourseUpgradeCompletion.blockID] as? String, screen == .courseUnit {
-                guard let weakSelf = self else {
-                    ValuePropUnlockViewContainer.shared.removeView()
-                    return
-                }
-                weakSelf.navigationController?.popToViewController(of: CourseDashboardViewController.self, animated: true) {
-                    weakSelf.environment.router?.navigateToComponentScreen(from: weakSelf, courseID: courseID, componentID: blockID) { _ in
-                        ValuePropUnlockViewContainer.shared.removeView()
-                        CourseUpgradeCompletion.shared.showSuccess()
-                    }
-                }
-            } else {
-                ValuePropUnlockViewContainer.shared.removeView()
-            }
-        }
     }
     
     private var courseOutlineLoaded = false

@@ -10,6 +10,12 @@ import Foundation
 
 let CourseUpgradeCompletionNotification = "CourseUpgradeCompletionNotification"
 
+struct CourseUpgradeModel {
+    let courseID: String
+    let blockID: String?
+    let screen: CourseUpgradeScreen
+}
+
 class CourseUpgradeCompletion {
     
     static let courseID = "CourseID"
@@ -23,17 +29,15 @@ class CourseUpgradeCompletion {
         case error
     }
     
+    var courseUpgradeModel: CourseUpgradeModel?
+        
     private init() { }
     
     func handleCourseUpgrade(state: CompletionState, screen: CourseUpgradeScreen) {
         switch state {
         case .success(let courseID, let blockID):
-            let dictionary = [
-                CourseUpgradeCompletion.screen: screen.rawValue,
-                CourseUpgradeCompletion.courseID: courseID,
-                CourseUpgradeCompletion.blockID: blockID
-            ]
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: dictionary))
+            courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
         case .error:
             showError()
         }

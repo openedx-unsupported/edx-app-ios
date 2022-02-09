@@ -8,25 +8,45 @@
 
 import UIKit
 
-class ValuePropUnlockViewContainer {
+class ValuePropUnlockViewContainer: NSObject {
     static let shared = ValuePropUnlockViewContainer()
     
+    private let delay: TimeInterval = 2
     private var container: UIView?
+    private(set) var shouldDismiss: Observable<Bool> = Observable(false)
     
-    private init() { }
+    private override init() { }
     
     func showView() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = UIApplication.shared.window else { return }
         
         let controller = ValuePropUnlockViewController()
         controller.view.frame = window.bounds
         window.addSubview(controller.view)
         container = controller.view
+        
+        perform(#selector(finishTimer), with: nil, afterDelay: delay)
     }
     
-    func removeView() {
-        container?.subviews.forEach { $0.removeFromSuperview() }
-        container?.removeFromSuperview()
+    @objc func finishTimer() {
+        shouldDismiss.value = true
+    }
+    
+    func removeView(completion: (()-> ())? = nil) {
+        func dismiss() {
+            container?.subviews.forEach { $0.removeFromSuperview() }
+            container?.removeFromSuperview()
+            shouldDismiss.unsubscribe(observer: self)
+            completion?()
+        }
+        
+        if !shouldDismiss.value {
+            shouldDismiss.subscribe(observer: self) { newValue, _ in
+                dismiss()
+            }
+        } else {
+            dismiss()
+        }
     }
 }
 

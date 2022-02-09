@@ -174,21 +174,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         refreshController.setupInScrollView(scrollView: tableView)
 
         setAccessibilityIdentifiers()
-        if courseOutlineMode == .full {
-            addObservers()
-        }
-    }
-
-    private func addObservers() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
-            observer.makeCourseUpgradeComplete()
-        }
-    }
-
-    private func makeCourseUpgradeComplete() {
-        enrollment?.type = .verified
-        valuePropView.removeFromSuperview()
-        updateHeaderConstraints()
     }
     
     private func configureHeaderView() {
