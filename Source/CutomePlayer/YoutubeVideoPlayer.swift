@@ -12,7 +12,7 @@ private let playerTimeOutInterval = 60.0
 
 class YoutubeVideoPlayer: VideoPlayer {
 
-    let playerView: WKYTPlayerView
+    let playerView: YTPlayerView
     var videoID: String = ""
     private var videoCurrentTime: Float = 0.0
     var viewHeightOffset: CGFloat = 90
@@ -45,14 +45,14 @@ class YoutubeVideoPlayer: VideoPlayer {
     }
 
     override var currentTime: TimeInterval {
-        playerView.getCurrentTime { [weak self] time, _ in
+        playerView.currentTime { [weak self] time, _ in
             self?.videoCurrentTime = time
         }
         return Double(videoCurrentTime)
     }
     
     override init(environment : Environment) {
-        playerView = WKYTPlayerView()
+        playerView = YTPlayerView()
         super.init(environment: environment)
         playerView.delegate = self
     }
@@ -175,16 +175,14 @@ class YoutubeVideoPlayer: VideoPlayer {
     }
  }
 
-extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
-
-    func playerViewDidBecomeReady(_ playerView: WKYTPlayerView) {
-        // call play video when the player is finished loading.
+extension YoutubeVideoPlayer: YTPlayerViewDelegate {
+    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
         setVideoPlayerMode(isPortrait: UIDevice.current.orientation.isPortrait)
         loadingIndicatorView.stopAnimating()
         playerView.playVideo()
     }
 
-    func playerView(_ playerView: WKYTPlayerView, didChangeTo state: WKYTPlayerState) {
+    func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch state {
         case .paused:
             environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video, playMedium: AnalyticsEventDataKey.PlayMediumYoutube.rawValue)
@@ -194,13 +192,12 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
             NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoTimedOut), object: nil)
             break
         case .ended:
-             playerDelegate?.playerDidFinishPlaying(videoPlayer: self)
+            playerDelegate?.playerDidFinishPlaying(videoPlayer: self)
             break
         default:
             break
         }
     }
-
 }
 
 extension UIDevice {

@@ -23,7 +23,7 @@ target 'edX' do
   pod 'FirebasePerformance', '= 8.10.0'
   pod 'FirebaseMessaging', '= 8.10.0'
   pod 'Branch', '= 1.40.0'
-  pod 'YoutubePlayer-in-WKWebView', '~> 0.3.8'
+  pod 'youtube-ios-player-helper', '~> 1.0.4'
   pod 'Segment-Appboy', '=4.3.0'
   
 end

@@ -7,7 +7,7 @@
 #import <FirebaseCrashlytics/FIRCrashlytics.h>
 #import <FirebaseRemoteConfig/FIRRemoteConfig.h>
 #import <Analytics/SEGAnalytics.h>
-#import <YoutubePlayer-in-WKWebView/WKYTPlayerView.h>
+#import <youtube-ios-player-helper/YTPlayerView.h>
 #import <Appboy-iOS-SDK/AppboyKit.h>
 #import <Segment-Appboy/SEGAppboyIntegrationFactory.h>
 #import <Branch/Branch.h>
