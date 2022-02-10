@@ -177,7 +177,7 @@ class YoutubeVideoPlayer: VideoPlayer {
 
 extension YoutubeVideoPlayer: YTPlayerViewDelegate {
     func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-        setVideoPlayerMode(isPortrait: UIDevice.current.orientation.isPortrait)
+        setVideoPlayerMode(isPortrait: UIApplication.shared.windows.first?.windowScene?.interfaceOrientation.isPortrait ?? false)
         loadingIndicatorView.stopAnimating()
         playerView.playVideo()
     }
