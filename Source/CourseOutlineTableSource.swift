@@ -100,7 +100,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         guard let enrollment = enrollment, enrollment.type == .audit && environment.remoteConfig.valuePropEnabled
         else { return false }
 
-        return true
+        // TODO: It's a temporary fix, will be reverted under LEARNER-8738
+        return environment.config.inappPurchasesEnabled
     }
 
     private var enrollment: UserCourseEnrollment? {
