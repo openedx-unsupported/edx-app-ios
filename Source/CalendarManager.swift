@@ -231,7 +231,7 @@ class CalendarManager: NSObject {
         let endDate = block.blockDate
         var notes = "\(courseName)\n\n\(block.title)"
         
-        if generateDeepLink && branchEnabled {
+        if generateDeepLink && block.isAvailable && branchEnabled {
             if let link = generateDeeplink(componentBlockID: block.firstComponentBlockID) {
                 notes = notes + "\n\(link)"
             }
@@ -250,7 +250,7 @@ class CalendarManager: NSObject {
         let secondAlert = startDate.add(.day, value: alertOffset)
         let endDate = block.blockDate
         let notes = "\(courseName)\n\n" + blocks.compactMap { block -> String in
-            if generateDeepLink && branchEnabled {
+            if generateDeepLink && block.isAvailable && branchEnabled {
                 if let link = generateDeeplink(componentBlockID: block.firstComponentBlockID) {
                     return "\(block.title)\n\(link)"
                 } else {
