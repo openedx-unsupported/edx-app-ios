@@ -100,7 +100,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         guard let enrollment = enrollment, enrollment.type == .audit && environment.remoteConfig.valuePropEnabled
         else { return false }
 
-        return true
+        // TODO: It's a temporary fix, will be reverted under LEARNER-8738
+        return environment.config.inappPurchasesEnabled
     }
 
     private var enrollment: UserCourseEnrollment? {
@@ -113,6 +114,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         headerContainer.addSubview(valuePropView)
         valuePropView.backgroundColor = environment.styles.standardBackgroundColor()
 
+        valuePropView.snp.remakeConstraints{ make in
+            make.height.equalTo(0)
+        }
         let lockedImage = Icon.Closed.imageWithFontSize(size: 20).image(with: OEXStyles.shared().neutralWhiteT())
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = lockedImage
