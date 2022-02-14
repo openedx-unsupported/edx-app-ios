@@ -184,7 +184,7 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
         } else {
             orientation = UIApplication.shared.statusBarOrientation.isPortrait
         }
-        setVideoPlayerMode(isPortrait: UIDevice.current.orientation.isPortrait)
+        setVideoPlayerMode(isPortrait: orientation)
         loadingIndicatorView.stopAnimating()
         playerView.playVideo()
     }
