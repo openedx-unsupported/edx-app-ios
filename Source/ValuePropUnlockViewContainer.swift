@@ -37,7 +37,9 @@ class ValuePropUnlockViewContainer: NSObject {
             container?.subviews.forEach { $0.removeFromSuperview() }
             container?.removeFromSuperview()
             shouldDismiss.unsubscribe(observer: self)
-            completion?()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                completion?()
+            }
         }
         
         if !shouldDismiss.value {

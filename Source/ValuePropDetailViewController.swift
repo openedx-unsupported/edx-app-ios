@@ -151,6 +151,9 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             case .payment:
                 self?.upgradeButton.stopAnimating()
                 break
+            case .verify:
+                CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .intermediate, screen: self?.screen ?? .none)
+                break
             case .complete:
                 self?.enableUserInteraction()
                 self?.upgradeButton.isHidden = true

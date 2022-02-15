@@ -25,6 +25,7 @@ class CourseUpgradeCompletion {
     static let shared = CourseUpgradeCompletion()
     
     enum CompletionState {
+        case intermediate
         case success(_ courseID: String, _ componentID: String?)
         case error
     }
@@ -35,11 +36,18 @@ class CourseUpgradeCompletion {
     
     func handleCourseUpgrade(state: CompletionState, screen: CourseUpgradeScreen) {
         switch state {
+        case .intermediate:
+            ValuePropUnlockViewContainer.shared.showView()
+            break
         case .success(let courseID, let blockID):
             courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
+            break
         case .error:
-            showError()
+            ValuePropUnlockViewContainer.shared.removeView { [weak self] in
+                self?.showError()
+            }
+            break
         }
     }
     

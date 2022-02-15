@@ -248,13 +248,13 @@ extension EnrolledCoursesViewController {
         let screen = courseUpgradeModel.screen
         let courseID = courseUpgradeModel.courseID
         
-        ValuePropUnlockViewContainer.shared.showView()
-        
         environment.interface?.enrollmentForCourse(withID: courseID)?.type = .verified
         
         if screen == .courseEnrollment {
+            ValuePropUnlockViewContainer.shared.removeView {
+                CourseUpgradeCompletion.shared.showSuccess()
+            }
             coursesContainer.collectionView.reloadData()
-            ValuePropUnlockViewContainer.shared.removeView()
         }
         
         enrollmentFeed.refresh()
