@@ -99,7 +99,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
     
     private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.willEnterForegroundNotification.rawValue) { _, observer, _ in
             observer.enableUserInteraction()
         }
     }
@@ -147,6 +147,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: courseSku, pacing: pacing)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
+            self?.disableUserInteraction()
+            
             switch status {
             case .payment:
                 self?.upgradeButton.stopAnimating()

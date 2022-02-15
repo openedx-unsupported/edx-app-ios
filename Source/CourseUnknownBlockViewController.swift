@@ -74,7 +74,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.willEnterForegroundNotification.rawValue) { _, observer, _ in
             observer.enableUserInteraction()
         }
     }
@@ -211,6 +211,8 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: self.blockID ?? "", pacing: pacing)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
+            self?.disableUserInteraction()
+            
             switch status {
             case .payment:
                 upgradeView.stopAnimating()
