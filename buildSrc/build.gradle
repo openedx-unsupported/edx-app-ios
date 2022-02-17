@@ -58,4 +58,4 @@ def edXAppPluginSetup(url, ref) {
     grgit.checkout(branch : ref)
 }
 
-edXAppPluginSetup('https://github.com/edx/edx-app-gradle-plugin', 'b38aedc320978d070c33637a3ae6d4a0060dafea')
+edXAppPluginSetup('https://github.com/openedx/edx-app-gradle-plugin', 'c77472e57075f1c3eb3480a3fbe19f4c00551713')
