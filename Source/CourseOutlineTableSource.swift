@@ -114,7 +114,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         headerContainer.addSubview(valuePropView)
         valuePropView.backgroundColor = environment.styles.standardBackgroundColor()
 
-        valuePropView.snp.remakeConstraints{ make in
+        valuePropView.snp.remakeConstraints { make in
             make.height.equalTo(0)
         }
         let lockedImage = Icon.Closed.imageWithFontSize(size: 20).image(with: OEXStyles.shared().neutralWhiteT())
