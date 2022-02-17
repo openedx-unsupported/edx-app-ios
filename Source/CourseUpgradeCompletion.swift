@@ -77,7 +77,6 @@ extension CourseUpgradeCompletion: MFMailComposeViewControllerDelegate {
                 mail.setToRecipients([fbAddress])
             }
             controller.present(mail, animated: true, completion: nil)
-
         }
     }
 
