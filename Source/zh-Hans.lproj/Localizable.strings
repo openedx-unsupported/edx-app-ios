@@ -372,6 +372,8 @@
 "COURSE_UPGRADE.FAILURE_ALERT_Message"="It looks like something went wrong when upgrading your course.";
 /*Course upgrade failure alert get help button title*/
 "COURSE_UPGRADE.FAILURE_ALERT_GET_HELP"="Get help";
+/*Get support e-mail subject in the payment error flow*/
+"COURSE_UPGRADE.GET_SUPPORT_EMAIL_SUBJECT"="Error upgrading course in app";
 /* Button text for cancelling any action */
 "CANCEL"="取消";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
