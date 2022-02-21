@@ -332,12 +332,14 @@ public class CourseOutlineViewController :
                 CourseUpgradeHelper.shared.removeLoader(success: true)
             } else if courseUpgradeModel.screen == .courseUnit, let blockID = courseUpgradeModel.blockID {
                 environment.router?.navigateToComponentScreen(from: self, courseID: courseUpgradeModel.courseID, componentID: blockID) { _ in
-                    CourseUpgradeHelper.shared.removeLoader(success: true)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        CourseUpgradeHelper.shared.removeLoader(success: true)
+                    }
                 }
             }
             CourseUpgradeHelper.shared.courseUpgradeModel = nil
         } else {
-            // from deeplink
+            // navigation from deeplink
             navigateToComponentScreenIfNeeded()
         }
     }
@@ -399,7 +401,7 @@ public class CourseOutlineViewController :
         loadCourseStream()
     }
     
-    func navigateToComponentScreenIfNeeded() {
+    private func navigateToComponentScreenIfNeeded() {
         if courseOutlineLoaded, let componentID = componentID {
             self.componentID = nil
             environment.router?.navigateToComponentScreen(from: self, courseID: courseID, componentID: componentID)
