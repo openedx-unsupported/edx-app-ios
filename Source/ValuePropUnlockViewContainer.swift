@@ -11,7 +11,7 @@ import UIKit
 class ValuePropUnlockViewContainer: NSObject {
     static let shared = ValuePropUnlockViewContainer()
     
-    private let delay: TimeInterval = 2
+    private let delay: TimeInterval = 3
     private var container: UIView?
     private(set) var shouldDismiss: Observable<Bool> = Observable(false)
     

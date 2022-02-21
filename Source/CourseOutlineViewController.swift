@@ -184,28 +184,28 @@ public class CourseOutlineViewController :
     
     private var courseOutlineLoaded = false
     
-    private func loadCourseOutlineStream(upgradeCompletion: ((Bool)->())? = nil) {
+    private func loadCourseOutlineStream() {
+        if let _ = CourseUpgradeHelper.shared.courseUpgradeModel {
+            courseQuerier.needsRefresh = true
+        }
         let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
 
         courseOutlineStream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
             if self?.blockID == rootID || self?.blockID == nil {
                 if self?.courseOutlineMode == .full {
                     self?.courseOutlineLoaded = true
-                    self?.navigateToComponentScreenIfNeeded()
+                    self?.handleNavigationIfNeeded()
                     self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
-                    upgradeCompletion?(true)
                 }
                 else {
                     self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
                 }
             }
             else {
-                upgradeCompletion?(false)
                 self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
                 self?.tableController.isSectionOutline = true
             }
             }, failure: {
-                upgradeCompletion?(false)
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
         })
     }
@@ -246,9 +246,9 @@ public class CourseOutlineViewController :
         }
     }
     
-    private func loadCourseStream(completion: ((Bool)->())? = nil) {
+    private func loadCourseStream() {
         loadController.state = .Initial
-        loadCourseOutlineStream(upgradeCompletion: completion)
+        loadCourseOutlineStream()
         loadCourseBannerStream()
         reload()
     }
@@ -324,6 +324,22 @@ public class CourseOutlineViewController :
                 }
             }
         )
+    }
+    
+    private func handleNavigationIfNeeded() {
+        if let courseUpgradeModel = CourseUpgradeHelper.shared.courseUpgradeModel {
+            if courseUpgradeModel.screen == .courseDashboard {
+                CourseUpgradeHelper.shared.removeLoader(success: true)
+            } else if courseUpgradeModel.screen == .courseUnit, let blockID = courseUpgradeModel.blockID {
+                environment.router?.navigateToComponentScreen(from: self, courseID: courseUpgradeModel.courseID, componentID: blockID) { _ in
+                    CourseUpgradeHelper.shared.removeLoader(success: true)
+                }
+            }
+            CourseUpgradeHelper.shared.courseUpgradeModel = nil
+        } else {
+            // from deeplink
+            navigateToComponentScreenIfNeeded()
+        }
     }
     
     private func loadBackedStreams() {

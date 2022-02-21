@@ -109,14 +109,19 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         return environment.config.discovery.course.isEnabled
     }
     
+    private func handleUpgradationLoader(success: Bool) {
+        guard let model = CourseUpgradeHelper.shared.courseUpgradeModel, model.screen == .myCourses else { return }
+        CourseUpgradeHelper.shared.removeLoader(success: success)
+    }
+    
     private func setupListener() {
         enrollmentFeed.output.listen(self) {[weak self] result in
             if !(self?.enrollmentFeed.output.active ?? false) {
                 self?.refreshController.endRefreshing()
             }
-            
+                        
             switch result {
-            case let Result.success(enrollments):
+            case let .success(enrollments):
                 if let enrollments = enrollments {
                     self?.coursesContainer.courses = enrollments.compactMap { $0.course }
                     self?.coursesContainer.collectionView.reloadData()
@@ -126,12 +131,12 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                         self?.enrollmentsEmptyState()
                     }
                     
-                    self?.navigateToScreenAterCourseUpgradationIfNecessary()
+                    self?.handleUpgradationLoader(success: true)
                 }
                 else {
                     self?.loadController.state = .Initial
                 }
-            case let Result.failure(error):
+            case let .failure(error):
                 //App is showing occasionally error on app launch, so skipping first error on app launch
                 //TODO: Find exact root cause of error and remove this patch
                 // error code -100 is for unknown error
@@ -143,6 +148,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
                     self?.hideSnackBar()
                 }
+                
+                self?.handleUpgradationLoader(success: false)
             }
         }
     }
@@ -218,7 +225,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     
     func showValuePropDetailView(with course: OEXCourse) {
         environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
-        environment.router?.showValuePropDetailView(from: self, screen: .courseEnrollment, course: course) { [weak self] in
+        environment.router?.showValuePropDetailView(from: self, screen: .myCourses, course: course) { [weak self] in
             self?.environment.analytics.trackValuePropModal(with: .CourseEnrollment, courseId: course.course_id ?? "")
         }
     }
@@ -242,59 +249,30 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
 
 extension EnrolledCoursesViewController {
     private func handleCourseUpgradation() {
-        guard let courseUpgradeModel = CourseUpgradeCompletion.shared.courseUpgradeModel
+        guard let courseUpgradeModel = CourseUpgradeHelper.shared.courseUpgradeModel
             else { return }
-        
-        let screen = courseUpgradeModel.screen
-        let courseID = courseUpgradeModel.courseID
-        
-        environment.interface?.enrollmentForCourse(withID: courseID)?.type = .verified
-        
-        if screen == .courseEnrollment {
-            ValuePropUnlockViewContainer.shared.removeView {
-                CourseUpgradeCompletion.shared.showSuccess()
-            }
-            coursesContainer.collectionView.reloadData()
-        }
-        
+                
         enrollmentFeed.refresh()
+        
+        if courseUpgradeModel.screen != .myCourses {
+            navigateToScreenAterCourseUpgradation()
+        }
     }
     
-    private func navigateToScreenAterCourseUpgradationIfNecessary() {
-        guard let courseUpgradeModel = CourseUpgradeCompletion.shared.courseUpgradeModel
+    private func navigateToScreenAterCourseUpgradation() {
+        guard let courseUpgradeModel = CourseUpgradeHelper.shared.courseUpgradeModel
             else { return }
         
-        CourseUpgradeCompletion.shared.courseUpgradeModel = nil
-        
-        if courseUpgradeModel.screen == .courseDashboard {
+        if courseUpgradeModel.screen == .courseDashboard || courseUpgradeModel.screen == .courseUnit {
             navigationController?.popToViewController(of: EnrolledTabBarViewController.self, animated: true) { [weak self] in
                 guard let weakSelf = self else {
-                    ValuePropUnlockViewContainer.shared.removeView()
+                    CourseUpgradeHelper.shared.removeLoader()
                     return
                 }
-                weakSelf.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: weakSelf, animated: true) {_ in
-                    ValuePropUnlockViewContainer.shared.removeView() {
-                        CourseUpgradeCompletion.shared.showSuccess()
-                    }
-                }
-            }
-        } else if let blockID = courseUpgradeModel.blockID, courseUpgradeModel.screen == .courseUnit {
-            navigationController?.popToViewController(of: EnrolledTabBarViewController.self, animated: true) { [weak self] in
-                guard let weakSelf = self else {
-                    ValuePropUnlockViewContainer.shared.removeView()
-                    return
-                }
-                
-                weakSelf.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: weakSelf, animated: true) {_ in
-                    weakSelf.environment.router?.navigateToComponentScreen(from: weakSelf, courseID: courseUpgradeModel.courseID, componentID: blockID) { _ in
-                        ValuePropUnlockViewContainer.shared.removeView() {
-                            CourseUpgradeCompletion.shared.showSuccess()
-                        }
-                    }
-                }
+                weakSelf.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: weakSelf, animated: true)
             }
         } else {
-            ValuePropUnlockViewContainer.shared.removeView()
+            CourseUpgradeHelper.shared.removeLoader()
         }
     }
 }

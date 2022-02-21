@@ -1,5 +1,5 @@
 //
-//  CourseUpgradeCompletion.swift
+//  CourseUpgradeHelper.swift
 //  edX
 //
 //  Created by Muhammad Umer on 16/12/2021.
@@ -16,16 +16,16 @@ struct CourseUpgradeModel {
     let screen: CourseUpgradeScreen
 }
 
-class CourseUpgradeCompletion {
+class CourseUpgradeHelper {
     
     static let courseID = "CourseID"
     static let blockID = "BlockID"
     static let screen = "Screen"
     
-    static let shared = CourseUpgradeCompletion()
+    static let shared = CourseUpgradeHelper()
     
     enum CompletionState {
-        case intermediate
+        case fulfillment
         case success(_ courseID: String, _ componentID: String?)
         case error
     }
@@ -36,17 +36,15 @@ class CourseUpgradeCompletion {
     
     func handleCourseUpgrade(state: CompletionState, screen: CourseUpgradeScreen) {
         switch state {
-        case .intermediate:
-            ValuePropUnlockViewContainer.shared.showView()
+        case .fulfillment:
+            showLoader()
             break
         case .success(let courseID, let blockID):
             courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
             break
         case .error:
-            ValuePropUnlockViewContainer.shared.removeView { [weak self] in
-                self?.showError()
-            }
+            removeLoader(success: false)
             break
         }
     }
@@ -68,5 +66,24 @@ class CourseUpgradeCompletion {
         alertController.addButton(withTitle: Strings.close, style: .default) { action in
             
         }
+    }
+    
+    func showLoader() {
+        return
+        //ValuePropUnlockViewContainer.shared.showView()
+    }
+    
+    func removeLoader(success: Bool? = nil) {
+        courseUpgradeModel = nil
+        
+        //ValuePropUnlockViewContainer.shared.removeView() { [weak self] in
+            if let success = success {
+                if success {
+                    //self?.showSuccess()
+                } else {
+                   // self?.showError()
+                }
+            }
+        //}
     }
 }
