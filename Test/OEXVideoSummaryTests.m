@@ -199,7 +199,7 @@
     XCTAssertTrue(summary.isSupportedVideo);
     XCTAssertNotNil(summary.videoURL);
     XCTAssertNotEqual(summary.videoURL, @"");
-    XCTAssertTrue(summary.isDownloadableVideo);
+    XCTAssertFalse(summary.isDownloadableVideo);
     XCTAssertNotNil(summary.downloadURL);
     XCTAssertNotEqual(summary.downloadURL, @"");
     XCTAssertNotEqual(summary.downloadURL, summary.videoURL);
@@ -300,7 +300,7 @@
     XCTAssertTrue(summary.isSupportedVideo);
     XCTAssertNotNil(summary.videoURL);
     XCTAssertNotEqual(summary.videoURL, @"");
-    XCTAssertFalse(summary.isDownloadableVideo);
+    XCTAssertTrue(summary.isDownloadableVideo);
     XCTAssertNil(summary.downloadURL);
     XCTAssertFalse(summary.isYoutubeVideo);
 }

@@ -37,7 +37,7 @@ class TranscriptParserTests: XCTestCase {
         let transcriptParser = TranscriptParser()
         transcriptParser.parse(transcript: TranscriptDataFactory.partialTranscriptString) { (success, error) in
             XCTAssertTrue(success)
-            XCTAssertEqual(transcriptParser.transcripts.count, 10)
+            XCTAssertEqual(transcriptParser.transcripts.count, 11)
             expectation.fulfill()
             if error != nil {
                 XCTFail("Transcript parsing failed")
@@ -77,7 +77,7 @@ class TranscriptParserTests: XCTestCase {
             XCTAssertEqual(transcriptParser.transcripts.count, 0)
             expectation.fulfill()
             if error != nil {
-                XCTAssertEqual(error?.localizedDescription, "Invalid Format")
+                XCTAssertEqual(error?.localizedDescription, "Empty Transcripts")
             }
         }
         
