@@ -179,7 +179,8 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
 
     func playerViewDidBecomeReady(_ playerView: WKYTPlayerView) {
         // call play video when the player is finished loading.
-        setVideoPlayerMode(isPortrait: UIDevice.current.orientation.isPortrait)
+        let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation.isPortrait ?? false
+        setVideoPlayerMode(isPortrait: orientation)
         loadingIndicatorView.stopAnimating()
         playerView.playVideo()
     }
