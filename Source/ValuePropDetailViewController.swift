@@ -79,9 +79,17 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         configureView()
         
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
-        PaymentManager.shared.productPrice(courseSku) { [weak self] price in
-            if let price = price {
-                self?.upgradeButton.setPrice(price)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
+            self?.upgradeButton.startShimeringEffect()
+            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
+                if let price = price {
+                    self?.upgradeButton.stopShimmerEffect()
+                    self?.upgradeButton.setPrice(price)
+                } else {
+                    self?.upgradeButton.stopShimmerEffect()
+                    self?.upgradeButton.isHidden = true
+                }
             }
         }
     }
