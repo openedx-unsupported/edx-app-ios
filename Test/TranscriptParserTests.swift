@@ -55,7 +55,7 @@ class TranscriptParserTests: XCTestCase {
         let expectation = self.expectation(description: "Parsing Transcript")
         let transcriptParser = TranscriptParser()
         transcriptParser.parse(transcript: TranscriptDataFactory.invalidTranscriptString) { (success, error) in
-            XCTAssertFalse(success)
+            XCTAssertTrue(success)
             expectation.fulfill()
             if error != nil {
                 XCTAssertEqual(error?.localizedDescription, "Invalid Format")
