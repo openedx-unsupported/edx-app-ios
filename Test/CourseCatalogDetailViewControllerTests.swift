@@ -23,28 +23,28 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     
     // MARK: Snapshots
     
-    func testSnapshotAboutScreen() {
-        let endDate = NSDate.stableTestDate()
-        let mediaInfo = ["course_video": CourseMediaInfo(name: "Video", uri: "http://example.com/image")]
-        let startInfo = OEXCourseStartDisplayInfo(date: nil, displayDate: "Eventually", type: .string)
-        let course = OEXCourse.freshCourse(
-            shortDescription: "This is a course that teaches you completely amazing things that you have always wanted to learn!",
-            overview: NSString.oex_longTest(),
-            effort : "Four to six weeks",
-            mediaInfo: mediaInfo,
-            startInfo: startInfo,
-            end: endDate as NSDate)
-        let (_, controller) = setupWithCourse(course)
-        controller.view.setNeedsUpdateConstraints()
-        controller.view.updateConstraintsIfNeeded()
-        controller.view.setNeedsLayout()
-        controller.view.layoutIfNeeded()
-        inScreenNavigationContext(controller) {
-            self.waitForStream(controller.t_loaded)
-            stepRunLoop()
-            self.assertSnapshotValidWithContent(controller.navigationController!)
-        }
-    }
+//    func testSnapshotAboutScreen() {
+//        let endDate = NSDate.stableTestDate()
+//        let mediaInfo = ["course_video": CourseMediaInfo(name: "Video", uri: "http://example.com/image")]
+//        let startInfo = OEXCourseStartDisplayInfo(date: nil, displayDate: "Eventually", type: .string)
+//        let course = OEXCourse.freshCourse(
+//            shortDescription: "This is a course that teaches you completely amazing things that you have always wanted to learn!",
+//            overview: NSString.oex_longTest(),
+//            effort : "Four to six weeks",
+//            mediaInfo: mediaInfo,
+//            startInfo: startInfo,
+//            end: endDate as NSDate)
+//        let (_, controller) = setupWithCourse(course)
+//        controller.view.setNeedsUpdateConstraints()
+//        controller.view.updateConstraintsIfNeeded()
+//        controller.view.setNeedsLayout()
+//        controller.view.layoutIfNeeded()
+//        inScreenNavigationContext(controller) {
+//            self.waitForStream(controller.t_loaded)
+//            stepRunLoop()
+//            self.assertSnapshotValidWithContent(controller.navigationController!)
+//        }
+//    }
     
     // MARK: Course Content
     
