@@ -31,6 +31,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }()
     
     private var loader: OEXStream<URL?>?
+    private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
     init(blockID: CourseBlockID?, courseID: String, environment: Environment) {
         self.blockID = blockID
@@ -213,17 +214,17 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
             
             switch status {
             case .verify:
-                CourseUpgradeHelper.shared.handleCourseUpgrade(state: .fulfillment, screen: .courseUnit)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment, screen: .courseUnit)
                 break
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
-                CourseUpgradeHelper.shared.handleCourseUpgrade(state: .success(self?.courseID ?? "", self?.blockID), screen: .courseUnit)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.courseID ?? "", self?.blockID), screen: .courseUnit)
                 break
             case .error:
                 self?.enableUserInteraction(enable: true)
                 upgradeView.stopAnimating()
-                CourseUpgradeHelper.shared.handleCourseUpgrade(state: .error, screen: .courseUnit)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error, screen: .courseUnit)
                 break
             default:
                 break

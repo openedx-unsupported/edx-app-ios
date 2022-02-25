@@ -51,6 +51,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     private let crossButtonSize: CGFloat = 20
     private var isModalDismissable = true
     
+    private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
+    
     private var screen: CourseUpgradeScreen
     private let course: OEXCourse
     private let environment: Environment
@@ -152,20 +154,20 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 self?.upgradeButton.stopAnimating()
                 break
             case .verify:
-                CourseUpgradeHelper.shared.handleCourseUpgrade(state: .fulfillment, screen: self?.screen ?? .none)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment, screen: self?.screen ?? .none)
                 break
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.isHidden = true
-                self?.dismiss(animated: true) {
-                    CourseUpgradeHelper.shared.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID), screen: self?.screen ?? .none)
+                self?.dismiss(animated: true) { [weak self] in
+                    self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID), screen: self?.screen ?? .none)
                 }
                 break
             case .error:
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.stopAnimating()
-                self?.dismiss(animated: true) {
-                    CourseUpgradeHelper.shared.handleCourseUpgrade(state: .error, screen: self?.screen ?? .none)
+                self?.dismiss(animated: true) { [weak self] in
+                    self?.courseUpgradeHelper.handleCourseUpgrade(state: .error, screen: self?.screen ?? .none)
                 }
                 break
             default:

@@ -41,6 +41,8 @@ public class CourseOutlineViewController :
     private var resumeCourseController : ResumeCourseController
     private(set) var courseOutlineMode: CourseOutlineMode
     
+    private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
+    
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     fileprivate var t_hasTriggeredSetResumeCourse = false
     
@@ -185,12 +187,12 @@ public class CourseOutlineViewController :
     private var courseOutlineLoaded = false
     
     private func loadCourseOutlineStream() {
-        if let _ = CourseUpgradeHelper.shared.courseUpgradeModel {
+        if let _ = courseUpgradeHelper.courseUpgradeModel {
             courseQuerier.needsRefresh = true
         }
         let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
-
-        courseOutlineStream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
+        
+        courseOutlineStream.extendLifetimeUntilFirstResult { [weak self] rootID, block in
             if self?.blockID == rootID || self?.blockID == nil {
                 if self?.courseOutlineMode == .full {
                     self?.courseOutlineLoaded = true
@@ -200,14 +202,16 @@ public class CourseOutlineViewController :
                 else {
                     self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
                 }
-            }
-            else {
+            } else {
                 self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
                 self?.tableController.isSectionOutline = true
             }
-            }, failure: {
-                Logger.logError("ANALYTICS", "Unable to load block: \($0)")
-        })
+        } failure: { [weak self] error in
+            if let _ = self?.courseUpgradeHelper.courseUpgradeModel {
+                self?.courseUpgradeHelper.removeLoader()
+            }
+            Logger.logError("ANALYTICS", "Unable to load block: \(error)")
+        }
     }
     
     private func loadCourseBannerStream() {
@@ -327,17 +331,17 @@ public class CourseOutlineViewController :
     }
     
     private func handleNavigationIfNeeded() {
-        if let courseUpgradeModel = CourseUpgradeHelper.shared.courseUpgradeModel {
+        if let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel {
+            courseUpgradeHelper.courseUpgradeModel = nil
             if courseUpgradeModel.screen == .courseDashboard {
-                CourseUpgradeHelper.shared.removeLoader(success: true)
+                courseUpgradeHelper.removeLoader(success: true)
             } else if courseUpgradeModel.screen == .courseUnit, let blockID = courseUpgradeModel.blockID {
                 environment.router?.navigateToComponentScreen(from: self, courseID: courseUpgradeModel.courseID, componentID: blockID) { _ in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        CourseUpgradeHelper.shared.removeLoader(success: true)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                        self?.courseUpgradeHelper.removeLoader(success: true)
                     }
                 }
             }
-            CourseUpgradeHelper.shared.courseUpgradeModel = nil
         } else {
             // navigation from deeplink
             navigateToComponentScreenIfNeeded()

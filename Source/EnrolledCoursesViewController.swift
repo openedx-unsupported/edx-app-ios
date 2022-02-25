@@ -22,6 +22,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
     var handleBannerOnStart: Bool = false // this will be used to send first call for the banners
+    private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
     init(environment: Environment) {
         coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
@@ -110,8 +111,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     }
     
     private func handleUpgradationLoader(success: Bool) {
-        guard let model = CourseUpgradeHelper.shared.courseUpgradeModel, model.screen == .myCourses else { return }
-        CourseUpgradeHelper.shared.removeLoader(success: success)
+        guard let model = courseUpgradeHelper.courseUpgradeModel, model.screen == .myCourses else { return }
+        courseUpgradeHelper.removeLoader(success: success)
     }
     
     private func setupListener() {
@@ -249,7 +250,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
 
 extension EnrolledCoursesViewController {
     private func handleCourseUpgradation() {
-        guard let courseUpgradeModel = CourseUpgradeHelper.shared.courseUpgradeModel
+        guard let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel
             else { return }
                 
         enrollmentFeed.refresh()
@@ -260,19 +261,16 @@ extension EnrolledCoursesViewController {
     }
     
     private func navigateToScreenAterCourseUpgradation() {
-        guard let courseUpgradeModel = CourseUpgradeHelper.shared.courseUpgradeModel
+        guard let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel
             else { return }
         
         if courseUpgradeModel.screen == .courseDashboard || courseUpgradeModel.screen == .courseUnit {
             navigationController?.popToViewController(of: EnrolledTabBarViewController.self, animated: true) { [weak self] in
-                guard let weakSelf = self else {
-                    CourseUpgradeHelper.shared.removeLoader()
-                    return
-                }
+                guard let weakSelf = self else { return }
                 weakSelf.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: weakSelf, animated: true)
             }
         } else {
-            CourseUpgradeHelper.shared.removeLoader()
+            courseUpgradeHelper.removeLoader()
         }
     }
 }
