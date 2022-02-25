@@ -80,7 +80,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
         
-        DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
             PaymentManager.shared.productPrice(courseSku) { [weak self] price in
                 if let price = price {
