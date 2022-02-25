@@ -33,7 +33,7 @@ jobs:
     - name: Link simulator runtimes
       run: |
         sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-        sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.4.simruntime
+        sudo ln -s /Applications/Xcode_11.4.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.4.simruntime
     - name: "Select Xcode 13.2.1"
       run: |
         ls -n /Applications/ | grep Xcode*
