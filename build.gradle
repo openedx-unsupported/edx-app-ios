@@ -265,7 +265,7 @@ def RTLSchemeForScheme(scheme) {
     return scheme + '-RTL'
 }
 
-def operatingSystems = ["currentOS": "15.2", "previousOS": "13.4"]
+def operatingSystems = ["currentOS": "15.2", "previousOS": "13.2"]
 def directions = ["LTR": scheme, "RTL": RTLSchemeForScheme(scheme)]
 def commands = ["test" : ["record" : false], "recordSnapshots": ["record" : true]] 
 
