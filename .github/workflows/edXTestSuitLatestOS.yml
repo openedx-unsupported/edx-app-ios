@@ -19,6 +19,14 @@ jobs:
             runtime: "iOS-15-2"
             device: "iPhone 8"
             task: "testRTLCurrentOS"
+           - name: "Test iOS 13.4.1"
+            runtime: "iOS-13-4"
+            device: "iPhone 8"
+            task: "testLTRPreviousOS"
+          - name: "Test RTL iOS 13.4.1"
+            runtime: "iOS-13-4"
+            device: "iPhone 8"
+            task: "testRTLPreviousOS"
     steps:
     - name: Git checkout
       uses: actions/checkout@v2
@@ -28,6 +36,10 @@ jobs:
         sudo xcode-select -s /Applications/Xcode_13.2.1.app
         xcodebuild -version -sdk
         xcrun simctl list
+    - name: Link simulator runtimes
+      run: |
+        sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+        sudo ln -s /Applications/Xcode_11.4.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.4.simruntime
     - name: Run tests
       if: always()
       run: |
