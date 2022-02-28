@@ -12,12 +12,12 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - name: "Test iOS 13.2"
-            runtime: "iOS-13-2"
+          - name: "Test iOS 13.2.2"
+            runtime: "iOS-13-2-2"
             device: "iPhone 8"
             task: "testLTRPreviousOS"
-          - name: "Test RTL iOS 13.2"
-            runtime: "iOS-13-2"
+          - name: "Test RTL iOS 13.2.2"
+            runtime: "iOS-13-2-2"
             device: "iPhone 8"
             task: "testRTLPreviousOS"
     steps:
