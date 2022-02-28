@@ -12,21 +12,21 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - name: "Test iOS 13.2.2"
-            runtime: "iOS-13-2"
+          - name: "Test iOS 13.4"
+            runtime: "iOS-13-4"
             device: "iPhone 8"
             task: "testLTRPreviousOS"
-          - name: "Test RTL iOS 13.2.2"
-            runtime: "iOS-13-2"
+          - name: "Test RTL iOS 13.4"
+            runtime: "iOS-14"
             device: "iPhone 8"
             task: "testRTLPreviousOS"
     steps:
     - name: Git checkout
       uses: actions/checkout@v2
-    - name: "Select Xcode 11.2.1"
+    - name: "Select Xcode 11.4.1"
       run: |
         ls -n /Applications/ | grep Xcode*
-        sudo xcode-select -s /Applications/Xcode_11.2.1.app
+        sudo xcode-select -s /Applications/Xcode_11.4.1.app
         xcodebuild -version -sdk
         xcrun simctl list
     - name: Run tests
