@@ -13,11 +13,11 @@ jobs:
       matrix:
         env:
           - name: "Test iOS 13.4.1"
-            runtime: "iOS-13-4-1"
+            runtime: "iOS-13-4"
             device: "iPhone 8"
             task: "testLTRPreviousOS"
-          - name: "Test RTL iOS 13.4-1"
-            runtime: "iOS-14-4-1"
+          - name: "Test RTL iOS 13.4.1"
+            runtime: "iOS-13-4"
             device: "iPhone 8"
             task: "testRTLPreviousOS"
     steps:
