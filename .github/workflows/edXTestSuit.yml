@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - name: "Test iOS 15.2"
+          - name: "Test iOS 15"
             runtime: "iOS-15-2"
             device: "iPhone 8"
             task: "testLTRCurrentOS"
