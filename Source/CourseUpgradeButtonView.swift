@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseUpgradeButtonView: UIView {
+class CourseUpgradeButtonView: UIView, ShimmerView {
     static var height: CGFloat = {
         return OEXConfig.shared().inappPurchasesEnabled ? 36 : 0
     }()
@@ -55,9 +55,7 @@ class CourseUpgradeButtonView: UIView {
         addSubview(titleLabel)
         addSubview(activityIndicator)
         addSubview(button)
-        
-        backgroundColor = OEXStyles.shared().secondaryBaseColor()
-        
+
         accessibilityTraits = .button
         isAccessibilityElement = true
         accessibilityHint = Strings.Accessibility.upgradeButtonHint
@@ -105,6 +103,17 @@ class CourseUpgradeButtonView: UIView {
         ]
         let attributedTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
         titleLabel.attributedText = attributedTitle
+    }
+    
+    func startShimeringEffect() {
+        isHidden = false
+        isUserInteractionEnabled = false
+        setShimmerAnimation(true, shimmerColor: OEXStyles.shared().neutralLight())
+    }
+    
+    func stopShimmerEffect() {
+        isUserInteractionEnabled = true
+        removeShimmerAnimation(backgroundColor: OEXStyles.shared().secondaryBaseColor())
     }
     
     func startAnimating() {

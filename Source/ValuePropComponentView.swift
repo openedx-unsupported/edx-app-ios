@@ -97,7 +97,10 @@ class ValuePropComponentView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         container.addShadow(offset: CGSize(width: 0, height: 2), color: OEXStyles.shared().primaryDarkColor(), radius: 2, opacity: 0.35, cornerRadius: 5)
+        
+        fetchCoursePrice()
     }
 
     private func setupViews() {
@@ -115,13 +118,6 @@ class ValuePropComponentView: UIView {
         container.addSubview(infoMessagesView)
         container.addSubview(upgradeButton)
         addSubview(container)
-        
-        guard let course = course, let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
-        PaymentManager.shared.productPrice(courseSku) { [weak self] price in
-            if let price = price {
-                self?.upgradeButton.setPrice(price)
-            }
-        }
     }
     
     private func setConstraints() {
@@ -178,6 +174,23 @@ class ValuePropComponentView: UIView {
         showMoreLessButton.accessibilityIdentifier = "ValuePropMessageView:show-more-less-button"
         infoMessagesView.accessibilityIdentifier = "ValuePropMessageView:info-messages-view"
         upgradeButton.accessibilityIdentifier = "ValuePropMessageView:upgrade-button"
+    }
+    
+    private func fetchCoursePrice() {
+        guard let course = course, let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.upgradeButton.startShimeringEffect()
+            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
+                if let price = price {
+                    self?.upgradeButton.stopShimmerEffect()
+                    self?.upgradeButton.setPrice(price)
+                } else {
+                    self?.upgradeButton.stopShimmerEffect()
+                    self?.upgradeButton.updateVisibility(visible: false)
+                }
+            }
+        }
     }
 
     private func toggleInfoMessagesView() {
