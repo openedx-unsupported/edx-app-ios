@@ -1,5 +1,4 @@
-
-name: "edX Test Suit"
+name: "edX Test Suit Previos OS"
 
 on:
   - push
