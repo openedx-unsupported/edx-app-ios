@@ -2,7 +2,7 @@
 name: "edX Test Suit"
 
 on:
-  - pull_request
+  - [pull_request, push]
 
 jobs:
   xcode-ios:
