@@ -76,14 +76,18 @@ class CourseUpgradeHelper: NSObject {
     func removeLoader(success: Bool? = nil) {
         courseUpgradeModel = nil
         
-        ValuePropUnlockViewContainer.shared.removeView() { [weak self] in
-            if let success = success {
-                if success {
-                    self?.showSuccess()
-                } else {
-                    self?.showError()
+        if ValuePropUnlockViewContainer.shared.fullScreenModalVisible {
+            ValuePropUnlockViewContainer.shared.removeView() { [weak self] in
+                if let success = success {
+                    if success {
+                        self?.showSuccess()
+                    } else {
+                        self?.showError()
+                    }
                 }
             }
+        } else if success == false {
+            showError()
         }
     }
 }

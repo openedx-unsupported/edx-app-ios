@@ -15,6 +15,8 @@ class ValuePropUnlockViewContainer: NSObject {
     private var container: UIView?
     private(set) var shouldDismiss: Observable<Bool> = Observable(false)
     
+    var fullScreenModalVisible = false
+    
     private override init() { }
     
     func showView() {
@@ -24,7 +26,7 @@ class ValuePropUnlockViewContainer: NSObject {
         controller.view.frame = window.bounds
         window.addSubview(controller.view)
         container = controller.view
-        
+        fullScreenModalVisible = true
         perform(#selector(finishTimer), with: nil, afterDelay: delay)
     }
     
@@ -40,6 +42,7 @@ class ValuePropUnlockViewContainer: NSObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 completion?()
             }
+            fullScreenModalVisible = false
         }
         
         if !shouldDismiss.value {
