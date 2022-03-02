@@ -97,11 +97,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 
     private var canShowValueProp: Bool {
-        guard let enrollment = enrollment, enrollment.type == .audit && environment.remoteConfig.valuePropEnabled
-        else { return false }
-
-        // TODO: It's a temporary fix, will be reverted under LEARNER-8738
-        return environment.config.inappPurchasesEnabled
+        return enrollment?.type == .audit && environment.remoteConfig.valuePropEnabled
     }
 
     private var enrollment: UserCourseEnrollment? {
@@ -135,7 +131,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let button = UIButton(type: .system)
         button.oex_addAction({ [weak self] _ in
             if let course = self?.enrollment?.course {
-                self?.environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course, completion: nil)
+                self?.environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course, completion:{
+                    self?.environment.analytics.trackValuePropModal(with: .CourseDashboard, courseId: course.course_id ?? "")
+                })
+                self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: .CourseDashboard)
             }
         }, for: .touchUpInside)
 
