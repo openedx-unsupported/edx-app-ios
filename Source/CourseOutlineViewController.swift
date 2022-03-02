@@ -334,7 +334,9 @@ public class CourseOutlineViewController :
         if let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel {
             courseUpgradeHelper.courseUpgradeModel = nil
             if courseUpgradeModel.screen == .courseDashboard {
-                courseUpgradeHelper.removeLoader(success: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                    self?.courseUpgradeHelper.removeLoader(success: true)
+                }
             } else if courseUpgradeModel.screen == .courseUnit, let blockID = courseUpgradeModel.blockID {
                 environment.router?.navigateToComponentScreen(from: self, courseID: courseUpgradeModel.courseID, componentID: blockID) { _ in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
