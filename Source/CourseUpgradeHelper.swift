@@ -52,10 +52,7 @@ class CourseUpgradeHelper: NSObject {
     
     func showSuccess() {
         guard let topController = UIApplication.shared.topMostController() else { return }
-        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.successAlertTitle, message: Strings.CourseUpgrade.successAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-        alertController.addButton(withTitle: Strings.CourseUpgrade.successAlertContinue, style: .cancel) { action in
-            
-        }
+        topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successMessage, textSize: .xSmall, autoDismiss: true, duration: 3)
     }
     
     func showError() {

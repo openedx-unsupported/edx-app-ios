@@ -368,6 +368,8 @@
 "COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Mise à niveau effectuée";
 /*Course upgrade success alert message*/
 "COURSE_UPGRADE.SUCCESS_ALERT_Message"="Merci pour votre achat. Vous pouvez reprendre là où vous vous étiez arrêtés et profiter d\'un accès complet au contenu de cours.";
+/*Course upgrade success message*/
+"COURSE_UPGRADE.SUCCESS_MESSAGE"="Thank you for your purchase. Enjoy full access to your course!";
 /*Course upgrade success alert continue button title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
 /*Course upgrade failure alert title*/
