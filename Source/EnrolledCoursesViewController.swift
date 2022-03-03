@@ -10,7 +10,7 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & RemoteConfigProvider & OEXSessionProvider
     
@@ -22,6 +22,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
     var handleBannerOnStart: Bool = false // this will be used to send first call for the banners
+    private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
     init(environment: Environment) {
         coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
@@ -109,14 +110,24 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         return environment.config.discovery.course.isEnabled
     }
     
+    private func handleUpgradationLoader(success: Bool) {
+        guard let model = courseUpgradeHelper.courseUpgradeModel else { return }
+        
+        environment.interface?.enrollmentForCourse(withID: model.courseID)?.type = .verified
+        
+        if model.screen == .myCourses {
+            courseUpgradeHelper.removeLoader(success: success)
+        }
+    }
+    
     private func setupListener() {
         enrollmentFeed.output.listen(self) {[weak self] result in
             if !(self?.enrollmentFeed.output.active ?? false) {
                 self?.refreshController.endRefreshing()
             }
-            
+                        
             switch result {
-            case let Result.success(enrollments):
+            case let .success(enrollments):
                 if let enrollments = enrollments {
                     self?.coursesContainer.courses = enrollments.compactMap { $0.course }
                     self?.coursesContainer.collectionView.reloadData()
@@ -125,11 +136,13 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     if enrollments.count <= 0 {
                         self?.enrollmentsEmptyState()
                     }
+                    
+                    self?.handleUpgradationLoader(success: true)
                 }
                 else {
                     self?.loadController.state = .Initial
                 }
-            case let Result.failure(error):
+            case let .failure(error):
                 //App is showing occasionally error on app launch, so skipping first error on app launch
                 //TODO: Find exact root cause of error and remove this patch
                 // error code -100 is for unknown error
@@ -141,6 +154,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
                     self?.hideSnackBar()
                 }
+                
+                self?.handleUpgradationLoader(success: false)
             }
         }
     }
@@ -169,18 +184,9 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
             observer.handleBanner()
         }
         
-        NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { notification, observer, _ in
-            if let dictionary = notification.object as? NSDictionary,
-               let courseID = dictionary[CourseUpgradeCompletion.courseID] as? String {
-                observer.handleCourseUpgradation(courseID: courseID)
-            }
+        NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { _, observer, _ in
+            observer.handleCourseUpgradation()
         }
-    }
-    
-    func handleCourseUpgradation(courseID: CourseBlockID) {
-        environment.interface?.enrollmentForCourse(withID: courseID)?.type = .verified
-        coursesContainer.collectionView.reloadData()
-        enrollmentFeed.refresh()
     }
     
     func refreshIfNecessary() {
@@ -225,7 +231,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     
     func showValuePropDetailView(with course: OEXCourse) {
         environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
-        environment.router?.showValuePropDetailView(from: self, screen: .courseEnrollment, course: course) { [weak self] in
+        environment.router?.showValuePropDetailView(from: self, screen: .myCourses, course: course) { [weak self] in
             self?.environment.analytics.trackValuePropModal(with: .CourseEnrollment, courseId: course.course_id ?? "")
         }
     }
@@ -245,14 +251,46 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+}
+
+extension EnrolledCoursesViewController {
+    private func handleCourseUpgradation() {
+        guard let model = courseUpgradeHelper.courseUpgradeModel
+            else { return }
+        
+        environment.interface?.enrollmentForCourse(withID: model.courseID)?.type = .verified
+        enrollmentFeed.refresh()
+        
+        if model.screen != .myCourses {
+            navigateToScreenAterCourseUpgradation()
+        }
+    }
     
-    //MARK:- PullRefreshControllerDelegate method
+    private func navigateToScreenAterCourseUpgradation() {
+        guard let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel
+            else { return }
+        
+        if courseUpgradeModel.screen == .courseDashboard || courseUpgradeModel.screen == .courseUnit {
+            navigationController?.popToViewController(of: EnrolledTabBarViewController.self, animated: true) { [weak self] in
+                guard let weakSelf = self else { return }
+                weakSelf.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: weakSelf, animated: true)
+            }
+        } else {
+            courseUpgradeHelper.removeLoader()
+        }
+    }
+}
+
+//MARK:- PullRefreshControllerDelegate method
+extension EnrolledCoursesViewController: PullRefreshControllerDelegate {
     func refreshControllerActivated(controller: PullRefreshController) {
         enrollmentFeed.refresh()
         userPreferencesFeed.refresh()
     }
-    
-    //MARK:- LoadStateViewReloadSupport method 
+}
+
+//MARK:- LoadStateViewReloadSupport method
+extension EnrolledCoursesViewController: LoadStateViewReloadSupport {
     func loadStateViewReload() {
         refreshIfNecessary()
     }

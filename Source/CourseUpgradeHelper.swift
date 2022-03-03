@@ -1,5 +1,5 @@
 //
-//  CourseUpgradeCompletion.swift
+//  CourseUpgradeHelper.swift
 //  edX
 //
 //  Created by Muhammad Umer on 16/12/2021.
@@ -11,32 +11,42 @@ import MessageUI
 
 let CourseUpgradeCompletionNotification = "CourseUpgradeCompletionNotification"
 
-class CourseUpgradeCompletion: NSObject {
+struct CourseUpgradeModel {
+    let courseID: String
+    let blockID: String?
+    let screen: CourseUpgradeScreen
+}
+
+class CourseUpgradeHelper: NSObject {
     
     static let courseID = "CourseID"
     static let blockID = "BlockID"
     static let screen = "Screen"
     
-    static let shared = CourseUpgradeCompletion()
+    static let shared = CourseUpgradeHelper()
     
     enum CompletionState {
+        case fulfillment
         case success(_ courseID: String, _ componentID: String?)
         case error
     }
     
+    var courseUpgradeModel: CourseUpgradeModel?
+        
     private override init() { }
     
     func handleCourseUpgrade(state: CompletionState, screen: CourseUpgradeScreen) {
         switch state {
+        case .fulfillment:
+            showLoader()
+            break
         case .success(let courseID, let blockID):
-            let dictionary = [
-                CourseUpgradeCompletion.screen: screen.rawValue,
-                CourseUpgradeCompletion.courseID: courseID,
-                CourseUpgradeCompletion.blockID: blockID
-            ]
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: dictionary))
+            courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
+            break
         case .error:
-            showError()
+            removeLoader(success: false)
+            break
         }
     }
     
@@ -58,9 +68,31 @@ class CourseUpgradeCompletion: NSObject {
             
         }
     }
+    
+    func showLoader() {
+        ValuePropUnlockViewContainer.shared.showView()
+    }
+    
+    func removeLoader(success: Bool? = nil) {
+        courseUpgradeModel = nil
+        
+        if ValuePropUnlockViewContainer.shared.isVisible {
+            ValuePropUnlockViewContainer.shared.removeView() { [weak self] in
+                if let success = success {
+                    if success {
+                        self?.showSuccess()
+                    } else {
+                        self?.showError()
+                    }
+                }
+            }
+        } else if success == false {
+            showError()
+        }
+    }
 }
 
-extension CourseUpgradeCompletion: MFMailComposeViewControllerDelegate {
+extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
     fileprivate func launchEmailComposer() {
         guard let controller = UIApplication.shared.window?.rootViewController else { return }
 
@@ -82,7 +114,6 @@ extension CourseUpgradeCompletion: MFMailComposeViewControllerDelegate {
 
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         guard let controller = UIApplication.shared.window?.rootViewController else { return }
-
         controller.dismiss(animated: true, completion: nil)
     }
 }

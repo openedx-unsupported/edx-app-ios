@@ -31,6 +31,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }()
     
     private var loader: OEXStream<URL?>?
+    private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
     init(blockID: CourseBlockID?, courseID: String, environment: Environment) {
         self.blockID = blockID
@@ -74,8 +75,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didBecomeActiveNotification.rawValue) { _, observer, _ in
-            observer.enableUserInteraction()
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.willEnterForegroundNotification.rawValue) { _, observer, _ in
+            observer.enableUserInteraction(enable: true)
         }
     }
     
@@ -205,25 +206,25 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
     func didTapUpgradeCourse(upgradeView: ValuePropComponentView) {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else { return }
         
-        disableUserInteraction()
-        
         let pacing = course.isSelfPaced ? "self" : "instructor"
         environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: self.blockID ?? "", pacing: pacing)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
+            self?.enableUserInteraction(enable: false)
+            
             switch status {
-            case .payment:
-                upgradeView.stopAnimating()
+            case .verify:
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment, screen: .courseUnit)
                 break
             case .complete:
-                self?.enableUserInteraction()
+                self?.enableUserInteraction(enable: true)
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
-                CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .success(self?.courseID ?? "", self?.blockID), screen: .courseUnit)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.courseID ?? "", self?.blockID), screen: .courseUnit)
                 break
             case .error:
-                self?.enableUserInteraction()
+                self?.enableUserInteraction(enable: true)
                 upgradeView.stopAnimating()
-                CourseUpgradeCompletion.shared.handleCourseUpgrade(state: .error, screen: .courseUnit)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error, screen: .courseUnit)
                 break
             default:
                 break
@@ -231,19 +232,11 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         }
     }
     
-    private func disableUserInteraction() {
+    private func enableUserInteraction(enable: Bool) {
         DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.toolbar.isUserInteractionEnabled = false
-            self?.navigationController?.navigationBar.isUserInteractionEnabled = false
-            self?.view.isUserInteractionEnabled = false
-        }
-    }
-    
-    private func enableUserInteraction() {
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.toolbar.isUserInteractionEnabled = true
-            self?.navigationController?.navigationBar.isUserInteractionEnabled = true
-            self?.view.isUserInteractionEnabled = true
+            self?.navigationController?.toolbar.isUserInteractionEnabled = enable
+            self?.navigationController?.navigationBar.isUserInteractionEnabled = enable
+            self?.view.isUserInteractionEnabled = enable
         }
     }
     

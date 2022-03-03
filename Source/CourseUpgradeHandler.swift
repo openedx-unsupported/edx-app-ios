@@ -104,7 +104,7 @@ class CourseUpgradeHandler: NSObject {
     
     private func makePayment() {
         state = .payment
-        PaymentManager.shared.purchaseProduct(courseSku) { [weak self] (success: Bool, receipt: String?, error: PurchaseError?) in
+        PaymentManager.shared.purchaseProduct(courseSku) { [weak self] success, receipt, error in
             if let receipt = receipt, success {
                 self?.verifyPayment(receipt)
             } else {
@@ -120,7 +120,7 @@ class CourseUpgradeHandler: NSObject {
         let baseURL = CourseUpgradeAPI.baseURL
         let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: courseSku, receipt: receipt)
         
-        environment?.networkManager.taskForRequest(base: baseURL, request){ [weak self] response in
+        environment?.networkManager.taskForRequest(base: baseURL, request) { [weak self] response in
             if response.error == nil {
                 PaymentManager.shared.markPurchaseComplete(self?.course?.course_id ?? "", type: .purchase)
                 self?.state = .complete

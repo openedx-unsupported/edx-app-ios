@@ -185,7 +185,7 @@
 		5F35022427901E7400F76CB4 /* ValuePropUnlockViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */; };
 		5F371470260B3BC9004937DA /* Observeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F37146F260B3BC9004937DA /* Observeable.swift */; };
 		5F3A619A265796A7005329A4 /* CalendarSyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */; };
-		5F45030E276B4B290054D266 /* CourseUpgradeCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F45030D276B4B290054D266 /* CourseUpgradeCompletion.swift */; };
+		5F45030E276B4B290054D266 /* CourseUpgradeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F45030D276B4B290054D266 /* CourseUpgradeHelper.swift */; };
 		5F46A7CC24ADFFA300347EFC /* CourseDateViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */; };
 		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
 		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
@@ -1247,7 +1247,7 @@
 		5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropUnlockViewContainer.swift; sourceTree = "<group>"; };
 		5F37146F260B3BC9004937DA /* Observeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observeable.swift; sourceTree = "<group>"; };
 		5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSyncConfig.swift; sourceTree = "<group>"; };
-		5F45030D276B4B290054D266 /* CourseUpgradeCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUpgradeCompletion.swift; sourceTree = "<group>"; };
+		5F45030D276B4B290054D266 /* CourseUpgradeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUpgradeHelper.swift; sourceTree = "<group>"; };
 		5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDateViewCell.swift; sourceTree = "<group>"; };
 		5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePoint.swift; sourceTree = "<group>"; };
 		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
@@ -2575,7 +2575,7 @@
 				5F54D99C26B9228500F1EA71 /* PaymentManager.swift */,
 				E0357C4626CA59120041947A /* CourseUpgradeHandler.swift */,
 				E0357C4826CB80BC0041947A /* CourseUpgradeAPI.swift */,
-				5F45030D276B4B290054D266 /* CourseUpgradeCompletion.swift */,
+				5F45030D276B4B290054D266 /* CourseUpgradeHelper.swift */,
 				5F6919DF2773090F007F00AD /* UpgradeSKUManager.swift */,
 			);
 			name = Payment;
@@ -5474,7 +5474,7 @@
 				B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
-				5F45030E276B4B290054D266 /* CourseUpgradeCompletion.swift in Sources */,
+				5F45030E276B4B290054D266 /* CourseUpgradeHelper.swift in Sources */,
 				223895D01F25CF76005B9C15 /* SwipeActionButton.swift in Sources */,
 				B78823B01FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift in Sources */,
 				5D43B1871B0C1F9200448B52 /* PostsViewController.swift in Sources */,
