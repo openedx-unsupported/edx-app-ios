@@ -8,7 +8,7 @@
 
 import Foundation
 
-private let StandardTolerance : CGFloat = 0.07
+private let StandardTolerance : CGFloat = 0.05
 
 protocol SnapshotTestable {
     func snapshotTestWithCase(_ testCase : FBSnapshotTestCase, referenceImagesDirectory: String, imageDiffDirectory: String, identifier: String) throws
