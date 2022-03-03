@@ -131,9 +131,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let button = UIButton(type: .system)
         button.oex_addAction({ [weak self] _ in
             if let course = self?.enrollment?.course {
-                self?.environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course, completion:{
+                self?.environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course) {
                     self?.environment.analytics.trackValuePropModal(with: .CourseDashboard, courseId: course.course_id ?? "")
-                })
+                }
                 self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: .CourseDashboard)
             }
         }, for: .touchUpInside)
