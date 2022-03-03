@@ -16,7 +16,7 @@ class ValuePropUnlockViewContainer {
     private init() { }
     
     func showView() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = UIApplication.shared.window else { return }
         
         let controller = ValuePropUnlockViewController()
         controller.view.frame = window.bounds
