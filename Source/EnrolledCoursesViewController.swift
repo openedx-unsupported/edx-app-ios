@@ -111,8 +111,13 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     }
     
     private func handleUpgradationLoader(success: Bool) {
-        guard let model = courseUpgradeHelper.courseUpgradeModel, model.screen == .myCourses else { return }
-        courseUpgradeHelper.removeLoader(success: success)
+        guard let model = courseUpgradeHelper.courseUpgradeModel else { return }
+        
+        environment.interface?.enrollmentForCourse(withID: model.courseID)?.type = .verified
+        
+        if model.screen == .myCourses {
+            courseUpgradeHelper.removeLoader(success: success)
+        }
     }
     
     private func setupListener() {
@@ -250,12 +255,13 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
 
 extension EnrolledCoursesViewController {
     private func handleCourseUpgradation() {
-        guard let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel
+        guard let model = courseUpgradeHelper.courseUpgradeModel
             else { return }
-                
+        
+        environment.interface?.enrollmentForCourse(withID: model.courseID)?.type = .verified
         enrollmentFeed.refresh()
         
-        if courseUpgradeModel.screen != .myCourses {
+        if model.screen != .myCourses {
             navigateToScreenAterCourseUpgradation()
         }
     }
