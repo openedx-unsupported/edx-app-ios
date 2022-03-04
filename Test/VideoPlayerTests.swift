@@ -94,7 +94,7 @@ class VideoPlayerTests: XCTestCase {
             XCTAssertEqual(videoPlayer.rate, 0)
             videoPlayer.t_resume()
             let resumeTime = videoPlayer.currentTime
-            XCTAssertGreaterThanOrEqual(resumeTime, pauseTime)
+            XCTAssertGreaterThanOrEqual(resumeTime, floor(pauseTime))
         }
     }
     
