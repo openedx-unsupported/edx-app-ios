@@ -66,6 +66,7 @@ public extension OEXCourse {
         if let about = aboutUrl {
             courseDictionary["course_about"] = about
         }
+        
         return courseDictionary
     }
     
