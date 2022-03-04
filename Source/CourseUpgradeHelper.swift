@@ -52,7 +52,7 @@ class CourseUpgradeHelper: NSObject {
     
     func showSuccess() {
         guard let topController = UIApplication.shared.topMostController() else { return }
-        topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successMessage, textSize: .xSmall, autoDismiss: true, duration: 3)
+        topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successAlertMessage, autoDismiss: true, duration: 3)
     }
     
     func showError() {
