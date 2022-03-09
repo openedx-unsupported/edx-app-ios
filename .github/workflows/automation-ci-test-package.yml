@@ -1,4 +1,4 @@
-name: Run tests
+name: Run automation tests
 
 on: [push, pull_request]
 
@@ -17,7 +17,7 @@ jobs:
     - name: Clone edx-app-test repository
       uses: actions/checkout@v2
       with:
-        repository: https://github.com/openedx/edx-app-test.git
+        repository: openedx/edx-app-test
         ref: master
 
     - name: …
