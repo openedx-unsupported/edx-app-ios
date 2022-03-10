@@ -12,8 +12,5 @@ jobs:
         git clone https://github.com/openedx/edx-app-test.git
         pip install pytest
         pip install Appium-Python-Client
-        find tests/
-        py.test --collect-only tests/
-        pip freeze > requirements.txt
         pip wheel --wheel-dir wheelhouse -r requirements.txt
         zip -r test_bundle.zip tests/ requirements.txt
