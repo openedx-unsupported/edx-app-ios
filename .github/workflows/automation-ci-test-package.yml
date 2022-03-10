@@ -10,6 +10,8 @@ jobs:
     - name: Clone edx-app-test repository
       run: |
         git clone https://github.com/openedx/edx-app-test.git
-        cd edx-app-test
-        zip -r test_bundle.zip tests/ requirements.txt
-        cp test_bundle.zip ../
+    - name: move to edx-app-test
+      run: cd edx-app-test
+    - name: create zip bundle
+      run: zip -r test_bundle.zip tests/ requirements.txt
+          cp test_bundle.zip ../
