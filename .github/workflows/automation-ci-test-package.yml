@@ -17,7 +17,9 @@ jobs:
     - name: Clone edx-app-test repository
       uses: actions/checkout@v2
       with:
-        repository: openedx/edx-app-test
+        source_repo: "git@github.com:openedx/edx-app-test.git"
+        source_branch: "master"
+
 
     - name: …
       run: …
