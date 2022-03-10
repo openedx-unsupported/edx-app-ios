@@ -10,9 +10,6 @@ jobs:
     - name: Clone edx-app-test repository
       run: |
         git clone https://github.com/openedx/edx-app-test.git
-        virtualenv workspace
-        cd workspace
-        source bin/activate
         pip install pytest
         pip install Appium-Python-Client
         find tests/
