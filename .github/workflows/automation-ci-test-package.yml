@@ -8,13 +8,15 @@ jobs:
 
     steps:
     - name: Clone edx-app-test repository
-      uses: actions/checkout@v2
-
-    # This part here is cloning a second repository
-    # While cloning the repository:
-    #   - it clones the repo into the given `path`
-    #   - it checks out the branch defined at `ref`
-    - name: Clone edx-app-test repository
-      uses: actions/checkout@v2
-      with:
-        run: git clone https://github.com/openedx/edx-app-test.git
+      run: |
+        git clone https://github.com/openedx/edx-app-test.git
+        virtualenv workspace
+        cd workspace
+        source bin/activate
+        pip install pytest
+        pip install Appium-Python-Client
+        find tests/
+        py.test --collect-only tests/
+        pip freeze > requirements.txt
+        pip wheel --wheel-dir wheelhouse -r requirements.txt
+        zip -r test_bundle.zip tests/ requirements.txt
