@@ -14,3 +14,4 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/edx-app-test
         pip install -r requirements.txt
+        zip -r test_bundle.zip tests/ requirements.txt
