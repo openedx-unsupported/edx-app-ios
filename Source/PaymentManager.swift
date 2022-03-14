@@ -35,7 +35,7 @@ enum PurchaseError: String {
     // Use this dictionary to keep track of inprocess transctions and allow only one transction at a time
     private var purchasess: [String: Any] = [:]
 
-    typealias PurchaseCompletionHandler = ((success: Bool, receipt: String?, error: PurchaseError?)) -> Void
+    typealias PurchaseCompletionHandler = ((success: Bool, receipt: String?, error: (type: PurchaseError?, error: Error?)?)) -> Void
     var completion: PurchaseCompletionHandler?
 
     var isIAPInprocess:Bool {
@@ -78,12 +78,12 @@ enum PurchaseError: String {
             if let controller = UIApplication.shared.topMostController() {
                 UIAlertController().showAlert(withTitle: "Payment Error", message: "This device is not able or allowed to make payments", onViewController: controller)
             }
-            completion?((false, receipt: nil, error: .paymentsNotAvailebe))
+            completion?((false, receipt: nil, error:(type: .paymentsNotAvailebe, error: nil)))
             return
         }
 
         guard let applicationUserName = OEXSession.shared()?.currentUser?.username else {
-            completion?((false, receipt: nil, error: .invalidUser))
+            completion?((false, receipt: nil, error: (type: .invalidUser, error: NSError(domain: "edx.app.payment", code: -1010, userInfo: [NSLocalizedDescriptionKey : "App username is not available"]))))
             return
         }
         self.completion = completion
@@ -95,7 +95,7 @@ enum PurchaseError: String {
                 self?.purchaseReceipt()
                 break
             case .error(let error):
-                completion?((false, receipt: nil, error: .paymentError))
+                completion?((false, receipt: nil, error: (type: .paymentError, error: error)))
                 switch error.code {
                 //TOD: handle the following cases according to the requirments
                 case .unknown:
@@ -144,8 +144,8 @@ enum PurchaseError: String {
             case .success(let receiptData):
                 let encryptedReceipt = receiptData.base64EncodedString(options: [])
                 self?.completion?((true, receipt: encryptedReceipt, error: nil))
-            case .error(_):
-                self?.completion?((false, receipt: nil, error: .receiptNotAvailable))
+            case .error(let error):
+                self?.completion?((false, receipt: nil, error: (type: .receiptNotAvailable, error: error)))
             }
         }
     }

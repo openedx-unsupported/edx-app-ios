@@ -103,8 +103,8 @@ extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
             mail.mailComposeDelegate = self
             mail.navigationBar.tintColor = OEXStyles.shared().navigationItemTintColor()
             mail.setSubject(Strings.CourseUpgrade.getSupportEmailSubject)
-
-            mail.setMessageBody(EmailTemplates.supportEmailMessageTemplate(), isHTML: false)
+            let body = EmailTemplates.supportEmailMessageTemplate(error: "Error: \(CourseUpgradeHandler.shared.formattedUpgradeError)")
+            mail.setMessageBody(body, isHTML: false)
             if let fbAddress = OEXRouter.shared().environment.config.feedbackEmailAddress() {
                 mail.setToRecipients([fbAddress])
             }

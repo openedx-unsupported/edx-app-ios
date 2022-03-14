@@ -707,7 +707,7 @@
     mailComposer.mailComposeDelegate = self;
     mailComposer.navigationBar.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
     [mailComposer setSubject:[Strings accountDisabled]];
-    [mailComposer setMessageBody:[EmailTemplates supportEmailMessageTemplate] isHTML:false];
+    [mailComposer setMessageBody:[EmailTemplates supportEmailMessageTemplateWithError:nil] isHTML:false];
 
     NSString *fbAddress = self.environment.config.feedbackEmailAddress;
     if (fbAddress) {

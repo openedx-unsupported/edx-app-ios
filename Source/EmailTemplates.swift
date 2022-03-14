@@ -10,12 +10,15 @@ import UIKit
 
 @objc class EmailTemplates: NSObject {
     
-  @objc static func supportEmailMessageTemplate() -> String {
+    @objc static func supportEmailMessageTemplate(error: String? = nil) -> String {
         let osVersionText = Strings.SubmitFeedback.osVersion(version: UIDevice.current.systemVersion)
         let appVersionText = Strings.SubmitFeedback.appVersion(version: Bundle.main.oex_shortVersionString(), build: Bundle.main.oex_buildVersionString())
         let deviceModelText = Strings.SubmitFeedback.deviceModel(model: UIDevice.current.model)
-        let body = ["\n", Strings.SubmitFeedback.marker, osVersionText, appVersionText, deviceModelText].joined(separator: "\n")
-        return body
+        var body = ["\n", Strings.SubmitFeedback.marker, osVersionText, appVersionText, deviceModelText]
+        if let error = error {
+            body.append(error)
+        }
+        return body.joined(separator: "\n")
     }
     
 }

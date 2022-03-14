@@ -17,7 +17,7 @@ class CourseUpgradeHandler: NSObject {
         case payment
         case verify
         case complete
-        case error(PurchaseError)
+        case error(type: PurchaseError, error: Error?)
     }
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & ReachabilityProvider & OEXInterfaceProvider
@@ -33,6 +33,42 @@ class CourseUpgradeHandler: NSObject {
             completion?(state)
         }
     }
+
+    var formattedUpgradeError: String {
+        var errorType = "generalError"
+        if case .error(let type, let error) = state {
+            switch type {
+            case .basketError:
+                errorType = "basket"
+                break
+            case .checkoutError:
+                errorType = "checkout"
+                break
+            case .paymentError:
+                errorType = "payment"
+                break
+            case .verifyReceiptError:
+                errorType = "execute"
+                break
+            default:
+                break
+            }
+
+            guard let error = error as NSError? else { return errorType }
+
+            if case .paymentError = type {
+                return "\(errorType)-\(error.code)-\(error.localizedDescription)"
+            }
+
+            if let errorResponse = error.userInfo.values.first,
+               let json = errorResponse as? JSON,
+               let errorMessage = json.dictionary?.values.first {
+
+                return "\(errorType)-\(error.code)-\(errorMessage)"
+            }
+        }
+        return errorType
+    }
     
     static let shared = CourseUpgradeHandler()
     
@@ -44,47 +80,46 @@ class CourseUpgradeHandler: NSObject {
         state = .initial
         
         guard let coursePurchaseSku = UpgradeSKUManager.shared.courseSku(for: course) else {
-            state = .error(.generalError)
+        state = .error(type: .generalError, error: NSError(domain:"edx.app.courseupgrade", code: -1010, userInfo: [NSLocalizedDescriptionKey: JSON(["error": "course sku is missing"])]))
             return
         }
         
         courseSku = coursePurchaseSku
-        
-        addToBasket { [weak self] orderBasket in
+
+        addToBasket { [weak self] (orderBasket, error) in
             if let basketID = orderBasket?.basketID {
                 self?.basketID = basketID
                 self?.checkout()
             } else {
-                self?.state = .error(.basketError)
+                self?.state = .error(type: .basketError, error: error)
             }
         }
     }
     
     func upgradeCourse(_ courseID: String, environment: Environment, completion: UpgradeCompletionHandler?) {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else {
-            state = .error(.generalError)
+            state = .error(type: .generalError, error: nil)
             return
         }
         
         upgradeCourse(course, environment: environment, completion: completion)
     }
     
-    private func addToBasket(completion: @escaping (OrderBasket?) -> ()) {
+    private func addToBasket(completion: @escaping (OrderBasket?, Error?) -> ()) {
         state = .basket
-        
+
         let baseURL = CourseUpgradeAPI.baseURL
         let request = CourseUpgradeAPI.basketAPI(with: courseSku)
         
         environment?.networkManager.taskForRequest(base: baseURL, request) { response in
-            completion(response.data)
+            completion(response.data, response.error)
         }
     }
     
     private func checkout() {
         // Checkout API
-        // Perform the inapp purchase on success
         guard basketID > 0 else {
-            state = .error(.checkoutError)
+            state = .error(type: .checkoutError, error: NSError(domain:"edx.app.courseupgrade", code: -1010, userInfo: [NSLocalizedDescriptionKey: JSON(["error": "invalid basket id < zero"])]))
             return
         }
         
@@ -97,7 +132,7 @@ class CourseUpgradeHandler: NSObject {
             if response.error == nil {
                 self?.makePayment()
             } else {
-                self?.state = .error(.checkoutError)
+                self?.state = .error(type: .checkoutError, error: response.error)
             }
         }
     }
@@ -108,7 +143,7 @@ class CourseUpgradeHandler: NSObject {
             if let receipt = receipt, success {
                 self?.verifyPayment(receipt)
             } else {
-                self?.state = .error(error ?? .paymentError)
+                self?.state = .error(type: (error?.type ?? .paymentError), error: error?.error)
             }
         }
     }
@@ -125,7 +160,7 @@ class CourseUpgradeHandler: NSObject {
                 PaymentManager.shared.markPurchaseComplete(self?.course?.course_id ?? "", type: .purchase)
                 self?.state = .complete
             } else {
-                self?.state = .error(.verifyReceiptError)
+                self?.state = .error(type: .verifyReceiptError, error: response.error)
             }
         }
     }
