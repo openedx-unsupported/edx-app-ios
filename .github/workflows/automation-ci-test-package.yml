@@ -14,5 +14,5 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/edx-app-test
         ls
-    - name: move to requirements
-      run: pip install -r requirements.txt
+        pip install -r requirements.txt
+        zip -r test_bundle.zip tests/ requirements.txt
