@@ -72,6 +72,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         setupListener()
         setupObservers()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            ValuePropUnlockViewContainer.shared.showView()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

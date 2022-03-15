@@ -35,6 +35,22 @@ extension NSAttributedString {
             mutableAttributedString.addAttributes(attributes, range: range)
             return mutableAttributedString
     }
+    
+    func applyColor(color: UIColor, on subString: String? = nil, addLineBreak: Bool = false) -> NSAttributedString {
+        let mutableAttributedString = NSMutableAttributedString(attributedString: self)
+        var mutableString = string
+        if addLineBreak, let index = string.range(of: subString ?? string)?.upperBound {
+            mutableString.insert("\n", at: index)
+            mutableAttributedString.mutableString.setString(mutableString)
+        }
+       
+        let range = mutableString.nsString.range(of: subString ?? string)
+        let attributes = [
+            NSAttributedString.Key.foregroundColor: color,
+        ] as [NSAttributedString.Key : Any]
+        mutableAttributedString.addAttributes(attributes, range: range)
+        return mutableAttributedString
+    }
 }
 
 extension OEXTextStyle {
@@ -61,5 +77,9 @@ extension OEXTextStyle {
 extension String {
     func applyStyle(style : OEXTextStyle) -> NSAttributedString {
         return style.attributedString(withText: self)
+    }
+    
+    var nsString: NSString {
+        return NSString(string: self)
     }
 }

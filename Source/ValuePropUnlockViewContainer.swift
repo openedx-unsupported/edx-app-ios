@@ -19,15 +19,29 @@ class ValuePropUnlockViewContainer: NSObject {
     
     private override init() { }
     
+    private var controller: ValuePropUnlockViewController?
+    
     func showView() {
         guard let window = UIApplication.shared.window else { return }
         
-        let controller = ValuePropUnlockViewController()
-        controller.view.frame = window.bounds
-        window.addSubview(controller.view)
-        container = controller.view
+        controller = ValuePropUnlockViewController()
+        
+        controller?.view.frame = window.bounds
+        
+        if let view = controller?.view {
+            window.addSubview(view)
+            container = view
+        }
         
         perform(#selector(finishTimer), with: nil, afterDelay: delay)
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIDevice.orientationDidChangeNotification.rawValue) { _, observer, _ in
+            observer.deviceOrientationDidChange()
+        }
+    }
+    
+    @objc func deviceOrientationDidChange() {
+        UIDevice.current.orientation.isLandscape ? controller?.applyLandscapeOrientation() : controller?.applyPortraitOrientation()
     }
     
     @objc func finishTimer() {
@@ -39,6 +53,7 @@ class ValuePropUnlockViewContainer: NSObject {
             container?.subviews.forEach { $0.removeFromSuperview() }
             container?.removeFromSuperview()
             shouldDismiss.unsubscribe(observer: self)
+            NotificationCenter.default.removeObserver(self)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 completion?()
             }
@@ -70,45 +85,103 @@ class ValuePropUnlockViewController: UIViewController {
         addSubview()
     }
     
-    private func addSubview() {
-        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
-        view.accessibilityIdentifier = "ValuePropUnlockViewController:view"
+    private lazy var unlockMessageLabel: UILabel = {
+        let label = UILabel()
+        label.accessibilityIdentifier = "ValuePropUnlockViewController:label-unlock-message"
+        label.numberOfLines = 0
         
-        let indicator = UIActivityIndicatorView()
+        let textStyle = OEXMutableTextStyle(weight: .bold, size: .xxxxxLarge, color: nil)
+        let attributedText = textStyle.attributedString(withText: Strings.ValueProp.unlockingCourseAccess)
+        
+        label.attributedText = attributedText
+            .setLineSpacing(0.93, alignment: .center, lineBreakMode: .byWordWrapping)
+            .applyColor(color: OEXStyles.shared().primaryXLightColor(), on: Strings.ValueProp.unlockingCourseAccessPartOne, addLineBreak: true)
+            .applyColor(color: OEXStyles.shared().accentAColor(), on: Strings.ValueProp.unlockingCourseAccessPartTwo, addLineBreak: true)
+            .applyColor(color: OEXStyles.shared().primaryXLightColor(), on: Strings.ValueProp.unlockingCourseAccessPartThree)
+        return label
+    }()
+    
+    private lazy var indicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
         indicator.accessibilityIdentifier = "ValuePropUnlockViewController:activity-indicator"
         indicator.hidesWhenStopped = true
         indicator.startAnimating()
-        indicator.color = OEXStyles.shared().neutralBlack()
-        
-        let label = UILabel()
-        label.accessibilityIdentifier = "ValuePropUnlockViewController:label"
-        label.numberOfLines = 0
-        let textStyle = OEXMutableTextStyle(weight: .bold, size: .xxLarge, color: OEXStyles.shared().neutralXXDark())
-        label.attributedText = textStyle.attributedString(withText: Strings.ValueProp.unlockingCourseAccess).setLineSpacing(1.1, alignment: .center)
-        
+        indicator.color = OEXStyles.shared().neutralDark()
+        return indicator
+    }()
+    
+    private lazy var imageView: UIImageView = {
+        guard let image = UIImage(named: "campaign_launch") else { return UIImageView() }
+        return UIImageView(image: image)
+    }()
+    
+    private lazy var container: UIView = {
         let container = UIView()
         container.accessibilityIdentifier = "ValuePropUnlockViewController:container"
         container.addSubview(indicator)
-        container.addSubview(label)
-        
+        container.addSubview(unlockMessageLabel)
+        container.addSubview(imageView)
+        return container
+    }()
+    
+    private func addSubview() {
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.accessibilityIdentifier = "ValuePropUnlockViewController:view"
         view.addSubview(container)
         
-        indicator.snp.makeConstraints { make in
-            make.top.equalTo(container)
+        container.snp.makeConstraints { make in
+            make.edges.equalTo(view)
+        }
+        
+        if isLandscape {
+            applyLandscapeOrientation()
+        } else {
+            applyPortraitOrientation()
+        }
+    }
+    
+    func applyPortraitOrientation() {
+        indicator.snp.remakeConstraints { make in
+            make.top.equalTo(container).offset(StandardVerticalMargin * 14)
             make.centerX.equalTo(container)
         }
         
-        label.snp.makeConstraints { make in
-            make.top.equalTo(indicator.snp.bottom).offset(StandardVerticalMargin)
+        unlockMessageLabel.snp.remakeConstraints { make in
+            make.top.equalTo(indicator.snp.bottom).offset(StandardVerticalMargin * 4)
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             make.trailing.equalTo(container).inset(StandardHorizontalMargin)
             make.centerX.equalTo(container)
         }
         
-        container.snp.makeConstraints { make in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
-            make.center.equalTo(view)
+        imageView.snp.remakeConstraints { make in
+            make.top.equalTo(unlockMessageLabel.snp.bottom).offset(StandardVerticalMargin * 5)
+            make.leading.equalTo(container).offset(StandardHorizontalMargin * 3)
+            make.trailing.equalTo(container).inset(StandardHorizontalMargin * 3)
+            make.centerX.equalTo(container)
+            make.height.equalTo(imageView.snp.width).inset(StandardVerticalMargin * 2)
+        }
+    }
+    
+    func applyLandscapeOrientation() {
+        indicator.snp.remakeConstraints { make in
+            make.top.equalTo(container).offset(StandardVerticalMargin * 8)
+            make.centerX.equalTo(container)
+        }
+
+        imageView.snp.remakeConstraints { make in
+            make.top.equalTo(indicator.snp.bottom).offset(StandardVerticalMargin * 6)
+            make.leading.equalTo(container).offset(StandardHorizontalMargin * 3)
+            make.width.equalTo(UIScreen.main.bounds.width / 3)
+            make.height.equalTo(imageView.snp.width)
+            make.bottom.equalTo(container).inset(StandardVerticalMargin * 4)
+        }
+
+        unlockMessageLabel.snp.remakeConstraints { make in
+            make.centerY.equalTo(imageView)
+            make.leading.equalTo(indicator.snp.trailing).inset(StandardHorizontalMargin * 2)
+            make.height.equalTo(imageView)
+            make.width.equalTo(imageView)
+            make.bottom.equalTo(imageView.snp.bottom)
         }
     }
 }
