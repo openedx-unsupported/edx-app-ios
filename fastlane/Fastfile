@@ -1,19 +1,18 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Run test suit"
-  lane :test do
-    ["edX", "edX-RTL"].each do |current_scheme|
-      begin
-        scan(
-          scheme: current_scheme,
-          workspace: "edX.xcworkspace",
-          clean: true,
-          devices: ["iPhone 8 (15.2)", "iPhone 8 (14.4)"]
-          )
-      rescue => ex
-         puts ex
-      end
+  desc "Run end-to-end tests"
+  lane :test do |options|
+    scheme = options[:scheme]
+    begin
+      scan(
+        scheme: scheme,
+        workspace: "edX.xcworkspace",
+        clean: true,
+        devices: ["iPhone 8 (15.2)", "iPhone 8 (14.4)"]
+      )
+    rescue => ex
+      puts ex
     end
   end
 

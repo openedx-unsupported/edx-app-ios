@@ -4,8 +4,15 @@ on:
   push
 
 jobs:
- test:
-   runs-on: macos-latest
+  test:
+    name: "${{ matrix.env.name }}"
+    runs-on: macos-latest
+    matrix:
+      env:
+        - name: "Test edX LTR"
+          scheme: "edX"
+        - name: "Test edX RTL"
+          scheme: "edX-RTL"
    steps:
      - uses: actions/checkout@v2
-     - run: fastlane test
+     - run: fastlane test scheme:${{ matrix.env.scheme }}
