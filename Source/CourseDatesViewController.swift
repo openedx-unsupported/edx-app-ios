@@ -291,10 +291,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         environment.networkManager.taskForRequest(request) { [weak self] result  in
             if let _ = result.error {
                 self?.trackDatesShiftEvent(success: false)
-                self?.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
+                self?.showBottomActionSnackBar(message: Strings.Coursedates.ResetDate.errorMessage)
             } else {
                 self?.trackDatesShiftEvent(success: true)
-                self?.showCalendarActionSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
+                self?.showBottomActionSnackBar(message: Strings.Coursedates.ResetDate.successMessage)
                 self?.postCourseDateResetNotification()
             }
         }
@@ -390,7 +390,7 @@ extension CourseDatesViewController {
             self?.removeCourseCalendar(trackAnalytics: false) { _ in
                 self?.addCourseEvents(trackAnalytics: false) { success in
                     if success {
-                        topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
+                        topController.showBottomActionSnackBar(message: Strings.Coursedates.calendarEventsUpdated)
                         let syncReason: SyncReason = self?.datesShifted ?? false ? .direct : .background
                         self?.datesShifted = false
                         self?.trackCalendarEvent(for: .CalendarUpdateDatesSuccess, eventName: .CalendarUpdateDatesSuccess, syncReason: syncReason)
@@ -403,7 +403,7 @@ extension CourseDatesViewController {
             self?.trackCalendarEvent(for: .CalendarSyncRemoveCalendar, eventName: .CalendarSyncRemoveCalendar)
             self?.removeCourseCalendar { success in
                 if success {
-                    topController.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
+                    topController.showBottomActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
                 }
             }
         }
@@ -498,7 +498,7 @@ extension CourseDatesViewController {
             self?.trackCalendarEvent(for: .CalendarRemoveDatesOK, eventName: .CalendarRemoveDatesOK)
             self?.removeCourseCalendar { success in
                 if success {
-                    self?.showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
+                    self?.showBottomActionSnackBar(message: Strings.Coursedates.calendarEventsRemoved)
                 }
             }
         }
@@ -508,7 +508,7 @@ extension CourseDatesViewController {
     
     private func eventsAddedSuccessAlert() {
         if calendar.isModalPresented {
-            showCalendarActionSnackBar(message: Strings.Coursedates.calendarEventsAdded)
+            showBottomActionSnackBar(message: Strings.Coursedates.calendarEventsAdded)
             return
         }
         

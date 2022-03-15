@@ -376,6 +376,8 @@
 "COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="השדרוג הושלם";
 /*Course upgrade success alert message*/
 "COURSE_UPGRADE.SUCCESS_ALERT_Message"="תודה על רכישתך. אתה יכול להמשיך מאיפה שהפסקת וליהנות מגישה מלאה לתוכן הקורס שלך.";
+/*Course upgrade success message*/
+"COURSE_UPGRADE.SUCCESS_MESSAGE"="Thank you for your purchase. Enjoy full access to your course!";
 /*Course upgrade success alert continue button title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
 /*Course upgrade failure alert title*/

@@ -316,13 +316,12 @@ public class DateResetToastView: UIView {
     }
 }
 
-public class CalendarActionToastView: UIView {
+public class BottomActionToastView: UIView {
     private lazy var container = UIView()
     
     private lazy var messageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        
         return label
     }()
     
@@ -331,15 +330,15 @@ public class CalendarActionToastView: UIView {
         let image = Icon.Close.imageWithFontSize(size: 18)
         button.setImage(image, for: UIControl.State())
         button.tintColor = OEXStyles.shared().neutralWhiteT()
-        
         return button
     }()
     
-    private lazy var messageLabelStyle: OEXTextStyle = {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhiteT())
-    }()
+    private var textSize: OEXTextSize
     
-    init(message: String) {
+    private lazy var messageLabelStyle = OEXTextStyle(weight: .normal, size: textSize, color: OEXStyles.shared().neutralWhiteT())
+    
+    init(message: String, textSize: OEXTextSize = .base) {
+        self.textSize = textSize
         super.init(frame: .zero)
         
         backgroundColor = OEXStyles.shared().neutralXXDark()
@@ -365,7 +364,7 @@ public class CalendarActionToastView: UIView {
             make.top.equalTo(container).inset(StandardVerticalMargin)
             make.bottom.equalTo(container).inset(StandardVerticalMargin)
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(dismissButton).inset(StandardHorizontalMargin)
+            make.trailing.equalTo(dismissButton).inset(StandardHorizontalMargin * 1.5)
             make.height.equalTo(StandardVerticalMargin * 5)
         }
         
@@ -385,7 +384,7 @@ public class CalendarActionToastView: UIView {
     }
     
     private func addButtonActions() {
-        dismissButton.oex_addAction({ [weak self] _ in
+        dismissButton.oex_addAction( { [weak self] _ in
             self?.dismissView()
         }, for: .touchUpInside)
     }
@@ -396,9 +395,9 @@ public class CalendarActionToastView: UIView {
             container = self
         }
         
-        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: { [weak self] in
+        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut) { [weak self] in
             self?.transform = .identity
-        }) { _ in
+        } completion: { _ in
             container?.removeFromSuperview()
         }
     }

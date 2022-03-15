@@ -181,10 +181,10 @@ extension UIViewController {
         }
     }
     
-    func showCalendarActionSnackBar(message: String, autoDismiss: Bool = true, duration: TimeInterval = 5) {
+    func showBottomActionSnackBar(message: String, textSize: OEXTextSize = .base, autoDismiss: Bool = true, duration: TimeInterval = 5) {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
-        let view = CalendarActionToastView(message: message)
+        let view = BottomActionToastView(message: message, textSize: textSize)
         view.layer.cornerRadius = 4
         showSnackBarView(snackBarView: view, addOffset: true)
         if autoDismiss {
