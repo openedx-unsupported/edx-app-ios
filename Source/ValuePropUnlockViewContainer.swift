@@ -49,7 +49,7 @@ class ValuePropUnlockViewContainer: NSObject {
         }
     }
     
-    @objc func finishTimer() {
+    @objc private func finishTimer() {
         shouldDismiss.value = true
     }
     
