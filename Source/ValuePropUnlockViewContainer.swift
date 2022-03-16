@@ -36,12 +36,17 @@ class ValuePropUnlockViewContainer: NSObject {
         perform(#selector(finishTimer), with: nil, afterDelay: delay)
         
         NotificationCenter.default.oex_addObserver(observer: self, name: UIDevice.orientationDidChangeNotification.rawValue) { _, observer, _ in
-            observer.deviceOrientationDidChange()
+            switch UIDevice.current.orientation {
+            case .portrait:
+                observer.controller?.applyPortraitOrientation()
+                break
+            case .landscapeLeft, .landscapeRight:
+                observer.controller?.applyLandscapeOrientation()
+                break
+            default:
+                break
+            }            
         }
-    }
-    
-    @objc func deviceOrientationDidChange() {
-        UIDevice.current.orientation.isLandscape ? controller?.applyLandscapeOrientation() : controller?.applyPortraitOrientation()
     }
     
     @objc func finishTimer() {
