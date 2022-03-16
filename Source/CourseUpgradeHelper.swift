@@ -62,7 +62,7 @@ class CourseUpgradeHelper: NSObject {
         guard let topController = UIApplication.shared.topMostController() else { return }
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.failureAlertTitle, message: Strings.CourseUpgrade.failureAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
         alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { [weak self] action in
-            self?.launchEmailComposer()
+            self?.launchEmailComposer(errorMessage: "Error: \(CourseUpgradeHandler.shared.formattedError)")
         }
         alertController.addButton(withTitle: Strings.close, style: .default) { action in
             
@@ -93,7 +93,7 @@ class CourseUpgradeHelper: NSObject {
 }
 
 extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
-    fileprivate func launchEmailComposer() {
+    fileprivate func launchEmailComposer(errorMessage: String) {
         guard let controller = UIApplication.shared.window?.rootViewController else { return }
 
         if !MFMailComposeViewController.canSendMail() {
@@ -103,7 +103,7 @@ extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
             mail.mailComposeDelegate = self
             mail.navigationBar.tintColor = OEXStyles.shared().navigationItemTintColor()
             mail.setSubject(Strings.CourseUpgrade.getSupportEmailSubject)
-            let body = EmailTemplates.supportEmailMessageTemplate(error: "Error: \(CourseUpgradeHandler.shared.formattedUpgradeError)")
+            let body = EmailTemplates.supportEmailMessageTemplate(error: errorMessage)
             mail.setMessageBody(body, isHTML: false)
             if let fbAddress = OEXRouter.shared().environment.config.feedbackEmailAddress() {
                 mail.setToRecipients([fbAddress])

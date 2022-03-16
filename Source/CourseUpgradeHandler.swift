@@ -34,40 +34,22 @@ class CourseUpgradeHandler: NSObject {
         }
     }
 
-    var formattedUpgradeError: String {
-        var errorType = "generalError"
+    var formattedError: String {
         if case .error(let type, let error) = state {
-            switch type {
-            case .basketError:
-                errorType = "basket"
-                break
-            case .checkoutError:
-                errorType = "checkout"
-                break
-            case .paymentError:
-                errorType = "payment"
-                break
-            case .verifyReceiptError:
-                errorType = "execute"
-                break
-            default:
-                break
-            }
-
-            guard let error = error as NSError? else { return errorType }
-
+            guard let error = error as NSError? else { return "unhandledError" }
+            
             if case .paymentError = type {
-                return "\(errorType)-\(error.code)-\(error.localizedDescription)"
+                return "\(type.errorString)-\(error.code)-\(error.localizedDescription)"
             }
-
+            
             if let errorResponse = error.userInfo.values.first,
                let json = errorResponse as? JSON,
                let errorMessage = json.dictionary?.values.first {
-
-                return "\(errorType)-\(error.code)-\(errorMessage)"
+                
+                return "\(type.errorString)-\(error.code)-\(errorMessage)"
             }
         }
-        return errorType
+        return "unhandledError"
     }
     
     static let shared = CourseUpgradeHandler()
@@ -80,7 +62,7 @@ class CourseUpgradeHandler: NSObject {
         state = .initial
         
         guard let coursePurchaseSku = UpgradeSKUManager.shared.courseSku(for: course) else {
-        state = .error(type: .generalError, error: NSError(domain:"edx.app.courseupgrade", code: -1010, userInfo: [NSLocalizedDescriptionKey: JSON(["error": "course sku is missing"])]))
+        state = .error(type: .generalError, error: error(message: "course sku is missing"))
             return
         }
         
@@ -119,7 +101,7 @@ class CourseUpgradeHandler: NSObject {
     private func checkout() {
         // Checkout API
         guard basketID > 0 else {
-            state = .error(type: .checkoutError, error: NSError(domain:"edx.app.courseupgrade", code: -1010, userInfo: [NSLocalizedDescriptionKey: JSON(["error": "invalid basket id < zero"])]))
+            state = .error(type: .checkoutError, error: error(message: "invalid basket id < zero"))
             return
         }
         
@@ -163,5 +145,9 @@ class CourseUpgradeHandler: NSObject {
                 self?.state = .error(type: .verifyReceiptError, error: response.error)
             }
         }
+    }
+
+    private func error(message: String) -> NSError {
+        return NSError(domain:"edx.app.courseupgrade", code: -1010, userInfo: [NSLocalizedDescriptionKey: JSON(["error": message])])
     }
 }

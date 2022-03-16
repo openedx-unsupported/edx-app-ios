@@ -27,6 +27,21 @@ enum PurchaseError: String {
     case checkoutError // checkout API returns error
     case verifyReceiptError // verify receipt API returns error
     case generalError // general error
+
+    var errorString: String {
+        switch self {
+        case .basketError:
+            return "basket"
+        case .checkoutError:
+            return "checkout"
+        case .paymentError:
+            return "payment"
+        case .verifyReceiptError:
+            return "execute"
+        default:
+            return ""
+        }
+    }
 }
 
 @objc class PaymentManager: NSObject {
