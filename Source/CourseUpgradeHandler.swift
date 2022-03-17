@@ -45,7 +45,6 @@ class CourseUpgradeHandler: NSObject {
             if let errorResponse = error.userInfo.values.first,
                let json = errorResponse as? JSON,
                let errorMessage = json.dictionary?.values.first {
-                
                 return "\(type.errorString)-\(error.code)-\(errorMessage)"
             }
         }
@@ -148,6 +147,6 @@ class CourseUpgradeHandler: NSObject {
     }
 
     private func error(message: String) -> NSError {
-        return NSError(domain:"edx.app.courseupgrade", code: -1010, userInfo: [NSLocalizedDescriptionKey: JSON(["error": message])])
+        return NSError(domain:"edx.app.courseupgrade", code: 1010, userInfo: [NSLocalizedDescriptionKey: JSON(["error": message])])
     }
 }

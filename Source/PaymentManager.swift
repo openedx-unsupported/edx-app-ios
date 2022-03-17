@@ -98,7 +98,7 @@ enum PurchaseError: String {
         }
 
         guard let applicationUserName = OEXSession.shared()?.currentUser?.username else {
-            completion?((false, receipt: nil, error: (type: .invalidUser, error: NSError(domain: "edx.app.payment", code: -1010, userInfo: [NSLocalizedDescriptionKey : "App username is not available"]))))
+            completion?((false, receipt: nil, error: (type: .invalidUser, error: NSError(domain: "edx.app.payment", code: 1010, userInfo: [NSLocalizedDescriptionKey : "App username is not available"]))))
             return
         }
         self.completion = completion
