@@ -1,6 +1,6 @@
 name: Run automation tests
 
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -14,10 +14,11 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/edx-app-test
         ls
+        pip install -r requirements.txt
         zip -r test_bundle.zip tests/ requirements.txt
         ls
     - name: Use the Upload Artifact GitHub Action
       uses: actions/upload-artifact@v2
       with:
-        name: assets-for-download
+        name: atifacts
         path: */test_bundle.zip
