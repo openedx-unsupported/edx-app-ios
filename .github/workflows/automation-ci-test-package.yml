@@ -20,4 +20,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: assets-for-download
-        path: test_bundle.zip
+        path: $GITHUB_WORKSPACE/test_bundle.zip
