@@ -16,6 +16,7 @@ jobs:
         ls
         pip install -r requirements.txt
         zip -r test_bundle.zip tests/ requirements.txt
+        ls
     - name: Use the Upload Artifact GitHub Action
       uses: actions/upload-artifact@v2
       with:
