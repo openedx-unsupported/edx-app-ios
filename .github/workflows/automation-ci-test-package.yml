@@ -14,3 +14,10 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/edx-app-test
         ls
+        pip install -r requirements.txt
+        zip -r test_bundle.zip tests/ requirements.txt
+    - name: Use the Upload Artifact GitHub Action
+      uses: actions/upload-artifact@v2
+      with:
+        name: assets-for-download
+        path: artifacts
