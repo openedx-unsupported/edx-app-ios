@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, OEXLetterSpacing) {
 
 typedef NS_ENUM(NSUInteger, OEXTextSize) {
     OEXTextSizeBase,
+    OEXTextSizeXXXXXLarge,
     OEXTextSizeXXXXLarge,
     OEXTextSizeXXXLarge,
     OEXTextSizeXXLarge,

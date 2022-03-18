@@ -479,9 +479,3 @@ extension NSAttributedString {
         return NSAttributedString(attributedString: attributedString)
     }
 }
-
-extension String {
-    var nsString: NSString {
-        return NSString(string: self)
-    }
-}

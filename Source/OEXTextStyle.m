@@ -102,6 +102,7 @@
 + (CGFloat)pointSizeForTextSize:(OEXTextSize)size {
     switch (size) {
         case OEXTextSizeBase: return 14;
+        case OEXTextSizeXXXXXLarge: return 32;
         case OEXTextSizeXXXXLarge: return 28;
         case OEXTextSizeXXXLarge: return 24;
         case OEXTextSizeXXLarge: return 21;
@@ -117,6 +118,7 @@
 +(OEXTextSize)textSizeForPointSize:(int)size {
     switch (size) {
         case 14: return OEXTextSizeBase;
+        case 32: return OEXTextSizeXXXXXLarge;
         case 28: return OEXTextSizeXXXXLarge;
         case 24: return OEXTextSizeXXXLarge;
         case 21: return OEXTextSizeXXLarge;

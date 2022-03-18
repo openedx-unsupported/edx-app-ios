@@ -66,6 +66,8 @@ extension UIFont {
             return pointSize > 29 ? 29 : pointSize
         case .title1:
             return pointSize > 40 ? 40 : pointSize
+        case .largeTitle:
+            return pointSize > 45 ? 45 : pointSize
         default:
             return 24
         }
@@ -114,6 +116,8 @@ extension UIFont {
             return pointSize > 29 ? 29 : pointSize
         case .title1:
             return pointSize > 40 ? 40 : pointSize
+        case .largeTitle:
+            return pointSize > 45 ? 45 : pointSize
         default:
             return 24
         }
@@ -142,6 +146,8 @@ extension UIFont {
             return .title1
         case .xxxxLarge:
             return .title1
+        case .xxxxxLarge:
+            return .largeTitle
         default:
             return .callout
         }
