@@ -1,10 +1,10 @@
-# Run commitlint on the commit messages in a pull request.
+# # Run commitlint on the commit messages in a pull request.
 
-name: Lint Commit Messages
+# name: Lint Commit Messages
 
-on:
-  - pull_request
+# on:
+#   - pull_request
 
-jobs:
-  commitlint:
-    uses: edx/.github/.github/workflows/commitlint.yml@master
+# jobs:
+#   commitlint:
+#     uses: edx/.github/.github/workflows/commitlint.yml@master
