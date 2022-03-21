@@ -16,6 +16,21 @@ platform :ios do
     end
   end
 
+desc "build number"
+  lane :test_build_number do
+    latest_testflight_build_number
+    #increment_build_number(xcodeproj: "edX.xcodeproj")
+  end
+
+  desc "Build edX iOS app"
+  lane :build do
+    cocoapods
+    gym(
+      workspace: "edX.xcworkspace",
+      scheme: "edX"
+    )
+  end
+
   desc "Push a new beta build to TestFlight"
   lane :beta do
     increment_build_number(xcodeproj: "edX.xcodeproj")
