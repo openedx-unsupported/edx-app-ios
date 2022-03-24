@@ -19,7 +19,7 @@ jobs:
       # - uses: actions/checkout@v2
       - name: Checkout
         run: |
-          if ! [[ -z "$EDX_DEPLOYMENT_GH_TOKEN" ]]; then
+          if ! [[ -z "$EDX_DEPLOYMENT_GH_TOKEN" ]]; then 
             echo ::set-output has_token=true
           else
             echo ::set-output has_token=false
