@@ -171,10 +171,16 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                     self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID), screen: self?.screen ?? .none)
                 }
                 break
-            case .error:
+            case .error(let type, _):
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.stopAnimating()
-                self?.dismiss(animated: true) { [weak self] in
+
+                if case .verifyReceiptError = type {
+                    self?.dismiss(animated: true) { [weak self] in
+                        self?.courseUpgradeHelper.handleCourseUpgrade(state: .error, screen: self?.screen ?? .none)
+                    }
+                }
+                else {
                     self?.courseUpgradeHelper.handleCourseUpgrade(state: .error, screen: self?.screen ?? .none)
                 }
                 break

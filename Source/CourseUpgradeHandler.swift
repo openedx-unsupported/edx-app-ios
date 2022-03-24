@@ -34,6 +34,47 @@ class CourseUpgradeHandler: NSObject {
         }
     }
 
+    var errorMessage: String {
+        if case .error (let type, let error) = state {
+            guard let error = error as NSError? else { return Strings.CourseUpgrade.FailureAlert.generalErrorMessage }
+            switch type {
+            case .basketError:
+                return basketErrorMessage(for: error)
+            case .checkoutError:
+                return checkoutErrorMessage(for: error)
+            case .paymentError:
+                return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
+            case .verifyReceiptError:
+                return Strings.CourseUpgrade.FailureAlert.courseNotFullfilled
+            default:
+                return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
+            }
+        }
+        return Strings.CourseUpgrade.FailureAlert.generalErrorMessage
+    }
+
+    private func basketErrorMessage(for error: NSError) -> String {
+        switch error.code {
+        case 400:
+            return Strings.CourseUpgrade.FailureAlert.courseNotFount
+        case 403:
+            return Strings.CourseUpgrade.FailureAlert.authenticationErrorMessage
+        case 406:
+            return Strings.CourseUpgrade.FailureAlert.courseAlreadyPaid
+        default:
+            return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
+        }
+    }
+
+    private func checkoutErrorMessage(for error: NSError) -> String {
+        switch error.code {
+        case 403:
+            return Strings.CourseUpgrade.FailureAlert.authenticationErrorMessage
+        default:
+            return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
+        }
+    }
+
     var formattedError: String {
         if case .error(let type, let error) = state {
             guard let error = error as NSError? else { return "unhandledError" }
