@@ -18,11 +18,9 @@ jobs:
     steps:
       # - uses: actions/checkout@v2
       - name: Checkout
-        if: ${{ secrets.EDX_DEPLOYMENT_GH_TOKEN }} != ''
         uses: actions/checkout@v2
         with:
           repository: edx/edx-mobile-config
-          ssh-strict: false
           ref: master
-          # token: "${{ secrets.EDX_DEPLOYMENT_GH_TOKEN }}"
+          token: ${{ secrets.EDX_DEPLOYMENT_GH_TOKEN }}
       #- run: fastlane test scheme:${{ matrix.env.scheme }}
