@@ -18,9 +18,15 @@ jobs:
     steps:
       # - uses: actions/checkout@v2
       - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          repository: edx/edx-mobile-config
-          ref: master
-          token: ${{ secrets.EDX_DEPLOYMENT_GH_TOKEN }}
+        run: |
+          if ! [[ -z "${{ secrets.EDX_DEPLOYMENT_GH_TOKEN }}" ]]; then
+            echo ::set-output has_token=true
+          else
+            echo ::set-output has_token=false
+          fi
+        # uses: actions/checkout@v2
+        # with:
+        #   repository: edx/edx-mobile-config
+        #   ref: master
+        #   token: ${{ secrets.EDX_DEPLOYMENT_GH_TOKEN }}
       #- run: fastlane test scheme:${{ matrix.env.scheme }}
