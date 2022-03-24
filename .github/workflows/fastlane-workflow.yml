@@ -18,6 +18,7 @@ jobs:
     steps:
       # - uses: actions/checkout@v2
       - name: Checkout
+        if: ${{ secrets.EDX_DEPLOYMENT_GH_TOKEN }} != ''
         uses: actions/checkout@v2
         with:
           repository: edx/edx-mobile-config
