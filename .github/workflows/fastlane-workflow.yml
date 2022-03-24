@@ -24,9 +24,9 @@ jobs:
           else
             echo ::set-output has_token=false
           fi
-        # uses: actions/checkout@v2
-        # with:
-        #   repository: edx/edx-mobile-config
-        #   ref: master
-        #   token: ${{ secrets.EDX_DEPLOYMENT_GH_TOKEN }}
+        uses: actions/checkout@v2
+        with:
+          repository: edx/edx-mobile-config
+          ref: master
+          token: ${{ secrets.EDX_DEPLOYMENT_GH_TOKEN }}
       #- run: fastlane test scheme:${{ matrix.env.scheme }}
