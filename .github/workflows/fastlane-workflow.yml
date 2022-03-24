@@ -13,8 +13,13 @@ jobs:
         env:
           - name: "Test edX LTR"
             scheme: "edX"
-          - name: "Test edX RTL"
-            scheme: "edX-RTL"
+          # - name: "Test edX RTL"
+          #   scheme: "edX-RTL"
     steps:
       - uses: actions/checkout@v2
-      - run: fastlane test scheme:${{ matrix.env.scheme }}
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: edx/edx-mobile-config
+          path: '..'
+      #- run: fastlane test scheme:${{ matrix.env.scheme }}
