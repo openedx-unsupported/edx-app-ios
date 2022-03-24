@@ -20,5 +20,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: edx/edx-mobile-config
+          repository: edx/edx-mobile-config 
       #- run: fastlane test scheme:${{ matrix.env.scheme }}
