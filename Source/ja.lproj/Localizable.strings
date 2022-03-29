@@ -386,6 +386,14 @@
 "COURSE_UPGRADE.FAILURE_ALERT.PAYMENT_NOT_PROCESSED"="Your payment could not be processed at this time. Please try again. For additional help, reach out to Support.";
 /*The native payment is complete but an error errored while marking the course verified*/
 "COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FULLFILLED"="Something happened when we tried to update your course experience. If this error continues, reach out to Support for help.";
+/*App is not able to fetch the price from the app store*/
+"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
+/*Try again button on the failure alert to re-fetch the price from the app store*/
+"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR"="Try again";
+/*Try again button on the failure alert to retry the course upgrade after the successful payment*/
+"COURSE_UPGRADE.FAILURE_ALERT.REFRESH_TO_RETRY"="Refresh to retry";
+/*Try again button on the failure alert to retry the course upgrade after the successful payment*/
+"COURSE_UPGRADE.FAILURE_ALERT.COURSE_PRICE_ERROR"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
 /*Course upgrade failure alert get help button title*/
 "COURSE_UPGRADE.FAILURE_ALERT_GET_HELP"="Get help";
 /*Get support e-mail subject in the payment error flow*/

@@ -34,6 +34,12 @@ class CourseUpgradeHandler: NSObject {
         }
     }
 
+    var upgradeState: CourseUpgradeState {
+        get {
+            return state
+        }
+    }
+
     var errorMessage: String {
         if case .error (let type, let error) = state {
             guard let error = error as NSError? else { return Strings.CourseUpgrade.FailureAlert.generalErrorMessage }
@@ -183,6 +189,17 @@ class CourseUpgradeHandler: NSObject {
                 self?.state = .complete
             } else {
                 self?.state = .error(type: .verifyReceiptError, error: response.error)
+            }
+        }
+    }
+
+    // Give an option of retry to learner
+    func reverifyPayment() {
+        PaymentManager.shared.purchaseReceipt { [weak self] success, receipt, error in
+            if let receipt = receipt, success {
+                self?.verifyPayment(receipt)
+            } else {
+                self?.state = .error(type: (error?.type ?? .paymentError), error: error?.error)
             }
         }
     }

@@ -153,6 +153,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
     [arguments setSafeObject:@"password" forKey:@"grant_type"];
     [arguments setSafeObject:userName forKey:@"username"];
     [arguments setSafeObject:password forKey:@"password"];
+    [arguments setSafeObject:@"jwt" forKey:@"token_type"];
     return [arguments oex_stringByUsingFormEncoding];
 }
 
