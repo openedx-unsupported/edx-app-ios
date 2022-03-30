@@ -22,15 +22,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Run tests
         run: |
-          RUNTIME="${{ matrix.env.runtime }}"
-          DEVICE="${{ matrix.env.device }}"
-          DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-          RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-          DESTINATION_ID=$(xcrun simctl create "$DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
-          xcrun simctl boot $DESTINATION_ID
           xcodebuild 
           -workspace edX.xcworkspace 
-          -scheme edX -destination $DESTINATION_ID 
+          -scheme edX
           clean build test | xcpretty
   
   snapshot-tests:
