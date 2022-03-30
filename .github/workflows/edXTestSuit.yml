@@ -15,11 +15,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Run tests
         run: |
-          xcodebuild 
-          -workspace edX.xcworkspace 
-          -scheme edX
-          -sdk iphonesimulator
-          -destination 'platform=iOS Simulator,name=iPhone 8,OS=15.2' test | xcpretty
+          TASK="test"
+          RUNTIME="iOS-15-2"
+          DEVICE="iPhone 8"
+          DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+          RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+          DESTINATION_ID=$(xcrun simctl create "$DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
+          xcrun simctl boot $DESTINATION_ID
+          ./gradlew -q $TASK | xcpretty -c
   
   snapshot-tests:
     needs: unit-tests
