@@ -18,7 +18,8 @@ jobs:
           xcodebuild 
           -workspace edX.xcworkspace 
           -scheme edX
-          clean build test | xcpretty
+          -sdk iphonesimulator
+          -destination 'platform=iOS Simulator,name=iPhone 8,OS=15.2' test | xcpretty
   
   snapshot-tests:
     needs: unit-tests
