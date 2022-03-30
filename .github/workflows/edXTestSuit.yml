@@ -10,13 +10,6 @@ jobs:
   unit-tests:
     name: "edX Unit Tests"
     runs-on: macos-11
-    strategy:
-      fail-fast: false
-      matrix:
-        env:
-          - name: "Test iOS 15.2"
-            runtime: "iOS-15-2"
-            device: "iPhone 8"
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
