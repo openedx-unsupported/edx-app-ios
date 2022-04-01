@@ -98,7 +98,7 @@ class CourseUpgradeHelper: NSObject {
         }
 
         alertController.addButton(withTitle: Strings.close, style: .default) { [weak self] _ in
-            if self?.unlockController.isVisible ?? false {
+            if self?.unlockController.isVisible == true {
                 self?.unlockController.removeView() {
                     self?.delegate?.hideAlertAction()
                     self?.resetUpgradeModel()
@@ -162,7 +162,7 @@ extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         guard let controller = UIApplication.shared.topMostController() else { return }
         controller.dismiss(animated: true, completion: { [weak self] in
-            if self?.unlockController.isVisible ?? false {
+            if self?.unlockController.isVisible == true {
                 self?.unlockController.removeView(completion: {
                     self?.delegate?.hideAlertAction()
                     self?.resetUpgradeModel()
