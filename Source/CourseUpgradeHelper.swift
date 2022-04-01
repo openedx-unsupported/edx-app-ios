@@ -79,27 +79,25 @@ class CourseUpgradeHelper: NSObject {
 
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: CourseUpgradeHandler.shared.errorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
-        if case .error (let type, _) = CourseUpgradeHandler.shared.state {
-            if type == .verifyReceiptError {
-                alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) {action in
-                    CourseUpgradeHandler.shared.reverifyPayment()
-                }
+        if case .error (let type, _) = CourseUpgradeHandler.shared.state, type == .verifyReceiptError {
+            alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) { _ in
+                CourseUpgradeHandler.shared.reverifyPayment()
             }
         }
 
         if case .complete = CourseUpgradeHandler.shared.state, completion != nil {
-            alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) {[weak self] action in
+            alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) {[weak self] _ in
                 self?.showLoader()
                 self?.completion?()
                 self?.completion = nil
             }
         }
 
-        alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { [weak self] action in
+        alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { [weak self] _ in
             self?.launchEmailComposer(errorMessage: "Error: \(CourseUpgradeHandler.shared.formattedError)")
         }
 
-        alertController.addButton(withTitle: Strings.close, style: .default) { [weak self] action in
+        alertController.addButton(withTitle: Strings.close, style: .default) { [weak self] _ in
             if self?.unlockController.isVisible ?? false {
                 self?.unlockController.removeView() {
                     self?.delegate?.hideAlertAction()

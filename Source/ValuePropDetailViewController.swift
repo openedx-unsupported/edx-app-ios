@@ -104,11 +104,11 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
 
-        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] action in
+        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
             self?.fetchCoursePrice()
         }
 
-        alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] action in
+        alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
             self?.upgradeButton.stopShimmerEffect()
             self?.upgradeButton.isHidden = true
         }
