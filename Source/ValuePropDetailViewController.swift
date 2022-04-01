@@ -79,9 +79,12 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         addObserver()
         configureView()
-        
+        fetchCoursePrice()
+    }
+
+    private func fetchCoursePrice() {
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
-        
+
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
             PaymentManager.shared.productPrice(courseSku) { [weak self] price in
@@ -89,10 +92,25 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                     self?.upgradeButton.stopShimmerEffect()
                     self?.upgradeButton.setPrice(price)
                 } else {
-                    self?.upgradeButton.stopShimmerEffect()
-                    self?.upgradeButton.isHidden = true
+                    self?.showCoursePriceErrorAlert()
                 }
             }
+        }
+    }
+
+    private func showCoursePriceErrorAlert() {
+        guard let topController = UIApplication.shared.topMostController() else { return }
+
+        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
+
+
+        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
+            self?.fetchCoursePrice()
+        }
+
+        alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
+            self?.upgradeButton.stopShimmerEffect()
+            self?.upgradeButton.isHidden = true
         }
     }
     
@@ -174,15 +192,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             case .error(let type, _):
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.stopAnimating()
-
-                if case .verifyReceiptError = type {
-                    self?.dismiss(animated: true) { [weak self] in
-                        self?.courseUpgradeHelper.handleCourseUpgrade(state: .error, screen: self?.screen ?? .none)
-                    }
-                }
-                else {
-                    self?.courseUpgradeHelper.handleCourseUpgrade(state: .error, screen: self?.screen ?? .none)
-                }
+                let delegate = (type == .verifyReceiptError) ? self : nil
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type), screen: self?.screen ?? .none, delegate: delegate)
                 break
             default:
                 break
@@ -210,5 +221,11 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
 extension ValuePropDetailViewController: UIAdaptivePresentationControllerDelegate {
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
         return isModalDismissable
+    }
+}
+
+extension ValuePropDetailViewController: CourseUpgradeHelperDelegate {
+    func hideAlertAction() {
+        dismiss(animated: true, completion: nil)
     }
 }

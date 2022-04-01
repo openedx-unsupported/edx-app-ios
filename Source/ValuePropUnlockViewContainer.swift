@@ -9,7 +9,6 @@
 import UIKit
 
 class ValuePropUnlockViewContainer: NSObject {
-    static let shared = ValuePropUnlockViewContainer()
     
     private let delay: TimeInterval = 3
     private var container: UIView?
@@ -17,7 +16,7 @@ class ValuePropUnlockViewContainer: NSObject {
     
     var isVisible: Bool { return container != nil }
     
-    private override init() { }
+    override init() { }
     
     private var controller: ValuePropUnlockViewController?
     
@@ -57,6 +56,9 @@ class ValuePropUnlockViewContainer: NSObject {
         func dismiss() {
             container?.subviews.forEach { $0.removeFromSuperview() }
             container?.removeFromSuperview()
+            controller?.removeFromParent()
+            container = nil
+            controller = nil
             shouldDismiss.unsubscribe(observer: self)
             NotificationCenter.default.removeObserver(self)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

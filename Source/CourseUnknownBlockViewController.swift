@@ -221,10 +221,10 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
                 self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.courseID ?? "", self?.blockID), screen: .courseUnit)
                 break
-            case .error:
+            case .error(let type, _):
                 self?.enableUserInteraction(enable: true)
                 upgradeView.stopAnimating()
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error, screen: .courseUnit)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type), screen: .courseUnit)
                 break
             default:
                 break

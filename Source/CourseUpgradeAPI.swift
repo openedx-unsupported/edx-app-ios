@@ -29,14 +29,14 @@ public struct CourseUpgradeAPI {
             deserializer: .jsonResponse(basketDeserializer))
     }
     
-    private static func checkoutDeserializer(response : HTTPURLResponse) -> Result<()> {
+    private static func checkoutDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CheckoutBasket> {
         guard response.httpStatusCode.is2xx else {
-            return Failure(e: NSError(domain: "CheckoutApiErrorDomain", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: "Checkout api error"]))
+            return Failure(e: NSError(domain: "CheckoutApiErrorDomain", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: json]))
         }
-        return Success(v: ())
+        return Success(v: CheckoutBasket(json: json))
     }
 
-    static func checkoutAPI(basketID: Int) -> NetworkRequest<()> {
+    static func checkoutAPI(basketID: Int) -> NetworkRequest<CheckoutBasket> {
         return NetworkRequest(
             method: .POST,
             path: "/api/v2/checkout/",
@@ -45,7 +45,7 @@ public struct CourseUpgradeAPI {
                 "basket_id": basketID,
                 "payment_processor": PaymentProcessor
             ])),
-            deserializer: .noContent(checkoutDeserializer)
+            deserializer: .jsonResponse(checkoutDeserializer)
         )
     }
     
@@ -72,7 +72,7 @@ public struct CourseUpgradeAPI {
     }
 }
 
-class OrderBasket: NSObject {
+struct OrderBasket {
     let success: String
     let basketID: Int
     
@@ -82,7 +82,15 @@ class OrderBasket: NSObject {
     }
 }
 
-class OrderVerify: NSObject {
+struct CheckoutBasket {
+    let paymentPageURL: String
+
+    init(json: JSON) {
+        paymentPageURL = json["payment_page_url"].string ?? ""
+    }
+}
+
+struct OrderVerify {
     let status: String
     let number: String
     let currency: String
