@@ -389,7 +389,7 @@
 /*The native payment is complete but an error errored while marking the course verified*/
 "COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FULLFILLED"="Something happened when we tried to update your course experience. If this error continues, reach out to Support for help.";
 /*App is not able to fetch the price from the app store*/
-"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR_MESSAGE"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
 /*Try again button on the failure alert to re-fetch the price from the app store*/
 "COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR"="Try again";
 /*Try again button on the failure alert to retry the course upgrade after the successful payment*/

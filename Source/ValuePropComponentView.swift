@@ -195,7 +195,7 @@ class ValuePropComponentView: UIView {
     private func showCoursePriceErrorAlert() {
         guard let topController = UIApplication.shared.topMostController() else { return }
 
-        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: CourseUpgradeHandler.shared.errorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
+        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.coursePriceError) { [weak self] action in
             self?.fetchCoursePrice()

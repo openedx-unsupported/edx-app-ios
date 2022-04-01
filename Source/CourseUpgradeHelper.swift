@@ -30,6 +30,7 @@ class CourseUpgradeHelper: NSObject {
     static let shared = CourseUpgradeHelper()
     private lazy var unlockController = ValuePropUnlockViewContainer()
     weak var delegate: CourseUpgradeHelperDelegate?
+    var completion: (()-> ())? = nil
 
     enum CompletionState {
         case fulfillment
@@ -58,7 +59,7 @@ class CourseUpgradeHelper: NSObject {
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
             break
         case .error(let type):
-            removeLoader(success: false, removeView: type != .verifyReceiptError, controller: nil, selector: nil)
+            removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
         }
     }
@@ -73,12 +74,12 @@ class CourseUpgradeHelper: NSObject {
         topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successMessage, textSize: .xSmall, autoDismiss: true, duration: 3)
     }
     
-    func showError(controller: UIViewController? = nil, selector: Selector? = nil) {
+    func showError() {
         guard let topController = UIApplication.shared.topMostController() else { return }
 
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: CourseUpgradeHandler.shared.errorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
-        if case .error (let type, _) = CourseUpgradeHandler.shared.upgradeState {
+        if case .error (let type, _) = CourseUpgradeHandler.shared.state {
             if type == .verifyReceiptError {
                 alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) {action in
                     CourseUpgradeHandler.shared.reverifyPayment()
@@ -86,10 +87,11 @@ class CourseUpgradeHelper: NSObject {
             }
         }
 
-        if case .complete = CourseUpgradeHandler.shared.upgradeState, (controller != nil && selector != nil) {
+        if case .complete = CourseUpgradeHandler.shared.state, completion != nil {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) {[weak self] action in
                 self?.showLoader()
-                controller?.perform(selector)
+                self?.completion?()
+                self?.completion = nil
             }
         }
 
@@ -117,7 +119,8 @@ class CourseUpgradeHelper: NSObject {
         }
     }
     
-    func removeLoader(success: Bool? = false, removeView: Bool? = false, controller: UIViewController? = nil, selector: Selector? = nil) {
+    func removeLoader(success: Bool? = false, removeView: Bool? = false, completion: (()-> ())? = nil) {
+        self.completion = completion
         if success == true {
             upgradeModel = nil
         }
@@ -128,12 +131,12 @@ class CourseUpgradeHelper: NSObject {
                     if success {
                         self?.showSuccess()
                     } else {
-                        self?.showError(controller: controller, selector: selector)
+                        self?.showError()
                     }
                 }
             }
         } else if success == false {
-            showError(controller: controller, selector: selector)
+            showError()
         }
     }
 }

@@ -28,15 +28,9 @@ class CourseUpgradeHandler: NSObject {
     private var course: OEXCourse?
     private var basketID: Int = 0
     private var courseSku: String = ""
-    private var state: CourseUpgradeState = .initial {
+    private(set) var state: CourseUpgradeState = .initial {
         didSet {
             completion?(state)
-        }
-    }
-
-    var upgradeState: CourseUpgradeState {
-        get {
-            return state
         }
     }
 

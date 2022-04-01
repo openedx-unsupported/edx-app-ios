@@ -208,7 +208,9 @@ public class CourseOutlineViewController :
             }
         } failure: { [weak self] error in
             if let _ = self?.courseUpgradeHelper.courseUpgradeModel {
-                self?.courseUpgradeHelper.removeLoader(success: false, controller: self, selector: #selector(self?.loadCourseOutlineStream))
+                self?.courseUpgradeHelper.removeLoader(success: false) {
+                    self?.loadCourseOutlineStream()
+                }
             }
             Logger.logError("ANALYTICS", "Unable to load block: \(error)")
         }
