@@ -22,8 +22,6 @@ enum DeepLinkType: String {
     case courseDiscovery = "course_discovery"
     case programDiscovery = "program_discovery"
     case programDiscoveryDetail = "program_discovery_detail"
-    case degreeDiscovery = "degree_discovery"
-    case degreeDiscoveryDetail = "degree_discovery_detail"
     case courseDetail = "course_detail"
     case program = "program"
     case programDetail = "program_detail"
@@ -61,9 +59,6 @@ class DeepLink: NSObject {
         }
         else if type == .program && pathID != nil {
             return .programDetail
-        }
-        else if type == .degreeDiscovery && pathID != nil {
-            return .degreeDiscoveryDetail
         }
         return type
     }

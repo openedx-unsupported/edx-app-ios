@@ -55,7 +55,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void) loadCourseDiscovery {
-    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_showBottomBar ? _bottomBar : nil showSearch:YES searchQuery:_searchQuery discoveryType: DiscoveryTypeCourse];
+    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_showBottomBar ? _bottomBar : nil showSearch:YES searchQuery:_searchQuery];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
 
     self.webViewHelper.baseURL = [self discoveryConfig].webview.baseURL;
@@ -73,7 +73,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     if ([[self discoveryConfig] isCourseDiscoveryNative]) {
         return [Strings findCourses];
     }
-    
+
     return [Strings discover];
 }
 
@@ -114,11 +114,11 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {
-    NSString* coursePathID = [DiscoveryHelper detailPathIDFrom:request.URL];
-    if(coursePathID != nil) {
-        [self.environment.router showCourseDetailsFrom:self with:coursePathID bottomBar:[_bottomBar copy]];
-        return NO;
+
+    if (request.URL != nil) {
+        return ![DiscoveryHelper navigateTo:request.URL from:self bottomBar:_bottomBar];
     }
+
     return YES;
 }
 
