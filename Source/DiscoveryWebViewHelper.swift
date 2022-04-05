@@ -28,11 +28,6 @@ class DiscoveryWebViewHelper: NSObject {
     fileprivate let contentView = UIView()
     fileprivate let webView: WKWebView
     fileprivate let searchBar = UISearchBar()
-    fileprivate lazy var subjectsController: PopularSubjectsViewController = {
-        let controller = PopularSubjectsViewController()
-        controller.delegate = self
-        return controller
-    }()
     fileprivate var loadController = LoadStateViewController()
     fileprivate let discoveryType: DiscoveryType
     
@@ -41,12 +36,7 @@ class DiscoveryWebViewHelper: NSObject {
     fileprivate let searchQuery:String?
     let bottomBar: UIView?
     private let searchBarEnabled: Bool
-    private let showSubjects: Bool
     private var urlObservation: NSKeyValueObservation?
-    private var subjectDiscoveryEnabled: Bool = false
-    private var subjectsViewHeight: CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 145 : 125
-    }
     fileprivate var params: [String: String]? {
         return (webView.url as NSURL?)?.oex_queryParameters() as? [String : String]
     }
@@ -57,16 +47,15 @@ class DiscoveryWebViewHelper: NSObject {
     }
     
     @objc convenience init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, discoveryType: DiscoveryType = .course) {
-        self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, showSearch: false, searchQuery: nil, showSubjects: false, discoveryType: discoveryType)
+        self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, showSearch: false, searchQuery: nil, discoveryType: discoveryType)
     }
     
-    @objc init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false, discoveryType: DiscoveryType = .course) {
+    @objc init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, discoveryType: DiscoveryType = .course) {
         self.environment = environment
         self.webView = WKWebView(frame: .zero, configuration: environment.config.webViewConfiguration())
         self.delegate = delegate
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
-        self.showSubjects = showSubjects
         self.discoveryType = discoveryType
         let discoveryConfig = discoveryType == .program ? environment.config.discovery.program : environment.config.discovery.course
         searchBarEnabled = discoveryConfig.webview.searchEnabled && showSearch
@@ -86,11 +75,9 @@ class DiscoveryWebViewHelper: NSObject {
     }
     
     @objc func refreshView() {
-        guard let container = delegate?.webViewContainingController() else { return }
+        guard let _ = delegate?.webViewContainingController() else { return }
         contentView.subviews.forEach { $0.removeFromSuperview() }
         let isUserLoggedIn = environment.session.currentUser != nil
-
-        subjectDiscoveryEnabled = (environment.config.discovery.course.webview.subjectFilterEnabled) && isUserLoggedIn && showSubjects && discoveryType == .course
 
         var topConstraintItem: ConstraintItem = contentView.snp.top
         if searchBarEnabled {
@@ -103,20 +90,6 @@ class DiscoveryWebViewHelper: NSObject {
                 make.top.equalTo(contentView)
             }
             topConstraintItem = searchBar.snp.bottom
-        }
-
-        if subjectDiscoveryEnabled {
-            container.addChild(subjectsController)
-            contentView.addSubview(subjectsController.view)
-            subjectsController.didMove(toParent: container)
-            subjectsController.view.snp.makeConstraints { make in
-                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-                make.trailing.equalTo(contentView)
-                make.top.equalTo(topConstraintItem)
-                make.height.equalTo(subjectsViewHeight)
-            }
-
-            topConstraintItem = subjectsController.view.snp.bottom
         }
 
         contentView.addSubview(webView)
@@ -175,9 +148,7 @@ class DiscoveryWebViewHelper: NSObject {
     private func handleURLChangeNotification() {
         switch discoveryType {
         case .course:
-            if subjectDiscoveryEnabled {
-                updateSubjectsVisibility()
-            }
+
             break
         case .program:
             if !URLHasSearchFilter {
@@ -200,20 +171,6 @@ class DiscoveryWebViewHelper: NSObject {
 
         loadController.state = .Initial
         loadRequest(withURL: URL)
-    }
-    
-    @objc func updateSubjectsVisibility() {
-        if contentView.subviews.contains(subjectsController.view) {
-            let hideSubjectsView = isiPhoneAndVerticallyCompact || isWebViewQueriedSubject
-            let height: CGFloat = hideSubjectsView ? 0 : subjectsViewHeight
-            subjectsController.view.snp.remakeConstraints { make in
-                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-                make.trailing.equalTo(contentView)
-                make.top.equalTo(searchBarEnabled ? searchBar.snp.bottom : contentView)
-                make.height.equalTo(height)
-            }
-            subjectsController.view.isHidden = hideSubjectsView
-        }
     }
     
     private var isiPhoneAndVerticallyCompact: Bool {
@@ -332,40 +289,6 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
             completionHandler(.performDefaultHandling, nil)
         }
     }
-}
-
-extension DiscoveryWebViewHelper: SubjectsViewControllerDelegate, PopularSubjectsViewControllerDelegate {
-    
-    private func filterCourses(with subject: Subject) {
-        guard let baseURL = baseURL,
-            var params = params else { return }
-        set(value: subject.filter, for: QueryParameterKeys.subject, in: &params)
-        environment.analytics.trackSubjectDiscovery(subjectID: subject.filter)
-        if let url = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {
-            searchBar.resignFirstResponder()
-            loadController.state = .Initial
-            loadRequest(withURL: url)
-        }
-    }
-    
-    private func viewAllSubjects() {
-        guard let container = delegate?.webViewContainingController() else { return }
-        environment.analytics.trackSubjectDiscovery(subjectID: "View All Subjects")
-        environment.router?.showAllSubjects(from: container, delegate: self)
-    }
-    
-    func popularSubjectsViewController(_ controller: PopularSubjectsViewController, didSelect subject: Subject) {
-        filterCourses(with: subject)
-    }
-    
-    func didSelectViewAllSubjects(_ controller: PopularSubjectsViewController) {
-        viewAllSubjects()
-    }
-    
-    func subjectsViewController(_ controller: SubjectsViewController, didSelect subject: Subject) {
-        filterCourses(with: subject)
-    }
-    
 }
 
 extension DiscoveryWebViewHelper: UISearchBarDelegate {

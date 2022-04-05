@@ -502,12 +502,6 @@ extension OEXRouter {
         
     }
     
-    func showAllSubjects(from controller: UIViewController? = nil, delegate: SubjectsViewControllerDelegate?) {
-        let subjectsVC = SubjectsViewController(environment:environment)
-        subjectsVC.delegate = delegate
-        controller?.navigationController?.pushViewController(subjectsVC, animated: true)
-    }
-    
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {
         let isCourseDiscoveryEnabled = environment.config.discovery.course.isEnabled
         let isProgramDiscoveryEnabled = environment.config.discovery.program.isEnabled

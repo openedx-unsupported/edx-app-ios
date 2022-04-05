@@ -68,7 +68,6 @@ class DiscoveryConfigTests: XCTestCase {
         XCTAssertEqual(config.discovery.course.type, .webview)
         XCTAssertEqual(config.discovery.course.webview.baseURL!.absoluteString, sampleBaseURL)
         XCTAssertEqual(config.discovery.course.webview.detailTemplate!, sampleInfoURLTemplate)
-        XCTAssertEqual(config.discovery.course.webview.exploreSubjectsURL!.absoluteString, sampleExploreURL)
         XCTAssertTrue(config.discovery.course.webview.searchEnabled)
     }
     
@@ -138,7 +137,6 @@ class DiscoveryConfigTests: XCTestCase {
         XCTAssertEqual(config.discovery.course.type, .webview)
         XCTAssertEqual(config.discovery.course.webview.baseURL!.absoluteString, sampleCourseBaseURL)
         XCTAssertEqual(config.discovery.course.webview.detailTemplate!, sampleInfoURLTemplate)
-        XCTAssertEqual(config.discovery.course.webview.exploreSubjectsURL!.absoluteString, sampleExploreURL)
         XCTAssertTrue(config.discovery.course.webview.searchEnabled)
     }
 
