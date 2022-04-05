@@ -36,7 +36,6 @@ public enum AnalyticsDisplayName : String {
     case BulkDownloadToggleOn = "Bulk Download Toggle On"
     case BulkDownloadToggleOff = "Bulk Download Toggle Off"
     case SharedCourse = "Shared a course"
-    case SubjectsDiscovery = "Subject Discovery"
     case CourseSearch = "Discovery: Courses Search"
     case ChromecastConnected = "Cast: Connected"
     case ChromecastDisonnected = "Cast: Disconnected"
@@ -99,7 +98,6 @@ public enum AnalyticsEventName: String {
     case CourseEnrollmentClicked = "edx.bi.app.course.enroll.clicked"
     case CourseEnrollmentSuccess = "edx.bi.app.course.enroll.success"
     case DiscoverCourses = "edx.bi.app.discover.courses.tapped"
-    case ExploreSubjects = "edx.bi.app.discover.explore.tapped"
     case UserLogin = "edx.bi.app.user.login"
     case UserRegistrationClick = "edx.bi.app.user.register.clicked"
     case UserRegistrationSuccess = "edx.bi.app.user.register.success"
@@ -120,7 +118,6 @@ public enum AnalyticsEventName: String {
     case BulkDownloadToggleOn = "edx.bi.app.videos.download.toggle.on"
     case BulkDownloadToggleOff = "edx.bi.app.videos.download.toggle.off"
     case SharedCourse = "edx.bi.app.course.shared"
-    case SubjectClicked = "edx.bi.app.discover.subject.clicked"
     case CourseSearch = "edx.bi.app.discovery.courses_search"
     case ChromecastConnected = "edx.bi.app.cast.connected"
     case ChromecastDisconnected = "edx.bi.app.cast.disconnected"
@@ -188,7 +185,6 @@ public enum AnalyticsScreenName: String {
     case AddResponseComment = "Forum: Add Response Comment"
     case ViewResponseComments = "Forum: View Response Comments"
     case CourseVideos = "Videos: Course Videos"
-    case SubjectsDiscovery = "Discover: All Subjects"
     case DiscoverProgram = "Find Programs"
     case DiscoverDegree = "Find Degrees"
     case ProgramInfo = "Program Info"
@@ -213,7 +209,6 @@ public enum AnalyticsEventDataKey: String {
     case totalDownloadableVideos = "total_downloadable_videos"
     case remainingDownloadableVideos = "remaining_downloadable_videos"
     case UserID = "user_id"
-    case SubjectID = "subject_id"
     case PlayMediumYoutube = "youtube"
     case PlayMediumChromecast = "google_cast"
     case AssignmentID = "assignment_id"
@@ -246,14 +241,6 @@ extension OEXAnalytics {
         event.category = AnalyticsCategory.Discovery.rawValue
         event.name = AnalyticsEventName.DiscoverCourses.rawValue
         event.displayName = AnalyticsDisplayName.DiscoverCourses.rawValue
-        return event
-    }
-
-    static func exploreSubjectsEvent() -> OEXAnalyticsEvent {
-        let event = OEXAnalyticsEvent()
-        event.category = AnalyticsCategory.Discovery.rawValue
-        event.name = AnalyticsEventName.ExploreSubjects.rawValue
-        event.displayName = AnalyticsDisplayName.ExploreCourses.rawValue
         return event
     }
 
@@ -359,15 +346,6 @@ extension OEXAnalytics {
         event.name = AnalyticsEventName.CelebrationModalView.rawValue
         event.displayName = AnalyticsDisplayName.CelebrationModalView.rawValue
         trackEvent(event, forComponent: nil, withInfo: nil)
-    }
-    
-    func trackSubjectDiscovery(subjectID: String) {
-        let event = OEXAnalyticsEvent()
-        event.name = AnalyticsEventName.SubjectClicked.rawValue
-        event.displayName = AnalyticsDisplayName.SubjectsDiscovery.rawValue
-        event.category = AnalyticsCategory.Discovery.rawValue
-        
-        trackEvent(event, forComponent: nil, withInfo: [ AnalyticsEventDataKey.SubjectID.rawValue : subjectID ])
     }
 
     func trackCourseSearch(search query: String, action: String) {
