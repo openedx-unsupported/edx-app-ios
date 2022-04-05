@@ -12,7 +12,6 @@ extern NSString* const OEXFindCoursesLinkURLScheme;
 
 typedef NS_ENUM(NSInteger, OEXFindCoursesBaseType) {
     OEXFindCoursesBaseTypeFindCourses,
-    OEXFindCoursesBaseTypeExploreSubjects
 };
 
 @interface OEXFindCoursesViewController : UIViewController
