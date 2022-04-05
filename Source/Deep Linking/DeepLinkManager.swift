@@ -84,26 +84,13 @@ import UIKit
         }
         else if controller is OEXCourseInfoViewController {
             return .courseDetail
-        } else if let discoveryViewController = controller as? DiscoveryViewController {
-            let segmentType = discoveryViewController.segmentType(of: discoveryViewController.segmentedControl.selectedSegmentIndex)
-            if segmentType == SegmentOption.program.rawValue {
-                return .programDiscovery
-            }
-            else if segmentType == SegmentOption.course.rawValue {
-                return .courseDiscovery
-            }
-            else if segmentType == SegmentOption.degree.rawValue {
-                return .degreeDiscovery
-            }
+        } else if let _ = controller as? DiscoveryViewController {
+            return .courseDiscovery
         } else if controller is OEXFindCoursesViewController  {
             return .courseDiscovery
         } else if let programsDiscoveryViewController = controller as? ProgramsDiscoveryViewController {
-            if programsDiscoveryViewController.viewType == .program {
-                return programsDiscoveryViewController.pathId == nil ? .programDiscovery : .programDiscoveryDetail
-            }
-            else if programsDiscoveryViewController.viewType == .degree {
-                return programsDiscoveryViewController.pathId == nil ? .degreeDiscovery : .degreeDiscoveryDetail
-            }
+            return programsDiscoveryViewController.pathId == nil ? .programDiscovery : .programDiscoveryDetail
+
         } else if controller is ProgramsViewController {
             return .program
         } else if controller is DiscussionTopicsViewController {
@@ -158,7 +145,6 @@ import UIKit
         case .courseDetail:
             guard environment?.config.discovery.course.isEnabled ?? false, let courseId = link.courseId else { return }
             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                discoveryViewController.switchSegment(with: .courseDiscovery)
                 environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .courseDetail, pathID: courseId, bottomBar: discoveryViewController.bottomBar)
                 return
             }
@@ -168,46 +154,22 @@ import UIKit
             }
             break
         case .programDiscoveryDetail:
-            guard environment?.config.discovery.program.isEnabled ?? false, let pathId = link.pathID else { return }
+            // TODO: Remove this if not needed(Not decided yet).
+            guard let pathId = link.pathID else { return }
             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                discoveryViewController.switchSegment(with: .programDiscovery)
                 environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDiscoveryDetail, pathID: pathId, bottomBar: discoveryViewController.bottomBar)
-                return
-            }
-            else if let programsDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController {
-                environment?.router?.showDiscoveryDetail(from: programsDiscoveryViewController, type: .programDiscoveryDetail, pathID: pathId, bottomBar: programsDiscoveryViewController.bottomBar)
-                return
             }
             break
         case .programDiscovery:
-            guard environment?.config.discovery.program.isEnabled ?? false else { return }
-            if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                discoveryViewController.switchSegment(with: link.type)
-                return
+
+            if let _ = topMostViewController as? DiscoveryViewController {
+                // TODO: Refresh discovery with program query if needed(Not decided yet).
             }
             break
         case .courseDiscovery:
             guard environment?.config.discovery.course.isEnabled ?? false else { return }
-            if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                discoveryViewController.switchSegment(with: link.type)
-                return
-            }
-            break
-        
-        case .degreeDiscovery:
-            guard environment?.config.discovery.degree.isEnabled ?? false else { return }
-            if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                discoveryViewController.switchSegment(with: link.type)
-                return
-            }
-            break
-            
-        case .degreeDiscoveryDetail:
-            guard environment?.config.discovery.degree.isEnabled ?? false, let pathId = link.pathID else { return }
-             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                discoveryViewController.switchSegment(with: .degreeDiscoveryDetail)
-                environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .degreeDiscoveryDetail, pathID: pathId, bottomBar: discoveryViewController.bottomBar)
-                return
+            if let _ = topMostViewController as? DiscoveryViewController {
+                // TODO: Refresh discovery with course query if needed(Not decided yet).
             }
             break
             
@@ -540,7 +502,7 @@ import UIKit
     
     private func isDiscovery(type: DeepLinkType) -> Bool {
         return (type == .courseDiscovery || type == .courseDetail || type == .programDiscovery
-            || type == .programDiscoveryDetail || type == .degreeDiscovery || type == .degreeDiscoveryDetail)
+            || type == .programDiscoveryDetail)
     }
     
     private func navigateToScreen(with type: DeepLinkType, link: DeepLink) {

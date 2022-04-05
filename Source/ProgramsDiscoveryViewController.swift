@@ -9,12 +9,6 @@
 import UIKit
 import WebKit
 
-// This enum is use for Deep linking
-public enum ProgramDiscoveryScreen {
-    case program
-    case degree
-}
-
 class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
@@ -28,14 +22,12 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
     private var discoveryConfig: ProgramDiscovery? {
         return environment.config.discovery.program
     }
-    private(set) var viewType: ProgramDiscoveryScreen
     
     // MARK:- Initializer -
-    init(with environment: Environment, bottomBar: UIView?, searchQuery: String? = nil, type: ProgramDiscoveryScreen? = .program) {
+    init(with environment: Environment, bottomBar: UIView?, searchQuery: String? = nil) {
         self.environment = environment
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
-        self.viewType = type ?? .program
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,8 +36,8 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         self.showBottomBar = showBottomBar
     }
     
-    convenience init(with environment: Environment, pathId: String, bottomBar: UIView?, type: ProgramDiscoveryScreen? = .program) {
-        self.init(with: environment, bottomBar: bottomBar, searchQuery: nil, type: type)
+    convenience init(with environment: Environment, pathId: String, bottomBar: UIView?) {
+        self.init(with: environment, bottomBar: bottomBar, searchQuery: nil)
         self.pathId = pathId
     }
     
@@ -57,6 +49,8 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = Strings.discover
+        view.backgroundColor = environment.styles.standardBackgroundColor()
+        
         if let pathId = pathId {
             loadProgramDetails(with: pathId)
         }
@@ -101,7 +95,7 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
     }
     
     private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false, searchBaseURL: URL? = nil) {
-        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: showSearch, searchQuery: searchQuery, discoveryType: .program)
+        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: showSearch, searchQuery: searchQuery)
         webviewHelper?.baseURL = searchBaseURL
         webviewHelper?.load(withURL: url)
     }

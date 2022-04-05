@@ -111,8 +111,6 @@
 		2240FD561FF266E4001D6589 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD551FF266E4001D6589 /* TabBarItem.swift */; };
 		224D457921B90753003A382C /* UIFont+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224D457821B90753003A382C /* UIFont+Attributes.swift */; };
 		224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224F1F522067B4E0009B3639 /* CustomSlider.swift */; };
-		22547414220038BC000E5957 /* DegreesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22547413220038BC000E5957 /* DegreesViewController.swift */; };
-		225474162201B765000E5957 /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225474152201B765000E5957 /* SegmentItem.swift */; };
 		2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254EF02207610FF00BA183C /* CustomPlayerButton.swift */; };
 		2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94D2111BADC005F7C8C /* ProgramConfig.swift */; };
 		2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */; };
@@ -1081,8 +1079,6 @@
 		2250E9D222DC623B00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = fr; path = fr.lproj/profiles.json; sourceTree = "<group>"; };
 		2250E9D322DC623B00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = fr; path = fr.lproj/languages.json; sourceTree = "<group>"; };
 		2250E9D422DC623C00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = fr; path = fr.lproj/whats_new.json; sourceTree = "<group>"; };
-		22547413220038BC000E5957 /* DegreesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreesViewController.swift; sourceTree = "<group>"; };
-		225474152201B765000E5957 /* SegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentItem.swift; sourceTree = "<group>"; };
 		2254EF02207610FF00BA183C /* CustomPlayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerButton.swift; sourceTree = "<group>"; };
 		2255C94D2111BADC005F7C8C /* ProgramConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfig.swift; sourceTree = "<group>"; };
 		2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfigTests.swift; sourceTree = "<group>"; };
@@ -3341,8 +3337,6 @@
 				9C9B7F661A8CC68400A857B2 /* OEXCourseInfoViewController.m */,
 				B7EC83BE21A2D34600D6A89C /* ProgramsDiscoveryViewController.swift */,
 				B7EC83C021A2DE9E00D6A89C /* DiscoveryViewController.swift */,
-				22547413220038BC000E5957 /* DegreesViewController.swift */,
-				225474152201B765000E5957 /* SegmentItem.swift */,
 			);
 			name = "Course Enrollment";
 			sourceTree = "<group>";
@@ -5210,7 +5204,6 @@
 				E0EC115C221AE70900F0574A /* ListenableObject.m in Sources */,
 				B7CCC72D209B16B100A66923 /* ConstraintLayoutGuide.swift in Sources */,
 				1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */,
-				22547414220038BC000E5957 /* DegreesViewController.swift in Sources */,
 				223A98FC1FA8610B0018DF67 /* AdditionalTabBarViewController.swift in Sources */,
 				77F76A6E1B0BD32A00ED3E39 /* OEXSession+Authorization.swift in Sources */,
 				5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */,
@@ -5269,7 +5262,6 @@
 				224D457921B90753003A382C /* UIFont+Attributes.swift in Sources */,
 				5F3A619A265796A7005329A4 /* CalendarSyncConfig.swift in Sources */,
 				777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */,
-				225474162201B765000E5957 /* SegmentItem.swift in Sources */,
 				9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */,
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
 				E40AEA75218D076200049C39 /* YoutubeVideoPlayer.swift in Sources */,

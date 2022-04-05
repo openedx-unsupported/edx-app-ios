@@ -286,11 +286,6 @@ extension OEXRouter {
             }
         }
         
-        // Switch segment tab on discovery view
-        if let discoveryController = discoveryController as? DiscoveryViewController {
-            discoveryController.switchSegment(with: type)
-        }
-        
         // If the pathID is given the detail view will open
         if let pathID = pathID, let discoveryController = discoveryController {
             showDiscoveryDetail(from: discoveryController, type: type, pathID: pathID, bottomBar: bottomBar)
@@ -303,9 +298,6 @@ extension OEXRouter {
         }
         else if type == .programDiscoveryDetail {
             showProgramDetail(from: controller, with: pathID, bottomBar: bottomBar)
-        }
-        else if type == .degreeDiscoveryDetail {
-            showProgramDetail(from: controller, with: pathID, bottomBar: bottomBar, type: .degree)
         }
     }
 
@@ -492,32 +484,22 @@ extension OEXRouter {
         guard let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery) else { return }
         if let fromController = fromController {
             fromController.tabBarController?.selectedIndex = EnrolledTabBarViewController.courseCatalogIndex
-            if let discovery = fromController.tabBarController?.children.first(where: { $0.isKind(of: DiscoveryViewController.self)} ) as? DiscoveryViewController {
-                discovery.switchSegment(with: .courseDiscovery)
-            }
         } else {
             showControllerFromStartupScreen(controller: controller)
         }
         self.environment.analytics.trackUserFindsCourses()
-        
     }
     
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {
         let isCourseDiscoveryEnabled = environment.config.discovery.course.isEnabled
-        let isProgramDiscoveryEnabled = environment.config.discovery.program.isEnabled
-        let isDegreeDiscveryEnabled = environment.config.discovery.degree.isEnabled
-        
-        if (isCourseDiscoveryEnabled && (isProgramDiscoveryEnabled || isDegreeDiscveryEnabled)) {
-            return DiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
-        }
-        else if isCourseDiscoveryEnabled {
+        if isCourseDiscoveryEnabled {
             return environment.config.discovery.course.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
         }
         return nil
     }
     
-    func showProgramDetail(from controller: UIViewController, with pathId: String, bottomBar: UIView?, type: ProgramDiscoveryScreen? = .program) {
-        let programDetailViewController = ProgramsDiscoveryViewController(with: environment, pathId: pathId, bottomBar: bottomBar?.copy() as? UIView, type: type)
+    func showProgramDetail(from controller: UIViewController, with pathId: String, bottomBar: UIView?) {
+        let programDetailViewController = ProgramsDiscoveryViewController(with: environment, pathId: pathId, bottomBar: bottomBar?.copy() as? UIView)
         pushViewController(controller: programDetailViewController, fromController: controller)
     }
 

@@ -14,12 +14,6 @@ fileprivate enum QueryParameterKeys {
     static let subject = "subject"
 }
 
-@objc enum DiscoveryType: Int {
-    case course
-    case program
-    case degree
-}
-
 class DiscoveryWebViewHelper: NSObject {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
@@ -29,7 +23,6 @@ class DiscoveryWebViewHelper: NSObject {
     fileprivate let webView: WKWebView
     fileprivate let searchBar = UISearchBar()
     fileprivate var loadController = LoadStateViewController()
-    fileprivate let discoveryType: DiscoveryType
     
     fileprivate var request: URLRequest? = nil
     @objc var baseURL: URL?
@@ -46,25 +39,23 @@ class DiscoveryWebViewHelper: NSObject {
         return 90
     }
     
-    @objc convenience init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, discoveryType: DiscoveryType = .course) {
-        self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, showSearch: false, searchQuery: nil, discoveryType: discoveryType)
+    @objc convenience init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?) {
+        self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, showSearch: false, searchQuery: nil)
     }
     
-    @objc init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, discoveryType: DiscoveryType = .course) {
+    @objc init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?) {
         self.environment = environment
         self.webView = WKWebView(frame: .zero, configuration: environment.config.webViewConfiguration())
         self.delegate = delegate
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
-        self.discoveryType = discoveryType
-        let discoveryConfig = discoveryType == .program ? environment.config.discovery.program : environment.config.discovery.course
-        searchBarEnabled = discoveryConfig.webview.searchEnabled && showSearch
+        searchBarEnabled = showSearch
         super.init()
         searchBarPlaceholder()
         webView.disableZoom()
         webView.navigationDelegate = self
         webView.scrollView.decelerationRate = UIScrollView.DecelerationRate.normal
-        webView.accessibilityIdentifier = discoveryType == .course ? "find-courses-webview" : "find-programs-webview"
+        webView.accessibilityIdentifier = "find-courses-webview"
         guard let container = delegate?.webViewContainingController() else { return }
         container.view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
@@ -119,19 +110,7 @@ class DiscoveryWebViewHelper: NSObject {
     }
     
     private func searchBarPlaceholder() {
-        switch discoveryType {
-        case .course:
-            searchBar.placeholder = Strings.searchCoursesPlaceholderText
-            break
-        case .program:
-            searchBar.placeholder = Strings.searchProgramsPlaceholderText
-            break
-        case .degree:
-            searchBar.placeholder = Strings.searchDegreesPlaceholderText
-            break
-        default:
-            break
-        }
+        searchBar.placeholder = Strings.searchCoursesPlaceholderText
     }
     
     private func addObserver() {
@@ -146,18 +125,6 @@ class DiscoveryWebViewHelper: NSObject {
     }
     
     private func handleURLChangeNotification() {
-        switch discoveryType {
-        case .course:
-
-            break
-        case .program:
-            if !URLHasSearchFilter {
-                searchBar.text = nil
-            }
-            break
-        default:
-            break
-        }
     }
     
     private var URLHasSearchFilter: Bool {
@@ -259,17 +226,6 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
 
         if let bar = bottomBar {
             bar.superview?.bringSubviewToFront(bar)
-        }
-    }
-
-    private var discovryAccessibilityValue: String {
-        switch discoveryType {
-        case .course:
-            return "findCoursesLoaded"
-        case .program:
-            return "findProgramsLoaded"
-        case .degree:
-            return "findDegreeLoaded"
         }
     }
 
