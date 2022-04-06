@@ -153,7 +153,11 @@ enum PurchaseError: String {
         }
     }
     
-    private func purchaseReceipt() {
+    func purchaseReceipt(completion: PurchaseCompletionHandler? = nil) {
+        if let completion = completion {
+            self.completion = completion
+        }
+
         storeKit.fetchReceipt(forceRefresh: false) { [weak self] result in
             switch result {
             case .success(let receiptData):

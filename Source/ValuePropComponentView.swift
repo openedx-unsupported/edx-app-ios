@@ -186,10 +186,24 @@ class ValuePropComponentView: UIView {
                     self?.upgradeButton.stopShimmerEffect()
                     self?.upgradeButton.setPrice(price)
                 } else {
-                    self?.upgradeButton.stopShimmerEffect()
-                    self?.upgradeButton.updateVisibility(visible: false)
+                    self?.showCoursePriceErrorAlert()
                 }
             }
+        }
+    }
+
+    private func showCoursePriceErrorAlert() {
+        guard let topController = UIApplication.shared.topMostController() else { return }
+
+        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
+
+        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.coursePriceError) { [weak self] _ in
+            self?.fetchCoursePrice()
+        }
+
+        alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
+            self?.upgradeButton.stopShimmerEffect()
+            self?.upgradeButton.updateVisibility(visible: false)
         }
     }
 

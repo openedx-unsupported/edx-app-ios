@@ -186,7 +186,7 @@ public class CourseOutlineViewController :
     
     private var courseOutlineLoaded = false
     
-    private func loadCourseOutlineStream() {
+    @objc private func loadCourseOutlineStream() {
         if let _ = courseUpgradeHelper.courseUpgradeModel {
             courseQuerier.needsRefresh = true
         }
@@ -208,7 +208,9 @@ public class CourseOutlineViewController :
             }
         } failure: { [weak self] error in
             if let _ = self?.courseUpgradeHelper.courseUpgradeModel {
-                self?.courseUpgradeHelper.removeLoader()
+                self?.courseUpgradeHelper.removeLoader(success: false) {
+                    self?.loadCourseOutlineStream()
+                }
             }
             Logger.logError("ANALYTICS", "Unable to load block: \(error)")
         }
@@ -332,7 +334,8 @@ public class CourseOutlineViewController :
     
     private func handleNavigationIfNeeded() {
         if let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel {
-            courseUpgradeHelper.courseUpgradeModel = nil
+            courseUpgradeHelper.resetUpgradeModel()
+
             if courseUpgradeModel.screen == .courseDashboard {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
                     self?.courseUpgradeHelper.removeLoader(success: true)

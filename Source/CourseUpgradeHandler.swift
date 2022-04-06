@@ -28,7 +28,7 @@ class CourseUpgradeHandler: NSObject {
     private var course: OEXCourse?
     private var basketID: Int = 0
     private var courseSku: String = ""
-    private var state: CourseUpgradeState = .initial {
+    private(set) var state: CourseUpgradeState = .initial {
         didSet {
             completion?(state)
         }
@@ -183,6 +183,17 @@ class CourseUpgradeHandler: NSObject {
                 self?.state = .complete
             } else {
                 self?.state = .error(type: .verifyReceiptError, error: response.error)
+            }
+        }
+    }
+
+    // Give an option of retry to learner
+    func reverifyPayment() {
+        PaymentManager.shared.purchaseReceipt { [weak self] success, receipt, error in
+            if let receipt = receipt, success {
+                self?.verifyPayment(receipt)
+            } else {
+                self?.state = .error(type: (error?.type ?? .paymentError), error: error?.error)
             }
         }
     }
