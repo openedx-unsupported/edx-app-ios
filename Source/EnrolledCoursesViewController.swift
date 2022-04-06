@@ -116,7 +116,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         environment.interface?.enrollmentForCourse(withID: model.courseID)?.type = .verified
         
         if model.screen == .myCourses {
-            courseUpgradeHelper.removeLoader(success: success)
+            courseUpgradeHelper.removeLoader(success: success, removeView: true)
         }
     }
     
