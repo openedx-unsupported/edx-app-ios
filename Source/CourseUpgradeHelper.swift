@@ -29,8 +29,8 @@ class CourseUpgradeHelper: NSObject {
     
     static let shared = CourseUpgradeHelper()
     private lazy var unlockController = ValuePropUnlockViewContainer()
-    weak var delegate: CourseUpgradeHelperDelegate?
-    var completion: (()-> ())? = nil
+    weak private(set)var delegate: CourseUpgradeHelperDelegate?
+    private(set)var completion: (()-> ())? = nil
 
     enum CompletionState {
         case fulfillment
@@ -125,12 +125,11 @@ class CourseUpgradeHelper: NSObject {
 
         if unlockController.isVisible, removeView == true {
             unlockController.removeView() { [weak self] in
-                if let success = success {
-                    if success {
-                        self?.showSuccess()
-                    } else {
-                        self?.showError()
-                    }
+                self?.upgradeModel = nil
+                if success == true {
+                    self?.showSuccess()
+                } else {
+                    self?.showError()
                 }
             }
         } else if success == false {
