@@ -10,7 +10,7 @@ import Foundation
 
 protocol ValuePropMessageViewDelegate: AnyObject {
     func showValuePropDetailView()
-    func didTapUpgradeCourse(upgradeView: ValuePropComponentView)
+    func didTapUpgradeCourse(coursePrice: String, upgradeView: ValuePropComponentView)
 }
 
 class ValuePropComponentView: UIView {
@@ -79,7 +79,8 @@ class ValuePropComponentView: UIView {
     private let environment: Environment
     private var courseID: String
     private var blockID: String
-
+    private var coursePrice: String?
+    
     init(environment: Environment, courseID: String, blockID: CourseBlockID?) {
         self.environment = environment
         self.courseID = courseID
@@ -178,18 +179,37 @@ class ValuePropComponentView: UIView {
     
     private func fetchCoursePrice() {
         guard let course = course, let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
+        let startTime = CFAbsoluteTimeGetCurrent()
         
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
             PaymentManager.shared.productPrice(courseSku) { [weak self] price in
                 if let price = price {
+                    let endTime = CFAbsoluteTimeGetCurrent() - startTime
+                    self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
+                    self?.coursePrice = price
                     self?.upgradeButton.stopShimmerEffect()
                     self?.upgradeButton.setPrice(price)
                 } else {
+                    self?.trackLoadError()
                     self?.showCoursePriceErrorAlert()
                 }
             }
         }
+    }
+    
+    private func trackPriceLoadDuration(elapsedTime: Int) {
+        guard let course = course,
+              let courseID = course.course_id,
+              let coursePrice = coursePrice else { return }
+        
+        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, blockID: blockID, pacing: pacing, coursePrice: coursePrice, screen: .courseUnit, elapsedTime: elapsedTime)
+    }
+    
+    private func trackLoadError() {
+        guard let course = course,
+              let courseID = course.course_id else { return }
+        environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, blockID: blockID, pacing: pacing, screen: .courseUnit)
     }
 
     private func showCoursePriceErrorAlert() {
@@ -231,7 +251,8 @@ class ValuePropComponentView: UIView {
     }
 
     private func upgradeCourse() {
-        delegate?.didTapUpgradeCourse(upgradeView: self)
+        guard let coursePrice = coursePrice else { return }
+        delegate?.didTapUpgradeCourse(coursePrice: coursePrice, upgradeView: self)
         environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing)
     }
 

@@ -83,6 +83,15 @@ public enum AnalyticsDisplayName : String {
     case ProfileDeleteAccountClicked = "Profile: Delete Account Clicked"
     case RegistrationOptinTurnedOn = "Registration: Opt-in Turned On"
     case RegistrationOptinTurnedOff = "Registration: Opt-in Turned Off"
+    case CourseUpgradeNowSuccess = "Upgrade Now Success"
+    case CourseUpgradeSuccessDuration = "Time to Unlock Upgraded Content Intial Try"
+    case CourseUpgradeSuccessDurationAfterRefresh = "Time to Unlock Upgraded Content After Refresh"
+    case CourseUpgradeTimeToVerifyPayment = "Time to Verify Payment"
+    case CourseUpgradeTimeToLoadPrice = "Time to Load Price"
+    case CourseUpgradePaymentError = "Payment Error"
+    case CourseUpgradeError = "Upgrade Error"
+    case CourseUpgradeLoadError = "Load Error"
+    case CourseUpgradeErrorAction = "Error Action"
 }
 
 public enum AnalyticsEventName: String {
@@ -156,6 +165,15 @@ public enum AnalyticsEventName: String {
     case ProfileDeleteAccountClicked = "edx.bi.app.profile.delete_account.clicked"
     case RegistrationOptinTurnedOn = "edx.bi.app.user.register.opt_in.on"
     case RegistrationOptinTurnedOff = "edx.bi.app.user.register.opt_in.off"
+    case CourseUpgradeNowSuccess = "edx.bi.payments.upgrade_now.success"
+    case CourseUpgradeSuccessDuration = "edx.bi.payments.upgrade_duration"
+    case CourseUpgradeSuccessDurationAfterRefresh = "edx.bi.payments.time_to_unlock_content_after_refresh"
+    case CourseUpgradeTimeToVerifyPayment = "edx.bi.payments.time_to_verify_payment"
+    case CourseUpgradeTimeToLoadPrice = "edx.bi.payments.time_to_load"
+    case CourseUpgradePaymentError = "edx.bi.payments.payment_error"
+    case CourseUpgradeError = "edx.bi.payments.upgrade_error"
+    case CourseUpgradeLoadError = "edx.bi.payments.load_error"
+    case CourseUpgradeErrorAction = "edx.bi.payments.error_action"
 }
 
 public enum AnalyticsScreenName: String {
@@ -215,6 +233,9 @@ public enum AnalyticsEventDataKey: String {
     case OpenedURL = "opened_url"
     case Value = "value"
     case OldValue = "old_value"
+    case Price = "price"
+    case PaymentError = "payment_error"
+    case ErrorAction = "error_action"
 }
 
 
@@ -616,6 +637,139 @@ extension OEXAnalytics {
         let info = [
             AnalyticsEventDataKey.Value.rawValue: value,
             AnalyticsEventDataKey.OldValue.rawValue: oldValue
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackCourseUpgradeSuccess(courseID: String, blockID: String? = nil, pacing: String, price: String, screen: CourseUpgradeScreen) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeNowSuccess.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeNowSuccess.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.Price.rawValue: price
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackCourseUpgradeDuration(isRefresh: Bool, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = isRefresh ? AnalyticsDisplayName.CourseUpgradeSuccessDurationAfterRefresh.rawValue : AnalyticsDisplayName.CourseUpgradeSuccessDuration.rawValue
+        event.name = isRefresh ? AnalyticsEventName.CourseUpgradeSuccessDurationAfterRefresh.rawValue : AnalyticsEventName.CourseUpgradeSuccessDuration.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.Price.rawValue: coursePrice,
+            AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackCourseUpgradeTimeToVerifyPayment(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeTimeToVerifyPayment.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeTimeToVerifyPayment.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.Price.rawValue: coursePrice,
+            AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackCourseUpgradeTimeToLoadPrice(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeTimeToLoadPrice.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeTimeToLoadPrice.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.Price.rawValue: coursePrice,
+            AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackCourseUpgradePaymentError(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, paymentError: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradePaymentError.rawValue
+        event.name = AnalyticsEventName.CourseUpgradePaymentError.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.Price.rawValue: coursePrice,
+            AnalyticsEventDataKey.PaymentError.rawValue: paymentError,
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackCourseUpgradeError(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, paymentError: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeError.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeError.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.Price.rawValue: coursePrice,
+            AnalyticsEventDataKey.PaymentError.rawValue: paymentError,
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackCourseUpgradeLoadError(courseID: String, blockID: String? = nil, pacing: String, screen: CourseUpgradeScreen) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeLoadError.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeLoadError.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+        ]
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackCourseUpgradeErrorAction(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, errorAction: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeErrorAction.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeErrorAction.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.Price.rawValue: coursePrice,
+            AnalyticsEventDataKey.ErrorAction.rawValue: errorAction,
         ]
         
         trackEvent(event, forComponent: nil, withInfo: info)
