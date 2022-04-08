@@ -87,15 +87,15 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
     
     private func loadPrograms(with url: URL?) {
         if let url = url {
-            load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, showSearch: true, searchBaseURL: url)
+            load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, searchBaseURL: url)
         }
         else {
             assert(false, "Unable to get search URL.")
         }
     }
     
-    private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false, searchBaseURL: URL? = nil) {
-        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: showSearch, searchQuery: searchQuery)
+    private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, searchBaseURL: URL? = nil) {
+        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, searchQuery: searchQuery)
         webviewHelper?.baseURL = searchBaseURL
         webviewHelper?.load(withURL: url)
     }
