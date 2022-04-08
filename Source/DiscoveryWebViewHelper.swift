@@ -21,14 +21,12 @@ class DiscoveryWebViewHelper: NSObject {
     weak var delegate: WebViewNavigationDelegate?
     fileprivate let contentView = UIView()
     fileprivate let webView: WKWebView
-    fileprivate let searchBar = UISearchBar()
     fileprivate var loadController = LoadStateViewController()
     
     fileprivate var request: URLRequest? = nil
     @objc var baseURL: URL?
     fileprivate let searchQuery:String?
     let bottomBar: UIView?
-    private let searchBarEnabled: Bool
     private var urlObservation: NSKeyValueObservation?
     fileprivate var params: [String: String]? {
         return (webView.url as NSURL?)?.oex_queryParameters() as? [String : String]
@@ -40,18 +38,16 @@ class DiscoveryWebViewHelper: NSObject {
     }
     
     @objc convenience init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?) {
-        self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, showSearch: false, searchQuery: nil)
+        self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, searchQuery: nil)
     }
     
-    @objc init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?) {
+    @objc init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, searchQuery: String?) {
         self.environment = environment
         self.webView = WKWebView(frame: .zero, configuration: environment.config.webViewConfiguration())
         self.delegate = delegate
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
-        searchBarEnabled = showSearch
         super.init()
-        searchBarPlaceholder()
         webView.disableZoom()
         webView.navigationDelegate = self
         webView.scrollView.decelerationRate = UIScrollView.DecelerationRate.normal
@@ -70,19 +66,6 @@ class DiscoveryWebViewHelper: NSObject {
         contentView.subviews.forEach { $0.removeFromSuperview() }
         let isUserLoggedIn = environment.session.currentUser != nil
 
-        var topConstraintItem: ConstraintItem = contentView.snp.top
-        if searchBarEnabled {
-            searchBar.delegate = self
-            contentView.addSubview(searchBar)
-
-            searchBar.snp.makeConstraints{ make in
-                make.leading.equalTo(contentView)
-                make.trailing.equalTo(contentView)
-                make.top.equalTo(contentView)
-            }
-            topConstraintItem = searchBar.snp.bottom
-        }
-
         contentView.addSubview(webView)
         if let bar = bottomBar, !isUserLoggedIn {
             contentView.addSubview(bar)
@@ -97,7 +80,7 @@ class DiscoveryWebViewHelper: NSObject {
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)
-            make.top.equalTo(topConstraintItem)
+            make.top.equalTo(contentView)
             if !isUserLoggedIn {
                 make.bottom.equalTo(contentView).offset(-bottomSpace)
             }
@@ -107,10 +90,6 @@ class DiscoveryWebViewHelper: NSObject {
         }
 
         addObserver()
-    }
-    
-    private func searchBarPlaceholder() {
-        searchBar.placeholder = Strings.searchCoursesPlaceholderText
     }
     
     private func addObserver() {
@@ -162,7 +141,6 @@ class DiscoveryWebViewHelper: NSObject {
         var discoveryURL = url
         
         if let baseURL = baseURL, let searchQuery = searchQuery {
-            searchBar.text = searchQuery
             var params = self.params ?? [:]
             set(value: searchQuery, for: QueryParameterKeys.searchQuery, in: &params)
             if let url = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {

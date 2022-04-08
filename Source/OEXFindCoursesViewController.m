@@ -55,7 +55,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void) loadCourseDiscovery {
-    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_showBottomBar ? _bottomBar : nil showSearch:YES searchQuery:_searchQuery];
+    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_showBottomBar ? _bottomBar : nil searchQuery:_searchQuery];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
 
     self.webViewHelper.baseURL = [self discoveryConfig].webview.baseURL;
