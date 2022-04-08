@@ -33,6 +33,8 @@ enum WebviewActions: String {
 
 @objc class DiscoveryHelper: NSObject {
 
+    typealias Environment = OEXRouterProvider & OEXConfigProvider
+
      class func urlAction(from url: URL) -> WebviewActions? {
         guard url.isValidAppURLScheme, let url = WebviewActions(rawValue: url.appURLHost) else {
             return nil
@@ -136,9 +138,8 @@ extension DiscoveryHelper {
         }
     }
     
-    @objc class func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) -> Bool {
+    @objc class func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?, environment: Environment) -> Bool {
         guard let urlAction = urlAction(from: url) else { return false }
-        let environment = OEXRouter.shared().environment;
         switch urlAction {
         case .courseEnrollment:
             enrollInCourse(with: url, from: controller)

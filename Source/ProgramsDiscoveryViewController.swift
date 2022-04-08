@@ -106,7 +106,7 @@ extension ProgramsDiscoveryViewController: WebViewNavigationDelegate {
     
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
-        return !DiscoveryHelper.navigate(to: url, from: self, bottomBar: bottomBar)
+        return !DiscoveryHelper.navigate(to: url, from: self, bottomBar: bottomBar, environment: environment)
     }
     
     func webViewContainingController() -> UIViewController {
