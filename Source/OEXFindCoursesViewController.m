@@ -116,7 +116,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 - (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {
 
     if (request.URL != nil) {
-        return ![DiscoveryHelper navigateTo:request.URL from:self bottomBar:_bottomBar];
+        return ![DiscoveryHelper navigateTo:request.URL from:self bottomBar:_bottomBar environment: _environment];
     }
 
     return YES;
