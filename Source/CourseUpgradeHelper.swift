@@ -29,8 +29,8 @@ class CourseUpgradeHelper: NSObject {
     
     static let shared = CourseUpgradeHelper()
     private lazy var unlockController = ValuePropUnlockViewContainer()
-    weak private(set)var delegate: CourseUpgradeHelperDelegate?
-    private(set)var completion: (()-> ())? = nil
+    weak private(set) var delegate: CourseUpgradeHelperDelegate?
+    private(set) var completion: (()-> ())? = nil
 
     enum CompletionState {
         case fulfillment
