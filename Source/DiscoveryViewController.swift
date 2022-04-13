@@ -89,9 +89,4 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
             make.bottom.equalTo(view).offset(bottomSpace)
         }
     }
-
-    func index(for segmentType: Int) -> Int {
-        let requiredIndex = 0
-        return requiredIndex
-    }
 }
