@@ -144,9 +144,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
             break
         case .courseDiscovery, .courseDetail, .programDiscovery, .programDiscoveryDetail:
-            let isCourseDiscoveryEnabled = environment.config.discovery.course.isEnabled
-
-            if isCourseDiscoveryEnabled {
+            if environment.config.discovery.course.isEnabled {
                 selectedIndex = environment.config.discovery.course.type == .webview ? tabBarViewControllerIndex(with: OEXFindCoursesViewController.self) : tabBarViewControllerIndex(with: CourseCatalogViewController.self)
             }
             break
