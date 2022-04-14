@@ -212,7 +212,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
               let courseID = course.course_id else { return }
         
-        environment.analytics.trackUpgradeNow(with: courseID, blockID: self.blockID ?? "", pacing: pacing)
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: self.blockID ?? "", pacing: pacing, screenName: .courseUnit)
         
         courseUpgradeHelper.setupCourse(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: .courseUnit)
         
@@ -229,7 +229,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
-                self?.trackCourseUpgradeSuccess()
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .complete)
                 self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(courseID, self?.blockID))
                 break
             case .error(let type, let error):
@@ -240,15 +240,6 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
             default:
                 break
             }
-        }
-    }
-    
-    private func trackCourseUpgradeSuccess() {
-        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
-              let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
-        
-        PaymentManager.shared.productPrice(courseSku) { [weak self] price in
-            self?.environment.analytics.trackCourseUpgradeSuccess(courseID: self?.courseID ?? "", blockID: self?.blockID, pacing: self?.pacing ?? "", price: price ?? "", screen: .courseUnit)
         }
     }
     

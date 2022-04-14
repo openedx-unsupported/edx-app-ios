@@ -195,7 +195,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
               let courseSku = UpgradeSKUManager.shared.courseSku(for: course),
               let coursePrice = coursePrice else { return }
         
-        environment.analytics.trackUpgradeNow(with: courseID, blockID: courseSku, pacing: pacing)
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: courseSku, pacing: pacing, screenName: screen)
         
         courseUpgradeHelper.setupCourse(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: screen)
 
@@ -213,7 +213,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.isHidden = true
-                self?.trackCourseUpgradeSuccess()
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .complete)
                 self?.dismiss(animated: true) { [weak self] in
                     self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID))
                 }
@@ -227,10 +227,6 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 break
             }
         }
-    }
-    
-    private func trackCourseUpgradeSuccess() {
-        environment.analytics.trackCourseUpgradeSuccess(courseID: course.course_id ?? "", pacing: pacing, price: coursePrice ?? "", screen: screen)
     }
     
     private func enableUserInteraction(enable: Bool) {

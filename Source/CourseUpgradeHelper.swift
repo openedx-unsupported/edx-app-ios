@@ -38,13 +38,15 @@ class CourseUpgradeHelper: NSObject {
         case initial
         case payment
         case fulfillment
+        case complete
         case success(_ courseID: String, _ componentID: String?)
         case error(PurchaseError, Error?)
     }
     
+    // These error actions are used to send in analytics
     enum ErrorAction: String {
-        case refreshToRetry = "refresh to retry"
-        case emailSupport = "email support"
+        case refreshToRetry = "refresh"
+        case emailSupport = "get help"
         case close = "close"
     }
 
@@ -56,7 +58,9 @@ class CourseUpgradeHelper: NSObject {
         }
     }
     
+    // These times are being in analytics
     private var startTime: CFTimeInterval?
+    private var refreshTime: CFTimeInterval?
     private var paymentVerifyTime: CFTimeInterval?
     
     private var environment: Environment?
@@ -65,12 +69,10 @@ class CourseUpgradeHelper: NSObject {
     private var blockID: CourseBlockID?
     private var screen: CourseUpgradeScreen = .none
     private var coursePrice: String?
-    
-    private var isRefresh = false
-    
+        
     private override init() { }
     
-    public func setupCourse(environment: Environment, pacing: String, courseID: CourseBlockID, blockID: CourseBlockID? = nil, coursePrice: String, screen: CourseUpgradeScreen) {
+    func setupCourse(environment: Environment, pacing: String, courseID: CourseBlockID, blockID: CourseBlockID? = nil, coursePrice: String, screen: CourseUpgradeScreen) {
         self.environment = environment
         self.pacing = pacing
         self.courseID = courseID
@@ -79,7 +81,16 @@ class CourseUpgradeHelper: NSObject {
         self.screen = screen
     }
     
-    public func handleCourseUpgrade(state: CompletionState, delegate: CourseUpgradeHelperDelegate? = nil) {
+    func clearData() {
+        self.environment = nil
+        self.pacing = nil
+        self.courseID = nil
+        self.blockID = nil
+        self.coursePrice = nil
+        self.screen = .none
+    }
+    
+    func handleCourseUpgrade(state: CompletionState, delegate: CourseUpgradeHelperDelegate? = nil) {
         self.delegate = delegate
         
         switch state {
@@ -93,6 +104,9 @@ class CourseUpgradeHelper: NSObject {
             let endTime = CFAbsoluteTimeGetCurrent() - (paymentVerifyTime ?? 0)
             environment?.analytics.trackCourseUpgradeTimeToVerifyPayment(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
             showLoader()
+            break
+        case .complete:
+            environment.analytics.trackUpgradeNow(with: courseID ?? "", blockID: blockID ?? blockID, pacing: pacing ?? ??, screenName: screen)
             break
         case .success(let courseID, let blockID):
             upgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
@@ -119,7 +133,16 @@ class CourseUpgradeHelper: NSObject {
         topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successMessage, textSize: .xSmall, autoDismiss: true, duration: 3)
         let endTime = CFAbsoluteTimeGetCurrent() - (startTime ?? 0)
         
-        environment?.analytics.trackCourseUpgradeDuration(isRefresh: isRefresh, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
+        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshTime.millisecond)
+        
+        if let refreshTime = refreshTime {
+            let refreshEndTime = CFAbsoluteTimeGetCurrent() - refreshTime
+            
+            environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshTime.millisecond)
+        }
+        
+        refreshTime = nil
+        startTime = nil
     }
     
     func showError() {
@@ -130,8 +153,7 @@ class CourseUpgradeHelper: NSObject {
         if case .error (let type, _) = CourseUpgradeHandler.shared.state, type == .verifyReceiptError {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) { [weak self] _ in
                 self?.trackUpgradeErrorAction(errorAction: ErrorAction.refreshToRetry.rawValue)
-                self?.isRefresh = true
-                self?.startTime = CFAbsoluteTimeGetCurrent()
+                self?.refreshTime = CFAbsoluteTimeGetCurrent()
                 CourseUpgradeHandler.shared.reverifyPayment()
             }
         }
@@ -139,8 +161,7 @@ class CourseUpgradeHelper: NSObject {
         if case .complete = CourseUpgradeHandler.shared.state, completion != nil {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) {[weak self] _ in
                 self?.trackUpgradeErrorAction(errorAction: ErrorAction.refreshToRetry.rawValue)
-                self?.isRefresh = true
-                self?.startTime = CFAbsoluteTimeGetCurrent()
+                self?.refreshTime = CFAbsoluteTimeGetCurrent()
                 self?.showLoader()
                 self?.completion?()
                 self?.completion = nil
