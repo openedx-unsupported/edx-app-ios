@@ -106,7 +106,7 @@ class CourseUpgradeHelper: NSObject {
             showLoader()
             break
         case .complete:
-            environment.analytics.trackUpgradeNow(with: courseID ?? "", blockID: blockID ?? blockID, pacing: pacing ?? ??, screenName: screen)
+            environment?.analytics.trackUpgradeNow(with: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", screenName: screen)
             break
         case .success(let courseID, let blockID):
             upgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
@@ -133,12 +133,12 @@ class CourseUpgradeHelper: NSObject {
         topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successMessage, textSize: .xSmall, autoDismiss: true, duration: 3)
         let endTime = CFAbsoluteTimeGetCurrent() - (startTime ?? 0)
         
-        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshTime.millisecond)
+        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
         
         if let refreshTime = refreshTime {
             let refreshEndTime = CFAbsoluteTimeGetCurrent() - refreshTime
             
-            environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshTime.millisecond)
+            environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshEndTime.millisecond)
         }
         
         refreshTime = nil

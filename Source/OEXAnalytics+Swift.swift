@@ -238,7 +238,6 @@ public enum AnalyticsEventDataKey: String {
     case ErrorAction = "error_action"
 }
 
-
 extension OEXAnalytics {
 
     static func discoverCoursesEvent() -> OEXAnalyticsEvent {
@@ -591,7 +590,7 @@ extension OEXAnalytics {
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID,
-            AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue
+            AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue,
             key_course_id: courseID
         ]
 
@@ -776,4 +775,3 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 }
-
