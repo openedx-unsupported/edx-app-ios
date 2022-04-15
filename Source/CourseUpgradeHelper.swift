@@ -135,6 +135,7 @@ class CourseUpgradeHelper: NSObject {
         
         refreshTime = nil
         startTime = nil
+        clearData()
     }
     
     func showError() {
