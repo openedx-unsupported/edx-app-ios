@@ -213,7 +213,6 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.isHidden = true
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .complete)
                 self?.dismiss(animated: true) { [weak self] in
                     self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID))
                 }

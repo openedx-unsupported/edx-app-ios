@@ -229,7 +229,6 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .complete)
                 self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(courseID, self?.blockID))
                 break
             case .error(let type, let error):

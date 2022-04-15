@@ -38,7 +38,6 @@ class CourseUpgradeHelper: NSObject {
         case initial
         case payment
         case fulfillment
-        case complete
         case success(_ courseID: String, _ componentID: String?)
         case error(PurchaseError, Error?)
     }
@@ -105,19 +104,12 @@ class CourseUpgradeHelper: NSObject {
             environment?.analytics.trackCourseUpgradeTimeToVerifyPayment(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
             showLoader()
             break
-        case .complete:
-            environment?.analytics.trackUpgradeNow(with: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", screenName: screen)
-            break
         case .success(let courseID, let blockID):
             upgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
             break
         case .error(let type, let error):
-            if type == .paymentError, let error = error {
-                environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: error.localizedDescription)
-            } else {
-                environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: type.rawValue)
-            }
+            environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: error?.localizedDescription ?? "")
             removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
         }
