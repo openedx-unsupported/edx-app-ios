@@ -16,6 +16,7 @@ public enum AnalyticsCategory : String {
     case WhatsNew = "whats-new"
     case SocialSharing = "social-sharing"
     case CourseDates = "course_dates"
+    case InAppPurchases = "in_app_purchases"
 }
 
 public enum AnalyticsDisplayName : String {
@@ -646,6 +647,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeNowSuccess.rawValue
         event.name = AnalyticsEventName.CourseUpgradeNowSuccess.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
@@ -662,6 +664,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = isRefresh ? AnalyticsDisplayName.CourseUpgradeSuccessDurationAfterRefresh.rawValue : AnalyticsDisplayName.CourseUpgradeSuccessDuration.rawValue
         event.name = isRefresh ? AnalyticsEventName.CourseUpgradeSuccessDurationAfterRefresh.rawValue : AnalyticsEventName.CourseUpgradeSuccessDuration.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
@@ -679,6 +682,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeTimeToVerifyPayment.rawValue
         event.name = AnalyticsEventName.CourseUpgradeTimeToVerifyPayment.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
@@ -696,6 +700,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeTimeToLoadPrice.rawValue
         event.name = AnalyticsEventName.CourseUpgradeTimeToLoadPrice.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
@@ -713,6 +718,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradePaymentError.rawValue
         event.name = AnalyticsEventName.CourseUpgradePaymentError.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
@@ -730,6 +736,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeError.rawValue
         event.name = AnalyticsEventName.CourseUpgradeError.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
@@ -747,6 +754,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeLoadError.rawValue
         event.name = AnalyticsEventName.CourseUpgradeLoadError.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
@@ -762,6 +770,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeErrorAction.rawValue
         event.name = AnalyticsEventName.CourseUpgradeErrorAction.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
