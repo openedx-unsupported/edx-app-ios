@@ -583,14 +583,14 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
-    func trackUpgradeNow(with courseID: String, blockID: String, pacing: String, screenName: CourseUpgradeScreen) {
+    func trackUpgradeNow(with courseID: String, blockID: String? = nil, pacing: String, screenName: CourseUpgradeScreen) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.UpgradeNowClicked.rawValue
         event.name = AnalyticsEventName.UpgradeNowClicked.rawValue
 
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue,
             key_course_id: courseID
         ]

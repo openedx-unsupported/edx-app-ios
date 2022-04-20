@@ -192,10 +192,9 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     private func upgradeCourse() {
         guard let courseID = course.course_id,
-              let courseSku = UpgradeSKUManager.shared.courseSku(for: course),
               let coursePrice = coursePrice else { return }
         
-        environment.analytics.trackUpgradeNow(with: courseID, blockID: courseSku, pacing: pacing, screenName: screen)
+        environment.analytics.trackUpgradeNow(with: courseID, pacing: pacing, screenName: screen)
         
         courseUpgradeHelper.setupCourse(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: screen)
 

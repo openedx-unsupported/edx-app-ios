@@ -56,7 +56,7 @@ class CourseUpgradeHelper: NSObject {
     // These times are being in analytics
     private var startTime: CFTimeInterval?
     private var refreshTime: CFTimeInterval?
-    private var paymentVerifyTime: CFTimeInterval?
+    private var timeForiOSPaymentModal: CFTimeInterval?
     
     private var environment: Environment?
     private var pacing: String?
@@ -97,10 +97,10 @@ class CourseUpgradeHelper: NSObject {
             startTime = CFAbsoluteTimeGetCurrent()
             break
         case .payment:
-            paymentVerifyTime = CFAbsoluteTimeGetCurrent()
+            timeForiOSPaymentModal = CFAbsoluteTimeGetCurrent()
             break
         case .fulfillment:
-            let endTime = CFAbsoluteTimeGetCurrent() - (paymentVerifyTime ?? 0)
+            let endTime = CFAbsoluteTimeGetCurrent() - (timeForiOSPaymentModal ?? 0)
             environment?.analytics.trackCourseUpgradeTimeToVerifyPayment(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
             showLoader()
             break
@@ -108,7 +108,7 @@ class CourseUpgradeHelper: NSObject {
             upgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
             break
-        case .error(let type, let error):
+        case .error(let type, _):
             environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: CourseUpgradeHandler.shared.formattedError)
             removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
@@ -127,6 +127,8 @@ class CourseUpgradeHelper: NSObject {
             
             environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshEndTime.millisecond)
         }
+        
+        environment?.analytics.trackCourseUpgradeSuccess(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", price: coursePrice ?? "", screen: screen)
     }
     
     func showError() {
@@ -226,17 +228,17 @@ extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
 
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         guard let controller = UIApplication.shared.topMostController() else { return }
-        controller.dismiss(animated: true, completion: { [weak self] in
+        controller.dismiss(animated: true) { [weak self] in
             if self?.unlockController.isVisible == true {
-                self?.unlockController.removeView(completion: {
+                self?.unlockController.removeView() {
                     self?.delegate?.hideAlertAction()
                     self?.clearData()
-                })
+                }
             }
             else {
                 self?.delegate?.hideAlertAction()
                 self?.clearData()
             }
-        })
+        }
     }
 }
