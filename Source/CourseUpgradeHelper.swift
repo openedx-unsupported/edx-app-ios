@@ -44,14 +44,8 @@ class CourseUpgradeHelper: NSObject {
         case emailSupport = "get help"
         case close = "close"
     }
-
-    private(set) var upgradeModel: CourseUpgradeModel?
-
-    var courseUpgradeModel: CourseUpgradeModel? {
-        get {
-            return upgradeModel
-        }
-    }
+    
+    private(set) var courseUpgradeModel: CourseUpgradeModel?
     
     // These times are being in analytics
     private var startTime: CFTimeInterval?
@@ -77,7 +71,7 @@ class CourseUpgradeHelper: NSObject {
     }
     
     func clearData() {
-        upgradeModel = nil
+        courseUpgradeModel = nil
         delegate = nil
         environment = nil
         pacing = nil
@@ -105,7 +99,7 @@ class CourseUpgradeHelper: NSObject {
             showLoader()
             break
         case .success(let courseID, let blockID):
-            upgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
+            courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
             break
         case .error(let type, _):
@@ -184,7 +178,7 @@ class CourseUpgradeHelper: NSObject {
     func removeLoader(success: Bool? = false, removeView: Bool? = false, completion: (()-> ())? = nil) {
         self.completion = completion
         if success == true {
-            upgradeModel = nil
+            courseUpgradeModel = nil
         }
 
         if unlockController.isVisible, removeView == true {
