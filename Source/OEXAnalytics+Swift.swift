@@ -84,7 +84,7 @@ public enum AnalyticsDisplayName : String {
     case ProfileDeleteAccountClicked = "Profile: Delete Account Clicked"
     case RegistrationOptinTurnedOn = "Registration: Opt-in Turned On"
     case RegistrationOptinTurnedOff = "Registration: Opt-in Turned Off"
-    case CourseUpgradeNowSuccess = "Payments: Course Upgrade Success"
+    case CourseUpgradeSuccess = "Payments: Course Upgrade Success"
     case CourseUpgradeSuccessDuration = "Payments: Time to Unlock Upgraded Content"
     case CourseUpgradeSuccessDurationAfterRefresh = "Payments: Time to Unlock Upgraded Content After Refresh"
     case CourseUpgradeTimeToVerifyPayment = "Payments: Time to Verify Payment"
@@ -166,7 +166,7 @@ public enum AnalyticsEventName: String {
     case ProfileDeleteAccountClicked = "edx.bi.app.profile.delete_account.clicked"
     case RegistrationOptinTurnedOn = "edx.bi.app.user.register.opt_in.on"
     case RegistrationOptinTurnedOff = "edx.bi.app.user.register.opt_in.off"
-    case CourseUpgradeNowSuccess = "edx.bi.payments.upgrade_now.success"
+    case CourseUpgradeSuccess = "edx.bi.payments.upgrade_now.success"
     case CourseUpgradeSuccessDuration = "edx.bi.payments.upgrade_duration"
     case CourseUpgradeSuccessDurationAfterRefresh = "edx.bi.payments.time_to_unlock_content_after_refresh"
     case CourseUpgradeTimeToVerifyPayment = "edx.bi.payments.time_to_verify_payment"
@@ -645,8 +645,8 @@ extension OEXAnalytics {
     
     func trackCourseUpgradeSuccess(courseID: String, blockID: String? = nil, pacing: String, price: String, screen: CourseUpgradeScreen) {
         let event = OEXAnalyticsEvent()
-        event.displayName = AnalyticsDisplayName.CourseUpgradeNowSuccess.rawValue
-        event.name = AnalyticsEventName.CourseUpgradeNowSuccess.rawValue
+        event.displayName = AnalyticsDisplayName.CourseUpgradeSuccess.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeSuccess.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [

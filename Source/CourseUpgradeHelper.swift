@@ -25,10 +25,6 @@ class CourseUpgradeHelper: NSObject {
     
     typealias Environment = OEXAnalyticsProvider
     
-    static let courseID = "CourseID"
-    static let blockID = "BlockID"
-    static let screen = "Screen"
-    
     static let shared = CourseUpgradeHelper()
     private lazy var unlockController = ValuePropUnlockViewContainer()
     weak private(set) var delegate: CourseUpgradeHelperDelegate?
@@ -49,7 +45,7 @@ class CourseUpgradeHelper: NSObject {
         case close = "close"
     }
 
-    private var upgradeModel: CourseUpgradeModel?
+    private(set) var upgradeModel: CourseUpgradeModel?
 
     var courseUpgradeModel: CourseUpgradeModel? {
         get {
@@ -81,12 +77,16 @@ class CourseUpgradeHelper: NSObject {
     }
     
     func clearData() {
-        self.environment = nil
-        self.pacing = nil
-        self.courseID = nil
-        self.blockID = nil
-        self.coursePrice = nil
-        self.screen = .none
+        upgradeModel = nil
+        delegate = nil
+        environment = nil
+        pacing = nil
+        courseID = nil
+        blockID = nil
+        coursePrice = nil
+        screen = .none
+        refreshTime = nil
+        startTime = nil
     }
     
     func handleCourseUpgrade(state: CompletionState, delegate: CourseUpgradeHelperDelegate? = nil) {
@@ -109,15 +109,10 @@ class CourseUpgradeHelper: NSObject {
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
             break
         case .error(let type, let error):
-            environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: error?.localizedDescription ?? "")
+            environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: CourseUpgradeHandler.shared.formattedError)
             removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
         }
-    }
-
-    func resetUpgradeModel() {
-        upgradeModel = nil
-        delegate = nil
     }
     
     func showSuccess() {
@@ -132,10 +127,6 @@ class CourseUpgradeHelper: NSObject {
             
             environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshEndTime.millisecond)
         }
-        
-        refreshTime = nil
-        startTime = nil
-        clearData()
     }
     
     func showError() {
@@ -172,12 +163,12 @@ class CourseUpgradeHelper: NSObject {
             if self?.unlockController.isVisible == true {
                 self?.unlockController.removeView() {
                     self?.delegate?.hideAlertAction()
-                    self?.resetUpgradeModel()
+                    self?.clearData()
                 }
             }
             else {
                 self?.delegate?.hideAlertAction()
-                self?.resetUpgradeModel()
+                self?.clearData()
             }
         }
     }
@@ -239,12 +230,12 @@ extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
             if self?.unlockController.isVisible == true {
                 self?.unlockController.removeView(completion: {
                     self?.delegate?.hideAlertAction()
-                    self?.resetUpgradeModel()
+                    self?.clearData()
                 })
             }
             else {
                 self?.delegate?.hideAlertAction()
-                self?.resetUpgradeModel()
+                self?.clearData()
             }
         })
     }

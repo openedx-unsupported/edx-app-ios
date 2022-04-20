@@ -253,7 +253,6 @@ class ValuePropComponentView: UIView {
     private func upgradeCourse() {
         guard let coursePrice = coursePrice else { return }
         delegate?.didTapUpgradeCourse(coursePrice: coursePrice, upgradeView: self)
-        environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing, screenName: .courseUnit)
     }
 
     private func trackShowMorelessAnalytics(showingMore: Bool) {
