@@ -8,33 +8,16 @@ on:
 
 jobs:
   xcode-ios:
-    name: "${{ matrix.env.name }}"
+    name: "Test Automation suit"
     runs-on: macos-11
-    strategy:
-      fail-fast: false
-      matrix:
-        env:
-          - name: "Test iOS 15"
-            runtime: "iOS-15-2"
-            device: "iPhone 8"
-            task: "testLTRCurrentOS"
-          - name: "Test RTL iOS 15.2"
-            runtime: "iOS-15-2"
-            device: "iPhone 8"
-            task: "testRTLCurrentOS"
-          - name: "Test iOS 14.4"
-            runtime: "iOS-14-4"
-            device: "iPhone 8"
-            task: "testLTRPreviousOS"
-          - name: "Test RTL iOS 14.4"
-            runtime: "iOS-14-4"
-            device: "iPhone 8"
-            task: "testRTLPreviousOS"
     steps:
     - name: Git checkout
       uses: actions/checkout@v2
     - name: "Select Xcode 13.2.1"
       run: |
-        sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-        sudo ln -s /Applications/Xcode_12.4.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.4.simruntime
-        sudo xcode-select -s /Applications/Xcode_13.2.1.app
+        RUNTIME="iOS-15-2"
+        DEVICE="iPhone 8"
+        DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        DESTINATION_ID=$(xcrun simctl create "$DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
+        xcrun simctl boot $DESTINATION_ID
