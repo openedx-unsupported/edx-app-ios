@@ -28,4 +28,5 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/edx-app-test
         ls
+        pip install pyscf
         pip install -r requirements.txt
