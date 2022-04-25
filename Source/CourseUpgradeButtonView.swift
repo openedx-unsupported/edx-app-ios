@@ -108,7 +108,7 @@ class CourseUpgradeButtonView: UIView, ShimmerView {
     func startShimeringEffect() {
         isHidden = false
         isUserInteractionEnabled = false
-        setShimmerAnimation(true, shimmerColor: OEXStyles.shared().neutralLight())
+        setShimmerAnimation(true, shimmerColor: OEXStyles.shared().neutralBase())
     }
     
     func stopShimmerEffect() {
