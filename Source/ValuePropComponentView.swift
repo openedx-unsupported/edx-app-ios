@@ -186,8 +186,8 @@ class ValuePropComponentView: UIView {
             PaymentManager.shared.productPrice(courseSku) { [weak self] price in
                 if let price = price {
                     let endTime = CFAbsoluteTimeGetCurrent() - startTime
-                    self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
                     self?.coursePrice = price
+                    self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
                     self?.upgradeButton.stopShimmerEffect()
                     self?.upgradeButton.setPrice(price)
                 } else {
@@ -217,13 +217,15 @@ class ValuePropComponentView: UIView {
 
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
-        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.coursePriceError) { [weak self] _ in
+        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
             self?.fetchCoursePrice()
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseUnit, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price")
         }
 
         alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
             self?.upgradeButton.stopShimmerEffect()
             self?.upgradeButton.updateVisibility(visible: false)
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseUnit, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price")
         }
     }
 

@@ -41,6 +41,7 @@ class CourseUpgradeHelper: NSObject {
     // These error actions are used to send in analytics
     enum ErrorAction: String {
         case refreshToRetry = "refresh"
+        case reloadPrice = "reload_price"
         case emailSupport = "get help"
         case close = "close"
     }
@@ -50,7 +51,8 @@ class CourseUpgradeHelper: NSObject {
     // These times are being in analytics
     private var startTime: CFTimeInterval?
     private var refreshTime: CFTimeInterval?
-    private var timeForiOSPaymentModal: CFTimeInterval?
+    private var paymentStartTime: CFTimeInterval?
+    private var contentUpgradeTime: CFTimeInterval?
     
     private var environment: Environment?
     private var pacing: String?
@@ -61,7 +63,7 @@ class CourseUpgradeHelper: NSObject {
         
     private override init() { }
     
-    func setupCourse(environment: Environment, pacing: String, courseID: CourseBlockID, blockID: CourseBlockID? = nil, coursePrice: String, screen: CourseUpgradeScreen) {
+    func setupHelperData(environment: Environment, pacing: String, courseID: CourseBlockID, blockID: CourseBlockID? = nil, coursePrice: String, screen: CourseUpgradeScreen) {
         self.environment = environment
         self.pacing = pacing
         self.courseID = courseID
@@ -69,10 +71,13 @@ class CourseUpgradeHelper: NSObject {
         self.coursePrice = coursePrice
         self.screen = screen
     }
-    
-    func clearData() {
+
+    func resetUpgradeModel() {
         courseUpgradeModel = nil
         delegate = nil
+    }
+
+    func clearData() {
         environment = nil
         pacing = nil
         courseID = nil
@@ -81,6 +86,8 @@ class CourseUpgradeHelper: NSObject {
         screen = .none
         refreshTime = nil
         startTime = nil
+
+        resetUpgradeModel()
     }
     
     func handleCourseUpgrade(state: CompletionState, delegate: CourseUpgradeHelperDelegate? = nil) {
@@ -91,11 +98,12 @@ class CourseUpgradeHelper: NSObject {
             startTime = CFAbsoluteTimeGetCurrent()
             break
         case .payment:
-            timeForiOSPaymentModal = CFAbsoluteTimeGetCurrent()
+            paymentStartTime = CFAbsoluteTimeGetCurrent()
             break
         case .fulfillment:
-            let endTime = CFAbsoluteTimeGetCurrent() - (timeForiOSPaymentModal ?? 0)
-            environment?.analytics.trackCourseUpgradeTimeToVerifyPayment(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
+            contentUpgradeTime = CFAbsoluteTimeGetCurrent()
+            let endTime = CFAbsoluteTimeGetCurrent() - (paymentStartTime ?? 0)
+            environment?.analytics.trackCourseUpgradePaymentTime(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
             showLoader()
             break
         case .success(let courseID, let blockID):
@@ -103,7 +111,12 @@ class CourseUpgradeHelper: NSObject {
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
             break
         case .error(let type, _):
-            environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: CourseUpgradeHandler.shared.formattedError)
+            if type == .paymentError {
+                environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: CourseUpgradeHandler.shared.formattedError)
+            }
+
+            environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: CourseUpgradeHandler.shared.formattedError)
+
             removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
         }
@@ -112,17 +125,20 @@ class CourseUpgradeHelper: NSObject {
     func showSuccess() {
         guard let topController = UIApplication.shared.topMostController() else { return }
         topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successMessage, textSize: .xSmall, autoDismiss: true, duration: 3)
-        let endTime = CFAbsoluteTimeGetCurrent() - (startTime ?? 0)
-        
-        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
+
+        let contentTime = CFAbsoluteTimeGetCurrent() - (contentUpgradeTime ?? 0)
+        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: contentTime.millisecond)
         
         if let refreshTime = refreshTime {
             let refreshEndTime = CFAbsoluteTimeGetCurrent() - refreshTime
             
             environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshEndTime.millisecond)
         }
-        
-        environment?.analytics.trackCourseUpgradeSuccess(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", price: coursePrice ?? "", screen: screen)
+
+        let endTime = CFAbsoluteTimeGetCurrent() - (startTime ?? 0)
+        environment?.analytics.trackCourseUpgradeSuccess(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", price: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
+
+        clearData()
     }
     
     func showError() {
@@ -132,7 +148,7 @@ class CourseUpgradeHelper: NSObject {
 
         if case .error (let type, _) = CourseUpgradeHandler.shared.state, type == .verifyReceiptError {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) { [weak self] _ in
-                self?.trackUpgradeErrorAction(errorAction: ErrorAction.refreshToRetry.rawValue)
+                self?.trackUpgradeErrorAction(errorAction: ErrorAction.refreshToRetry)
                 self?.refreshTime = CFAbsoluteTimeGetCurrent()
                 CourseUpgradeHandler.shared.reverifyPayment()
             }
@@ -140,7 +156,7 @@ class CourseUpgradeHelper: NSObject {
 
         if case .complete = CourseUpgradeHandler.shared.state, completion != nil {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) {[weak self] _ in
-                self?.trackUpgradeErrorAction(errorAction: ErrorAction.refreshToRetry.rawValue)
+                self?.trackUpgradeErrorAction(errorAction: ErrorAction.refreshToRetry)
                 self?.refreshTime = CFAbsoluteTimeGetCurrent()
                 self?.showLoader()
                 self?.completion?()
@@ -149,22 +165,20 @@ class CourseUpgradeHelper: NSObject {
         }
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { [weak self] _ in
-            self?.trackUpgradeErrorAction(errorAction: ErrorAction.emailSupport.rawValue)
+            self?.trackUpgradeErrorAction(errorAction: ErrorAction.emailSupport)
             self?.launchEmailComposer(errorMessage: "Error: \(CourseUpgradeHandler.shared.formattedError)")
         }
 
         alertController.addButton(withTitle: Strings.close, style: .default) { [weak self] _ in
-            self?.trackUpgradeErrorAction(errorAction: ErrorAction.close.rawValue)
+            self?.trackUpgradeErrorAction(errorAction: ErrorAction.close)
             
             if self?.unlockController.isVisible == true {
                 self?.unlockController.removeView() {
-                    self?.delegate?.hideAlertAction()
-                    self?.clearData()
+                    self?.hideAlertAction()
                 }
             }
             else {
-                self?.delegate?.hideAlertAction()
-                self?.clearData()
+                self?.hideAlertAction()
             }
         }
     }
@@ -183,7 +197,7 @@ class CourseUpgradeHelper: NSObject {
 
         if unlockController.isVisible, removeView == true {
             unlockController.removeView() { [weak self] in
-                self?.upgradeModel = nil
+                self?.courseUpgradeModel = nil
                 if success == true {
                     self?.showSuccess()
                 } else {
@@ -195,8 +209,13 @@ class CourseUpgradeHelper: NSObject {
         }
     }
     
-    private func trackUpgradeErrorAction(errorAction: String) {
-        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, errorAction: errorAction)
+    private func trackUpgradeErrorAction(errorAction: ErrorAction) {
+        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, errorAction: errorAction.rawValue, upgradeError: CourseUpgradeHandler.shared.formattedError)
+    }
+
+    private func hideAlertAction() {
+        delegate?.hideAlertAction()
+        clearData()
     }
 }
 
@@ -225,13 +244,11 @@ extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
         controller.dismiss(animated: true) { [weak self] in
             if self?.unlockController.isVisible == true {
                 self?.unlockController.removeView() {
-                    self?.delegate?.hideAlertAction()
-                    self?.clearData()
+                    self?.hideAlertAction()
                 }
             }
             else {
-                self?.delegate?.hideAlertAction()
-                self?.clearData()
+                self?.hideAlertAction()
             }
         }
     }

@@ -334,7 +334,7 @@ public class CourseOutlineViewController :
     
     private func handleNavigationIfNeeded() {
         if let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel {
-            courseUpgradeHelper.clearData()
+            courseUpgradeHelper.resetUpgradeModel()
 
             if courseUpgradeModel.screen == .courseDashboard {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in

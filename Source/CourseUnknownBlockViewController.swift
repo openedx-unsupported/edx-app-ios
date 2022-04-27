@@ -212,9 +212,9 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
               let courseID = course.course_id else { return }
         
-        environment.analytics.trackUpgradeNow(with: courseID, blockID: self.blockID ?? "", pacing: pacing, screenName: .courseUnit)
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: self.blockID ?? "", pacing: pacing, screenName: .courseUnit, coursePrice: coursePrice)
         
-        courseUpgradeHelper.setupCourse(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: .courseUnit)
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: .courseUnit)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             self?.enableUserInteraction(enable: false)
