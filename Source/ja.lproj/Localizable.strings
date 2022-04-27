@@ -989,8 +989,6 @@
 "VALUE_PROP.UPGRADE"= "{course_name}をアップグレード";
 /* Value prop upgrade button text with price */
 "VALUE_PROP.UPGRADE_COURSE_FOR"= "${price}で今すぐアップグレード";
-/* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "採点対象課題のロックを解除する方法";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */

@@ -987,8 +987,6 @@
 "VALUE_PROP.UPGRADE"= "升级{course_name}的访问模式";
 /* Value prop upgrade button text with price */
 "VALUE_PROP.UPGRADE_COURSE_FOR"= "现在升级仅需 ${price}";
-/* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "如何解锁分级作业";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */

@@ -1000,8 +1000,6 @@
 "VALUE_PROP.UPGRADE"= "Cambia a la opción paga {course_name}";
 /* Value prop upgrade button text with price */
 "VALUE_PROP.UPGRADE_COURSE_FOR"= "Cambia a la opción paga por ${price}";
-/* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "Como desbloquear asignacianes calificadas";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Más información";
 /* Message shown when course content is gated, new message behind feature flag */

@@ -985,8 +985,6 @@
 "VALUE_PROP.UPGRADE"= "Nâng cấp {course_name}";
 /* Value prop upgrade button text with price */
 "VALUE_PROP.UPGRADE_COURSE_FOR"= "Nâng cấp ngay với giá {price}$";
-/* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "Cách mở khóa bài tập chấm điểm";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */

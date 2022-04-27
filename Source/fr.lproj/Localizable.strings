@@ -1002,8 +1002,6 @@
 "VALUE_PROP.UPGRADE"= "Mettre à niveau {course_name}";
 /* Value prop upgrade button text with price */
 "VALUE_PROP.UPGRADE_COURSE_FOR"= "Mettre à niveau pour {price} $";
-/* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "Comment déverrouiller les devoirs notés";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */

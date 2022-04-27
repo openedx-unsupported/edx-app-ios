@@ -77,7 +77,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     private func showValueProp(on block: CourseBlock) {
         if FirebaseRemoteConfiguration.shared.valuePropEnabled {
             content.trailingView = valuePropAccessoryView
-            content.setDetailText(title: Strings.ValueProp.learnHowToUnlock, blockType: block.type, underline: true)
+            content.setDetailText(title: Strings.Iap.unlockGradedAssignments, blockType: block.type, underline: true)
             content.shouldShowSubtitleLeadingImageView = false
         } else {
             content.setDetailText(title: Strings.courseContentGated, blockType: block.type)

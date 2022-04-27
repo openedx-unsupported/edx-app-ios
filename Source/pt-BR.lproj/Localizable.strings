@@ -1003,8 +1003,6 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 "VALUE_PROP.UPGRADE"= "Atualizar {course_name}";
 /* Value prop upgrade button text with price */
 "VALUE_PROP.UPGRADE_COURSE_FOR"= "Atualizar agora por US${price}";
-/* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "Como desbloquear tarefas com nota";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Learn more";
 /* Message shown when course content is gated, new message behind feature flag */
