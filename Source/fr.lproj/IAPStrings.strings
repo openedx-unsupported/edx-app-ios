@@ -1,6 +1,0 @@
-/* Message shown when course content is gated, prompt user how to unlock */
-"IAP.UNLOCK_GRADED_ASSIGNMENTS"= "Unlock graded assignments";
-/* Title for dialog when email client is not configured */
-"IAP.EMAIL_NOT_SETUP_TITLE"= "Email not set up";
-/* Message for dialog when email client is not configured */
-"IAP.EMAIL_NOT_SETUP_MESSAGE"= "Your email is not set up on this device. Please reach out to {email} for support processing your payment.";
