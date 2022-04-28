@@ -26,8 +26,6 @@ class CourseUpgradeHelper: NSObject {
     static let courseID = "CourseID"
     static let blockID = "BlockID"
     static let screen = "Screen"
-
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider
     
     static let shared = CourseUpgradeHelper()
     private lazy var unlockController = ValuePropUnlockViewContainer()
@@ -145,7 +143,7 @@ extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
         guard let controller = UIApplication.shared.topMostController() else { return }
 
         if !MFMailComposeViewController.canSendMail() {
-            guard let supportEmail = environment?.config.feedbackEmailAddress() else { return }
+            guard let supportEmail = OEXRouter.shared().environment.config.feedbackEmailAddress() else { return }
             UIAlertController().showAlert(withTitle: Strings.Iap.emailNotSetupTitle, message: Strings.Iap.emailNotSetupMessage(email: supportEmail), onViewController: controller)
         } else {
             let mail = MFMailComposeViewController()
