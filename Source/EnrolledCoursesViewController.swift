@@ -150,6 +150,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                 }
                 else {
                     self?.loadController.state = .Initial
+                    self?.handleUpgradationLoader(success: false)
                 }
             case let .failure(error):
                 //App is showing occasionally error on app launch, so skipping first error on app launch

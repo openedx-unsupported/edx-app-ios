@@ -31,7 +31,7 @@ extension EnrolledCoursesViewController {
     }
 
     func resolveUnfinishedPaymentIfRequired() {
-        guard var skus = courseUpgradeHelper.savedIAPSKUsForCurrentUser(),
+        guard var skus = courseUpgradeHelper.savedUnfinishedIAPSKUsForCurrentUser(),
               skus.count > 0 && PaymentManager.shared.unFinishedPurchases else { return }
 
         // fulfill outside fullfilled payments, marked complete bby support team
@@ -39,7 +39,9 @@ extension EnrolledCoursesViewController {
         for enrollment in verifiedEnrollments {
             if let courseSku = UpgradeSKUManager.shared.courseSku(for: enrollment.course) {
                 if skus.contains(courseSku) {
+                    // Payment was fullfilled outside the app
                     PaymentManager.shared.markPurchaseComplete(courseSku, type: .transction)
+                    courseUpgradeHelper.markIAPSKUCompleteKeychain(courseSku)
                     skus.removeAll(where: { $0 == courseSku })
                 }
             }
@@ -54,7 +56,7 @@ extension EnrolledCoursesViewController {
     }
 
     private func resolveUnfinishedPayments() {
-        guard let skus = courseUpgradeHelper.savedIAPSKUsForCurrentUser(),
+        guard let skus = courseUpgradeHelper.savedUnfinishedIAPSKUsForCurrentUser(),
               skus.count > 0 && PaymentManager.shared.unFinishedPurchases else { return }
 
         // Find unresolved
@@ -101,7 +103,6 @@ extension EnrolledCoursesViewController {
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment, upgradeMode: .silent) { [weak self] state in
             switch state {
             case .complete:
-                self?.courseUpgradeHelper.removeIAPSKUFromKeychain(sku)
                 skus.removeAll { $0 == sku }
                 self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(course.course_id ?? "", nil), screen: .myCourses)
                 break

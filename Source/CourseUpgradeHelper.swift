@@ -327,11 +327,16 @@ extension CourseUpgradeHelper {
               let userName = OEXSession.shared()?.currentUser?.username else { return }
 
         var purchases = savedIAPSKUsFromKeychain()
-        if !(purchases[userName]?.contains(sku) ?? true) {
-            purchases[userName]?.append(sku)
-        }
-        else {
-            purchases[userName] = [sku]
+        let existingPurchases = purchases[userName]?.filter({ return $0.identifier == sku})
+
+        if existingPurchases?.count ?? 0 <= 0 {
+            let purchase = InappPurchse(with: sku, status: false)
+            if purchases[userName] == nil {
+                purchases[userName] = [purchase]
+            }
+            else {
+                purchases[userName]?.append(purchase)
+            }
         }
 
         if let data = try? NSKeyedArchiver.archivedData(withRootObject: purchases, requiringSecureCoding: false) {
@@ -344,8 +349,10 @@ extension CourseUpgradeHelper {
               let userName = OEXSession.shared()?.currentUser?.username else { return }
 
         var purchases = savedIAPSKUsFromKeychain()
-        if (purchases[userName]?.contains(sku) ?? false) {
-            purchases[userName]?.removeAll(where: { $0 == sku })
+        let userPurchases = purchases[userName]?.filter({ return $0.identifier == sku && $0.status == false})
+
+        if userPurchases?.count ?? 0 > 0 {
+            purchases[userName]?.removeAll(where: { $0.identifier == sku})
         }
         
         if let data = try? NSKeyedArchiver.archivedData(withRootObject: purchases, requiringSecureCoding: false) {
@@ -353,22 +360,72 @@ extension CourseUpgradeHelper {
         }
     }
 
-    private func savedIAPSKUsFromKeychain() -> [String : [String]] {
+    func markIAPSKUCompleteKeychain(_ sku: String?) {
+        guard let sku = sku,
+              let userName = OEXSession.shared()?.currentUser?.username else { return }
+
+        var purchases = savedIAPSKUsFromKeychain()
+        let userPurchases = purchases[userName] ?? []
+
+        if userPurchases.count > 0 {
+            for userPurchase in userPurchases {
+                if userPurchase.identifier == sku {
+                    userPurchase.status = true
+                }
+            }
+        }
+        
+        purchases[userName] = userPurchases
+
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: purchases, requiringSecureCoding: false) {
+            KeychainSwift().set(data, forKey: IAPKeyChainKey)
+        }
+    }
+
+    private func savedIAPSKUsFromKeychain() -> [String : [InappPurchse]] {
         let keyChain = KeychainSwift()
         guard let data = keyChain.getData(IAPKeyChainKey),
-              let purchases = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String : [String]]
+              let purchases = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String : [InappPurchse]]
         else { return [:] }
 
 
         return purchases
     }
 
-    func savedIAPSKUsForCurrentUser() -> [String]? {
+    func savedUnfinishedIAPSKUsForCurrentUser() -> [String]? {
         guard let userName = OEXSession.shared()?.currentUser?.username else { return nil }
 
         let purchases = savedIAPSKUsFromKeychain()
-        return purchases[userName]
+        let unfinishedPurchases = purchases[userName]?.filter( { return $0.status == false })
+
+        let skus = unfinishedPurchases?.compactMap { purchase in
+            return purchase.identifier
+        }
+
+        return skus
     }
+}
+
+class InappPurchse: NSObject, NSCoding {
+    required init?(coder: NSCoder) {
+        identifier = coder.decodeObject(forKey: "identifier") as? String ?? ""
+        status = coder.decodeBool(forKey: "status")
+    }
+
+    var status: Bool = false
+    var identifier: String = ""
+
+    init(with identifier: String, status: Bool) {
+        self.status = status
+        self.identifier = identifier
+    }
+
+    func encode(with coder: NSCoder) {
+        coder.encode(identifier, forKey: "identifier")
+        coder.encode(status, forKey: "status")
+    }
+
+
 }
 
 
