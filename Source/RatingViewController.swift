@@ -171,7 +171,7 @@ extension RatingViewController : MFMailComposeViewControllerDelegate {
     func launchEmailComposer() {
         if !MFMailComposeViewController.canSendMail() {
             guard let supportEmail = OEXRouter.shared().environment.config.feedbackEmailAddress() else { return }
-            UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.emailNotSetupTitle, message: Strings.CourseUpgrade.emailNotSetupMessage(email: supportEmail), onViewController: controller)
+            UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.emailNotSetupTitle, message: Strings.CourseUpgrade.emailNotSetupMessage(email: supportEmail), onViewController: self)
             dismissViewController()
         } else {
             let mail = MFMailComposeViewController()
