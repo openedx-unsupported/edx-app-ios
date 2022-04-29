@@ -42,13 +42,13 @@ class CourseUpgradeHelper: NSObject {
     enum ErrorAction: String {
         case refreshToRetry = "refresh"
         case reloadPrice = "reload_price"
-        case emailSupport = "get help"
+        case emailSupport = "get_help"
         case close = "close"
     }
     
     private(set) var courseUpgradeModel: CourseUpgradeModel?
     
-    // These times are being in analytics
+    // These times are being used in analytics
     private var startTime: CFTimeInterval?
     private var refreshTime: CFTimeInterval?
     private var paymentStartTime: CFTimeInterval?
