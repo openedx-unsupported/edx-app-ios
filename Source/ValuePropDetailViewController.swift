@@ -219,7 +219,6 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             switch status {
             case .payment:
                 self?.courseUpgradeHelper.handleCourseUpgrade(state: .payment)
-                self?.upgradeButton.stopAnimating()
                 break
             case .verify:
                 self?.upgradeButton.stopAnimating()
