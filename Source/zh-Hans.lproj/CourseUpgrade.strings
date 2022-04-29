@@ -7,7 +7,7 @@
 /*Course upgrade success alert title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="升级已完成";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="感谢您的购买。您可以继续此前的学习，完全访问课程内容。";
+"COURSE_UPGRADE.SUCCESS_ALERT_MESSAGE"="感谢您的购买。您可以继续此前的学习，完全访问课程内容。";
 /*Course upgrade success message*/
 "COURSE_UPGRADE.SUCCESS_MESSAGE"="Thank you for your purchase. Enjoy full access to your course!";
 /*Course upgrade success alert continue button title*/

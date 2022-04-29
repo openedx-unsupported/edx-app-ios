@@ -6,7 +6,7 @@
 "COURSE_UPGRADE.EMAIL_NOT_SETUP_MESSAGE"= "Your email is not set up on this device. Please reach out to {email} for support processing your payment.";
 "COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="アップグレードが完了しました";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="ご購入いただきありがとうございます。前回進んだところからすぐにコースを再開し、すべてのコンテンツにアクセスできます。";
+"COURSE_UPGRADE.SUCCESS_ALERT_MESSAGE"="ご購入いただきありがとうございます。前回進んだところからすぐにコースを再開し、すべてのコンテンツにアクセスできます。";
 /*Course upgrade success message*/
 "COURSE_UPGRADE.SUCCESS_MESSAGE"="Thank you for your purchase. Enjoy full access to your course!";
 /*Course upgrade success alert continue button title*/

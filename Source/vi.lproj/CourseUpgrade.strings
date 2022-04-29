@@ -7,7 +7,7 @@
 /*Course upgrade success alert title*/
 "COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Hoàn thành nâng cấp";
 /*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Cảm ơn bạn đã mua. Bạn có thể tiếp tục từ nơi bạn đã bở dở và tận hưởng quyền truy cập toàn bộ nội dung khóa học.";
+"COURSE_UPGRADE.SUCCESS_ALERT_MESSAGE"="Cảm ơn bạn đã mua. Bạn có thể tiếp tục từ nơi bạn đã bở dở và tận hưởng quyền truy cập toàn bộ nội dung khóa học.";
 /*Course upgrade success message*/
 "COURSE_UPGRADE.SUCCESS_MESSAGE"="Thank you for your purchase. Enjoy full access to your course!";
 /*Course upgrade success alert continue button title*/
