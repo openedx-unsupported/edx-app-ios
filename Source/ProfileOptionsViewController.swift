@@ -166,8 +166,7 @@ class ProfileOptionsViewController: UIViewController {
 extension ProfileOptionsViewController: MFMailComposeViewControllerDelegate {
     func launchEmailComposer() {
         if !MFMailComposeViewController.canSendMail() {
-            guard let supportEmail = OEXRouter.shared().environment.config.feedbackEmailAddress() else { return }
-            UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.emailNotSetupTitle, message: Strings.CourseUpgrade.emailNotSetupMessage(email: supportEmail), onViewController: self)
+            UIAlertController().showAlert(withTitle: Strings.emailAccountNotSetUpTitle, message: Strings.emailAccountNotSetUpMessage, onViewController: self)
         } else {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
