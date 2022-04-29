@@ -1,5 +1,5 @@
 /* Message shown when course content is gated, prompt user how to unlock */
-"COURSE_UPGRADE.UNLOCK_GRADED_ASSIGNMENTS"= "Unlock graded assignments";
+"COURSE_UPGRADE.LEARN_HOW_TO_UNLOCK"= "Unlock graded assignments";
 /* Title for dialog when email client is not configured */
 "COURSE_UPGRADE.EMAIL_NOT_SETUP_TITLE"= "Email not set up";
 /* Message for dialog when email client is not configured */

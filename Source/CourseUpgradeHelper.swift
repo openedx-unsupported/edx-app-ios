@@ -144,7 +144,7 @@ extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
 
         if !MFMailComposeViewController.canSendMail() {
             guard let supportEmail = OEXRouter.shared().environment.config.feedbackEmailAddress() else { return }
-            UIAlertController().showAlert(withTitle: Strings.Iap.emailNotSetupTitle, message: Strings.Iap.emailNotSetupMessage(email: supportEmail), onViewController: controller)
+            UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.emailNotSetupTitle, message: Strings.CourseUpgrade.emailNotSetupMessage(email: supportEmail), onViewController: controller)
         } else {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
