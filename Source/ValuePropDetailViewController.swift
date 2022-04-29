@@ -222,7 +222,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 self?.upgradeButton.stopAnimating()
                 break
             case .verify:
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment)
+                self?.upgradeButton.stopAnimating()
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment, screen: self?.screen ?? .none)
                 break
             case .complete:
                 self?.enableUserInteraction(enable: true)
