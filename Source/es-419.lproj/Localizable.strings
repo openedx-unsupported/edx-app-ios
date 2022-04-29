@@ -364,40 +364,6 @@
 "COURSEDATES.CALENDAR_VIEW_EVENTS"="Ver eventos";
 /* Course Dates Calendar sync Message */
 "COURSEDATES.CALENDAR_SYNC_MESSAGE"="Syncing calendar...";
-/*Course upgrade success alert title*/
-"COURSE_UPGRADE.SUCCESS_ALERT_TITLE"="Upgrade complete";
-/*Course upgrade success alert message*/
-"COURSE_UPGRADE.SUCCESS_ALERT_Message"="Thank you for your purchase. You can pick up right where you left off and enjoy full access to your course content.";
-/*Course upgrade success message*/
-"COURSE_UPGRADE.SUCCESS_MESSAGE"="Thank you for your purchase. Enjoy full access to your course!";
-/*Course upgrade success alert continue button title*/
-"COURSE_UPGRADE.SUCCESS_ALERT_CONTINUE"="Continue";
-/*Course upgrade failure alert title*/
-"COURSE_UPGRADE.FAILURE_ALERT.ALERT_TITLE"="Upgrade error";
-/*Course upgrade failure alert message*/
-"COURSE_UPGRADE.FAILURE_ALERT.GENERAL_ERROR_MESSAGE"="It looks like something went wrong when upgrading your course.";
-/*Course upgrade failure alert get help button title*/
-"COURSE_UPGRADE.FAILURE_ALERT_GET_HELP"="Get help";
-/*Authentication error in course upgrade API's add basket, checkout, execute*/
-"COURSE_UPGRADE.FAILURE_ALERT.AUTHENTICATION_ERROR_MESSAGE"="Your account could not be authenticated. Try signing out and signing back into the app. If this error continues, please contact Support.";
-/*Course didn't found againt the course sku in the course upgrade API's add basket, checkout, execute*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FOUNT"="The course you are looking to upgrade could not be found. Please try your upgrade again. If this error continues, contact Support.";
-/*The course is already upgraded*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_ALREADY_PAID"="The course you are looking to upgrade has already been paid for. For additional help, reach out to Support.";
-/*Course sku or the payment processor didn't found*/
-"COURSE_UPGRADE.FAILURE_ALERT.PAYMENT_NOT_PROCESSED"="Your payment could not be processed at this time. Please try again. For additional help, reach out to Support.";
-/*The native payment is complete but an error errored while marking the course verified*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FULLFILLED"="Something happened when we tried to update your course experience. If this error continues, reach out to Support for help.";
-/*App is not able to fetch the price from the app store*/
-"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR_MESSAGE"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
-/*Try again button on the failure alert to re-fetch the price from the app store*/
-"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR"="Try again";
-/*Try again button on the failure alert to retry the course upgrade after the successful payment*/
-"COURSE_UPGRADE.FAILURE_ALERT.REFRESH_TO_RETRY"="Refresh to retry";
-/*Try again button on the failure alert to retry the course upgrade after the successful payment*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_PRICE_ERROR"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
-/*Course upgrade failure alert get help button title*/
-"COURSE_UPGRADE.FAILURE_ALERT_GET_HELP"="Get help";
 /* Button text for cancelling any action */
 "CANCEL"="Cancelar";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
@@ -1000,8 +966,6 @@
 "VALUE_PROP.UPGRADE"= "Cambia a la opción paga {course_name}";
 /* Value prop upgrade button text with price */
 "VALUE_PROP.UPGRADE_COURSE_FOR"= "Cambia a la opción paga por ${price}";
-/* Message shown when course content is gated, prompt user how to unlock */
-"VALUE_PROP.LEARN_HOW_TO_UNLOCK"= "Como desbloquear asignacianes calificadas";
 /* Message shown when course content is gated, on button */
 "VALUE_PROP.LEARN_MORE"= "Más información";
 /* Message shown when course content is gated, new message behind feature flag */
