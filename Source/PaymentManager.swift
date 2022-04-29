@@ -48,22 +48,22 @@ enum PurchaseError: String {
     private typealias storeKit = SwiftyStoreKit
     @objc static let shared = PaymentManager()
     // Use this dictionary to keep track of inprocess transctions and allow only one transction at a time
-    private(set) var purchasess: [String: Any] = [:]
+    private(set) var purchases: [String: Any] = [:]
 
     typealias PurchaseCompletionHandler = ((success: Bool, receipt: String?, error: (type: PurchaseError?, error: Error?)?)) -> Void
     var completion: PurchaseCompletionHandler?
 
     var unFinishedPurchases:Bool {
-        return purchasess.count > 0
+        return !purchases.isEmpty
     }
 
     var inprocessPurchases: [String: Any] {
-        return purchasess
+        return purchases
     }
 
-    var unFinishedProductIDs: [String] {
+    var unfinishedProductIDs: [String] {
         var productIDS: [String] = []
-        for productID in purchasess.keys {
+        for productID in purchases.keys {
             productIDS.append(productID)
         }
 
@@ -83,7 +83,7 @@ enum PurchaseError: String {
                     if purchase.needsFinishTransaction {
                         // Deliver content from server, then:
 //                         SwiftyStoreKit.finishTransaction(purchase.transaction)
-                        self?.purchasess[purchase.productId] =  purchase
+                        self?.purchases[purchase.productId] =  purchase
                     }
                 case .failed, .purchasing, .deferred:
                     // TODO: Will handle while implementing the final version
@@ -94,7 +94,7 @@ enum PurchaseError: String {
                 }
             }
 
-            if purchases.count > 0 {
+            if !purchases.isEmpty {
                 NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: UnfullfilledTransctionsNotification)))
             }
         }
@@ -118,7 +118,7 @@ enum PurchaseError: String {
         storeKit.purchaseProduct(identifier, atomically: false, applicationUsername: applicationUserName) { [weak self] result in
             switch result {
             case .success(let purchase):
-                self?.purchasess[purchase.productId] = purchase
+                self?.purchases[purchase.productId] = purchase
                 self?.purchaseReceipt()
                 break
             case .error(let error):
@@ -200,14 +200,14 @@ enum PurchaseError: String {
         // Mark the purchase complete
         switch type {
         case .transction:
-            if let purchase = purchasess[productID] as? Purchase {
+            if let purchase = purchases[productID] as? Purchase {
                 if purchase.needsFinishTransaction {
                     storeKit.finishTransaction(purchase.transaction)
                 }
             }
             break
         case .purchase:
-            if let purchase = purchasess[productID] as? PurchaseDetails {
+            if let purchase = purchases[productID] as? PurchaseDetails {
                 if purchase.needsFinishTransaction {
                     storeKit.finishTransaction(purchase.transaction)
                 }
@@ -219,7 +219,7 @@ enum PurchaseError: String {
     }
 
     func removePurchase(_ productID: String) {
-        purchasess.removeValue(forKey: productID)
+        purchases.removeValue(forKey: productID)
     }
     
     func restoreFailedPurchase() {

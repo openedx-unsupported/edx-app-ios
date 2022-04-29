@@ -207,7 +207,7 @@ public class CourseOutlineQuerier : NSObject {
     }
 
     func deleteCacheResponse() {
-        let request = CourseOutlineAPI.requestWithCourseID(courseID: courseID, username : session?.currentUser?.username, environment: environment as? RouterEnvironment)
+        let request = CourseOutlineAPI.requestWithCourseID(courseID: courseID, username: session?.currentUser?.username, environment: environment as? RouterEnvironment)
         networkManager?.deleteCachedResponse(request)
     }
     

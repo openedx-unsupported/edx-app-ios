@@ -97,7 +97,7 @@ public class EnrollmentManager : NSObject {
     }
 
     /// Delete cached response and fetch latested data from server
-    func hardReload() {
+    func forceReload() {
         guard let userDetails = OEXSession.shared()?.currentUser,
         let username = userDetails.username else { return }
 

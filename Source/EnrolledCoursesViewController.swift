@@ -117,7 +117,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
             // show alert with retry option to reload the enrollments
             if success == false {
                 courseUpgradeHelper.removeLoader(success: success) { [weak self] in
-                    self?.environment.dataManager.enrollmentManager.hardReload()
+                    self?.environment.dataManager.enrollmentManager.forceReload()
                 }
             }
             else {
@@ -125,7 +125,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
             }
         }
         else {
-            navigateToScreenAterCourseUpgradation()
+            navigateToScreenAterCourseUpgrade()
         }
     }
     
@@ -195,7 +195,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
         
         NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { _, observer, _ in
-            observer.handleCourseUpgradation()
+            observer.handleCourseUpgrade()
         }
 
         NotificationCenter.default.oex_addObserver(observer: self, name: UnfullfilledTransctionsNotification) { _, observer, _ in

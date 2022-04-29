@@ -43,7 +43,7 @@ class CourseUpgradeHandler: NSObject {
 
             switch state {
             case .complete:
-                CourseUpgradeHelper.shared.markIAPSKUCompleteKeychain(courseSku)
+                CourseUpgradeHelper.shared.markIAPSKUCompleteInKeychain(courseSku)
                 break
             case .error(let error, _):
                 if error != .verifyReceiptError && upgradeMode != .silent {
