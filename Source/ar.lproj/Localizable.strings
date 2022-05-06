@@ -264,6 +264,8 @@
 "BY_AUTHOR" = "من قبل {author_name}";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR_LOWER_CASE" = "من قبل {author_name}";
+/* Continue */
+"CONTINUE_BUTTON_TITLE"="Continue";
 /* Course completion title */
 "CERTIFICATES.COURSE_COMPLETION_TITLE"="تهانينا!";
 /* Course completion subtitle */
@@ -1108,3 +1110,7 @@
 "YES"="تأكيد";
 /* Invalid youtube url error message */
 "YOUTUBE_INVALID_URL_ERROR"="The video could not loaded, invalid url.";
+/* Title for dialog when user is leaving the app when tapped on link to be opened in external browser */
+"LEAVING_APP_TO_EXTERNAL_BROWSER_TITLE"="Leaving the app";
+/* Message for dialog when user is leaving the app when tapped on link to be opened in external browser */
+"LEAVING_APP_TO_EXTERNAL_BROWSER_MESSAGE"="You are now leaving the {platform_name} app and opening a browser.";

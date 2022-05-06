@@ -244,6 +244,8 @@
 "BY_AUTHOR" = "{author_name}作";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR_LOWER_CASE" = "{author_name}作";
+/* Continue */
+"CONTINUE_BUTTON_TITLE"="Continue";
 /* Course completion title */
 "CERTIFICATES.COURSE_COMPLETION_TITLE"="恭喜！";
 /* Course completion subtitle */
@@ -1028,3 +1030,7 @@
 "YES"="是";
 /* Invalid youtube url error message */
 "YOUTUBE_INVALID_URL_ERROR"="視頻無法加載，無效的網址。";
+/* Title for dialog when user is leaving the app when tapped on link to be opened in external browser */
+"LEAVING_APP_TO_EXTERNAL_BROWSER_TITLE"="Leaving the app";
+/* Message for dialog when user is leaving the app when tapped on link to be opened in external browser */
+"LEAVING_APP_TO_EXTERNAL_BROWSER_MESSAGE"="You are now leaving the {platform_name} app and opening a browser.";

@@ -256,6 +256,8 @@
 "BY_AUTHOR" = "נכתב על ידי {author_name}";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR_LOWER_CASE" = "נכתב על ידי {author_name}";
+/* Continue */
+"CONTINUE_BUTTON_TITLE"="Continue";
 /* Course completion title */
 "CERTIFICATES.COURSE_COMPLETION_TITLE"="מזל טוב!";
 /* Course completion subtitle */
@@ -1070,3 +1072,7 @@
 "YES"="כן";
 /* Invalid youtube url error message */
 "YOUTUBE_INVALID_URL_ERROR"="לא ניתן היה לטעון את הווידאו כתובת אתר לא חוקית.";
+/* Title for dialog when user is leaving the app when tapped on link to be opened in external browser */
+"LEAVING_APP_TO_EXTERNAL_BROWSER_TITLE"="Leaving the app";
+/* Message for dialog when user is leaving the app when tapped on link to be opened in external browser */
+"LEAVING_APP_TO_EXTERNAL_BROWSER_MESSAGE"="You are now leaving the {platform_name} app and opening a browser.";
