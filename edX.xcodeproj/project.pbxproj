@@ -911,6 +911,8 @@
 		E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */; };
 		E09B9D6E1D06D79F0080BAE0 /* VersionUpgradeInfoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */; };
 		E09B9D701D06D8010080BAE0 /* VersionUpgradeDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */; };
+		E09F953828111ABE00F29443 /* KeychainSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AA9129280FFF8C00D39A4D /* KeychainSwift.xcframework */; };
+		E09F953928111ABE00F29443 /* KeychainSwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E0AA9129280FFF8C00D39A4D /* KeychainSwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461C1D5CA6950066C766 /* LogoutApi.swift */; };
 		E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */; };
 		E0A246211D5DB3FD0066C766 /* AppUpgradeConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */; };
@@ -918,6 +920,7 @@
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
 		E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */; };
+		E0B58CDC2818F7DF0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
 		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
 		E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */; };
@@ -989,6 +992,7 @@
 			files = (
 				5F700E9A278C35B000B17044 /* SwiftyStoreKit.xcframework in Embed Frameworks */,
 				5F700E98278C35AE00B17044 /* MSAL.xcframework in Embed Frameworks */,
+				E09F953928111ABE00F29443 /* KeychainSwift.xcframework in Embed Frameworks */,
 				E096584225C196470004FFCC /* GoogleCast.framework in Embed Frameworks */,
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
 			);
@@ -2141,9 +2145,11 @@
 		E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreConfig.swift; sourceTree = "<group>"; };
 		E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUpgradeConfigTests.swift; sourceTree = "<group>"; };
 		E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewCookiesManager.swift; sourceTree = "<group>"; };
+		E0AA9129280FFF8C00D39A4D /* KeychainSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = KeychainSwift.xcframework; sourceTree = "<group>"; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
 		E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+CourseUpgrade.swift"; sourceTree = "<group>"; };
+		E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+CourseUpgrade.swift"; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
 		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+Banner.swift"; sourceTree = "<group>"; };
@@ -2228,6 +2234,7 @@
 				0D15761E235ED9800007B0B7 /* Accelerate.framework in Frameworks */,
 				5F700E99278C35B000B17044 /* SwiftyStoreKit.xcframework in Frameworks */,
 				8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */,
+				E09F953828111ABE00F29443 /* KeychainSwift.xcframework in Frameworks */,
 				77E647A31C90C10300B6740D /* edXCore.framework in Frameworks */,
 				BE8163F61954244E00F9A2C5 /* MessageUI.framework in Frameworks */,
 				E02661732269A821002721B7 /* libOCMock.a in Frameworks */,
@@ -3929,6 +3936,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E0AA9106280FFC8E00D39A4D /* KeychainSwift */,
 				E096582A25C1963B0004FFCC /* Cast */,
 				E096532625C133390004FFCC /* MSAL */,
 				5F592ACE257521CF00D96214 /* SwiftDate */,
@@ -4295,6 +4303,7 @@
 				223972E01FE92BB500B2BBEC /* EnrolledTabBarViewController.swift */,
 				2240FD551FF266E4001D6589 /* TabBarItem.swift */,
 				E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */,
+				E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */,
 			);
 			name = "Front Rear views";
 			sourceTree = "<group>";
@@ -4402,6 +4411,15 @@
 			);
 			name = VersionUpgrade;
 			sourceTree = "<group>";
+		};
+		E0AA9106280FFC8E00D39A4D /* KeychainSwift */ = {
+			isa = PBXGroup;
+			children = (
+				E0AA9129280FFF8C00D39A4D /* KeychainSwift.xcframework */,
+			);
+			name = KeychainSwift;
+			path = Libraries/KeychainSwift;
+			sourceTree = SOURCE_ROOT;
 		};
 		E0AF4E8C1BFB19A00083753C /* PassthroughView */ = {
 			isa = PBXGroup;
@@ -5654,6 +5672,7 @@
 				7772BEB21AFA6C0F0081CA7A /* MaterialSharp.swift in Sources */,
 				1AB539F51BFDFBC10065501F /* DebugMenuViewController.swift in Sources */,
 				5D43B18A1B0C1F9200448B52 /* MenuOptionsViewController.swift in Sources */,
+				E0B58CDC2818F7DF0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6123,6 +6142,7 @@
 					"$(PROJECT_DIR)/Libraries/Cast",
 					"$(PROJECT_DIR)/Libraries/MSAL",
 					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
+					"$(PROJECT_DIR)/Libraries/KeychainSwift",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6674,6 +6694,7 @@
 					"$(PROJECT_DIR)/Libraries/Cast",
 					"$(PROJECT_DIR)/Libraries/MSAL",
 					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
+					"$(PROJECT_DIR)/Libraries/KeychainSwift",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/edX-Prefix.pch";
@@ -6765,6 +6786,7 @@
 					"$(PROJECT_DIR)/Libraries/Cast",
 					"$(PROJECT_DIR)/Libraries/MSAL",
 					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
+					"$(PROJECT_DIR)/Libraries/KeychainSwift",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

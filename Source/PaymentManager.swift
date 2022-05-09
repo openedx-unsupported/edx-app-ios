@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyStoreKit
 
-let CourseUpgradeCompleteNotification: String = "CourseUpgradeCompleteNotification"
+let UnfullfilledTransctionsNotification: String = "UnfullfilledTransctionsNotification"
 
 // In case of completeTransctions SDK returns SwiftyStoreKit.Purchase
 // And on the in-app purchase SDK returns SwiftyStoreKit.PurchaseDetails
@@ -48,17 +48,26 @@ enum PurchaseError: String {
     private typealias storeKit = SwiftyStoreKit
     @objc static let shared = PaymentManager()
     // Use this dictionary to keep track of inprocess transctions and allow only one transction at a time
-    private var purchasess: [String: Any] = [:]
+    private(set) var purchasess: [String: Any] = [:]
 
     typealias PurchaseCompletionHandler = ((success: Bool, receipt: String?, error: (type: PurchaseError?, error: Error?)?)) -> Void
     var completion: PurchaseCompletionHandler?
 
-    var isIAPInprocess:Bool {
+    var unFinishedPurchases:Bool {
         return purchasess.count > 0
     }
 
     var inprocessPurchases: [String: Any] {
         return purchasess
+    }
+
+    var unFinishedProductIDs: [String] {
+        var productIDS: [String] = []
+        for productID in purchasess.keys {
+            productIDS.append(productID)
+        }
+
+        return productIDS
     }
 
     private override init() {
@@ -73,8 +82,7 @@ enum PurchaseError: String {
                 case .purchased, .restored:
                     if purchase.needsFinishTransaction {
                         // Deliver content from server, then:
-                        // self?.markPurchaseComplete(productID, type: .transction)
-                        // SwiftyStoreKit.finishTransaction(purchase.transaction)
+//                         SwiftyStoreKit.finishTransaction(purchase.transaction)
                         self?.purchasess[purchase.productId] =  purchase
                     }
                 case .failed, .purchasing, .deferred:
@@ -84,6 +92,10 @@ enum PurchaseError: String {
                 @unknown default:
                     break // do nothing
                 }
+            }
+
+            if purchases.count > 0 {
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: UnfullfilledTransctionsNotification)))
             }
         }
     }
@@ -184,18 +196,18 @@ enum PurchaseError: String {
         }
     }
 
-    func markPurchaseComplete(_ courseID: String, type: TransctionType) {
+    func markPurchaseComplete(_ productID: String, type: TransctionType) {
         // Mark the purchase complete
         switch type {
         case .transction:
-            if let purchase = purchasess[courseID] as? Purchase {
+            if let purchase = purchasess[productID] as? Purchase {
                 if purchase.needsFinishTransaction {
                     storeKit.finishTransaction(purchase.transaction)
                 }
             }
             break
         case .purchase:
-            if let purchase = purchasess[courseID] as? PurchaseDetails {
+            if let purchase = purchasess[productID] as? PurchaseDetails {
                 if purchase.needsFinishTransaction {
                     storeKit.finishTransaction(purchase.transaction)
                 }
@@ -203,8 +215,11 @@ enum PurchaseError: String {
             break
         }
 
-        purchasess.removeValue(forKey: courseID)
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompleteNotification)))
+        removePurchase(productID)
+    }
+
+    func removePurchase(_ productID: String) {
+        purchasess.removeValue(forKey: productID)
     }
     
     func restoreFailedPurchase() {

@@ -95,4 +95,14 @@ public class EnrollmentManager : NSObject {
         let request = CoursesAPI.getUserEnrollments(username: username, organizationCode: organizationCode)
         return Feed(request: request, manager: networkManager, persistResponse: true)
     }
+
+    /// Delete cached response and fetch latested data from server
+    func hardReload() {
+        guard let userDetails = OEXSession.shared()?.currentUser,
+        let username = userDetails.username else { return }
+
+        let request = CoursesAPI.getUserEnrollments(username: username, organizationCode: config.organizationCode())
+        OEXRouter.shared().environment.networkManager.deleteCachedResponse(request)
+        setupFeedWithUserDetails(userDetails: userDetails)
+    }
 }

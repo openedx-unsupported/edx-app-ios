@@ -39,3 +39,11 @@
 "COURSE_UPGRADE.FAILURE_ALERT_GET_HELP"="Get help";
 /*Get support e-mail subject in the payment error flow*/
 "COURSE_UPGRADE.GET_SUPPORT_EMAIL_SUBJECT"="Error upgrading course in app";
+/*Alert title in case, the course upgraded silently on app relaunch*/
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_TITLE"="New experience available";
+/*Alert messages in case, the course upgraded silently on app relaunch*/
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_MESSAGE"="An update is available to unlock a purchased course. To update, we need to quickly refresh your app. If you choose not to update now, we’ll try again later.";
+/*Alert button title for refreh the data in case, the course upgraded silently on app relaunch*/
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_REFRESH"="Refresh now";
+/*Alert button title to continue in case, the course upgraded silently on app relaunch*/
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_CONTINUE"="Continue without update";

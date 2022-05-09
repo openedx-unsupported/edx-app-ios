@@ -263,8 +263,8 @@ open class OEXStream<A> : StreamDependency {
         backgroundQueue.addOperation(StreamWaitOperation(stream: self, fireIfAlreadyLoaded: fireIfAlreadyLoaded, completion: completion))
     }
     
-    open func extendLifetimeUntilFirstResult(success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void) {
-        extendLifetimeUntilFirstResult {result in
+    open func extendLifetimeUntilFirstResult(fireIfAlreadyLoaded: Bool = true, success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void) {
+        extendLifetimeUntilFirstResult(fireIfAlreadyLoaded: fireIfAlreadyLoaded) {result in
             switch result {
             case let .success(value): success(value)
             case let .failure(error): failure(error)

@@ -8,8 +8,10 @@
 
 import Foundation
 import MessageUI
+import KeychainSwift
 
 let CourseUpgradeCompletionNotification = "CourseUpgradeCompletionNotification"
+private let IAPKeyChainKey = "CourseUpgradeIAPKeyChainKey"
 
 struct CourseUpgradeModel {
     let courseID: String
@@ -108,7 +110,12 @@ class CourseUpgradeHelper: NSObject {
             break
         case .success(let courseID, let blockID):
             courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
+            if CourseUpgradeHandler.shared.upgradeMode != .silent {
+                postSuccessNotification()
+            }
+            else {
+                showSilentRefreshAlert()
+            }
             break
         case .error(let type, _):
             if type == .paymentError {
@@ -183,8 +190,8 @@ class CourseUpgradeHelper: NSObject {
         }
     }
     
-    func showLoader() {
-        if !unlockController.isVisible {
+    func showLoader(forceShow: Bool = false) {
+        if (!unlockController.isVisible && CourseUpgradeHandler.shared.upgradeMode != .silent) || forceShow {
             unlockController.showView()
         }
     }
@@ -216,6 +223,56 @@ class CourseUpgradeHelper: NSObject {
     private func hideAlertAction() {
         delegate?.hideAlertAction()
         clearData()
+    }
+
+    private func showSilentRefreshAlert() {
+        guard let topController = UIApplication.shared.topMostController() else { return }
+
+        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertTitle, message: Strings.CourseUpgrade.SuccessAlert.silentAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
+
+        alertController.addButton(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertRefresh, style: .default) {[weak self] _ in
+            self?.showLoader(forceShow: true)
+            self?.popToEnrolledCourses()
+        }
+
+        alertController.addButton(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertContinue, style: .default) {[weak self] _ in
+            self?.resetUpgradeModel()
+        }
+    }
+
+    private func popToEnrolledCourses() {
+        dismiss { [weak self] in
+            guard let topController = UIApplication.shared.topMostController(),
+                  let tabController = topController.navigationController?.viewControllers.first(where: {$0 is EnrolledTabBarViewController}) else {
+                      self?.postSuccessNotification()
+                      return
+                  }
+            tabController.navigationController?.popToRootViewController(animated: false)
+            self?.markCourseContentRefresh()
+            self?.postSuccessNotification()
+        }
+    }
+
+    private func markCourseContentRefresh() {
+        guard let course = CourseUpgradeHandler.shared.course else { return }
+
+        let courseQuerier = OEXRouter.shared().environment.dataManager.courseDataManager.querierForCourseWithID(courseID: course.course_id ?? "", environment: OEXRouter.shared().environment)
+        courseQuerier.needsRefresh = true
+    }
+
+    private func dismiss(completion: @escaping () -> Void) {
+        if let rootController = UIApplication.shared.window?.rootViewController, rootController.presentedViewController != nil {
+            rootController.dismiss(animated: true) {
+                completion()
+            }
+        }
+        else {
+            completion()
+        }
+    }
+
+    private func postSuccessNotification() {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompletionNotification), object: nil))
     }
 }
 
@@ -254,3 +311,64 @@ extension CourseUpgradeHelper: MFMailComposeViewControllerDelegate {
         }
     }
 }
+
+
+// Handle Keychain
+// Save inprogress in-app in the keychain for partially fulfilled IAP
+extension CourseUpgradeHelper {
+
+    // Test Func for deleting data
+    func removekeyChain() {
+        KeychainSwift().delete(IAPKeyChainKey)
+    }
+
+    func saveIAPInKeychain(_ sku: String?) {
+        guard let sku = sku,
+              let userName = OEXSession.shared()?.currentUser?.username else { return }
+
+        var purchases = savedIAPSKUsFromKeychain()
+        if !(purchases[userName]?.contains(sku) ?? true) {
+            purchases[userName]?.append(sku)
+        }
+        else {
+            purchases[userName] = [sku]
+        }
+
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: purchases, requiringSecureCoding: false) {
+            KeychainSwift().set(data, forKey: IAPKeyChainKey)
+        }
+    }
+
+    func removeIAPSKUFromKeychain(_ sku: String?) {
+        guard let sku = sku,
+              let userName = OEXSession.shared()?.currentUser?.username else { return }
+
+        var purchases = savedIAPSKUsFromKeychain()
+        if (purchases[userName]?.contains(sku) ?? false) {
+            purchases[userName]?.removeAll(where: { $0 == sku })
+        }
+        
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: purchases, requiringSecureCoding: false) {
+            KeychainSwift().set(data, forKey: IAPKeyChainKey)
+        }
+    }
+
+    private func savedIAPSKUsFromKeychain() -> [String : [String]] {
+        let keyChain = KeychainSwift()
+        guard let data = keyChain.getData(IAPKeyChainKey),
+              let purchases = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String : [String]]
+        else { return [:] }
+
+
+        return purchases
+    }
+
+    func savedIAPSKUsForCurrentUser() -> [String]? {
+        guard let userName = OEXSession.shared()?.currentUser?.username else { return nil }
+
+        let purchases = savedIAPSKUsFromKeychain()
+        return purchases[userName]
+    }
+}
+
+
