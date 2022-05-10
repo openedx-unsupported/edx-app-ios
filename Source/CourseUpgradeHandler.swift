@@ -76,8 +76,9 @@ class CourseUpgradeHandler: NSObject {
     }
 
     var formattedError: String {
+        let unhandledError = "unhandledError"
         if case .error(let type, let error) = state {
-            guard let error = error as NSError? else { return "unhandledError" }
+            guard let error = error as NSError? else { return unhandledError }
             
             if case .paymentError = type {
                 return "\(type.errorString)-\(error.code)-\(error.localizedDescription)"
@@ -88,8 +89,10 @@ class CourseUpgradeHandler: NSObject {
                let errorMessage = json.dictionary?.values.first {
                 return "\(type.errorString)-\(error.code)-\(errorMessage)"
             }
+
+            return "\(type.errorString)-\(error.code)-\(unhandledError)"
         }
-        return "unhandledError"
+        return unhandledError
     }
     
     static let shared = CourseUpgradeHandler()
