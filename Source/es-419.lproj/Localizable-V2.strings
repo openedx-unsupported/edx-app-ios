@@ -1,0 +1,19 @@
+//
+//  Localizable-V2.strings
+//  edX
+//
+//  Created by Saeed Bashir on 5/10/22.
+//  Copyright © 2021 edX. All rights reserved.
+//
+
+/* Use this file to add new general strings and stop adding/editing strings in the older file Localizable.strings
+
+ Create a new strings file like Localizable-V3.strings file when the strings count reaches 100
+ */
+
+/* Continue text for aleart button titles or for other places*/
+"CONTINUE_TEXT"="Continue";
+/*Title for dialog when user is leaving the app when tapped on link to be opened in external browser*/
+"LEAVING_APP_TITLE"="Leaving the app";
+/* Message for dialog when user is leaving the app when tapped on link to be opened in external browser */
+"LEAVING_APP_MESSAGE"="You are now leaving the {platform_name} app and opening a browser.";

@@ -839,6 +839,7 @@
 		E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */; };
 		E0A246211D5DB3FD0066C766 /* AppUpgradeConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */; };
 		E0A948132786A6DE00BE79D9 /* WebviewCookiesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */; };
+		E0AD94E8282A514D00DFBE6D /* Localizable-V2.strings in Resources */ = {isa = PBXBuildFile; fileRef = E0AD94EA282A514D00DFBE6D /* Localizable-V2.strings */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
@@ -1969,6 +1970,17 @@
 		E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreConfig.swift; sourceTree = "<group>"; };
 		E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUpgradeConfigTests.swift; sourceTree = "<group>"; };
 		E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewCookiesManager.swift; sourceTree = "<group>"; };
+		E0AD94E9282A514D00DFBE6D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94EB282A515200DFBE6D /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94EC282A516100DFBE6D /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = "tr.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94ED282A516B00DFBE6D /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = "he.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94EE282A516E00DFBE6D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94EF282A517600DFBE6D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94F0282A517800DFBE6D /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94F1282A518100DFBE6D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = "de.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94F2282A518300DFBE6D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "ar.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94F3282A518B00DFBE6D /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
+		E0AD94F4282A518D00DFBE6D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = "ja.lproj/Localizable-V2.strings"; sourceTree = "<group>"; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
@@ -3776,6 +3788,7 @@
 				773A04691AF289650076532C /* edX-Bridging-Header.h */,
 				5F6AD05927467898007686C2 /* ProfileOptions.strings */,
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
+				E0AD94EA282A514D00DFBE6D /* Localizable-V2.strings */,
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
 				BECB7B1A1924C0C3009C77F1 /* main.m */,
 				BECB7B1C1924C0C3009C77F1 /* edX-Prefix.pch */,
@@ -4387,6 +4400,7 @@
 				69ECC6171D50D1170030CF87 /* bt_google.png in Resources */,
 				69ECC62E1D50D1170030CF87 /* ic_cancel.png in Resources */,
 				5F6F2B66255AABA400AA3708 /* Inter-Italic.ttf in Resources */,
+				E0AD94E8282A514D00DFBE6D /* Localizable-V2.strings in Resources */,
 				69ECC64E1D50D1170030CF87 /* Default-414w-736h@3x.png in Resources */,
 				22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */,
 				B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */,
@@ -5619,6 +5633,24 @@
 				220570192307E9860026E65A /* ja */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E0AD94EA282A514D00DFBE6D /* Localizable-V2.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E0AD94E9282A514D00DFBE6D /* en */,
+				E0AD94EB282A515200DFBE6D /* es-419 */,
+				E0AD94EC282A516100DFBE6D /* tr */,
+				E0AD94ED282A516B00DFBE6D /* he */,
+				E0AD94EE282A516E00DFBE6D /* zh-Hans */,
+				E0AD94EF282A517600DFBE6D /* fr */,
+				E0AD94F0282A517800DFBE6D /* pt-BR */,
+				E0AD94F1282A518100DFBE6D /* de */,
+				E0AD94F2282A518300DFBE6D /* ar */,
+				E0AD94F3282A518B00DFBE6D /* vi */,
+				E0AD94F4282A518D00DFBE6D /* ja */,
+			);
+			name = "Localizable-V2.strings";
 			sourceTree = "<group>";
 		};
 		E0EEC6E91F1CD279006C8D62 /* whats_new.json */ = {
