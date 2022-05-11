@@ -415,7 +415,7 @@ extension CourseDatesViewController {
         var alertController: UIAlertController?
         var calendarOperationHandled = false
         var calendarEventsAdded = false
-        let startTime = CACurrentMediaTime()
+        let startTime = CFAbsoluteTimeGetCurrent()
         var endTime: CFTimeInterval?
         
         func updateCalendarState() {
@@ -433,7 +433,7 @@ extension CourseDatesViewController {
         let presentationCompletion = { [weak self] in
             guard let weakSelf = self else { return }
             weakSelf.calendar.addEventsToCalendar(for: weakSelf.dateBlocks) { success in
-                endTime = CACurrentMediaTime() - startTime
+                endTime = CFAbsoluteTimeGetCurrent() - startTime
                 calendarOperationHandled = true
                 calendarEventsAdded = success
             }
@@ -641,7 +641,7 @@ extension CourseDatesViewController {
     }
 }
 
-fileprivate extension CFTimeInterval {
+extension CFTimeInterval {
     var millisecond: Int {
         return Int(self * 1000)
     }

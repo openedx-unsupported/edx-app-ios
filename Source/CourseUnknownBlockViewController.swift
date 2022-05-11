@@ -23,6 +23,11 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
     }
     
+    private var pacing: String {
+        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else { return "" }
+        return course.isSelfPaced ? "self" : "instructor"
+    }
+    
     private var messageView: IconMessageView?
     private lazy var valuePropView: ValuePropComponentView = {
         let view = ValuePropComponentView(environment: environment, courseID: courseID, blockID: blockID)
@@ -203,29 +208,34 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 }
 
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
-    func didTapUpgradeCourse(upgradeView: ValuePropComponentView) {
-        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else { return }
+    func didTapUpgradeCourse(coursePrice: String, upgradeView: ValuePropComponentView) {
+        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
+              let courseID = course.course_id else { return }
         
-        let pacing = course.isSelfPaced ? "self" : "instructor"
-        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: self.blockID ?? "", pacing: pacing)
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: self.blockID ?? "", pacing: pacing, screenName: .courseUnit, coursePrice: coursePrice)
+        
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: .courseUnit)
         
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             self?.enableUserInteraction(enable: false)
             
             switch status {
+            case .payment:
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .payment)
+                break
             case .verify:
                 upgradeView.stopAnimating()
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment, screen: .courseUnit)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment)
                 break
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.courseID ?? "", self?.blockID), screen: .courseUnit)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(courseID, self?.blockID))
                 break
-            case .error(let type, _):
+            case .error(let type, let error):
                 self?.enableUserInteraction(enable: true)
                 upgradeView.stopAnimating()
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type), screen: .courseUnit)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type, error))
                 break
             default:
                 break

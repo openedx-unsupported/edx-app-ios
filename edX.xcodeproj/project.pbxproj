@@ -917,6 +917,7 @@
 		E0A948132786A6DE00BE79D9 /* WebviewCookiesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
+		E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
 		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
 		E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */; };
@@ -2142,6 +2143,7 @@
 		E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewCookiesManager.swift; sourceTree = "<group>"; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
+		E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+CourseUpgrade.swift"; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
 		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+Banner.swift"; sourceTree = "<group>"; };
@@ -2374,6 +2376,7 @@
 				1940D8C91A230E25000318A3 /* OEXAnalytics.h */,
 				1940D8CA1A230E25000318A3 /* OEXAnalytics.m */,
 				E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */,
+				E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */,
 			);
 			name = Analytics;
 			sourceTree = "<group>";
@@ -5384,6 +5387,7 @@
 				B78823A61FC6F59A00F9CD61 /* LogistrationTextField.swift in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */,
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
+				E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */,
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
 				5FB69A8E24BC2CD800BBCAD7 /* RegistrationFormValidation.swift in Sources */,
 				77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */,

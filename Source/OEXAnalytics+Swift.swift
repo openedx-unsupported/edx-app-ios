@@ -16,6 +16,7 @@ public enum AnalyticsCategory : String {
     case WhatsNew = "whats-new"
     case SocialSharing = "social-sharing"
     case CourseDates = "course_dates"
+    case InAppPurchases = "in_app_purchases"
 }
 
 public enum AnalyticsDisplayName : String {
@@ -67,7 +68,6 @@ public enum AnalyticsDisplayName : String {
     case SubsectionViewOnWebTapped = "Subsection View On Web Tapped"
     case OpenInBrowserBannerDisplayed = "Open in Browser Banner Displayed"
     case OpenInBrowserBannerTapped = "Open in Browser Banner Tapped"
-    case UpgradeNowClicked = "Upgrade Now Clicked"
     case ProfilePageView = "Profile Page View"
     case PersonalInformationClicked = "Personal Information Clicked"
     case FAQClicked = "FAQ Clicked"
@@ -83,6 +83,16 @@ public enum AnalyticsDisplayName : String {
     case ProfileDeleteAccountClicked = "Profile: Delete Account Clicked"
     case RegistrationOptinTurnedOn = "Registration: Opt-in Turned On"
     case RegistrationOptinTurnedOff = "Registration: Opt-in Turned Off"
+    case UpgradeNowClicked = "Payments: Upgrade Now Clicked"
+    case CourseUpgradeSuccess = "Payments: Course Upgrade Success"
+    case CourseUpgradeSuccessDuration = "Payments: Time to Unlock Upgraded Content"
+    case CourseUpgradeSuccessDurationAfterRefresh = "Payments: Time to Unlock Upgraded Content After Refresh"
+    case CourseUpgradePaymentTime = "Payments: Payment Time"
+    case CourseUpgradeTimeToLoadPrice = "Payments: Time to Load Price"
+    case CourseUpgradePaymentError = "Payments: Payment Error"
+    case CourseUpgradeError = "Payments: Course Upgrade Error"
+    case CourseUpgradeLoadError = "Payments: Price Load Error"
+    case CourseUpgradeErrorAction = "Payments: Error Alert Action"
 }
 
 public enum AnalyticsEventName: String {
@@ -142,7 +152,6 @@ public enum AnalyticsEventName: String {
     case SubsectionViewOnWebTapped = "edx.bi.app.course.subsection.view_on_web.tapped"
     case OpenInBrowserBannerDisplayed = "edx.bi.app.navigation.component.open_in_browser_banner.displayed"
     case OpenInBrowserBannerTapped = "edx.bi.app.navigation.component.open_in_browser_banner.tapped"
-    case UpgradeNowClicked = "edx.bi.app.upgrade.button.clicked"
     case PersonalInformationClicked = "edx.bi.app.profile.personal_info.clicked"
     case FAQClicked = "edx.bi.app.profile.faq.clicked"
     case WifiOn = "edx.bi.app.profile.wifi.switch.on"
@@ -156,6 +165,16 @@ public enum AnalyticsEventName: String {
     case ProfileDeleteAccountClicked = "edx.bi.app.profile.delete_account.clicked"
     case RegistrationOptinTurnedOn = "edx.bi.app.user.register.opt_in.on"
     case RegistrationOptinTurnedOff = "edx.bi.app.user.register.opt_in.off"
+    case UpgradeNowClicked = "edx.bi.app.payments.upgrade_now.clicked"
+    case CourseUpgradeSuccess = "edx.bi.app.payments.course_upgrade_success"
+    case CourseUpgradeSuccessDuration = "edx.bi.app.payments.time_to_unlock_upgraded_content"
+    case CourseUpgradeSuccessDurationAfterRefresh = "edx.bi.app.payments.time_to_unlock_content_after_refresh"
+    case CourseUpgradePaymentTime = "edx.bi.app.payments.payment_time"
+    case CourseUpgradeTimeToLoadPrice = "edx.bi.app.payments.time_to_load_price"
+    case CourseUpgradePaymentError = "edx.bi.app.payments.payment_error"
+    case CourseUpgradeError = "edx.bi.app.payments.course_upgrade_error"
+    case CourseUpgradeLoadError = "edx.bi.app.payments.price_load_error"
+    case CourseUpgradeErrorAction = "edx.bi.app.payments.error_alert_action"
 }
 
 public enum AnalyticsScreenName: String {
@@ -215,8 +234,10 @@ public enum AnalyticsEventDataKey: String {
     case OpenedURL = "opened_url"
     case Value = "value"
     case OldValue = "old_value"
+    case Price = "price"
+    case UpgradeError = "error"
+    case ErrorAction = "error_action"
 }
-
 
 extension OEXAnalytics {
 
@@ -562,20 +583,6 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
-    func trackUpgradeNow(with courseID: String, blockID: String, pacing: String) {
-        let event = OEXAnalyticsEvent()
-        event.displayName = AnalyticsDisplayName.UpgradeNowClicked.rawValue
-        event.name = AnalyticsEventName.UpgradeNowClicked.rawValue
-
-        let info = [
-            AnalyticsEventDataKey.Pacing.rawValue: pacing,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID,
-            key_course_id: courseID
-        ]
-
-        trackEvent(event, forComponent: nil, withInfo: info)
-    }
-    
     func trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName, name: AnalyticsEventName) {
         let event = OEXAnalyticsEvent()
         event.displayName = displayName.rawValue
@@ -621,4 +628,3 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 }
-

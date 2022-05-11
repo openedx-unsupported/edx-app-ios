@@ -19,7 +19,7 @@ enum TransctionType: String {
 }
 
 enum PurchaseError: String {
-    case paymentsNotAvailebe // device isn't allowed to make payments
+    case paymentsNotAvailable // device isn't allowed to make payments
     case invalidUser // app user isn't available
     case paymentError // unable to purchase a product
     case receiptNotAvailable // unable to fetech inapp purchase receipt
@@ -93,7 +93,7 @@ enum PurchaseError: String {
             if let controller = UIApplication.shared.topMostController() {
                 UIAlertController().showAlert(withTitle: "Payment Error", message: "This device is not able or allowed to make payments", onViewController: controller)
             }
-            completion?((false, receipt: nil, error:(type: .paymentsNotAvailebe, error: nil)))
+            completion?((false, receipt: nil, error:(type: .paymentsNotAvailable, error: nil)))
             return
         }
 

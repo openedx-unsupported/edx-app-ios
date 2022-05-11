@@ -13,6 +13,19 @@ enum CourseUpgradeScreen: String {
     case courseDashboard
     case courseUnit
     case none
+
+    var text: String {
+        switch self {
+        case .myCourses:
+            return "course_enrollment"
+        case .courseDashboard:
+            return "course_dashboard"
+        case .courseUnit:
+            return "course_component"
+        case .none:
+            return "none"
+        }
+    }
 }
 
 class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverriding {
@@ -51,6 +64,12 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     private let crossButtonSize: CGFloat = 20
     private var isModalDismissable = true
     
+    private var coursePrice: String?
+    
+    private var pacing: String {
+        return course.isSelfPaced ? "self" : "instructor"
+    }
+    
     private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
     private var screen: CourseUpgradeScreen
@@ -84,18 +103,36 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
 
     private func fetchCoursePrice() {
         guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
-
+        
+        let startTime = CFAbsoluteTimeGetCurrent()
+        
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
             PaymentManager.shared.productPrice(courseSku) { [weak self] price in
                 if let price = price {
+                    let endTime = CFAbsoluteTimeGetCurrent() - startTime
+                    self?.coursePrice = price
+                    self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
                     self?.upgradeButton.stopShimmerEffect()
                     self?.upgradeButton.setPrice(price)
                 } else {
+                    self?.trackLoadError()
                     self?.showCoursePriceErrorAlert()
                 }
             }
         }
+    }
+    
+    private func trackPriceLoadDuration(elapsedTime: Int) {
+        guard let courseID = course.course_id,
+              let coursePrice = coursePrice else { return }
+        
+        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, blockID: blockID, pacing: pacing, coursePrice: coursePrice, screen: screen, elapsedTime: elapsedTime)
+    }
+    
+    private func trackLoadError() {
+        guard let courseID = course.course_id else { return }
+        environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, blockID: blockID, pacing: pacing, screen: screen)
     }
 
     private func showCoursePriceErrorAlert() {
@@ -106,11 +143,13 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
             self?.fetchCoursePrice()
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course.course_id ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price")
         }
 
         alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
             self?.upgradeButton.stopShimmerEffect()
             self?.upgradeButton.isHidden = true
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course.course_id ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price")
         }
     }
     
@@ -167,31 +206,35 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
     
     private func upgradeCourse() {
-        guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
+        guard let courseID = course.course_id,
+              let coursePrice = coursePrice else { return }
         
-        let pacing = course.isSelfPaced ? "self" : "instructor"
-        environment.analytics.trackUpgradeNow(with: course.course_id ?? "", blockID: courseSku, pacing: pacing)
+        environment.analytics.trackUpgradeNow(with: courseID, pacing: pacing, screenName: screen, coursePrice: coursePrice)
         
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: screen)
+
         CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
             self?.enableUserInteraction(enable: false)
             
             switch status {
+            case .payment:
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .payment)
+                break
             case .verify:
                 self?.upgradeButton.stopAnimating()
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment, screen: self?.screen ?? .none)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment)
                 break
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.isHidden = true
                 self?.dismiss(animated: true) { [weak self] in
-                    self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID), screen: self?.screen ?? .none)
+                    self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID))
                 }
                 break
-            case .error(let type, _):
+            case .error(let type, let error):
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.stopAnimating()
-                let delegate = (type == .verifyReceiptError) ? self : nil
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type), screen: self?.screen ?? .none, delegate: delegate)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type, error), delegate: type == .verifyReceiptError ? self : nil)
                 break
             default:
                 break
