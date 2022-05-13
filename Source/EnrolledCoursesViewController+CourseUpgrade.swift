@@ -102,10 +102,10 @@ extension EnrolledCoursesViewController {
             switch state {
             case .complete:
                 skus.removeAll { $0 == sku }
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(course.course_id ?? "", nil), screen: .myCourses)
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(course.course_id ?? "", nil))
                 break
-            case .error(let type, _):
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type), screen: .none)
+            case .error(let type, let error):
+                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type, error))
                 break
             default:
                 break
