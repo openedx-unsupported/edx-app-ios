@@ -62,9 +62,7 @@ class EnrolledCoursesViewControllerTests: SnapshotTestCase {
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
         let configDictionary = [
             "DISCOVERY": [
-                "COURSE": [
-                    "TYPE": "webview",
-                ]
+                "TYPE": "webview",
             ]
         ]
         
