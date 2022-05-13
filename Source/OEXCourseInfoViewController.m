@@ -51,17 +51,17 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (NSURL*)courseInfoURL {
-    NSString* urlString = [[self discoveryConfig].webview.detailTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
+    NSString* urlString = [[self discoveryConfig].webview.courseDetailTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
     NSURL* URL = [NSURL URLWithString:urlString];
     return URL;
 }
 
-- (CourseDiscovery*)discoveryConfig {
-    return [self.environment.config.discovery course];
+- (DiscoveryConfig*)discoveryConfig {
+    return self.environment.config.discovery;
 }
     
 -(NSString *) courseDiscoveryTitle {
-    if ([[self discoveryConfig] isCourseDiscoveryNative]) {
+    if ([[self discoveryConfig] isNativeDiscovery]) {
         return [Strings findCourses];
     }
     

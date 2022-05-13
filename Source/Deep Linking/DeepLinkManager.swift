@@ -143,7 +143,7 @@ import UIKit
         
         switch link.type {
         case .courseDetail:
-            guard environment?.config.discovery.course.isEnabled ?? false, let courseId = link.courseId else { return }
+            guard environment?.config.discovery.isEnabled ?? false, let courseId = link.courseId else { return }
             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                 environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .courseDetail, pathID: courseId, bottomBar: discoveryViewController.bottomBar)
                 return
@@ -167,7 +167,7 @@ import UIKit
             }
             break
         case .courseDiscovery:
-            guard environment?.config.discovery.course.isEnabled ?? false else { return }
+            guard environment?.config.discovery.isEnabled ?? false else { return }
             if let _ = topMostViewController as? DiscoveryViewController {
                 // TODO: Refresh discovery with course query if needed(Not decided yet).
             }

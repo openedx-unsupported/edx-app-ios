@@ -143,12 +143,12 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private let insetsController = ContentInsetsController()
   
-    private var isCourseDiscoveryEnabled: Bool {
-        return environment.config.discovery.course.isEnabled
+    private var isDiscoveryEnabled: Bool {
+        return environment.config.discovery.isEnabled
     }
     
     private var shouldShowFooter: Bool {
-        return context == .enrollmentList && isCourseDiscoveryEnabled
+        return context == .enrollmentList && isDiscoveryEnabled
     }
     
     init(environment : Environment, context: Context) {

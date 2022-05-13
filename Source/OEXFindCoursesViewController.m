@@ -70,7 +70,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
     
 -(NSString *) courseDiscoveryTitle {
-    if ([[self discoveryConfig] isCourseDiscoveryNative]) {
+    if ([[self discoveryConfig] isNativeDiscovery]) {
         return [Strings findCourses];
     }
 
@@ -87,8 +87,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenFindCourses];
 }
 
-- (CourseDiscovery*)discoveryConfig {
-    return [self.environment.config.discovery course];
+- (DiscoveryConfig*)discoveryConfig {
+    return self.environment.config.discovery;
 }
 
 - (NSString*)getCoursePathIDFromURL:(NSURL*)url {

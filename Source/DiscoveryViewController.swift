@@ -45,9 +45,9 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     }
     
     private func configureDiscoveryController() {
-        guard environment.config.discovery.course.isEnabled else { return }
+        guard environment.config.discovery.isEnabled else { return }
 
-        let coursesController = self.environment.config.discovery.course.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: false, bottomBar: bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
+        let coursesController = self.environment.config.discovery.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: false, bottomBar: bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
 
         addChild(coursesController)
         didMove(toParent: self)
