@@ -247,7 +247,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         
         syncToCalenderLabel.snp.remakeConstraints { make in
             make.leading.equalTo(arrowImageView.snp.trailing).offset(StandardHorizontalMargin/2)
-            make.trailing.equalTo(syncSwitch.snp.leading).inset(StandardHorizontalMargin)
+            make.trailing.lessThanOrEqualTo(syncSwitch.snp.leading).inset(StandardHorizontalMargin)
             make.centerY.equalTo(arrowImageView)
         }
         
