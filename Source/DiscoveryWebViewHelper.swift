@@ -130,7 +130,7 @@ class DiscoveryWebViewHelper: NSObject {
     }
 
     private var courseInfoTemplate : String {
-        return environment.config.discovery.course.webview.detailTemplate ?? ""
+        return environment.config.discovery.webview.courseDetailTemplate ?? ""
     }
     
     var isWebViewLoaded : Bool {

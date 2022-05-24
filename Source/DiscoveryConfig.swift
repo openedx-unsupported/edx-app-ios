@@ -20,89 +20,44 @@ enum DiscoveryKeys: String, RawStringExtractable {
     case discoveryType = "TYPE"
     case webview = "WEBVIEW"
     case baseURL = "BASE_URL"
-    case detailTemplate = "DETAIL_TEMPLATE"
-    case searchEnabled = "SEARCH_ENABLED"
-    case course = "COURSE"
-    case program = "PROGRAM"
-    case degree = "DEGREE"
+    case courseDetailTemplate = "COURSE_DETAIL_TEMPLATE"
+    case programDetailTemplate = "PROGRAM_DETAIL_TEMPLATE"
 }
 
 @objc class DiscoveryWebviewConfig: NSObject {
     @objc let baseURL: URL?
-    @objc let detailTemplate: String?
-    @objc let searchEnabled: Bool
+    @objc let courseDetailTemplate: String?
+    @objc let programDetailTemplate: String?
     
     init(dictionary: [String: AnyObject]) {
         baseURL = (dictionary[DiscoveryKeys.baseURL] as? String).flatMap { URL(string:$0)}
-        detailTemplate = dictionary[DiscoveryKeys.detailTemplate] as? String
-        searchEnabled = dictionary[DiscoveryKeys.searchEnabled] as? Bool ?? false
+        courseDetailTemplate = dictionary[DiscoveryKeys.courseDetailTemplate] as? String
+        programDetailTemplate = dictionary[DiscoveryKeys.programDetailTemplate] as? String
     }
 }
 
 class DiscoveryConfig: NSObject {
-    @objc let course: CourseDiscovery
-    @objc let program: ProgramDiscovery
-    @objc let degree: DegreeDiscovery
-    
-    init(dictionary: [String: AnyObject]) {
-        course = CourseDiscovery(dictionary: dictionary[DiscoveryKeys.course] as? [String: AnyObject] ?? [:])
-        program = ProgramDiscovery(with: course, dictionary: dictionary[DiscoveryKeys.program] as? [String: AnyObject] ?? [:])
-        degree = DegreeDiscovery(with: program, dictionary: dictionary[DiscoveryKeys.degree] as? [String: AnyObject] ?? [:])
-    }
-}
-
-class CourseDiscovery: DiscoveryBase {
-    
-    var isEnabled: Bool {
-        return type != .none
-    }
-    
-    // Associated swift enums can not be used in objective-c, that's why this extra computed property needed
-    @objc var isCourseDiscoveryNative: Bool {
-        return type == .native
-    }
-}
-
-class ProgramDiscovery: DiscoveryBase {
-    
-    private let courseDiscovery: CourseDiscovery
-    
-    init(with courseDiscovery: CourseDiscovery, dictionary: [String : AnyObject]) {
-        self.courseDiscovery = courseDiscovery
-        super.init(dictionary: dictionary)
-    }
-    
-    var isEnabled: Bool {
-        return courseDiscovery.type == .webview && type == .webview
-    }
-}
-
-class DegreeDiscovery: DiscoveryBase {
-    
-    private let programDiscovery: ProgramDiscovery
-    
-    init(with programDiscovery: ProgramDiscovery, dictionary: [String : AnyObject]) {
-        self.programDiscovery = programDiscovery
-        super.init(dictionary: dictionary)
-    }
-    
-    var isEnabled: Bool {
-        return programDiscovery.isEnabled && type == .webview
-    }
-}
-
-class DiscoveryBase: NSObject {
     private(set) var type: DiscoveryConfigType
     @objc let webview: DiscoveryWebviewConfig
-    
+
     init(dictionary: [String: AnyObject]) {
         type = (dictionary[DiscoveryKeys.discoveryType] as? String).flatMap { DiscoveryConfigType(rawValue: $0) } ?? .none
         webview = DiscoveryWebviewConfig(dictionary: dictionary[DiscoveryKeys.webview] as? [String: AnyObject] ?? [:])
     }
+
+    // Associated swift enums can not be used in objective-c, that's why this extra computed property needed
+    @objc var isNativeDiscovery: Bool {
+        return type == .native
+    }
+
+    @objc var isEnabled: Bool {
+        return type != .none
+    }
+
 }
 
+
 extension OEXConfig {
-    
     @objc var discovery: DiscoveryConfig {
         return DiscoveryConfig(dictionary: self.properties[DiscoveryKeys.discovery.rawValue] as? [String:AnyObject] ?? [:])
     }

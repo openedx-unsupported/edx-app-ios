@@ -19,7 +19,7 @@ private enum TabBarOptions: Int {
         case .Program:
             return Strings.programs
         case .CourseCatalog:
-            return config?.discovery.course.type == .native ? Strings.findCourses : Strings.discover
+            return config?.discovery.type == .native ? Strings.findCourses : Strings.discover
         case .Debug:
             return Strings.debug
         }
@@ -144,8 +144,8 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
             break
         case .courseDiscovery, .courseDetail, .programDiscovery, .programDiscoveryDetail:
-            if environment.config.discovery.course.isEnabled {
-                selectedIndex = environment.config.discovery.course.type == .webview ? tabBarViewControllerIndex(with: OEXFindCoursesViewController.self) : tabBarViewControllerIndex(with: CourseCatalogViewController.self)
+            if environment.config.discovery.isEnabled {
+                selectedIndex = environment.config.discovery.type == .webview ? tabBarViewControllerIndex(with: OEXFindCoursesViewController.self) : tabBarViewControllerIndex(with: CourseCatalogViewController.self)
             }
             break
         default:
