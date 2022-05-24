@@ -189,13 +189,11 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
             let capturedLink = navigationAction.navigationType == .linkActivated
             let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
             if let url = request.url, outsideLink || capturedLink {
-                guard let contrller = delegate?.webViewContainingController() else { return }
+                guard let contrller = delegate?.webViewContainingController(), UIApplication.shared.canOpenURL(url) else { return }
 
                 let alertController = UIAlertController().showAlert(withTitle: Strings.leavingAppTitle, message: Strings.leavingAppMessage(platformName: environment.config.platformName()), cancelButtonTitle: Strings.cancel, onViewController: contrller) { _, _, _ in }
                 alertController.addButton(withTitle: Strings.continueText, style: .default) { _ in
-                    if UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    }
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
                 decisionHandler(.cancel)
             } else {
