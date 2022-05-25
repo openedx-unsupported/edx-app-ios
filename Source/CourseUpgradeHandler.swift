@@ -39,8 +39,6 @@ class CourseUpgradeHandler: NSObject {
     }
     private(set) var state: CourseUpgradeState = .initial {
         didSet {
-            completion?(state)
-
             switch state {
             case .complete:
                 CourseUpgradeHelper.shared.markIAPSKUCompleteInKeychain(courseSku)
@@ -53,6 +51,8 @@ class CourseUpgradeHandler: NSObject {
             default:
                 break
             }
+
+            completion?(state)
         }
     }
 
@@ -118,8 +118,6 @@ class CourseUpgradeHandler: NSObject {
         }
         return unhandledError
     }
-    
-    static let shared = CourseUpgradeHandler()
     
     func upgradeCourse(_ course: OEXCourse, environment: Environment, upgradeMode: CourseUpgradeMode = .normal ,completion: UpgradeCompletionHandler?) {
         self.completion = completion

@@ -215,27 +215,28 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
         environment.analytics.trackUpgradeNow(with: courseID, blockID: self.blockID ?? "", pacing: pacing, screenName: .courseUnit, coursePrice: coursePrice)
         
         courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: .courseUnit)
+        let upgradeHandler = CourseUpgradeHandler()
         
-        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
+        upgradeHandler.upgradeCourse(course, environment: environment) { [weak self] status in
             self?.enableUserInteraction(enable: false)
             
             switch status {
             case .payment:
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .payment)
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .payment)
                 break
             case .verify:
                 upgradeView.stopAnimating()
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment)
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment)
                 break
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 upgradeView.updateUpgradeButtonVisibility(visible: false)
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(courseID, self?.blockID))
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(courseID, self?.blockID))
                 break
             case .error(let type, let error):
                 self?.enableUserInteraction(enable: true)
                 upgradeView.stopAnimating()
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type, error))
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error))
                 break
             default:
                 break

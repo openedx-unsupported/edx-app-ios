@@ -63,6 +63,7 @@ class CourseUpgradeHelper: NSObject {
     private var blockID: CourseBlockID?
     private var screen: CourseUpgradeScreen = .none
     private var coursePrice: String?
+    weak private(set) var upgradeHadler: CourseUpgradeHandler?
         
     private override init() { }
     
@@ -93,8 +94,9 @@ class CourseUpgradeHelper: NSObject {
         resetUpgradeModel()
     }
     
-    func handleCourseUpgrade(state: CompletionState, delegate: CourseUpgradeHelperDelegate? = nil) {
+    func handleCourseUpgrade(upgradeHadler: CourseUpgradeHandler, state: CompletionState, delegate: CourseUpgradeHelperDelegate? = nil) {
         self.delegate = delegate
+        self.upgradeHadler = upgradeHadler
         
         switch state {
         case .initial:
@@ -111,7 +113,7 @@ class CourseUpgradeHelper: NSObject {
             break
         case .success(let courseID, let blockID):
             courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
-            if CourseUpgradeHandler.shared.upgradeMode != .silent {
+            if upgradeHadler.upgradeMode != .silent {
                 postSuccessNotification()
             }
             else {
@@ -120,10 +122,10 @@ class CourseUpgradeHelper: NSObject {
             break
         case .error(let type, _):
             if type == .paymentError {
-                environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: CourseUpgradeHandler.shared.formattedError)
+                environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
             }
 
-            environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: CourseUpgradeHandler.shared.formattedError)
+            environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError)
 
             removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
@@ -152,17 +154,17 @@ class CourseUpgradeHelper: NSObject {
     func showError() {
         guard let topController = UIApplication.shared.topMostController() else { return }
 
-        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: CourseUpgradeHandler.shared.errorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
+        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: upgradeHadler?.errorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
-        if case .error (let type, _) = CourseUpgradeHandler.shared.state, type == .verifyReceiptError {
+        if case .error (let type, _) = upgradeHadler?.state, type == .verifyReceiptError {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) { [weak self] _ in
                 self?.trackUpgradeErrorAction(errorAction: ErrorAction.refreshToRetry)
                 self?.refreshTime = CFAbsoluteTimeGetCurrent()
-                CourseUpgradeHandler.shared.reverifyPayment()
+                self?.upgradeHadler?.reverifyPayment()
             }
         }
 
-        if case .complete = CourseUpgradeHandler.shared.state, completion != nil {
+        if case .complete = upgradeHadler?.state, completion != nil {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) {[weak self] _ in
                 self?.trackUpgradeErrorAction(errorAction: ErrorAction.refreshToRetry)
                 self?.refreshTime = CFAbsoluteTimeGetCurrent()
@@ -174,7 +176,7 @@ class CourseUpgradeHelper: NSObject {
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { [weak self] _ in
             self?.trackUpgradeErrorAction(errorAction: ErrorAction.emailSupport)
-            self?.launchEmailComposer(errorMessage: "Error: \(CourseUpgradeHandler.shared.formattedError)")
+            self?.launchEmailComposer(errorMessage: "Error: \(self?.upgradeHadler?.formattedError ?? "")")
         }
 
         alertController.addButton(withTitle: Strings.close, style: .default) { [weak self] _ in
@@ -192,7 +194,7 @@ class CourseUpgradeHelper: NSObject {
     }
     
     func showLoader(forceShow: Bool = false) {
-        if (!unlockController.isVisible && CourseUpgradeHandler.shared.upgradeMode != .silent) || forceShow {
+        if (!unlockController.isVisible && upgradeHadler?.upgradeMode != .silent) || forceShow {
             unlockController.showView()
         }
     }
@@ -218,7 +220,7 @@ class CourseUpgradeHelper: NSObject {
     }
     
     private func trackUpgradeErrorAction(errorAction: ErrorAction) {
-        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, errorAction: errorAction.rawValue, upgradeError: CourseUpgradeHandler.shared.formattedError)
+        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, errorAction: errorAction.rawValue, upgradeError: upgradeHadler?.formattedError ?? "")
     }
 
     private func hideAlertAction() {
@@ -229,7 +231,7 @@ class CourseUpgradeHelper: NSObject {
     private func showSilentRefreshAlert() {
         guard let topController = UIApplication.shared.topMostController() else { return }
 
-        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertTitle, message: Strings.CourseUpgrade.SuccessAlert.silentAlertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
+        let alertController = UIAlertController().alert(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertTitle, message: Strings.CourseUpgrade.SuccessAlert.silentAlertMessage, cancelButtonTitle: nil) { _, _, _ in }
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertRefresh, style: .default) {[weak self] _ in
             self?.showLoader(forceShow: true)
@@ -239,6 +241,8 @@ class CourseUpgradeHelper: NSObject {
         alertController.addButton(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertContinue, style: .default) {[weak self] _ in
             self?.resetUpgradeModel()
         }
+
+        topController.present(alertController, animated: true, completion: nil)
     }
 
     private func popToEnrolledCourses() {
@@ -255,7 +259,7 @@ class CourseUpgradeHelper: NSObject {
     }
 
     private func markCourseContentRefresh() {
-        guard let course = CourseUpgradeHandler.shared.course else { return }
+        guard let course = upgradeHadler?.course else { return }
 
         let courseQuerier = OEXRouter.shared().environment.dataManager.courseDataManager.querierForCourseWithID(courseID: course.course_id ?? "", environment: OEXRouter.shared().environment)
         courseQuerier.needsRefresh = true

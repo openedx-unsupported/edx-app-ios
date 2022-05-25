@@ -98,14 +98,15 @@ extension EnrolledCoursesViewController {
                   return
               }
 
-        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment, upgradeMode: .silent) { [weak self] state in
+        let upgradeHandler = CourseUpgradeHandler()
+        upgradeHandler.upgradeCourse(course, environment: environment, upgradeMode: .silent) { [weak self] state in
             switch state {
             case .complete:
                 skus.removeAll { $0 == sku }
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(course.course_id ?? "", nil))
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(course.course_id ?? "", nil))
                 break
             case .error(let type, let error):
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type, error))
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error))
                 break
             default:
                 break
