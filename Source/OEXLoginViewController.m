@@ -335,7 +335,7 @@
                 [textField setAttributedPlaceholder:[_placeHolderStyle attributedStringWithText:[Strings emailAddressPrompt]]];
                 textField.text = self.tf_EmailID.text;
             }
-        }];
+        } autoPresent:TRUE];
     }
     else {
         // error
