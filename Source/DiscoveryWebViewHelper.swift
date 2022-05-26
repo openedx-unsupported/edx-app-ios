@@ -190,9 +190,15 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
             let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
             if let url = request.url, outsideLink || capturedLink {
                 guard let contrller = delegate?.webViewContainingController(), UIApplication.shared.canOpenURL(url) else { return }
+                environment.analytics.trackEvent(with: .DiscoverExternalLinkOpenAlert, name: .DiscoverExternalLinkOpenAlert, category: .Discovery, info: ["url" : url.absoluteString])
+                let alertController = UIAlertController().showAlert(withTitle: Strings.leavingAppTitle, message: Strings.leavingAppMessage(platformName: environment.config.platformName()), cancelButtonTitle: nil, onViewController: contrller) { _, _, _ in }
 
-                let alertController = UIAlertController().showAlert(withTitle: Strings.leavingAppTitle, message: Strings.leavingAppMessage(platformName: environment.config.platformName()), cancelButtonTitle: Strings.cancel, onViewController: contrller) { _, _, _ in }
-                alertController.addButton(withTitle: Strings.continueText, style: .default) { _ in
+                alertController.addButton(withTitle: Strings.cancel, style: .cancel) { [weak self] _ in
+                    self?.environment.analytics.trackEvent(with: .DiscoverExternalLinkOpenAlertAction, name: .DiscoverExternalLinkOpenAlertAction, category: .Discovery, info: ["url" : url.absoluteString, "alert_action": "cancel"])
+                }
+
+                alertController.addButton(withTitle: Strings.continueText, style: .default) { [weak self] _ in
+                    self?.environment.analytics.trackEvent(with: .DiscoverExternalLinkOpenAlertAction, name: .DiscoverExternalLinkOpenAlertAction, category: .Discovery, info: ["url" : url.absoluteString, "alert_action": "continue"])
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
                 decisionHandler(.cancel)
