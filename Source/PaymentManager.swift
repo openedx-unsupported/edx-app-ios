@@ -27,6 +27,7 @@ enum PurchaseError: String {
     case checkoutError // checkout API returns error
     case verifyReceiptError // verify receipt API returns error
     case generalError // general error
+    case alreadyPurchased // Course is already purchased on the same device
 
     var errorString: String {
         switch self {
@@ -181,17 +182,35 @@ enum PurchaseError: String {
         }
     }
     
-    func restorePurchases() {
+    func restorePurchases(completion: ((_ success: Bool, _ purchases: [Purchase]?) -> ())? = nil) {
         guard let applicationUserName = OEXSession.shared()?.currentUser?.username else { return }
 
         storeKit.restorePurchases(atomically: false, applicationUsername: applicationUserName) { results in
-            if results.restoreFailedPurchases.count > 0 {
-                //TODO: Handle failed restore purchases
+            if results.restoredPurchases.count > 0 {
+                completion?(true, results.restoredPurchases)
             }
-            else if results.restoredPurchases.count > 0 {
-                for _ in results.restoredPurchases {
-                    //TODO: Handle restore purchases
+            else {
+                completion?(false, nil)
+            }
+        }
+    }
+
+    func alreadyPurchased(_ identifier: String, completion: ((_ success: Bool) -> ())? = nil) {
+        restorePurchases { success, purchases in
+            if success {
+                for p in purchases ?? [] {
+                    if p.needsFinishTransaction {
+                        SwiftyStoreKit.finishTransaction(p.transaction)
+                    }
                 }
+                for purchase in purchases ?? [] where purchase.productId == identifier {
+                    completion?(true)
+                    return
+                }
+                completion?(false)
+            }
+            else {
+                completion?(false)
             }
         }
     }

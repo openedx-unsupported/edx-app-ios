@@ -174,7 +174,7 @@ class CourseUpgradeHelper: NSObject {
             }
         }
 
-        alertController.addButton(withTitle: Strings.CourseUpgrade.failureAlertGetHelp) { [weak self] _ in
+        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.getHelp) { [weak self] _ in
             self?.trackUpgradeErrorAction(errorAction: ErrorAction.emailSupport)
             self?.launchEmailComposer(errorMessage: "Error: \(self?.upgradeHadler?.formattedError ?? "")")
         }

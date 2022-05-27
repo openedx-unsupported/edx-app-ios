@@ -21,7 +21,7 @@
 /*Alert button title to continue in case, the course upgraded silently on app relaunch*/
 "COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_CONTINUE"="Continue without update";
 /*Course upgrade failure alert title*/
-"COURSE_UPGRADE.FAILURE_ALERT.ALERT_TITLE"="Upgrade error";
+"COURSE_UPGRADE.FAILURE_ALERT.ALERT_TITLE"="An error occurred";
 /*Course upgrade failure alert message*/
 "COURSE_UPGRADE.FAILURE_ALERT.GENERAL_ERROR_MESSAGE"="It looks like something went wrong when upgrading your course.";
 /*Course upgrade failure alert get help button title*/
@@ -44,7 +44,9 @@
 "COURSE_UPGRADE.FAILURE_ALERT.REFRESH_TO_RETRY"="Refresh to retry";
 /*Try again button on the failure alert to retry the course upgrade after the successful payment*/
 "COURSE_UPGRADE.FAILURE_ALERT.COURSE_PRICE_ERROR"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
+/*The course was paid by the on the device with same app store user but from a different app user*/
+"COURSE_UPGRADE.FAILURE_ALERT.COURSE_ALREADY_PAID"="The course you are looking to upgrade has already been paid for on this device by the associated Apple ID. For additional help, reach out to Support.";
 /*Course upgrade failure alert get help button title*/
-"COURSE_UPGRADE.FAILURE_ALERT_GET_HELP"="Get help";
+"COURSE_UPGRADE.FAILURE_ALERT.GET_HELP"="Get help";
 /*Get support e-mail subject in the payment error flow*/
 "COURSE_UPGRADE.GET_SUPPORT_EMAIL_SUBJECT"="Error upgrading course in app";

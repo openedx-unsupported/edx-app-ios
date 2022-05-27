@@ -32,14 +32,13 @@ class CourseUpgradeHandler: NSObject {
     private var completion: UpgradeCompletionHandler?
     private(set) var course: OEXCourse?
     private var basketID: Int = 0
-    private var courseSku: String = "" {
-        didSet {
-            CourseUpgradeHelper.shared.saveIAPInKeychain(courseSku)
-        }
-    }
+    private var courseSku: String = ""
     private(set) var state: CourseUpgradeState = .initial {
         didSet {
             switch state {
+            case .basket:
+                CourseUpgradeHelper.shared.saveIAPInKeychain(courseSku)
+                break
             case .complete:
                 CourseUpgradeHelper.shared.markIAPSKUCompleteInKeychain(courseSku)
                 break
@@ -70,6 +69,8 @@ class CourseUpgradeHandler: NSObject {
                 return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
             case .verifyReceiptError:
                 return Strings.CourseUpgrade.FailureAlert.courseNotFullfilled
+            case .alreadyPurchased:
+                return Strings.CourseUpgrade.FailureAlert.courseAlreadyPaid
             default:
                 return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
             }
@@ -133,6 +134,23 @@ class CourseUpgradeHandler: NSObject {
         
         courseSku = coursePurchaseSku
 
+        PaymentManager.shared.alreadyPurchased(courseSku) { [weak self] success in
+            if success ==  false {
+                self?.proceedUpgrade(for: coursePurchaseSku)
+            }
+            else {
+                let unfinishedSKUs = CourseUpgradeHelper.shared.savedUnfinishedIAPSKUsForCurrentUser() ?? []
+                if unfinishedSKUs.contains(coursePurchaseSku) {
+                    self?.proceedUpgrade(for: coursePurchaseSku)
+                }
+                else {
+                    self?.state = .error(type: .alreadyPurchased, error: self?.error(message: "course is already purchased on this device"))
+                }
+            }
+        }
+    }
+
+    private func proceedUpgrade(for courseSKU: String) {
         addToBasket { [weak self] (orderBasket, error) in
             if let basketID = orderBasket?.basketID {
                 self?.basketID = basketID
