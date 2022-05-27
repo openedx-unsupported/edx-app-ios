@@ -92,6 +92,8 @@ public enum AnalyticsDisplayName : String {
     case CourseUpgradeError = "Payments: Course Upgrade Error"
     case CourseUpgradeLoadError = "Payments: Price Load Error"
     case CourseUpgradeErrorAction = "Payments: Error Alert Action"
+    case DiscoverExternalLinkOpenAlert = "Discovery: External Link Opening Alert"
+    case DiscoverExternalLinkOpenAlertAction = "Discovery: External Link Opening Alert Action"
 }
 
 public enum AnalyticsEventName: String {
@@ -172,6 +174,8 @@ public enum AnalyticsEventName: String {
     case CourseUpgradeError = "edx.bi.app.payments.course_upgrade_error"
     case CourseUpgradeLoadError = "edx.bi.app.payments.price_load_error"
     case CourseUpgradeErrorAction = "edx.bi.app.payments.error_alert_action"
+    case DiscoverExternalLinkOpenAlert = "edx.bi.app.discovery.external_link.opening.alert"
+    case DiscoverExternalLinkOpenAlertAction = "edx.bi.app.discovery.external_link.opening.alert_action"
 }
 
 public enum AnalyticsScreenName: String {
@@ -585,12 +589,15 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: nil)
     }
     
-    func trackEvent(with displayName: AnalyticsDisplayName, name: AnalyticsEventName) {
+    func trackEvent(with displayName: AnalyticsDisplayName, name: AnalyticsEventName, category: AnalyticsCategory? = nil, info: [String : Any]? = nil) {
         let event = OEXAnalyticsEvent()
         event.displayName = displayName.rawValue
         event.name = name.rawValue
+        if let category = category {
+            event.category = category.rawValue
+        }
                 
-        trackEvent(event, forComponent: nil, withInfo: nil)
+        trackEvent(event, forComponent: nil, withInfo: info)
     }
     
     func trackVideoDownloadQualityChanged(value: String, oldValue: String) {
