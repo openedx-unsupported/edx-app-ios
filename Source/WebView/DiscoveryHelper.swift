@@ -31,7 +31,9 @@ enum WebviewActions: String {
     case courseProgram = "course"
 }
 
-class DiscoveryHelper: NSObject {
+@objc class DiscoveryHelper: NSObject {
+
+    typealias Environment = OEXRouterProvider & OEXConfigProvider
 
      class func urlAction(from url: URL) -> WebviewActions? {
         guard url.isValidAppURLScheme, let url = WebviewActions(rawValue: url.appURLHost) else {
@@ -136,9 +138,8 @@ extension DiscoveryHelper {
         }
     }
     
-    class func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) -> Bool {
+    @objc class func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?, environment: Environment) -> Bool {
         guard let urlAction = urlAction(from: url) else { return false }
-        let environment = OEXRouter.shared().environment;
         switch urlAction {
         case .courseEnrollment:
             enrollInCourse(with: url, from: controller)
@@ -157,10 +158,7 @@ extension DiscoveryHelper {
             break
         case .programDetail:
             guard let pathId = programDetailPathId(from: url) else { return false }
-            
-            // Setting this view type for  Deep Linking
-            let type = (controller is DegreesViewController) ? ProgramDiscoveryScreen.degree: ProgramDiscoveryScreen.program
-            environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar, type: type)
+            environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar)
             break
         case .courseProgram:
             environment.router?.showDiscoveryController(from: controller, type: .programDiscovery, isUserLoggedIn: true, pathID: nil)
@@ -170,3 +168,4 @@ extension DiscoveryHelper {
         return true
     }
 }
+

@@ -106,8 +106,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         return .portrait
     }
     
-    private var isCourseDiscoveryEnabled: Bool {
-        return environment.config.discovery.course.isEnabled
+    private var isDiscoveryEnabled: Bool {
+        return environment.config.discovery.isEnabled
     }
     
     private func handleUpgradationLoader(success: Bool) {
@@ -161,7 +161,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     }
     
     private func enrollmentsEmptyState() {
-        if !isCourseDiscoveryEnabled {
+        if !isDiscoveryEnabled {
             let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
             loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
         }

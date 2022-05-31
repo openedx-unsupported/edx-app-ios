@@ -51,17 +51,17 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (NSURL*)courseInfoURL {
-    NSString* urlString = [[self discoveryConfig].webview.detailTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
+    NSString* urlString = [[self discoveryConfig].webview.courseDetailTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
     NSURL* URL = [NSURL URLWithString:urlString];
     return URL;
 }
 
-- (CourseDiscovery*)discoveryConfig {
-    return [self.environment.config.discovery course];
+- (DiscoveryConfig*)discoveryConfig {
+    return self.environment.config.discovery;
 }
     
 -(NSString *) courseDiscoveryTitle {
-    if ([[self discoveryConfig] isCourseDiscoveryNative]) {
+    if ([[self discoveryConfig] isNativeDiscovery]) {
         return [Strings findCourses];
     }
     
@@ -71,7 +71,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar discoveryType: DiscoveryTypeCourse];
+    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar];
     [self loadCourseInfoWith:self.pathID forceLoad:YES];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
     [self addBackBarButton];

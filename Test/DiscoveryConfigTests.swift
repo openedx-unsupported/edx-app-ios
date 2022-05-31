@@ -13,133 +13,49 @@ class DiscoveryConfigTests: XCTestCase {
     
     func testDiscoveryNoConfig() {
         let config = OEXConfig(dictionary:[:])
-        XCTAssertFalse(config.discovery.course.isEnabled)
-        XCTAssertEqual(config.discovery.course.type, .none)
-        XCTAssertFalse(config.discovery.program.isEnabled)
-        XCTAssertEqual(config.discovery.program.type, .none)
+        XCTAssertFalse(config.discovery.isEnabled)
+        XCTAssertEqual(config.discovery.type, .none)
     }
     
     func testDiscoveryEmptyConfig() {
         let config = OEXConfig(dictionary:["DISCOVERY":[:]])
-        XCTAssertFalse(config.discovery.course.isEnabled)
-        XCTAssertEqual(config.discovery.course.type, .none)
-        XCTAssertFalse(config.discovery.program.isEnabled)
-        XCTAssertEqual(config.discovery.program.type, .none)
+        XCTAssertFalse(config.discovery.isEnabled)
+        XCTAssertEqual(config.discovery.type, .none)
     }
     
-    func testCourseAndProgramDiscoveryEmptyConfig() {
-        let config = OEXConfig(dictionary:["DISCOVERY":["COURSE":[:],"PROGRAM":[:]]])
-        XCTAssertEqual(config.discovery.course.type, .none)
-        XCTAssertEqual(config.discovery.program.type, .none)
-    }
-    
-    func testInvalidCourseDiscovery() {
+    func testInvalidDiscovery() {
         let configDictionary = [
             "DISCOVERY": [
-                "COURSE": [
-                    "TYPE": "invalid"
-                ]
+                "TYPE": "invalid"
             ]
         ]
         let config = OEXConfig(dictionary: configDictionary)
-        XCTAssertFalse(config.discovery.course.isEnabled)
-        XCTAssertEqual(config.discovery.course.type, .none)
+        XCTAssertFalse(config.discovery.isEnabled)
+        XCTAssertEqual(config.discovery.type, .none)
     }
     
-    func testCourseDiscoveryWebview() {
+    func testDiscoveryWebview() {
         let sampleBaseURL = "http://example.com/course-search"
-        let sampleExploreURL = "http://example.com/explore-courses"
         let sampleInfoURLTemplate = "http://example.com/{path_id}"
+        let sampleProgramInfoURLTemplate = "http://example.com/{path_id}"
         
         let configDictionary = [
             "DISCOVERY": [
-                "COURSE": [
-                    "TYPE": "webview",
-                    "WEBVIEW": [
-                        "BASE_URL": sampleBaseURL,
-                        "EXPLORE_SUBJECTS_URL": sampleExploreURL,
-                        "DETAIL_TEMPLATE": sampleInfoURLTemplate,
-                        "SEARCH_ENABLED": true
-                    ]
+                "TYPE": "webview",
+                "WEBVIEW": [
+                    "BASE_URL": sampleBaseURL,
+                    "COURSE_DETAIL_TEMPLATE": sampleInfoURLTemplate,
+                    "PROGRAM_DETAIL_TEMPLATE": sampleProgramInfoURLTemplate
+
                 ]
             ]
         ]
+
         let config = OEXConfig(dictionary: configDictionary)
-        XCTAssertEqual(config.discovery.course.type, .webview)
-        XCTAssertEqual(config.discovery.course.webview.baseURL!.absoluteString, sampleBaseURL)
-        XCTAssertEqual(config.discovery.course.webview.detailTemplate!, sampleInfoURLTemplate)
-        XCTAssertEqual(config.discovery.course.webview.exploreSubjectsURL!.absoluteString, sampleExploreURL)
-        XCTAssertTrue(config.discovery.course.webview.searchEnabled)
-    }
-    
-    func testInvalidProgramDiscovery() {
-        let configDictionary = [
-            "DISCOVERY": [
-                "PROGRAM": [
-                    "TYPE": "invalid"
-                ]
-            ]
-        ]
-        let config = OEXConfig(dictionary: configDictionary)
-        XCTAssertFalse(config.discovery.program.isEnabled)
-        XCTAssertEqual(config.discovery.program.type, .none)
-    }
-    
-    func testProgramDiscoveryWithOutCourseDiscovery() {
-        
-        let configDictionary = [
-            "DISCOVERY": [
-                "PROGRAM": [
-                    "TYPE": "webview"
-                ]
-            ]
-        ]
-        
-        let config = OEXConfig(dictionary: configDictionary)
-        XCTAssertFalse(config.discovery.program.isEnabled)
-    }
-    
-    func testCourseAndProgramDiscoveryWebView() {
-        let sampleBaseURL = "http://example.com/program-search"
-        let sampleDetailTemplate = "http://example.com/{path_id}"
-        
-        let sampleCourseBaseURL = "http://example.com/course-search"
-        let sampleExploreURL = "http://example.com/explore-courses"
-        let sampleInfoURLTemplate = "http://example.com/{path_id}"
-        
-        let configDictionary = [
-            "DISCOVERY": [
-                "PROGRAM": [
-                    "TYPE": "webview",
-                    "WEBVIEW": [
-                        "BASE_URL": sampleBaseURL,
-                        "DETAIL_TEMPLATE": sampleDetailTemplate,
-                        "SEARCH_ENABLED": true
-                    ]
-                ],
-                "COURSE": [
-                    "TYPE": "webview",
-                    "WEBVIEW": [
-                        "BASE_URL": sampleCourseBaseURL,
-                        "EXPLORE_SUBJECTS_URL": sampleExploreURL,
-                        "DETAIL_TEMPLATE": sampleInfoURLTemplate,
-                        "SEARCH_ENABLED": true
-                    ]
-                ]
-            ]
-        ]
-        
-        let config = OEXConfig(dictionary: configDictionary)
-        XCTAssertTrue(config.discovery.program.isEnabled)
-        XCTAssertEqual(config.discovery.program.type, .webview)
-        XCTAssertEqual(config.discovery.program.webview.detailTemplate!, sampleDetailTemplate)
-        XCTAssertEqual(config.discovery.program.webview.baseURL!.absoluteString, sampleBaseURL)
-        XCTAssertTrue(config.discovery.program.webview.searchEnabled)
-        XCTAssertEqual(config.discovery.course.type, .webview)
-        XCTAssertEqual(config.discovery.course.webview.baseURL!.absoluteString, sampleCourseBaseURL)
-        XCTAssertEqual(config.discovery.course.webview.detailTemplate!, sampleInfoURLTemplate)
-        XCTAssertEqual(config.discovery.course.webview.exploreSubjectsURL!.absoluteString, sampleExploreURL)
-        XCTAssertTrue(config.discovery.course.webview.searchEnabled)
+        XCTAssertEqual(config.discovery.type, .webview)
+        XCTAssertEqual(config.discovery.webview.baseURL!.absoluteString, sampleBaseURL)
+        XCTAssertEqual(config.discovery.webview.courseDetailTemplate!, sampleInfoURLTemplate)
+        XCTAssertEqual(config.discovery.webview.programDetailTemplate!, sampleProgramInfoURLTemplate)
     }
 
 }

@@ -55,7 +55,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void) loadCourseDiscovery {
-    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_showBottomBar ? _bottomBar : nil showSearch:YES searchQuery:_searchQuery showSubjects:YES discoveryType: DiscoveryTypeCourse];
+    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_showBottomBar ? _bottomBar : nil searchQuery:_searchQuery];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
 
     self.webViewHelper.baseURL = [self discoveryConfig].webview.baseURL;
@@ -64,25 +64,16 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
         case OEXFindCoursesBaseTypeFindCourses:
             urlToLoad = [self discoveryConfig].webview.baseURL;
             break;
-        case OEXFindCoursesBaseTypeExploreSubjects:
-            self.navigationItem.title = [Strings startupExploreSubjects];
-            urlToLoad = [self discoveryConfig].webview.exploreSubjectsURL;
-            break;
     }
     
     [self.webViewHelper loadWithURL:urlToLoad];
 }
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    [self.webViewHelper updateSubjectsVisibility];
-}
     
 -(NSString *) courseDiscoveryTitle {
-    if ([[self discoveryConfig] isCourseDiscoveryNative]) {
+    if ([[self discoveryConfig] isNativeDiscovery]) {
         return [Strings findCourses];
     }
-    
+
     return [Strings discover];
 }
 
@@ -96,8 +87,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenFindCourses];
 }
 
-- (CourseDiscovery*)discoveryConfig {
-    return [self.environment.config.discovery course];
+- (DiscoveryConfig*)discoveryConfig {
+    return self.environment.config.discovery;
 }
 
 - (NSString*)getCoursePathIDFromURL:(NSURL*)url {
@@ -123,11 +114,11 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {
-    NSString* coursePathID = [DiscoveryHelper detailPathIDFrom:request.URL];
-    if(coursePathID != nil) {
-        [self.environment.router showCourseDetailsFrom:self with:coursePathID bottomBar:[_bottomBar copy]];
-        return NO;
+
+    if (request.URL != nil) {
+        return ![DiscoveryHelper navigateTo:request.URL from:self bottomBar:_bottomBar environment: _environment];
     }
+
     return YES;
 }
 

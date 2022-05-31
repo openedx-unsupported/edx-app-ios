@@ -27,14 +27,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
     private var infoMessage: String {
         get {
-            let programDiscoveryEnabled = environment.config.discovery.program.isEnabled
-
-            if programDiscoveryEnabled {
-                return Strings.Startup.infoMessageText(programsText: Strings.Startup.infoMessageProgramText)
-            }
-            else {
-                return Strings.Startup.infoMessageText(programsText: "")
-            }
+            return Strings.Startup.infoMessageText(programsText: Strings.Startup.infoMessageProgramText)
         }
     }
 
@@ -142,8 +135,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
     
     private func setupSearchView() {
-        let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
-        guard courseEnrollmentEnabled else { return }
+        guard environment.config.discovery.isEnabled else { return }
         
         view.addSubview(searchView)
         view.addSubview(searchViewTitle)
@@ -212,8 +204,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             make.center.edges.equalTo(imageContainer)
         }
 
-        let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
-        guard courseEnrollmentEnabled else { return }
+        guard environment.config.discovery.isEnabled else { return }
 
         let offSet: CGFloat = isVerticallyCompact() ? 2 : 6
 
@@ -235,8 +226,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     private func setupExploreCoursesButton() {
-        let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
-        guard courseEnrollmentEnabled else { return }
+        guard environment.config.discovery.isEnabled else { return }
 
         let style = OEXTextStyle(weight: .normal, size: .large, color: environment.styles.primaryBaseColor())
 
