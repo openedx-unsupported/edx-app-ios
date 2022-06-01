@@ -568,6 +568,12 @@
 "DISCOVER"="Descubrir";
 /*Title for the programs in tabbar and navigation bar*/
 "PROGRAMS"="Programas";
+/*Title for the Learn in tabbar and navigation bar*/
+"LEARN"="Learn";
+/*Title My courses*/
+"MY_COURSES"="My courses";
+/*Title My programs*/
+"MY_PROGRAMS"="My programs";
 /*Title for the degrees in navigation bar*/
 "DEGREES"="Títulos";
 /*Debug option title in tabbar */
