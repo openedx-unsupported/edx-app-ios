@@ -293,10 +293,10 @@ extension OEXRouter {
     }
     
      func showDiscoveryDetail(from controller: UIViewController, type: DeepLinkType, pathID: String, bottomBar: UIView?) {
-        if type == .courseDetail {
+        if type == .discoveryCourseDetail {
             showCourseDetails(from: controller, with: pathID, bottomBar: bottomBar)
         }
-        else if type == .programDiscoveryDetail {
+        else if type == .discoveryProgramDetail {
             showProgramDetail(from: controller, with: pathID, bottomBar: bottomBar)
         }
     }
