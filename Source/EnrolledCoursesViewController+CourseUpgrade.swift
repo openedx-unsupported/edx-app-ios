@@ -32,7 +32,7 @@ extension EnrolledCoursesViewController {
 
     func resolveUnfinishedPaymentIfRequired() {
         guard var skus = courseUpgradeHelper.savedUnfinishedIAPSKUsForCurrentUser(),
-              !skus.isEmpty && PaymentManager.shared.unFinishedPurchases else { return }
+              !skus.isEmpty && PaymentManager.shared.unfinishedPurchases else { return }
 
         // fulfill outside fullfilled payments, marked complete bby support team
         let verifiedEnrollments = environment.interface?.courses?.filter({ $0.type == .verified}) ?? []
@@ -46,7 +46,7 @@ extension EnrolledCoursesViewController {
         }
 
         // unresolved payments fulfilled outside the app by support team
-        if !PaymentManager.shared.unFinishedPurchases || skus.isEmpty {
+        if !PaymentManager.shared.unfinishedPurchases || skus.isEmpty {
             return
         }
 
@@ -55,10 +55,10 @@ extension EnrolledCoursesViewController {
 
     private func resolveUnfinishedPayments() {
         guard let skus = courseUpgradeHelper.savedUnfinishedIAPSKUsForCurrentUser(),
-              !skus.isEmpty && PaymentManager.shared.unFinishedPurchases else { return }
+              !skus.isEmpty && PaymentManager.shared.unfinishedPurchases else { return }
 
         // Find unresolved
-        var unResolvedCoursesSkus:[String] = []
+        var unResolvedCoursesSkus: [String] = []
         let auditEnrollments = environment.interface?.courses?.filter({ $0.type == .audit}) ?? []
         for enrollment in auditEnrollments {
             if let courseSku = UpgradeSKUManager.shared.courseSku(for: enrollment.course) {

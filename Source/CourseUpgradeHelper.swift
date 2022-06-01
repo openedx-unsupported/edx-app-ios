@@ -11,7 +11,7 @@ import MessageUI
 import KeychainSwift
 
 let CourseUpgradeCompletionNotification = "CourseUpgradeCompletionNotification"
-private let IAPKeyChainKey = "CourseUpgradeIAPKeyChainKey"
+private let IAPKeychainKey = "CourseUpgradeIAPKeyChainKey"
 
 struct CourseUpgradeModel {
     let courseID: String
@@ -31,7 +31,7 @@ class CourseUpgradeHelper: NSObject {
     private lazy var unlockController = ValuePropUnlockViewContainer()
     weak private(set) var delegate: CourseUpgradeHelperDelegate?
     private(set) var completion: (()-> ())? = nil
-    private lazy var keyChain = KeychainSwift()
+    private lazy var keychain = KeychainSwift()
 
     enum CompletionState {
         case initial
@@ -324,7 +324,7 @@ extension CourseUpgradeHelper {
 
     // Test Func for deleting data
     func removekeyChain() {
-        keyChain.delete(IAPKeyChainKey)
+        keychain.delete(IAPKeychainKey)
     }
 
     func saveIAPInKeychain(_ sku: String?) {
@@ -345,7 +345,7 @@ extension CourseUpgradeHelper {
         }
 
         if let data = try? NSKeyedArchiver.archivedData(withRootObject: purchases, requiringSecureCoding: false) {
-            keyChain.set(data, forKey: IAPKeyChainKey)
+            keychain.set(data, forKey: IAPKeychainKey)
         }
     }
 
@@ -361,7 +361,7 @@ extension CourseUpgradeHelper {
         }
         
         if let data = try? NSKeyedArchiver.archivedData(withRootObject: purchases, requiringSecureCoding: false) {
-            keyChain.set(data, forKey: IAPKeyChainKey)
+            keychain.set(data, forKey: IAPKeychainKey)
         }
     }
 
@@ -372,20 +372,18 @@ extension CourseUpgradeHelper {
         var purchases = savedIAPSKUsFromKeychain()
         let userPurchases = purchases[userName] ?? []
 
-        if !userPurchases.isEmpty {
-            for userPurchase in userPurchases where userPurchase.identifier == sku {
-                userPurchase.status = true
-            }
+        for userPurchase in userPurchases where userPurchase.identifier == sku {
+            userPurchase.status = true
         }
         purchases[userName] = userPurchases
 
         if let data = try? NSKeyedArchiver.archivedData(withRootObject: purchases, requiringSecureCoding: false) {
-            keyChain.set(data, forKey: IAPKeyChainKey)
+            keychain.set(data, forKey: IAPKeychainKey)
         }
     }
 
     private func savedIAPSKUsFromKeychain() -> [String : [InappPurchase]] {
-        guard let data = keyChain.getData(IAPKeyChainKey),
+        guard let data = keychain.getData(IAPKeychainKey),
               let purchases = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String : [InappPurchase]]
         else { return [:] }
 
@@ -403,13 +401,13 @@ extension CourseUpgradeHelper {
 }
 
 class InappPurchase: NSObject, NSCoding {
+    var status: Bool = false
+    var identifier: String = ""
+
     required init?(coder: NSCoder) {
         identifier = coder.decodeObject(forKey: "identifier") as? String ?? ""
         status = coder.decodeBool(forKey: "status")
     }
-
-    var status: Bool = false
-    var identifier: String = ""
 
     init(with identifier: String, status: Bool) {
         self.status = status

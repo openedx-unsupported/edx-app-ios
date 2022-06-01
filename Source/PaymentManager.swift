@@ -54,7 +54,7 @@ enum PurchaseError: String {
     typealias PurchaseCompletionHandler = ((success: Bool, receipt: String?, error: (type: PurchaseError?, error: Error?)?)) -> Void
     var completion: PurchaseCompletionHandler?
 
-    var unFinishedPurchases:Bool {
+    var unfinishedPurchases:Bool {
         return !purchases.isEmpty
     }
 
