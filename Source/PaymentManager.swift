@@ -63,12 +63,12 @@ enum PurchaseError: String {
     }
 
     var unfinishedProductIDs: [String] {
-        var productIDS: [String] = []
+        var productIDs: [String] = []
         for productID in purchases.keys {
-            productIDS.append(productID)
+            productIDs.append(productID)
         }
 
-        return productIDS
+        return productIDs
     }
 
     private override init() {
