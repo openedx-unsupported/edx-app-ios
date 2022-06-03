@@ -98,8 +98,8 @@ extension EnrolledCoursesViewController {
                   return
               }
 
-        let upgradeHandler = CourseUpgradeHandler()
-        upgradeHandler.upgradeCourse(course, environment: environment, upgradeMode: .silent) { [weak self] state in
+        let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
+        upgradeHandler.upgradeCourse(with: .silent) { [weak self] state in
             switch state {
             case .complete:
                 skus.removeAll { $0 == sku }

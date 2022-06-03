@@ -213,8 +213,8 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: screen)
 
-        let upgradeHandler = CourseUpgradeHandler()
-        upgradeHandler.upgradeCourse(course, environment: environment) { [weak self] status in
+        let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
+        upgradeHandler.upgradeCourse() { [weak self] status in
             self?.enableUserInteraction(enable: false)
             
             switch status {

@@ -119,18 +119,23 @@ class CourseUpgradeHandler: NSObject {
         }
         return unhandledError
     }
-    
-    func upgradeCourse(_ course: OEXCourse, environment: Environment, upgradeMode: CourseUpgradeMode = .normal ,completion: UpgradeCompletionHandler?) {
-        self.completion = completion
-        self.environment = environment
+
+    init(for course: OEXCourse, environment: Environment) {
         self.course = course
+        self.environment = environment
+        super.init()
+    }
+    
+    func upgradeCourse(with upgradeMode: CourseUpgradeMode = .normal ,completion: UpgradeCompletionHandler?) {
+        self.completion = completion
         self.upgradeMode = upgradeMode
         state = .initial
         
-        guard let coursePurchaseSku = UpgradeSKUManager.shared.courseSku(for: course) else {
-        state = .error(type: .generalError, error: error(message: "course sku is missing"))
-            return
-        }
+        guard let course = self.course,
+              let coursePurchaseSku = UpgradeSKUManager.shared.courseSku(for: course) else {
+                  state = .error(type: .generalError, error: error(message: "course sku is missing"))
+                  return
+              }
         
         courseSku = coursePurchaseSku
 
@@ -159,15 +164,6 @@ class CourseUpgradeHandler: NSObject {
                 self?.state = .error(type: .basketError, error: error)
             }
         }
-    }
-    
-    func upgradeCourse(_ courseID: String, environment: Environment, completion: UpgradeCompletionHandler?) {
-        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else {
-            state = .error(type: .generalError, error: nil)
-            return
-        }
-        
-        upgradeCourse(course, environment: environment, completion: completion)
     }
     
     private func addToBasket(completion: @escaping (OrderBasket?, Error?) -> ()) {
