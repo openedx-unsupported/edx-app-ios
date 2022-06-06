@@ -205,6 +205,11 @@ public class CourseOutlineQuerier : NSObject {
             }
         }
     }
+
+    func deleteCacheResponse() {
+        let request = CourseOutlineAPI.requestWithCourseID(courseID: courseID, username: session?.currentUser?.username, environment: environment as? RouterEnvironment)
+        networkManager?.deleteCachedResponse(request)
+    }
     
     private func handleVideoBlockIfNeeded(parent: CourseBlock, observer: BlockCompletionObserver? = nil) {
         if parent.type != .Unit {
@@ -592,5 +597,17 @@ public class CourseOutlineQuerier : NSObject {
             return block
         }
         return nil
+    }
+}
+
+
+extension NetworkManager {
+    func deleteCachedResponse<Out>(_ request: NetworkRequest<Out>) {
+        let completeRequest = URLRequestWithRequest(base: nil, request)
+        if let urlPath = completeRequest.value?.url?.absoluteString,
+        let urlMethod = completeRequest.value?.httpMethod {
+            let requestKey = "\(urlPath)_\(urlMethod)"
+            OEXFileUtility.deleteFile(forRequestKey: requestKey, username: OEXSession.shared()?.currentUser?.username ?? "")
+        }
     }
 }

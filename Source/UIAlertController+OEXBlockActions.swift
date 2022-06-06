@@ -30,14 +30,15 @@ extension UIAlertController {
     }
     
     
-    @objc @discardableResult func showIn(viewController pController: UIViewController,
+    @objc @discardableResult func showIn(viewController pController: UIViewController? = nil,
                                    title: String?,
                                    message: String?,
                                    preferredStyle: UIAlertController.Style,
                                    cancelButtonTitle: String?,
                                    destructiveButtonTitle: String?,
                                    otherButtonsTitle: [String]?,
-                                   tapBlock: ((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?, textFieldWithConfigurationHandler: ((_ textField: UITextField) -> Void)? = nil) -> UIAlertController{
+                                   tapBlock: ((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?, textFieldWithConfigurationHandler: ((_ textField: UITextField) -> Void)? = nil,
+                                         autoPresent: Bool = true) -> UIAlertController {
         
         let controller = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
         
@@ -76,10 +77,16 @@ extension UIAlertController {
             }
         }
         controller.view.tintColor = .systemBlue
-        pController.present(controller, animated: true, completion: nil)
+
+        if autoPresent == true {
+            var onController = pController
+            if onController == nil {
+                onController = UIApplication.shared.topMostController()
+            }
+            onController?.present(controller, animated: true, completion: nil)
+        }
         
         return controller
-        
     }
     @objc @discardableResult func showAlert(withTitle title: String?,
                                       message: String?,
@@ -123,6 +130,20 @@ extension UIAlertController {
                       otherButtonsTitle: nil,
                       tapBlock: tapBlock)
         
+    }
+
+    @objc @discardableResult func alert(withTitle title: String?,
+                                      message: String?,
+                                      cancelButtonTitle: String?,
+                                        tapBlock:((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?) -> UIAlertController {
+        return showIn(title: title,
+                      message: message,
+                      preferredStyle: UIAlertController.Style.alert,
+                      cancelButtonTitle: cancelButtonTitle,
+                      destructiveButtonTitle: nil,
+                      otherButtonsTitle: nil,
+                      tapBlock: tapBlock,
+                      autoPresent: false)
     }
     
     //MARK:- Add Action Methods

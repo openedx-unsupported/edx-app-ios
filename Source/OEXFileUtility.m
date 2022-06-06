@@ -131,6 +131,15 @@
     return nil;
 }
 
++ (void) deleteFileForRequestKey:(NSString*) url username:(NSString*)username {
+    NSString *filePath = [OEXFileUtility filePathForRequestKey:url username:username];
+
+    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        NSError* error = nil;
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+    }
+}
+
 + (NSURL*)fileURLForRequestKey:(NSString*)key username:(NSString*)username {
     NSString* path = [self filePathForRequestKey:key username:username];
     if(path == nil) {

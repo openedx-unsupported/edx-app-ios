@@ -40,7 +40,7 @@ public class CourseOutlineViewController :
     private let insetsController : ContentInsetsController
     private var resumeCourseController : ResumeCourseController
     private(set) var courseOutlineMode: CourseOutlineMode
-    
+    private var loadCachedResponse: Bool = true
     private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
@@ -188,11 +188,15 @@ public class CourseOutlineViewController :
     
     @objc private func loadCourseOutlineStream() {
         if let _ = courseUpgradeHelper.courseUpgradeModel {
+            // delete the cache response, and get the latest data from server
+            courseQuerier.deleteCacheResponse()
+            loadCachedResponse = false
             courseQuerier.needsRefresh = true
         }
         let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
         
-        courseOutlineStream.extendLifetimeUntilFirstResult { [weak self] rootID, block in
+        courseOutlineStream.extendLifetimeUntilFirstResult(fireIfAlreadyLoaded: loadCachedResponse) { [weak self] rootID, block in
+            self?.loadCachedResponse = true
             if self?.blockID == rootID || self?.blockID == nil {
                 if self?.courseOutlineMode == .full {
                     self?.courseOutlineLoaded = true

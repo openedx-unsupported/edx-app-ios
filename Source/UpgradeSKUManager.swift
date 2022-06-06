@@ -17,7 +17,7 @@ class UpgradeSKUManager {
         return [
             "course-v1:edX+DemoX+Demo_Course": "org.edx.mobile.integrationtest",
             "course-v1:DemoX+PERF101+course": "org.edx.mobile.test_product1",
-            "course-v1:edX+Test101+course": "org.edx.mobile.test_product2",
+            "course-v1:edx+Test101+course": "org.edx.mobile.test_product2",
             "course-v1:test2+2+2": "org.edx.mobile.test_product3",
             "course-v1:test3+test3+3": "org.edx.mobile.test_product4",
             "course-v1:fbe+99+99": "org.edx.mobile.test_product5"
@@ -31,5 +31,13 @@ class UpgradeSKUManager {
               skuMappings.keys.contains(courseID),
               let courseSku = skuMappings[courseID] else { return nil }
         return courseSku
+    }
+
+    func courseID(for sku: String?) -> String? {
+        guard let sku = sku,
+              skuMappings.values.contains(sku),
+              let courseID = skuMappings.first(where: { $0.value == sku })?.key else { return nil }
+
+        return courseID
     }
 }

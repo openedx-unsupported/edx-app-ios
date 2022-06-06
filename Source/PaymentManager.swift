@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyStoreKit
 
-let CourseUpgradeCompleteNotification: String = "CourseUpgradeCompleteNotification"
+let UnfullfilledTransctionsNotification: String = "UnfullfilledTransctionsNotification"
 
 // In case of completeTransctions SDK returns SwiftyStoreKit.Purchase
 // And on the in-app purchase SDK returns SwiftyStoreKit.PurchaseDetails
@@ -27,6 +27,7 @@ enum PurchaseError: String {
     case checkoutError // checkout API returns error
     case verifyReceiptError // verify receipt API returns error
     case generalError // general error
+    case alreadyPurchased // Course is already purchased on the same device
 
     var errorString: String {
         switch self {
@@ -48,17 +49,26 @@ enum PurchaseError: String {
     private typealias storeKit = SwiftyStoreKit
     @objc static let shared = PaymentManager()
     // Use this dictionary to keep track of inprocess transctions and allow only one transction at a time
-    private var purchasess: [String: Any] = [:]
+    private(set) var purchases: [String: Any] = [:]
 
     typealias PurchaseCompletionHandler = ((success: Bool, receipt: String?, error: (type: PurchaseError?, error: Error?)?)) -> Void
     var completion: PurchaseCompletionHandler?
 
-    var isIAPInprocess:Bool {
-        return purchasess.count > 0
+    var unfinishedPurchases:Bool {
+        return !purchases.isEmpty
     }
 
     var inprocessPurchases: [String: Any] {
-        return purchasess
+        return purchases
+    }
+
+    var unfinishedProductIDs: [String] {
+        var productIDs: [String] = []
+        for productID in purchases.keys {
+            productIDs.append(productID)
+        }
+
+        return productIDs
     }
 
     private override init() {
@@ -73,9 +83,8 @@ enum PurchaseError: String {
                 case .purchased, .restored:
                     if purchase.needsFinishTransaction {
                         // Deliver content from server, then:
-                        // self?.markPurchaseComplete(productID, type: .transction)
-                        // SwiftyStoreKit.finishTransaction(purchase.transaction)
-                        self?.purchasess[purchase.productId] =  purchase
+//                         SwiftyStoreKit.finishTransaction(purchase.transaction)
+                        self?.purchases[purchase.productId] =  purchase
                     }
                 case .failed, .purchasing, .deferred:
                     // TODO: Will handle while implementing the final version
@@ -84,6 +93,10 @@ enum PurchaseError: String {
                 @unknown default:
                     break // do nothing
                 }
+            }
+
+            if !purchases.isEmpty {
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: UnfullfilledTransctionsNotification)))
             }
         }
     }
@@ -106,7 +119,7 @@ enum PurchaseError: String {
         storeKit.purchaseProduct(identifier, atomically: false, applicationUsername: applicationUserName) { [weak self] result in
             switch result {
             case .success(let purchase):
-                self?.purchasess[purchase.productId] = purchase
+                self?.purchases[purchase.productId] = purchase
                 self?.purchaseReceipt()
                 break
             case .error(let error):
@@ -169,33 +182,51 @@ enum PurchaseError: String {
         }
     }
     
-    func restorePurchases() {
+    func restorePurchases(completion: ((_ success: Bool, _ purchases: [Purchase]?) -> ())? = nil) {
         guard let applicationUserName = OEXSession.shared()?.currentUser?.username else { return }
 
         storeKit.restorePurchases(atomically: false, applicationUsername: applicationUserName) { results in
-            if results.restoreFailedPurchases.count > 0 {
-                //TODO: Handle failed restore purchases
+            if results.restoredPurchases.count > 0 {
+                completion?(true, results.restoredPurchases)
             }
-            else if results.restoredPurchases.count > 0 {
-                for _ in results.restoredPurchases {
-                    //TODO: Handle restore purchases
-                }
+            else {
+                completion?(false, nil)
             }
         }
     }
 
-    func markPurchaseComplete(_ courseID: String, type: TransctionType) {
+    func alreadyPurchased(_ identifier: String, completion: ((_ success: Bool) -> ())? = nil) {
+        restorePurchases { success, purchases in
+            if success {
+                for p in purchases ?? [] {
+                    if p.needsFinishTransaction {
+                        SwiftyStoreKit.finishTransaction(p.transaction)
+                    }
+                }
+                for purchase in purchases ?? [] where purchase.productId == identifier {
+                    completion?(true)
+                    return
+                }
+                completion?(false)
+            }
+            else {
+                completion?(false)
+            }
+        }
+    }
+
+    func markPurchaseComplete(_ productID: String, type: TransctionType) {
         // Mark the purchase complete
         switch type {
         case .transction:
-            if let purchase = purchasess[courseID] as? Purchase {
+            if let purchase = purchases[productID] as? Purchase {
                 if purchase.needsFinishTransaction {
                     storeKit.finishTransaction(purchase.transaction)
                 }
             }
             break
         case .purchase:
-            if let purchase = purchasess[courseID] as? PurchaseDetails {
+            if let purchase = purchases[productID] as? PurchaseDetails {
                 if purchase.needsFinishTransaction {
                     storeKit.finishTransaction(purchase.transaction)
                 }
@@ -203,8 +234,11 @@ enum PurchaseError: String {
             break
         }
 
-        purchasess.removeValue(forKey: courseID)
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: CourseUpgradeCompleteNotification)))
+        removePurchase(productID)
+    }
+
+    func removePurchase(_ productID: String) {
+        purchases.removeValue(forKey: productID)
     }
     
     func restoreFailedPurchase() {

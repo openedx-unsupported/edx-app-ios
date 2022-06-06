@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)nukeUserData;
 + (void) nukeUserPIIData;
 
++ (void) deleteFileForRequestKey:(NSString*) url username:(NSString*)username;
+
 @end
 
 @interface OEXFileUtility (Testing)

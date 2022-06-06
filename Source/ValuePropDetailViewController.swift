@@ -213,28 +213,29 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: screen)
 
-        CourseUpgradeHandler.shared.upgradeCourse(course, environment: environment) { [weak self] status in
+        let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
+        upgradeHandler.upgradeCourse() { [weak self] status in
             self?.enableUserInteraction(enable: false)
             
             switch status {
             case .payment:
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .payment)
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .payment)
                 break
             case .verify:
                 self?.upgradeButton.stopAnimating()
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .fulfillment)
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment)
                 break
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.isHidden = true
                 self?.dismiss(animated: true) { [weak self] in
-                    self?.courseUpgradeHelper.handleCourseUpgrade(state: .success(self?.course.course_id ?? "", self?.blockID))
+                    self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(self?.course.course_id ?? "", self?.blockID))
                 }
                 break
             case .error(let type, let error):
                 self?.enableUserInteraction(enable: true)
                 self?.upgradeButton.stopAnimating()
-                self?.courseUpgradeHelper.handleCourseUpgrade(state: .error(type, error), delegate: type == .verifyReceiptError ? self : nil)
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error), delegate: type == .verifyReceiptError ? self : nil)
                 break
             default:
                 break

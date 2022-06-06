@@ -22,7 +22,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
     var handleBannerOnStart: Bool = false // this will be used to send first call for the banners
-    private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
+    lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
     init(environment: Environment) {
         coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
@@ -113,10 +113,19 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     private func handleUpgradationLoader(success: Bool) {
         guard let model = courseUpgradeHelper.courseUpgradeModel else { return }
         
-        environment.interface?.enrollmentForCourse(withID: model.courseID)?.type = .verified
-        
         if model.screen == .myCourses {
-            courseUpgradeHelper.removeLoader(success: success, removeView: true)
+            // show alert with retry option to reload the enrollments
+            if success == false {
+                courseUpgradeHelper.removeLoader(success: success) { [weak self] in
+                    self?.environment.dataManager.enrollmentManager.forceReload()
+                }
+            }
+            else {
+                courseUpgradeHelper.removeLoader(success: success, removeView: true)
+            }
+        }
+        else {
+            navigateToScreenAterCourseUpgrade()
         }
     }
     
@@ -141,6 +150,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                 }
                 else {
                     self?.loadController.state = .Initial
+                    self?.handleUpgradationLoader(success: false)
                 }
             case let .failure(error):
                 //App is showing occasionally error on app launch, so skipping first error on app launch
@@ -185,7 +195,11 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
         
         NotificationCenter.default.oex_addObserver(observer: self, name: CourseUpgradeCompletionNotification) { _, observer, _ in
-            observer.handleCourseUpgradation()
+            observer.handleCourseUpgrade()
+        }
+
+        NotificationCenter.default.oex_addObserver(observer: self, name: UnfullfilledTransctionsNotification) { _, observer, _ in
+            observer.resolveUnfinishedPaymentIfRequired()
         }
     }
     
@@ -250,34 +264,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
 
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-}
-
-extension EnrolledCoursesViewController {
-    private func handleCourseUpgradation() {
-        guard let model = courseUpgradeHelper.courseUpgradeModel
-            else { return }
-        
-        environment.interface?.enrollmentForCourse(withID: model.courseID)?.type = .verified
-        enrollmentFeed.refresh()
-        
-        if model.screen != .myCourses {
-            navigateToScreenAterCourseUpgradation()
-        }
-    }
-    
-    private func navigateToScreenAterCourseUpgradation() {
-        guard let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel
-            else { return }
-        
-        if courseUpgradeModel.screen == .courseDashboard || courseUpgradeModel.screen == .courseUnit {
-            navigationController?.popToViewController(of: EnrolledTabBarViewController.self, animated: true) { [weak self] in
-                guard let weakSelf = self else { return }
-                weakSelf.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: weakSelf, animated: true)
-            }
-        } else {
-            courseUpgradeHelper.removeLoader()
-        }
     }
 }
 
