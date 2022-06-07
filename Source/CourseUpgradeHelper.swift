@@ -113,7 +113,7 @@ class CourseUpgradeHelper: NSObject {
             break
         case .success(let courseID, let blockID):
             courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
-            if upgradeHadler.upgradeMode != .silent {
+            if upgradeHadler.upgradeMode == .normal {
                 postSuccessNotification()
             }
             else {
@@ -192,9 +192,21 @@ class CourseUpgradeHelper: NSObject {
             }
         }
     }
+
+    func showRestorePurchasesAlert() {
+        guard let topController = UIApplication.shared.topMostController() else { return }
+        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.Restore.alertTitle, message: Strings.CourseUpgrade.Restore.alertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
+
+        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.getHelp) { [weak self] _ in
+            self?.launchEmailComposer(errorMessage: "Error: restore_purchases")
+        }
+
+        alertController.addButton(withTitle: Strings.close, style: .default) { _ in
+        }
+    }
     
     func showLoader(forceShow: Bool = false) {
-        if (!unlockController.isVisible && upgradeHadler?.upgradeMode != .silent) || forceShow {
+        if (!unlockController.isVisible && upgradeHadler?.upgradeMode == .normal) || forceShow {
             unlockController.showView()
         }
     }

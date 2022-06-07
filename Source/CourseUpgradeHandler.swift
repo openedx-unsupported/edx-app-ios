@@ -23,9 +23,10 @@ class CourseUpgradeHandler: NSObject {
     enum CourseUpgradeMode {
         case silent
         case normal
+        case restore
     }
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & ReachabilityProvider & OEXInterfaceProvider
+    typealias Environment = NetworkManagerProvider
     typealias UpgradeCompletionHandler = (CourseUpgradeState) -> Void
     
     private var environment: Environment? = nil
@@ -43,7 +44,7 @@ class CourseUpgradeHandler: NSObject {
                 CourseUpgradeHelper.shared.markIAPSKUCompleteInKeychain(courseSku)
                 break
             case .error(let error, _):
-                if error != .verifyReceiptError && upgradeMode != .silent {
+                if error != .verifyReceiptError && upgradeMode == .normal {
                     CourseUpgradeHelper.shared.removeIAPSKUFromKeychain(courseSku)
                 }
                 break
@@ -191,7 +192,7 @@ class CourseUpgradeHandler: NSObject {
         
         environment?.networkManager.taskForRequest(base: baseURL, request) { [weak self] response in
             if response.error == nil {
-                if self?.upgradeMode == .silent {
+                if self?.upgradeMode != .normal {
                     self?.reverifyPayment()
                 } else {
                     self?.makePayment()
@@ -222,7 +223,7 @@ class CourseUpgradeHandler: NSObject {
         
         environment?.networkManager.taskForRequest(base: baseURL, request) { [weak self] response in
             if response.error == nil {
-                PaymentManager.shared.markPurchaseComplete(self?.courseSku ?? "", type: (self?.upgradeMode == .silent) ? .transction : .purchase)
+                PaymentManager.shared.markPurchaseComplete(self?.courseSku ?? "", type: (self?.upgradeMode == .normal) ? .purchase : .transction)
                 self?.state = .complete
             } else {
                 self?.state = .error(type: .verifyReceiptError, error: response.error)

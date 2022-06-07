@@ -50,4 +50,9 @@
 "COURSE_UPGRADE.FAILURE_ALERT.GET_HELP"="Get help";
 /*Get support e-mail subject in the payment error flow*/
 "COURSE_UPGRADE.GET_SUPPORT_EMAIL_SUBJECT"="Error upgrading course in app";
-
+/*Title of the restore alert when show a success alert*/
+"COURSE_UPGRADE.RESTORE.ALERT_TITLE"="Purchases have been successfully restored";
+/*Message of the restore alert when show a success alert*/
+"COURSE_UPGRADE.RESTORE.ALERT_MESSAGE"="All purchases are up to date. If you’re not seeing your purchases restored, please try restarting your app to refresh the experience.";
+/*Title of the inprogress indicator in restore purchases flow*/
+"COURSE_UPGRADE.RESTORE.INPROGRESS_TEXT"="Checking purchases...";

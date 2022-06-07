@@ -59,6 +59,8 @@ class ProfileOptionsViewController: UIViewController {
             }
         }
     }
+
+    var isModalDismissable: Bool = true
     
     init(environment: Environment) {
         self.environment = environment
@@ -246,7 +248,10 @@ extension ProfileOptionsViewController: UITableViewDataSource {
     }
     
     private func restorePurchaseCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: RestorePurchasesCell.identifier, for: indexPath) as! RestorePurchasesCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: RestorePurchasesCell.identifier, for: indexPath) as! RestorePurchasesCell
+        cell.delegate = self
+
+        return cell
     }
 
     private func helpCell(_ tableView: UITableView, indexPath: IndexPath, feedbackEnabled: Bool, faqEnabled: Bool) -> UITableViewCell {
@@ -329,6 +334,93 @@ extension ProfileOptionsViewController: HelpCellDelegate {
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
+    }
+}
+
+extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
+    func didTapRestorePurchases() {
+        enableUserInteraction(enable: false)
+        let indicator = showProgressIndicator()
+        var unfinishedSKU = ""
+        var unfinisedPurchase = false
+
+        let userUnfinishedPurchases = CourseUpgradeHelper.shared.savedUnfinishedIAPSKUsForCurrentUser() ?? []
+        let storeUnfinishedPurchases = PaymentManager.shared.unfinishedProductIDs
+
+        for userUnfinishedPurchase in userUnfinishedPurchases.reversed() {
+            if storeUnfinishedPurchases.contains(userUnfinishedPurchase) {
+                unfinisedPurchase = true
+                unfinishedSKU = userUnfinishedPurchase
+                break
+            }
+        }
+
+        if unfinisedPurchase {
+            resolveUnfinishedPayment(for: unfinishedSKU, indicator: indicator)
+        }
+        else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                self?.hideProgressIndicator(indicator: indicator, showSuccess: true)
+            }
+        }
+    }
+
+    private func showProgressIndicator() -> UIAlertController? {
+        guard let topController = UIApplication.shared.topMostController() else { return nil }
+
+        return UIAlertController().showProgressDialogAlert(viewController: topController, message: Strings.CourseUpgrade.Restore.inprogressText, completion: nil)
+    }
+
+    @objc func hideProgressIndicator(indicator: UIAlertController?, showSuccess: Bool = false) {
+        indicator?.dismiss(animated: true, completion: {
+            if showSuccess {
+                CourseUpgradeHelper.shared.showRestorePurchasesAlert()
+            }
+        })
+        enableUserInteraction(enable: true)
+    }
+
+    private func enableUserInteraction(enable: Bool) {
+        isModalDismissable = enable
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationItem.rightBarButtonItem?.isEnabled = enable
+            self?.view.isUserInteractionEnabled = enable
+        }
+    }
+
+    private func resolveUnfinishedPayment(for sku: String, indicator: UIAlertController?) {
+        guard let courseID = UpgradeSKUManager.shared.courseID(for: sku),
+              let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else {
+                  enableUserInteraction(enable: true)
+                  DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                      self?.hideProgressIndicator(indicator: indicator, showSuccess: true)
+                  }
+                  return
+              }
+
+        let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
+        upgradeHandler.upgradeCourse(with: .restore) { [weak self] state in
+            switch state {
+            case .complete:
+                self?.enableUserInteraction(enable: true)
+                self?.hideProgressIndicator(indicator: indicator)
+                CourseUpgradeHelper.shared.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(course.course_id ?? "", nil))
+                break
+            case .error(let type, let error):
+                self?.enableUserInteraction(enable: true)
+                self?.hideProgressIndicator(indicator: indicator)
+                CourseUpgradeHelper.shared.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error))
+                break
+            default:
+                break
+            }
+        }
+    }
+}
+
+extension ProfileOptionsViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return isModalDismissable
     }
 }
 
@@ -684,9 +776,15 @@ class PersonalInformationCell: UITableViewCell {
     }
 }
 
+protocol RestorePurchasesCellDelegate: AnyObject {
+    func didTapRestorePurchases()
+}
+
 class RestorePurchasesCell: UITableViewCell {
     static let identifier = "RestorePurchasesCell"
-        
+
+    weak var delegate: RestorePurchasesCellDelegate?
+
     private lazy var optionLabel: UILabel = {
         let label = UILabel()
         label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Purchases.title)
@@ -708,6 +806,21 @@ class RestorePurchasesCell: UITableViewCell {
         label.accessibilityIdentifier = "RestorePurchasesCell:subtitle-label"
         return label
     }()
+
+    private lazy var buttonStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
+
+    private lazy var restoreButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderWidth = 1
+        button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
+        button.oex_addAction({ [weak self] _ in
+            self?.delegate?.didTapRestorePurchases()
+        }, for: .touchUpInside)
+
+        button.setAttributedTitle(buttonStyle.attributedString(withText: Strings.ProfileOptions.Purchases.heading), for: .normal)
+        button.accessibilityIdentifier = "RestorePurchasesCell:restore-button"
+        return button
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -727,6 +840,7 @@ class RestorePurchasesCell: UITableViewCell {
         contentView.addSubview(optionLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(subtitleLabel)
+        contentView.addSubview(restoreButton)
     }
     
     private func setupConstrains() {
@@ -747,6 +861,13 @@ class RestorePurchasesCell: UITableViewCell {
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
             make.height.greaterThanOrEqualTo(StandardVerticalMargin * 2)
+        }
+
+        restoreButton.snp.makeConstraints { make in
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            make.height.equalTo(StandardVerticalMargin * 5)
             make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
         }
     }
