@@ -161,7 +161,7 @@ extension DiscoveryHelper {
             environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar)
             break
         case .courseProgram:
-            environment.router?.showDiscoveryController(from: controller, type: .programDiscovery, isUserLoggedIn: true, pathID: nil)
+            environment.router?.showDiscoveryController(from: controller, type: .discovery, isUserLoggedIn: true, pathID: nil)
             break
         }
         

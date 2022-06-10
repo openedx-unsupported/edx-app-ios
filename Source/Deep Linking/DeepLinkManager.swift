@@ -83,13 +83,13 @@ import UIKit
             return courseOutlineViewController.courseOutlineMode == .full ? .courseDashboard : .courseVideos
         }
         else if controller is OEXCourseInfoViewController {
-            return .courseDetail
+            return .discoveryCourseDetail
         } else if let _ = controller as? DiscoveryViewController {
-            return .courseDiscovery
+            return .discovery
         } else if controller is OEXFindCoursesViewController  {
-            return .courseDiscovery
-        } else if let programsDiscoveryViewController = controller as? ProgramsDiscoveryViewController {
-            return programsDiscoveryViewController.pathId == nil ? .programDiscovery : .programDiscoveryDetail
+            return .discovery
+        } else if let _ = controller as? ProgramsDiscoveryViewController {
+            return .discoveryProgramDetail
 
         } else if controller is ProgramsViewController {
             return .program
@@ -142,31 +142,24 @@ import UIKit
         }
         
         switch link.type {
-        case .courseDetail:
+        case .discoveryCourseDetail:
             guard environment?.config.discovery.isEnabled ?? false, let courseId = link.courseId else { return }
             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .courseDetail, pathID: courseId, bottomBar: discoveryViewController.bottomBar)
+                environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .discoveryCourseDetail, pathID: courseId, bottomBar: discoveryViewController.bottomBar)
                 return
             }
             else if let findCoursesViewController = topMostViewController as? OEXFindCoursesViewController {
-                environment?.router?.showDiscoveryDetail(from: findCoursesViewController, type: .courseDetail, pathID: courseId, bottomBar: findCoursesViewController.bottomBar)
+                environment?.router?.showDiscoveryDetail(from: findCoursesViewController, type: .discoveryCourseDetail, pathID: courseId, bottomBar: findCoursesViewController.bottomBar)
                 return
             }
             break
-        case .programDiscoveryDetail:
-            // TODO: Remove this if not needed(Not decided yet).
+        case .discoveryProgramDetail:
             guard let pathId = link.pathID else { return }
             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDiscoveryDetail, pathID: pathId, bottomBar: discoveryViewController.bottomBar)
+                environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .discoveryProgramDetail, pathID: pathId, bottomBar: discoveryViewController.bottomBar)
             }
             break
-        case .programDiscovery:
-
-            if let _ = topMostViewController as? DiscoveryViewController {
-                // TODO: Refresh discovery with program query if needed(Not decided yet).
-            }
-            break
-        case .courseDiscovery:
+        case .discovery:
             guard environment?.config.discovery.isEnabled ?? false else { return }
             if let _ = topMostViewController as? DiscoveryViewController {
                 // TODO: Refresh discovery with course query if needed(Not decided yet).
@@ -179,7 +172,7 @@ import UIKit
         
         guard let topController = topMostViewController else { return }
         
-        let pathId = link.type == .courseDetail ? link.courseId : link.pathID
+        let pathId = link.type == .discoveryCourseDetail ? link.courseId : link.pathID
         
         if isUserLoggedin() {
             dismiss() { [weak self] _ in
@@ -501,8 +494,7 @@ import UIKit
     }
     
     private func isDiscovery(type: DeepLinkType) -> Bool {
-        return (type == .courseDiscovery || type == .courseDetail || type == .programDiscovery
-            || type == .programDiscoveryDetail)
+        return (type == .discovery || type == .discoveryCourseDetail || type == .discoveryProgramDetail)
     }
     
     private func navigateToScreen(with type: DeepLinkType, link: DeepLink) {
