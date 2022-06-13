@@ -24,8 +24,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     var handleBannerOnStart: Bool = false // this will be used to send first call for the banners
     lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
-    init(environment: Environment, headerView: LearnContainerHeaderView? = nil) {
-        coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList, headerView: headerView)
+    init(environment: Environment) {
+        coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
         enrollmentFeed = environment.dataManager.enrollmentManager.feed
         userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
         self.environment = environment

@@ -122,7 +122,6 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private let environment : Environment
     private let context: Context
-    private let headerView: LearnContainerHeaderView?
     
     weak var delegate: CoursesContainerViewControllerDelegate?
     
@@ -153,10 +152,9 @@ class CoursesContainerViewController: UICollectionViewController {
         return context == .enrollmentList && isDiscoveryEnabled
     }
     
-    init(environment: Environment, context: Context, headerView: LearnContainerHeaderView? = nil) {
+    init(environment: Environment, context: Context) {
         self.environment = environment
         self.context = context
-        self.headerView = headerView
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.alwaysBounceVertical = true
     }

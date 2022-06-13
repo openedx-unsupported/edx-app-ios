@@ -50,7 +50,7 @@ class LearnContainerViewController: UIViewController {
     
     init(environment: Environment) {
         self.environment = environment
-        self.coursesViewController = EnrolledCoursesViewController(environment: environment, headerView: headerView)
+        self.coursesViewController = EnrolledCoursesViewController(environment: environment)
         if environment.config.programConfig.enabled,
            let programsURL = environment.config.programConfig.programURL {
             self.programsViewController = ProgramsViewController(environment: environment, programsURL: programsURL)
