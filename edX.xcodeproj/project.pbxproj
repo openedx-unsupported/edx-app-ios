@@ -2502,12 +2502,12 @@
 			path = Inter;
 			sourceTree = "<group>";
 		};
-		5F700E92278C302F00B17044 /* SwiftStoreKit */ = {
+		5F700E92278C302F00B17044 /* SwiftyStoreKit */ = {
 			isa = PBXGroup;
 			children = (
 				5F700E95278C358D00B17044 /* SwiftyStoreKit.xcframework */,
 			);
-			name = SwiftStoreKit;
+			name = SwiftyStoreKit;
 			sourceTree = "<group>";
 		};
 		5F7C0C3425344E1500A344B9 /* UITextView */ = {
@@ -3687,7 +3687,7 @@
 				B7CCC6F9209B16B000A66923 /* SnapKit */,
 				77509D8B1BE1710200B10CD3 /* TZStackView */,
 				77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */,
-				5F700E92278C302F00B17044 /* SwiftStoreKit */,
+				5F700E92278C302F00B17044 /* SwiftyStoreKit */,
 				5FA8F8CF27C4B153006003DA /* Shimmer */,
 				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
 				7772BEB31AFA6C140081CA7A /* MaterialSharp.swift */,
