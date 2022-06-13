@@ -13,9 +13,8 @@ protocol LearnContainerHeaderViewDelegate: AnyObject {
 }
 
 protocol LearnContainerHeaderItem {
-    var value: String { get }
+    var title: String { get }
     var index: Int { get }
-    static var allCases: [LearnContainerHeaderItem] { get }
 }
 
 class LearnContainerHeaderView: UIView {
@@ -39,7 +38,7 @@ class LearnContainerHeaderView: UIView {
     private lazy var label: UILabel = {
         let label = UILabel()
         label.accessibilityIdentifier = "LearnContainerHeaderView:label"
-        label.attributedText = largeTextStyle.attributedString(withText: items[0].value)
+        label.attributedText = largeTextStyle.attributedString(withText: items[0].title)
         return label
     }()
     
@@ -72,12 +71,12 @@ class LearnContainerHeaderView: UIView {
         dropDown.normalBackgroundColor = OEXStyles.shared().neutralWhiteT()
         dropDown.textColor = OEXStyles.shared().primaryBaseColor()
         dropDown.selectedTextColor = OEXStyles.shared().primaryBaseColor()
-        dropDown.dataSource = items.map { $0.value }
+        dropDown.dataSource = items.map { $0.title }
         dropDown.selectedRowIndex = 0
         dropDown.selectionAction = { [weak self] index, _ in
             guard let weakSelf = self else { return }
             weakSelf.dropDown.selectedRowIndex = index
-            weakSelf.label.attributedText = weakSelf.largeTextStyle.attributedString(withText: weakSelf.items[index].value)
+            weakSelf.label.attributedText = weakSelf.largeTextStyle.attributedString(withText: weakSelf.items[index].title)
             weakSelf.delegate?.didTapOnDropDown(item: weakSelf.items[index])
         }
         dropDown.willShowAction = { [weak self] in
@@ -143,9 +142,9 @@ class LearnContainerHeaderView: UIView {
         container.center.x = frame.size.width / 2
         
         if let index = dropDown.indexForSelectedRow {
-            label.attributedText = smallTextStyle.attributedString(withText: items[index].value)
+            label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
         } else {
-            label.attributedText = smallTextStyle.attributedString(withText: items[0].value)
+            label.attributedText = smallTextStyle.attributedString(withText: items[0].title)
         }
     }
     
@@ -153,9 +152,9 @@ class LearnContainerHeaderView: UIView {
         container.frame = originalFrame
         dropDown.bottomOffset = CGPoint(x: 0, y: 80)
         if let index = dropDown.indexForSelectedRow {
-            label.attributedText = largeTextStyle.attributedString(withText: items[index].value)
+            label.attributedText = largeTextStyle.attributedString(withText: items[index].title)
         } else {
-            label.attributedText = largeTextStyle.attributedString(withText: items[0].value)
+            label.attributedText = largeTextStyle.attributedString(withText: items[0].title)
         }
     }
     

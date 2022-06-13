@@ -17,4 +17,9 @@
 "LEAVING_APP_TITLE"="Leaving the app";
 /* Message for dialog when user is leaving the app when tapped on link to be opened in external browser */
 "LEAVING_APP_MESSAGE"="You are now leaving the {platform_name} app and opening a browser.";
-
+/*Title for the Learn in tabbar and navigation bar*/
+"LEARN"="Learn";
+/*Title My courses*/
+"MY_COURSES"="My courses";
+/*Title My programs*/
+"MY_PROGRAMS"="My programs";

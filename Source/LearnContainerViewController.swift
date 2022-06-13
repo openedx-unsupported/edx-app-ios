@@ -9,11 +9,11 @@
 import UIKit
 
 class LearnContainerViewController: UIViewController {
-    enum Controller: LearnContainerHeaderItem {
+    enum Screen: LearnContainerHeaderItem {
         case courses
         case programs
         
-        var value: String {
+        var title: String {
             switch self {
             case .courses:
                 return Strings.myCourses
@@ -30,23 +30,36 @@ class LearnContainerViewController: UIViewController {
                 return 1
             }
         }
-        
-        static var allCases: [LearnContainerHeaderItem] {
-            return [Controller.courses, Controller.programs]
-        }
     }
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & RemoteConfigProvider & OEXSessionProvider
     
     let environment: Environment
     
-    private let headerView = LearnContainerHeaderView(items: Controller.allCases)
+    private lazy var headerView: LearnContainerHeaderView = {
+        var items: [LearnContainerHeaderItem] = []
+        items.append(Screen.courses)
+        if programsEnabled {
+            items.append(Screen.programs)
+        }
+        
+        return LearnContainerHeaderView(items: items)
+    }()
     private let container = UIView()
     
     private let coursesViewController: EnrolledCoursesViewController
     private var programsViewController: ProgramsViewController?
     
-    private var selectedController: Controller?
+    private var selectedScreen: Screen?
+    
+    private var programsEnabled: Bool {
+        if environment.config.programConfig.enabled,
+           let _ = environment.config.programConfig.programURL {
+            return true
+        } else {
+            return false
+        }
+    }
     
     init(environment: Environment) {
         self.environment = environment
@@ -67,7 +80,7 @@ class LearnContainerViewController: UIViewController {
         super.viewDidLoad()
         
         headerView.delegate = self
-        update(controller: .courses)
+        update(screen: .courses)
     }
     
     private func setupViews() {
@@ -81,8 +94,8 @@ class LearnContainerViewController: UIViewController {
         
         headerView.snp.makeConstraints { make in
             make.top.equalTo(view)
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
             make.height.equalTo(80)
         }
         
@@ -94,11 +107,11 @@ class LearnContainerViewController: UIViewController {
         }
     }
     
-    private func update(controller: Controller) {
-        guard selectedController != controller,
+    private func update(screen: Screen) {
+        guard selectedScreen != screen,
               let programsViewController = programsViewController else { return }
         
-        switch controller {
+        switch screen {
         case .courses:
             removeViewController(programsViewController) { [weak self] in
                 guard let weakSelf = self else { return}
@@ -111,7 +124,7 @@ class LearnContainerViewController: UIViewController {
             }
         }
         
-        selectedController = controller
+        selectedScreen = screen
     }
     
     private func addViewController(_ controller: UIViewController, completion: (() -> ())? = nil) {
@@ -139,8 +152,8 @@ class LearnContainerViewController: UIViewController {
 
 extension LearnContainerViewController: LearnContainerHeaderViewDelegate {
     func didTapOnDropDown(item: LearnContainerHeaderItem) {
-        guard let controller = item as? Controller else { return }
-        update(controller: controller)
+        guard let screen = item as? Screen else { return }
+        update(screen: screen)
     }
 }
 
