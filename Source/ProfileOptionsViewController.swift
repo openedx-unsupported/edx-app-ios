@@ -60,7 +60,7 @@ class ProfileOptionsViewController: UIViewController {
         }
     }
 
-    var isModalDismissable: Bool = true
+    private var isModalDismissable: Bool = true
     
     init(environment: Environment) {
         self.environment = environment
@@ -342,20 +342,18 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
         enableUserInteraction(enable: false)
         let indicator = showProgressIndicator()
         var unfinishedSKU = ""
-        var unfinisedPurchase = false
 
         let userUnfinishedPurchases = CourseUpgradeHelper.shared.savedUnfinishedIAPSKUsForCurrentUser() ?? []
         let storeUnfinishedPurchases = PaymentManager.shared.unfinishedProductIDs
 
         for userUnfinishedPurchase in userUnfinishedPurchases.reversed() {
             if storeUnfinishedPurchases.contains(userUnfinishedPurchase) {
-                unfinisedPurchase = true
                 unfinishedSKU = userUnfinishedPurchase
                 break
             }
         }
 
-        if unfinisedPurchase {
+        if !unfinishedSKU.isEmpty {
             resolveUnfinishedPayment(for: unfinishedSKU, indicator: indicator)
         }
         else {
@@ -425,7 +423,7 @@ extension ProfileOptionsViewController: UIAdaptivePresentationControllerDelegate
 }
 
 extension ProfileOptionsViewController: SignoutCellDelegate {
-    func didSingout() {
+    func didSignout() {
         OEXFileUtility.nukeUserPIIData()
         dismiss(animated: true) { [weak self] in
             self?.environment.router?.logout()
@@ -1104,7 +1102,7 @@ class HelpCell: UITableViewCell {
 }
 
 protocol SignoutCellDelegate: AnyObject {
-    func didSingout()
+    func didSignout()
 }
 
 class SignOutVersionCell: UITableViewCell {
@@ -1117,7 +1115,7 @@ class SignOutVersionCell: UITableViewCell {
         button.layer.borderWidth = 1
         button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didSingout()
+            self?.delegate?.didSignout()
         }, for: .touchUpInside)
         
         let style = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
