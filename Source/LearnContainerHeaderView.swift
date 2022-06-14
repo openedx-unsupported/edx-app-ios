@@ -110,6 +110,10 @@ class LearnContainerHeaderView: UIView {
         addSubview(dropDownContainer)
         addSubview(container)
         
+        container.snp.makeConstraints { make in
+            make.edges.equalTo(self)
+        }
+
         dropDownContainer.snp.makeConstraints { make in
             make.top.equalTo(self)
             make.bottom.equalTo(self)
@@ -118,7 +122,10 @@ class LearnContainerHeaderView: UIView {
         }
         
         button.snp.makeConstraints { make in
-            make.edges.equalTo(container)
+            make.top.equalTo(container)
+            make.bottom.equalTo(container)
+            make.leading.equalTo(label)
+            make.trailing.equalTo(imageView)
         }
         
         label.snp.makeConstraints { make in
@@ -132,7 +139,6 @@ class LearnContainerHeaderView: UIView {
             make.centerY.equalTo(label)
         }
         
-        container.frame = CGRect(x: 0, y: 0, width: 180, height: 80)
         originalFrame = container.frame
     }
     
