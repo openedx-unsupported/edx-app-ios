@@ -27,7 +27,9 @@ class LearnContainerHeaderView: UIView {
         let button = UIButton()
         button.accessibilityIdentifier = "LearnContainerHeaderView:button-view"
         button.oex_addAction({ [weak self] _ in
-            self?.dropDown.show()
+            if self?.shouldShowDropDown == true {
+                self?.dropDown.show()
+            }
         }, for: .touchUpInside)
         return button
     }()
@@ -88,6 +90,10 @@ class LearnContainerHeaderView: UIView {
         return dropDown
     }()
     
+    private var shouldShowDropDown: Bool {
+        return items.count > 1
+    }
+    
     private var items: [LearnContainerHeaderItem]
     
     required init?(coder aDecoder: NSCoder) {
@@ -139,6 +145,7 @@ class LearnContainerHeaderView: UIView {
             make.centerY.equalTo(label)
         }
         
+        imageView.isHidden = !shouldShowDropDown
         originalFrame = container.frame
     }
     

@@ -9,7 +9,7 @@
 import UIKit
 
 class LearnContainerViewController: UIViewController {
-    enum Screen: LearnContainerHeaderItem {
+    enum Component: LearnContainerHeaderItem {
         case courses
         case programs
         
@@ -38,11 +38,10 @@ class LearnContainerViewController: UIViewController {
     
     private lazy var headerView: LearnContainerHeaderView = {
         var items: [LearnContainerHeaderItem] = []
-        items.append(Screen.courses)
+        items.append(Component.courses)
         if programsEnabled {
-            items.append(Screen.programs)
+            items.append(Component.programs)
         }
-        
         return LearnContainerHeaderView(items: items)
     }()
     private let container = UIView()
@@ -50,7 +49,7 @@ class LearnContainerViewController: UIViewController {
     private let coursesViewController: EnrolledCoursesViewController
     private var programsViewController: ProgramsViewController?
     
-    private var selectedScreen: Screen?
+    private var selectedComponent: Component?
     
     private var programsEnabled: Bool {
         if environment.config.programConfig.enabled,
@@ -80,7 +79,7 @@ class LearnContainerViewController: UIViewController {
         super.viewDidLoad()
         
         headerView.delegate = self
-        update(screen: .courses)
+        update(component: .courses)
     }
     
     private func setupViews() {
@@ -107,11 +106,11 @@ class LearnContainerViewController: UIViewController {
         }
     }
     
-    private func update(screen: Screen) {
-        guard selectedScreen != screen,
+    private func update(component: Component) {
+        guard selectedComponent != component,
               let programsViewController = programsViewController else { return }
         
-        switch screen {
+        switch component {
         case .courses:
             removeViewController(programsViewController) { [weak self] in
                 guard let weakSelf = self else { return}
@@ -124,7 +123,7 @@ class LearnContainerViewController: UIViewController {
             }
         }
         
-        selectedScreen = screen
+        selectedComponent = component
     }
     
     private func addViewController(_ controller: UIViewController, completion: (() -> ())? = nil) {
@@ -152,8 +151,8 @@ class LearnContainerViewController: UIViewController {
 
 extension LearnContainerViewController: LearnContainerHeaderViewDelegate {
     func didTapOnDropDown(item: LearnContainerHeaderItem) {
-        guard let screen = item as? Screen else { return }
-        update(screen: screen)
+        guard let component = item as? Component else { return }
+        update(component: component)
     }
 }
 
