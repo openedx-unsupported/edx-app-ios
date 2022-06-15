@@ -12,15 +12,15 @@ class DiscussionHelper: NSObject {
     
     class func updateEndorsedTitle(thread: DiscussionThread, label: UILabel, textStyle: OEXTextStyle) {
         
-        let endorsedIcon = Icon.Answered.attributedTextWithStyle(style: textStyle, inline : true)
+        let endorsedIcon = Icon.Answered.attributedString(style: textStyle, yOffset: -1)
         
         switch thread.type {
         case .Question:
             let endorsedText = textStyle.attributedString(withText: Strings.answer)
-            label.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [endorsedIcon,endorsedText])
+            label.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [endorsedIcon, endorsedText])
         case .Discussion:
             let endorsedText = textStyle.attributedString(withText: Strings.endorsed)
-            label.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [endorsedIcon,endorsedText])
+            label.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [endorsedIcon, endorsedText])
         }
     }
     

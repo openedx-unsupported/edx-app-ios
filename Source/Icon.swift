@@ -189,7 +189,7 @@ public enum Icon {
         case .Comment:
             return MaterialIconRenderer(icon: .comment)
         case .Comments:
-            return MaterialIconRenderer(icon: .forum)
+            return MaterialIconRenderer(icon: .chat)
         case .Calendar:
             return MaterialIconRenderer(icon: .event)
         case .Question:
