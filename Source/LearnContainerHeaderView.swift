@@ -45,7 +45,7 @@ class LearnContainerHeaderView: UIView {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.accessibilityIdentifier = "LearnContainerHeaderView:image-view"
-        imageView.image = Icon.ExpandMore.imageWithFontSize(size: 14)
+        imageView.image = Icon.ExpandMore.imageWithFontSize(size: 24)
         imageView.tintColor = OEXStyles.shared().primaryBaseColor()
         return imageView
     }()
