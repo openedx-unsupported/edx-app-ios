@@ -205,7 +205,7 @@ public enum Icon {
         case .User:
             return MaterialIconRenderer(icon: .person)
         case .Create:
-            return MaterialIconRenderer(icon: .addCircle)
+            return MaterialIconRenderer(icon: .addComment)
         case .Pinned:
             return MaterialIconRenderer(icon: .pushPin)
         case .Transcript:

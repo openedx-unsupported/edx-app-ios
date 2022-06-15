@@ -165,9 +165,9 @@ class PostTableViewCell: UITableViewCell {
     private func threadTypeText(thread : DiscussionThread) -> NSAttributedString {
         switch thread.type {
         case .Discussion:
-            return (thread.unreadCommentCount > 0) ? Icon.Comments.attributedTextWithStyle(style: activeCountStyle) : Icon.Comments.attributedTextWithStyle(style: inactiveCountStyle)
+            return thread.unreadCommentCount > 0 ? Icon.Comments.attributedTextWithStyle(style: thread.read ? postReadStyle : activeCountStyle) : Icon.Comments.attributedTextWithStyle(style: thread.read ? postReadStyle : inactiveCountStyle)
         case .Question:
-            return thread.hasEndorsed ? Icon.Answered.attributedTextWithStyle(style: answerStyle) : Icon.Question.attributedTextWithStyle(style: questionStyle)
+            return thread.hasEndorsed ? Icon.Answered.attributedTextWithStyle(style: thread.read ? postReadStyle : answerStyle) : Icon.Question.attributedTextWithStyle(style: thread.read ? postReadStyle : questionStyle)
         }
     }
     
