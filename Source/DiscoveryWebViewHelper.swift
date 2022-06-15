@@ -115,10 +115,10 @@ class DiscoveryWebViewHelper: NSObject {
         return URL.contains(find: QueryParameterKeys.searchQuery)
     }
 
-    private func reload(showScreenLoading: Bool = true) {
+    private func reload(showLoadingScreen: Bool = true) {
         guard let URL = webView.url, !webView.isLoading else { return }
         
-        if showScreenLoading {
+        if showLoadingScreen {
             loadController.state = .Initial
         }
         loadRequest(withURL: URL)
@@ -295,7 +295,7 @@ extension DiscoveryWebViewHelper: UISearchBarDelegate {
 
 extension DiscoveryWebViewHelper: PullRefreshControllerDelegate {
     func refreshControllerActivated(controller: PullRefreshController) {
-        reload(showScreenLoading: false)
+        reload(showLoadingScreen: false)
     }
 }
 
