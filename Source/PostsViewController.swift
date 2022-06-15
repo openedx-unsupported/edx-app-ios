@@ -335,45 +335,61 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func setStyles() {
-        
         view.backgroundColor = environment.styles.standardBackgroundColor()
         
-        self.refineLabel.attributedText = self.refineTextStyle.attributedString(withText: Strings.refine)
+        refineLabel.attributedText = refineTextStyle.attributedString(withText: Strings.refine)
         
-        var buttonTitle = NSAttributedString.joinInNaturalLayout(
-            attributedStrings: [Icon.Filter.attributedTextWithStyle(style: filterTextStyle.withSize(.base)),
-                filterTextStyle.attributedString(withText: self.titleForFilter(filter: self.selectedFilter))])
-        filterButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated : false)
+        let imageSize: CGFloat = 16
         
-        buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Sort.attributedTextWithStyle(style: filterTextStyle.withSize(.base)),
-            filterTextStyle.attributedString(withText: Strings.recentActivity)])
-        sortButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated : false)
+        let filterButtonTitle = NSAttributedString.joinInNaturalLayout(
+            attributedStrings: [
+                Icon.Filter.attributedString(with: imageSize, color: environment.styles.primaryBaseColor()),
+                filterTextStyle.attributedString(withText: titleForFilter(filter: selectedFilter))
+            ]
+        )
+        filterButton.setAttributedTitle(title: filterButtonTitle, forState: .normal, animated : false)
+        
+        let sortbuttonTitle = NSAttributedString.joinInNaturalLayout(
+            attributedStrings: [
+                Icon.Swap.attributedString(with: imageSize, color: environment.styles.primaryBaseColor(), shouldFlip: true),
+                filterTextStyle.attributedString(withText: Strings.recentActivity)
+            ]
+        )
+        sortButton.setAttributedTitle(title: sortbuttonTitle, forState: .normal, animated : false)
         
         updateNewPostButtonStyle()
         
-        let createImage = Icon.Create.imageWithFontSize(size: 16).image(with: environment.styles.neutralWhiteT())
-        let imageAttachment = NSTextAttachment()
-        imageAttachment.image = createImage
-        let imageOffsetY: CGFloat = -3.0
-        if let image = imageAttachment.image {
-            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
-        }
-        let attributedImageString = NSAttributedString(attachment: imageAttachment)
-        let style = OEXTextStyle(weight : .semiBold, size: .base, color: environment.styles.neutralWhiteT())
-        let attributedStrings = [
-            attributedImageString,
-            NSAttributedString(string: "\u{00a0}"),
-            style.attributedString(withText: Strings.createANewPost)
-        ]
-        buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
-        newPostButton.setAttributedTitle(buttonTitle, for: .normal)
+        let newPostTextStyle = OEXTextStyle(weight: .semiBold, size: .base, color: environment.styles.neutralWhiteT())
+        let newPostButtonTitle = NSAttributedString.joinInNaturalLayout(
+            attributedStrings: [
+                Icon.Create.attributedString(with: imageSize, color: environment.styles.neutralWhiteT(), yOffset: -2),
+                NSAttributedString(string: "\u{00a0}"),
+                newPostTextStyle.attributedString(withText: Strings.createANewPost)
+            ]
+        )
         
+        newPostButton.setAttributedTitle(newPostButtonTitle, for: .normal)
         newPostButton.contentVerticalAlignment = .center
         
-        self.navigationItem.title = context?.navigationItemTitle
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.title = context?.navigationItemTitle
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         
         viewSeparator.backgroundColor = environment.styles.neutralXLight()
+    }
+    
+    private func createAttributedString(of icon: Icon, size: CGFloat, color: UIColor, shouldFlip: Bool = false) -> NSAttributedString {
+        var icon = icon.imageWithFontSize(size: size).image(with: color)
+        if shouldFlip {
+            icon = icon.withHorizontallyFlippedOrientation()
+        }
+        let attachment = NSTextAttachment()
+        attachment.image = icon
+        
+        if let image = attachment.image {
+            attachment.bounds = CGRect(x: 0, y: -3.0, width: image.size.width, height: image.size.height)
+        }
+        
+        return NSAttributedString(attachment: attachment)
     }
     
     private func updateNewPostButtonStyle() {
@@ -624,7 +640,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.loadController.state = .Initial
             self.loadContent()
             
-            let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Sort.attributedTextWithStyle(style: self.filterTextStyle.withSize(.xSmall)),
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Sort.attributedString(style: self.filterTextStyle.withSize(.xSmall)),
                 self.filterTextStyle.attributedString(withText: self.titleForSort(filter: sort))])
             
             self.sortButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated: false)
@@ -675,7 +691,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
         let style = cellTextStyle.withSize(.small)
         return text.map {text in
-            return NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedTextWithStyle(style: style),
+            return NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedString(style: style),
                 style.attributedString(withText: text)])
         }
     }

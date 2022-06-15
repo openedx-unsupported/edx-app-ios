@@ -281,18 +281,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         let icon = postClosed ? Icon.Closed : Icon.Create
         let text = postClosed ? Strings.responsesClosed : Strings.addAResponse
-
-        let createImage = icon.imageWithFontSize(size: 14).image(with: environment.styles.neutralWhiteT())
-        let imageAttachment = NSTextAttachment()
-        imageAttachment.image = createImage
-        let imageOffsetY: CGFloat = -3.0
-        if let image = imageAttachment.image {
-            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
-        }
-        let attributedImageString = NSAttributedString(attachment: imageAttachment)
+        
         let style = OEXTextStyle(weight : .semiBold, size: .base, color: environment.styles.neutralWhiteT())
         let attributedStrings = [
-            attributedImageString,
+            icon.attributedString(with: 16, color: environment.styles.neutralWhiteT(), yOffset: -2),
             NSAttributedString(string: "\u{00a0}"),
             style.attributedString(withText: text)
         ]
@@ -589,7 +581,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             DiscussionHelper.styleAuthorDetails(author: thread.author, authorLabel: thread.authorLabel, createdAt: thread.createdAt, hasProfileImage: thread.hasProfileImage, imageURL: thread.imageURL, authoNameLabel: cell.authorNameLabel, dateLabel: cell.dateLabel, authorButton: cell.authorButton, imageView: cell.authorProfileImage, viewController: self, router: environment.router)
 
             if let responseCount = thread.responseCount {
-                let icon = Icon.Comment.attributedTextWithStyle(style: infoTextStyle)
+                let icon = Icon.Comment.attributedString(style: infoTextStyle)
                 let countLabelText = infoTextStyle.attributedString(withText: Strings.response(count: responseCount))
                 
                 let labelText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon,countLabelText])
@@ -723,7 +715,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             commentStyle = responseMessageStyle
         }
        
-        let iconText = icon.attributedTextWithStyle(style: commentStyle, inline : true)
+        let iconText = icon.attributedString(style: commentStyle)
         let styledPrompt = commentStyle.attributedString(withText: prompt)
         let title = NSAttributedString.joinInNaturalLayout(attributedStrings: [iconText,styledPrompt])
 
@@ -804,25 +796,36 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func updateVoteText(button: DiscussionCellButton, voteCount: Int, voted: Bool) {
         // TODO: show upvote and downvote depending on voted?
         let iconStyle = voted ? cellIconSelectedStyle : cellButtonStyle
-        let buttonText = NSAttributedString.joinInNaturalLayout(attributedStrings: [
-            Icon.UpVote.attributedTextWithStyle(style: iconStyle, inline : true),
-            cellButtonStyle.attributedString(withText: Strings.vote(count: voteCount))])
+        let buttonText = NSAttributedString.joinInNaturalLayout(
+            attributedStrings: [
+                Icon.UpVote.attributedString(style: iconStyle, yOffset: -2),
+                cellButtonStyle.attributedString(withText: Strings.vote(count: voteCount))
+            ]
+        )
         button.setAttributedTitle(buttonText, for:.normal)
         button.accessibilityHint = voted ? Strings.Accessibility.discussionUnvoteHint : Strings.Accessibility.discussionVoteHint
     }
     
     private func updateFollowText(button: DiscussionCellButton, following: Bool) {
         let iconStyle = following ? cellIconSelectedStyle : cellButtonStyle
-        let buttonText = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.FollowStar.attributedTextWithStyle(style: iconStyle, inline : true),
-            cellButtonStyle.attributedString(withText: following ? Strings.discussionUnfollow : Strings.discussionFollow )])
-        button.setAttributedTitle(buttonText, for:.normal)
+        let buttonText = NSAttributedString.joinInNaturalLayout(
+            attributedStrings: [
+                Icon.FollowStar.attributedString(style: iconStyle, yOffset: -2),
+                cellButtonStyle.attributedString(withText: following ? Strings.discussionUnfollow : Strings.discussionFollow)
+            ]
+        )
+        button.setAttributedTitle(buttonText, for: .normal)
         button.accessibilityHint = following ? Strings.Accessibility.discussionUnfollowHint : Strings.Accessibility.discussionFollowHint
     }
     
     private func updateReportText(button: DiscussionCellButton, report: Bool) {
         let iconStyle = report ? cellIconSelectedStyle : cellButtonStyle
-        let buttonText = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.ReportFlag.attributedTextWithStyle(style: iconStyle, inline : true),
-            cellButtonStyle.attributedString(withText: report ? Strings.discussionUnreport : Strings.discussionReport )])
+        let buttonText = NSAttributedString.joinInNaturalLayout(
+            attributedStrings: [
+                Icon.ReportFlag.attributedString(style: iconStyle, yOffset: -2),
+                cellButtonStyle.attributedString(withText: report ? Strings.discussionUnreport : Strings.discussionReport)
+            ]
+        )
         button.setAttributedTitle(buttonText, for:.normal)
         button.accessibilityHint = report ? Strings.Accessibility.discussionUnreportHint : Strings.Accessibility.discussionReportHint
     }
