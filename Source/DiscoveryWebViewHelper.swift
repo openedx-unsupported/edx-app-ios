@@ -22,7 +22,8 @@ class DiscoveryWebViewHelper: NSObject {
     fileprivate let contentView = UIView()
     fileprivate let webView: WKWebView
     fileprivate var loadController = LoadStateViewController()
-    fileprivate let refreshController = PullRefreshController()
+    private let refreshController = PullRefreshController()
+    private let insetsController = ContentInsetsController()
     
     fileprivate var request: URLRequest? = nil
     @objc var baseURL: URL?
@@ -61,6 +62,10 @@ class DiscoveryWebViewHelper: NSObject {
         loadController.setupInController(controller: container, contentView: contentView)
         refreshController.setupInScrollView(scrollView: webView.scrollView)
         refreshController.delegate = self
+
+        insetsController.setupInController(owner: container, scrollView: webView.scrollView)
+        insetsController.addSource(source: refreshController)
+
         refreshView()
     }
     
@@ -173,7 +178,8 @@ class DiscoveryWebViewHelper: NSObject {
                 self?.loadController.state = .Initial
             }
         }
-        self.loadController.state = LoadState.failed(error: error, buttonInfo: buttonInfo)
+        loadController.state = LoadState.failed(error: error, buttonInfo: buttonInfo)
+        refreshController.endRefreshing()
     }
     
     deinit {
