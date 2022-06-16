@@ -22,6 +22,8 @@ class DiscoveryWebViewHelper: NSObject {
     fileprivate let contentView = UIView()
     fileprivate let webView: WKWebView
     fileprivate var loadController = LoadStateViewController()
+    private let refreshController = PullRefreshController()
+    private let insetsController = ContentInsetsController()
     
     fileprivate var request: URLRequest? = nil
     @objc var baseURL: URL?
@@ -58,6 +60,12 @@ class DiscoveryWebViewHelper: NSObject {
             make.edges.equalTo(container.safeEdges)
         }
         loadController.setupInController(controller: container, contentView: contentView)
+        refreshController.setupInScrollView(scrollView: webView.scrollView)
+        refreshController.delegate = self
+
+        insetsController.setupInController(owner: container, scrollView: webView.scrollView)
+        insetsController.addSource(source: refreshController)
+
         refreshView()
     }
     
@@ -112,10 +120,12 @@ class DiscoveryWebViewHelper: NSObject {
         return URL.contains(find: QueryParameterKeys.searchQuery)
     }
 
-    private func reload() {
+    private func reload(showLoadingScreen: Bool = true) {
         guard let URL = webView.url, !webView.isLoading else { return }
-
-        loadController.state = .Initial
+        
+        if showLoadingScreen {
+            loadController.state = .Initial
+        }
         loadRequest(withURL: URL)
     }
     
@@ -168,7 +178,8 @@ class DiscoveryWebViewHelper: NSObject {
                 self?.loadController.state = .Initial
             }
         }
-        self.loadController.state = LoadState.failed(error: error, buttonInfo: buttonInfo)
+        loadController.state = LoadState.failed(error: error, buttonInfo: buttonInfo)
+        refreshController.endRefreshing()
     }
     
     deinit {
@@ -210,7 +221,7 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         loadController.state = .Loaded
-
+        refreshController.endRefreshing()
         if let bar = bottomBar {
             bar.superview?.bringSubviewToFront(bar)
         }
@@ -286,6 +297,12 @@ extension DiscoveryWebViewHelper: UISearchBarDelegate {
         return URL(string: query)
     }
     
+}
+
+extension DiscoveryWebViewHelper: PullRefreshControllerDelegate {
+    func refreshControllerActivated(controller: PullRefreshController) {
+        reload(showLoadingScreen: false)
+    }
 }
 
 extension DiscoveryWebViewHelper {
