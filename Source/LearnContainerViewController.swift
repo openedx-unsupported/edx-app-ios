@@ -52,12 +52,7 @@ class LearnContainerViewController: UIViewController {
     private var selectedComponent: Component?
     
     private var programsEnabled: Bool {
-        if environment.config.programConfig.enabled,
-           let _ = environment.config.programConfig.programURL {
-            return true
-        } else {
-            return false
-        }
+        return environment.config.programConfig.enabled && environment.config.programConfig.programURL != nil
     }
     
     init(environment: Environment) {
