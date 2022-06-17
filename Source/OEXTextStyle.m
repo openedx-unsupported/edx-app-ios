@@ -145,6 +145,18 @@
             return [[OEXStyles sharedStyles] boldFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
         case OEXTextWeightBoldItalic:
             return [[OEXStyles sharedStyles] boldItalicFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
+        case OEXTextWeightSecondaryLight:
+            return [[OEXStyles sharedStyles] lightSecondaryFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
+            break;
+        case OEXTextWeightSecondaryNormal:
+            return [[OEXStyles sharedStyles] regularSecondaryFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
+            break;
+        case OEXTextWeightSecondarySemiBold:
+            return [[OEXStyles sharedStyles] semiBoldSecondaryFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
+            break;
+        case OEXTextWeightSecondaryBold:
+            return [[OEXStyles sharedStyles] boldSecondaryFontOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
+            break;
     }
 }
 

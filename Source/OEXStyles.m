@@ -343,6 +343,26 @@ static OEXStyles* sSharedStyles;
                              size:size dynamicTypeSupported:dynamicTypeSupported];
 }
 
+- (UIFont*)lightSecondaryFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersSecondaryLight
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
+}
+
+- (UIFont*)regularSecondaryFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersSecondaryRegular
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
+}
+
+- (UIFont*)semiBoldSecondaryFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersSecondarySemiBold
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
+}
+
+- (UIFont*)boldSecondaryFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersSecondaryBold
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
+}
+
 - (NSString*)styleHTMLContent:(NSString*)htmlString stylesheet:(NSString*)stylesheet {
     NSString* path = [[NSBundle mainBundle] pathForResource:stylesheet ofType:@"css"];
     NSError* error = nil;

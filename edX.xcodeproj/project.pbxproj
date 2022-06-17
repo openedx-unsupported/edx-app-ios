@@ -205,7 +205,6 @@
 		5F6F2B67255AABA400AA3708 /* Inter-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5D255AABA400AA3708 /* Inter-LightItalic.ttf */; };
 		5F6F2B68255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */; };
 		5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */; };
-		5F6F2B6F255AABC400AA3708 /* inter_fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B6E255AABC400AA3708 /* inter_fonts.json */; };
 		5F700E97278C35AE00B17044 /* MSAL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F700E90278C301400B17044 /* MSAL.xcframework */; };
 		5F700E98278C35AE00B17044 /* MSAL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F700E90278C301400B17044 /* MSAL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F700E99278C35B000B17044 /* SwiftyStoreKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F700E95278C358D00B17044 /* SwiftyStoreKit.xcframework */; };
@@ -807,6 +806,10 @@
 		E04A85A0282E6BB600CF0962 /* Localizable-2.strings in Resources */ = {isa = PBXBuildFile; fileRef = E04A85A2282E6BB600CF0962 /* Localizable-2.strings */; };
 		E04A93291F13846B00D4615D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E04A932B1F13846B00D4615D /* InfoPlist.strings */; };
 		E04F56861E9E0A5B0088C65E /* DiscoveryConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742F8DC1C3C979D009E555A /* DiscoveryConfig.swift */; };
+		E0514DE8285C4F7900D645E0 /* RobotoMono-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0514DE4285C4F7800D645E0 /* RobotoMono-SemiBold.ttf */; };
+		E0514DE9285C4F7900D645E0 /* RobotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0514DE5285C4F7800D645E0 /* RobotoMono-Regular.ttf */; };
+		E0514DEA285C4F7900D645E0 /* RobotoMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0514DE6285C4F7900D645E0 /* RobotoMono-Bold.ttf */; };
+		E0514DEB285C4F7900D645E0 /* RobotoMono-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0514DE7285C4F7900D645E0 /* RobotoMono-Light.ttf */; };
 		E054B09D1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E054B09C1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift */; };
 		E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E054B09E1EC3178200FACBA6 /* screen_1.png */; };
 		E055D53D1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */; };
@@ -1214,7 +1217,6 @@
 		5F6F2B5D255AABA400AA3708 /* Inter-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-LightItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B5E255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B5F255AABA400AA3708 /* Inter-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-BoldItalic.ttf"; sourceTree = "<group>"; };
-		5F6F2B6E255AABC400AA3708 /* inter_fonts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = inter_fonts.json; sourceTree = "<group>"; };
 		5F700E90278C301400B17044 /* MSAL.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MSAL.xcframework; sourceTree = "<group>"; };
 		5F700E95278C358D00B17044 /* SwiftyStoreKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SwiftyStoreKit.xcframework; path = Libraries/SwiftyStoreKit/SwiftyStoreKit.xcframework; sourceTree = SOURCE_ROOT; };
 		5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIconsSharp.otf; sourceTree = "<group>"; };
@@ -1959,6 +1961,10 @@
 		E04A85AB282E6C0900CF0962 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi.lproj/Localizable-2.strings"; sourceTree = "<group>"; };
 		E04A85AC282E6C0A00CF0962 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = "ja.lproj/Localizable-2.strings"; sourceTree = "<group>"; };
 		E04A932A1F13846B00D4615D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E0514DE4285C4F7800D645E0 /* RobotoMono-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-SemiBold.ttf"; sourceTree = "<group>"; };
+		E0514DE5285C4F7800D645E0 /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
+		E0514DE6285C4F7900D645E0 /* RobotoMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Bold.ttf"; sourceTree = "<group>"; };
+		E0514DE7285C4F7900D645E0 /* RobotoMono-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Light.ttf"; sourceTree = "<group>"; };
 		E052F5A81D9953BB009F6B6F /* edX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = edX.entitlements; sourceTree = "<group>"; };
 		E054B09C1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXInterface+WhatsNew.swift"; sourceTree = "<group>"; };
 		E054B09E1EC3178200FACBA6 /* screen_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_1.png; sourceTree = "<group>"; };
@@ -2565,10 +2571,10 @@
 		69ECC5A21D50D1170030CF87 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				E0AEFF522859AAAA00813C32 /* RobotoMono */,
 				5F7024A22624D96400A968CB /* MaterialIconsSharp.otf */,
 				BD7C6C3F1DCA329A0004D135 /* fonts.json */,
 				5F6F2B55255AAB7F00AA3708 /* Inter */,
-				5F6F2B6E255AABC400AA3708 /* inter_fonts.json */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -4159,6 +4165,17 @@
 			path = Libraries/KeychainSwift;
 			sourceTree = SOURCE_ROOT;
 		};
+		E0AEFF522859AAAA00813C32 /* RobotoMono */ = {
+			isa = PBXGroup;
+			children = (
+				E0514DE6285C4F7900D645E0 /* RobotoMono-Bold.ttf */,
+				E0514DE7285C4F7900D645E0 /* RobotoMono-Light.ttf */,
+				E0514DE5285C4F7800D645E0 /* RobotoMono-Regular.ttf */,
+				E0514DE4285C4F7800D645E0 /* RobotoMono-SemiBold.ttf */,
+			);
+			path = RobotoMono;
+			sourceTree = "<group>";
+		};
 		E0AF4E8C1BFB19A00083753C /* PassthroughView */ = {
 			isa = PBXGroup;
 			children = (
@@ -4444,6 +4461,7 @@
 				69ECC6131D50D1170030CF87 /* loginScreenImage.png in Resources */,
 				E0E27FC21EC469A800D1AEFE /* WhatsNew.json in Resources */,
 				69ECC6371D50D1170030CF87 /* ic_partiallywatched@3x.png in Resources */,
+				E0514DEB285C4F7900D645E0 /* RobotoMono-Light.ttf in Resources */,
 				69ECC6461D50D1170030CF87 /* separator1.png in Resources */,
 				69ECC6491D50D1170030CF87 /* share.pdf in Resources */,
 				69ECC64D1D50D1170030CF87 /* Default-375w-667h@2x.png in Resources */,
@@ -4503,6 +4521,7 @@
 				5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */,
 				69ECC6521D50D1170030CF87 /* inline-content.css in Resources */,
 				69ECC64C1D50D1170030CF87 /* Default-568h@2x.png in Resources */,
+				E0514DEA285C4F7900D645E0 /* RobotoMono-Bold.ttf in Resources */,
 				69ECC6471D50D1170030CF87 /* separator3.png in Resources */,
 				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
 				22D73B5D1ED575C000220280 /* course-dates.js in Resources */,
@@ -4517,6 +4536,7 @@
 				5F6F2B68255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf in Resources */,
 				E096583525C1963B0004FFCC /* strip_unused_archs.sh in Resources */,
 				E0DB52C720A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png in Resources */,
+				E0514DE8285C4F7900D645E0 /* RobotoMono-SemiBold.ttf in Resources */,
 				22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */,
 				E021F46C1F739599007A26E7 /* loginScreenImage@2x~ipad.png in Resources */,
 				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
@@ -4525,6 +4545,7 @@
 				69ECC63E1D50D1170030CF87 /* icon_google_white.png in Resources */,
 				69ECC63D1D50D1170030CF87 /* icon_facebook_white@2x.png in Resources */,
 				5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */,
+				E0514DE9285C4F7900D645E0 /* RobotoMono-Regular.ttf in Resources */,
 				69ECC6361D50D1170030CF87 /* ic_partiallywatched@2x.png in Resources */,
 				69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */,
 				E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */,
@@ -4564,7 +4585,6 @@
 				805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */,
 				22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */,
 				223CE59625BEEB910081C30F /* CelebrateClaps.gif in Resources */,
-				5F6F2B6F255AABC400AA3708 /* inter_fonts.json in Resources */,
 				6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */,
 				E096583925C1963B0004FFCC /* protobuf_LICENSE.html in Resources */,
 				6926CDB11D59BE3600A16E22 /* ic_seek_thumb@2x.png in Resources */,

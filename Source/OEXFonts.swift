@@ -13,7 +13,8 @@ public class OEXFonts: NSObject {
     //MARK: - Shared Instance
     @objc public static let sharedInstance = OEXFonts()
     @objc public enum FontIdentifiers: Int {
-        case Regular = 1, Italic, SemiBold, SemiBoldItalic, Bold, BoldItalic, Light, LightItalic, ExtraBold, ExtraBoldItalic, Irregular
+        case Regular = 1, Italic, SemiBold, SemiBoldItalic, Bold, BoldItalic, Light, LightItalic, ExtraBold, ExtraBoldItalic, Irregular,
+             SecondaryLight, SecondaryRegular, SecondarySemiBold, SecondaryBold
     }
     
     public var fontsDictionary = [String: AnyObject]()
@@ -94,6 +95,15 @@ public class OEXFonts: NSObject {
             return "extraBold"
         case .ExtraBoldItalic:
             return "extraBoldItalic"
+        case .SecondaryLight:
+            return "secondary-Light"
+        case .SecondaryRegular:
+            return "secondary-Regular"
+        case .SecondarySemiBold:
+            return "secondary-SemiBold"
+        case .SecondaryBold:
+            return "secondary-Bold"
+
         case .Irregular:
             fallthrough
         default:

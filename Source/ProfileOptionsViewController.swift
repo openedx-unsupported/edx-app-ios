@@ -9,7 +9,8 @@
 import UIKit
 import MessageUI
 
-fileprivate let titleTextStyle = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralXDark())
+fileprivate let titleTextStyle = OEXMutableTextStyle(weight: .secondaryNormal, size: .small, color: OEXStyles.shared().neutralXDark())
+fileprivate let textStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXDark())
 fileprivate let subtitleTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryDarkColor())
 fileprivate let imageSize: CGFloat = 36
 
@@ -73,7 +74,7 @@ class ProfileOptionsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = Strings.UserAccount.profile
                 
         setupViews()
@@ -469,7 +470,7 @@ class VideoSettingCell: UITableViewCell {
     
     private lazy var videoSettingSubtitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.VideoSettings.message)
+        label.attributedText = textStyle.attributedString(withText: Strings.ProfileOptions.VideoSettings.message)
         label.accessibilityIdentifier = "VideoSettingCell:video-setting-subtitle-label"
         return label
     }()
@@ -611,7 +612,7 @@ class VideoSettingCell: UITableViewCell {
     }
     
     func updateVideoDownloadQualityLabel() {
-        videoQualitySubtitleLabel.attributedText = titleTextStyle.attributedString(withText: OEXInterface.shared().getVideoDownladQuality().title)
+        videoQualitySubtitleLabel.attributedText = textStyle.attributedString(withText: OEXInterface.shared().getVideoDownladQuality().title)
     }
 }
 
@@ -634,7 +635,7 @@ class PersonalInformationCell: UITableViewCell {
 
     var profileSubtitle: String? {
         didSet {
-            subtitleLabel.attributedText = titleTextStyle.attributedString(withText: profileSubtitle)
+            subtitleLabel.attributedText = textStyle.attributedString(withText: profileSubtitle)
         }
     }
 
@@ -800,7 +801,7 @@ class RestorePurchasesCell: UITableViewCell {
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Purchases.message)
+        label.attributedText = textStyle.attributedString(withText: Strings.ProfileOptions.Purchases.message)
         label.accessibilityIdentifier = "RestorePurchasesCell:subtitle-label"
         return label
     }()
@@ -889,7 +890,7 @@ class HelpCell: UITableViewCell {
     private var platformName: String? {
         didSet {
             guard let platformName = platformName else { return }
-            feedbackSubtitleLabel.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.support(platformName: platformName)).setLineSpacing(lineSpacing)
+            feedbackSubtitleLabel.attributedText = textStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.support(platformName: platformName)).setLineSpacing(lineSpacing)
         }
     }
     
@@ -951,7 +952,7 @@ class HelpCell: UITableViewCell {
     private lazy var supportSubtitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.feedback).setLineSpacing(lineSpacing)
+        label.attributedText = textStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.feedback).setLineSpacing(lineSpacing)
         label.accessibilityIdentifier = "HelpCell:support-subtitle-label"
         return label
     }()
@@ -1127,7 +1128,7 @@ class SignOutVersionCell: UITableViewCell {
     private lazy var versionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_shortVersionString(), environment: ""))
+        label.attributedText = textStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_shortVersionString(), environment: ""))
         label.accessibilityIdentifier = "SignOutVersionCell:version-label"
         return label
     }()
