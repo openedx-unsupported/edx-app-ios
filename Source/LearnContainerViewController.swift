@@ -21,20 +21,11 @@ class LearnContainerViewController: UIViewController {
                 return Strings.myPrograms
             }
         }
-        
-        var index: Int {
-            switch self {
-            case .courses:
-                return 0
-            case .programs:
-                return 1
-            }
-        }
     }
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & RemoteConfigProvider & OEXSessionProvider
     
-    let environment: Environment
+    private let environment: Environment
     
     private lazy var headerView: LearnContainerHeaderView = {
         var items: [LearnContainerHeaderItem] = []

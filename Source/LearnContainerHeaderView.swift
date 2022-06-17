@@ -14,7 +14,6 @@ protocol LearnContainerHeaderViewDelegate: AnyObject {
 
 protocol LearnContainerHeaderItem {
     var title: String { get }
-    var index: Int { get }
 }
 
 class LearnContainerHeaderView: UIView {
