@@ -377,21 +377,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewSeparator.backgroundColor = environment.styles.neutralXLight()
     }
     
-    private func createAttributedString(of icon: Icon, size: CGFloat, color: UIColor, shouldFlip: Bool = false) -> NSAttributedString {
-        var icon = icon.imageWithFontSize(size: size).image(with: color)
-        if shouldFlip {
-            icon = icon.withHorizontallyFlippedOrientation()
-        }
-        let attachment = NSTextAttachment()
-        attachment.image = icon
-        
-        if let image = attachment.image {
-            attachment.bounds = CGRect(x: 0, y: -3.0, width: image.size.width, height: image.size.height)
-        }
-        
-        return NSAttributedString(attachment: attachment)
-    }
-    
     private func updateNewPostButtonStyle() {
         newPostButton.backgroundColor = environment.styles.secondaryBaseColor()
         newPostButton.alpha = isDiscussionBlackedOut ? 0.5 : 1.0
