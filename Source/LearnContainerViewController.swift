@@ -93,16 +93,21 @@ class LearnContainerViewController: UIViewController {
     }
     
     private func update(component: Component) {
-        guard selectedComponent != component,
-              let programsViewController = programsViewController else { return }
+        guard selectedComponent != component else { return }
         
         switch component {
         case .courses:
-            removeViewController(programsViewController) { [weak self] in
-                guard let weakSelf = self else { return}
-                weakSelf.addViewController(weakSelf.coursesViewController)
+            if let programsViewController = programsViewController {
+                removeViewController(programsViewController) { [weak self] in
+                    guard let weakSelf = self else { return}
+                    weakSelf.addViewController(weakSelf.coursesViewController)
+                }
+            }
+            else {
+                addViewController(coursesViewController)
             }
         case .programs:
+            guard let programsViewController = programsViewController else { return }
             removeViewController(coursesViewController) { [weak self] in
                 guard let weakSelf = self else { return}
                 weakSelf.addViewController(programsViewController)

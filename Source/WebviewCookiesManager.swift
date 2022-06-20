@@ -25,6 +25,10 @@ class WebviewCookiesManager: NSObject {
     private(set) var cookiesState: WebviewCookiesManagerState = .none
     static let shared = WebviewCookiesManager()
 
+    typealias Environment = NetworkManagerProvider
+    private var environment: Environment?
+
+
     var cookiesExpired: Bool {
         return authSessionCookieExpiration < Date().timeIntervalSince1970
     }
@@ -37,11 +41,12 @@ class WebviewCookiesManager: NSObject {
         }
     }
 
-    public func createOrUpdateCookies() {
+    public func createOrUpdateCookies(environment: Environment) {
+        self.environment = environment
         clearCookies()
         cookiesState = .creating
-        let network = OEXRouter.shared().environment.networkManager
-        network.taskForRequest(loginAPI()) { [weak self] result in
+
+        environment.networkManager.taskForRequest(loginAPI()) { [weak self] result in
             self?.updateSessionState(state: result.error == nil ? .sync : .failed)
         }
     }

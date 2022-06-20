@@ -14,7 +14,7 @@ protocol BrowserViewControllerDelegate: AnyObject {
 
 class BrowserViewController: UIViewController, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider & OEXStylesProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider & OEXStylesProvider & NetworkManagerProvider
     
     private lazy var webController = AuthenticatedWebViewController(environment: environment)
     

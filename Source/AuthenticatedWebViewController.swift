@@ -118,7 +118,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         case NeedingSession
     }
 
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider
     weak var delegate: AuthenticatedWebViewControllerDelegate?
     internal let environment : Environment
     private let loadController : LoadStateViewController
@@ -344,7 +344,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
 
         if cookiesManager.cookiesExpired && !ignoreCookiesManager {
             if cookiesManager.cookiesState != .creating && cookiesManager.cookiesState != .sync {
-                cookiesManager.createOrUpdateCookies()
+                cookiesManager.createOrUpdateCookies(environment: environment)
             }
             return
         }
@@ -421,7 +421,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
         case .NeedingSession:
             state = .CreatingSession
             if cookiesManager.cookiesState != .creating && cookiesManager.cookiesState != .sync {
-                cookiesManager.createOrUpdateCookies()
+                cookiesManager.createOrUpdateCookies(environment: environment)
             }
         }
         

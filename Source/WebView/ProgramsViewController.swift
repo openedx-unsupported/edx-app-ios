@@ -16,7 +16,7 @@ public enum ProgramScreen {
 
 class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, PullRefreshControllerDelegate {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider & ReachabilityProvider & OEXStylesProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider & ReachabilityProvider & OEXStylesProvider & NetworkManagerProvider
     fileprivate let environment: Environment
     fileprivate let webController: AuthenticatedWebViewController
     private(set) var programsURL: URL
