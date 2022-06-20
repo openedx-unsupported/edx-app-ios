@@ -581,7 +581,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             DiscussionHelper.styleAuthorDetails(author: thread.author, authorLabel: thread.authorLabel, createdAt: thread.createdAt, hasProfileImage: thread.hasProfileImage, imageURL: thread.imageURL, authoNameLabel: cell.authorNameLabel, dateLabel: cell.dateLabel, authorButton: cell.authorButton, imageView: cell.authorProfileImage, viewController: self, router: environment.router)
 
             if let responseCount = thread.responseCount {
-                let icon = Icon.Comment.attributedString(style: infoTextStyle)
+                let icon = Icon.Discussions.attributedString(style: infoTextStyle)
                 let countLabelText = infoTextStyle.attributedString(withText: Strings.response(count: responseCount))
                 
                 let labelText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon,countLabelText])
