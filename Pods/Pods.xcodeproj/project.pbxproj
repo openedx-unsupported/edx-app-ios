@@ -148,7 +148,7 @@
 		00F0DEE3EFAC79AEE5B961CFD603D034 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD349CC2D939DA1CB4AC1DEC9BF21983 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		010F8B8536BB0024D75A41FCED10FAA8 /* ABKNoConnectionLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D205AA87ADCD59C0FF61DAC8BF9A6 /* ABKNoConnectionLocalization.m */; };
 		012C7CCA9E390A73567BF955E473DBCF /* FIRCLSProcessReportOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B4CBE5F92FF12DBB9745CB160FEC22 /* FIRCLSProcessReportOperation.m */; };
-		0134736FAE322965431572BA0743C6AA /* FIRInteropEventNames.h in Headers */ = {isa = PBXBuildFile; fileRef = F90B7EE87DDFAC0916B0302018026E62 /* FIRInteropEventNames.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		0134736FAE322965431572BA0743C6AA /* FIRInteropEventNames.h in Headers */ = {isa = PBXBuildFile; fileRef = F90B7EE87DDFAC0916B0302018026E62 /* FIRInteropEventNames.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		015AE018FD3C38F49454444CC86336E4 /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = F539CB30DA09D6408C1166ECFB1F935C /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		0188D8F0DBD225A2564A7F3F17794498 /* BNCNetworkInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = E2B6835249E525E6DC36BF34B34C8B7C /* BNCNetworkInterface.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		019B1D7EBEA7AA9703DC696C4E86600B /* GTMSessionFetcher-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1B3A11A3ED9B38A34EE614C3EDB4BE /* GTMSessionFetcher-dummy.m */; };
@@ -157,7 +157,7 @@
 		01E111D895C3FBB2B74806C5F40FCA44 /* FBLPromise+Wrap.m in Sources */ = {isa = PBXBuildFile; fileRef = B46BFCA5B341AF554871BC19ACB76BDE /* FBLPromise+Wrap.m */; };
 		02358F31F94BB2010782B0ED56FF1478 /* SEGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882A7ABA638B7D1384DB82D8DEF9C01 /* SEGAnalytics.m */; };
 		025C6B6BF63301BF7B52893BBD2D9953 /* FIRExperimentController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AFE0A6888C793F3B0074F55D7498895 /* FIRExperimentController.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		02606BC06842091D1991AC9700DD1F43 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BDCF933746B1E23B94D80D433D6B6F9 /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		02606BC06842091D1991AC9700DD1F43 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BDCF933746B1E23B94D80D433D6B6F9 /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		026E9DA25D6898A0C0A86D712B592CB6 /* GULSwizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B2A6070C0FDB4CA7C872C012A231C /* GULSwizzler.m */; };
 		0315981351DACCE2C586AF7C52494477 /* FIRIAMDisplayCheckOnFetchDoneNotificationFlow.m in Sources */ = {isa = PBXBuildFile; fileRef = CD10B84D3237B75BE8482AE3F533182F /* FIRIAMDisplayCheckOnFetchDoneNotificationFlow.m */; };
 		03177B13DE4AFA1F47052F256043A93B /* FIRCLSException.h in Headers */ = {isa = PBXBuildFile; fileRef = BB42EF6FE43CA603E9295EA9C8F8EC63 /* FIRCLSException.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -172,7 +172,7 @@
 		046AAC880EC4BA0AB2ADA3B7D25217AE /* FIRStackFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = F76A09A85E3FD062D53FC975AEF91A50 /* FIRStackFrame.m */; };
 		04966B50460D0B668AABBD92799698D7 /* FIRCLSUnwind_arch.h in Headers */ = {isa = PBXBuildFile; fileRef = 57EA71CEC1655AF773AAD742076CB9F6 /* FIRCLSUnwind_arch.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		04A3B1E8E8729BDE605A4470D7D358BE /* FPRNSURLSessionDelegateInstrument.h in Headers */ = {isa = PBXBuildFile; fileRef = 5705F05B8C91225D68860FF2CFF5CEB1 /* FPRNSURLSessionDelegateInstrument.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		04B6A9E3CE410ADF62220CBBAB32C03A /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F9ACC35012F26E887C5913B6021A219 /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		04B6A9E3CE410ADF62220CBBAB32C03A /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F9ACC35012F26E887C5913B6021A219 /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		04D8045317388A89077FA5FEAF54FB73 /* FIRLifecycleEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D84A841E6D455E7752A5039439D4F6F /* FIRLifecycleEvents.m */; };
 		04E3EF51136862019C7BC3D5BEAAB757 /* FIRCLSUnwind_x86.c in Sources */ = {isa = PBXBuildFile; fileRef = B21DA6EDDBE19FFEDF5C8970BAEEAE82 /* FIRCLSUnwind_x86.c */; };
 		04E7B9DDFBB3963082704C9E98A5896A /* BNCPreferenceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A49AA22F9FA9B2CC3CBF251836208E /* BNCPreferenceHelper.m */; };
@@ -184,7 +184,7 @@
 		0556D20EB009588F148801DDD2F9503D /* FIRCLSSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 759BF33CF8AEA2D2CE8E2D8D01721ABE /* FIRCLSSettingsManager.m */; };
 		05692764AE55665A00CFAB347D209028 /* FIRIAMClearcutLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E45F25E228DFE87861B217E35DB6EEE3 /* FIRIAMClearcutLogger.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		0587181AF3EFA79CC180313919347020 /* FPRTraceBackgroundActivityTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = BF41EF943F18283005EBAA6E1C7D8449 /* FPRTraceBackgroundActivityTracker.m */; };
-		058ADBCB255AC54C799AE104CE0B8530 /* FIROptionsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 940B0C7B920CB7EBC22204A808057DB8 /* FIROptionsInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		058ADBCB255AC54C799AE104CE0B8530 /* FIROptionsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 940B0C7B920CB7EBC22204A808057DB8 /* FIROptionsInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		059CEC8A0E44C5C0FE4C85C232013E33 /* FIRIAMBannerViewUIWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EDDC656BCF0BCCD22744F770B04C2B5 /* FIRIAMBannerViewUIWindow.m */; };
 		06109B11F69C7F5A8DEC8A658C9E8D53 /* ABKContentCardsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0F7607360CCF8DE03ADCF3E2DB0048 /* ABKContentCardsViewController.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		063C3EAEB8CB35312C87EFBF424E998F /* BNCServerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F815FE29AA9CF841456760A19F78EB /* BNCServerInterface.m */; };
@@ -203,7 +203,7 @@
 		08388140D8BE6D9854A56E7960BC7FB8 /* ABKInAppMessageButton.h in Headers */ = {isa = PBXBuildFile; fileRef = B3B75130A123D3600C6A14C964880648 /* ABKInAppMessageButton.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		08592B27679B6035630B03D4120F9655 /* FirebaseCrashlytics-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A03B1CEFB38E1FD07D3403E5991458 /* FirebaseCrashlytics-dummy.m */; };
 		088DF34CE1E6B54EECF7304698E98CDF /* FIRIAMSDKModeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B68A8490E0D834A337C598A60A91CE /* FIRIAMSDKModeManager.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		08B51A6F726D2A00DF1D626A9A4460FC /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F70E3EA1032AEBBC6A33AB491BCF690 /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		08B51A6F726D2A00DF1D626A9A4460FC /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F70E3EA1032AEBBC6A33AB491BCF690 /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		08BD4B1EC8B8D2C38BE7DA7BC10C2AD5 /* GDTCORRegistrar.m in Sources */ = {isa = PBXBuildFile; fileRef = 48940B03C9BD5E75EB43AFA91C6C2695 /* GDTCORRegistrar.m */; };
 		08E25095C59B9FC8E740FC9A8D53584E /* OIDAuthorizationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E66D6DDA248F79EC2AC34F868AD7997 /* OIDAuthorizationRequest.m */; };
 		08EAC98DEA9A7CE506AA75FB9096DC74 /* ABKInAppMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD58864DE9680B1BE92181A5ECBFD865 /* ABKInAppMessageView.m */; };
@@ -220,7 +220,7 @@
 		0AAD3B56E2CF726D438970CC4E0ECDA7 /* SEGState.h in Headers */ = {isa = PBXBuildFile; fileRef = E07F3D205F9542F0514267BCEF83643D /* SEGState.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		0AE9B133326D39E17BD844D5FFC1353F /* firebasecore.nanopb.c in Sources */ = {isa = PBXBuildFile; fileRef = 138E1A6421F41FC5902E470F4581A705 /* firebasecore.nanopb.c */; };
 		0B01567388C3B370CE726DEE73A2D371 /* UIImage+Diff.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EF80BFE07EFBB2002E306304E81731 /* UIImage+Diff.m */; };
-		0B18FCDFBF5C22FE57205AD2300F52A5 /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 316A78F60FB3B834AB119FDB2C50ACCF /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		0B18FCDFBF5C22FE57205AD2300F52A5 /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 316A78F60FB3B834AB119FDB2C50ACCF /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		0B34CAB7763534AAD32D41E95E1B5C9F /* hr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CBA92E847D2A3FFEED7457FE7D89226E /* hr.lproj */; };
 		0B383AD3A54E2D38B9C4369F1D36EB44 /* ABKFeedWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E28B19256758257B6C106626AE92461B /* ABKFeedWebViewController.m */; };
 		0B6268839558B338502B13D4EC5F215D /* UIImage+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A92DD089C747A7F47EA0A1E6DCEE39 /* UIImage+Compare.m */; };
@@ -254,7 +254,7 @@
 		0FB5440214BA066014AA916B3418C162 /* FBLPromises.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4927A2927F908E1A536B401569D4FF /* FBLPromises.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		0FBCAC8741ACDDF8C811BB5C3640B839 /* OIDRegistrationResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 915F0C96D36BA6F5435BCDDD8513EEDB /* OIDRegistrationResponse.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		1049AF1E8F4D8FC7A0AB2CE563EC4A32 /* SDWebImageDownloaderResponseModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = CC697D6CB172ACBD0B6B038AA60C0DA3 /* SDWebImageDownloaderResponseModifier.m */; };
-		10546A8CC07B1F25102EF671FB0EDED5 /* FirebaseInstallationsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 990DC2C084354175EBE606753EFF7829 /* FirebaseInstallationsInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		10546A8CC07B1F25102EF671FB0EDED5 /* FirebaseInstallationsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 990DC2C084354175EBE606753EFF7829 /* FirebaseInstallationsInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		105BC5018E100C2AA248D989B0BA2CB1 /* Appboy.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BCF34515ED6311E8BBF6175F14DAEE8 /* Appboy.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		10A924FAA88F4E2EB7BD1FDE7151F906 /* GIDProfileData_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F5D81FFD720D54ADEF9C1830B44C16D0 /* GIDProfileData_Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		10E746F65C3BDEFE4BE1BEB4B6CFCD10 /* GULLoggerLevel.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DF1040BF9417E0C8A7D8B4F99716AE6 /* GULLoggerLevel.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -266,7 +266,7 @@
 		11A1CB3F74A8057C15EB1A106D75D838 /* BNCSKAdNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = DA08980529548FFC9C311BBDD4107B52 /* BNCSKAdNetwork.m */; };
 		11F54B2DB6D9E840A98E3DC9B01B8A1E /* SDAnimatedImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 859493C9A8BF45D20934FCB160341230 /* SDAnimatedImageView+WebCache.m */; };
 		1220CF08ED29553B923C5B917871DDF7 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B706E03544E4D109B0A99B806F04E94B /* ViewController+MASAdditions.m */; };
-		122BFF1286B6B5FC7B21F6A0AE86A19F /* FIRInteropParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = DDC0191FFEFEF04AA17C53409F5493B9 /* FIRInteropParameterNames.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		122BFF1286B6B5FC7B21F6A0AE86A19F /* FIRInteropParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = DDC0191FFEFEF04AA17C53409F5493B9 /* FIRInteropParameterNames.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		122C8ACD2D6C94AC2A1BD78BC6CC391D /* ABKUser.h in Headers */ = {isa = PBXBuildFile; fileRef = B839AF853C0D2C7B7DEE2BB3D33235FF /* ABKUser.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		1231153B42733C77A3A9F18926812093 /* NSDictionary+FIRMessaging.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D4020316A5F88DE2E9DCD0D73AB846 /* NSDictionary+FIRMessaging.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		125BFE885822EC249329EC599DA09864 /* SEGFileStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB200429C0F65457B241398FF4EE1A7 /* SEGFileStorage.m */; };
@@ -277,7 +277,7 @@
 		143228E5CE3A93773CE3BB9CC60B9A0B /* FPRClassInstrumentor_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 9279A45A05B566F30808B5F4727FA733 /* FPRClassInstrumentor_Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		14537C3A846CD565900069FBE50C76D0 /* ABKInAppMessageWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 48A65F59D28371E68890FD7E610A53BC /* ABKInAppMessageWindowController.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		145BE981E0C06893BFB88FADE606E50A /* SEGAES256Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D244ADC49355CFC18B29D556AE3E411 /* SEGAES256Crypto.m */; };
-		1477DDA82FDD203B5BFA562ED6AC0A60 /* FIRAnalyticsInterop.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E18B086C4F077B31BF67CACD7BB800 /* FIRAnalyticsInterop.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		1477DDA82FDD203B5BFA562ED6AC0A60 /* FIRAnalyticsInterop.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E18B086C4F077B31BF67CACD7BB800 /* FIRAnalyticsInterop.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		149C47F8C225034B1E28261C7E659A71 /* GULKeychainStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = FCC595B7836A2127AAB43A703375DF30 /* GULKeychainStorage.m */; };
 		14E7C9EBF79027AA9B8155A520090370 /* FIRIAMMessageClientCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9601A299EF13641FA8A9CACCDE8A59FB /* FIRIAMMessageClientCache.m */; };
 		14F0ECF1259F5486A7DD674F2C6A0946 /* FPRMemoryGaugeCollector+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7783094E7AAA05A29376D061BDD67BA4 /* FPRMemoryGaugeCollector+Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -327,7 +327,7 @@
 		1F66BA03807EDEAAB28D39AC2C9481B2 /* BNCNetworkService.h in Headers */ = {isa = PBXBuildFile; fileRef = B0DA65BD3A9E557E2A67A5F4E44F8969 /* BNCNetworkService.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		1FB19A708C14B4A9353047985BBDAB1B /* UIImageView+HighlightedWebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF731FF98F5B3D1B9E0FB6817F0863A /* UIImageView+HighlightedWebCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		1FEDA67639E2C5E342348C6EA93AD8FE /* ABKSDWebImageImageDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D4E10C52DD5F899D0957852000023176 /* ABKSDWebImageImageDelegate.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		2012993F5DC71156C7017B7AE111DFF6 /* FIRAnalyticsInteropListener.h in Headers */ = {isa = PBXBuildFile; fileRef = CADE499A0FC2CDA87219BB6E2826375C /* FIRAnalyticsInteropListener.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		2012993F5DC71156C7017B7AE111DFF6 /* FIRAnalyticsInteropListener.h in Headers */ = {isa = PBXBuildFile; fileRef = CADE499A0FC2CDA87219BB6E2826375C /* FIRAnalyticsInteropListener.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		20849E8A13DE03E2FEDB468BCE677205 /* FIRCLSBinaryImage.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0BDF85C68C611D0AA047F3FC893FA1 /* FIRCLSBinaryImage.m */; };
 		20CEDCD81E7ADBF085406BBB06BED08B /* FPRSelectorInstrumentor.h in Headers */ = {isa = PBXBuildFile; fileRef = BEE9F5BD8D8D3D3FD92DBD011E7416B7 /* FPRSelectorInstrumentor.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2155CA2E098FD141914269EF788C2E73 /* id.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 7AA5DF5700F64E52FF8BEEED86A22780 /* id.lproj */; };
@@ -344,15 +344,15 @@
 		23829028235F9054EF1916E9089D5720 /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3409BDE3B94B5EE1AF00973F0EFA4002 /* OHPathHelpers.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		238520628DCE902F3C52B79DB11A2ABA /* FIRInstallationsErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D28AA484DACD6C05452C90615AF6E79 /* FIRInstallationsErrors.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		238C8E01FAD2DE2C5C185D9E219FF5CF /* FIRIAMRenderingWindowHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E5787F48C4437C53F790E12AFD7D00A /* FIRIAMRenderingWindowHelper.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		23C02D8D68CC8FFBD80A61A60B209AA8 /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = B8ACE214A3832F84BD174B0C73F0B2DA /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		23C02D8D68CC8FFBD80A61A60B209AA8 /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = B8ACE214A3832F84BD174B0C73F0B2DA /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		23D5E54C476BE2E42A5FC20DBFC6C71E /* FBLPromise+All.h in Headers */ = {isa = PBXBuildFile; fileRef = B6D79239B58839A30730633A54DA5B47 /* FBLPromise+All.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		23E7D0D5C7A0269A40BE3053E673BF9D /* ca.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D6A4E0337200A9FC98AF227041F87A7B /* ca.lproj */; };
 		23F40A9F28DBA2545EA5701DF959A3AB /* GULSwizzledObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C2605C6657879FC800443C918FC201D6 /* GULSwizzledObject.m */; };
 		240564C29BD676A5457F3CFF023217EB /* ABKCaptionedImageContentCardCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 97481A01422C5B72A5425EDA912CFC9F /* ABKCaptionedImageContentCardCell.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		2407E4E029292214C1ED9F9CA4413B69 /* GDTCORUploadCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E4E88DE15F0B4245CD8EA4AD4AD6F3 /* GDTCORUploadCoordinator.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		242C0B8EC235A20C1E0501E97D746798 /* GDTCORRegistrar_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E146EF45B42BD59059B25D9FF49EC552 /* GDTCORRegistrar_Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		24320B18AA8EF44B523BADFF9AECC887 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = 7751DC861E4558B13DF48AAC2A6B412D /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		2452071344361967470E35D075334601 /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = F0BF9E08F6E71AC14C050D52045EC692 /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		24320B18AA8EF44B523BADFF9AECC887 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = 7751DC861E4558B13DF48AAC2A6B412D /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		2452071344361967470E35D075334601 /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = F0BF9E08F6E71AC14C050D52045EC692 /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		24653467E1A363F14A5BA5B18B31DF32 /* et.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 829EAC24862AE810F064B70CE559E55B /* et.lproj */; };
 		24B06981325704D5EB3EB2F753BC364C /* OIDRegistrationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5690028FC3D7F68CB7ACA0FC677E949C /* OIDRegistrationRequest.m */; };
 		24F0914844CD437E662B539A38451954 /* SEGIdentifyPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B3483C9128F29FC865EF5DBF391C57B /* SEGIdentifyPayload.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -369,7 +369,7 @@
 		2691673B9F9B3337A4220F04CFB49167 /* GDTCOREndpoints.h in Headers */ = {isa = PBXBuildFile; fileRef = 31AAF1126BC698991658593194C9A045 /* GDTCOREndpoints.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		26ADD2E1C7609EE99DE53BF681A0B89A /* FIRCLSRecordIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = D9C1480E67A5114F578041B0F10E79DC /* FIRCLSRecordIdentity.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		26F6522650E8B3F9F5D2CDF267573299 /* FirebaseInAppMessagingDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = EFB1767A9828CC508F39B8FF38819BCB /* FirebaseInAppMessagingDisplay.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		274CE7426EE165571661FF62BF1AAB9C /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = CF35CDD29AA7FC66833ECBFAA09C1AEC /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		274CE7426EE165571661FF62BF1AAB9C /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = CF35CDD29AA7FC66833ECBFAA09C1AEC /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2775D43DF2EFF69D41EC18C3B35779C8 /* lo.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A40C601C046788CB14F6C37F4AECABDB /* lo.lproj */; };
 		27A286EF782266FC81E721F9663B4BDA /* FPRProxyObjectHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E93885F22E77F08B6C1CBABC6571C6E /* FPRProxyObjectHelper.m */; };
 		283B4E9F1CCBF2BA529F9F22B2B44727 /* FIRCLSLaunchMarkerModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72A5976AA47F38C131B595F264A18210 /* FIRCLSLaunchMarkerModel.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -382,11 +382,11 @@
 		297FA25E6BE1B0DCFA168F3BC43C1B8A /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 376BD65B791A52F278EE5711B4B30D34 /* UIImageView+HighlightedWebCache.m */; };
 		2987421FC861A5E6B18102B70AE2C9D7 /* BNCDeviceSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C6EA99F8729C36421A605BC82DCC7B1 /* BNCDeviceSystem.m */; };
 		29DF39F960839A3CFF58D8D0C5DA442C /* FPRNSURLSessionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9D6D0E917846AB7ABA502972FA6573 /* FPRNSURLSessionDelegate.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		2A94B28C557EDA9BC4D04DCC56C0204A /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = E892CAD12952C4F72FD89BDDCF24DF43 /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		2A9543FEC005A747511D69B5C6915EAF /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 54DFC51B5494C794FED4744995DCF709 /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		2A94B28C557EDA9BC4D04DCC56C0204A /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = E892CAD12952C4F72FD89BDDCF24DF43 /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		2A9543FEC005A747511D69B5C6915EAF /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 54DFC51B5494C794FED4744995DCF709 /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2AA64AF97B7B0FDC0575283F1E2951E1 /* BranchLogoutRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = D38ED157FB6393A5EA0E26573A2EC398 /* BranchLogoutRequest.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		2AF16A432E8B98A429E35E43189CE6C4 /* SDWebImageCacheSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 296B532222587A760F4A9394612FE9B1 /* SDWebImageCacheSerializer.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		2B006C6D82EE23D0F2E58233C6623CB8 /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = BF321256BF772F2A25755A2EBE4BCF30 /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		2B006C6D82EE23D0F2E58233C6623CB8 /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = BF321256BF772F2A25755A2EBE4BCF30 /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2B199494AE4FA1F221D1C18EB0C743FE /* FBLPromiseError.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B49AE62416A059FFE4F3D49B19B7A34 /* FBLPromiseError.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2B3B7B2F450DFE4761201FE49DC5B82A /* GTMAppAuthFetcherAuthorization+Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA4421CF7185ADF8602B0A25E3B3D7 /* GTMAppAuthFetcherAuthorization+Keychain.m */; };
 		2B4A8057E8CBBB73AE9E5A11278FEC16 /* AppboyContentCardsLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E60FFEA3884D9D52DEB223D9C67232FC /* AppboyContentCardsLocalizable.strings */; };
@@ -407,11 +407,11 @@
 		2D50EA8D02CE5C02AF932DB1929633EE /* UIImage+ForceDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CB71A54CC61B592B4E331D33C49DF /* UIImage+ForceDecode.m */; };
 		2DBAEC6629FBBBF1C5BD445F446D6E70 /* FIRCLSMachO.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E68A42F68339075EA8A01246894ACA /* FIRCLSMachO.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		2DC22EF62AA2F7FD5CBFC8D83C26C668 /* SEGCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = FDB5259D8C5F970CDF610CBDEB50A7B1 /* SEGCrypto.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		2DC8FE850F803D1DF89EAE7ABD483450 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = F5E1C960B3BE20BA0D57B2DF837C8BC9 /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		2DC8FE850F803D1DF89EAE7ABD483450 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = F5E1C960B3BE20BA0D57B2DF837C8BC9 /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2DCC926BB8EA0D734E14CDA07B3DBD48 /* SDWebImageIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = FCAEBD7EFED6F694E1814C418A3ED95D /* SDWebImageIndicator.m */; };
 		2DCF38C720A0092791D413F206AB8F3F /* FPRSessionDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = 67817D0F17C59C89BB42C43118A5E237 /* FPRSessionDetails.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2DD527D3EF906FC86C61F3BC2E2840EF /* FPRMemoryGaugeCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = D97E2B8620C6EB220B3F45FEB903E88B /* FPRMemoryGaugeCollector.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		2DE93DA620F09031BA2E955070B05957 /* FIRInteropEventNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 85C1E719A0750DD6906F4B1878F6AD0B /* FIRInteropEventNames.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		2DE93DA620F09031BA2E955070B05957 /* FIRInteropEventNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 85C1E719A0750DD6906F4B1878F6AD0B /* FIRInteropEventNames.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2E23BE28A9FB62D16DA0A276F6B1DFD8 /* BranchCPIDRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = EA51BD7DD486BF198749D1319A2B6C68 /* BranchCPIDRequest.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		2E4459D5C820C1B507FB1A92875F1051 /* FIRCLSApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = B07DD86AB794EDE29DB91F916A0B048E /* FIRCLSApplication.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		2E4DEF735C0E8627ED95E5B25B18D347 /* ABKInAppMessageSlideupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D88E1D79D6007C2AB57D81041178514 /* ABKInAppMessageSlideupViewController.xib */; };
@@ -422,7 +422,7 @@
 		2ED5ECF4FC7F02445F33742560F2BAAD /* FIRCrashlytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F1BB4B141CC29379753AEC7D560EEB4 /* FIRCrashlytics.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		2EFE73B44AD5E43837D0F2798FED36BA /* SDDisplayLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 85F3A5A5493CC44A315C899697493F6D /* SDDisplayLink.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2EFF97817DB0320194B336906D18769E /* UIImage+Diff.h in Headers */ = {isa = PBXBuildFile; fileRef = CBFA87EF381EDAA88918582145204C0C /* UIImage+Diff.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2EFFDF9AEACE4A909CEB50165A131589 /* FIROptionsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 09AA12401C45B1F64941B19BCD45E73D /* FIROptionsInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		2EFFDF9AEACE4A909CEB50165A131589 /* FIROptionsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 09AA12401C45B1F64941B19BCD45E73D /* FIROptionsInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2F3C048ABCCDD01E8CD8471FAADAFC99 /* RCNDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 9265D09D08EEC50CB54494C989E4D36A /* RCNDevice.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		2F6FCEBF5B702BDDF914F99A6BE499A7 /* FIRMessagingBackupExcludedPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = CE46AA7F8FBE488698B03DBAA4C36D75 /* FIRMessagingBackupExcludedPlist.m */; };
 		2FB18E6BAB1DDB5F6B659A59A290E8DB /* FIRMessagingContextManagerService.m in Sources */ = {isa = PBXBuildFile; fileRef = 05A62E5ABA20F4CEA5F190E215B78839 /* FIRMessagingContextManagerService.m */; };
@@ -433,7 +433,7 @@
 		3096833006C2414613E0FD33FDF09C48 /* BNCCallbackMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF44AE1CC60AA9298E1D9ED22941BBF /* BNCCallbackMap.m */; };
 		30C04B49834080AA43444E203AEB5EE3 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8AD0ED29043440E57EFE5C937F766C34 /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		30C0E937E4DC5F62B52C01816A221F82 /* FIRCLSHost.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1582967527B937C394D6224E894B81 /* FIRCLSHost.m */; };
-		30E3A7A89D9B7667109D3A5C2E026D36 /* FirebaseInstallationsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = CA7354BD569CBD647CACB991B1463E2D /* FirebaseInstallationsInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		30E3A7A89D9B7667109D3A5C2E026D36 /* FirebaseInstallationsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = CA7354BD569CBD647CACB991B1463E2D /* FirebaseInstallationsInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		312142D082F6935222E78E0C490A9E50 /* DTTimePeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D019EF7000CB2C9251C6E5017BF8D17 /* DTTimePeriod.m */; };
 		3146D85EF14DA06A3E76BAC02C154272 /* SDWebImageDownloaderDecryptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D5F13290C851F8D85E66AB8FC9103B1 /* SDWebImageDownloaderDecryptor.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		315255DBE915D04EC74184247420F691 /* BNCAppleAdClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A5D5D759D20534F7967FA3E86A1DBB /* BNCAppleAdClient.m */; };
@@ -441,7 +441,7 @@
 		31B97C0B7DCD31B1AF897EB0FAD7C40A /* Icons_Read@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 704F5ED183CE428A93C537ACC46492D2 /* Icons_Read@2x.png */; };
 		31D88B697DDE312E237AF9605E757553 /* FirebaseInAppMessaging.h in Headers */ = {isa = PBXBuildFile; fileRef = 81DF4340CCBAC88A1C78932AB2220D26 /* FirebaseInAppMessaging.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		31E57FD4655AC0C7EDD4F717716DD719 /* FIRIAMSDKSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 05F903C51587FB0DF226014856DD16B4 /* FIRIAMSDKSettings.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		31EA5C1F30415BD3D0D915F9F9963482 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = F1E38C04FA3C44DB2AD7D2D2D846877A /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		31EA5C1F30415BD3D0D915F9F9963482 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = F1E38C04FA3C44DB2AD7D2D2D846877A /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3203C0E7624FB85AE7A8B389AC11BA27 /* FIRIAMClearcutUploader.h in Headers */ = {isa = PBXBuildFile; fileRef = CEB9228FD0F024793FF764EA9F5B605B /* FIRIAMClearcutUploader.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		325538142128BC93E0E1DA7BA6D6BB8F /* FIRComponentContainerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = BD5267CBDE2F16350D104C0A5CA5BE70 /* FIRComponentContainerInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		325C6CAC4CFFCC3D0B4BA526C30B24C2 /* SDAsyncBlockOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A5FACBB8CB97844D406F13FF3AF18A /* SDAsyncBlockOperation.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -454,7 +454,7 @@
 		332C39BE759180E51A78E3CD0A76E053 /* SDWebImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AE90E8DEAF3A75B23DF461ADC510273 /* SDWebImageManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		333B7F42E5CBAEC3D41D149D82F95A78 /* ABKNFCaptionedMessageCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75838F88F184D4308EF9ECE2972EF12 /* ABKNFCaptionedMessageCardCell.m */; };
 		33822A0EE9E391FF78CD745CC88AB590 /* FIRCLSThreadArrayOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B52E388AE898B38000846BF6AAAF9EDE /* FIRCLSThreadArrayOperation.m */; };
-		3393677ED217E02D79C610BBB8A0E40B /* ABTExperimentPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = B907A87B26B629ADDEF39DEBBBEC3D32 /* ABTExperimentPayload.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		3393677ED217E02D79C610BBB8A0E40B /* ABTExperimentPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = B907A87B26B629ADDEF39DEBBBEC3D32 /* ABTExperimentPayload.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		33AAF7E53809D9B0FA6EBBA71547903F /* SDImageHEICCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAFD3F240345558E7CAC3C94F268C76 /* SDImageHEICCoder.m */; };
 		33F6F0594ECD11CD48F1E3FA9EA34A4E /* FIRCLSInstallIdentifierModel.h in Headers */ = {isa = PBXBuildFile; fileRef = CB25505DA5A550EAF541F0BADAE178CE /* FIRCLSInstallIdentifierModel.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		340F33EDF8DB91916933A5981E5A7BEE /* FPRConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D581CCCD76245ABEF2018C658B63968 /* FPRConfiguration.m */; };
@@ -473,7 +473,7 @@
 		36C62C32367A234FC84B1E474D1E60F3 /* FIRCLSRecordHost.h in Headers */ = {isa = PBXBuildFile; fileRef = 6157D8A7BC433E0834FEA35A4B1FE280 /* FIRCLSRecordHost.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		36D38119BB540D7BF234F41712BADAC8 /* FirebaseMessaging-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DBB179B7820164A040DEEA11F6B7E /* FirebaseMessaging-dummy.m */; };
 		36E7E4BB5AA107378CF99653389BA230 /* FIRIAMImageOnlyViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DD4D0E6337AE2DD4B39665FC7625DF3 /* FIRIAMImageOnlyViewController.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		370F776A47E2E6829A8FB381AE6DEB45 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = EDEADF6E76282C76C03E8E9E6B911AA5 /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		370F776A47E2E6829A8FB381AE6DEB45 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = EDEADF6E76282C76C03E8E9E6B911AA5 /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		371D3254041A2FC39209CFD5C32AE52E /* SEGTrackPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = A470A325A0CB8682CFD6A4EBAD9A5CE6 /* SEGTrackPayload.m */; };
 		373EED327AC0DF2C56F7599EA504E30A /* GIDProfileData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB920C71F400312ECA5BC0E6B678BB /* GIDProfileData.m */; };
 		375B1A0D95B127B2B077268CBC93AC58 /* FPRNSURLConnectionInstrument.m in Sources */ = {isa = PBXBuildFile; fileRef = D86F5E0A4C115673CC77DAE59895BE6E /* FPRNSURLConnectionInstrument.m */; };
@@ -481,7 +481,7 @@
 		37CFEE5F9E67314C2D9154899C698E78 /* FIRCLSExistingReportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E27B078DF007AE71E5353D00005DDB56 /* FIRCLSExistingReportManager.m */; };
 		37DE3995E58528B144A307053A213E3A /* GoogleSignIn-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8AC921474A8B015E6157C341D054C72B /* GoogleSignIn-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		37F70CB388FBE63360009A0B5EEFE682 /* GULNetworkInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 93154BC7D81D8CE9E5ECB20BC7013C32 /* GULNetworkInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		37F78D1B5E2289ACE66A2DD6D09C6CC6 /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1346A64A2D48F9DCAB7287648C2EFA2B /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		37F78D1B5E2289ACE66A2DD6D09C6CC6 /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1346A64A2D48F9DCAB7287648C2EFA2B /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3831B6C0E56506DF03B494F61122D159 /* GDTCORRegistrar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA36281AF1BDB95D345428206A3865B /* GDTCORRegistrar.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		387BA91D50343470C49544BA8C06A573 /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B1FF396EB1642F2B4EE629E35F45EA6 /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		388616BF5EA14D54EF0BFC693BDC03A5 /* ABKInAppMessageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1BFE0C25BFC45DC79D63601F4750BF /* ABKInAppMessageViewController.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -514,8 +514,8 @@
 		3B4833649074084A999F3155F6A6E2E7 /* Branch+Validator.h in Headers */ = {isa = PBXBuildFile; fileRef = 8768F694277A8E5010B2D475F227C4D6 /* Branch+Validator.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		3B508CE1D8FE15D54195A5EF39B0EA9F /* NSData+SEGGZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 785F3830CB40C8997D4585FAEA30D59F /* NSData+SEGGZIP.m */; };
 		3B60D089452EB50B3A79025B859E69CC /* SDImageTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2624EB3497483B5DD97D512B2ABBDD36 /* SDImageTransformer.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		3B6E2A436B49C97D5872E21084AAFE2C /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A615EAC542904E4BC73E9F9E564C159 /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		3B825E0A0346214BAB42C1D3057AE316 /* ABTExperimentPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = 7832DE383AADE1E36159EDB6F12612ED /* ABTExperimentPayload.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		3B6E2A436B49C97D5872E21084AAFE2C /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A615EAC542904E4BC73E9F9E564C159 /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3B825E0A0346214BAB42C1D3057AE316 /* ABTExperimentPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = 7832DE383AADE1E36159EDB6F12612ED /* ABTExperimentPayload.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3B9E822F9ECF6D99C617C9D2FAC9D934 /* Masonry.h in Headers */ = {isa = PBXBuildFile; fileRef = EA408B68FC6D1FCEF4ED4723DA03B08C /* Masonry.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3BB61E7A7ED1E06BC8494E769BD3C2A8 /* ABKInAppMessageUIDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 22DC7075EBE69AB167BC19D46B1A4BF1 /* ABKInAppMessageUIDelegate.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		3BE8FCE86047FEF9ED3E65C2C3371626 /* FPRMemoryGaugeData.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9E4793036ADF7E55CD400D3D269052 /* FPRMemoryGaugeData.m */; };
@@ -526,12 +526,12 @@
 		3C88290AA906D70AC2D533A819BABBFF /* FIRInstallationsBackoffController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667D02B7E619EF50AC82F6E4A19B0571 /* FIRInstallationsBackoffController.m */; };
 		3C8D4B8169B3A0788FA7F4BA9DC7F7DC /* BranchLATDRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CDD5400DA470934EE1A90A48073493 /* BranchLATDRequest.m */; };
 		3C8E8271DE81987898B437EC5BA9BFD5 /* GIDSignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BA198F2423FD9AAC328F9D2ECA422B /* GIDSignIn.m */; };
-		3CA7E5C96B1B044561A0B990A7425BB8 /* FIRInteropEventNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C00306713E883F0BA780C0F60BC1E47 /* FIRInteropEventNames.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		3CA7E5C96B1B044561A0B990A7425BB8 /* FIRInteropEventNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C00306713E883F0BA780C0F60BC1E47 /* FIRInteropEventNames.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3CC7BE1116AFCF743BE8697A98DB87F9 /* SDWebImageTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBBA54B554D45FAE00E12B57FA6E444 /* SDWebImageTransition.m */; };
 		3CD1DC442C75196662F1730E52B9CA25 /* FPRInstrument_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D1E762A39A4424377854AA0B52E83AC /* FPRInstrument_Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3CDE7E8543CEB5A73077DE6451B3DBF0 /* GTMSessionUploadFetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 06A713A894354CD86CDDABEAA485FC33 /* GTMSessionUploadFetcher.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3D0947A1627731514C28D2B76F122652 /* SDAssociatedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC56746C10311E16360E10C3189D3B8 /* SDAssociatedObject.m */; };
-		3D4877AF1468AC9FBDB8218F98CCD63D /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D7FB3B4C5A6A9330B2F4FAC861385E2 /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		3D4877AF1468AC9FBDB8218F98CCD63D /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D7FB3B4C5A6A9330B2F4FAC861385E2 /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3D5A3D1DE4E76246397EF9885D13B2D6 /* OIDURLQueryComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = D25B3060A13283737C98602543DB1344 /* OIDURLQueryComponent.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3D5B9C46F54A699A2783142876D06044 /* FIRInteropEventNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 7141AE8C82315A8B142E7D6A37C8253F /* FIRInteropEventNames.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3DB6E9F53A946D2F4BEE9ACB89514367 /* BranchActivityItemProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A2996810C80A426DA9D090D3054599 /* BranchActivityItemProvider.m */; };
@@ -548,16 +548,16 @@
 		3E9FDF7C922455B2604D2D89E5338C2D /* ABKInAppMessageSlideupViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A91A3BFC386C3F077145BBF92BC902 /* ABKInAppMessageSlideupViewController.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		3F05B3CE20709E371AF57ACFCF69403D /* GULAppDelegateSwizzler_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D930FDB45EF02D95EE291AB40FF3A701 /* GULAppDelegateSwizzler_Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3F344AD23C1D6724B56223A3F4746236 /* ar.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 36F6DFCE6F617600D6F8CEDBC6506B30 /* ar.lproj */; };
-		3F42395F007AB5C2EDAFCEEB1CA6DA3E /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = F2FDACEE6C603B29B1AEF2B19D949543 /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		3F42395F007AB5C2EDAFCEEB1CA6DA3E /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = F2FDACEE6C603B29B1AEF2B19D949543 /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3F5D0AD9AB6DB11699F501E4BA584A2C /* ABKContentCardsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D2CA4BF48AF78368E8DB58764DBAB5 /* ABKContentCardsTableViewController.m */; };
 		3F609FF89E53D2F6E161DA30DDE63234 /* FIRCLSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = EC84FC01546F5014D546DEBB7365B4AF /* FIRCLSLogger.m */; };
 		3F8A02AE7DEFF914716B6D5779365469 /* it.lproj in Resources */ = {isa = PBXBuildFile; fileRef = AD08BA9174FA66FD7808EFB568F05974 /* it.lproj */; };
 		3FE276556F88343BFF32098E3456425B /* th.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 67B403882E99DD35798B0603734D23DE /* th.lproj */; };
 		4032A9DF6AEB7B9A560E88B742D3CD73 /* FIRCore+InAppMessaging.m in Sources */ = {isa = PBXBuildFile; fileRef = A454CA1F1DC9356E12DB038F6FB8FCBC /* FIRCore+InAppMessaging.m */; };
 		4074AC22C00E978E147A5C585B07D2C6 /* SEGGoogleAnalyticsIntegrationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C2AAB11613549BB0A638A57B7A01338 /* SEGGoogleAnalyticsIntegrationFactory.m */; };
-		408123645FDAFDA26833A2F7ECA41813 /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = C5ED4AE607DCEED109914A35E4CE9504 /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		40877374C10B7B5BD334F044248706CB /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 5865D0F94521BCCDE5D35E9C2A09E098 /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		40B2219BF17400B61E76B4C622926901 /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = B92225AC940018369D2BB4AF4F391AF6 /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		408123645FDAFDA26833A2F7ECA41813 /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = C5ED4AE607DCEED109914A35E4CE9504 /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		40877374C10B7B5BD334F044248706CB /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 5865D0F94521BCCDE5D35E9C2A09E098 /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		40B2219BF17400B61E76B4C622926901 /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = B92225AC940018369D2BB4AF4F391AF6 /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		40CCD40FBBE9F8F9DFA202D237B612DF /* th.lproj in Resources */ = {isa = PBXBuildFile; fileRef = DF6ED0965C9A0EFEEE92112BA5A2926B /* th.lproj */; };
 		40D16556643B8B7A39569D82D72CA2B2 /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = A1DABB91D6599B40529397A8E2564D2E /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		40E2A45193170E4AB83FA8C3811B601F /* FPRInstrument.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F755E71083F69CBEBA6048EEA15518 /* FPRInstrument.m */; };
@@ -605,7 +605,7 @@
 		462806DF41AB6D4FE58A123B53637C79 /* BNCCommerceEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFF297A454D1DB69837C65A914C4C19 /* BNCCommerceEvent.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		4656E673FC190A130EFC6BF1E48D4FC6 /* OIDFieldMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = C78D47A1957293D9993654D0D9F339C7 /* OIDFieldMapping.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		466225415CF6BF6919156EE9B29E34AD /* FIRIAMDefaultDisplayImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 207B865B5C2057673E4DEBF6D4BBEDD6 /* FIRIAMDefaultDisplayImpl.m */; };
-		46905652817DC11EC85AC8631A14F367 /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = AC9C31BAF7E5A564FDCA24422C42DC73 /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		46905652817DC11EC85AC8631A14F367 /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = AC9C31BAF7E5A564FDCA24422C42DC73 /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		4693EF65EF0FCBDBD7E0DE7BFB870A51 /* FIRInAppMessagingRendering.h in Headers */ = {isa = PBXBuildFile; fileRef = 8071C5F310A86027E4622B7871A4C3D3 /* FIRInAppMessagingRendering.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		46C1B8C5A4EDE59076ABFC79CE37363D /* FIRIAMMessageClientCache.h in Headers */ = {isa = PBXBuildFile; fileRef = F4110EC2ADBDDD06800EF93F0E1D3DBE /* FIRIAMMessageClientCache.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		46CC77E9DA9892ABA2CB4CEB48B22CC5 /* crashlytics.nanopb.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7635DC6499712F24568B9A2BFF139F /* crashlytics.nanopb.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -614,7 +614,7 @@
 		47D276E5951C2A0FDB220ED3A1F8554B /* OIDAuthorizationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = F0A9479A12D57D9C8EC7136182B3DB2B /* OIDAuthorizationResponse.m */; };
 		47D745D6D5F397AD805133D5A12490C4 /* FIRInAppMessaging+Bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 982E13E70E7B0341ECD3F2EC28FC7EE4 /* FIRInAppMessaging+Bootstrap.m */; };
 		47DC54154DD192C02747DA9AEEF7814A /* crashlytics.nanopb.c in Sources */ = {isa = PBXBuildFile; fileRef = 013844434588ECD8080863FCDCCB62AF /* crashlytics.nanopb.c */; };
-		480118D9C0711C79450CF506185F8670 /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 73F73D2093EC5E49E51B4E9685D71ED9 /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		480118D9C0711C79450CF506185F8670 /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 73F73D2093EC5E49E51B4E9685D71ED9 /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		481AEAC27F5EF05BA2B7DEB481F2C6CD /* FIRCLSFABHost.m in Sources */ = {isa = PBXBuildFile; fileRef = A07CD162050C32146166373005F69BFA /* FIRCLSFABHost.m */; };
 		482B677DC5E6A3C2265846C80B73893E /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = F7B07197641B322600BEA86399955FDC /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		48401043D147F38F34034678EAE073AF /* FBLPromise+Delay.h in Headers */ = {isa = PBXBuildFile; fileRef = AECFE6B03AC471D0A9C0144DA8A2F50B /* FBLPromise+Delay.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -636,7 +636,7 @@
 		4B5D2FD550BD7C70C20EEFF5781E2AAE /* OIDScopes.m in Sources */ = {isa = PBXBuildFile; fileRef = E57A2271DBF534CF15447102677498F3 /* OIDScopes.m */; };
 		4B7D7140074205ABB54B6A1DC2698618 /* GDTCOREvent+GDTCCTSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CED4605998FFC560F7EA6147CE66AD /* GDTCOREvent+GDTCCTSupport.m */; };
 		4B822DB17E9E9054B4C06B41E702D1C6 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = C12D9C747A9B6A9D387F841714917F2E /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		4B9BB34933DB1FE3FD1A4C103254B3F8 /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F765F62BB7B9C19504BEC9E528FA64E /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		4B9BB34933DB1FE3FD1A4C103254B3F8 /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F765F62BB7B9C19504BEC9E528FA64E /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		4BEFCD68529E8590DAF562500891994A /* GIDProfileData.h in Headers */ = {isa = PBXBuildFile; fileRef = CF6FCC06891AFDB9CEC4A4F954F71F15 /* GIDProfileData.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		4C24C2D882279B477E0900D34A2B144D /* FIRCLSInternalReport.m in Sources */ = {isa = PBXBuildFile; fileRef = D1E0F9D3B06CE326713F7D88A2222F31 /* FIRCLSInternalReport.m */; };
 		4C902DC5714B9F1EA0372EAE86824CF1 /* GoogleUtilities-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C06A18CD327EC4C9521CB1FB653573 /* GoogleUtilities-dummy.m */; };
@@ -653,12 +653,12 @@
 		4D6D67EA0E9756C4EA790A75146B65F6 /* FPRNetworkTrace.h in Headers */ = {isa = PBXBuildFile; fileRef = 5730DE8D1926B9C5303324AC221925B6 /* FPRNetworkTrace.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		4D904687BC2E1E762A404C1DF2E76A9B /* ABKContentCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63680926038D50FC4F76D4F5BA1AEC18 /* ABKContentCardsViewController.m */; };
 		4DA49480C7C19877AC6347CFA271C08F /* GDTCOREvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A54BB4CB00060ED2D97F38322F6A4E /* GDTCOREvent.m */; };
-		4DABBDA357776ABB3E24086F8B257167 /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = FEE28B64F928D42AEC700D0BBC9E35D6 /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		4DABBDA357776ABB3E24086F8B257167 /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = FEE28B64F928D42AEC700D0BBC9E35D6 /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		4DEF2FE5B3684E97BF22C9FE598F587A /* FirebaseCore.h in Headers */ = {isa = PBXBuildFile; fileRef = C799143A6306F0A6D6A8CCE7D2AEDCA0 /* FirebaseCore.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		4E17715CC76EBB9081BE52A50CA54D79 /* FIRCLSDataCollectionToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 563EA89F513A2D13EFD3C6D2E7E7EFFA /* FIRCLSDataCollectionToken.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		4E1ACF0189A9FC8DB60AE85E29E3F76F /* FPRNSURLSessionInstrument.h in Headers */ = {isa = PBXBuildFile; fileRef = A6008C612E7FFE30C013512AEAB8EA20 /* FPRNSURLSessionInstrument.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		4E2EDE4080F2176B6AF6011933F975F4 /* GULSecureCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A589C985285F9AB2497CEA4A7C8933 /* GULSecureCoding.m */; };
-		4E3FC143C9F64DAD79A1D4F2E0FE1949 /* FIRInteropParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 26C58F518495169E175AA7EA27093864 /* FIRInteropParameterNames.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		4E3FC143C9F64DAD79A1D4F2E0FE1949 /* FIRInteropParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 26C58F518495169E175AA7EA27093864 /* FIRInteropParameterNames.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		4E4995EC7A4374AF4435B6CA998D5362 /* FPRNetworkTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C16260FBDB05DD8818796E10AD980C /* FPRNetworkTrace.m */; };
 		4E555C59100F4CF800DB296F1B2DF780 /* SDAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AC993348C333FF97730CC9FA3957111B /* SDAnimatedImage.m */; };
 		4E58FEF704ABAB7C24C735D10918325D /* ABKNFClassicCardCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C83CCD7ADFEBA17A22E619F10A96707D /* ABKNFClassicCardCell.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -692,7 +692,7 @@
 		534003449D75EAF9BDC184BA00A0962C /* FIRIAMBaseRenderingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 401E4A67893B10021A2630BF594627AF /* FIRIAMBaseRenderingViewController.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		5345877EE9D5FE3805CD2833D69B3EB6 /* FIRMessagingTopicOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C68213B68EC4F43968151865D1055DC1 /* FIRMessagingTopicOperation.m */; };
 		534DFB0BAAD0FA3BE730AE58C18D307B /* FBSnapshotTestCasePlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F761E79BD0094A35F78010B340A8EF7 /* FBSnapshotTestCasePlatform.m */; };
-		535251042BFBDF3DD9DA8461796B47D8 /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BAC3F601A437E941B9F82703A86E830 /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		535251042BFBDF3DD9DA8461796B47D8 /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BAC3F601A437E941B9F82703A86E830 /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		53640ACC5068CFC7AED48456DF0320A2 /* BNCAppleSearchAds.h in Headers */ = {isa = PBXBuildFile; fileRef = 268585FAB5A969455358C7854B43E5E0 /* BNCAppleSearchAds.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		53A21F6EDEE2A97F863E20137045EB1C /* DTConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = B6F6D2368E6F99392D2816DCC77AD309 /* DTConstants.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		543B11E273515B5DB3D4F50B9C8F6193 /* zh.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0E6531920B18EB04E02AC376DBA21CC7 /* zh.lproj */; };
@@ -718,7 +718,7 @@
 		565B4493A06E3295B185B8FBA00F7E2C /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 77691B92870250C6701E5B53C23AB908 /* ru.lproj */; };
 		56AB8427F6EA27258CD21AE43A5118D0 /* FBLPromise+Race.h in Headers */ = {isa = PBXBuildFile; fileRef = AF825A9D104ABC467A29CA1F54268322 /* FBLPromise+Race.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		56DDFA54973372C606823CF9DDAEF04F /* FPRCounterList.h in Headers */ = {isa = PBXBuildFile; fileRef = 7647F0FB23F576DFEFEE735757AEA197 /* FPRCounterList.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		57097079DA265EAAA07A14173B13C794 /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = C9EB1981A3D52EDDBFE62A169EBF5C4A /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		57097079DA265EAAA07A14173B13C794 /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = C9EB1981A3D52EDDBFE62A169EBF5C4A /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		570CB770E0EB55654CA601268FAD2408 /* ABKURLDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 59A1E221A0DD3ABAC5B4723048007E03 /* ABKURLDelegate.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		5728057CC38666780FA09D39221E41F0 /* NSURLSession+GULPromises.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BC4592F5C13AA449C880D5117995F2C /* NSURLSession+GULPromises.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		5749A5856C0E61DE7DD3B387D41CC289 /* FIRMessagingTokenDeleteOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7094BEDB766586AB81AE34CFDF4FB3 /* FIRMessagingTokenDeleteOperation.m */; };
@@ -745,7 +745,7 @@
 		5B0B84F958BD40E7C99392E002F9D8D4 /* FIRIAMAnalyticsEventLoggerImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF144AF8EDA594A57EDAEEFBC1CE372 /* FIRIAMAnalyticsEventLoggerImpl.m */; };
 		5B139274B6E4B012DB2763664D3834C1 /* FIRCLSURLBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B0B2EED82FA3BA87E6CDCD22F04348 /* FIRCLSURLBuilder.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		5B6EA1EF828F03E0B2825DA3D38B22C4 /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 43171F7C939D337553772C515B85FA65 /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		5B7FDF6BDC9DC618941BB9DFB608E68F /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = EE2657FEF074A1F87047B6E3ACEDBA4C /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		5B7FDF6BDC9DC618941BB9DFB608E68F /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = EE2657FEF074A1F87047B6E3ACEDBA4C /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		5B80B8C6675F9ABDD308DD8E131BDC4A /* SDWebImageDownloaderConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 04776760F23BD917FCAD48BA6F0F88C2 /* SDWebImageDownloaderConfig.m */; };
 		5B8630F0A668DF3264C7A1A53D9221D0 /* SDWebImageDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECA6CA848C16168A6FFF931B68A5A04 /* SDWebImageDownloaderOperation.m */; };
 		5BADFFFC7A29779178210C78C83C8FDC /* ABTConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B272DF3EFFFA51472CFF728C44181A1 /* ABTConstants.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -756,7 +756,7 @@
 		5C7652B9550761E1A6FC2DEA91E414E2 /* GDTCORClock.h in Headers */ = {isa = PBXBuildFile; fileRef = DBF979E066A199B3684C8B696438B13B /* GDTCORClock.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		5C8884BDB39EC3B7A4CB10AC3E3B9C76 /* BNCInitSessionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = FAB28DB775CB908F2498AD3024B7D8B1 /* BNCInitSessionResponse.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		5CA88FE019148248430B3ED8043C2E19 /* FIRCLSReportManager.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE03F9B8DC0EDD7285A7F63FDCA4C80 /* FIRCLSReportManager.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		5CBECE417F403504270C12DCDA5A7B1C /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = FCA907F936AA6F5EAC30D1EDE3B4F57C /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		5CBECE417F403504270C12DCDA5A7B1C /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = FCA907F936AA6F5EAC30D1EDE3B4F57C /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		5CF7147E0E900E363D6D9331F0832D79 /* FIRCLSApplicationIdentifierModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 80834362FAD8BC18834A79E5A6F4C211 /* FIRCLSApplicationIdentifierModel.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		5D181AE7EE40A5A9A9FBF7443DD8134E /* GULURLSessionDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = C27326831CD9C50228261130BE6C259B /* GULURLSessionDataResponse.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		5D43F77A07DBA6739A1BEED4640513E0 /* OIDRegistrationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2358278BCAC34D7D82469CF4D61DD /* OIDRegistrationResponse.m */; };
@@ -768,13 +768,13 @@
 		5DEDBA86EE3DAD36E99D1EE7D375D6C5 /* NSImage+Compatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC4F5E967B63F3D24A74B9D692AB95 /* NSImage+Compatibility.m */; };
 		5E20617A382E2C1CE6BFEAF2CDBB9D42 /* FBLPromise+Always.m in Sources */ = {isa = PBXBuildFile; fileRef = 134C54F930701784415F78A4B017449F /* FBLPromise+Always.m */; };
 		5E3B20F29940A8A977D462A49CFA407F /* BNCContentDiscoveryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DB0737DA785FEE95738EE72FB99B50D /* BNCContentDiscoveryManager.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		5EC1AB2B2FE1921C3D1441F72A1183E8 /* FirebaseABTestingInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA38E638791640245BFE6B0A080A3FF /* FirebaseABTestingInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		5EC1AB2B2FE1921C3D1441F72A1183E8 /* FirebaseABTestingInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA38E638791640245BFE6B0A080A3FF /* FirebaseABTestingInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		5EED1E9EACBCFA71C9AF00D1E29EE09B /* SDImageIOCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4285B9139CBB011A0DDC685ED0E22DF4 /* SDImageIOCoder.m */; };
 		5F09A10ED8DA4CA2A858CD6D3C576152 /* FIRBundleUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F5124C458F39652DF710530A3EE666F5 /* FIRBundleUtil.m */; };
 		5F4134B7C194F53D42D769B167A12CEB /* RCNPersonalization.h in Headers */ = {isa = PBXBuildFile; fileRef = 9BBFA2744F9A91A67FBFB21F95351763 /* RCNPersonalization.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		5F8AD891E2132B8EF241281A5293CCC0 /* GULNetworkURLSession.m in Sources */ = {isa = PBXBuildFile; fileRef = F078947BE3448DF7DDA17CF5A6E3DC57 /* GULNetworkURLSession.m */; };
 		600E468D8E395DD7FD5A6C9278D1B01D /* ABKTwitterUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F63B47FB2E3B524BB992930E6AE1AC0 /* ABKTwitterUser.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		60271BF4FEFC9A25D8F5A3E4EFE2E9CA /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F6D0971A159038F6276B23AAF8A30A8 /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		60271BF4FEFC9A25D8F5A3E4EFE2E9CA /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F6D0971A159038F6276B23AAF8A30A8 /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		60A437E4DBF327DEE7B1AD9E0D580F89 /* FIRInstallationsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 046916F959F4F7F180E151659DC6439F /* FIRInstallationsItem.m */; };
 		60AF729C6A5A496795CDEC7F3C481830 /* nb.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B9E8CD71A18702EB39843D0F33CB45DC /* nb.lproj */; };
 		60BFBD4150E9EAF14375F3107B1A48B4 /* FIRIAMFetchFlow.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A19AD154ABC0E48907F178E47F5069 /* FIRIAMFetchFlow.m */; };
@@ -787,7 +787,7 @@
 		61D6391179B4A180D399FCD31F7052E8 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = 81393FFE44649BC73ACF3F8090742A77 /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		624AD86A0843BA335CA26BD6E4E0F6ED /* BranchOpenRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C1E8FF4B93508E67A5100E7DBFF6E9B /* BranchOpenRequest.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		629D7C5DE16E3485EA0BCF1D2F21F1CB /* FirebaseInstallationsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 574D9EC20812F7DCB6928F1F0F9150BA /* FirebaseInstallationsInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		62C65499400F484E604B7259968E6142 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = B08548DBAD1A23938596E1FD2630FB0C /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		62C65499400F484E604B7259968E6142 /* FIRDependency.h in Headers */ = {isa = PBXBuildFile; fileRef = B08548DBAD1A23938596E1FD2630FB0C /* FIRDependency.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		634010AF81838F6774D0355BBA3A7420 /* FBLPromise+Timeout.m in Sources */ = {isa = PBXBuildFile; fileRef = C1DE8EE95DC3988ADADF89867C017B9B /* FBLPromise+Timeout.m */; };
 		63696608F97ED9AF5E9959E651E2B333 /* FIRCLSAllocate.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E6A82CD2BDCC041DF6EC3FF3AA7F5F6 /* FIRCLSAllocate.c */; };
 		6372A85DF3BAA2BC7AFDC6419A5C5C25 /* SDWebImageOptionsProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A1D738AF4025FA002CB84FECB00900 /* SDWebImageOptionsProcessor.m */; };
@@ -809,7 +809,7 @@
 		66191B9F2BEE9785159EF0D3EC935AB6 /* FPRGaugeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CF0122F1208C31D7C2FEC3450DBDD7C /* FPRGaugeManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		663B23438657F02522233FE8E03F8E6D /* FIRInAppMessagingRenderingPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = EFD53060FDE78BEF82C31001D6C52F0B /* FIRInAppMessagingRenderingPrivate.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		664F236E1BCEEDB2499324DCB187E63F /* ABKImageDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 71F287E28B18C31A537847FA869B3E63 /* ABKImageDelegate.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		665B3752E51FAE6136A7BA1AB4E84A2C /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CFEB93A9C31B52612DFCF8A8E8B8CF8 /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		665B3752E51FAE6136A7BA1AB4E84A2C /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CFEB93A9C31B52612DFCF8A8E8B8CF8 /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		66851E86937E00761D1979F990BA37B0 /* RCNConstants3P.m in Sources */ = {isa = PBXBuildFile; fileRef = 917D769A92EC33D2DE200B3ADB173CAF /* RCNConstants3P.m */; };
 		6693439CB0D48BEB1B8B5A4A49B62174 /* ABTExperimentPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = E74D26B4A51CC8F93A53240680717F47 /* ABTExperimentPayload.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		669942552E708541CF5AF40924E07171 /* BNCServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 617B5B8BA74AFE18F06BDF413ABF024A /* BNCServerRequest.m */; };
@@ -875,7 +875,7 @@
 		6F102C01F1AC734700803763426549EB /* Appboy-iOS-SDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DA8F366FB16902C8E40881726C2E36E /* Appboy-iOS-SDK-dummy.m */; };
 		6F54C00BF4E0D43727535134F48B460A /* FIRIAMBookKeeper.m in Sources */ = {isa = PBXBuildFile; fileRef = A6AEB1A46D8576342D61D44EA5B6F54B /* FIRIAMBookKeeper.m */; };
 		6F5D4A602D96C21D3A4BF3DE9933C65F /* BNCApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 654AD6ADEBAC38FEC0A9452DC05D0F68 /* BNCApplication.m */; };
-		6F5D5172717C5AEFAC4B8D8107938A66 /* FIRAnalyticsInterop.h in Headers */ = {isa = PBXBuildFile; fileRef = AE0839F29F4619709745EB6D54FBC4B5 /* FIRAnalyticsInterop.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		6F5D5172717C5AEFAC4B8D8107938A66 /* FIRAnalyticsInterop.h in Headers */ = {isa = PBXBuildFile; fileRef = AE0839F29F4619709745EB6D54FBC4B5 /* FIRAnalyticsInterop.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		6F5DCBA2791CA5A9EC9101BB9D0E54AE /* FIRCLSApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD471179F1F30FBA9603E3BFD66F69F /* FIRCLSApplication.m */; };
 		6F7BFB1C6775FF7D09A2603F7C81B693 /* SDImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F87CBAFE602A80AB0E8F6E7857DFCA /* SDImageCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		6F9E7E731B1A961C4C98E073FD7BC708 /* FIRMessagingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA5B35DB54103E31F5D14D58CE85E19 /* FIRMessagingUtilities.m */; };
@@ -913,7 +913,7 @@
 		74D7A910253772DA6A134B1FA31D6CE4 /* BranchCloseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FAFB3F0BD34CC9576B16EA733CED3D0F /* BranchCloseRequest.m */; };
 		753DE8DE3EFEB5E268A8C7B1E55292D1 /* FPRNanoPbUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A4ACE2137E1E2057E326194A98D24D1 /* FPRNanoPbUtils.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		75456AFDC40E98B864F4F95B2ADE7383 /* FIRFirebaseUserAgent.h in Headers */ = {isa = PBXBuildFile; fileRef = A86A0EF54AB5002F277F93B9AE8374A5 /* FIRFirebaseUserAgent.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		7559679EEE4D594A5CDF2AD0C7455FBF /* FIRInteropParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 166C8318CEAE0623B9B199CB458D08A7 /* FIRInteropParameterNames.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		7559679EEE4D594A5CDF2AD0C7455FBF /* FIRInteropParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 166C8318CEAE0623B9B199CB458D08A7 /* FIRInteropParameterNames.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7566D40289D8B16B7C2DFDCE4815C858 /* MASLayoutConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 32AE93C4718B4CDF8ED57DEDF09864AC /* MASLayoutConstraint.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7590A8D1A0D3DB0BB970CBD040B7ADF3 /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 50C22AED3322B71689EB80ABCD24FBDA /* es.lproj */; };
 		75AB88909B83D23D03637018D06B1699 /* BNCThreads.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC7C55EAD60C7B4AF595624FDCC28CF /* BNCThreads.m */; };
@@ -998,19 +998,19 @@
 		8121FB21CE07F6BBC4708ADC4737198B /* FPRGDTLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 332EBA476A5D9892F7CC865736F71017 /* FPRGDTLogger.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		8130470DA3D2208D4FE429B95A85CDA2 /* ABKInAppMessageWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C370A1DA8340298F672277F2A5FD5EFE /* ABKInAppMessageWindowController.m */; };
 		814359449005502249A8088CBD0B3023 /* uk.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6472F8A0C7C64FCBD30C050CC7955E08 /* uk.lproj */; };
-		8155054794EF911906EAA24173732B42 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA087A24CBAA4AFBA7F9C1E3B25FD1 /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		8155054794EF911906EAA24173732B42 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA087A24CBAA4AFBA7F9C1E3B25FD1 /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		819F63020C30B32ED29741E33B12E7D0 /* Masonry-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C74D5335D40F7BE5926FCDA163BF5F20 /* Masonry-dummy.m */; };
 		81D97272BAF885CC7DB522679467D434 /* FIRCrashlyticsReport_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F714D7A1965261277FC8FCA64D66398 /* FIRCrashlyticsReport_Private.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		81DC384BB70A3AAA9B150F9FFDE012A7 /* Segment-Appboy-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7B1025F053CB7A064CAA3192267FC0 /* Segment-Appboy-dummy.m */; };
-		82116ECE78AA32264A81C99EF4FF16E8 /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 45116A7578ABF5A762C5DEB6938972C6 /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		82116ECE78AA32264A81C99EF4FF16E8 /* FIRComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 45116A7578ABF5A762C5DEB6938972C6 /* FIRComponent.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		827C6F6C87EAF966886419F412C98E6E /* FIRIAMTimeFetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C7F1296EBE6E785BB64D3E57493143D /* FIRIAMTimeFetcher.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		829589283D9DDCD5B29B3B244F155F5D /* OIDExternalUserAgentIOSCustomBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = C3C0ADA446835C818015D180B6B6C191 /* OIDExternalUserAgentIOSCustomBrowser.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		82DA1DECF50B65350621134A015F3B21 /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = DDE42A8C4D3C699539B533F97276BFDC /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		82DA1DECF50B65350621134A015F3B21 /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = DDE42A8C4D3C699539B533F97276BFDC /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		833EABF29FE5AB939E044C24E1CC2735 /* FPRDataUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 63394A591640A26941202445E6655194 /* FPRDataUtils.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		83481E8527AEA1283906FD2AF7411A26 /* FIRCLSUserDefaults_private.h in Headers */ = {isa = PBXBuildFile; fileRef = B02BB8C20838B5ED4007351691DBDB3D /* FIRCLSUserDefaults_private.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		8375271217A65C705139AE953FD32A3E /* GULHeartbeatDateStorable.h in Headers */ = {isa = PBXBuildFile; fileRef = B81D1A1615A7C2E306B83DB3C00F3C70 /* GULHeartbeatDateStorable.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		8376C320B4101AC133DC43BD1F2B427B /* FPRScreenTraceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBD8A346164E786ACB270BB1DD5D32D /* FPRScreenTraceTracker.m */; };
-		83BF5AD87D0D460A92913A0EA0228C91 /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE1B7DD17FF71CF17D23867F021B3B1 /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		83BF5AD87D0D460A92913A0EA0228C91 /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE1B7DD17FF71CF17D23867F021B3B1 /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		83F6621AF7ECCD2724C4A02FE3E0F047 /* OIDAuthState.h in Headers */ = {isa = PBXBuildFile; fileRef = AC838CB38E7185A4F9107F1570CCE5B1 /* OIDAuthState.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		83FC54DBFC4698AEEAC8ACF588F2CCA7 /* GIDMDMPasscodeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7BEB6007F899B323CF8974A248E50 /* GIDMDMPasscodeCache.m */; };
 		83FDB77E6F32BF7B9F9332E22E8C0B19 /* NSData+ImageContentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EE220E4C59FCEC9172D046F611CEED5 /* NSData+ImageContentType.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -1070,7 +1070,7 @@
 		8E5373CBBBCB27AA9B772FE21CC4EA86 /* ABKInAppMessageHTMLFullViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF859133A8DF1C7DA9086A0E210506F /* ABKInAppMessageHTMLFullViewController.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		8E772BFDD6AF15A8829C71A2313BAE9A /* SDImageCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB20F82CB3C41B5C4FF8643427BA0A2 /* SDImageCoder.m */; };
 		8EA2AAD8F61EABB7EBDF5A41ECC5857A /* GDTCOREvent_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F0372A6257EF8BC888E538E2480ED3E2 /* GDTCOREvent_Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		8F1193579D68197C67FF0BB20299C4E8 /* FirebaseInstallationsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = A9E9A673DD8F81263BED6E508FE52AB2 /* FirebaseInstallationsInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		8F1193579D68197C67FF0BB20299C4E8 /* FirebaseInstallationsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = A9E9A673DD8F81263BED6E508FE52AB2 /* FirebaseInstallationsInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		8F1720CC8FE8B64E52F4AC7E5476B88A /* hi.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 20F0472F321C67953AD6ABD066CBE07A /* hi.lproj */; };
 		8F1A3D90B74E6E27D59D07451B156D1C /* FIRCoreDiagnosticsConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C259AE85B5A5C5F36F3DDC27443677A /* FIRCoreDiagnosticsConnector.m */; };
 		8F3C2C4418F8E872D5E977FEC58D284D /* FPRNSURLConnectionInstrument.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BBD72AA46E5A9D985290B59CF90728E /* FPRNSURLConnectionInstrument.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -1100,7 +1100,7 @@
 		9269DC459C6A4B4F2C09CB025A294B62 /* FIRMessagingTopicsCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 17CADC8278CB45AC557E21D042526812 /* FIRMessagingTopicsCommon.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		92977AC968375ED91E796089AB42307F /* pb_common.c in Sources */ = {isa = PBXBuildFile; fileRef = 41830B71265E6FBAA252166CD0529953 /* pb_common.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc -fno-objc-arc -fno-objc-arc"; }; };
 		9298F322E7B7AD8A98593A15ADD30B7B /* FBLPromisePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F36E7C7EA51FBEA9B3B54D8AA96587DB /* FBLPromisePrivate.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		92DF0AE16CCAD1144A9BB80B83CB4DB8 /* FirebaseInstallationsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F556B3F18EA34928412F36FE783E9A84 /* FirebaseInstallationsInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		92DF0AE16CCAD1144A9BB80B83CB4DB8 /* FirebaseInstallationsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F556B3F18EA34928412F36FE783E9A84 /* FirebaseInstallationsInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		92EA746A247EA72D2C18CD97685C5643 /* FIRMessagingUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 12D1873DA6D523196254BCE71787F0F7 /* FIRMessagingUtilities.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		9327A45A797CA9366A68A66D2AC1FD66 /* FIRCLSConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B6F8796B598ECDA74CA7C19D79EF746 /* FIRCLSConstants.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		9343FE60046171D9431D449879B4D1CA /* BNCSKAdNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4ACDF0461A9767E8AAFD0399E81BF7 /* BNCSKAdNetwork.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -1157,7 +1157,7 @@
 		9CB4D1C88D3A47BB0C111710EFA5D731 /* FIRCLSContext.h in Headers */ = {isa = PBXBuildFile; fileRef = F88ABAC1CC331DE2E5698DF274D5A6E0 /* FIRCLSContext.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		9CC43B557DA159323668DA1B3BB24E05 /* FIRMessagingCheckinPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2503F8B5B6946E69EC42F205ABFF77 /* FIRMessagingCheckinPreferences.m */; };
 		9CC50571377CD5B595FD17F0939985EB /* sk.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 7AFC364A66F4AB38766B9E0C4C87FF0A /* sk.lproj */; };
-		9D29761733C6238088BE8522E05C1776 /* FIRAnalyticsInteropListener.h in Headers */ = {isa = PBXBuildFile; fileRef = E328186543C82DF5714AD2103BBF2CBD /* FIRAnalyticsInteropListener.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		9D29761733C6238088BE8522E05C1776 /* FIRAnalyticsInteropListener.h in Headers */ = {isa = PBXBuildFile; fileRef = E328186543C82DF5714AD2103BBF2CBD /* FIRAnalyticsInteropListener.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		9D3FC4122B127EC0488996B515E49759 /* FIRCLSSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A077E8F99F97B16B6F6521171A6D40A /* FIRCLSSettings.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		9D5830D7D39B7669D53457054AE965D3 /* FBLPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = FC8F6E04F0F17845F025D57FA48E310A /* FBLPromise.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		9D6085D3EA50028F6FF1090D271CC58A /* FIRCLSInstallIdentifierModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DEA09B4E1D3DFA1BBD06BAD9D7A463 /* FIRCLSInstallIdentifierModel.m */; };
@@ -1252,8 +1252,8 @@
 		ABA27EF086A17A596051CF6D8B66696B /* OIDFieldMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = F0D3F873F1422E9C2BF820A65FAF801B /* OIDFieldMapping.m */; };
 		ABB1B624D0D3436ED041FA75B3551E8C /* FIRInAppMessaging.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC08587BD1D8513F1149DCE06AA5129 /* FIRInAppMessaging.m */; };
 		AC048EBCBCB262A36A2F1C3583FEE585 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EF339F6ED9B86E6B04EC44910105B5 /* SDWebImageManager.m */; };
-		AC35FC74B7175BDD693333E9DD14CD20 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = D109738B4FEEA5E2DB05AC328C5F8C25 /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		AC58B550E7709A129537DA1A9D17B33D /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = EEAA980D0B657F0C0B66636C9083791B /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		AC35FC74B7175BDD693333E9DD14CD20 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = D109738B4FEEA5E2DB05AC328C5F8C25 /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		AC58B550E7709A129537DA1A9D17B33D /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = EEAA980D0B657F0C0B66636C9083791B /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		ACA5B9213F6843DAA4E95F301B283E6F /* FIRDiagnosticsData.h in Headers */ = {isa = PBXBuildFile; fileRef = 4473989C428C5D7689161AB0618322D9 /* FIRDiagnosticsData.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		ACD88C4D69BE1177731ED22001D6A5B2 /* SDFileAttributeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BE92F94E68CC6923996FA0317C0B7922 /* SDFileAttributeHelper.m */; };
 		ACFAE84CA9266881AF6781F31E2A518E /* BNCNetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 21422706896CAA93A04EDDAE36DA3968 /* BNCNetworkInterface.m */; };
@@ -1264,7 +1264,7 @@
 		ADA5ADE7CF9369D4C6F3915E1A9B497B /* FIRCLSSymbolResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = EC6719BF64F8F4EDB8A0BB5585C0BBEF /* FIRCLSSymbolResolver.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		AE014D3F8D3CE9AD37D08180BAD9BB25 /* FIRIAMMsgFetcherUsingRestful.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B0A3289E4CC14AF70889F2BA07C336 /* FIRIAMMsgFetcherUsingRestful.m */; };
 		AE736B54A801CE66F152E788CA140A45 /* UIImage+Snapshot.h in Headers */ = {isa = PBXBuildFile; fileRef = 49E08DE51B91E9469F2265615E92ABFD /* UIImage+Snapshot.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		AE7EFBF867D18F1490553E9CECE7294A /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 66A962CCFBE15D6261811DA3E4087D69 /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		AE7EFBF867D18F1490553E9CECE7294A /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 66A962CCFBE15D6261811DA3E4087D69 /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		AEB444ED94EB0883A6C7833BFAB1C738 /* Segment.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A39F6205F62E7F4C5FD681B82E1761 /* Segment.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		AEE3869AB83032C7E156FEBF957C027D /* GIDSignInButton.h in Headers */ = {isa = PBXBuildFile; fileRef = BD4AD94A11E9F3CB2465DF0D2E57AF12 /* GIDSignInButton.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		AF0E1545B55600F47FCA07EEFAE90C2E /* BNCApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7928647F394ED22F71AAB163C1E3BBBF /* BNCApplication.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -1335,7 +1335,7 @@
 		B9177608ACF1423231BE6AFE0492DF46 /* SEGAppboyIntegrationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 46098B8EE78E793E5533E8A25CC314A4 /* SEGAppboyIntegrationFactory.m */; };
 		B97CD5BD930A0F91F3B17087CEE1DD0E /* BNCFacebookAppLinks.m in Sources */ = {isa = PBXBuildFile; fileRef = 1151C521BDB9248202F95DE26FC79D33 /* BNCFacebookAppLinks.m */; };
 		B9859EC2B26DF0C08007125532A776FE /* FPRPerfDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BBEDF9D6B2F42FDCA0D214896B6E49 /* FPRPerfDate.m */; };
-		B99349F7CD57D576532E97769B0CA1C2 /* FIRInteropParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = D89ABC7900FB844155EFF7EB3BAEED51 /* FIRInteropParameterNames.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		B99349F7CD57D576532E97769B0CA1C2 /* FIRInteropParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = D89ABC7900FB844155EFF7EB3BAEED51 /* FIRInteropParameterNames.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		B9A5C3CE47272B985C317CB9CBAA203F /* hu.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B7A1920C964253E4BE61E5527B4F274F /* hu.lproj */; };
 		B9A9746DE8C5B1BE40FA42BD83E574D0 /* BNCCallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B6C0E813B11B4632934069FBA672B93 /* BNCCallbacks.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		B9C30B6E9BE833E057E153E171D83539 /* img-noimage-lrg.png in Resources */ = {isa = PBXBuildFile; fileRef = 60E3FE70BBCE5203BF7809EE387911E6 /* img-noimage-lrg.png */; };
@@ -1353,7 +1353,7 @@
 		BBCF24C2209B0D2E0C4C43CFB5950999 /* DTTimePeriodCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A04E4F8DCD576E1E069D7A244BA44B /* DTTimePeriodCollection.m */; };
 		BBD4AB5949EF17C6DF473040ED60049E /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 751685D3E3C98F878BE079DAAB82F664 /* OHHTTPStubs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC61508AB5E7A1FAAF3EE683EB861529 /* FIRPerformance+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F93A5334FE39A9983A39A20F8AF8EE9 /* FIRPerformance+Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		BC74063CE457CF80FF6460C0E8B2DA08 /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DB1FF2EF7319E47499CDCD741E6AF61 /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		BC74063CE457CF80FF6460C0E8B2DA08 /* FIRComponentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DB1FF2EF7319E47499CDCD741E6AF61 /* FIRComponentType.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		BCC82CD822EA38BB0C337563B363723D /* GIDGoogleUser.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC2F23B4C7389BD3AB49C98C20D354E /* GIDGoogleUser.m */; };
 		BD1414F9CBE2FFA1C3665BA6AE2C7545 /* GDTCCTUploadOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B651322144D555990126ECA5EC53834 /* GDTCCTUploadOperation.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		BD86D45EB50C6CAFEC72A60C964876E0 /* FIRCLSExecutionIdentifierModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C6485BE62595F49F1B3BAB6ACFFAA633 /* FIRCLSExecutionIdentifierModel.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -1379,7 +1379,7 @@
 		C05A61CFED9F19A702782D8EC33D154E /* fil.lproj in Resources */ = {isa = PBXBuildFile; fileRef = F70EA6CE052DFE12593B931E20003BF7 /* fil.lproj */; };
 		C06D90DB6229F1D32180934C2B8A1082 /* FPRClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DD381173709E594CFD7CF78937FEA3D /* FPRClient.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C077D10A274E3ABBFB24CFA189274DC3 /* BNCLocale.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC772F5133EE254A14CE2187C92EBFD /* BNCLocale.m */; };
-		C0C037E460B2ABF3F7C67EB80A00C4B1 /* FIRInteropEventNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BAA22EBB5A7E4D8509BBAD492D36F3B /* FIRInteropEventNames.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		C0C037E460B2ABF3F7C67EB80A00C4B1 /* FIRInteropEventNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BAA22EBB5A7E4D8509BBAD492D36F3B /* FIRInteropEventNames.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C0DB85B6141E7B7F0E6769D538E8D58E /* FIRTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = 826ECE13BC5594E0D20D8F4290B795D6 /* FIRTrace.m */; };
 		C0E8B4CACAC68675B6E5B9566BB702D7 /* BranchEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 20615BCA6B72A750180A7CF4002A042F /* BranchEvent.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		C0EEF3E76D97B95B96A92694A9307287 /* BranchEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F65931EC9D62DF415A2DB248C8D3B2FA /* BranchEvent.m */; };
@@ -1392,8 +1392,8 @@
 		C1B8DC3673278401107A15D7C0BDD94A /* GDTCOREvent.h in Headers */ = {isa = PBXBuildFile; fileRef = E214731EB7FFF898E43393F30E8A111A /* GDTCOREvent.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C1C0133C229BCAAB0B7083F033069CA5 /* SDImageCachesManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3F0E24D61F4063853FE8238B2C89F8 /* SDImageCachesManagerOperation.m */; };
 		C1D84CA1E30B1CFEF3EC4AB3BCA85F9A /* FIRCLSUserLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = F6805C9B16CA9D7B99978B4A5B8095AC /* FIRCLSUserLogging.m */; };
-		C239F42AC1763A902887BDD4CCBF217F /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 670F0232344A7142A640ED222CFF5C75 /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		C248772B723606C88430C3125DC0AC4D /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82DBAB6160E3AD668EFF4EA3FD8316BC /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		C239F42AC1763A902887BDD4CCBF217F /* FIRLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 670F0232344A7142A640ED222CFF5C75 /* FIRLogger.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		C248772B723606C88430C3125DC0AC4D /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82DBAB6160E3AD668EFF4EA3FD8316BC /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C2764E313AB53559A5344873462F1F3C /* FIRMessagingLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3CD805B1C429CE973BD36B0C036DB3 /* FIRMessagingLogger.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		C2CF22DEFAFF5EB5108BE540FF4F4D99 /* tr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9E268962F27A515C76A25329A0100028 /* tr.lproj */; };
 		C2E3A08B39A00FAF5DCCDE72B9B50FDD /* MASConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 62DC46CC15A70A8AFB7DD103F4A0E7DB /* MASConstraint.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -1402,7 +1402,7 @@
 		C384560CC6A30F758A40ADECF6CFA93B /* GDTCORFlatFileStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E2933B8E98E42178C43C66C54543824 /* GDTCORFlatFileStorage.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C38A591192A9DEFFBD529EDFBDF99538 /* NSViewController+SEGScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DE059C775171ED3C54C99A544FE844 /* NSViewController+SEGScreen.m */; };
 		C39549FCC22267CEB717DAB41DB2D84A /* iOSSnapshotTestCase-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A656BB0457054FBE654372FF8231C287 /* iOSSnapshotTestCase-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C3BFDC5218239B3E8D8CF41F2B5790B8 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = CCE7BC4653ADB3D5147B43E1E6781CC0 /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		C3BFDC5218239B3E8D8CF41F2B5790B8 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = CCE7BC4653ADB3D5147B43E1E6781CC0 /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C3EAA7E12771D1BBB0413292AD08D21E /* FIRCLSFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87082E8D4B87D2E1D33348353D14D44D /* FIRCLSFileManager.m */; };
 		C45BBAE43133F79221A6BFE86A8D046A /* FPRRemoteConfigFlags+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B46F5FDA062A001A61224835255DAEA /* FPRRemoteConfigFlags+Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C4759262A6109FDAC61CFB69A2F89633 /* SEGIdentifyPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = 11633D292DE5925F392BC1CC01FB82D6 /* SEGIdentifyPayload.m */; };
@@ -1418,7 +1418,7 @@
 		C5931B3AAB2C11A1EA2880B8E1B2AED2 /* SDImageCachesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B18A0F2C9FD0389AF06818BBB04C2022 /* SDImageCachesManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C5D1EBD74B4519B44DB9BDDEC6370C0E /* FPRGDTRateLimiter+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC7EF180DFA79CB7FB032FAA02EF3CA /* FPRGDTRateLimiter+Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C612B2EEE2778B82D876ACEC01EC1611 /* RCNConfigDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 5320DF5A00AA19B274070725A5C8ED3D /* RCNConfigDefines.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		C651A6E31ED4D4AD80FAFA221821E2D3 /* FirebaseABTestingInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A25B1A9C8F06031E764F12DBEF48A5C /* FirebaseABTestingInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		C651A6E31ED4D4AD80FAFA221821E2D3 /* FirebaseABTestingInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A25B1A9C8F06031E764F12DBEF48A5C /* FirebaseABTestingInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C69F7FD20428D4875F4F309D69C5C079 /* FIRCLSNetworkResponseHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 05251DD53684E21BAB2716E3F3875994 /* FIRCLSNetworkResponseHandler.m */; };
 		C6A0A375FE9DA1F15D57D2704C60AED3 /* GTMSessionUploadFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB47C95131F5E46F05254472DC0C14 /* GTMSessionUploadFetcher.m */; };
 		C6BE3FADBE5304556399CE87E531266D /* BranchShortUrlRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = E4E7FDC383E297152496E822E37EDB69 /* BranchShortUrlRequest.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -1429,7 +1429,7 @@
 		C807ACD525FEABC7241FCA597946441B /* FIRMessagingPersistentSyncMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = D9913BFF5B29BC5B0600C71FA68E4C42 /* FIRMessagingPersistentSyncMessage.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		C87CA9090706849100519E363BF8C3FC /* FIRCLSMetricKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B96760654C8672E4508B029C2E543CEF /* FIRCLSMetricKitManager.m */; };
 		C87D47365FB15D092DCF872A31160A71 /* ABKBannerContentCard.h in Headers */ = {isa = PBXBuildFile; fileRef = F845C86F1B0612657A467D818E82D690 /* ABKBannerContentCard.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		C8EC948B881A585949C6EC3F763FF458 /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E6E6BB00F774F97AF07EEBAA275FE1A /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		C8EC948B881A585949C6EC3F763FF458 /* FIRComponentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E6E6BB00F774F97AF07EEBAA275FE1A /* FIRComponentContainer.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C8ED584024CFB8DDC74F0EC0CE0585F3 /* GDTCCTCompressionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C8527F8B622EF3F631253BE10A418E /* GDTCCTCompressionHelper.m */; };
 		C926116820DE16ED23724F86AB79D27D /* FIRAppAssociationRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF0EFC385E938F0D1B92D81B55CDBF1 /* FIRAppAssociationRegistration.m */; };
 		C92E470D47F832C5A3DC984986FB1655 /* nl.lproj in Resources */ = {isa = PBXBuildFile; fileRef = EE87FA7407A74B81D9033B219AA77F9B /* nl.lproj */; };
@@ -1440,7 +1440,7 @@
 		C9BDA887951BC61A0E42D15D70E5E416 /* GDTCOREventDataObject.h in Headers */ = {isa = PBXBuildFile; fileRef = D8E6430D725E5B3255D572B9CBDAEE6F /* GDTCOREventDataObject.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C9D4B3FBA0472696BB2223C62AC7483C /* FIRCLSSymbolResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = AC46CB76DCA17E60666899922212856C /* FIRCLSSymbolResolver.m */; };
 		CA19C2B1C956AEFD00A7362AD99A6440 /* FIRIAMBannerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C7F6F49F9E7AF4A5F0CFEE7B0D1414D /* FIRIAMBannerViewController.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		CA8068C3114F59DE17FBF899B73D46F3 /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = BEA1AE70D83C090C74A842DBF44BAA00 /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		CA8068C3114F59DE17FBF899B73D46F3 /* FirebaseCoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = BEA1AE70D83C090C74A842DBF44BAA00 /* FirebaseCoreInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		CA8A8F886CCB61B3EB56200FE02EDB7F /* GDTCORLifecycle.m in Sources */ = {isa = PBXBuildFile; fileRef = AE99EAF88C838203559E8DACA53C8556 /* GDTCORLifecycle.m */; };
 		CB75938B380EC92F135C4A1A36712579 /* ABKInAppMessageModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D168B7A547C578D5A78A7EF19F860768 /* ABKInAppMessageModalViewController.xib */; };
 		CBECBF8AC806D94B006755E70F2F1BEC /* SDWebImageDownloaderRequestModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E35B08B5B3A77E94C4E3411595B25A2 /* SDWebImageDownloaderRequestModifier.m */; };
@@ -1468,14 +1468,14 @@
 		D06813A7A21C32B63676183F15D5C8C7 /* GULUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D570990B6631A0A7A59E431A60E3C49 /* GULUserDefaults.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		D07F133A91CFC15A0EA4C92362FB2373 /* GTMSessionFetcherLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 61541FB4E114DE5644A4B334DCD16646 /* GTMSessionFetcherLogging.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		D0885E6D7CAB2D4FEBA5F27CF46E1D0F /* BranchUserCompletedActionRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 28A4D097A5EF4D86852C8C9D175BD1B8 /* BranchUserCompletedActionRequest.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		D092193CD53CBCB2210A2DFE55452225 /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BD10B84EDA59FD662980A83D5F473D /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		D092193CD53CBCB2210A2DFE55452225 /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BD10B84EDA59FD662980A83D5F473D /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		D09819BD305A10A0DCE26F460244C268 /* FIRCLSDwarfUnwind.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A5C9EFC9610B075EA00FDE101B7452C /* FIRCLSDwarfUnwind.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		D09A5063AD346629B1BEAE4C3964B73A /* FPRNSURLConnectionDelegateInstrument.m in Sources */ = {isa = PBXBuildFile; fileRef = E1EE2D11713E8D0198A3745DE5AD586F /* FPRNSURLConnectionDelegateInstrument.m */; };
 		D1261A77ADF42B5A8AAA7CABB20EBC2B /* pt_PT.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 89D07CCFD1E4B9CD86ED3C7596806263 /* pt_PT.lproj */; };
 		D1847D8AFBE377EE3EA510C769993D14 /* GIDEMMErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 15ABB3F98E5C796EB2190AF1A5869EED /* GIDEMMErrorHandler.m */; };
 		D1C24CCA021FF1D47170426D4DB3E51C /* FIRCLSManagerData.m in Sources */ = {isa = PBXBuildFile; fileRef = D03FA8DBB24634F22FCEA3D215FD70D3 /* FIRCLSManagerData.m */; };
 		D1C984F0013EF33C6F6A5C858AAB8DD1 /* OIDExternalUserAgentSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 46B3E44A99D1CA5988391488FF586ABB /* OIDExternalUserAgentSession.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		D22982B2033EC8072593FE42CC51E977 /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 718FE81748B214894EEFDB31D01E1D98 /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		D22982B2033EC8072593FE42CC51E977 /* FIRCoreDiagnosticsConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 718FE81748B214894EEFDB31D01E1D98 /* FIRCoreDiagnosticsConnector.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		D23727BB4E77D615FD37C871B2628522 /* FIRInstallationsIDController.m in Sources */ = {isa = PBXBuildFile; fileRef = E685EAA89E0D8C691D9153B19A484644 /* FIRInstallationsIDController.m */; };
 		D23CDE1C1B8F3138A9C1A011EA342622 /* FIRMessagingPendingTopicsList.h in Headers */ = {isa = PBXBuildFile; fileRef = 84DD1BF0156A35DE068E1783095E92DB /* FIRMessagingPendingTopicsList.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		D2718A3865F036598614491B8867994A /* FIRIAMMsgFetcherUsingRestful.h in Headers */ = {isa = PBXBuildFile; fileRef = D3D5080A6F4FCB30CE4DAD2C4BF916DD /* FIRIAMMsgFetcherUsingRestful.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -1485,7 +1485,7 @@
 		D2BBA4F159F7BB340F692D1F25100321 /* FBLPromise+Then.h in Headers */ = {isa = PBXBuildFile; fileRef = 46846556C517CD483EC4CD5480E1AC0D /* FBLPromise+Then.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		D3100407095C87F973063A0601173547 /* FIRCLSProfiling.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D47BBDACCD2ED4A11EA4401E43B6897 /* FIRCLSProfiling.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		D3695E51802A7ECF535197753AB26DB6 /* FIRCLSProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = B67BA7CF4200DF29F0E206066B780193 /* FIRCLSProcess.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		D3AAE9387E3F68AE144E9E1C48D780A8 /* FIRAnalyticsInterop.h in Headers */ = {isa = PBXBuildFile; fileRef = DE30749312587BCE5C99FE5D1C183D54 /* FIRAnalyticsInterop.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		D3AAE9387E3F68AE144E9E1C48D780A8 /* FIRAnalyticsInterop.h in Headers */ = {isa = PBXBuildFile; fileRef = DE30749312587BCE5C99FE5D1C183D54 /* FIRAnalyticsInterop.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		D3B274361187AF5DF456E6BAD2971F54 /* FIRInAppMessageDisplayStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC72DB001FA5962C0DFFD3206B978070 /* FIRInAppMessageDisplayStoryboard.storyboard */; };
 		D3E02968C4CAB2F37D4A9C13C19EC811 /* GDTCORDirectorySizeTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D175EAA037AFC7B231B048777382B8E /* GDTCORDirectorySizeTracker.m */; };
 		D3EB91622A3F15ED3BBF16033AD6B679 /* GTMSessionFetcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = E97CC97D0A1E56D48CF354B976BA8753 /* GTMSessionFetcherService.m */; };
@@ -1586,7 +1586,7 @@
 		E17F1E0AF0C43A0EA3CEF10E1B7EC3D7 /* FPRInstrument.h in Headers */ = {isa = PBXBuildFile; fileRef = D72B24EA7949DE2282A912ACAA86B0B7 /* FPRInstrument.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E185FFE1AF229D0484022E23CEB865A7 /* OIDDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = A28DDDE179658397E8B55737E4A37364 /* OIDDefines.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E1E92FC100F993A26CD966B3C549F7C1 /* he.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 7E9181186A6C3E990A5057BB8C7A3F6C /* he.lproj */; };
-		E22BD0D56430432196D33A86FE93AEB1 /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C9DC7B0D9D0DC5744CB7F64C284199 /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		E22BD0D56430432196D33A86FE93AEB1 /* FIRLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C9DC7B0D9D0DC5744CB7F64C284199 /* FIRLibrary.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E24976AE4D49574BC26918ED24ACFC1A /* ABKInAppMessageSlideup.h in Headers */ = {isa = PBXBuildFile; fileRef = 40702A36995EF26C42E867A980DBC6BC /* ABKInAppMessageSlideup.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		E25B61378D31A004F384B8F8BFC951A5 /* FIRIAMDisplayCheckOnAppForegroundFlow.h in Headers */ = {isa = PBXBuildFile; fileRef = C968D931598679EB4EEA13F2E4D3E3F2 /* FIRIAMDisplayCheckOnAppForegroundFlow.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		E2CCCE9F00EFD03A0D40FC65A8CD2CBA /* FirebaseABTestingInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E2A131B248D3150C8C7F8E9070516E6D /* FirebaseABTestingInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -1626,7 +1626,7 @@
 		E80F380C1CFDD737554C6908AB862E74 /* UIImage+ExtendedCacheData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4D80A0F6B0C0F1788259DA296169B7 /* UIImage+ExtendedCacheData.m */; };
 		E832FFB226506D496FE51F76C30E39EA /* FIRInstallationsAPIService.h in Headers */ = {isa = PBXBuildFile; fileRef = 97709EEA34BF6FC37D3437B59D84115D /* FIRInstallationsAPIService.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E84A9FFFA605BB03219854F24C924810 /* SEGPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = F82AEF0AAEE978412B0DD1B1D53446A6 /* SEGPayload.m */; };
-		E84DA2790D8BB289246FDA846DC5BB94 /* FIROptionsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A4CD6D2845186405BAD619EF98C0685 /* FIROptionsInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		E84DA2790D8BB289246FDA846DC5BB94 /* FIROptionsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A4CD6D2845186405BAD619EF98C0685 /* FIROptionsInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E85E72C89879DF9BCBF11ED010D5FD7A /* SEGAnalyticsConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 292409838C797FB8AB624D10FBC677CB /* SEGAnalyticsConfiguration.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		E8645D9EC5A7E34BE2ADE3D8334310E0 /* FIRInstallationsStoredItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 44634AB032875BE0849583911DC97275 /* FIRInstallationsStoredItem.m */; };
 		E86561305442954A219479C65621E270 /* SDImageCoderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D362C9853DB87BB78CEACC7D9A553 /* SDImageCoderHelper.m */; };
@@ -1677,7 +1677,7 @@
 		EEA93B3B60885039F30FE75F9742F0E0 /* FIRIAMDisplayCheckTriggerFlow.h in Headers */ = {isa = PBXBuildFile; fileRef = C1C6938EE08D25EE9E52B104CAAB26FA /* FIRIAMDisplayCheckTriggerFlow.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		EECD6D5B8836472FB7288FDF62C1BAC5 /* GDTCORDirectorySizeTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = F9ED15CA83F56CBA843A0F4A18AC30F6 /* GDTCORDirectorySizeTracker.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EEDA591F4D05A55AB4D594D432D5DCF8 /* GULUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ABE36FD4B9B169231CA3CA7DF0759 /* GULUserDefaults.m */; };
-		EF6AFB6118B9DE4B2FFAC1D67E2CEA94 /* FIROptionsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 763D839047BA1CDCC3BB44045A86A71B /* FIROptionsInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		EF6AFB6118B9DE4B2FFAC1D67E2CEA94 /* FIROptionsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 763D839047BA1CDCC3BB44045A86A71B /* FIROptionsInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EF7119C96D4E3F22285108DB95BDC5A4 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BE3FD3F163F2AEFE1DA99481178B8 /* SDImageCache.m */; };
 		EF84D61AD48A12AC8E375BB39E9BBD16 /* FIRLoggerLevel.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F77AFA8A5BCDAC632A2069CDFDDAFF1 /* FIRLoggerLevel.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		EF8527B8A7CD99D7E63E32F7282CE9F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644862841A5ED7FF63F5F7CE652F61C3 /* Foundation.framework */; };
@@ -1685,7 +1685,7 @@
 		EF8E77C20F62305A70F976411E56B367 /* FIRInstallationsItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9097CAF63CF685D42246280641BFE95B /* FIRInstallationsItem.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EFC964CF8C7CCC13D3964F9CC8935F61 /* FPRNSURLConnectionInstrument_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 044903FE65729851FE3E833F03C8C52D /* FPRNSURLConnectionInstrument_Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EFEB0924A91E7210FF47D9DA0AAA3018 /* DTTimePeriod.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C67C83C3504D344B2DE866BA793DA6F /* DTTimePeriod.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		F02D57EC7631053551B482CF107B99FD /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 821E607EE3A51993905C3C79206EF4FC /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		F02D57EC7631053551B482CF107B99FD /* FIRHeartbeatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 821E607EE3A51993905C3C79206EF4FC /* FIRHeartbeatInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		F047BDFED4FBE3EEFC21316333F45C9D /* FIRCLSDemangleOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 311B0BC9C74D4EE749713F23A636AA84 /* FIRCLSDemangleOperation.mm */; };
 		F05F410E79892EFFAEE271EF17C1FDD8 /* FPRAppActivityTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = AB27A3EC680A946FAD1198EB1F328EA2 /* FPRAppActivityTracker.m */; };
 		F0693F2804FCF5281C2A687CAB42A365 /* NSButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6966FDA9C9F55BD81C28FBFD8BBC7104 /* NSButton+WebCache.m */; };
@@ -1702,7 +1702,7 @@
 		F1D82189CCFF91B83517C6CA53C2DA39 /* FIRTrace.h in Headers */ = {isa = PBXBuildFile; fileRef = D9555FE4EDDE5F729A237D67E0172579 /* FIRTrace.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		F232962DF12E14AC4E21C5E700D4DD3F /* FIRCLSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = DA3B0D92D46670FA8EF0A63F480980A2 /* FIRCLSUserDefaults.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		F2414100F6F984A7C78B311B72AFD65E /* FIRMessagingAuthService.m in Sources */ = {isa = PBXBuildFile; fileRef = FF899D446B5043B25C6246EFB715B3A5 /* FIRMessagingAuthService.m */; };
-		F25724BCBE7E2C6EBC5BDACF3E074A1D /* FIRAnalyticsInteropListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 157B3B0E51BB1AEE45D88B3B944D62E1 /* FIRAnalyticsInteropListener.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		F25724BCBE7E2C6EBC5BDACF3E074A1D /* FIRAnalyticsInteropListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 157B3B0E51BB1AEE45D88B3B944D62E1 /* FIRAnalyticsInteropListener.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		F29C0A87213C97D7BCAD44C43CBD4029 /* FIRCLSRecordApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = EC672ACE9BE53372D22AB9BE81D4A83C /* FIRCLSRecordApplication.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		F29F831719327AED02B3E6981A877333 /* FIRExperimentController.m in Sources */ = {isa = PBXBuildFile; fileRef = E173B05016E4C6D1449A8F8B54F15F5A /* FIRExperimentController.m */; };
 		F2A30ED943F210A9AD822A9B3D0C1BC4 /* BranchDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D96E880C9F18592F5655BCF36C5A789B /* BranchDelegate.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -1717,7 +1717,7 @@
 		F3D928E49C1FC38BD953505DC3D63812 /* FIRIAMServerMsgFetchStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC0F7A7C8FF2B8FBBFD6D2B28C36186 /* FIRIAMServerMsgFetchStorage.m */; };
 		F4042E6BD1D4B069D0BB9C0E4BBEDD6D /* SEGReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F74B7BC33157AFA1FEE4139E02F9CF3 /* SEGReachability.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		F425B9FA75C8A73B8705B7008B63C628 /* FIRAnalyticsInterop.h in Headers */ = {isa = PBXBuildFile; fileRef = 74534306F53CEFA2BA83B2F81A1608AB /* FIRAnalyticsInterop.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		F434CC9A9D7942813CA42F96E0DFB944 /* FIRAnalyticsInteropListener.h in Headers */ = {isa = PBXBuildFile; fileRef = B609281B807D9B5750B6574491248EAE /* FIRAnalyticsInteropListener.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		F434CC9A9D7942813CA42F96E0DFB944 /* FIRAnalyticsInteropListener.h in Headers */ = {isa = PBXBuildFile; fileRef = B609281B807D9B5750B6574491248EAE /* FIRAnalyticsInteropListener.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		F465EABB332DE4CA005A840588104A4B /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = F84380780D916B58695EB66C480D020C /* MASCompositeConstraint.m */; };
 		F46F25B057EB7DF057997436D61D64B6 /* SDImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = BC158C93F012B35A99A319C2A6244470 /* SDImageLoader.m */; };
 		F4D9B298A775696B6496A772BFD8943D /* BNCLinkData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C597364D69FA5397F833E6FC43AD6BE /* BNCLinkData.m */; };
@@ -1762,7 +1762,7 @@
 		F9AEE34B4561494E12699FCFB1F2FCAE /* ViewController+MASAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1190AD3D1BAD34A00FB9D54A02CA84C1 /* ViewController+MASAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		F9DD66E03DD046D1EC944620BBC9ABE1 /* FIRInstallationsHTTPError.m in Sources */ = {isa = PBXBuildFile; fileRef = 989594BE23AB86F5571BD579B9E18836 /* FIRInstallationsHTTPError.m */; };
 		F9FE04902AFAAB70CF7FA04C1EF9770E /* FIRCLSDownloadAndSaveSettingsOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C9D97D05AC00503AFF7759F17B9E70 /* FIRCLSDownloadAndSaveSettingsOperation.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
-		FA1602D90201CC33E409E0CA99FB2BB7 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 07C31342C1792EDB5CE67655256D62FF /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		FA1602D90201CC33E409E0CA99FB2BB7 /* FIRAppInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 07C31342C1792EDB5CE67655256D62FF /* FIRAppInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		FA23240852C16504CB1AAC0771DB8AFF /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DBE333828B7F6D4BCBC17DE5E83FF5 /* MASConstraintMaker.m */; };
 		FAEFBAA404C0E1AD1F30A40FDB98B348 /* GDTCORLifecycle.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4F1DD9FC4A4E18A31B898E511FA5C /* GDTCORLifecycle.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		FAFA63D8785544319DA14C124B3524AB /* GULNetworkURLSession.h in Headers */ = {isa = PBXBuildFile; fileRef = BBFBB55A3D4ECB5B37B03A23BCF7AB18 /* GULNetworkURLSession.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -1787,7 +1787,7 @@
 		FD529AAAD381CEE23B0A36E5D3F8E279 /* ABKAttributionData.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FFABB07688340FF257DBEA0451F2FB /* ABKAttributionData.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		FD596D2A9536E20FADCE2F2E3D5A41A8 /* FIRCLSDwarfUnwindRegisters.h in Headers */ = {isa = PBXBuildFile; fileRef = 031668554543C82F8475745B2AD4BD4C /* FIRCLSDwarfUnwindRegisters.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
 		FD6B1AFB5048265D5302FBC69417B330 /* FirebaseInAppMessaging-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BFD64F20C6971FB0D433FA2E651F69 /* FirebaseInAppMessaging-dummy.m */; };
-		FD770A24BCA0A3C1AC6DEAD4A7CFFD3A /* FIRAnalyticsInterop.h in Headers */ = {isa = PBXBuildFile; fileRef = C1C235312397D19C3775FAABFB488CCC /* FIRAnalyticsInterop.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
+		FD770A24BCA0A3C1AC6DEAD4A7CFFD3A /* FIRAnalyticsInterop.h in Headers */ = {isa = PBXBuildFile; fileRef = C1C235312397D19C3775FAABFB488CCC /* FIRAnalyticsInterop.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		FD9622C62C73B0BB57802E125AFDA943 /* GDTCORReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D5E1F4F0CEC75AE8068235CEAFA465 /* GDTCORReachability.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		FDCE319E975E5786A41762D811F498BF /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 94CE735F2900F59A3499AC5410FE9FDB /* FontAwesome.otf */; };
 		FDD320BAA7CD26ECF95F1030F2FFA1D8 /* FIRCLSProcessReportOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = A99312D25F67F59EE03DC76FBB5F1B9D /* FIRCLSProcessReportOperation.h */; settings = {ATTRIBUTES = (Project, Public, ); }; };
@@ -7856,24 +7856,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B825E0A0346214BAB42C1D3057AE316 /* ABTExperimentPayload.h in Headers */,
 				390A2CB2CAF72A797F4AEA927890FAFC /* fiam.nanopb.h in Headers */,
-				D3AAE9387E3F68AE144E9E1C48D780A8 /* FIRAnalyticsInterop.h in Headers */,
-				F434CC9A9D7942813CA42F96E0DFB944 /* FIRAnalyticsInteropListener.h in Headers */,
-				8155054794EF911906EAA24173732B42 /* FIRAppInternal.h in Headers */,
-				274CE7426EE165571661FF62BF1AAB9C /* FIRComponent.h in Headers */,
-				C8EC948B881A585949C6EC3F763FF458 /* FIRComponentContainer.h in Headers */,
-				AE7EFBF867D18F1490553E9CECE7294A /* FIRComponentType.h in Headers */,
 				12F31E2F591EA50293FBBD48F1DE784D /* FIRCore+InAppMessaging.h in Headers */,
 				0FA5ADFE4BE6F3230DAB83835DFFA4C1 /* FIRCore+InAppMessagingDisplay.h in Headers */,
-				5CBECE417F403504270C12DCDA5A7B1C /* FIRCoreDiagnosticsConnector.h in Headers */,
-				24320B18AA8EF44B523BADFF9AECC887 /* FIRDependency.h in Headers */,
-				5EC1AB2B2FE1921C3D1441F72A1183E8 /* FirebaseABTestingInternal.h in Headers */,
-				4B9BB34933DB1FE3FD1A4C103254B3F8 /* FirebaseCoreInternal.h in Headers */,
 				31D88B697DDE312E237AF9605E757553 /* FirebaseInAppMessaging.h in Headers */,
 				26F6522650E8B3F9F5D2CDF267573299 /* FirebaseInAppMessagingDisplay.h in Headers */,
-				92DF0AE16CCAD1144A9BB80B83CB4DB8 /* FirebaseInstallationsInternal.h in Headers */,
-				60271BF4FEFC9A25D8F5A3E4EFE2E9CA /* FIRHeartbeatInfo.h in Headers */,
 				A77E0A4C886F905FB1BEFAC045F38BED /* FIRIAMActionURLFollower.h in Headers */,
 				A587A84092F51E2E1343947D4B56E321 /* FIRIAMActivityLogger.h in Headers */,
 				77AB194B00082D6B10CE490CE725D174 /* FIRIAMAnalyticsEventLogger.h in Headers */,
@@ -7920,13 +7907,26 @@
 				770EAF32BE71407532E6BEFC1311CA37 /* FIRInAppMessagingPrivate.h in Headers */,
 				4693EF65EF0FCBDBD7E0DE7BFB870A51 /* FIRInAppMessagingRendering.h in Headers */,
 				663B23438657F02522233FE8E03F8E6D /* FIRInAppMessagingRenderingPrivate.h in Headers */,
-				0134736FAE322965431572BA0743C6AA /* FIRInteropEventNames.h in Headers */,
-				7559679EEE4D594A5CDF2AD0C7455FBF /* FIRInteropParameterNames.h in Headers */,
-				2A9543FEC005A747511D69B5C6915EAF /* FIRLibrary.h in Headers */,
-				665B3752E51FAE6136A7BA1AB4E84A2C /* FIRLogger.h in Headers */,
-				2EFFDF9AEACE4A909CEB50165A131589 /* FIROptionsInternal.h in Headers */,
 				7F2C27C8CC68C7A628A7766E598BA04C /* NSString+FIRInterlaceStrings.h in Headers */,
 				49281B291FE45443E556D4224F55924F /* UIColor+FIRIAMHexString.h in Headers */,
+				0134736FAE322965431572BA0743C6AA /* FIRInteropEventNames.h in Headers */,
+				D3AAE9387E3F68AE144E9E1C48D780A8 /* FIRAnalyticsInterop.h in Headers */,
+				92DF0AE16CCAD1144A9BB80B83CB4DB8 /* FirebaseInstallationsInternal.h in Headers */,
+				4B9BB34933DB1FE3FD1A4C103254B3F8 /* FirebaseCoreInternal.h in Headers */,
+				2EFFDF9AEACE4A909CEB50165A131589 /* FIROptionsInternal.h in Headers */,
+				F434CC9A9D7942813CA42F96E0DFB944 /* FIRAnalyticsInteropListener.h in Headers */,
+				7559679EEE4D594A5CDF2AD0C7455FBF /* FIRInteropParameterNames.h in Headers */,
+				3B825E0A0346214BAB42C1D3057AE316 /* ABTExperimentPayload.h in Headers */,
+				5EC1AB2B2FE1921C3D1441F72A1183E8 /* FirebaseABTestingInternal.h in Headers */,
+				665B3752E51FAE6136A7BA1AB4E84A2C /* FIRLogger.h in Headers */,
+				2A9543FEC005A747511D69B5C6915EAF /* FIRLibrary.h in Headers */,
+				60271BF4FEFC9A25D8F5A3E4EFE2E9CA /* FIRHeartbeatInfo.h in Headers */,
+				24320B18AA8EF44B523BADFF9AECC887 /* FIRDependency.h in Headers */,
+				5CBECE417F403504270C12DCDA5A7B1C /* FIRCoreDiagnosticsConnector.h in Headers */,
+				AE7EFBF867D18F1490553E9CECE7294A /* FIRComponentType.h in Headers */,
+				C8EC948B881A585949C6EC3F763FF458 /* FIRComponentContainer.h in Headers */,
+				8155054794EF911906EAA24173732B42 /* FIRAppInternal.h in Headers */,
+				274CE7426EE165571661FF62BF1AAB9C /* FIRComponent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8145,25 +8145,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3393677ED217E02D79C610BBB8A0E40B /* ABTExperimentPayload.h in Headers */,
-				1477DDA82FDD203B5BFA562ED6AC0A60 /* FIRAnalyticsInterop.h in Headers */,
-				2012993F5DC71156C7017B7AE111DFF6 /* FIRAnalyticsInteropListener.h in Headers */,
-				FA1602D90201CC33E409E0CA99FB2BB7 /* FIRAppInternal.h in Headers */,
-				23C02D8D68CC8FFBD80A61A60B209AA8 /* FIRComponent.h in Headers */,
-				40B2219BF17400B61E76B4C622926901 /* FIRComponentContainer.h in Headers */,
-				2A94B28C557EDA9BC4D04DCC56C0204A /* FIRComponentType.h in Headers */,
-				40877374C10B7B5BD334F044248706CB /* FIRCoreDiagnosticsConnector.h in Headers */,
-				62C65499400F484E604B7259968E6142 /* FIRDependency.h in Headers */,
-				C651A6E31ED4D4AD80FAFA221821E2D3 /* FirebaseABTestingInternal.h in Headers */,
-				3D4877AF1468AC9FBDB8218F98CCD63D /* FirebaseCoreInternal.h in Headers */,
-				30E3A7A89D9B7667109D3A5C2E026D36 /* FirebaseInstallationsInternal.h in Headers */,
 				B303B684F8EAB18B9BC2106A676809FE /* FirebaseRemoteConfig.h in Headers */,
-				04B6A9E3CE410ADF62220CBBAB32C03A /* FIRHeartbeatInfo.h in Headers */,
-				2DE93DA620F09031BA2E955070B05957 /* FIRInteropEventNames.h in Headers */,
-				4E3FC143C9F64DAD79A1D4F2E0FE1949 /* FIRInteropParameterNames.h in Headers */,
-				D092193CD53CBCB2210A2DFE55452225 /* FIRLibrary.h in Headers */,
-				C239F42AC1763A902887BDD4CCBF217F /* FIRLogger.h in Headers */,
-				EF6AFB6118B9DE4B2FFAC1D67E2CEA94 /* FIROptionsInternal.h in Headers */,
 				1E5BCC112E3A769B6E94AAA24A26A75B /* FIRRemoteConfig.h in Headers */,
 				FD4BDA3F0AF4C3B8BB807F61BBC1B79A /* FIRRemoteConfig_Private.h in Headers */,
 				F98D8AB52243F5BE088F8317C481324C /* FIRRemoteConfigComponent.h in Headers */,
@@ -8178,6 +8160,24 @@
 				2F3C048ABCCDD01E8CD8471FAADAFC99 /* RCNDevice.h in Headers */,
 				5F4134B7C194F53D42D769B167A12CEB /* RCNPersonalization.h in Headers */,
 				3C527A939B3037433127FC839B42B232 /* RCNUserDefaultsManager.h in Headers */,
+				2DE93DA620F09031BA2E955070B05957 /* FIRInteropEventNames.h in Headers */,
+				1477DDA82FDD203B5BFA562ED6AC0A60 /* FIRAnalyticsInterop.h in Headers */,
+				30E3A7A89D9B7667109D3A5C2E026D36 /* FirebaseInstallationsInternal.h in Headers */,
+				3D4877AF1468AC9FBDB8218F98CCD63D /* FirebaseCoreInternal.h in Headers */,
+				EF6AFB6118B9DE4B2FFAC1D67E2CEA94 /* FIROptionsInternal.h in Headers */,
+				2012993F5DC71156C7017B7AE111DFF6 /* FIRAnalyticsInteropListener.h in Headers */,
+				4E3FC143C9F64DAD79A1D4F2E0FE1949 /* FIRInteropParameterNames.h in Headers */,
+				3393677ED217E02D79C610BBB8A0E40B /* ABTExperimentPayload.h in Headers */,
+				C651A6E31ED4D4AD80FAFA221821E2D3 /* FirebaseABTestingInternal.h in Headers */,
+				C239F42AC1763A902887BDD4CCBF217F /* FIRLogger.h in Headers */,
+				D092193CD53CBCB2210A2DFE55452225 /* FIRLibrary.h in Headers */,
+				04B6A9E3CE410ADF62220CBBAB32C03A /* FIRHeartbeatInfo.h in Headers */,
+				62C65499400F484E604B7259968E6142 /* FIRDependency.h in Headers */,
+				40877374C10B7B5BD334F044248706CB /* FIRCoreDiagnosticsConnector.h in Headers */,
+				2A94B28C557EDA9BC4D04DCC56C0204A /* FIRComponentType.h in Headers */,
+				40B2219BF17400B61E76B4C622926901 /* FIRComponentContainer.h in Headers */,
+				FA1602D90201CC33E409E0CA99FB2BB7 /* FIRAppInternal.h in Headers */,
+				23C02D8D68CC8FFBD80A61A60B209AA8 /* FIRComponent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8272,23 +8272,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD770A24BCA0A3C1AC6DEAD4A7CFFD3A /* FIRAnalyticsInterop.h in Headers */,
-				F25724BCBE7E2C6EBC5BDACF3E074A1D /* FIRAnalyticsInteropListener.h in Headers */,
-				370F776A47E2E6829A8FB381AE6DEB45 /* FIRAppInternal.h in Headers */,
-				46905652817DC11EC85AC8631A14F367 /* FIRComponent.h in Headers */,
-				37F78D1B5E2289ACE66A2DD6D09C6CC6 /* FIRComponentContainer.h in Headers */,
-				BC74063CE457CF80FF6460C0E8B2DA08 /* FIRComponentType.h in Headers */,
-				3F42395F007AB5C2EDAFCEEB1CA6DA3E /* FIRCoreDiagnosticsConnector.h in Headers */,
-				31EA5C1F30415BD3D0D915F9F9963482 /* FIRDependency.h in Headers */,
-				08B51A6F726D2A00DF1D626A9A4460FC /* FirebaseCoreInternal.h in Headers */,
-				8F1193579D68197C67FF0BB20299C4E8 /* FirebaseInstallationsInternal.h in Headers */,
 				777DE30D2DF6BFC66B2AA07449D7B576 /* FirebaseMessaging.h in Headers */,
 				5494CDA87D2CE9854E4DA986338B2421 /* FirebaseMessaging.h in Headers */,
-				2B006C6D82EE23D0F2E58233C6623CB8 /* FIRHeartbeatInfo.h in Headers */,
-				C0C037E460B2ABF3F7C67EB80A00C4B1 /* FIRInteropEventNames.h in Headers */,
-				B99349F7CD57D576532E97769B0CA1C2 /* FIRInteropParameterNames.h in Headers */,
-				4DABBDA357776ABB3E24086F8B257167 /* FIRLibrary.h in Headers */,
-				3B6E2A436B49C97D5872E21084AAFE2C /* FIRLogger.h in Headers */,
 				79E8360B6DECEC69C32624D719CDBAAF /* FIRMessaging.h in Headers */,
 				6D0192DDE08CBD5EC7A4472C536C66E9 /* FIRMessaging_Private.h in Headers */,
 				F7604A5CD2E17AA7C1914868EE034860 /* FIRMessagingAnalytics.h in Headers */,
@@ -8322,9 +8307,24 @@
 				3465E9E5810BEA858392FA841C336807 /* FIRMessagingTopicOperation.h in Headers */,
 				9269DC459C6A4B4F2C09CB025A294B62 /* FIRMessagingTopicsCommon.h in Headers */,
 				92EA746A247EA72D2C18CD97685C5643 /* FIRMessagingUtilities.h in Headers */,
-				E84DA2790D8BB289246FDA846DC5BB94 /* FIROptionsInternal.h in Headers */,
 				52D1CD1C5EEA6BD859347C556E7A0329 /* me.nanopb.h in Headers */,
 				1231153B42733C77A3A9F18926812093 /* NSDictionary+FIRMessaging.h in Headers */,
+				C0C037E460B2ABF3F7C67EB80A00C4B1 /* FIRInteropEventNames.h in Headers */,
+				FD770A24BCA0A3C1AC6DEAD4A7CFFD3A /* FIRAnalyticsInterop.h in Headers */,
+				8F1193579D68197C67FF0BB20299C4E8 /* FirebaseInstallationsInternal.h in Headers */,
+				08B51A6F726D2A00DF1D626A9A4460FC /* FirebaseCoreInternal.h in Headers */,
+				E84DA2790D8BB289246FDA846DC5BB94 /* FIROptionsInternal.h in Headers */,
+				F25724BCBE7E2C6EBC5BDACF3E074A1D /* FIRAnalyticsInteropListener.h in Headers */,
+				B99349F7CD57D576532E97769B0CA1C2 /* FIRInteropParameterNames.h in Headers */,
+				3B6E2A436B49C97D5872E21084AAFE2C /* FIRLogger.h in Headers */,
+				4DABBDA357776ABB3E24086F8B257167 /* FIRLibrary.h in Headers */,
+				2B006C6D82EE23D0F2E58233C6623CB8 /* FIRHeartbeatInfo.h in Headers */,
+				31EA5C1F30415BD3D0D915F9F9963482 /* FIRDependency.h in Headers */,
+				3F42395F007AB5C2EDAFCEEB1CA6DA3E /* FIRCoreDiagnosticsConnector.h in Headers */,
+				BC74063CE457CF80FF6460C0E8B2DA08 /* FIRComponentType.h in Headers */,
+				37F78D1B5E2289ACE66A2DD6D09C6CC6 /* FIRComponentContainer.h in Headers */,
+				370F776A47E2E6829A8FB381AE6DEB45 /* FIRAppInternal.h in Headers */,
+				46905652817DC11EC85AC8631A14F367 /* FIRComponent.h in Headers */,
 				B31003F38432317DBD7A7B77460478F1 /* NSError+FIRMessaging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -8498,9 +8498,6 @@
 			files = (
 				46CC77E9DA9892ABA2CB4CEB48B22CC5 /* crashlytics.nanopb.h in Headers */,
 				9A8737C34A1FFC58882259DB604B1CF8 /* dwarf.h in Headers */,
-				6F5D5172717C5AEFAC4B8D8107938A66 /* FIRAnalyticsInterop.h in Headers */,
-				9D29761733C6238088BE8522E05C1776 /* FIRAnalyticsInteropListener.h in Headers */,
-				AC35FC74B7175BDD693333E9DD14CD20 /* FIRAppInternal.h in Headers */,
 				73C6B6CA239D2960BA738A313BD153DD /* FIRCLSAllocate.h in Headers */,
 				F503805DF0585B0F03C78B94A46914F3 /* FIRCLSAnalyticsManager.h in Headers */,
 				2E4459D5C820C1B507FB1A92875F1051 /* FIRCLSApplication.h in Headers */,
@@ -8587,27 +8584,30 @@
 				7EFB19F068C710A33D7E4B50AF3DF90E /* FIRCLSUserLogging.h in Headers */,
 				9D76600F437430291B65AC6A09B7BD5D /* FIRCLSUtility.h in Headers */,
 				C999934323362B83B854228A751E89DA /* FIRCLSUUID.h in Headers */,
-				408123645FDAFDA26833A2F7ECA41813 /* FIRComponent.h in Headers */,
-				C248772B723606C88430C3125DC0AC4D /* FIRComponentContainer.h in Headers */,
-				57097079DA265EAAA07A14173B13C794 /* FIRComponentType.h in Headers */,
-				D22982B2033EC8072593FE42CC51E977 /* FIRCoreDiagnosticsConnector.h in Headers */,
 				2ED5ECF4FC7F02445F33742560F2BAAD /* FIRCrashlytics.h in Headers */,
 				C57187EEE23048C20C17D4C962F6D7FE /* FIRCrashlyticsReport.h in Headers */,
 				81D97272BAF885CC7DB522679467D434 /* FIRCrashlyticsReport_Private.h in Headers */,
-				2DC8FE850F803D1DF89EAE7ABD483450 /* FIRDependency.h in Headers */,
-				CA8068C3114F59DE17FBF899B73D46F3 /* FirebaseCoreInternal.h in Headers */,
 				A15DF8E16F4335908029678EDF57854E /* FirebaseCrashlytics.h in Headers */,
-				10546A8CC07B1F25102EF671FB0EDED5 /* FirebaseInstallationsInternal.h in Headers */,
 				17014A131288D4AAB0401A818E473C0D /* FIRExceptionModel.h in Headers */,
 				12CFAA847D8C728972389E3EECB38592 /* FIRExceptionModel_Private.h in Headers */,
-				F02D57EC7631053551B482CF107B99FD /* FIRHeartbeatInfo.h in Headers */,
-				3CA7E5C96B1B044561A0B990A7425BB8 /* FIRInteropEventNames.h in Headers */,
-				122BFF1286B6B5FC7B21F6A0AE86A19F /* FIRInteropParameterNames.h in Headers */,
-				E22BD0D56430432196D33A86FE93AEB1 /* FIRLibrary.h in Headers */,
-				83BF5AD87D0D460A92913A0EA0228C91 /* FIRLogger.h in Headers */,
-				058ADBCB255AC54C799AE104CE0B8530 /* FIROptionsInternal.h in Headers */,
 				B87979D8286C4A1BDC22D89D4789FF7D /* FIRStackFrame.h in Headers */,
 				D5ECB22CB549196ADB185F71AD5A8BEB /* FIRStackFrame_Private.h in Headers */,
+				3CA7E5C96B1B044561A0B990A7425BB8 /* FIRInteropEventNames.h in Headers */,
+				6F5D5172717C5AEFAC4B8D8107938A66 /* FIRAnalyticsInterop.h in Headers */,
+				10546A8CC07B1F25102EF671FB0EDED5 /* FirebaseInstallationsInternal.h in Headers */,
+				CA8068C3114F59DE17FBF899B73D46F3 /* FirebaseCoreInternal.h in Headers */,
+				058ADBCB255AC54C799AE104CE0B8530 /* FIROptionsInternal.h in Headers */,
+				9D29761733C6238088BE8522E05C1776 /* FIRAnalyticsInteropListener.h in Headers */,
+				122BFF1286B6B5FC7B21F6A0AE86A19F /* FIRInteropParameterNames.h in Headers */,
+				83BF5AD87D0D460A92913A0EA0228C91 /* FIRLogger.h in Headers */,
+				E22BD0D56430432196D33A86FE93AEB1 /* FIRLibrary.h in Headers */,
+				F02D57EC7631053551B482CF107B99FD /* FIRHeartbeatInfo.h in Headers */,
+				2DC8FE850F803D1DF89EAE7ABD483450 /* FIRDependency.h in Headers */,
+				D22982B2033EC8072593FE42CC51E977 /* FIRCoreDiagnosticsConnector.h in Headers */,
+				57097079DA265EAAA07A14173B13C794 /* FIRComponentType.h in Headers */,
+				C248772B723606C88430C3125DC0AC4D /* FIRComponentContainer.h in Headers */,
+				AC35FC74B7175BDD693333E9DD14CD20 /* FIRAppInternal.h in Headers */,
+				408123645FDAFDA26833A2F7ECA41813 /* FIRComponent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8629,29 +8629,29 @@
 				682CDD8F5AA427BE66380F3CBBAFE9F7 /* FIRAnalyticsConfiguration.h in Headers */,
 				0EE5AB00E6980683A24C12C6B29EC32D /* FIRApp.h in Headers */,
 				1DC0448BC62D20234AE33C1569336CAA /* FIRAppAssociationRegistration.h in Headers */,
-				C3BFDC5218239B3E8D8CF41F2B5790B8 /* FIRAppInternal.h in Headers */,
 				F1AB1CFD2148BBE92FFB262FF5AC85EA /* FIRBundleUtil.h in Headers */,
-				82116ECE78AA32264A81C99EF4FF16E8 /* FIRComponent.h in Headers */,
-				2452071344361967470E35D075334601 /* FIRComponentContainer.h in Headers */,
 				325538142128BC93E0E1DA7BA6D6BB8F /* FIRComponentContainerInternal.h in Headers */,
-				82DA1DECF50B65350621134A015F3B21 /* FIRComponentType.h in Headers */,
 				93ACE0C3DBB9B4313580FEA5D9D4CB34 /* FIRConfiguration.h in Headers */,
 				1F0744287966660FA3E9313DD4B5EC4E /* FIRConfigurationInternal.h in Headers */,
-				0B18FCDFBF5C22FE57205AD2300F52A5 /* FIRCoreDiagnosticsConnector.h in Headers */,
 				3AB0BC0AD9E1689E0553D64C7FF9C31D /* FIRCoreDiagnosticsData.h in Headers */,
 				6A67306C00B5A2DE1305238C2B4D25F7 /* FIRCoreDiagnosticsInterop.h in Headers */,
-				02606BC06842091D1991AC9700DD1F43 /* FIRDependency.h in Headers */,
 				ACA5B9213F6843DAA4E95F301B283E6F /* FIRDiagnosticsData.h in Headers */,
 				4DEF2FE5B3684E97BF22C9FE598F587A /* FirebaseCore.h in Headers */,
-				480118D9C0711C79450CF506185F8670 /* FirebaseCoreInternal.h in Headers */,
 				75456AFDC40E98B864F4F95B2ADE7383 /* FIRFirebaseUserAgent.h in Headers */,
-				5B7FDF6BDC9DC618941BB9DFB608E68F /* FIRHeartbeatInfo.h in Headers */,
-				535251042BFBDF3DD9DA8461796B47D8 /* FIRLibrary.h in Headers */,
-				AC58B550E7709A129537DA1A9D17B33D /* FIRLogger.h in Headers */,
 				EF84D61AD48A12AC8E375BB39E9BBD16 /* FIRLoggerLevel.h in Headers */,
 				6C9CCC7C23040E54BA4EEF6B7B537E7B /* FIROptions.h in Headers */,
 				DD6B5D3401821A67BEE76B88B67C13B5 /* FIROptionsInternal.h in Headers */,
 				A224308323C9B8C5A3273E8DD6099946 /* FIRVersion.h in Headers */,
+				480118D9C0711C79450CF506185F8670 /* FirebaseCoreInternal.h in Headers */,
+				AC58B550E7709A129537DA1A9D17B33D /* FIRLogger.h in Headers */,
+				535251042BFBDF3DD9DA8461796B47D8 /* FIRLibrary.h in Headers */,
+				5B7FDF6BDC9DC618941BB9DFB608E68F /* FIRHeartbeatInfo.h in Headers */,
+				02606BC06842091D1991AC9700DD1F43 /* FIRDependency.h in Headers */,
+				0B18FCDFBF5C22FE57205AD2300F52A5 /* FIRCoreDiagnosticsConnector.h in Headers */,
+				82DA1DECF50B65350621134A015F3B21 /* FIRComponentType.h in Headers */,
+				2452071344361967470E35D075334601 /* FIRComponentContainer.h in Headers */,
+				C3BFDC5218239B3E8D8CF41F2B5790B8 /* FIRAppInternal.h in Headers */,
+				82116ECE78AA32264A81C99EF4FF16E8 /* FIRComponent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
