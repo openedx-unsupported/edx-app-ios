@@ -1,0 +1,297 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-module-flags: -target armv7-apple-ios8.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name SwiftyStoreKit
+import Foundation
+import StoreKit
+import Swift
+import _Concurrency
+public protocol InAppRequest : AnyObject {
+  func start()
+  func cancel()
+}
+public struct PaymentDiscount {
+  @available(iOS 12.2, tvOS 12.2, macOS 10.14.4, watchOS 6.2, macCatalyst 13.0, *)
+  public init(discount: StoreKit.SKPaymentDiscount)
+}
+extension StoreKit.SKProduct {
+  public var localizedPrice: Swift.String? {
+    get
+  }
+  @available(iOSApplicationExtension 11.2, iOS 11.2, macOS 10.13.2, tvOS 11.2, watchOS 6.2, macCatalyst 13.0, *)
+  public var localizedSubscriptionPeriod: Swift.String {
+    get
+  }
+}
+extension ReceiptItem {
+  public init?(receiptInfo: ReceiptInfo)
+}
+public class AppleReceiptValidator : ReceiptValidator {
+  public enum VerifyReceiptURLType : Swift.String {
+    case production
+    case sandbox
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public var service: AppleReceiptValidator.VerifyReceiptURLType
+  public init(service: AppleReceiptValidator.VerifyReceiptURLType = .production, sharedSecret: Swift.String? = nil)
+  public func validate(receiptData: Foundation.Data, completion: @escaping (VerifyReceiptResult) -> Swift.Void)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class SwiftyStoreKit {
+  @objc deinit
+}
+extension SwiftyStoreKit {
+  public class var canMakePayments: Swift.Bool {
+    get
+  }
+  @discardableResult
+  public class func retrieveProductsInfo(_ productIds: Swift.Set<Swift.String>, completion: @escaping (RetrieveResults) -> Swift.Void) -> InAppRequest
+  @discardableResult
+  public class func purchaseProduct(_ productId: Swift.String, quantity: Swift.Int = 1, atomically: Swift.Bool = true, applicationUsername: Swift.String = "", simulatesAskToBuyInSandbox: Swift.Bool = false, completion: @escaping (PurchaseResult) -> Swift.Void) -> InAppRequest
+  public class func purchaseProduct(_ product: StoreKit.SKProduct, quantity: Swift.Int = 1, atomically: Swift.Bool = true, applicationUsername: Swift.String = "", simulatesAskToBuyInSandbox: Swift.Bool = false, paymentDiscount: PaymentDiscount? = nil, completion: @escaping (PurchaseResult) -> Swift.Void)
+  public class func restorePurchases(atomically: Swift.Bool = true, applicationUsername: Swift.String = "", completion: @escaping (RestoreResults) -> Swift.Void)
+  public class func completeTransactions(atomically: Swift.Bool = true, completion: @escaping ([Purchase]) -> Swift.Void)
+  @available(iOS 14, tvOS 14, macOS 11, watchOS 7, macCatalyst 14, *)
+  public class func onEntitlementRevocation(completion: @escaping ([Swift.String]) -> Swift.Void)
+  public class func finishTransaction(_ transaction: PaymentTransaction)
+  public static var shouldAddStorePaymentHandler: ShouldAddStorePaymentHandler? {
+    get
+    set
+  }
+  public static var updatedDownloadsHandler: UpdatedDownloadsHandler? {
+    get
+    set
+  }
+  public class func start(_ downloads: [StoreKit.SKDownload])
+  public class func pause(_ downloads: [StoreKit.SKDownload])
+  public class func resume(_ downloads: [StoreKit.SKDownload])
+  public class func cancel(_ downloads: [StoreKit.SKDownload])
+}
+extension SwiftyStoreKit {
+  public static var localReceiptData: Foundation.Data? {
+    get
+  }
+  @discardableResult
+  public class func verifyReceipt(using validator: ReceiptValidator, forceRefresh: Swift.Bool = false, completion: @escaping (VerifyReceiptResult) -> Swift.Void) -> InAppRequest?
+  @discardableResult
+  public class func fetchReceipt(forceRefresh: Swift.Bool, completion: @escaping (FetchReceiptResult) -> Swift.Void) -> InAppRequest?
+  public class func verifyPurchase(productId: Swift.String, inReceipt receipt: ReceiptInfo) -> VerifyPurchaseResult
+  public class func verifySubscription(ofType type: SubscriptionType, productId: Swift.String, inReceipt receipt: ReceiptInfo, validUntil date: Foundation.Date = Date()) -> VerifySubscriptionResult
+  public class func verifySubscriptions(ofType type: SubscriptionType = .autoRenewable, productIds: Swift.Set<Swift.String>, inReceipt receipt: ReceiptInfo, validUntil date: Foundation.Date = Date()) -> VerifySubscriptionResult
+  public class func getDistinctPurchaseIds(ofType type: SubscriptionType = .autoRenewable, inReceipt receipt: ReceiptInfo) -> Swift.Set<Swift.String>?
+}
+public enum TransactionResult {
+  case purchased(purchase: PurchaseDetails)
+  case restored(purchase: Purchase)
+  case deferred(purchase: PurchaseDetails)
+  case failed(error: StoreKit.SKError)
+}
+public protocol PaymentQueue : AnyObject {
+  func add(_ observer: StoreKit.SKPaymentTransactionObserver)
+  func remove(_ observer: StoreKit.SKPaymentTransactionObserver)
+  func add(_ payment: StoreKit.SKPayment)
+  func start(_ downloads: [StoreKit.SKDownload])
+  func pause(_ downloads: [StoreKit.SKDownload])
+  func resume(_ downloads: [StoreKit.SKDownload])
+  func cancel(_ downloads: [StoreKit.SKDownload])
+  func restoreCompletedTransactions(withApplicationUsername username: Swift.String?)
+  func finishTransaction(_ transaction: StoreKit.SKPaymentTransaction)
+}
+extension StoreKit.SKPaymentQueue : PaymentQueue {
+}
+extension StoreKit.SKPaymentTransaction {
+  @objc override dynamic open var debugDescription: Swift.String {
+    @objc get
+  }
+}
+extension StoreKit.SKPaymentTransactionState : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+public protocol Purchased {
+  var productId: Swift.String { get }
+  var quantity: Swift.Int { get }
+  var originalPurchaseDate: Foundation.Date { get }
+}
+extension Purchase : Purchased {
+  public var originalPurchaseDate: Foundation.Date {
+    get
+  }
+}
+extension PurchaseDetails : Purchased {
+  public var originalPurchaseDate: Foundation.Date {
+    get
+  }
+}
+public struct Purchase {
+  public let productId: Swift.String
+  public let quantity: Swift.Int
+  public let transaction: PaymentTransaction
+  public let originalTransaction: PaymentTransaction?
+  public let needsFinishTransaction: Swift.Bool
+  public init(productId: Swift.String, quantity: Swift.Int, transaction: PaymentTransaction, originalTransaction: PaymentTransaction?, needsFinishTransaction: Swift.Bool)
+}
+public struct PurchaseDetails {
+  public let productId: Swift.String
+  public let quantity: Swift.Int
+  public let product: StoreKit.SKProduct
+  public let transaction: PaymentTransaction
+  public let originalTransaction: PaymentTransaction?
+  public let needsFinishTransaction: Swift.Bool
+  public init(productId: Swift.String, quantity: Swift.Int, product: StoreKit.SKProduct, transaction: PaymentTransaction, originalTransaction: PaymentTransaction?, needsFinishTransaction: Swift.Bool)
+}
+public protocol ReceiptValidator {
+  func validate(receiptData: Foundation.Data, completion: @escaping (VerifyReceiptResult) -> Swift.Void)
+}
+public protocol PaymentTransaction {
+  var transactionDate: Foundation.Date? { get }
+  var transactionState: StoreKit.SKPaymentTransactionState { get }
+  var transactionIdentifier: Swift.String? { get }
+  var downloads: [StoreKit.SKDownload] { get }
+}
+extension StoreKit.SKPaymentTransaction : PaymentTransaction {
+}
+public struct RetrieveResults {
+  public let retrievedProducts: Swift.Set<StoreKit.SKProduct>
+  public let invalidProductIDs: Swift.Set<Swift.String>
+  public let error: Swift.Error?
+  public init(retrievedProducts: Swift.Set<StoreKit.SKProduct>, invalidProductIDs: Swift.Set<Swift.String>, error: Swift.Error?)
+}
+public enum PurchaseResult {
+  case success(purchase: PurchaseDetails)
+  case deferred(purchase: PurchaseDetails)
+  case error(error: StoreKit.SKError)
+}
+public struct RestoreResults {
+  public let restoredPurchases: [Purchase]
+  public let restoreFailedPurchases: [(StoreKit.SKError, Swift.String?)]
+  public init(restoredPurchases: [Purchase], restoreFailedPurchases: [(StoreKit.SKError, Swift.String?)])
+}
+public typealias ShouldAddStorePaymentHandler = (_ payment: StoreKit.SKPayment, _ product: StoreKit.SKProduct) -> Swift.Bool
+public typealias UpdatedDownloadsHandler = (_ downloads: [StoreKit.SKDownload]) -> Swift.Void
+public typealias ReceiptInfo = [Swift.String : Swift.AnyObject]
+public enum FetchReceiptResult {
+  case success(receiptData: Foundation.Data)
+  case error(error: ReceiptError)
+}
+public enum VerifyReceiptResult {
+  case success(receipt: ReceiptInfo)
+  case error(error: ReceiptError)
+}
+public enum VerifyPurchaseResult {
+  case purchased(item: ReceiptItem)
+  case notPurchased
+}
+public enum VerifySubscriptionResult {
+  case purchased(expiryDate: Foundation.Date, items: [ReceiptItem])
+  case expired(expiryDate: Foundation.Date, items: [ReceiptItem])
+  case notPurchased
+}
+public enum SubscriptionType : Swift.Hashable {
+  case autoRenewable
+  case nonRenewing(validDuration: Foundation.TimeInterval)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: SubscriptionType, b: SubscriptionType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct ReceiptItem : Purchased, Swift.Codable {
+  public var productId: Swift.String
+  public var quantity: Swift.Int
+  public var transactionId: Swift.String
+  public var originalTransactionId: Swift.String
+  public var purchaseDate: Foundation.Date
+  public var originalPurchaseDate: Foundation.Date
+  public var webOrderLineItemId: Swift.String?
+  public var subscriptionExpirationDate: Foundation.Date?
+  public var cancellationDate: Foundation.Date?
+  public var isTrialPeriod: Swift.Bool
+  public var isInIntroOfferPeriod: Swift.Bool
+  public var isUpgraded: Swift.Bool
+  public init(productId: Swift.String, quantity: Swift.Int, transactionId: Swift.String, originalTransactionId: Swift.String, purchaseDate: Foundation.Date, originalPurchaseDate: Foundation.Date, webOrderLineItemId: Swift.String?, subscriptionExpirationDate: Foundation.Date?, cancellationDate: Foundation.Date?, isTrialPeriod: Swift.Bool, isInIntroOfferPeriod: Swift.Bool, isUpgraded: Swift.Bool)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public enum ReceiptError : Swift.Error {
+  case noReceiptData
+  case noRemoteData
+  case requestBodyEncodeError(error: Swift.Error)
+  case networkError(error: Swift.Error)
+  case jsonDecodeError(string: Swift.String?)
+  case receiptInvalid(receipt: ReceiptInfo, status: ReceiptStatus)
+}
+public enum ReceiptStatus : Swift.Int {
+  case unknown
+  case none
+  case valid
+  case jsonNotReadable
+  case malformedOrMissingData
+  case receiptCouldNotBeAuthenticated
+  case secretNotMatching
+  case receiptServerUnavailable
+  case subscriptionExpired
+  case testReceipt
+  case productionEnvironment
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum ReceiptInfoField : Swift.String {
+  case bundle_id
+  case application_version
+  case original_application_version
+  case creation_date
+  case expiration_date
+  case in_app
+  public enum InApp : Swift.String {
+    case quantity
+    case product_id
+    case transaction_id
+    case original_transaction_id
+    case purchase_date
+    case original_purchase_date
+    case expires_date
+    case cancellation_date
+    case app_item_id
+    case version_external_identifier
+    case web_order_line_item_id
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@available(iOSApplicationExtension 11.2, iOS 11.2, macOS 10.13.2, tvOS 11.2, watchOS 4.2, macCatalyst 13.0, *)
+extension StoreKit.SKProductDiscount {
+  public var localizedPrice: Swift.String? {
+    get
+  }
+  public var localizedSubscriptionPeriod: Swift.String {
+    get
+  }
+}
+extension AppleReceiptValidator.VerifyReceiptURLType : Swift.Equatable {}
+extension AppleReceiptValidator.VerifyReceiptURLType : Swift.Hashable {}
+extension AppleReceiptValidator.VerifyReceiptURLType : Swift.RawRepresentable {}
+extension ReceiptStatus : Swift.Equatable {}
+extension ReceiptStatus : Swift.Hashable {}
+extension ReceiptStatus : Swift.RawRepresentable {}
+extension ReceiptInfoField : Swift.Equatable {}
+extension ReceiptInfoField : Swift.Hashable {}
+extension ReceiptInfoField : Swift.RawRepresentable {}
+extension ReceiptInfoField.InApp : Swift.Equatable {}
+extension ReceiptInfoField.InApp : Swift.Hashable {}
+extension ReceiptInfoField.InApp : Swift.RawRepresentable {}

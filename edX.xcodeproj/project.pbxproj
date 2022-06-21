@@ -845,8 +845,8 @@
 		E0A948132786A6DE00BE79D9 /* WebviewCookiesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
-		E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */; };
 		E0B58CDC2818F7DF0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */; };
+		E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
 		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
 		E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */; };
@@ -919,8 +919,8 @@
 				5F700E9A278C35B000B17044 /* SwiftyStoreKit.xcframework in Embed Frameworks */,
 				5F700E98278C35AE00B17044 /* MSAL.xcframework in Embed Frameworks */,
 				E09F953928111ABE00F29443 /* KeychainSwift.xcframework in Embed Frameworks */,
-				E096584225C196470004FFCC /* GoogleCast.framework in Embed Frameworks */,
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
+				E096584225C196470004FFCC /* GoogleCast.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2001,8 +2001,8 @@
 		E0AA9129280FFF8C00D39A4D /* KeychainSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = KeychainSwift.xcframework; sourceTree = "<group>"; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
-		E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+CourseUpgrade.swift"; sourceTree = "<group>"; };
 		E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+CourseUpgrade.swift"; sourceTree = "<group>"; };
+		E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+CourseUpgrade.swift"; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
 		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+Banner.swift"; sourceTree = "<group>"; };
@@ -2502,12 +2502,12 @@
 			path = Inter;
 			sourceTree = "<group>";
 		};
-		5F700E92278C302F00B17044 /* SwiftStoreKit */ = {
+		5F700E92278C302F00B17044 /* SwiftyStoreKit */ = {
 			isa = PBXGroup;
 			children = (
 				5F700E95278C358D00B17044 /* SwiftyStoreKit.xcframework */,
 			);
-			name = SwiftStoreKit;
+			name = SwiftyStoreKit;
 			sourceTree = "<group>";
 		};
 		5F7C0C3425344E1500A344B9 /* UITextView */ = {
@@ -3687,7 +3687,7 @@
 				B7CCC6F9209B16B000A66923 /* SnapKit */,
 				77509D8B1BE1710200B10CD3 /* TZStackView */,
 				77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */,
-				5F700E92278C302F00B17044 /* SwiftStoreKit */,
+				5F700E92278C302F00B17044 /* SwiftyStoreKit */,
 				5FA8F8CF27C4B153006003DA /* Shimmer */,
 				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
 				7772BEB31AFA6C140081CA7A /* MaterialSharp.swift */,
@@ -4215,9 +4215,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 77E647AB1C90C10400B6740D /* Build configuration list for PBXNativeTarget "edXCore" */;
 			buildPhases = (
+				77E6478B1C90C10300B6740D /* Headers */,
 				77E647891C90C10300B6740D /* Sources */,
 				77E6478A1C90C10300B6740D /* Frameworks */,
-				77E6478B1C90C10300B6740D /* Headers */,
 				77E6478C1C90C10300B6740D /* Resources */,
 			);
 			buildRules = (
