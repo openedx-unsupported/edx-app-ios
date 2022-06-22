@@ -103,6 +103,10 @@
 		<string>Inter-LightItalic.ttf</string>
 		<string>Inter-ExtraBold.ttf</string>
 		<string>Inter-ExtraBoldItalic.ttf</string>
+		<string>RobotoMono-SemiBold.ttf</string>
+		<string>RobotoMono-Regular.ttf</string>
+		<string>RobotoMono-Light.ttf</string>
+		<string>RobotoMono-Bold.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
