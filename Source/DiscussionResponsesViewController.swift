@@ -705,13 +705,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         if response.childCount == 0 {
             prompt = postClosed ? Strings.commentsClosed : Strings.addAComment
-            icon = postClosed ? Icon.Closed : Icon.Comment
+            icon = postClosed ? Icon.Closed : Icon.Create
             commentStyle = isDiscussionBlackedOut ? disabledCommentStyle : responseMessageStyle
             cell.commentButton.isEnabled = !isDiscussionBlackedOut
         }
         else {
             prompt = Strings.commentsToResponse(count: response.childCount)
-            icon = Icon.Comment
+            icon = Icon.Create
             commentStyle = responseMessageStyle
         }
        

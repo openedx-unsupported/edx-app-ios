@@ -263,7 +263,7 @@ public enum Icon {
         case .FollowStar:
             return MaterialIconRenderer(icon: .star)
         case .Discussions:
-            return MaterialIconRenderer(icon: .forum)
+            return MaterialIconRenderer(icon: .chat)
         case .Dropdown:
             return MaterialIconRenderer(icon: .arrowDropDown)
         case .DoubleArrow:
