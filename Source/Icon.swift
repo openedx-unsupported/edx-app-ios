@@ -121,6 +121,8 @@ public enum Icon {
     case Discussions
     case Dropdown
     case DoubleArrow
+    case ExpandMore
+    case ExpandLess
     case Filter
     case Recent
     case FollowStar
@@ -191,6 +193,10 @@ public enum Icon {
             return MaterialIconRenderer(icon: .help)
         case .Answered:
             return MaterialIconRenderer(icon: .questionAnswer)
+        case .ExpandMore:
+            return MaterialIconRenderer(icon: .expandMore)
+        case .ExpandLess:
+            return MaterialIconRenderer(icon: .expandLess)
         case .Filter:
             return MaterialIconRenderer(icon: .filterAlt)
         case .User:

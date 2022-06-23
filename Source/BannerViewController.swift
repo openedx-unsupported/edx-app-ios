@@ -29,7 +29,7 @@ protocol BannerViewControllerDelegate: AnyObject {
 
 class BannerViewController: UIViewController, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider & OEXStylesProvider & OEXRouterProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider & OEXStylesProvider & OEXRouterProvider & NetworkManagerProvider
     
     private lazy var webController = AuthenticatedWebViewController(environment: environment)
         

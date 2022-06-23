@@ -10,12 +10,12 @@ import UIKit
 
 private enum TabBarOptions: Int {
     case Course, Program, CourseCatalog, Debug
-    static let options = [Course, Program, CourseCatalog, Debug]
+    static let options = [CourseCatalog, Course, Program, Debug]
     
     func title(config: OEXConfig? = nil) -> String {
         switch self {
         case .Course:
-            return Strings.courses
+            return Strings.learn
         case .Program:
             return Strings.programs
         case .CourseCatalog:
@@ -62,6 +62,8 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         delegate = self
         
         view.accessibilityIdentifier = "EnrolledTabBarViewController:view"
+        selectedIndex = 1
+        title = ""
     }
     
     override func didReceiveMemoryWarning() {
@@ -83,7 +85,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for option in TabBarOptions.options {
             switch option {
             case .Course:
-                item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(), viewController: LearnContainerViewController(environment: environment), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .Program:
                 guard environment.config.programConfig.enabled, let programsURL = environment.config.programConfig.programURL else { break }
@@ -94,7 +96,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
                     let discoveryController = router.discoveryViewController() else { break }
                 item = TabBarItem(title: option.title(config: environment.config), viewController: discoveryController, icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-                EnrolledTabBarViewController.courseCatalogIndex = tabBarItems.count - 1
+                EnrolledTabBarViewController.courseCatalogIndex = 0
             case .Debug:
                 if environment.config.shouldShowDebug() {
                     item = TabBarItem(title: option.title(), viewController: DebugMenuViewController(environment: environment), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)

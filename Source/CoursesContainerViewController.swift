@@ -122,6 +122,7 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private let environment : Environment
     private let context: Context
+    
     weak var delegate: CoursesContainerViewControllerDelegate?
     
     private var isAuditModeCourseAvailable: Bool = false
@@ -142,7 +143,7 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     private let insetsController = ContentInsetsController()
-  
+    
     private var isDiscoveryEnabled: Bool {
         return environment.config.discovery.isEnabled
     }
@@ -151,10 +152,9 @@ class CoursesContainerViewController: UICollectionViewController {
         return context == .enrollmentList && isDiscoveryEnabled
     }
     
-    init(environment : Environment, context: Context) {
+    init(environment: Environment, context: Context) {
         self.environment = environment
         self.context = context
-        
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.alwaysBounceVertical = true
     }
@@ -165,6 +165,7 @@ class CoursesContainerViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = OEXStyles.shared().neutralXLight()
