@@ -711,11 +711,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
         else {
             prompt = Strings.commentsToResponse(count: response.childCount)
-            icon = Icon.Create
+            icon = Icon.Comment
             commentStyle = responseMessageStyle
         }
        
-        let iconText = icon.attributedString(style: commentStyle)
+        let iconText = icon.attributedString(style: commentStyle, yOffset: -2)
         let styledPrompt = commentStyle.attributedString(withText: prompt)
         let title = NSAttributedString.joinInNaturalLayout(attributedStrings: [iconText,styledPrompt])
 
