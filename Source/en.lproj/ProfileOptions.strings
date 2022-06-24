@@ -1,11 +1,13 @@
 /* Settings title for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "VIDEO SETTINGS";
+"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "Video Settings";
 /* Settings heading for video settings */
 "PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Wifi only download";
 /* Settings message for video settings */
 "PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Only download content when wi-fi is turned on";
+/* Settings title for wifi */
+"PROFILE_OPTIONS.WIFI.TITLE" = "Wifi";
 /* Settings title for profile information */
-"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "PERSONAL INFORMATION";
+"PROFILE_OPTIONS.USER_PROFILE.TITLE" = "Personal information";
 /* Settings user profile email */
 "PROFILE_OPTIONS.USER_PROFILE.EMAIL" = "Email: {email}";
 /* Settings user profile username */
@@ -13,13 +15,13 @@
 /* Settings message for profile */
 "PROFILE_OPTIONS.USER_PROFILE.MESSAGE" = "You are currently sharing a limited profile";
 /* Settings title for purchases */
-"PROFILE_OPTIONS.PURCHASES.TITLE" = "PURCHASES";
+"PROFILE_OPTIONS.PURCHASES.TITLE" = "Purchases";
 /* Settings heading for purchases */
 "PROFILE_OPTIONS.PURCHASES.HEADING" = "Restore purchases";
 /* Settings message for purchases */
 "PROFILE_OPTIONS.PURCHASES.MESSAGE" = "Sign into the app store to restore access to courses you have previously paid to upgrade";
 /* Settings title for HELP */
-"PROFILE_OPTIONS.HELP.TITLE" = "HELP";
+"PROFILE_OPTIONS.HELP.TITLE" = "Help";
 /* Settings heading for feedback */
 "PROFILE_OPTIONS.HELP.HEADING.FEEDBACK" = "Submit feedback";
 /* Settings message for feedback */
