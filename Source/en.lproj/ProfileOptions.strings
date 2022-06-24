@@ -1,5 +1,5 @@
 /* Settings title for video settings */
-"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "Video Settings";
+"PROFILE_OPTIONS.VIDEO_SETTINGS.TITLE" = "Video settings";
 /* Settings heading for video settings */
 "PROFILE_OPTIONS.VIDEO_SETTINGS.HEADING" = "Wifi only download";
 /* Settings message for video settings */
