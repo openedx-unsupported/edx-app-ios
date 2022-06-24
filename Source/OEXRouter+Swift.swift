@@ -477,6 +477,7 @@ extension OEXRouter {
     
     func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
         let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
+        controller.hidesBottomBarWhenPushed = true
         fromController.navigationController?.pushViewController(controller, animated: animated, completion: completion)
     }
     
@@ -585,6 +586,7 @@ extension OEXRouter {
     
     public func showProgramDetails(with url: URL, from controller: UIViewController) {
         let programDetailsController = ProgramsViewController(environment: environment, programsURL: url, viewType: .detail)
+        programDetailsController.hidesBottomBarWhenPushed = true
         controller.navigationController?.pushViewController(programDetailsController, animated: true)
     }
     

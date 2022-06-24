@@ -74,7 +74,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
         return [Strings findCourses];
     }
 
-    return [Strings discover];
+    return [Strings exploreTheCatalog];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -85,6 +85,12 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     }
     
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenFindCourses];
+    self.navigationController.navigationBar.prefersLargeTitles = true;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.navigationController.navigationBar.prefersLargeTitles = false;
 }
 
 - (DiscoveryConfig*)discoveryConfig {

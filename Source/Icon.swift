@@ -162,6 +162,7 @@ public enum Icon {
     case Clone
     case OpenInBrowser
     case VisibiltyOff
+    case Person
     
     private var renderer : IconRenderer {
         switch self {
@@ -315,6 +316,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .openInNew)
         case .VisibiltyOff:
             return MaterialIconRenderer(icon: .visibilityOff)
+        case .Person:
+            return MaterialIconRenderer(icon: .person)
         }
     }
     
