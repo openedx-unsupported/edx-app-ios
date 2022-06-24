@@ -159,9 +159,12 @@ class DiscussionCommentCell: UITableViewCell {
         DiscussionHelper.styleAuthorDetails(author: response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
         let message = Strings.comment(count: response.childCount)
-        let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [
-            Icon.Comment.attributedTextWithStyle(style: smallIconStyle),
-            smallTextStyle.attributedString(withText: message)])
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(
+            attributedStrings: [
+                Icon.Comment.attributedText(style: smallIconStyle, yOffset: -2),
+                smallTextStyle.attributedString(withText: message)
+            ]
+        )
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, for: .normal)
         
         setEndorsed(endorsed: response.endorsed)
@@ -173,7 +176,8 @@ class DiscussionCommentCell: UITableViewCell {
         setAccessiblity(commentCount: commentCountOrReportIconButton.currentAttributedTitle?.string)
     }
     
-    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, index: NSInteger) {
+    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, indexPath: IndexPath) {
+        let index = indexPath.row
         divider.snp.updateConstraints { make in
             make.height.equalTo(2)
         }
@@ -191,7 +195,7 @@ class DiscussionCommentCell: UITableViewCell {
                         let patchedComment = self.patchComment(oldComment: viewController?.comments[index], newComment: response)
                         viewController?.comments[index] = patchedComment
                         self.updateReportText(button: self.commentCountOrReportIconButton, report: response.abuseFlagged)
-                        viewController?.tableView.reloadData()
+                        viewController?.tableView.reloadRows(at: [indexPath], with: .automatic)
                     }
                 }
                 else {
@@ -222,7 +226,7 @@ class DiscussionCommentCell: UITableViewCell {
     
     private func updateReportText(button: UIButton, report: Bool) {
         
-        let reportIcon = Icon.ReportFlag.attributedTextWithStyle(style: reportTextStyle)
+        let reportIcon = Icon.ReportFlag.attributedText(style: reportTextStyle, yOffset: -2)
         let reportTitle = reportTextStyle.attributedString(withText: (report ? Strings.discussionUnreport : Strings.discussionReport ))
         
         let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [reportIcon, reportTitle])
@@ -301,23 +305,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
         didSet {
-            let styles = OEXStyles.shared()
-            
-            addCommentButton.backgroundColor = commentsClosed ? styles.neutralBase() : styles.secondaryBaseColor()
+            addCommentButton.backgroundColor = commentsClosed ? environment.styles.neutralBase() : environment.styles.secondaryBaseColor()
 
             let icon = commentsClosed ? Icon.Closed : Icon.Create
-
-            let createImage = icon.imageWithFontSize(size: 14).image(with: environment.styles.neutralWhiteT())
-            let imageAttachment = NSTextAttachment()
-            imageAttachment.image = createImage
-            let imageOffsetY: CGFloat = -3.0
-            if let image = imageAttachment.image {
-                imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: image.size.width, height: image.size.height)
-            }
-            let attributedImageString = NSAttributedString(attachment: imageAttachment)
-            let style = OEXTextStyle(weight : .semiBold, size: .base, color: environment.styles.neutralWhiteT())
+            
+            let style = OEXTextStyle(weight: .semiBold, size: .base, color: environment.styles.neutralWhiteT())
             let attributedStrings = [
-                attributedImageString,
+                icon.attributedText(with: 16, color: environment.styles.neutralWhiteT(), yOffset: -2),
                 NSAttributedString(string: "\u{00a0}"),
                 style.attributedString(withText: Strings.addComment)
             ]
@@ -604,7 +598,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                 DiscussionHelper.updateEndorsedTitle(thread: thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
             return cell
         case .some(.Comments):
-            cell.useComment(comment: comments[indexPath.row], inViewController: self, index: indexPath.row)
+            cell.useComment(comment: comments[indexPath.row], inViewController: self, indexPath: indexPath)
             return cell
         case .none:
             assert(false, "Unknown table section")

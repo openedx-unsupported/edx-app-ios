@@ -140,6 +140,7 @@ public enum Icon {
     case ReportFlag
     case Settings
     case Sort
+    case Swap
     case StarEmpty
     case StarFilled
     case ShareCourse
@@ -167,6 +168,8 @@ public enum Icon {
         switch self {
         case .Sort:
             return RotatedIconRenderer(backing: MaterialIconRenderer(icon: .sort))
+        case .Swap:
+            return RotatedIconRenderer(backing: MaterialIconRenderer(icon: .swapHoriz))
         case .RotateDevice:
             return RotatedIconRenderer(backing: MaterialIconRenderer(icon: .screenRotation))
         case .ArrowUp:
@@ -186,13 +189,13 @@ public enum Icon {
         case .Comment:
             return MaterialIconRenderer(icon: .comment)
         case .Comments:
-            return MaterialIconRenderer(icon: .forum)
+            return MaterialIconRenderer(icon: .chat)
         case .Calendar:
             return MaterialIconRenderer(icon: .event)
         case .Question:
-            return MaterialIconRenderer(icon: .help)
+            return MaterialIconRenderer(icon: .helpCenter)
         case .Answered:
-            return MaterialIconRenderer(icon: .questionAnswer)
+            return MaterialIconRenderer(icon: .verified)
         case .ExpandMore:
             return MaterialIconRenderer(icon: .expandMore)
         case .ExpandLess:
@@ -202,7 +205,7 @@ public enum Icon {
         case .User:
             return MaterialIconRenderer(icon: .person)
         case .Create:
-            return MaterialIconRenderer(icon: .create)
+            return MaterialIconRenderer(icon: .addComment)
         case .Pinned:
             return MaterialIconRenderer(icon: .pushPin)
         case .Transcript:
@@ -260,7 +263,7 @@ public enum Icon {
         case .FollowStar:
             return MaterialIconRenderer(icon: .star)
         case .Discussions:
-            return MaterialIconRenderer(icon: .forum)
+            return MaterialIconRenderer(icon: .chat)
         case .Dropdown:
             return MaterialIconRenderer(icon: .arrowDropDown)
         case .DoubleArrow:
@@ -367,6 +370,36 @@ public enum Icon {
         let attachment = NSTextAttachment(data: nil, ofType: nil)
         attachment.image = imageWithStyle(style: style).withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         attachment.bounds = bounds
+        return NSAttributedString(attachment: attachment)
+    }
+    
+    public func attributedText(with size: CGFloat, color: UIColor, yOffset: CGFloat = -3, shouldFlip: Bool = false) -> NSAttributedString {
+        var icon = imageWithFontSize(size: size).image(with: color)
+        return applyeStyleToIcon(&icon, yOffset, shouldFlip)
+    }
+    
+    public func attributedText(style: OEXTextStyle, yOffset: CGFloat = -3, shouldFlip: Bool = false) -> NSAttributedString {
+        let attributes = style.attributes.attributedKeyDictionary()
+        
+        guard let color = attributes[NSAttributedString.Key.foregroundColor] as? UIColor,
+              let font = attributes[NSAttributedString.Key.font] as? UIFont
+            else { return NSAttributedString(string: "") }
+                
+        var icon = imageWithFontSize(size: font.pointSize).image(with: color)
+        return applyeStyleToIcon(&icon, yOffset, shouldFlip)
+    }
+    
+    private func applyeStyleToIcon(_ icon: inout UIImage, _ yOffset: CGFloat, _ shouldFlip: Bool) -> NSAttributedString {
+        if shouldFlip {
+            icon = icon.withHorizontallyFlippedOrientation()
+        }
+        let attachment = NSTextAttachment()
+        attachment.image = icon
+        
+        if let image = attachment.image {
+            attachment.bounds = CGRect(x: 0, y: yOffset, width: image.size.width, height: image.size.height)
+        }
+        
         return NSAttributedString(attachment: attachment)
     }
     

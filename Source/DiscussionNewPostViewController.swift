@@ -212,13 +212,19 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
 
     private func configureSegmentControl() {
         discussionQuestionSegmentedControl.removeAllSegments()
-        let questionIcon = Icon.Question.attributedTextWithStyle(style: titleTextStyle)
-        let questionTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [questionIcon,
-            titleTextStyle.attributedString(withText: Strings.question)])
+        let questionTitle = NSAttributedString.joinInNaturalLayout(
+            attributedStrings: [
+                Icon.Question.attributedText(with: 12, color: OEXStyles.shared().primaryXLightColor(), yOffset: -1),
+                titleTextStyle.attributedString(withText: Strings.question)
+            ]
+        )
         
-        let discussionIcon = Icon.Comments.attributedTextWithStyle(style: titleTextStyle)
-        let discussionTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [discussionIcon,
-            titleTextStyle.attributedString(withText: Strings.discussion)])
+        let discussionTitle = NSAttributedString.joinInNaturalLayout(
+            attributedStrings: [
+                Icon.Comments.attributedText(with: 12, color: OEXStyles.shared().primaryXLightColor(), yOffset: -1),
+                titleTextStyle.attributedString(withText: Strings.discussion)
+            ]
+        )
         
         let segmentOptions : [(title : NSAttributedString, value : DiscussionThreadType)] = [
             (title : questionTitle, value : .Question),
