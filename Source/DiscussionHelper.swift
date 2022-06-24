@@ -12,7 +12,7 @@ class DiscussionHelper: NSObject {
     
     class func updateEndorsedTitle(thread: DiscussionThread, label: UILabel, textStyle: OEXTextStyle) {
         
-        let endorsedIcon = Icon.Answered.attributedString(style: textStyle, yOffset: -1)
+        let endorsedIcon = Icon.Answered.attributedText(style: textStyle, yOffset: -1)
         
         switch thread.type {
         case .Question:

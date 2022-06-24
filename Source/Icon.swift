@@ -373,22 +373,12 @@ public enum Icon {
         return NSAttributedString(attachment: attachment)
     }
     
-    public func attributedString(with size: CGFloat, color: UIColor, yOffset: CGFloat = -3, shouldFlip: Bool = false) -> NSAttributedString {
+    public func attributedText(with size: CGFloat, color: UIColor, yOffset: CGFloat = -3, shouldFlip: Bool = false) -> NSAttributedString {
         var icon = imageWithFontSize(size: size).image(with: color)
-        if shouldFlip {
-            icon = icon.withHorizontallyFlippedOrientation()
-        }
-        let attachment = NSTextAttachment()
-        attachment.image = icon
-        
-        if let image = attachment.image {
-            attachment.bounds = CGRect(x: 0, y: yOffset, width: image.size.width, height: image.size.height)
-        }
-        
-        return NSAttributedString(attachment: attachment)
+        return applyeStyleToIcon(&icon, yOffset, shouldFlip)
     }
     
-    public func attributedString(style: OEXTextStyle, yOffset: CGFloat = -3, shouldFlip: Bool = false) -> NSAttributedString {
+    public func attributedText(style: OEXTextStyle, yOffset: CGFloat = -3, shouldFlip: Bool = false) -> NSAttributedString {
         let attributes = style.attributes.attributedKeyDictionary()
         
         guard let color = attributes[NSAttributedString.Key.foregroundColor] as? UIColor,
@@ -396,6 +386,10 @@ public enum Icon {
             else { return NSAttributedString(string: "") }
                 
         var icon = imageWithFontSize(size: font.pointSize).image(with: color)
+        return applyeStyleToIcon(&icon, yOffset, shouldFlip)
+    }
+    
+    private func applyeStyleToIcon(_ icon: inout UIImage, _ yOffset: CGFloat, _ shouldFlip: Bool) -> NSAttributedString {
         if shouldFlip {
             icon = icon.withHorizontallyFlippedOrientation()
         }

@@ -214,14 +214,14 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         discussionQuestionSegmentedControl.removeAllSegments()
         let questionTitle = NSAttributedString.joinInNaturalLayout(
             attributedStrings: [
-                Icon.Question.attributedString(with: 12, color: OEXStyles.shared().primaryXLightColor(), yOffset: -1),
+                Icon.Question.attributedText(with: 12, color: OEXStyles.shared().primaryXLightColor(), yOffset: -1),
                 titleTextStyle.attributedString(withText: Strings.question)
             ]
         )
         
         let discussionTitle = NSAttributedString.joinInNaturalLayout(
             attributedStrings: [
-                Icon.Comments.attributedString(with: 12, color: OEXStyles.shared().primaryXLightColor(), yOffset: -1),
+                Icon.Comments.attributedText(with: 12, color: OEXStyles.shared().primaryXLightColor(), yOffset: -1),
                 titleTextStyle.attributedString(withText: Strings.discussion)
             ]
         )

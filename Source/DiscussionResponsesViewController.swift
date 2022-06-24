@@ -284,7 +284,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         let style = OEXTextStyle(weight : .semiBold, size: .base, color: environment.styles.neutralWhiteT())
         let attributedStrings = [
-            icon.attributedString(with: 16, color: environment.styles.neutralWhiteT(), yOffset: -2),
+            icon.attributedText(with: 16, color: environment.styles.neutralWhiteT(), yOffset: -2),
             NSAttributedString(string: "\u{00a0}"),
             style.attributedString(withText: text)
         ]
@@ -581,7 +581,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             DiscussionHelper.styleAuthorDetails(author: thread.author, authorLabel: thread.authorLabel, createdAt: thread.createdAt, hasProfileImage: thread.hasProfileImage, imageURL: thread.imageURL, authoNameLabel: cell.authorNameLabel, dateLabel: cell.dateLabel, authorButton: cell.authorButton, imageView: cell.authorProfileImage, viewController: self, router: environment.router)
 
             if let responseCount = thread.responseCount {
-                let icon = Icon.Discussions.attributedString(style: infoTextStyle)
+                let icon = Icon.Discussions.attributedText(style: infoTextStyle)
                 let countLabelText = infoTextStyle.attributedString(withText: Strings.response(count: responseCount))
                 
                 let labelText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon,countLabelText])
@@ -715,7 +715,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             commentStyle = responseMessageStyle
         }
        
-        let iconText = icon.attributedString(style: commentStyle, yOffset: -2)
+        let iconText = icon.attributedText(style: commentStyle, yOffset: -2)
         let styledPrompt = commentStyle.attributedString(withText: prompt)
         let title = NSAttributedString.joinInNaturalLayout(attributedStrings: [iconText,styledPrompt])
 
@@ -798,7 +798,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let iconStyle = voted ? cellIconSelectedStyle : cellButtonStyle
         let buttonText = NSAttributedString.joinInNaturalLayout(
             attributedStrings: [
-                Icon.UpVote.attributedString(style: iconStyle, yOffset: -2),
+                Icon.UpVote.attributedText(style: iconStyle, yOffset: -2),
                 cellButtonStyle.attributedString(withText: Strings.vote(count: voteCount))
             ]
         )
@@ -810,7 +810,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let iconStyle = following ? cellIconSelectedStyle : cellButtonStyle
         let buttonText = NSAttributedString.joinInNaturalLayout(
             attributedStrings: [
-                Icon.FollowStar.attributedString(style: iconStyle, yOffset: -2),
+                Icon.FollowStar.attributedText(style: iconStyle, yOffset: -2),
                 cellButtonStyle.attributedString(withText: following ? Strings.discussionUnfollow : Strings.discussionFollow)
             ]
         )
@@ -822,7 +822,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let iconStyle = report ? cellIconSelectedStyle : cellButtonStyle
         let buttonText = NSAttributedString.joinInNaturalLayout(
             attributedStrings: [
-                Icon.ReportFlag.attributedString(style: iconStyle, yOffset: -2),
+                Icon.ReportFlag.attributedText(style: iconStyle, yOffset: -2),
                 cellButtonStyle.attributedString(withText: report ? Strings.discussionUnreport : Strings.discussionReport)
             ]
         )

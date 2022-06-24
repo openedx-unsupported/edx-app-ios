@@ -161,7 +161,7 @@ class DiscussionCommentCell: UITableViewCell {
         let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout(
             attributedStrings: [
-                Icon.Comment.attributedString(style: smallIconStyle, yOffset: -2),
+                Icon.Comment.attributedText(style: smallIconStyle, yOffset: -2),
                 smallTextStyle.attributedString(withText: message)
             ]
         )
@@ -226,7 +226,7 @@ class DiscussionCommentCell: UITableViewCell {
     
     private func updateReportText(button: UIButton, report: Bool) {
         
-        let reportIcon = Icon.ReportFlag.attributedString(style: reportTextStyle, yOffset: -2)
+        let reportIcon = Icon.ReportFlag.attributedText(style: reportTextStyle, yOffset: -2)
         let reportTitle = reportTextStyle.attributedString(withText: (report ? Strings.discussionUnreport : Strings.discussionReport ))
         
         let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [reportIcon, reportTitle])
@@ -311,7 +311,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             
             let style = OEXTextStyle(weight: .semiBold, size: .base, color: environment.styles.neutralWhiteT())
             let attributedStrings = [
-                icon.attributedString(with: 16, color: environment.styles.neutralWhiteT(), yOffset: -2),
+                icon.attributedText(with: 16, color: environment.styles.neutralWhiteT(), yOffset: -2),
                 NSAttributedString(string: "\u{00a0}"),
                 style.attributedString(withText: Strings.addComment)
             ]

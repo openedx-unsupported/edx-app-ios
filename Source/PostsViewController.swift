@@ -343,7 +343,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let filterButtonTitle = NSAttributedString.joinInNaturalLayout(
             attributedStrings: [
-                Icon.Filter.attributedString(with: imageSize, color: environment.styles.primaryBaseColor()),
+                Icon.Filter.attributedText(with: imageSize, color: environment.styles.primaryBaseColor()),
                 filterTextStyle.attributedString(withText: titleForFilter(filter: selectedFilter))
             ]
         )
@@ -351,7 +351,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let sortbuttonTitle = NSAttributedString.joinInNaturalLayout(
             attributedStrings: [
-                Icon.Swap.attributedString(with: imageSize, color: environment.styles.primaryBaseColor(), shouldFlip: true),
+                Icon.Swap.attributedText(with: imageSize, color: environment.styles.primaryBaseColor(), shouldFlip: true),
                 filterTextStyle.attributedString(withText: Strings.recentActivity)
             ]
         )
@@ -362,7 +362,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         let newPostTextStyle = OEXTextStyle(weight: .semiBold, size: .base, color: environment.styles.neutralWhiteT())
         let newPostButtonTitle = NSAttributedString.joinInNaturalLayout(
             attributedStrings: [
-                Icon.Create.attributedString(with: imageSize, color: environment.styles.neutralWhiteT(), yOffset: -2),
+                Icon.Create.attributedText(with: imageSize, color: environment.styles.neutralWhiteT(), yOffset: -2),
                 NSAttributedString(string: "\u{00a0}"),
                 newPostTextStyle.attributedString(withText: Strings.createANewPost)
             ]
@@ -625,7 +625,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.loadController.state = .Initial
             self.loadContent()
             
-            let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Sort.attributedString(style: self.filterTextStyle.withSize(.xSmall)),
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Sort.attributedText(style: self.filterTextStyle.withSize(.xSmall)),
                 self.filterTextStyle.attributedString(withText: self.titleForSort(filter: sort))])
             
             self.sortButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated: false)
@@ -676,7 +676,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
         let style = cellTextStyle.withSize(.small)
         return text.map {text in
-            return NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedString(style: style),
+            return NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedText(style: style),
                 style.attributedString(withText: text)])
         }
     }
