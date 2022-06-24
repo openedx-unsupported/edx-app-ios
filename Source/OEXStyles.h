@@ -32,6 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIFont*)boldFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
 - (UIFont*)boldItalicFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
 
+- (UIFont*)lightSecondaryFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
+- (UIFont*)regularSecondaryFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
+- (UIFont*)semiBoldSecondaryFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
+- (UIFont*)boldSecondaryFontOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported;
+
 - (nullable NSString*)styleHTMLContent:(nullable NSString*)htmlString stylesheet:(NSString*)stylesheet;
 
 - (OEXSwitchStyle*)standardSwitchStyle;

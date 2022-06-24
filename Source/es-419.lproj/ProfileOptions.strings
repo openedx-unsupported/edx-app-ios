@@ -5,7 +5,7 @@
 /* Settings message for video settings */
 "PROFILE_OPTIONS.VIDEO_SETTINGS.MESSAGE" = "Solo descargar contenido cuando el WiFi está encendido";
 /* Settings title for wifi */
-"PROFILE_OPTIONS.WIFI.TITLE" = "WIFI";
+"PROFILE_OPTIONS.WIFI.TITLE" = "Wifi";
 /* Settings heading for wifi */
 "PROFILE_OPTIONS.WIFI.HEADING" = "Descarga solo por Wifi";
 /* Settings message for wifi */

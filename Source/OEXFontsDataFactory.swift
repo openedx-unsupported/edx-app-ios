@@ -20,6 +20,11 @@ class OEXFontsDataFactory {
         "extraBoldItalic":"Inter-ExtraBoldItalic",
         "light":"Inter-Light",
         "lightItalic":"Inter-LightItalic",
-        "italic":"Inter-Italic"
+        "italic":"Inter-Italic",
+
+        "secondary-Light":"RobotoMono-Light",
+        "secondary-Regular":"RobotoMono-Regular",
+        "secondary-SemiBold":"RobotoMono-SemiBold",
+        "secondary-Bold":"RobotoMono-Bold"
     ]
 }
