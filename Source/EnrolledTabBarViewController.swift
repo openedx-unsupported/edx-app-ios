@@ -113,7 +113,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     }
     
     private func loadTabBarViewControllers(tabBarItems: [TabBarItem]) {
-        var controllers :[UIViewController] = []
+        var controllers : [UIViewController] = []
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
             controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize), selectedImage: tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize))
@@ -152,5 +152,22 @@ extension EnrolledTabBarViewController {
         if TabBarOptions.options[tabBarController.selectedIndex] == .CourseCatalog {
             environment.analytics.trackUserFindsCourses()
         }
+    }
+}
+
+extension EnrolledTabBarViewController {
+    func t_viewDiscoveryDisabled() {
+        selectedIndex = 0
+        tabBar.isHidden = false
+    }
+    
+    func t_viewOnlyCoursesEnabled() {
+        selectedIndex = 0
+        tabBar.isHidden = true
+    }
+    
+    func t_viewOnlyProfileEnabled() {
+        selectedIndex = 1
+        tabBar.isHidden = true
     }
 }
