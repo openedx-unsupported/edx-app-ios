@@ -118,7 +118,10 @@ class LearnContainerHeaderView: UIView {
         addSubview(container)
         
         container.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+            make.top.equalTo(self).offset(-6)
+            make.bottom.equalTo(self)
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
         }
 
         dropDownContainer.snp.makeConstraints { make in
