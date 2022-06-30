@@ -41,6 +41,8 @@ OEXStartType OEXStartTypeForString(NSString* type);
 
 - (id)initWithDictionary:(NSDictionary *)info;
 - (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate;
+- (instancetype)initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate sku:(nullable NSString *) sku;
+
 // TODO: Rename these to CamelCase (MK - eh just make this swift)
 @property (readonly, nonatomic, strong, nullable) OEXLatestUpdates* latest_updates;
 @property (readonly, nonatomic, strong, nullable) NSDate* end;
@@ -66,6 +68,7 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @property (nonatomic, readonly) CourseShareUtmParameters *courseShareUtmParams;
 @property (readonly, nonatomic, strong, nullable) NSString* courseImageURL;
 @property (nonatomic, strong, nullable) NSDate* audit_expiry_date;
+@property (nonatomic, strong, nullable) NSString* sku;
 @property (readonly, nonatomic, assign) BOOL isStartDateOld;
 @property (readonly, nonatomic, assign) BOOL isEndDateOld;
 @property (readonly, nonatomic, assign) BOOL isAuditExpired;

@@ -142,10 +142,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     self?.coursesContainer.collectionView.reloadData()
                     self?.loadController.state = .Loaded
                     
-                    if enrollments.count <= 0 {
+                    if enrollments.isEmpty {
                         self?.enrollmentsEmptyState()
                     }
-                    
+                    self?.fetchCoursePrices(enrollments: enrollments)
                     self?.handleUpgradationLoader(success: true)
                 }
                 else {
@@ -166,6 +166,14 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                 }
                 
                 self?.handleUpgradationLoader(success: false)
+            }
+        }
+    }
+    
+    private func fetchCoursePrices(enrollments: [UserCourseEnrollment]) {
+        for enrollment in enrollments {
+            if let sku = enrollment.course.sku {
+                PaymentManager.shared.productPrice(sku)
             }
         }
     }

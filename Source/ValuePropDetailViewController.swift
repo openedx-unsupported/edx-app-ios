@@ -102,7 +102,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
 
     private func fetchCoursePrice() {
-        guard let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
+        guard let courseSku = course.sku else { return }
         
         let startTime = CFAbsoluteTimeGetCurrent()
         

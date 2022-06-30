@@ -39,6 +39,17 @@ public class UserCourseEnrollment : NSObject {
         if let mode = mode {
             type = EnrollmentMode(rawValue: mode) ?? .none
         }
+
+        var iosSku: String?
+
+        if let courseModes = dictionary["course_modes"] as? [[String: AnyObject]]  {
+            for mode in courseModes where mode["slug"] as? String == "verified" {
+                if let sku = mode["ios_sku"] as? String {
+                    iosSku = sku
+                }
+                break
+            }
+        }
         
         if let certificatesInfo = dictionary["certificate"] as? [String: Any] {
             certificateUrl = certificatesInfo["url"] as? String
@@ -47,7 +58,7 @@ public class UserCourseEnrollment : NSObject {
         }
         
         if let dictCourse = dictionary["course"] as? [NSObject: AnyObject] {
-            course = OEXCourse(dictionary: dictCourse, auditExpiryDate: dictionary["audit_access_expires"] as? String)
+            course = OEXCourse(dictionary: dictCourse, auditExpiryDate: dictionary["audit_expiration_date"] as? String, sku: iosSku)
         } else {
             course = OEXCourse()
             super.init()

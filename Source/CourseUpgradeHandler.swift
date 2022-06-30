@@ -133,7 +133,7 @@ class CourseUpgradeHandler: NSObject {
         state = .initial
         
         guard let course = self.course,
-              let coursePurchaseSku = UpgradeSKUManager.shared.courseSku(for: course) else {
+              let coursePurchaseSku = course.sku else {
                   state = .error(type: .generalError, error: error(message: "course sku is missing"))
                   return
               }

@@ -37,7 +37,7 @@ extension EnrolledCoursesViewController {
         // fulfill outside fullfilled payments, marked complete bby support team
         let verifiedEnrollments = environment.interface?.courses?.filter({ $0.type == .verified}) ?? []
         for enrollment in verifiedEnrollments {
-            if let courseSku = UpgradeSKUManager.shared.courseSku(for: enrollment.course), skus.contains(courseSku) {
+            if let courseSku = enrollment.course.sku, skus.contains(courseSku) {
                 // Payment was fullfilled outside the app
                 PaymentManager.shared.markPurchaseComplete(courseSku, type: .transction)
                 courseUpgradeHelper.markIAPSKUCompleteInKeychain(courseSku)
@@ -61,7 +61,7 @@ extension EnrolledCoursesViewController {
         var unResolvedCoursesSkus: [String] = []
         let auditEnrollments = environment.interface?.courses?.filter({ $0.type == .audit}) ?? []
         for enrollment in auditEnrollments {
-            if let courseSku = UpgradeSKUManager.shared.courseSku(for: enrollment.course) {
+            if let courseSku = enrollment.course.sku {
                 if skus.contains(courseSku) {
                     unResolvedCoursesSkus.append(courseSku)
                 }
@@ -86,8 +86,7 @@ extension EnrolledCoursesViewController {
     private func resolveUnfinishedPayment(for skus: [String]) {
         var skus = skus
         guard let sku = skus.last,
-              let courseID = UpgradeSKUManager.shared.courseID(for: sku),
-              let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else {
+              let course = environment.interface?.course(fromSKU: sku) else {
                   // course not available for sku
                   // remove it from the active purchases
                   if skus.count > 1 {
