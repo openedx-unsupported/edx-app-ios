@@ -10,10 +10,17 @@ import Foundation
 import edXCore
 
 struct CoursesAPI {
+    private enum Keys: String, RawStringExtractable {
+        case enrollments
+        case config
+    }
     
     static func enrollmentsDeserializer(response: HTTPURLResponse, json: JSON) -> Result<[UserCourseEnrollment]> {
-        if json["enrollments"].exists() {
-            return (json["enrollments"].array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
+        if json[Keys.config].exists() {
+            AppConfiguration.shared.initialize(json: json[Keys.config])
+        }
+        if json[Keys.enrollments].exists() {
+            return (json[Keys.enrollments].array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
         } else {
             return (json.array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
         }

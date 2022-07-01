@@ -24,7 +24,7 @@ protocol CourseOutlineTableControllerDelegate: AnyObject {
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate, VideoDownloadQualityDelegate {
 
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & RemoteConfigProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & AppConfigProvider
     
     weak var delegate: CourseOutlineTableControllerDelegate?
     private let environment: Environment
@@ -97,7 +97,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 
     private var canShowValueProp: Bool {
-        return enrollment?.type == .audit && environment.remoteConfig.valuePropEnabled
+        return enrollment?.type == .audit && environment.appConfig.valuePropEnabled
     }
 
     private var enrollment: UserCourseEnrollment? {

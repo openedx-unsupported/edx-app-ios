@@ -61,7 +61,8 @@ class TestRouterEnvironment : RouterEnvironment {
             reachability: mockReachability,
             session: session,
             styles: OEXStyles(),
-            remoteConfig: FirebaseRemoteConfiguration.shared)
+            remoteConfig: FirebaseRemoteConfiguration.shared,
+            appConfig: AppConfiguration.shared)
         
         self.analytics.add(eventTracker)
     }

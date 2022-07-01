@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXSession;
 @class OEXStyles;
 @class FirebaseRemoteConfiguration;
+@class AppConfiguration;
 
 @interface OEXEnvironment : NSObject
 
@@ -34,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) OEXSession* (^ sessionBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) OEXStyles* (^ stylesBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) FirebaseRemoteConfiguration* (^ remoteConfigBuilder)(OEXEnvironment* env);
+@property (strong, nonatomic) AppConfiguration* (^ appConfigBuilder)(OEXEnvironment* env);
 
 // These will all be nil until setupEnvironment is called
 @property (readonly, strong, nonatomic) OEXAnalytics* analytics;
@@ -45,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) OEXSession* session;
 @property (readonly, strong, nonatomic) OEXStyles* styles;
 @property (strong, nonatomic) FirebaseRemoteConfiguration* remoteConfig;
+@property (strong, nonatomic) AppConfiguration* appConfig;
 
 @end
 

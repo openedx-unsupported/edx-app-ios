@@ -73,7 +73,8 @@
             reachability:reachability
             session:session
             styles:[[OEXStyles alloc] init]
-            remoteConfig:[FirebaseRemoteConfiguration shared]];
+            remoteConfig:[FirebaseRemoteConfiguration shared]
+            appConfig: [AppConfiguration shared]];
 }
 
 -(void)testFindCoursesURLRecognition{

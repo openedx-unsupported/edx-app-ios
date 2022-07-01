@@ -22,13 +22,11 @@ public extension RemoteConfigProvider {
 
 @objc public class FirebaseRemoteConfiguration: NSObject {
     enum Keys: String, RawStringExtractable {
-        case valuePropEnabled = "VALUE_PROP_ENABLED"
         case courseDatesCalendarSync = "COURSE_DATES_CALENDAR_SYNC"
     }
     
     @objc static let shared =  FirebaseRemoteConfiguration()
     
-    var valuePropEnabled: Bool = false
     var calendarSyncConfig = CalendarSyncConfig()
     
     private override init() {
@@ -36,12 +34,10 @@ public extension RemoteConfigProvider {
     }
     
     @objc func initialize(remoteConfig: RemoteConfig) {
-        let valueProp = remoteConfig.configValue(forKey: Keys.valuePropEnabled.rawValue).boolValue
         let calendarSync = remoteConfig.configValue(forKey: Keys.courseDatesCalendarSync.rawValue).jsonValue as? [String : Any]
         let calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
         
         let dictionary: [String : Any] = [
-            Keys.valuePropEnabled.rawValue: valueProp,
             Keys.courseDatesCalendarSync.rawValue: calendarSyncConfig.toDictionary()
         ]
         saveRemoteConfig(with: dictionary)
@@ -52,7 +48,6 @@ public extension RemoteConfigProvider {
             return
         }
         
-        valuePropEnabled = remoteConfig[Keys.valuePropEnabled] as? Bool ?? false
         let calendarSync = remoteConfig[Keys.courseDatesCalendarSync] as? [String : Any]
         calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
     }

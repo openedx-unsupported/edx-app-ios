@@ -230,6 +230,7 @@
 		5FFB73C02849F10D000523BF /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B82849F10D000523BF /* DropDown.swift */; };
 		5FFB73C12849F10D000523BF /* DropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B92849F10D000523BF /* DropDownCell.swift */; };
 		5FFB73C22849F10D000523BF /* DropDown+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73BA2849F10D000523BF /* DropDown+Appearance.swift */; };
+		5FFC1D69286EECB700DD29EB /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC1D68286EECB700DD29EB /* AppConfiguration.swift */; };
 		5FFCF2C7284CA12600D6456F /* LearnContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFCF2C6284CA12600D6456F /* LearnContainerViewController.swift */; };
 		67FDC7528B4181D9153A7C36 /* Pods_edXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */; };
 		6919F5FF1D65CD27006935C8 /* OEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6919F5FE1D65CD27006935C8 /* OEXColors.swift */; };
@@ -1247,6 +1248,7 @@
 		5FFB73B82849F10D000523BF /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
 		5FFB73B92849F10D000523BF /* DropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownCell.swift; sourceTree = "<group>"; };
 		5FFB73BA2849F10D000523BF /* DropDown+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DropDown+Appearance.swift"; sourceTree = "<group>"; };
+		5FFC1D68286EECB700DD29EB /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		5FFCF2C6284CA12600D6456F /* LearnContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnContainerViewController.swift; sourceTree = "<group>"; };
 		61E8D7FCCFA0751E2D510864 /* libPods-EndToEndTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EndToEndTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6919F5FE1D65CD27006935C8 /* OEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColors.swift; sourceTree = "<group>"; };
@@ -3148,6 +3150,7 @@
 		77E209821AF049930071316D /* Course Structure */ = {
 			isa = PBXGroup;
 			children = (
+				5FFC1D68286EECB700DD29EB /* AppConfiguration.swift */,
 				77E209841AF158190071316D /* CourseOutline.swift */,
 				7772BE831AF834EC0081CA7A /* CourseOutlineQuerier.swift */,
 				191A002919405E1B004F7902 /* OEXCourse.h */,
@@ -5034,6 +5037,7 @@
 				E054B09D1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift in Sources */,
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
 				9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */,
+				5FFC1D69286EECB700DD29EB /* AppConfiguration.swift in Sources */,
 				B7CCC71F209B16B100A66923 /* ConstraintDescription.swift in Sources */,
 				E03168EB270301C300AD20FA /* OEXConfig+SingleKeys.swift in Sources */,
 				771273271BA36B76008BA397 /* LoggingAnalyticsTracker.swift in Sources */,
