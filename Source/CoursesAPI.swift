@@ -12,14 +12,24 @@ import edXCore
 struct CoursesAPI {
     
     static func enrollmentsDeserializer(response: HTTPURLResponse, json: JSON) -> Result<[UserCourseEnrollment]> {
-        return (json["enrollments"].array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
+        if json["enrollments"].exists() {
+            return (json["enrollments"].array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
+        } else {
+            return (json.array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
+        }
     }
     
     static func getUserEnrollments(username: String, organizationCode: String?) -> NetworkRequest<[UserCourseEnrollment]> {
-        var path = "api/mobile/v1.5/users/{username}/course_enrollments/".oex_format(withParameters: ["username": username])
+        let apiVersion = OEXConfig.shared().apiUrlVersionConfig.enrollments
+        
+        var path = "api/mobile/{api_version}/users/{username}/course_enrollments/"
+            .oex_format(withParameters: ["username": username, "api_version": apiVersion])
+        
         if let orgCode = organizationCode {
-            path = "api/mobile/v1.5/users/{username}/course_enrollments/?org={org}".oex_format(withParameters: ["username": username, "org": orgCode])
+            path = "api/mobile/{api_version}/users/{username}/course_enrollments/?org={org}"
+                .oex_format(withParameters: ["username": username, "org": orgCode, "api_version": apiVersion])
         }
+        
         return NetworkRequest(
             method: .GET,
             path: path,
