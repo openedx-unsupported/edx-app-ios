@@ -62,7 +62,7 @@ class TestRouterEnvironment : RouterEnvironment {
             session: session,
             styles: OEXStyles(),
             remoteConfig: FirebaseRemoteConfiguration.shared,
-            appConfig: AppConfiguration.shared)
+            serverConfig: ServerConfiguration.shared)
         
         self.analytics.add(eventTracker)
     }

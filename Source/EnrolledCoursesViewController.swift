@@ -12,7 +12,7 @@ var isActionTakenOnUpgradeSnackBar: Bool = false
 
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & AppConfigProvider & OEXSessionProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & ServerConfigProvider & OEXSessionProvider
     
     let environment : Environment
     private let coursesContainer : CoursesContainerViewController

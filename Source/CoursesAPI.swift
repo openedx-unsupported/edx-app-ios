@@ -17,7 +17,7 @@ struct CoursesAPI {
     
     static func enrollmentsDeserializer(response: HTTPURLResponse, json: JSON) -> Result<[UserCourseEnrollment]> {
         if json[Keys.config].exists() {
-            AppConfiguration.shared.initialize(json: json[Keys.config])
+            ServerConfiguration.shared.initialize(json: json[Keys.config])
         }
         if json[Keys.enrollments].exists() {
             return (json[Keys.enrollments].array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()

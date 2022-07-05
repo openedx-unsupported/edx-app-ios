@@ -75,7 +75,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     }
     
     private func showValueProp(on block: CourseBlock) {
-        if AppConfiguration.shared.valuePropEnabled {
+        if ServerConfiguration.shared.valuePropEnabled {
             content.trailingView = valuePropAccessoryView
             content.setDetailText(title: Strings.CourseUpgrade.learnHowToUnlock, blockType: block.type, underline: true)
             content.shouldShowSubtitleLeadingImageView = false

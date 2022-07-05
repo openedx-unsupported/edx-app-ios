@@ -74,7 +74,7 @@
             session:session
             styles:[[OEXStyles alloc] init]
             remoteConfig:[FirebaseRemoteConfiguration shared]
-            appConfig: [AppConfiguration shared]];
+            serverConfig:[ServerConfiguration shared]];
 }
 
 -(void)testFindCoursesURLRecognition{

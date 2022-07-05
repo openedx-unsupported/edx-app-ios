@@ -10,7 +10,7 @@ import UIKit
 
 class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & AppConfigProvider & ReachabilityProvider & NetworkManagerProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider & OEXRouterProvider & ServerConfigProvider & ReachabilityProvider & NetworkManagerProvider
     
     private let environment: Environment
     
@@ -108,7 +108,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         } else if (block.type == .Section && block.children.isEmpty) {
             showEmptySubsectionMessageView(blockID: block.blockID)
         } else if block.isGated {
-            if environment.appConfig.valuePropEnabled {
+            if environment.serverConfig.valuePropEnabled {
                 environment.analytics.trackLockedContentClicked(courseID: courseID, screenName: .CourseUnit, assignmentID: block.blockID)
                 showValuePropMessageView()
             } else {

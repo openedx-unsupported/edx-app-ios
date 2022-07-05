@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc class RouterEnvironment: NSObject, OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, OEXInterfaceProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider, OEXSessionProvider, OEXStylesProvider, RemoteConfigProvider, AppConfigProvider {
+@objc class RouterEnvironment: NSObject, OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, OEXInterfaceProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider, OEXSessionProvider, OEXStylesProvider, RemoteConfigProvider, ServerConfigProvider {
     let analytics: OEXAnalytics
     let config: OEXConfig
     let dataManager: DataManager
@@ -19,7 +19,7 @@ import UIKit
     let session: OEXSession
     let styles: OEXStyles
     let remoteConfig: FirebaseRemoteConfiguration
-    let appConfig: AppConfiguration
+    let serverConfig: ServerConfiguration
     
     @objc init(
         analytics: OEXAnalytics,
@@ -31,7 +31,7 @@ import UIKit
         session: OEXSession,
         styles: OEXStyles,
         remoteConfig: FirebaseRemoteConfiguration,
-        appConfig: AppConfiguration
+        serverConfig: ServerConfiguration
         )
     {
         self.analytics = analytics
@@ -43,7 +43,7 @@ import UIKit
         self.session = session
         self.styles = styles
         self.remoteConfig = remoteConfig
-        self.appConfig = appConfig
+        self.serverConfig = serverConfig
         super.init()
     }
 }
