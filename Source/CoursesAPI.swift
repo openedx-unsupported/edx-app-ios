@@ -19,8 +19,8 @@ struct CoursesAPI {
         }
     }
     
-    static func getUserEnrollments(username: String, organizationCode: String?) -> NetworkRequest<[UserCourseEnrollment]> {
-        let apiVersion = OEXConfig.shared().apiUrlVersionConfig.enrollments
+    static func getUserEnrollments(username: String, organizationCode: String?, config: OEXConfig?) -> NetworkRequest<[UserCourseEnrollment]> {
+        let apiVersion = config?.apiUrlVersionConfig.enrollments ?? APIURLDefaultVersion.enrollments.rawValue
         
         var path = "api/mobile/{api_version}/users/{username}/course_enrollments/"
             .oex_format(withParameters: ["username": username, "api_version": apiVersion])
