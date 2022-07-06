@@ -25,7 +25,7 @@ public extension ServerConfigProvider {
     
     @objc static let shared = ServerConfiguration()
     
-    var valuePropEnabled: Bool = false
+    private(set) var valuePropEnabled: Bool = false
     
     private override init() {
         super.init()
