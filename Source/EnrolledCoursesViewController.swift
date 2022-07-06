@@ -171,11 +171,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     }
     
     private func fetchCoursePrices(enrollments: [UserCourseEnrollment]) {
-        for enrollment in enrollments {
-            if let sku = enrollment.course.sku {
-                PaymentManager.shared.productPrice(sku)
-            }
-        }
+        PaymentManager.shared.productPrice(enrollments.compactMap { $0.course.sku })
     }
     
     private func enrollmentsEmptyState() {

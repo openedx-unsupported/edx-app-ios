@@ -58,7 +58,7 @@ public class UserCourseEnrollment : NSObject {
         }
         
         if let dictCourse = dictionary["course"] as? [NSObject: AnyObject] {
-            course = OEXCourse(dictionary: dictCourse, auditExpiryDate: dictionary["audit_expiration_date"] as? String, sku: iosSku)
+            course = OEXCourse(dictionary: dictCourse, auditExpiryDate: dictionary["audit_access_expires"] as? String, sku: iosSku)
         } else {
             course = OEXCourse()
             super.init()

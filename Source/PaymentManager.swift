@@ -168,6 +168,10 @@ enum PurchaseError: String {
         }
     }
     
+    func productPrice(_ identifiers: [String]) {
+        storeKit.retrieveProductsInfo(Set(identifiers.map { $0 })) { _ in }
+    }
+    
     func purchaseReceipt(completion: PurchaseCompletionHandler? = nil) {
         if let completion = completion {
             self.completion = completion
