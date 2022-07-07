@@ -26,7 +26,8 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
 
         environment.mockEnrollmentManager.courses = courses
         let controller = EnrolledTabBarViewController(environment: environment)
-
+        controller.switchTab(with: .none)
+        
         inScreenNavigationContext(controller) {
             stepRunLoop()
             assertSnapshotValidWithContent(controller.navigationController!)
@@ -46,13 +47,14 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
 
         environment.mockEnrollmentManager.courses = courses
         let controller = EnrolledTabBarViewController(environment: environment)
+        controller.switchTab(with: .none)
         
         inScreenNavigationContext(controller) {
             assertSnapshotValidWithContent(controller.navigationController!)
         }
     }
     
-    func testsnapshotEnrolledTabBarShowProfile() {
+    func testsnapshotEnrolledTabBarViewDiscoveryAndProgramDisable() {
         let config = OEXConfig(dictionary: [:])
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
         let environment = TestRouterEnvironment(config: config, interface: nil).logInTestUser()
@@ -62,15 +64,19 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
 
         environment.mockEnrollmentManager.courses = courses
         let controller = EnrolledTabBarViewController(environment: environment)
-        controller.t_viewOnlyProfileEnabled()
+        controller.switchTab(with: .none)
         
         inScreenNavigationContext(controller) {
             assertSnapshotValidWithContent(controller.navigationController!)
         }
+
     }
     
     func testsnapshotEnrolledTabBarViewDiscoveryDisable() {
-        let config = OEXConfig(dictionary: [:])
+        let configDict = [
+            "PROGRAM": ["ENABLED": true, "PROGRAM_URL": "https:www.testurl.com"]
+        ]
+        let config = OEXConfig(dictionary: configDict)
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
         let environment = TestRouterEnvironment(config: config, interface: nil).logInTestUser()
 
@@ -79,21 +85,21 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
 
         environment.mockEnrollmentManager.courses = courses
         let controller = EnrolledTabBarViewController(environment: environment)
-        controller.t_viewDiscoveryDisabled()
+        controller.switchTab(with: .none)
         
         inScreenNavigationContext(controller) {
             assertSnapshotValidWithContent(controller.navigationController!)
         }
     }
 
-    func testsnapshotEnrolledTabBarViewOnlyCoursesEnabled() {
+    func testsnapshotEnrolledTabBarViewCoursesEnabled() {
         let config = OEXConfig(dictionary: [:])
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
         let environment = TestRouterEnvironment(config: config, interface: nil).logInTestUser()
 
         environment.mockEnrollmentManager.courses = courses
         let controller = EnrolledTabBarViewController(environment: environment)
-        controller.t_viewOnlyCoursesEnabled()
+        controller.switchTab(with: .none)
         
         inScreenNavigationContext(controller) {
             assertSnapshotValidWithContent(controller.navigationController!)

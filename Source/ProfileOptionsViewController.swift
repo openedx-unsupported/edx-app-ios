@@ -95,10 +95,6 @@ class ProfileOptionsViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
     private func setupViews() {
         view.backgroundColor = environment.styles.standardBackgroundColor()
         view.addSubview(tableView)
