@@ -7,15 +7,18 @@
 //
 
 import AuthenticationServices
+import KeychainSwift
 
 private let errorDomain = "AppleSocial"
+private let appleNameKey = "APPLE_SIGNUP_NAME_KEY"
+
 
 typealias AppleLoginCompletionHandler = (OEXRegisteringUserDetails?, _ accessToken: String?, Error?) -> Void
 
 
-class AppleSocial: NSObject {
+@objc class AppleSocial: NSObject {
 
-    static let shared = AppleSocial()
+    @objc static let shared = AppleSocial()
     private var completionHandler: AppleLoginCompletionHandler?
 
     private override init() {
@@ -35,6 +38,10 @@ class AppleSocial: NSObject {
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
     }
+
+    @objc func savedUserName() -> String {
+        return KeychainSwift().get(appleNameKey) ?? ""
+    }
 }
 
 extension AppleSocial: ASAuthorizationControllerDelegate {
@@ -50,12 +57,23 @@ extension AppleSocial: ASAuthorizationControllerDelegate {
             return
         }
 
-        let firstName = credentials.fullName?.givenName
-        let lastName = credentials.fullName?.familyName
+        let firstName = credentials.fullName?.givenName ?? ""
+        let lastName = credentials.fullName?.familyName ?? ""
         let email = credentials.email ?? ""
 
+        var name = "\(firstName) \(lastName)"
+        if !name.isEmpty && name != " " {
+            // Save data in keychain because apple won't return data on 2nd request
+            // if sign up was not completed
+            KeychainSwift().set(name, forKey: appleNameKey)
+        }
+
+        if firstName.isEmpty && lastName.isEmpty {
+            name = savedUserName()
+        }
+
         let userDetails = OEXRegisteringUserDetails()
-        userDetails.name = "\(firstName ?? "") \(lastName ?? "")"
+        userDetails.name = name
         userDetails.email = email
 
         if let data = credentials.identityToken, let code = String(data: data, encoding: .utf8) {
@@ -98,7 +116,6 @@ extension AppleSocial: ASAuthorizationControllerDelegate {
       let segments = jwt.components(separatedBy: ".")
       return try decodeJWTPart(segments[1])
     }
-
 }
 
 extension AppleSocial: ASAuthorizationControllerPresentationContextProviding {
