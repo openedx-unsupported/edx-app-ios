@@ -53,10 +53,10 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     
     private(set) var refreshing : Bool = false
     private let refreshControl: UIRefreshControl = {
-        let controll = UIRefreshControl()
-        controll.tintColor = .clear
-        controll.backgroundColor = .clear
-        return controll
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .clear
+        refreshControl.backgroundColor = .clear
+        return refreshControl
     }()
     
     public override init() {
@@ -105,7 +105,7 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     }
     
     public var currentInsets : UIEdgeInsets {
-        return UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
+        return .zero
     }
     
     public func scrollViewDidScroll(scrollView : UIScrollView) {
