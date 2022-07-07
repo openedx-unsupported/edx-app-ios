@@ -86,6 +86,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenFindCourses];
     self.navigationController.navigationBar.prefersLargeTitles = true;
+    self.extendedLayoutIncludesOpaqueBars = true;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
