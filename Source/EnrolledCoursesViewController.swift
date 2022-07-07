@@ -170,10 +170,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
     }
     
-    private func fetchCoursePrices(enrollments: [UserCourseEnrollment]) {
-        PaymentManager.shared.productPrice(enrollments.compactMap { $0.course.sku })
-    }
-    
     private func enrollmentsEmptyState() {
         if !isDiscoveryEnabled {
             let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
