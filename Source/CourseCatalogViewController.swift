@@ -9,7 +9,7 @@
 import UIKit
 
 class CourseCatalogViewController: UIViewController, CoursesContainerViewControllerDelegate, InterfaceOrientationOverriding {
-    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXConfigProvider & OEXAnalyticsProvider & OEXInterfaceProvider & RemoteConfigProvider
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXConfigProvider & OEXAnalyticsProvider & OEXInterfaceProvider & ServerConfigProvider
     
     private let environment : Environment
     private let coursesContainer : CoursesContainerViewController
