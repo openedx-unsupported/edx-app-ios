@@ -550,8 +550,6 @@
 "DOWNLOADING_VIDEOS_TITLE" = "Đang tải video xuống...";
 /*Title for bulk download view when in new or partial state */
 "DOWNLOAD_TO_DEVICE_TITLE" = "Tải về thiết bị";
-/*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="Khám phá";
 /*Title for the programs in tabbar and navigation bar*/
 "PROGRAMS"="Chương trình";
 /*Title for the degrees in navigation bar*/

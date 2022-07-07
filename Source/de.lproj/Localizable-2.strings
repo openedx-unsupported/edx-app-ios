@@ -25,3 +25,5 @@
 "MY_PROGRAMS"="My programs";
 /*Title for Discovery*/
 "EXPLORE_THE_CATALOG"="Explore the catalog";
+/*Title for Discover*/
+"DISCOVER"="Suche";
