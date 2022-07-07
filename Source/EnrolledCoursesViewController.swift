@@ -145,7 +145,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     if enrollments.isEmpty {
                         self?.enrollmentsEmptyState()
                     }
-                    self?.fetchCoursePrices(enrollments: enrollments)
+
                     self?.handleUpgradationLoader(success: true)
                 }
                 else {
