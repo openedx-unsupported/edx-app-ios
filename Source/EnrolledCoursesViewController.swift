@@ -12,7 +12,7 @@ var isActionTakenOnUpgradeSnackBar: Bool = false
 
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & RemoteConfigProvider & OEXSessionProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & ServerConfigProvider & OEXSessionProvider
     
     let environment : Environment
     private let coursesContainer : CoursesContainerViewController
@@ -142,10 +142,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     self?.coursesContainer.collectionView.reloadData()
                     self?.loadController.state = .Loaded
                     
-                    if enrollments.count <= 0 {
+                    if enrollments.isEmpty {
                         self?.enrollmentsEmptyState()
                     }
-                    
+
                     self?.handleUpgradationLoader(success: true)
                 }
                 else {

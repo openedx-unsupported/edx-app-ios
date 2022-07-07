@@ -145,6 +145,7 @@
                                             session:env.session
                                             styles:env.styles
                                             remoteConfig:env.remoteConfig
+                                            serverConfig:env.serverConfig
                                             ];
             return [[OEXRouter alloc] initWithEnvironment:routerEnv];
             
@@ -163,6 +164,10 @@
         self.remoteConfigBuilder = ^(OEXEnvironment* env){
             return  [FirebaseRemoteConfiguration shared];
         };
+        
+        self.serverConfigBuilder = ^(OEXEnvironment* env){
+            return [ServerConfiguration shared];
+        };
     }
     return self;
 }
@@ -178,6 +183,7 @@
     self.session = self.sessionBuilder(self);
     
     self.remoteConfig = self.remoteConfigBuilder(self);
+    self.serverConfig = self.serverConfigBuilder(self);
     self.networkManager = self.networkManagerBuilder(self);
     self.dataManager = self.dataManagerBuilder(self);
     self.styles = self.stylesBuilder(self);

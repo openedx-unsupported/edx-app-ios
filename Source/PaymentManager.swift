@@ -148,22 +148,28 @@ enum PurchaseError: String {
                 }
             case .deferred(let purchase):
                 print(purchase.product.productIdentifier)
+            @unknown default:
+                completion?((false, receipt: nil, error: nil))
             }
         }
     }
 
-    func productPrice(_ identifier: String, completion: @escaping (String?) -> Void) {
+    func productPrice(_ identifier: String, completion: ((String?) -> Void)? = nil) {
         storeKit.retrieveProductsInfo([identifier]) { result in
             if let product = result.retrievedProducts.first {
-                completion(product.localizedPrice)
+                completion?(product.localizedPrice)
             }
             else if let _ = result.invalidProductIDs.first {
-                completion(nil)
+                completion?(nil)
             }
             else {
-                completion(nil)
+                completion?(nil)
             }
         }
+    }
+    
+    func productPrice(_ identifiers: [String]) {
+        storeKit.retrieveProductsInfo(Set(identifiers.map { $0 })) { _ in }
     }
     
     func purchaseReceipt(completion: PurchaseCompletionHandler? = nil) {
@@ -178,6 +184,8 @@ enum PurchaseError: String {
                 self?.completion?((true, receipt: encryptedReceipt, error: nil))
             case .error(let error):
                 self?.completion?((false, receipt: nil, error: (type: .receiptNotAvailable, error: error)))
+            @unknown default:
+                self?.completion?((false, receipt: nil, error: nil))
             }
         }
     }
@@ -186,7 +194,7 @@ enum PurchaseError: String {
         guard let applicationUserName = OEXSession.shared()?.currentUser?.username else { return }
 
         storeKit.restorePurchases(atomically: false, applicationUsername: applicationUserName) { results in
-            if results.restoredPurchases.count > 0 {
+            if !results.restoredPurchases.isEmpty {
                 completion?(true, results.restoredPurchases)
             }
             else {

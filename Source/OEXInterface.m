@@ -901,6 +901,16 @@ static OEXInterface* _sharedInterface = nil;
     return mainArray;
 }
 
+#pragma mark - Course SKU
+- (OEXCourse *)courseFromSKU:(NSString *)courseSKU {
+    for(UserCourseEnrollment* courseEnrollment in _courses) {
+        if([courseEnrollment.course.sku isEqualToString:courseSKU]) {
+            return courseEnrollment.course;
+        }
+    }
+    return nil;
+}
+
 #pragma mark - Closed Captioning
 - (void)downloadAllTranscriptsForVideo:(OEXHelperVideoDownload*)videoDownloadHelper;
 {

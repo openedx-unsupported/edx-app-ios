@@ -145,6 +145,11 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
     return [self initWithDictionary:info];
 }
 
+- (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate sku:(nullable NSString *) sku {
+    self.sku = sku;
+    return [self initWithDictionary:info auditExpiryDate:auditExpiryDate];
+}
+
 - (BOOL)isStartDateOld {
     return [self.start_display_info.date oex_isInThePast];
 }

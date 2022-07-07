@@ -388,8 +388,7 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
     }
 
     private func resolveUnfinishedPayment(for sku: String, indicator: UIAlertController?) {
-        guard let courseID = UpgradeSKUManager.shared.courseID(for: sku),
-              let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else {
+        guard let course = environment.interface?.course(fromSKU: sku) else {
                   enableUserInteraction(enable: true)
                   DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
                       self?.hideProgressIndicator(indicator: indicator, showSuccess: true)

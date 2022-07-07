@@ -178,7 +178,7 @@ class ValuePropComponentView: UIView {
     }
     
     private func fetchCoursePrice() {
-        guard let course = course, let courseSku = UpgradeSKUManager.shared.courseSku(for: course) else { return }
+        guard let course = course, let courseSku = course.sku else { return }
         let startTime = CFAbsoluteTimeGetCurrent()
         
         DispatchQueue.main.async { [weak self] in

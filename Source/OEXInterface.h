@@ -98,6 +98,8 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 /*
  New methods for refactoring
  */
+// Get course from course sku
+- (OEXCourse*)courseFromSKU:(NSString*)courseSKU;
 // Download  video
 - (void)startDownloadForVideo:(OEXHelperVideoDownload*)video completionHandler:(void (^)(BOOL sucess))completionHandler;
 // Cancel Video download

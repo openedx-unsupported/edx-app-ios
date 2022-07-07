@@ -10,16 +10,33 @@ import Foundation
 import edXCore
 
 struct CoursesAPI {
-    
-    static func enrollmentsDeserializer(response: HTTPURLResponse, json: JSON) -> Result<[UserCourseEnrollment]> {
-        return (json.array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
+    private enum Keys: String, RawStringExtractable {
+        case enrollments
+        case config
     }
     
-    static func getUserEnrollments(username: String, organizationCode: String?) -> NetworkRequest<[UserCourseEnrollment]> {
-        var path = "api/mobile/v1/users/{username}/course_enrollments/".oex_format(withParameters: ["username": username])
-        if let orgCode = organizationCode {
-            path = "api/mobile/v1/users/{username}/course_enrollments/?org={org}".oex_format(withParameters: ["username": username, "org": orgCode])
+    static func enrollmentsDeserializer(response: HTTPURLResponse, json: JSON) -> Result<[UserCourseEnrollment]> {
+        if json[Keys.config].exists() {
+            ServerConfiguration.shared.initialize(json: json[Keys.config])
         }
+        if json[Keys.enrollments].exists() {
+            return (json[Keys.enrollments].array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
+        } else {
+            return (json.array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
+        }
+    }
+    
+    static func getUserEnrollments(username: String, organizationCode: String?, config: OEXConfig?) -> NetworkRequest<[UserCourseEnrollment]> {
+        let apiVersion = config?.apiUrlVersionConfig.enrollments ?? APIURLDefaultVersion.enrollments.rawValue
+        
+        var path = "api/mobile/{api_version}/users/{username}/course_enrollments/"
+            .oex_format(withParameters: ["username": username, "api_version": apiVersion])
+        
+        if let orgCode = organizationCode {
+            path = "api/mobile/{api_version}/users/{username}/course_enrollments/?org={org}"
+                .oex_format(withParameters: ["username": username, "org": orgCode, "api_version": apiVersion])
+        }
+        
         return NetworkRequest(
             method: .GET,
             path: path,

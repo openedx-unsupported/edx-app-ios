@@ -92,7 +92,7 @@ public class EnrollmentManager : NSObject {
     }
     
     func freshFeedWithUsername(username: String, organizationCode: String?) -> Feed<[UserCourseEnrollment]> {
-        let request = CoursesAPI.getUserEnrollments(username: username, organizationCode: organizationCode)
+        let request = CoursesAPI.getUserEnrollments(username: username, organizationCode: organizationCode, config: config)
         return Feed(request: request, manager: networkManager, persistResponse: true)
     }
 
@@ -101,7 +101,7 @@ public class EnrollmentManager : NSObject {
         guard let userDetails = OEXSession.shared()?.currentUser,
         let username = userDetails.username else { return }
 
-        let request = CoursesAPI.getUserEnrollments(username: username, organizationCode: config.organizationCode())
+        let request = CoursesAPI.getUserEnrollments(username: username, organizationCode: config.organizationCode(), config: config)
         OEXRouter.shared().environment.networkManager.deleteCachedResponse(request)
         setupFeedWithUserDetails(userDetails: userDetails)
     }
