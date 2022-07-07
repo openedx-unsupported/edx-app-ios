@@ -39,7 +39,7 @@ typealias AppleLoginCompletionHandler = (OEXRegisteringUserDetails?, _ accessTok
         authorizationController.performRequests()
     }
 
-    @objc func saveUserName() -> String {
+    @objc func savedUserName() -> String {
         return KeychainSwift().get(appleNameKey) ?? ""
     }
 }
@@ -69,7 +69,7 @@ extension AppleSocial: ASAuthorizationControllerDelegate {
         }
 
         if firstName.isEmpty && lastName.isEmpty {
-            name = saveUserName()
+            name = savedUserName()
         }
 
         let userDetails = OEXRegisteringUserDetails()

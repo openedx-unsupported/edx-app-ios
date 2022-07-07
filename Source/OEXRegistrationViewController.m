@@ -289,7 +289,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             }
         }
         else if ([[fieldController field].name isEqualToString:@"name"] && [_externalProvider.displayName isEqualToString:@"Apple"])  {
-            [fieldController setValue:[[AppleSocial shared] saveUserName]];
+            [fieldController setValue:[[AppleSocial shared] savedUserName]];
         }
     }
 }
