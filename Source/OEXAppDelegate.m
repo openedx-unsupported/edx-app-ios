@@ -70,7 +70,7 @@
     }
 #endif
 
-    // logout user automatically if server changed
+     // logout user automatically if server changed
     [[[ServerChangedChecker alloc] init] logoutIfServerChanged];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
