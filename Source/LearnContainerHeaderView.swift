@@ -17,6 +17,8 @@ protocol LearnContainerHeaderItem {
 }
 
 class LearnContainerHeaderView: UIView {
+    static let height = StandardVerticalMargin * 6.5
+    
     weak var delegate: LearnContainerHeaderViewDelegate?
     
     private let container = UIView()
@@ -33,7 +35,7 @@ class LearnContainerHeaderView: UIView {
         return button
     }()
     
-    private lazy var largeTextStyle = OEXMutableTextStyle(weight: .bold, size: .xxxxLarge, color: OEXStyles.shared().primaryDarkColor())
+    private lazy var largeTextStyle = OEXMutableTextStyle(weight: .bold, size: .xxxxxLarge, color: OEXStyles.shared().primaryDarkColor())
     private lazy var smallTextStyle = OEXMutableTextStyle(weight: .bold, size: .xxxLarge, color: OEXStyles.shared().primaryDarkColor())
     
     private lazy var label: UILabel = {
@@ -62,7 +64,7 @@ class LearnContainerHeaderView: UIView {
         
         let dropDown = DropDown()
         dropDown.accessibilityIdentifier = "LearnContainerHeaderView:drop-down-view"
-        dropDown.bottomOffset = CGPoint(x: 0, y: 80)
+        dropDown.bottomOffset = CGPoint(x: 0, y: LearnContainerHeaderView.height)
         dropDown.direction = .bottom
         dropDown.anchorView = dropDownContainer
         dropDown.dismissMode = .automatic
@@ -116,7 +118,10 @@ class LearnContainerHeaderView: UIView {
         addSubview(container)
         
         container.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+            make.top.equalTo(self).offset(-6)
+            make.bottom.equalTo(self)
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
         }
 
         dropDownContainer.snp.makeConstraints { make in

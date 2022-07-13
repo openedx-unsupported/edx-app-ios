@@ -564,8 +564,6 @@
 "DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos...";
 /*Title for bulk download view when in new or partial state */
 "DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
-/*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="Discovery";
 /*Title for the programs in tabbar and navigation bar*/
 "PROGRAMS"="Programs";
 /*Title for the degrees in navigation bar*/

@@ -347,7 +347,7 @@ extension UITabBarController {
         
         for i in 0..<viewControllers.count {
             if viewControllers[i].isKind(of: controller) {
-                if  viewControllers[i].isKind(of: CourseOutlineViewController.self)  {
+                if viewControllers[i].isKind(of: CourseOutlineViewController.self)  {
                     if let viewController = viewControllers[i] as? CourseOutlineViewController, viewController.courseOutlineMode == courseOutlineMode {
                         return i
                     }

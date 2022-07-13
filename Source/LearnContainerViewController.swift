@@ -81,7 +81,7 @@ class LearnContainerViewController: UIViewController {
             make.top.equalTo(view)
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
-            make.height.equalTo(80)
+            make.height.equalTo(LearnContainerHeaderView.height)
         }
         
         container.snp.makeConstraints { make in

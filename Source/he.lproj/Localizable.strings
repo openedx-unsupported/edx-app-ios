@@ -584,8 +584,6 @@
 "DOWNLOADING_VIDEOS_TITLE" = "מוריד קבצי וידאו...";
 /*Title for bulk download view when in new or partial state */
 "DOWNLOAD_TO_DEVICE_TITLE" = "הורד למכשיר";
-/*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="גילוי";
 /*Title for the programs in tabbar and navigation bar*/
 "PROGRAMS"="Programs";
 /*Title for the degrees in navigation bar*/

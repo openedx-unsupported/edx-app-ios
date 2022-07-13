@@ -565,8 +565,6 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 "DOWNLOADING_VIDEOS_TITLE" = "Baixando Vídeos...";
 /*Title for bulk download view when in new or partial state */
 "DOWNLOAD_TO_DEVICE_TITLE" = "Baixar para Dispositivo";
-/*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="Descubra";
 /*Title for the programs in tabbar and navigation bar*/
 "PROGRAMS"="Programas";
 /*Title for the degrees in navigation bar*/

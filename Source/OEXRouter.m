@@ -179,8 +179,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated {
-    UINavigationController* navigationController = [[ForwardingNavigationController alloc] initWithRootViewController:controller];
-    [self makeContentControllerCurrent:navigationController];
+    [self makeContentControllerCurrent:controller];
 }
     
 - (void)showDownloadsFromViewController:(UIViewController*)controller {

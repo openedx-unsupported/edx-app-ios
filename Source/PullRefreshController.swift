@@ -52,6 +52,12 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     private var shouldStartOnTouchRelease : Bool = false
     
     private(set) var refreshing : Bool = false
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .clear
+        refreshControl.backgroundColor = .clear
+        return refreshControl
+    }()
     
     public override init() {
         view = PullRefreshView()
@@ -60,13 +66,17 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     }
     
     public func setupInScrollView(scrollView : UIScrollView) {
-        scrollView.addSubview(self.view)
-        self.view.snp.makeConstraints { make in
-            make.bottom.equalTo(scrollView.snp.top)
-            make.leading.equalTo(scrollView)
-            make.trailing.equalTo(scrollView)
-            make.width.equalTo(scrollView)
+        if !refreshControl.subviews.contains(view) {
+            refreshControl.addSubview(view)
         }
+
+        scrollView.refreshControl = refreshControl
+        scrollView.contentInsetAdjustmentBehavior = .automatic
+        
+        view.snp.makeConstraints { make in
+            make.center.equalTo(refreshControl)
+        }
+
         scrollView.oex_addObserver(observer: self, forKeyPath: "bounds") { (observer, scrollView, _) -> Void in
             self.scrollViewDidScroll(scrollView: scrollView)
         }
@@ -75,6 +85,7 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     private func triggered() {
         if !refreshing {
             refreshing = true
+            refreshControl.beginRefreshing()
             view.spinner.startAnimating()
             self.insetsDelegate?.contentInsetsSourceChanged(source: self)
             self.delegate?.refreshControllerActivated(controller: self)
@@ -86,6 +97,7 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     }
     
     public func endRefreshing() {
+        refreshControl.endRefreshing()
         refreshing = false
         UIView.animate(withDuration: 0.3) {
             self.insetsDelegate?.contentInsetsSourceChanged(source: self)
@@ -93,7 +105,7 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     }
     
     public var currentInsets : UIEdgeInsets {
-        return UIEdgeInsets.init(top: refreshing ? view.frame.height : 0, left: 0, bottom: 0, right: 0)
+        return .zero
     }
     
     public func scrollViewDidScroll(scrollView : UIScrollView) {

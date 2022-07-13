@@ -9,15 +9,15 @@
 import UIKit
 
 private enum TabBarOptions: Int {
-    case Course, Program, CourseCatalog, Debug
-    static let options = [CourseCatalog, Course, Program, Debug]
+    case Course, Profile, CourseCatalog, Debug
+    static let options = [CourseCatalog, Course, Profile, Debug]
     
     func title(config: OEXConfig? = nil) -> String {
         switch self {
         case .Course:
             return Strings.learn
-        case .Program:
-            return Strings.programs
+        case .Profile:
+            return Strings.UserAccount.profile
         case .CourseCatalog:
             return config?.discovery.type == .native ? Strings.findCourses : Strings.discover
         case .Debug:
@@ -57,7 +57,6 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         super.viewDidLoad()
         navigationItem.title = screenTitle
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        addMenuButton()
         prepareTabViewData()
         delegate = self
         
@@ -85,21 +84,20 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for option in TabBarOptions.options {
             switch option {
             case .Course:
-                item = TabBarItem(title: option.title(), viewController: LearnContainerViewController(environment: environment), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: LearnContainerViewController(environment: environment)), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-            case .Program:
-                guard environment.config.programConfig.enabled, let programsURL = environment.config.programConfig.programURL else { break }
-                item = TabBarItem(title: option.title(), viewController: ProgramsViewController(environment: environment, programsURL: programsURL), icon: Icon.Clone, detailText: Strings.Dashboard.courseCourseDetail)
+            case .Profile:
+                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: ProfileOptionsViewController.init(environment: environment)), icon: Icon.Person, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
                 guard let router = environment.router,
                     let discoveryController = router.discoveryViewController() else { break }
-                item = TabBarItem(title: option.title(config: environment.config), viewController: discoveryController, icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(config: environment.config), viewController: ForwardingNavigationController(rootViewController: discoveryController), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
                 EnrolledTabBarViewController.courseCatalogIndex = 0
             case .Debug:
                 if environment.config.shouldShowDebug() {
-                    item = TabBarItem(title: option.title(), viewController: DebugMenuViewController(environment: environment), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
+                    item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: DebugMenuViewController(environment: environment)), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                     additionalTabBarItems.append(item)
                 }
             }
@@ -115,7 +113,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     }
     
     private func loadTabBarViewControllers(tabBarItems: [TabBarItem]) {
-        var controllers :[UIViewController] = []
+        var controllers : [UIViewController] = []
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
             controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize), selectedImage: tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize))
@@ -124,18 +122,6 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         }
         viewControllers = controllers
         tabBar.isHidden = (tabBarItems.count == 1)
-    }
-    
-    private func addMenuButton() {
-        let menuButton = UIBarButtonItem(image: Icon.Menu.imageWithFontSize(size: tabBarImageFontSize), style: .plain, target: nil, action: nil)
-        menuButton.accessibilityLabel = Strings.accessibilityProfile
-        menuButton.accessibilityIdentifier = "EnrolledTabBarViewController:menu-button"
-        menuButton.accessibilityHint = Strings.Accessibility.profileMenuHint
-        navigationItem.rightBarButtonItem = menuButton
-
-        menuButton.oex_setAction { [weak self] in
-            self?.environment.router?.showProfile(controller: self)
-        }
     }
     
     // MARK: Deep Linking

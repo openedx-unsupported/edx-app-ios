@@ -564,8 +564,6 @@
 "DOWNLOADING_VIDEOS_TITLE" = "Vidéos en cours de téléchargement...";
 /*Title for bulk download view when in new or partial state */
 "DOWNLOAD_TO_DEVICE_TITLE" = "Télécharger sur l'appareil";
-/*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="Découvrir";
 /*Title for the programs in tabbar and navigation bar*/
 "PROGRAMS"="Programmes";
 /*Title for the degrees in navigation bar*/
