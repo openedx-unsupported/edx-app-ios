@@ -88,8 +88,6 @@
 	<string>so user can access photo librart</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>so you can select a profile image</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>The data will be used to track your activity to address app functionality and gather data analytics for multiple purposes.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>MaterialIconsSharp.otf</string>
