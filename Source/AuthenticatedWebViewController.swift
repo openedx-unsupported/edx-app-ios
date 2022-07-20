@@ -420,9 +420,9 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             }
         case .NeedingSession:
             state = .CreatingSession
-            if cookiesManager.cookiesState != .creating && cookiesManager.cookiesState != .sync {
+            /*if cookiesManager.cookiesState != .creating && cookiesManager.cookiesState != .sync {
                 cookiesManager.createOrUpdateCookies(environment: environment)
-            }
+            }*/
         }
         
         refreshAccessibility()

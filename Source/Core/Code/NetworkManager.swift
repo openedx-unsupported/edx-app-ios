@@ -27,6 +27,7 @@ public enum RequestBody {
 private enum DeserializationResult<Out> {
     case deserializedResult(value : Result<Out>, original : Data?)
     case reauthenticationRequest(AuthenticateRequestCreator, original: Data?)
+    case waitingRequest(URLRequest: URLRequest, original: Data?)
 }
 
 public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager, _ _completion: @escaping (_ _success : Bool) -> Void) -> Void
@@ -34,18 +35,19 @@ public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager
 public enum AuthenticationAction {
     case proceed
     case authenticate(AuthenticateRequestCreator)
+    case wait
     
     public var isProceed : Bool {
         switch self {
         case .proceed: return true
-        case .authenticate(_): return false
+        default: return false
         }
     }
     
     public var isAuthenticate : Bool {
         switch self {
-        case .proceed: return false
         case .authenticate(_): return true
+        default: return false
         }
     }
 }
@@ -167,6 +169,12 @@ extension NSError {
     }
 }
 
+public enum AccessTokenStatus {
+    case valid,
+    invalid,
+    refershing
+}
+
 open class NetworkManager : NSObject {
     fileprivate static let errorDomain = "com.edx.NetworkManager"
     enum Error : Int {
@@ -187,6 +195,10 @@ open class NetworkManager : NSObject {
     fileprivate var jsonInterceptors : [JSONInterceptor] = []
     fileprivate var responseInterceptors: [ResponseInterceptor] = []
     open var authenticator : Authenticator?
+    
+    public static var tokenStatus: AccessTokenStatus = .valid
+    typealias WaitingTask<T> = (base: String?, networkRequest: NetworkRequest<T>, handler: (NetworkResult<T>) -> Void)
+    private var waitingTasks: [Any] = []
     
     @objc public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
         self.authorizationHeaderProvider = authorizationHeaderProvider
@@ -328,7 +340,13 @@ open class NetworkManager : NSObject {
         }
     }
     
-    @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
+    @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
+        
+        if NetworkManager.tokenStatus != .valid {
+            waitingTasks.append(WaitingTask(base: base, networkRequest: networkRequest, handler: handler))
+            return nil
+        }
+        
         let URLRequest = URLRequestWithRequest(base: base, networkRequest)
         
         let authenticator = self.authenticator
@@ -337,13 +355,17 @@ open class NetworkManager : NSObject {
             Logger.logInfo(NetworkManager.NETWORK, "Request is \(URLRequest)")
             let task = Manager.sharedInstance.request(URLRequest)
             
-            let serializer = { (URLRequest : Foundation.URLRequest, response : HTTPURLResponse?, data : Data?) -> (AnyObject?, NSError?) in
+            let serializer = { [weak self] (URLRequest : Foundation.URLRequest, response : HTTPURLResponse?, data : Data?) -> (AnyObject?, NSError?) in
                 switch authenticator?(response, data!) ?? .proceed {
                 case .proceed:
                     let result = NetworkManager.deserialize(networkRequest.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
                     return (Box(DeserializationResult.deserializedResult(value : result, original : data)), result.error)
                 case .authenticate(let authenticateRequest):
                     let result = Box<DeserializationResult<Out>>(DeserializationResult.reauthenticationRequest(authenticateRequest, original: data))
+                    return (result, nil)
+                case .wait:
+                    self?.waitingTasks.append(WaitingTask(base: base, networkRequest: networkRequest, handler: handler))
+                    let result = Box<DeserializationResult<Out>>(DeserializationResult.waitingRequest(URLRequest: URLRequest, original: data))
                     return (result, nil)
                 }
             }
@@ -355,16 +377,32 @@ open class NetworkManager : NSObject {
                     Logger.logInfo(NetworkManager.NETWORK, "Response is \(String(describing: response))")
                     handler(result)
                 case let .some(.reauthenticationRequest(authHandler, originalData)):
-                    authHandler(self, {success in
+                    authHandler(self, { [weak self] success in
+                        
                         if success {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting original request")
-                            self.taskForRequest(base: base, networkRequest, handler: handler)
+                            self?.taskForRequest(base: base, networkRequest, handler: handler)
+                            
+                            // Also perfrom tasks in waiting
+                            for case let waitingTask as WaitingTask<Out> in self?.waitingTasks ?? [] {
+                                self?.taskForRequest(base: waitingTask.base, waitingTask.networkRequest, handler: waitingTask.handler)
+                            }
                         }
                         else {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful")
                             handler(NetworkResult<Out>(request: request, response: response, data: nil, baseData: originalData, error: error))
+                            
+                            // Also hanlde tasks in waiting upon failure
+                            for case let waitingTask as WaitingTask<Out> in self?.waitingTasks ?? [] {
+                                waitingTask.handler(NetworkResult<Out>(request: request, response: response, data: nil, baseData: originalData, error: error))
+                            }
                         }
+                        
+                        // As we have enqueued all tasks, now remove the tasks.
+                        self?.waitingTasks.removeAll()
                     })
+                case let .some(.waitingRequest(request, _)):
+                    Logger.logInfo(NetworkManager.NETWORK, "\(request.URLString) will wait for refreshing access token")
                 case .none:
                     assert(false, "Deserialization failed in an unexpected way")
                     handler(NetworkResult<Out>(request:request, response:response, data: nil, baseData: nil, error: error))
@@ -437,7 +475,7 @@ open class NetworkManager : NSObject {
             result = combineWithPersistentCacheFetch(result, request: request)
         }
         
-        if autoCancel {
+        if autoCancel, let task = task {
             result = result.autoCancel(task)
         }
         
