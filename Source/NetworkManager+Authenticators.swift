@@ -35,24 +35,29 @@ extension NetworkManager {
                 guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode),
                     let error = NSError(json: json, code: response.statusCode), statusCode.is4xx else
                 {
-                    return AuthenticationAction.proceed
+                    return .proceed
                 }
                 
                 guard let refreshToken = session.token?.refreshToken else {
                     return logout(router: router)
                 }
                 
-                if error.isAPIError(code: .OAuth2Expired) {
-                    return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
-                }
-                
                 // Retry request with the current access_token if the original access_token used in
                 // request does not match the current access_token. This case can occur when
                 // asynchronous calls are made and are attempting to refresh the access_token where
                 // one call succeeds but the other fails.
-                if error.isAPIError(code: .OAuth2Nonexistent) {
-                   return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
+                
+                if error.isAPIError(code: .OAuth2Expired) || error.isAPIError(code: .OAuth2Nonexistent) {
+                    
+                    if NetworkManager.tokenStatus == .valid {
+                        NetworkManager.tokenStatus = .invalid
+                        return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
+                    } else {
+                        
+                        return .wait
+                    }
                 }
+                
                 if error.isAPIError(code: .OAuth2InvalidGrant) {
                     //TODO: Handle invalid_grant gracefully,
                     //Most of the times it's happening because of hitting /oauth2/access_token/ multiple times with refresh_token
