@@ -70,6 +70,7 @@
     }
 #endif
 
+    
     // logout user automatically if server changed
     [[[ServerChangedChecker alloc] init] logoutIfServerChanged];
 
