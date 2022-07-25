@@ -11,63 +11,48 @@ import Foundation
 import edXCore
 
 extension NetworkManager {
-    
-    @objc public func addRefreshTokenAuthenticator(router:OEXRouter, session:OEXSession, clientId:String) {
-        let invalidAccessAuthenticator = {[weak router] response, data in
-            NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId:clientId, response: response, data: data)
+    @objc public func addRefreshTokenAuthenticator(router: OEXRouter, session: OEXSession, clientId: String) {
+        let invalidAccessAuthenticator = { [weak router] response, data in
+            NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId: clientId, response: response, data: data)
         }
         self.authenticator = invalidAccessAuthenticator
-        
     }
     
     /** Checks if the response's status code is 401. Then checks the error
      message for an expired access token. If so, a new network request to
      refresh the access token is made and this new access token is saved.
      */
-    public static func invalidAccessAuthenticator(router: OEXRouter?, session:OEXSession, clientId:String, response: HTTPURLResponse?, data: Data?) -> AuthenticationAction {
-        if let data = data,
-            let response = response
-        {
+    public static func invalidAccessAuthenticator(router: OEXRouter?, session: OEXSession, clientId: String, response: HTTPURLResponse?, data: Data?) -> AuthenticationAction {
+        if let data = data, let response = response {
             do {
-                let raw = try JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions())
+                let raw = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions())
                 let json = JSON(raw)
                 
                 guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode),
-                    let error = NSError(json: json, code: response.statusCode), statusCode.is4xx else
-                {
+                      let error = NSError(json: json, code: response.statusCode), statusCode.is4xx else {
                     return AuthenticationAction.proceed
                 }
                 
-                guard let refreshToken = session.token?.refreshToken else {
+                guard let token = session.token, let refreshToken = token.refreshToken else {
                     return logout(router: router)
                 }
                 
-                if error.isAPIError(code: .OAuth2Expired) {
-                    return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
-                }
-                
-                // Retry request with the current access_token if the original access_token used in
-                // request does not match the current access_token. This case can occur when
-                // asynchronous calls are made and are attempting to refresh the access_token where
-                // one call succeeds but the other fails.
-                if error.isAPIError(code: .OAuth2Nonexistent) {
-                   return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
-                }
-                if error.isAPIError(code: .OAuth2InvalidGrant) {
-                    //TODO: Handle invalid_grant gracefully,
-                    //Most of the times it's happening because of hitting /oauth2/access_token/ multiple times with refresh_token
-                    //Only send one request for /oauth2/access_token/
-                    Logger.logError("Network Authenticator", "invalid_grant: " + response.debugDescription)
-                }
-
-                if error.isAPIError(code: .OAuth2DisabledUser) {
-                    return logout(router: router)
+                if let error = error.apiError {
+                    print("")
+                    print(error)
+                    print(error.rawValue)
+                    print("")
+                    
+                    if error.shouldRefresh() {
+                        return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
+                    } else if error.shouldLogout() {
+                        return logout(router: router)
+                    }
                 }
             }
-            catch  let error as NSError {
+            catch let error {
                 print("Failed to load: \(error.localizedDescription)")
             }
-            
         }
         
         Logger.logError("Network Authenticator", "Request failed: " + response.debugDescription)
@@ -75,7 +60,7 @@ extension NetworkManager {
     }
 }
 
-private func logout(router:OEXRouter?) -> AuthenticationAction {
+private func logout(router: OEXRouter?) -> AuthenticationAction {
     DispatchQueue.main.async {
         router?.logout()
     }
@@ -85,19 +70,20 @@ private func logout(router:OEXRouter?) -> AuthenticationAction {
 /** Creates a networkRequest to refresh the access_token. If successful, the
  new access token is saved and a successful AuthenticationAction is returned.
  */
-private func refreshAccessToken(clientId:String, refreshToken:String, session: OEXSession) -> AuthenticationAction {
-    return AuthenticationAction.authenticate( { (networkManager,  completion) in
+private func refreshAccessToken(clientId: String, refreshToken: String, session: OEXSession) -> AuthenticationAction {
+    return AuthenticationAction.authenticate { networkManager, completion in
         let networkRequest = LoginAPI.requestTokenWithRefreshToken(
             refreshToken: refreshToken,
             clientId: clientId,
-            grantType: "refresh_token"
+            grantType:"refresh_token",
+            tokenType:  "jwt"
         )
-        networkManager.taskForRequest(networkRequest) {result in
+        networkManager.taskForRequest(networkRequest) { result in
             guard let currentUser = session.currentUser, let newAccessToken = result.data else {
                 return completion(false)
             }
             session.save(newAccessToken, userDetails: currentUser)
             return completion(true)
         }
-    })
+    }
 }
