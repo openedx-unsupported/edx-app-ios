@@ -38,11 +38,6 @@ extension NetworkManager {
                 }
                 
                 if let error = error.apiError {
-                    print("")
-                    print(error)
-                    print(error.rawValue)
-                    print("")
-                    
                     if error.shouldRefresh() {
                         return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
                     } else if error.shouldLogout() {
