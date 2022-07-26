@@ -200,7 +200,10 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
             let capturedLink = navigationAction.navigationType == .linkActivated
             let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
             if let url = request.url, outsideLink || capturedLink {
-                guard let contrller = delegate?.webViewContainingController(), UIApplication.shared.canOpenURL(url) else { return }
+                guard let contrller = delegate?.webViewContainingController(), UIApplication.shared.canOpenURL(url) else {
+                    decisionHandler(.cancel)
+                    return
+                }
                 environment.analytics.trackEvent(with: .DiscoverExternalLinkOpenAlert, name: .DiscoverExternalLinkOpenAlert, category: .Discovery, info: ["url" : url.absoluteString])
                 let alertController = UIAlertController().showAlert(withTitle: Strings.leavingAppTitle, message: Strings.leavingAppMessage(platformName: environment.config.platformName()), cancelButtonTitle: nil, onViewController: contrller) { _, _, _ in }
 
