@@ -38,7 +38,9 @@ extension NetworkManager {
                 }
                 
                 if let error = error.apiError {
-                    if error.shouldRefresh() {
+                    if error.doNothing() {
+                        Logger.logError("Network Authenticator", "\(error.rawValue): " + response.debugDescription)
+                    } else if error.shouldRefresh() {
                         return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
                     } else if error.shouldLogout() {
                         return logout(router: router)

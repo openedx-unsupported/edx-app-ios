@@ -30,6 +30,10 @@ enum APIErrorCode: String, CaseIterable {
     case JWTMustIncludePreferredClaim = "JWT must include a preferred_username or username claim!"
     case JWTUserRetreivalFailed = "User retrieval failed."
     
+    func doNothing() -> Bool {
+        return self == .OAuth2InvalidGrant
+    }
+    
     func shouldRefresh() -> Bool {
         switch self {
         case .JWTTokenExpired, .OAuth2Expired:
