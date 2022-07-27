@@ -100,6 +100,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
     NSMutableDictionary* parameters = [[NSMutableDictionary alloc] init];
     [parameters setSafeObject:token forKey:@"access_token"];
     [parameters setSafeObject:[[OEXConfig sharedConfig] oauthClientID] forKey:@"client_id"];
+    [parameters setSafeObject:@"jwt" forKey:@"token_type"];
     NSString* path = [NSString oex_stringWithFormat:URL_EXCHANGE_TOKEN parameters:@{@"backend" : provider.backendName}];
     
     [self executePOSTRequestWithPath:path parameters:parameters completion:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {

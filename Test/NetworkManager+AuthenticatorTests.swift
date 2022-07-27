@@ -55,7 +55,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         let response = simpleResponseBuilder(400)
         let data = "{\"error\":\"token_nonexistent\"}".data(using: String.Encoding.utf8)!
         let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
-        XCTAssertTrue(result.isProceed)
+        XCTAssertTrue(result.isAuthenticate)
     }
 
     func testInvalidGrantAccessToken() {

@@ -34,9 +34,9 @@ enum APIErrorCode: String, CaseIterable {
         return self == .OAuth2InvalidGrant
     }
     
-    func shouldRefresh() -> Bool {
+    func needsTokenRefresh() -> Bool {
         switch self {
-        case .JWTTokenExpired, .OAuth2Expired:
+        case .JWTTokenExpired, .OAuth2Expired, .OAuth2Nonexistent:
             return true
         default:
             return false
@@ -44,12 +44,7 @@ enum APIErrorCode: String, CaseIterable {
     }
     
     func shouldLogout() -> Bool {
-        switch self {
-        case .JWTTokenExpired, .OAuth2Expired, .OAuth2Nonexistent:
-            return false
-        default:
-            return true
-        }
+        return !needsTokenRefresh()
     }
 }
 
