@@ -38,11 +38,12 @@ extension NetworkManager {
                 }
                 
                 if let error = error.apiError {
-                    if error.doNothing() {
+                    switch error.action {
+                    case .doNothing:
                         Logger.logError("Network Authenticator", "\(error.rawValue): " + response.debugDescription)
-                    } else if error.needsTokenRefresh() {
+                    case .refresh:
                         return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
-                    } else if error.shouldLogout() {
+                    case .logout:
                         return logout(router: router)
                     }
                 }

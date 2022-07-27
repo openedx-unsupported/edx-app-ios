@@ -10,6 +10,12 @@ import Foundation
 
 import edXCore
 
+enum APIErrorCodeAction {
+    case doNothing
+    case logout
+    case refresh
+}
+
 enum APIErrorCode: String, CaseIterable {
     case OAuth2Expired = "token_expired"
     // Retry request with the current access_token if the original access_token used in
@@ -30,21 +36,15 @@ enum APIErrorCode: String, CaseIterable {
     case JWTMustIncludePreferredClaim = "JWT must include a preferred_username or username claim!"
     case JWTUserRetreivalFailed = "User retrieval failed."
     
-    func doNothing() -> Bool {
-        return self == .OAuth2InvalidGrant
-    }
-    
-    func needsTokenRefresh() -> Bool {
+    var action: APIErrorCodeAction {
         switch self {
         case .JWTTokenExpired, .OAuth2Expired, .OAuth2Nonexistent:
-            return true
+            return .refresh
+        case .OAuth2InvalidGrant:
+            return .doNothing
         default:
-            return false
+            return .logout
         }
-    }
-    
-    func shouldLogout() -> Bool {
-        return !needsTokenRefresh()
     }
 }
 
