@@ -52,8 +52,7 @@ extension NetworkManager {
                     if NetworkManager.tokenStatus == .valid {
                         NetworkManager.tokenStatus = .invalid
                         return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
-                    } else {
-                        
+                    } else {                        
                         return .wait
                     }
                 }
@@ -90,19 +89,34 @@ private func logout(router:OEXRouter?) -> AuthenticationAction {
 /** Creates a networkRequest to refresh the access_token. If successful, the
  new access token is saved and a successful AuthenticationAction is returned.
  */
-private func refreshAccessToken(clientId:String, refreshToken:String, session: OEXSession) -> AuthenticationAction {
+private func refreshAccessToken(clientId: String, refreshToken: String, session: OEXSession) -> AuthenticationAction {
     return AuthenticationAction.authenticate( { (networkManager,  completion) in
+        
         let networkRequest = LoginAPI.requestTokenWithRefreshToken(
             refreshToken: refreshToken,
             clientId: clientId,
             grantType: "refresh_token"
         )
-        networkManager.taskForRequest(networkRequest) {result in
-            guard let currentUser = session.currentUser, let newAccessToken = result.data else {
-                return completion(false)
+        
+        NetworkManager.tokenStatus = .refershing
+        
+        networkManager.performTaskForRequest(networkRequest) { [weak networkManager] result in
+            
+            let success: Bool
+            if let currentUser = session.currentUser, let newAccessToken = result.data {
+                session.save(newAccessToken, userDetails: currentUser)
+                success = true
+            } else {
+                success = false
             }
-            session.save(newAccessToken, userDetails: currentUser)
-            return completion(true)
+            
+            // Reset token status to valid.
+            NetworkManager.tokenStatus = .valid
+            
+            // Perform waiting tasks if previously cached.
+            networkManager?.performWaitingTasksIfAny(withReauthenticationResult: success, request: result.request, response: result.response, originalData: result.baseData, error: result.error)
+            
+            return completion(success)
         }
     })
 }
