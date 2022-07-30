@@ -175,6 +175,12 @@ public enum AccessTokenStatus {
     refershing
 }
 
+public struct WaitingTask<T> {
+    public let base: String?
+    public let networkRequest: NetworkRequest<T>
+    public let handler: (NetworkResult<T>) -> Void
+}
+
 open class NetworkManager : NSObject {
     fileprivate static let errorDomain = "com.edx.NetworkManager"
     enum Error : Int {
@@ -197,8 +203,8 @@ open class NetworkManager : NSObject {
     open var authenticator : Authenticator?
     
     public static var tokenStatus: AccessTokenStatus = .valid
-    typealias WaitingTask<T> = (base: String?, networkRequest: NetworkRequest<T>, handler: (NetworkResult<T>) -> Void)
-    private var waitingTasks: [Any] = []
+    
+    public var waitingTasks = [Any]()
     
     @objc public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
         self.authorizationHeaderProvider = authorizationHeaderProvider
@@ -347,6 +353,11 @@ open class NetworkManager : NSObject {
             return nil
         }
         
+        return performTaskForRequest(base: base, networkRequest, handler: handler)
+    }
+    
+    @discardableResult open func performTaskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
+        
         let URLRequest = URLRequestWithRequest(base: base, networkRequest)
         
         let authenticator = self.authenticator
@@ -375,31 +386,22 @@ open class NetworkManager : NSObject {
                 case let .some(.deserializedResult(value, original)):
                     let result = NetworkResult<Out>(request: request, response: response, data: value.value, baseData: original, error: error)
                     Logger.logInfo(NetworkManager.NETWORK, "Response is \(String(describing: response))")
+                    print("NETWORK:: Request: \(request.urlRequest)")
+                    print("NETWORK:: Response: \(String(data: original!, encoding: .utf8))")
+                    print("NETWORK:: ===============================================")
                     handler(result)
                 case let .some(.reauthenticationRequest(authHandler, originalData)):
+                    
                     authHandler(self, { [weak self] success in
                         
                         if success {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting original request")
-                            self?.taskForRequest(base: base, networkRequest, handler: handler)
-                            
-                            // Also perfrom tasks in waiting
-                            for case let waitingTask as WaitingTask<Out> in self?.waitingTasks ?? [] {
-                                self?.taskForRequest(base: waitingTask.base, waitingTask.networkRequest, handler: waitingTask.handler)
-                            }
+                            self?.performTaskForRequest(base: base, networkRequest, handler: handler)
                         }
                         else {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful")
                             handler(NetworkResult<Out>(request: request, response: response, data: nil, baseData: originalData, error: error))
-                            
-                            // Also hanlde tasks in waiting upon failure
-                            for case let waitingTask as WaitingTask<Out> in self?.waitingTasks ?? [] {
-                                waitingTask.handler(NetworkResult<Out>(request: request, response: response, data: nil, baseData: originalData, error: error))
-                            }
                         }
-                        
-                        // As we have enqueued all tasks, now remove the tasks.
-                        self?.waitingTasks.removeAll()
                     })
                 case let .some(.waitingRequest(request, _)):
                     Logger.logInfo(NetworkManager.NETWORK, "\(request.URLString) will wait for refreshing access token")
@@ -408,10 +410,8 @@ open class NetworkManager : NSObject {
                     handler(NetworkResult<Out>(request:request, response:response, data: nil, baseData: nil, error: error))
                 }
             }
-            if let
-                host = URLRequest.url?.host,
-                let credential = self.credentialProvider?.URLCredentialForHost(host as NSString)
-            {
+            if let host = URLRequest.url?.host,
+                let credential = self.credentialProvider?.URLCredentialForHost(host as NSString) {
                 task.authenticate(usingCredential: credential)
             }
             task.resume()
