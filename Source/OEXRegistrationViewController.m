@@ -578,7 +578,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [parameters setSafeObject:self.externalAccessToken forKey: @"access_token"];
         [parameters setSafeObject:self.externalProvider.backendName forKey:@"provider"];
         [parameters setSafeObject:self.environment.config.oauthClientID forKey:@"client_id"];
-        [parameters setSafeObject:@"jwt" forKey:@"token_type"];
     }
     
     [self validateRegistrationFormWithParameters:parameters];
