@@ -55,55 +55,24 @@ class LearnContainerHeaderView: UIView {
     
     private var originalFrame: CGRect = .zero
     
-    private lazy var dropDown: DropDown = {
-        let normalTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
-        normalTextStyle.alignment = .center
-        
-        let selectedTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryBaseColor())
-        selectedTextStyle.alignment = .center
-        
-        let dropDown = DropDown()
-        dropDown.accessibilityIdentifier = "LearnContainerHeaderView:drop-down-view"
-        dropDown.bottomOffset = CGPoint(x: 0, y: LearnContainerHeaderView.height)
-        dropDown.direction = .bottom
-        dropDown.anchorView = dropDownContainer
-        dropDown.dismissMode = .automatic
-        dropDown.normalTextStyle = normalTextStyle
-        dropDown.selectedTextStyle = selectedTextStyle
-        dropDown.selectedBackgroundColor = OEXStyles.shared().neutralXLight()
-        dropDown.normalBackgroundColor = OEXStyles.shared().neutralWhiteT()
-        dropDown.textColor = OEXStyles.shared().primaryBaseColor()
-        dropDown.selectedTextColor = OEXStyles.shared().primaryBaseColor()
-        dropDown.dataSource = items.map { $0.title }
-        dropDown.selectedRowIndex = 0
-        dropDown.selectionAction = { [weak self] index, _ in
-            guard let weakSelf = self else { return }
-            weakSelf.dropDown.selectedRowIndex = index
-            weakSelf.label.attributedText = weakSelf.largeTextStyle.attributedString(withText: weakSelf.items[index].title)
-            weakSelf.delegate?.didTapOnDropDown(item: weakSelf.items[index])
-        }
-        dropDown.willShowAction = { [weak self] in
-            self?.rotateImageView(clockWise: true)
-        }
-        dropDown.cancelAction = { [weak self] in
-            self?.rotateImageView(clockWise: false)
-        }
-        return dropDown
-    }()
+    private let dropDown = DropDown()
     
     private var shouldShowDropDown: Bool {
         return items.count > 1
     }
     
     private var items: [LearnContainerHeaderItem]
+    private var selectedRowIndex: Int
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(items: [LearnContainerHeaderItem]) {
+    init(items: [LearnContainerHeaderItem], selectedRowIndex: Int = 0) {
         self.items = items
+        self.selectedRowIndex = selectedRowIndex
         super.init(frame: .zero)
+        setupDropDown()
         setupViews()
     }
     
@@ -168,11 +137,17 @@ class LearnContainerHeaderView: UIView {
     func moveBackOriginalFrame() {
         container.frame = originalFrame
         dropDown.bottomOffset = CGPoint(x: 0, y: 80)
+        
         if let index = dropDown.indexForSelectedRow {
-            label.attributedText = largeTextStyle.attributedString(withText: items[index].title)
+            label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
         } else {
-            label.attributedText = largeTextStyle.attributedString(withText: items[0].title)
+            label.attributedText = smallTextStyle.attributedString(withText: items[0].title)
         }
+    }
+    
+    func updateHeader(at index: Int) {
+        dropDown.selectedRowIndex = index
+        label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
     }
     
     private func rotateImageView(clockWise: Bool) {
@@ -183,3 +158,38 @@ class LearnContainerHeaderView: UIView {
     }
 }
 
+extension LearnContainerHeaderView {
+    func setupDropDown() {
+        let normalTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
+        normalTextStyle.alignment = .center
+        
+        let selectedTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryBaseColor())
+        selectedTextStyle.alignment = .center
+        
+        dropDown.accessibilityIdentifier = "LearnContainerHeaderView:drop-down-view"
+        dropDown.bottomOffset = CGPoint(x: 0, y: LearnContainerHeaderView.height)
+        dropDown.direction = .bottom
+        dropDown.anchorView = dropDownContainer
+        dropDown.dismissMode = .automatic
+        dropDown.normalTextStyle = normalTextStyle
+        dropDown.selectedTextStyle = selectedTextStyle
+        dropDown.selectedBackgroundColor = OEXStyles.shared().neutralXLight()
+        dropDown.normalBackgroundColor = OEXStyles.shared().neutralWhiteT()
+        dropDown.textColor = OEXStyles.shared().primaryBaseColor()
+        dropDown.selectedTextColor = OEXStyles.shared().primaryBaseColor()
+        dropDown.dataSource = items.map { $0.title }
+        dropDown.selectedRowIndex = 0
+        dropDown.selectionAction = { [weak self] index, _ in
+            guard let weakSelf = self else { return }
+            weakSelf.dropDown.selectedRowIndex = index
+            weakSelf.label.attributedText = weakSelf.largeTextStyle.attributedString(withText: weakSelf.items[index].title)
+            weakSelf.delegate?.didTapOnDropDown(item: weakSelf.items[index])
+        }
+        dropDown.willShowAction = { [weak self] in
+            self?.rotateImageView(clockWise: true)
+        }
+        dropDown.cancelAction = { [weak self] in
+            self?.rotateImageView(clockWise: false)
+        }
+    }
+}

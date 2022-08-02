@@ -23,6 +23,20 @@ import UIKit
         super.init()
     }
     
+    @objc func processSampleDeeplink(environment: Environment) {
+        return
+        self.environment = environment
+        let deepLink = DeepLink(dictionary: [
+            "screen_name": "course_dates",
+            "course_id": "course-v1:HarvardX+CS50+X"
+        ])
+        
+        let type = deepLink.type
+        guard type != .none else { return }
+        
+        navigateToScreen(with: type, link: deepLink)
+    }
+    
     /// This method process the deep link with response parameters
     @objc func processDeepLink(with params: [String: Any], environment: Environment) {
         // If the banner is being displayed, discard the deep link
@@ -84,13 +98,12 @@ import UIKit
         }
         else if controller is OEXCourseInfoViewController {
             return .discoveryCourseDetail
-        } else if let _ = controller as? DiscoveryViewController {
+        } else if controller is DiscoveryViewController {
             return .discovery
         } else if controller is OEXFindCoursesViewController  {
             return .discovery
-        } else if let _ = controller as? ProgramsDiscoveryViewController {
+        } else if controller is ProgramsDiscoveryViewController {
             return .discoveryProgramDetail
-
         } else if controller is ProgramsViewController {
             return .program
         } else if controller is DiscussionTopicsViewController {
@@ -107,6 +120,9 @@ import UIKit
     private func showCourseDashboardViewController(with link: DeepLink) {
         guard let topViewController = topMostViewController else { return }
         
+        if let topController = topViewController.find(viewController: EnrolledTabBarViewController.self) {
+            print("find")
+        }
         if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
             if !controllerAlreadyDisplayed(for: link.type) {
                 courseDashboardView.switchTab(with: link.type, componentID: link.componentID)
@@ -161,7 +177,8 @@ import UIKit
             break
         case .discovery:
             guard environment?.config.discovery.isEnabled ?? false else { return }
-            if let _ = topMostViewController as? DiscoveryViewController {
+            if let topMostViewController = topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
+                topMostViewController.switchTab(with: .discovery)
                 // TODO: Refresh discovery with course query if needed(Not decided yet).
             }
             break
@@ -176,7 +193,7 @@ import UIKit
         
         if isUserLoggedin() {
             dismiss() { [weak self] _ in
-                if let topController = self?.topMostViewController {
+                if let topController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
                     self?.environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: true , pathID: pathId)
                 }
             }
@@ -259,11 +276,11 @@ import UIKit
         }
         else {
             dismiss() { [weak self] dismiss in
-                // dissmiss will be false if the notice banner is on screen while dismissing the presented controller
+                // dismiss will be false if the notice banner is on screen while dismissing the presented controller
                 if !dismiss { return }
-
-                if let topViewController = self?.topMostViewController {
-                    self?.environment?.router?.showProfile(controller: topViewController, completion: completion)
+                
+                if let tabbarViewController = self?.topMostViewController?.tabBarController as? EnrolledTabBarViewController {
+                    tabbarViewController.switchTab(with: .profile)
                 }
             }
         }
@@ -520,7 +537,7 @@ import UIKit
             guard environment?.config.programConfig.enabled ?? false else { return }
             showProgramDetail(with: link)
             break
-        case .profile:
+        case .profile, .settings:
             showProfile(with: link)
             break
         case .userProfile:
