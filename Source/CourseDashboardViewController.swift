@@ -22,12 +22,15 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     }()
     private let shareButton = UIButton(frame: CGRect(x: 0, y: 0, width: 26, height: 26))
     private var navigationItems: [UIBarButtonItem] = []
-
+    
+    private var deeplink: DeepLink?
+    
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
-    init(environment: Environment, courseID: String) {
+    init(environment: Environment, courseID: String, deeplink: DeepLink? = nil) {
         self.environment = environment
         self.courseID = courseID
+        self.deeplink = deeplink
         
         loadStateController = CourseDashboardLoadStateViewController(environment: environment)
         
@@ -150,6 +153,12 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         else {
             loadTabBarViewControllers(tabBarItems: tabBarItems)
         }
+        
+        guard let deeplink = deeplink else {
+            return
+        }
+
+        switchTab(with: deeplink.type, componentID: deeplink.componentID)
     }
     
     private func loadTabBarViewControllers(tabBarItems: [TabBarItem]) {
@@ -354,6 +363,14 @@ extension UITabBarController {
                 } else {
                     return i
                 }
+            } else if viewControllers[i].isKind(of: ForwardingNavigationController.self) {
+                if let forwardingNavigationController = viewControllers[i] as? ForwardingNavigationController {
+                    if let rootViewController = forwardingNavigationController.viewControllers.first {
+                        if rootViewController.isKind(of: controller) {
+                            return i
+                        }
+                    }
+                }
             }
         }
         return 0
@@ -365,5 +382,24 @@ extension UITabBarController {
         }
 
         return viewControllers[index].navigationItem.title ?? ""
+    }
+    
+    func tabBarViewController<T: UIViewController>(_ controller: T.Type) -> T? {
+        guard let viewControllers = viewControllers else {
+            return nil
+        }
+        
+        for i in 0..<viewControllers.count {
+            if viewControllers[i].isKind(of: ForwardingNavigationController.self) {
+                if let forwardingNavigationController = viewControllers[i] as? ForwardingNavigationController {
+                    if let rootViewController = forwardingNavigationController.viewControllers.first {
+                        if rootViewController.isKind(of: controller) {
+                            return rootViewController as? T
+                        }
+                    }
+                }
+            }
+        }
+        return nil
     }
 }

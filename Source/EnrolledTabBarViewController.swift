@@ -127,9 +127,26 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     // MARK: Deep Linking
     @discardableResult
     func switchTab(with type: DeepLinkType) -> UIViewController {
+        var controller: UIViewController?
+        
         switch type {
+        case .profile:
+            selectedIndex = tabBarViewControllerIndex(with: ProfileOptionsViewController.self)
+            break
         case .program, .programDetail:
-            selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
+            selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
+            if let learnController = tabBarViewController(LearnContainerViewController.self) {
+                print(learnController)
+                controller = learnController
+            }
+            break
+        case .courseDashboard, .courseDates, .courseVideos, .courseHandout, .courseComponent:
+            selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
+
+            if let learnController = tabBarViewController(LearnContainerViewController.self) {
+                print(learnController)
+                controller = learnController
+            }
             break
         case .discovery, .discoveryCourseDetail, .discoveryProgramDetail:
             if environment.config.discovery.isEnabled {
@@ -142,7 +159,11 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         }
         navigationItem.title = titleOfViewController(index: selectedIndex)
         
-        return tabBarItems[selectedIndex].viewController
+        if let controller = controller {
+            return controller
+        } else {
+            return tabBarItems[selectedIndex].viewController
+        }
     }
 }
 

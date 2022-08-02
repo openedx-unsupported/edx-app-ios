@@ -27,14 +27,17 @@ class LearnContainerViewController: UIViewController {
     
     private let environment: Environment
     
-    private lazy var headerView: LearnContainerHeaderView = {
+    lazy var headerView: LearnContainerHeaderView = {
         var items: [LearnContainerHeaderItem] = []
         items.append(Component.courses)
         if programsEnabled {
             items.append(Component.programs)
         }
-        return LearnContainerHeaderView(items: items)
+        return LearnContainerHeaderView(items: items, selectedRowIndex: selectedRowIndex)
     }()
+    
+    var selectedRowIndex: Int = 0
+    
     private let container = UIView()
     
     private let coursesViewController: EnrolledCoursesViewController
@@ -45,6 +48,8 @@ class LearnContainerViewController: UIViewController {
     private var programsEnabled: Bool {
         return environment.config.programConfig.enabled && environment.config.programConfig.programURL != nil
     }
+    
+    var visibleViewController: UIViewController?
     
     init(environment: Environment) {
         self.environment = environment
@@ -136,6 +141,23 @@ class LearnContainerViewController: UIViewController {
             controller.removeFromParent()
         } completion: { _ in
             completion?()
+        }
+    }
+}
+
+extension LearnContainerViewController {
+    func switchTo(component: Component) {
+        switch component {
+        case .courses:
+            if let visibleViewController = visibleViewController {
+                if visibleViewController is EnrolledCoursesViewController {
+                    
+                } else {
+                    update(component: .courses)
+                }
+            }
+        case .programs:
+            break
         }
     }
 }

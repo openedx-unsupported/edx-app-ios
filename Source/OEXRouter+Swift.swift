@@ -200,34 +200,21 @@ extension OEXRouter {
     // MARK: Deep Linking
     //Method can be use to navigate on particular tab of course dashboard with deep link type
     func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController) {
-        var courseDashboardController = controller.navigationController?.viewControllers.compactMap { controller -> UIViewController? in
+        let courseDashboardController = controller.navigationController?.viewControllers.compactMap { controller -> UIViewController? in
             if controller is CourseDashboardViewController {
                 return controller
             }
             return nil
         }.first
         
-        func switchTab() {
-            if let dashboardController = courseDashboardController as? CourseDashboardViewController {
-                dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
-            }
-        }
-    
         if let dashboardController = courseDashboardController as? CourseDashboardViewController, dashboardController.courseID == deeplink.courseId {
             controller.navigationController?.setToolbarHidden(true, animated: false)
             controller.navigationController?.popToViewController(dashboardController, animated: true)
-            switchTab()
+            dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
         } else {
-            if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarController = controllers.first as? EnrolledTabBarViewController {
-                popToRoot(controller: enrolledTabBarController) { [weak self] in
-                    guard let weakSelf = self else { return }
-                    enrolledTabBarController.switchTab(with: deeplink.type)
-                    let dashboardController = CourseDashboardViewController(environment: weakSelf.environment, courseID: courseID)
-                    courseDashboardController = dashboardController
-                    enrolledTabBarController.navigationController?.pushViewController(dashboardController, animated: true) { _ in
-                        switchTab()
-                    }
-                }
+            if let enrolledTabBarController = controller.find(viewController: EnrolledTabBarViewController.self) {
+                let switchedViewController = enrolledTabBarController.switchTab(with: deeplink.type)
+                showCourseWithID(courseID: courseID, fromController: switchedViewController, deeplink: deeplink, animated: true)
             }
         }
     }
@@ -264,8 +251,8 @@ extension OEXRouter {
         if isUserLoggedIn {
         
             // Pop out all views and switches enrolledCourses tab on the bases of link type
-            if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
-                popToRoot(controller: controller)
+            if let enrolledTabBarView = controller.find(viewController: EnrolledTabBarViewController.self) {
+                popToRoot(controller: enrolledTabBarView)
                 discoveryController = enrolledTabBarView.switchTab(with: type)
             }
             else {
@@ -475,8 +462,8 @@ extension OEXRouter {
         c.loadRequest(request: URLRequest(url: url as URL) as NSURLRequest)
     }
     
-    func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
-        let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
+    func showCourseWithID(courseID: String, fromController: UIViewController, deeplink: DeepLink? = nil, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
+        let controller = CourseDashboardViewController(environment: environment, courseID: courseID, deeplink: deeplink)
         controller.hidesBottomBarWhenPushed = true
         fromController.navigationController?.pushViewController(controller, animated: animated, completion: completion)
     }
@@ -603,5 +590,18 @@ extension OEXRouter {
 extension OEXRouter: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         viewController.navigationController?.completionHandler()
+    }
+}
+
+extension UIViewController {
+    func find<T: UIViewController>(viewController: T.Type) -> T? {
+        var currentViewController = self
+        while let parentViewController = currentViewController.parent {
+            if let result = parentViewController as? T {
+                return result
+            }
+            currentViewController = parentViewController
+        }
+        return nil
     }
 }
