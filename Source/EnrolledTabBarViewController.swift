@@ -136,15 +136,12 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         case .program, .programDetail:
             selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
             if let learnController = tabBarViewController(LearnContainerViewController.self) {
-                print(learnController)
                 controller = learnController
             }
             break
         case .courseDashboard, .courseDates, .courseVideos, .courseHandout, .courseComponent:
             selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
-
             if let learnController = tabBarViewController(LearnContainerViewController.self) {
-                print(learnController)
                 controller = learnController
             }
             break

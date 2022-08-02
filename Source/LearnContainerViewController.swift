@@ -175,6 +175,13 @@ extension LearnContainerViewController {
             }
         }
     }
+    
+    func t_switchTo(component: Component) {
+        if component == .programs {
+            headerView.updateHeader(at: Component.index(of: component))
+            update(component: component)
+        }
+    }
 }
 
 extension LearnContainerViewController: LearnContainerHeaderViewDelegate {
