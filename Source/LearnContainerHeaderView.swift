@@ -159,7 +159,7 @@ class LearnContainerHeaderView: UIView {
 }
 
 extension LearnContainerHeaderView {
-    func setupDropDown() {
+    private func setupDropDown() {
         let normalTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
         normalTextStyle.alignment = .center
         

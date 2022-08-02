@@ -85,9 +85,7 @@
     [self.environment.session performMigrations];
     [self.environment.router openInWindow:self.window];
     [self configureBranch:launchOptions];
-    
-    [[DeepLinkManager sharedInstance] processSampleDeeplinkWithEnvironment:self.environment.router.environment];
-    
+        
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 
     if (self.environment.config.inappPurchasesEnabled) {

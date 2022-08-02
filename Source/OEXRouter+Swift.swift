@@ -211,9 +211,19 @@ extension OEXRouter {
             controller.navigationController?.setToolbarHidden(true, animated: false)
             controller.navigationController?.popToViewController(dashboardController, animated: true)
             dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
-        } else {
-            if let enrolledTabBarController = controller.find(viewController: EnrolledTabBarViewController.self) {
+        } else if let enrolledTabBarController = controller.find(viewController: EnrolledTabBarViewController.self) {
+            if let courseDashboardController = courseDashboardController {
+                courseDashboardController.navigationController?.popToRootViewController(animated: true) { [weak self] in
+                    let switchedViewController = enrolledTabBarController.switchTab(with: deeplink.type)
+                    self?.showCourseWithID(courseID: courseID, fromController: switchedViewController, deeplink: deeplink, animated: true)
+                }
+            } else {
                 let switchedViewController = enrolledTabBarController.switchTab(with: deeplink.type)
+                if let switchedViewController = switchedViewController as? LearnContainerViewController {
+                    switchedViewController.navigationController?.popToRootViewController(animated: true) {
+                        switchedViewController.switchTo(component: .courses)
+                    }
+                }
                 showCourseWithID(courseID: courseID, fromController: switchedViewController, deeplink: deeplink, animated: true)
             }
         }
@@ -226,12 +236,9 @@ extension OEXRouter {
             let programView = enrolledTabBarView.switchTab(with: type)
             controller = programView
         } else {
-            let enrolledTabBarControler = EnrolledTabBarViewController(environment: environment)
-            controller = enrolledTabBarControler
-            showContentStack(withRootController: enrolledTabBarControler, animated: false)
-        }
-        if let url = url, type == .programDetail {
-            showProgramDetails(with: url, from: controller)
+            if let controller = controller as? LearnContainerViewController {
+                controller.switchTo(component: .programs, url: type == .programDetail ? url : nil)
+            }
         }
     }
     
