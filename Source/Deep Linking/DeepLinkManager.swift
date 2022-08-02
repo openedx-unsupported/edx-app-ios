@@ -23,20 +23,6 @@ import UIKit
         super.init()
     }
     
-    @objc func processSampleDeeplink(environment: Environment) {
-        return
-        self.environment = environment
-        let deepLink = DeepLink(dictionary: [
-            "screen_name": "course_dates",
-            "course_id": "course-v1:HarvardX+CS50+X"
-        ])
-        
-        let type = deepLink.type
-        guard type != .none else { return }
-        
-        navigateToScreen(with: type, link: deepLink)
-    }
-    
     /// This method process the deep link with response parameters
     @objc func processDeepLink(with params: [String: Any], environment: Environment) {
         // If the banner is being displayed, discard the deep link
@@ -120,9 +106,6 @@ import UIKit
     private func showCourseDashboardViewController(with link: DeepLink) {
         guard let topViewController = topMostViewController else { return }
         
-        if let topController = topViewController.find(viewController: EnrolledTabBarViewController.self) {
-            print("find")
-        }
         if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
             if !controllerAlreadyDisplayed(for: link.type) {
                 courseDashboardView.switchTab(with: link.type, componentID: link.componentID)
@@ -230,7 +213,7 @@ import UIKit
             let myProgramDetailURL = environment?.config.programConfig.programDetailURLTemplate,
             let pathID = link.pathID,
             let url = URL(string: myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathID))
-            else { return}
+            else { return }
         
         if let topController = topMostViewController, let controller = topController as? ProgramsViewController {
             if controller.type == .base {
@@ -281,6 +264,12 @@ import UIKit
                 
                 if let tabbarViewController = self?.topMostViewController?.tabBarController as? EnrolledTabBarViewController {
                     tabbarViewController.switchTab(with: .profile)
+                } else {
+                    if let tabbarViewController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
+                        topViewController.navigationController?.popViewController(animated: true) {
+                            tabbarViewController.switchTab(with: .profile)
+                        }
+                    }
                 }
             }
         }
