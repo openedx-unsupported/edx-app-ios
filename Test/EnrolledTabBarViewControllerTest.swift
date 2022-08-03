@@ -34,6 +34,28 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
         }
     }
     
+    func testsnapshotEnrolledTabBarViewDiscovery() {
+        let configDict = [
+            "DISCOVERY": ["TYPE": "webview", "WEBVIEW":["BASE_URL": "https:www.testurl.com"]],
+            "PROGRAM": ["ENABLED": true, "PROGRAM_URL": "https:www.testurl.com"]
+        ]
+        let config = OEXConfig(dictionary: configDict)
+        let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
+        let environment = TestRouterEnvironment(config: config, interface: nil).logInTestUser()
+
+        let router = OEXRouter(environment: environment)
+        router.open(in: nil)
+
+        environment.mockEnrollmentManager.courses = courses
+        let controller = EnrolledTabBarViewController(environment: environment)
+        controller.switchTab(with: .discovery)
+        
+        inScreenNavigationContext(controller) {
+            stepRunLoop()
+            assertSnapshotValidWithContent(controller.navigationController!)
+        }
+    }
+    
     func testsnapshotEnrolledTabBarViewProgramDisable() {
         let configDict = [
             "DISCOVERY": ["TYPE": "webview", "WEBVIEW":["BASE_URL": "https:www.testurl.com"]]
