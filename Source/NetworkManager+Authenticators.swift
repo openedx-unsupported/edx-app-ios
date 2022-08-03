@@ -50,6 +50,7 @@ extension NetworkManager {
                 if error.isAPIError(code: .OAuth2Expired) || error.isAPIError(code: .OAuth2Nonexistent) {
                     
                     if NetworkManager.tokenStatus == .valid {
+                        print("NETWORK:: Access token expired for request : \(response.url!.URLString)")
                         NetworkManager.tokenStatus = .invalid
                         return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
                     } else {                        
@@ -102,6 +103,9 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
         
         networkManager.performTaskForRequest(networkRequest) { [weak networkManager] result in
             
+            // As we have received the result. Now reset token status to valid.
+            NetworkManager.tokenStatus = .valid
+            
             let success: Bool
             if let currentUser = session.currentUser, let newAccessToken = result.data {
                 session.save(newAccessToken, userDetails: currentUser)
@@ -109,9 +113,6 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
             } else {
                 success = false
             }
-            
-            // Reset token status to valid.
-            NetworkManager.tokenStatus = .valid
             
             // Perform waiting tasks if previously cached.
             networkManager?.performWaitingTasksIfAny(withReauthenticationResult: success, request: result.request, response: result.response, originalData: result.baseData, error: result.error)

@@ -345,7 +345,7 @@ public class DiscussionAPI {
         ).paginated(page: pageNumber)
     }
     
-    static func getDiscussionInfo(courseID: String) -> NetworkRequest<(DiscussionInfo)> {
+    static func getDiscussionInfo(courseID: String) -> NetworkRequest<DiscussionInfo> {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/courses/\(courseID)",
