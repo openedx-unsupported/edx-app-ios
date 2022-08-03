@@ -34,7 +34,7 @@ enum APIErrorCode: String, CaseIterable {
     case JWTInvalidToken = "Invalid token."
     case JWTTokenIsBlacklisted = "Token is blacklisted."
     case JWTMustIncludePreferredClaim = "JWT must include a preferred_username or username claim!"
-    case JWTUserRetreivalFailed = "User retrieval failed."
+    case JWTUserRetrievalFailed = "User retrieval failed."
     
     var action: APIErrorCodeAction {
         switch self {
