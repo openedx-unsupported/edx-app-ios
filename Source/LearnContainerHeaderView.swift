@@ -139,13 +139,13 @@ class LearnContainerHeaderView: UIView {
         dropDown.bottomOffset = CGPoint(x: 0, y: 80)
         
         if let index = dropDown.indexForSelectedRow {
-            label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
+            label.attributedText = largeTextStyle.attributedString(withText: items[index].title)
         } else {
-            label.attributedText = smallTextStyle.attributedString(withText: items[0].title)
+            label.attributedText = largeTextStyle.attributedString(withText: items[0].title)
         }
     }
     
-    func updateHeader(at index: Int) {
+    func changeHeader(for index: Int) {
         dropDown.selectedRowIndex = index
         label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
     }
