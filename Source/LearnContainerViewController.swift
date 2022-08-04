@@ -81,6 +81,12 @@ class LearnContainerViewController: UIViewController {
         update(component: .courses)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        headerView.dimissDropDown()
+    }
+    
     private func setupViews() {
         view.accessibilityIdentifier = "LearnContainerViewController:view"
         container.accessibilityIdentifier = "LearnContainerViewController:container-view"
