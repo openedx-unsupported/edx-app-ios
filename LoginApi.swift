@@ -19,7 +19,10 @@ public struct LoginAPI {
     
     // Retrieves a new access token by using the refresh token.
     public static func requestTokenWithRefreshToken(refreshToken: String, clientId: String, grantType: String, tokenType: String) -> NetworkRequest<OEXAccessToken> {
-        let body = ["refresh_token": refreshToken, "client_id": clientId, "grant_type": grantType, "token_type": tokenType]
+        let body = ["refresh_token": refreshToken,
+                    "client_id": clientId,
+                    "grant_type": grantType,
+                    "token_type": tokenType]
         
         return NetworkRequest(
             method: .POST,

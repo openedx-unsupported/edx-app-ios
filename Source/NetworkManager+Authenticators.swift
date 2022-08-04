@@ -72,7 +72,7 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
         let networkRequest = LoginAPI.requestTokenWithRefreshToken(
             refreshToken: refreshToken,
             clientId: clientId,
-            grantType:"refresh_token",
+            grantType: "refresh_token",
             tokenType: "jwt"
         )
         networkManager.taskForRequest(networkRequest) { result in
