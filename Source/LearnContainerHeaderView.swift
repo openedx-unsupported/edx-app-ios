@@ -192,4 +192,8 @@ extension LearnContainerHeaderView {
             self?.rotateImageView(clockWise: false)
         }
     }
+    
+    func dimissDropDown() {
+        dropDown.hide()
+    }
 }

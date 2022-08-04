@@ -160,9 +160,12 @@ import UIKit
             break
         case .discovery:
             guard environment?.config.discovery.isEnabled ?? false else { return }
+            if let topMostViewController = topMostViewController as? OEXCourseInfoViewController {
+                topMostViewController.navigationController?.popToRootViewController(animated: true)
+            }
             if let topMostViewController = topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
-                topMostViewController.switchTab(with: .discovery)
-                // TODO: Refresh discovery with course query if needed(Not decided yet).
+                let controller = topMostViewController.switchTab(with: .discovery)
+                controller.navigationController?.popToRootViewController(animated: true)                
             }
             break
             
@@ -177,7 +180,7 @@ import UIKit
         if isUserLoggedin() {
             dismiss() { [weak self] _ in
                 if let topController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
-                    self?.environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: true , pathID: pathId)
+                    topController.switchTab(with: .discovery)
                 }
             }
         }
@@ -264,10 +267,12 @@ import UIKit
                 
                 if let tabbarViewController = self?.topMostViewController?.tabBarController as? EnrolledTabBarViewController {
                     tabbarViewController.switchTab(with: .profile)
+                    completion?(true)
                 } else {
                     if let tabbarViewController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
                         topViewController.navigationController?.popViewController(animated: true) {
                             tabbarViewController.switchTab(with: .profile)
+                            completion?(true)
                         }
                     }
                 }
@@ -526,7 +531,9 @@ import UIKit
             guard environment?.config.programConfig.enabled ?? false else { return }
             showProgramDetail(with: link)
             break
-        case .profile, .settings:
+        case .profile:
+            showUserProfile(with: link)
+        case .settings:
             showProfile(with: link)
             break
         case .userProfile:
