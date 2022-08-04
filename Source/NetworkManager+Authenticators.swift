@@ -47,8 +47,7 @@ extension NetworkManager {
                         return logout(router: router)
                     }
                 }
-            }
-            catch let error {
+            } catch let error {
                 print("Failed to load: \(error.localizedDescription)")
             }
         }
@@ -74,7 +73,7 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
             refreshToken: refreshToken,
             clientId: clientId,
             grantType:"refresh_token",
-            tokenType:  "jwt"
+            tokenType: "jwt"
         )
         networkManager.taskForRequest(networkRequest) { result in
             guard let currentUser = session.currentUser, let newAccessToken = result.data else {
