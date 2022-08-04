@@ -168,12 +168,12 @@ extension LearnContainerViewController {
         switch component {
         case .courses:
             if !visibleViewController.isKind(of: EnrolledCoursesViewController.self) {
-                headerView.updateHeader(at: Component.index(of: component))
+                headerView.changeHeader(for: Component.index(of: component))
                 update(component: component)
             }
         case .programs:
             if !visibleViewController.isKind(of: ProgramsViewController.self) {
-                headerView.updateHeader(at: Component.index(of: component))
+                headerView.changeHeader(for: Component.index(of: component))
                 update(component: component)
             }
             if let url = url {
@@ -184,7 +184,7 @@ extension LearnContainerViewController {
     
     func t_switchTo(component: Component) {
         if component == .programs {
-            headerView.updateHeader(at: Component.index(of: component))
+            headerView.changeHeader(for: Component.index(of: component))
             update(component: component)
         }
     }
