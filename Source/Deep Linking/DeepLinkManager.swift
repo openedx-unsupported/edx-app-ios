@@ -180,7 +180,10 @@ import UIKit
         if isUserLoggedin() {
             dismiss() { [weak self] _ in
                 if let topController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
-                    topController.switchTab(with: .discovery)
+                    if let controller = topController.switchTab(with: .discovery) as? OEXFindCoursesViewController,
+                       let courseId = link.courseId {
+                        self?.environment?.router?.showDiscoveryDetail(from: controller, type: .discoveryCourseDetail, pathID: courseId, bottomBar: controller.bottomBar)
+                    }
                 }
             }
         }
