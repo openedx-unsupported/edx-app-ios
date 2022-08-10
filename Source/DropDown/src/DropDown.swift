@@ -904,6 +904,10 @@ extension DropDown {
 			return false
 		}
 	}
+    
+    public func forceHide() {
+       cancel(shouldCallCallback: true)
+    }
 
 	/// Hides the drop down.
 	public func hide() {

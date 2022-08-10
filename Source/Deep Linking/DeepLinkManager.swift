@@ -160,11 +160,11 @@ import UIKit
             break
         case .discovery:
             guard environment?.config.discovery.isEnabled ?? false else { return }
-            if let topMostViewController = topMostViewController as? OEXCourseInfoViewController {
-                topMostViewController.navigationController?.popToRootViewController(animated: true)
+            if let courseInfoViewController = topMostViewController as? OEXCourseInfoViewController {
+                courseInfoViewController.navigationController?.popToRootViewController(animated: true)
             }
-            if let topMostViewController = topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
-                let controller = topMostViewController.switchTab(with: .discovery)
+            if let tabbarViewController = topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
+                let controller = tabbarViewController.switchTab(with: .discovery)
                 controller.navigationController?.popToRootViewController(animated: true)                
             }
             break
@@ -252,7 +252,7 @@ import UIKit
             completion?(true)
             return
         }
-
+        
         if topViewController is UserProfileViewController || topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
             if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is ProfileOptionsViewController}) {
                 topViewController.navigationController?.popToViewController(viewController, animated: true)
@@ -271,12 +271,10 @@ import UIKit
                 if let tabbarViewController = self?.topMostViewController?.tabBarController as? EnrolledTabBarViewController {
                     tabbarViewController.switchTab(with: .profile)
                     completion?(true)
-                } else {
-                    if let tabbarViewController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
-                        topViewController.navigationController?.popViewController(animated: true) {
-                            tabbarViewController.switchTab(with: .profile)
-                            completion?(true)
-                        }
+                } else if let tabbarViewController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
+                    topViewController.navigationController?.popViewController(animated: true) {
+                        tabbarViewController.switchTab(with: .profile)
+                        completion?(true)
                     }
                 }
             }
