@@ -161,11 +161,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         }
         navigationItem.title = titleOfViewController(index: selectedIndex)
         
-        if let controller = controller {
-            return controller
-        } else {
-            return tabBarItems[selectedIndex].viewController
-        }
+        return controller ?? tabBarItems[selectedIndex].viewController
     }
 }
 
