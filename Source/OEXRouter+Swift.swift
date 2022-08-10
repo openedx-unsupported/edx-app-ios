@@ -200,12 +200,7 @@ extension OEXRouter {
     // MARK: Deep Linking
     //Method can be use to navigate on particular tab of course dashboard with deep link type
     func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController) {
-        let courseDashboardController = controller.navigationController?.viewControllers.compactMap { controller -> UIViewController? in
-            if controller is CourseDashboardViewController {
-                return controller
-            }
-            return nil
-        }.first
+        let courseDashboardController = controller.navigationController?.viewControllers.first(where: { $0.isKind(of: CourseDashboardViewController.self) })
         
         if let dashboardController = courseDashboardController as? CourseDashboardViewController, dashboardController.courseID == deeplink.courseId {
             controller.navigationController?.setToolbarHidden(true, animated: false)

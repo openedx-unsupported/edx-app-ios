@@ -23,12 +23,7 @@ class LearnContainerViewController: UIViewController {
         }
         
         static func index(of component: Component) -> Int {
-            for (index, value) in Component.allCases.enumerated() {
-                if value == component {
-                    return index
-                }
-            }
-            return 0
+            return Component.allCases.firstIndex(of: component) ?? 0
         }
     }
     
@@ -36,11 +31,11 @@ class LearnContainerViewController: UIViewController {
     
     private let environment: Environment
     
-    private lazy var components: [LearnContainerHeaderItem] = {
-        var items: [LearnContainerHeaderItem] = []
-        items.append(Component.courses)
+    private lazy var components: [Component] = {
+        var items: [Component] = []
+        items.append(.courses)
         if programsEnabled {
-            items.append(Component.programs)
+            items.append(.programs)
         }
         return items
     }()
@@ -163,6 +158,8 @@ class LearnContainerViewController: UIViewController {
 
 extension LearnContainerViewController {
     func switchTo(component: Component, url: URL? = nil) {
+        headerView.dimissDropDown()
+        
         guard let visibleViewController = visibleViewController else { return }
         
         switch component {
@@ -181,13 +178,6 @@ extension LearnContainerViewController {
             }
         }
     }
-    
-    func t_switchTo(component: Component) {
-        if component == .programs {
-            headerView.changeHeader(for: Component.index(of: component))
-            update(component: component)
-        }
-    }
 }
 
 extension LearnContainerViewController: LearnContainerHeaderViewDelegate {
@@ -197,3 +187,11 @@ extension LearnContainerViewController: LearnContainerHeaderViewDelegate {
     }
 }
 
+extension LearnContainerViewController {
+    func t_switchTo(component: Component) {
+        if component == .programs {
+            headerView.changeHeader(for: Component.index(of: component))
+            update(component: component)
+        }
+    }
+}

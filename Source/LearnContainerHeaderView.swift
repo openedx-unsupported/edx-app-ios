@@ -194,6 +194,6 @@ extension LearnContainerHeaderView {
     }
     
     func dimissDropDown() {
-        dropDown.hide()
+        dropDown.forceHide()
     }
 }
