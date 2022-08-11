@@ -62,15 +62,13 @@ class LearnContainerHeaderView: UIView {
     }
     
     private var items: [LearnContainerHeaderItem]
-    private var selectedRowIndex: Int
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(items: [LearnContainerHeaderItem], selectedRowIndex: Int = 0) {
+    init(items: [LearnContainerHeaderItem]) {
         self.items = items
-        self.selectedRowIndex = selectedRowIndex
         super.init(frame: .zero)
         setupDropDown()
         setupViews()
@@ -122,43 +120,6 @@ class LearnContainerHeaderView: UIView {
         originalFrame = container.frame
     }
     
-    func moveToCenter() {
-        dropDown.bottomOffset = CGPoint(x: 0, y: 44)
-        container.frame = CGRect(x: 0, y: 0, width: 180, height: 44)
-        container.center.x = frame.size.width / 2
-        
-        if let index = dropDown.indexForSelectedRow {
-            label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
-        } else {
-            label.attributedText = smallTextStyle.attributedString(withText: items[0].title)
-        }
-    }
-    
-    func moveBackOriginalFrame() {
-        container.frame = originalFrame
-        dropDown.bottomOffset = CGPoint(x: 0, y: 80)
-        
-        if let index = dropDown.indexForSelectedRow {
-            label.attributedText = largeTextStyle.attributedString(withText: items[index].title)
-        } else {
-            label.attributedText = largeTextStyle.attributedString(withText: items[0].title)
-        }
-    }
-    
-    func changeHeader(for index: Int) {
-        dropDown.selectedRowIndex = index
-        label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
-    }
-    
-    private func rotateImageView(clockWise: Bool) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let weakSelf = self else { return }
-            weakSelf.imageView.transform = weakSelf.imageView.transform.rotated(by: clockWise ? -(.pi * 0.999) : .pi)
-        }
-    }
-}
-
-extension LearnContainerHeaderView {
     private func setupDropDown() {
         let normalTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryBaseColor())
         normalTextStyle.alignment = .center
@@ -193,7 +154,42 @@ extension LearnContainerHeaderView {
         }
     }
     
+    func changeHeader(for index: Int) {
+        dropDown.selectedRowIndex = index
+        label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
+    }
+    
     func dimissDropDown() {
         dropDown.forceHide()
+    }
+    
+    func moveToCenter() {
+        dropDown.bottomOffset = CGPoint(x: 0, y: 44)
+        container.frame = CGRect(x: 0, y: 0, width: 180, height: 44)
+        container.center.x = frame.size.width / 2
+        
+        if let index = dropDown.indexForSelectedRow {
+            label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
+        } else {
+            label.attributedText = smallTextStyle.attributedString(withText: items[0].title)
+        }
+    }
+    
+    func moveBackOriginalFrame() {
+        container.frame = originalFrame
+        dropDown.bottomOffset = CGPoint(x: 0, y: 80)
+        
+        if let index = dropDown.indexForSelectedRow {
+            label.attributedText = largeTextStyle.attributedString(withText: items[index].title)
+        } else {
+            label.attributedText = largeTextStyle.attributedString(withText: items[0].title)
+        }
+    }
+    
+    private func rotateImageView(clockWise: Bool) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let weakSelf = self else { return }
+            weakSelf.imageView.transform = weakSelf.imageView.transform.rotated(by: clockWise ? -(.pi * 0.999) : .pi)
+        }
     }
 }
