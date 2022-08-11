@@ -234,7 +234,10 @@ extension OEXRouter {
         let tabbarController = controller.find(viewController: EnrolledTabBarViewController.self)
         if let learnController = tabbarController?.switchTab(with: type) as? LearnContainerViewController {
             popToRoot(controller: learnController)
-            learnController.switchTo(component: .programs, url: type == .programDetail ? url : nil)
+            if let programsViewController = learnController.switchTo(component: .programs) as? ProgramsViewController,
+            let url = url {
+                showProgramDetails(with: url, from: programsViewController)
+            }
         }
     }
     

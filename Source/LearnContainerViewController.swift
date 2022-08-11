@@ -157,10 +157,11 @@ class LearnContainerViewController: UIViewController {
 }
 
 extension LearnContainerViewController {
-    func switchTo(component: Component, url: URL? = nil) {
+    @discardableResult
+    func switchTo(component: Component) -> UIViewController? {
         headerView.dimissDropDown()
         
-        guard let visibleViewController = visibleViewController else { return }
+        guard let visibleViewController = visibleViewController else { return nil }
         
         switch component {
         case .courses:
@@ -168,14 +169,13 @@ extension LearnContainerViewController {
                 headerView.changeHeader(for: Component.index(of: component))
                 update(component: component)
             }
+            return coursesViewController
         case .programs:
             if !visibleViewController.isKind(of: ProgramsViewController.self) {
                 headerView.changeHeader(for: Component.index(of: component))
                 update(component: component)
             }
-            if let url = url {
-                programsViewController?.loadPrograms(with: url)
-            }
+            return programsViewController
         }
     }
 }
