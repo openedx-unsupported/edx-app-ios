@@ -135,23 +135,19 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             break
         case .program, .programDetail:
             selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
-            if let learnController = tabBarViewController(LearnContainerViewController.self) {
-                controller = learnController
-            }
+            controller = tabBarViewController(LearnContainerViewController.self)
             break
         case .courseDashboard, .courseDates, .courseVideos, .courseHandout, .courseComponent:
             selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
-            if let learnController = tabBarViewController(LearnContainerViewController.self) {
-                controller = learnController
-            }
+            controller = tabBarViewController(LearnContainerViewController.self)
             break
         case .discovery, .discoveryCourseDetail, .discoveryProgramDetail:
             if environment.config.discovery.isEnabled {
                 selectedIndex = environment.config.discovery.type == .webview ? tabBarViewControllerIndex(with: OEXFindCoursesViewController.self) : tabBarViewControllerIndex(with: CourseCatalogViewController.self)
-                if let discoveryController = tabBarViewController(OEXFindCoursesViewController.self) {
-                    controller = discoveryController
-                } else if let catalogueController = tabBarViewController(CourseCatalogViewController.self) {
-                    controller = catalogueController
+                if let discovery = tabBarViewController(OEXFindCoursesViewController.self) {
+                    controller = discovery
+                } else if let discovery = tabBarViewController(CourseCatalogViewController.self) {
+                    controller = discovery
                 }
             }
             break
