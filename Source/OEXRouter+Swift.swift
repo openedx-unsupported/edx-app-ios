@@ -210,7 +210,7 @@ extension OEXRouter {
             if let courseDashboardController = courseDashboardController {
                 courseDashboardController.navigationController?.popToRootViewController(animated: true) { [weak self] in
                     let switchedViewController = enrolledTabBarController.switchTab(with: deeplink.type)
-                    self?.showCourseWithID(courseID: courseID, fromController: switchedViewController, deeplink: deeplink, animated: true) { controller in
+                    self?.showCourseWithID(courseID: courseID, fromController: switchedViewController, animated: true) { controller in
                         guard let dashboardController = controller as? CourseDashboardViewController else { return }
                         dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
                     }
@@ -222,7 +222,7 @@ extension OEXRouter {
                         switchedViewController.switchTo(component: .courses)
                     }
                 }
-                showCourseWithID(courseID: courseID, fromController: switchedViewController, deeplink: deeplink, animated: true) { controller in
+                showCourseWithID(courseID: courseID, fromController: switchedViewController, animated: true) { controller in
                     guard let dashboardController = controller as? CourseDashboardViewController else { return }
                     dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
                 }
@@ -465,7 +465,7 @@ extension OEXRouter {
         c.loadRequest(request: URLRequest(url: url as URL) as NSURLRequest)
     }
     
-    func showCourseWithID(courseID: String, fromController: UIViewController, deeplink: DeepLink? = nil, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
+    func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
         let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
         controller.hidesBottomBarWhenPushed = true
         fromController.navigationController?.pushViewController(controller, animated: animated, completion: completion)
@@ -482,7 +482,7 @@ extension OEXRouter {
     }
     
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {
-        guard  environment.config.discovery.isEnabled else { return nil }
+        guard environment.config.discovery.isEnabled else { return nil }
 
         return environment.config.discovery.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
     }
