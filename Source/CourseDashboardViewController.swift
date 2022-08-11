@@ -379,7 +379,8 @@ extension UITabBarController {
             if viewController.isKind(of: controller) {
                 return viewController as? T
             } else if let forwardingNavigationController = viewController as? ForwardingNavigationController,
-                      let rootViewController = forwardingNavigationController.viewControllers.first, rootViewController.isKind(of: controller) {
+                      let rootViewController = forwardingNavigationController.viewControllers.first,
+                      rootViewController.isKind(of: controller) {
                 return rootViewController as? T
             }
         }
