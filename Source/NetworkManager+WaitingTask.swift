@@ -112,7 +112,12 @@ extension NetworkManager {
             case let task as WaitingTask<Data>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            default: break
+            case let task as WaitingTask<RemoteImage>:
+                performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
+                
+                
+            default:
+                assert(false, "Did not handle task with this type: \(waitingTask)")
                 
             }
         }
