@@ -360,8 +360,6 @@ open class NetworkManager : NSObject {
         
         let URLRequest = URLRequestWithRequest(base: base, networkRequest)
         
-        print("NETWORK:: Request initiating: \(URLRequest.value?.URLString)")
-        
         let authenticator = self.authenticator
         let interceptors = jsonInterceptors
         let task = URLRequest.map {URLRequest -> NetworkTask in
