@@ -135,16 +135,10 @@ class CourseUpgradeHandler: NSObject {
         
         state = .initial
         
-        showSDNpromptIfNeeded { [weak self] in
-            self?.upgrade()
-        }
-    }
-    
-    private func showSDNpromptIfNeeded(completion: @escaping () -> ()) {
         showSDNprompt { [weak self] success in
             if success {
                 self?.state = .sdn
-                completion()
+                self?.upgrade()
             } else {
                 self?.state = .error(type: .sdnError, error: self?.error(message: "user does not allow sdn check"))
             }
@@ -153,7 +147,7 @@ class CourseUpgradeHandler: NSObject {
     
     private func showSDNprompt(completion: @escaping (Bool) -> ()) {
         guard let controller = UIApplication.shared.topMostController() else { return }
-        let alertController = UIAlertController().showAlert(withTitle: "SDN", message: "SDN message body", cancelButtonTitle: nil, onViewController: controller) { _, _, _ in }
+        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.Sdn.Prompt.title, message: Strings.CourseUpgrade.Sdn.Prompt.message, cancelButtonTitle: nil, onViewController: controller) { _, _, _ in }
         alertController.addButton(withTitle: Strings.cancel) { _ in
             completion(false)
         }
