@@ -16,6 +16,7 @@ extension NetworkManager {
         if waitingTasks.isEmpty { return}
         
         for waitingTask in waitingTasks {
+            
             switch waitingTask {
             case let task as WaitingTask<()>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
@@ -123,6 +124,10 @@ extension NetworkManager {
         }
         
         // As we have enqueued all tasks, now remove the tasks.
+        removeAllWaitingTasks()
+    }
+    
+    func removeAllWaitingTasks() {
         waitingTasks.removeAll()
     }
     
@@ -130,11 +135,9 @@ extension NetworkManager {
         
         if success {
             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting request in waiting")
-            print("NETWORK:: Reauthentication, reattempting request in waiting request: \(task.networkRequest.path)")
             performTaskForRequest(base: task.base, task.networkRequest, handler: task.handler)
         } else {
             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful so skip attempting for waiting request: \(task.networkRequest.path)")
-            print("NETWORK:: Reauthentication unsuccessful so skip attempting for waiting request: \(task.networkRequest.path)")
             task.handler(NetworkResult<T>(request: request, response: response, data: nil, baseData: originalData, error: error))
         }
         

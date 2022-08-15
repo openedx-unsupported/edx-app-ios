@@ -50,7 +50,6 @@ extension NetworkManager {
                 if error.isAPIError(code: .OAuth2Expired) || error.isAPIError(code: .OAuth2Nonexistent) {
                     
                     if NetworkManager.tokenStatus == .valid {
-                        print("NETWORK:: Access token expired for request : \(response.url!.URLString)")
                         NetworkManager.tokenStatus = .invalid
                         return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
                     } else {                        
@@ -58,14 +57,7 @@ extension NetworkManager {
                     }
                 }
                 
-                if error.isAPIError(code: .OAuth2InvalidGrant) {
-                    //TODO: Handle invalid_grant gracefully,
-                    //Most of the times it's happening because of hitting /oauth2/access_token/ multiple times with refresh_token
-                    //Only send one request for /oauth2/access_token/
-                    Logger.logError("Network Authenticator", "invalid_grant: " + response.debugDescription)
-                }
-
-                if error.isAPIError(code: .OAuth2DisabledUser) {
+                if error.isAPIError(code: .OAuth2InvalidGrant) || error.isAPIError(code: .OAuth2DisabledUser) {
                     return logout(router: router)
                 }
             }
@@ -76,7 +68,7 @@ extension NetworkManager {
         }
         
         Logger.logError("Network Authenticator", "Request failed: " + response.debugDescription)
-        return AuthenticationAction.proceed
+        return .proceed
     }
 }
 
@@ -107,10 +99,18 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
             NetworkManager.tokenStatus = .valid
             
             let success: Bool
-            if let currentUser = session.currentUser, let newAccessToken = result.data {
-                session.save(newAccessToken, userDetails: currentUser)
-                success = true
+            if let currentUser = session.currentUser {
+                if let newAccessToken = result.data {
+                    session.save(newAccessToken, userDetails: currentUser)
+                    success = true
+                } else {
+                    success = false
+                }
             } else {
+                
+                // As application has no session.currentUser, it indicates that user is logged out.
+                // So, we must remove waitingTasks if any.
+                networkManager?.removeAllWaitingTasks()
                 success = false
             }
             
