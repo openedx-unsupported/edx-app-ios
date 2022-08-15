@@ -35,6 +35,7 @@ class CourseUpgradeHelper: NSObject {
 
     enum CompletionState {
         case initial
+        case sdn
         case payment
         case fulfillment
         case success(_ courseID: String, _ componentID: String?)
@@ -102,6 +103,9 @@ class CourseUpgradeHelper: NSObject {
         case .initial:
             startTime = CFAbsoluteTimeGetCurrent()
             break
+        case .sdn:
+            environment?.analytics.trackSDN(status: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen)
+            break
         case .payment:
             paymentStartTime = CFAbsoluteTimeGetCurrent()
             break
@@ -123,6 +127,8 @@ class CourseUpgradeHelper: NSObject {
         case .error(let type, _):
             if type == .paymentError {
                 environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
+            } else if type == .sdnError {
+                environment?.analytics.trackSDN(status: false, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen)
             }
 
             environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError)

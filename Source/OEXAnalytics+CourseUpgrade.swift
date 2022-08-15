@@ -23,6 +23,23 @@ extension OEXAnalytics {
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
+    
+    func trackSDN(status: Bool, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradePaymentTime.rawValue
+        event.name = AnalyticsEventName.CourseUpgradePaymentTime.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
+        
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.Price.rawValue: coursePrice,
+        ]
+
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
 
     func trackCourseUpgradePaymentTime(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int) {
         let event = OEXAnalyticsEvent()
