@@ -360,8 +360,6 @@ open class NetworkManager : NSObject {
         
         let URLRequest = URLRequestWithRequest(base: base, networkRequest)
         
-        print("NETWORK:: Request initiating: \(URLRequest.value?.URLString)")
-        
         let authenticator = self.authenticator
         let interceptors = jsonInterceptors
         let task = URLRequest.map {URLRequest -> NetworkTask in
@@ -388,9 +386,6 @@ open class NetworkManager : NSObject {
                 case let .some(.deserializedResult(value, original)):
                     let result = NetworkResult<Out>(request: request, response: response, data: value.value, baseData: original, error: error)
                     Logger.logInfo(NetworkManager.NETWORK, "Response is \(String(describing: response))")
-                    print("NETWORK:: Request: \(request.urlRequest)")
-                    print("NETWORK:: Response: \(String(data: original!, encoding: .utf8))")
-                    print("NETWORK:: ===============================================")
                     handler(result)
                 case let .some(.reauthenticationRequest(authHandler, originalData)):
                     

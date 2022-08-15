@@ -574,7 +574,10 @@ extension OEXRouter {
     func invalidateToken() {
         if let refreshToken = environment.session.token?.refreshToken, let clientID = environment.config.oauthClientID() {
             let networkRequest = LogoutApi.invalidateToken(refreshToken: refreshToken, clientID: clientID)
-            environment.networkManager.taskForRequest(networkRequest) { result in }
+            
+            // As this is logout request, so must not add it to waitingTasks while refreshing. This must be called directly.
+            // So in order to avoid from adding in waitingTasks, we directly call the 'performTaskForRequest' function.
+            environment.networkManager.performTaskForRequest(networkRequest) { result in}
         }
     }
 
