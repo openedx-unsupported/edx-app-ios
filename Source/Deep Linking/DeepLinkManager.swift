@@ -269,7 +269,10 @@ import UIKit
                 if !dismiss { return }
                 
                 if let tabbarViewController = self?.topMostViewController?.tabBarController as? EnrolledTabBarViewController {
-                    tabbarViewController.switchTab(with: .profile)
+                    if let profileOptions = tabbarViewController.switchTab(with: .profile) as? ProfileOptionsViewController {
+                        profileOptions.navigationController?.popToRootViewController(animated: true)
+                        profileOptions.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
+                    }
                     completion?(true)
                 } else if let tabbarViewController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
                     topViewController.navigationController?.popViewController(animated: true) {

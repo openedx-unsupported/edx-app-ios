@@ -132,6 +132,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         switch type {
         case .profile:
             selectedIndex = tabBarViewControllerIndex(with: ProfileOptionsViewController.self)
+            controller = tabBarViewController(ProfileOptionsViewController.self)
             break
         case .program, .programDetail:
             selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
