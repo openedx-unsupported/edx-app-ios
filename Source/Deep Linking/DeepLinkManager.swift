@@ -268,15 +268,14 @@ import UIKit
                 // dismiss will be false if the notice banner is on screen while dismissing the presented controller
                 if !dismiss { return }
                 
-                if let tabbarViewController = self?.topMostViewController?.tabBarController as? EnrolledTabBarViewController {
-                    if let profileOptions = tabbarViewController.switchTab(with: .profile) as? ProfileOptionsViewController {
-                        profileOptions.navigationController?.popToRootViewController(animated: true)
+                guard let tabbarViewController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) else {
+                    completion?(false)
+                    return
+                }
+                
+                if let profileOptions = tabbarViewController.switchTab(with: .profile) as? ProfileOptionsViewController {
+                    profileOptions.navigationController?.popToRootViewController(animated: true) {
                         profileOptions.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
-                    }
-                    completion?(true)
-                } else if let tabbarViewController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
-                    topViewController.navigationController?.popViewController(animated: true) {
-                        tabbarViewController.switchTab(with: .profile)
                         completion?(true)
                     }
                 }
