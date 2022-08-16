@@ -147,13 +147,18 @@ class CourseUpgradeHandler: NSObject {
     
     private func showSDNprompt(completion: @escaping (Bool) -> ()) {
         guard let controller = UIApplication.shared.topMostController() else { return }
-        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.Sdn.Prompt.title, message: Strings.CourseUpgrade.Sdn.Prompt.message, cancelButtonTitle: nil, onViewController: controller) { _, _, _ in }
-        alertController.addButton(withTitle: Strings.cancel) { _ in
-            completion(false)
+        
+        let alert = UIAlertController().alert(withTitle: Strings.CourseUpgrade.Sdn.Prompt.title, message: Strings.CourseUpgrade.Sdn.Prompt.message, cancelButtonTitle: Strings.cancel) { controller, action, buttonIndex in
+            if buttonIndex == controller.cancelButtonIndex {
+                completion(false)
+            }
         }
-        alertController.addButton(withTitle: Strings.ok) { _ in
+        
+        alert.addButton(withTitle: Strings.ok) { _ in
             completion(true)
         }
+        
+        controller.present(alert, animated: true)
     }
     
     private func upgrade() {

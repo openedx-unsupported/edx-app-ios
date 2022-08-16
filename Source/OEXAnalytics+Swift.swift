@@ -94,7 +94,7 @@ public enum AnalyticsDisplayName : String {
     case CourseUpgradeErrorAction = "Payments: Error Alert Action"
     case DiscoverExternalLinkOpenAlert = "Discovery: External Link Opening Alert"
     case DiscoverExternalLinkOpenAlertAction = "Discovery: External Link Opening Alert Action"
-    case SDNprompt = "Payments: SDN Prompt"
+    case SDNprompt = "Payments: SDN Prompt Action"
 }
 
 public enum AnalyticsEventName: String {
