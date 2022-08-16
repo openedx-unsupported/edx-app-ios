@@ -127,13 +127,29 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     // MARK: Deep Linking
     @discardableResult
     func switchTab(with type: DeepLinkType) -> UIViewController {
+        var controller: UIViewController?
+        
         switch type {
+        case .profile:
+            selectedIndex = tabBarViewControllerIndex(with: ProfileOptionsViewController.self)
+            controller = tabBarViewController(ProfileOptionsViewController.self)
+            break
         case .program, .programDetail:
-            selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
+            selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
+            controller = tabBarViewController(LearnContainerViewController.self)
+            break
+        case .courseDashboard, .courseDates, .courseVideos, .courseHandout, .courseComponent:
+            selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
+            controller = tabBarViewController(LearnContainerViewController.self)
             break
         case .discovery, .discoveryCourseDetail, .discoveryProgramDetail:
             if environment.config.discovery.isEnabled {
                 selectedIndex = environment.config.discovery.type == .webview ? tabBarViewControllerIndex(with: OEXFindCoursesViewController.self) : tabBarViewControllerIndex(with: CourseCatalogViewController.self)
+                if let discovery = tabBarViewController(OEXFindCoursesViewController.self) {
+                    controller = discovery
+                } else if let discovery = tabBarViewController(CourseCatalogViewController.self) {
+                    controller = discovery
+                }
             }
             break
         default:
@@ -142,7 +158,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         }
         navigationItem.title = titleOfViewController(index: selectedIndex)
         
-        return tabBarItems[selectedIndex].viewController
+        return controller ?? tabBarItems[selectedIndex].viewController
     }
 }
 

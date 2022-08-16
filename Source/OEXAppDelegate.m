@@ -85,6 +85,7 @@
     [self.environment.session performMigrations];
     [self.environment.router openInWindow:self.window];
     [self configureBranch:launchOptions];
+        
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 
     if (self.environment.config.inappPurchasesEnabled) {
