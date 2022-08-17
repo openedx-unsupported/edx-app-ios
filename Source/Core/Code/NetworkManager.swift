@@ -27,7 +27,7 @@ public enum RequestBody {
 private enum DeserializationResult<Out> {
     case deserializedResult(value : Result<Out>, original : Data?)
     case reauthenticationRequest(AuthenticateRequestCreator, original: Data?)
-    case waitingRequest(URLRequest: URLRequest, original: Data?)
+    case queuedRequest(URLRequest: URLRequest, original: Data?)
 }
 
 public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager, _ _completion: @escaping (_ _success : Bool) -> Void) -> Void
@@ -35,7 +35,7 @@ public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager
 public enum AuthenticationAction {
     case proceed
     case authenticate(AuthenticateRequestCreator)
-    case wait
+    case queue
     
     public var isProceed : Bool {
         switch self {
@@ -175,7 +175,7 @@ public enum AccessTokenStatus {
     refershing
 }
 
-public struct WaitingTask<T> {
+public struct QueuedTask<T> {
     public let base: String?
     public let networkRequest: NetworkRequest<T>
     public let handler: (NetworkResult<T>) -> Void
@@ -202,9 +202,9 @@ open class NetworkManager : NSObject {
     fileprivate var responseInterceptors: [ResponseInterceptor] = []
     open var authenticator : Authenticator?
     
-    public static var tokenStatus: AccessTokenStatus = .valid
+    public var tokenStatus: AccessTokenStatus = .valid
     
-    public var waitingTasks = [Any]()
+    public var queuedTasks = [Any]()
     
     @objc public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
         self.authorizationHeaderProvider = authorizationHeaderProvider
@@ -347,9 +347,8 @@ open class NetworkManager : NSObject {
     }
     
     @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
-        
-        if NetworkManager.tokenStatus != .valid {
-            waitingTasks.append(WaitingTask(base: base, networkRequest: networkRequest, handler: handler))
+        if tokenStatus != .valid {
+            queuedTasks.append(QueuedTask(base: base, networkRequest: networkRequest, handler: handler))
             return nil
         }
         
@@ -374,9 +373,9 @@ open class NetworkManager : NSObject {
                 case .authenticate(let authenticateRequest):
                     let result = Box<DeserializationResult<Out>>(DeserializationResult.reauthenticationRequest(authenticateRequest, original: data))
                     return (result, nil)
-                case .wait:
-                    self?.waitingTasks.append(WaitingTask(base: base, networkRequest: networkRequest, handler: handler))
-                    let result = Box<DeserializationResult<Out>>(DeserializationResult.waitingRequest(URLRequest: URLRequest, original: data))
+                case .queue:
+                    self?.queuedTasks.append(QueuedTask(base: base, networkRequest: networkRequest, handler: handler))
+                    let result = Box<DeserializationResult<Out>>(DeserializationResult.queuedRequest(URLRequest: URLRequest, original: data))
                     return (result, nil)
                 }
             }
@@ -398,8 +397,8 @@ open class NetworkManager : NSObject {
                             handler(NetworkResult<Out>(request: request, response: response, data: nil, baseData: originalData, error: error))
                         }
                     })
-                case let .some(.waitingRequest(request, _)):
-                    Logger.logInfo(NetworkManager.NETWORK, "\(request.URLString) will wait for refreshing access token")
+                case let .some(.queuedRequest(request, _)):
+                    Logger.logInfo(NetworkManager.NETWORK, "\(request.URLString) queued for token refresh")
                 case .none:
                     assert(false, "Deserialization failed in an unexpected way")
                     handler(NetworkResult<Out>(request:request, response:response, data: nil, baseData: nil, error: error))

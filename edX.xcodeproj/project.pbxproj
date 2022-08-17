@@ -157,7 +157,7 @@
 		22F6A15F20BD2D06009C3F4A /* String+DecodeHTMLEntitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */; };
 		22F8A9141F4708A50025E18A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A9131F4708A50025E18A /* Main.storyboard */; };
 		22FDD0AC2552691600BA378D /* FirebaseRemoteConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FDD0AB2552691600BA378D /* FirebaseRemoteConfiguration.swift */; };
-		292CBABE28AB849100A5FB96 /* NetworkManager+WaitingTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292CBABD28AB849100A5FB96 /* NetworkManager+WaitingTask.swift */; };
+		292CBABE28AB849100A5FB96 /* NetworkManager+QueuedTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292CBABD28AB849100A5FB96 /* NetworkManager+QueuedTask.swift */; };
 		3F92D6E420B1996800A69806 /* AgreementURLsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */; };
 		3F92D6E620B19C9B00A69806 /* AgreementURLsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F92D6E520B19C9B00A69806 /* AgreementURLsConfig.swift */; };
 		3FD829C636225A6B1FC5D32B /* libPods-edX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44022CD0B5ABB08252788A89 /* libPods-edX.a */; };
@@ -1146,7 +1146,7 @@
 		22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DecodeHTMLEntitiesTests.swift"; sourceTree = "<group>"; };
 		22F8A9131F4708A50025E18A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		22FDD0AB2552691600BA378D /* FirebaseRemoteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRemoteConfiguration.swift; sourceTree = "<group>"; };
-		292CBABD28AB849100A5FB96 /* NetworkManager+WaitingTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+WaitingTask.swift"; sourceTree = "<group>"; };
+		292CBABD28AB849100A5FB96 /* NetworkManager+QueuedTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+QueuedTask.swift"; sourceTree = "<group>"; };
 		2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_edXTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AgreementURLsConfigTests.swift; path = Test/AgreementURLsConfigTests.swift; sourceTree = SOURCE_ROOT; };
 		3F92D6E520B19C9B00A69806 /* AgreementURLsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgreementURLsConfig.swift; sourceTree = "<group>"; };
@@ -4020,7 +4020,7 @@
 			isa = PBXGroup;
 			children = (
 				E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */,
-				292CBABD28AB849100A5FB96 /* NetworkManager+WaitingTask.swift */,
+				292CBABD28AB849100A5FB96 /* NetworkManager+QueuedTask.swift */,
 				77C182AB1CD2E60E00AE1474 /* StackPaginationManipulator.swift */,
 				77E6487E1C9133C600B6740D /* SessionUsernameProvider.swift */,
 				77E6486D1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift */,
@@ -5119,7 +5119,7 @@
 				5FB69A8E24BC2CD800BBCAD7 /* RegistrationFormValidation.swift in Sources */,
 				77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */,
 				5FFCF2C7284CA12600D6456F /* LearnContainerViewController.swift in Sources */,
-				292CBABE28AB849100A5FB96 /* NetworkManager+WaitingTask.swift in Sources */,
+				292CBABE28AB849100A5FB96 /* NetworkManager+QueuedTask.swift in Sources */,
 				77691F9C1B3A0774003922F2 /* Result+JSON.swift in Sources */,
 				772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */,
 				B7CCC727209B16B100A66923 /* ConstraintMakerExtendable.swift in Sources */,

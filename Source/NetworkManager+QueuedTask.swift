@@ -1,5 +1,5 @@
 //
-//  NetworkManager+WaitingTask.swift
+//  NetworkManager+QueuedTask.swift
 //  edX
 //
 //  Created by AsifBilal on 7/29/22.
@@ -12,134 +12,130 @@ import edXCore
 
 extension NetworkManager {
     
-    func performWaitingTasksIfAny(withReauthenticationResult success: Bool, request: URLRequest?, response: HTTPURLResponse?, originalData: Data?, error: NSError?) {
-        if waitingTasks.isEmpty { return}
+    func performQueuedTasksIfAny(withReauthenticationResult success: Bool, request: URLRequest?, response: HTTPURLResponse?, originalData: Data?, error: NSError?) {
+        if queuedTasks.isEmpty { return }
         
-        for waitingTask in waitingTasks {
+        for queuedTask in queuedTasks {
             
-            switch waitingTask {
-            case let task as WaitingTask<()>:
-                performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
-            case let task as WaitingTask<UserPreference>:
+            switch queuedTask {
+            case let task as QueuedTask<()>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<[UserCourseEnrollment]>:
+            case let task as QueuedTask<UserPreference>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<Paginated<[OEXCourse]>>:
+            case let task as QueuedTask<[UserCourseEnrollment]>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<Paginated<[DiscussionThread]>>:
+            case let task as QueuedTask<Paginated<[OEXCourse]>>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<Paginated<[DiscussionComment]>>:
+            case let task as QueuedTask<Paginated<[DiscussionThread]>>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<Paginated<[Int]>>:
+            case let task as QueuedTask<Paginated<[DiscussionComment]>>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<Paginated<[BadgeAssertion]>>:
+            case let task as QueuedTask<Paginated<[Int]>>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<OrderBasket>:
+            case let task as QueuedTask<Paginated<[BadgeAssertion]>>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<CheckoutBasket>:
+            case let task as QueuedTask<OrderBasket>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<OrderVerify>:
+            case let task as QueuedTask<CheckoutBasket>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<[OEXAnnouncement]>:
+            case let task as QueuedTask<OrderVerify>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<[UserCourseEnrollment]>:
+            case let task as QueuedTask<[OEXAnnouncement]>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<[String]>:
+            case let task as QueuedTask<[UserCourseEnrollment]>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<[DiscussionTopic]>:
+            case let task as QueuedTask<[String]>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<OEXCourse>:
+            case let task as QueuedTask<[DiscussionTopic]>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<UserCourseEnrollment>:
+            case let task as QueuedTask<OEXCourse>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<CourseOutline>:
+            case let task as QueuedTask<UserCourseEnrollment>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<ResumeCourseItem>:
+            case let task as QueuedTask<CourseOutline>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<String>:
+            case let task as QueuedTask<ResumeCourseItem>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<CourseDateModel>:
+            case let task as QueuedTask<String>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<CourseDateBannerModel>:
+            case let task as QueuedTask<CourseDateModel>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<CourseCelebrationModel>:
+            case let task as QueuedTask<CourseDateBannerModel>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<DiscussionThread>:
+            case let task as QueuedTask<CourseCelebrationModel>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<DiscussionComment>:
+            case let task as QueuedTask<DiscussionThread>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<DiscussionInfo>:
+            case let task as QueuedTask<DiscussionComment>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<UserProfile>:
+            case let task as QueuedTask<DiscussionInfo>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<OEXRegistrationDescription>:
+            case let task as QueuedTask<UserProfile>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<RegistrationFormValidation>:
+            case let task as QueuedTask<OEXRegistrationDescription>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<OEXAccessToken>:
+            case let task as QueuedTask<RegistrationFormValidation>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<JSON>:
+            case let task as QueuedTask<OEXAccessToken>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<Data>:
+            case let task as QueuedTask<JSON>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
-            case let task as WaitingTask<RemoteImage>:
+            case let task as QueuedTask<Data>:
                 performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
+            case let task as QueuedTask<RemoteImage>:
+                performTask(task: task, withReauthenticationResult: success, request: request, response: response, originalData: originalData, error: error)
                 
             default:
-                assert(false, "Did not handle task with this type: \(waitingTask)")
-                
+                assert(false, "Unable to handle task: \(queuedTask)")
             }
         }
-        
         // As we have enqueued all tasks, now remove the tasks.
-        removeAllWaitingTasks()
+        removeAllQueuedTasks()
     }
     
-    func removeAllWaitingTasks() {
-        waitingTasks.removeAll()
+    func removeAllQueuedTasks() {
+        queuedTasks.removeAll()
     }
     
-    private func performTask<T>(task: WaitingTask<T>, withReauthenticationResult success: Bool, request: URLRequest?, response: HTTPURLResponse?, originalData: Data?, error: NSError?) {
-        
+    private func performTask<T>(task: QueuedTask<T>, withReauthenticationResult success: Bool, request: URLRequest?, response: HTTPURLResponse?, originalData: Data?, error: NSError?) {
         if success {
-            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting request in waiting")
+            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting request in queue")
             performTaskForRequest(base: task.base, task.networkRequest, handler: task.handler)
         } else {
-            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful so skip attempting for waiting request: \(task.networkRequest.path)")
+            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful so skip attempting for queued request: \(task.networkRequest.path)")
             task.handler(NetworkResult<T>(request: request, response: response, data: nil, baseData: originalData, error: error))
         }
-        
     }
 }
