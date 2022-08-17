@@ -31,7 +31,7 @@ extension OEXAnalytics {
     
     func trackSDN(accept: Bool, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen) {
         let event = OEXAnalyticsEvent()
-        event.displayName = AnalyticsDisplayName.SDNprompt.rawValue
+        event.displayName = AnalyticsDisplayName.SDNpromptAction.rawValue
         event.name = AnalyticsEventName.SDNprompt.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
         

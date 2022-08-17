@@ -138,7 +138,7 @@ class CourseUpgradeHandler: NSObject {
         showSDNprompt { [weak self] success in
             if success {
                 self?.state = .sdn
-                self?.upgrade()
+                self?.proceedWithPayment()
             } else {
                 self?.state = .error(type: .sdnError, error: self?.error(message: "user does not allow sdn check"))
             }
@@ -161,7 +161,7 @@ class CourseUpgradeHandler: NSObject {
         controller.present(alert, animated: true)
     }
     
-    private func upgrade() {
+    private func proceedWithPayment() {
         guard let course = self.course,
               let coursePurchaseSku = course.sku else {
                   state = .error(type: .generalError, error: error(message: "course sku is missing"))

@@ -104,7 +104,7 @@ class CourseUpgradeHelper: NSObject {
             startTime = CFAbsoluteTimeGetCurrent()
             break
         case .sdn:
-            trackSDNanlytics(status: true)
+            trackSDNanlytics(allowed: true)
             break
         case .payment:
             paymentStartTime = CFAbsoluteTimeGetCurrent()
@@ -128,7 +128,7 @@ class CourseUpgradeHelper: NSObject {
             if type == .paymentError {
                 environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
             } else if type == .sdnError {
-                trackSDNanlytics(status: false)
+                trackSDNanlytics(allowed: false)
             }
 
             environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError)
@@ -138,8 +138,8 @@ class CourseUpgradeHelper: NSObject {
         }
     }
     
-    private func trackSDNanlytics(status: Bool) {
-        environment?.analytics.trackSDN(accept: status, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen)
+    private func trackSDNanlytics(allowed: Bool) {
+        environment?.analytics.trackSDN(accept: allowed, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen)
     }
     
     func showSuccess() {
