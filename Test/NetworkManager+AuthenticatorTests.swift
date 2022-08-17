@@ -30,7 +30,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testAuthenticatorDoesNothing() {
-        let router = MockRouter()
+        let router = mockRouterBuilder()
         let session = OEXSession()
         let response = simpleResponseBuilder(200)
         let data = "{}".data(using: String.Encoding.utf8)!
@@ -40,7 +40,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testLogoutWithNoRefreshToken() {
-        let router = MockRouter()
+        let router = mockRouterBuilder()
         let session = OEXSession()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
@@ -50,7 +50,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testNonExistentAccessToken() {
-        let router = MockRouter()
+        let router = mockRouterBuilder()
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(400)
         let data = "{\"error\":\"token_nonexistent\"}".data(using: String.Encoding.utf8)!
@@ -59,7 +59,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
 
     func testInvalidGrantAccessToken() {
-        let router = MockRouter()
+        let router = mockRouterBuilder()
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"invalid_grant\"}".data(using: String.Encoding.utf8)!
@@ -69,7 +69,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testLogoutWithNonJSONData() {
-        let router = MockRouter()
+        let router = mockRouterBuilder()
         let session = OEXSession()
         let response = simpleResponseBuilder(200)
         let data = "I AM NOT A JSON".data(using: String.Encoding.utf8)!
@@ -79,7 +79,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testExpiredAccessTokenReturnsAuthenticate() {
-        let router = MockRouter()
+        let router = mockRouterBuilder()
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
@@ -112,5 +112,10 @@ class NetworkManager_AuthenticationTests : XCTestCase {
             method: HTTPMethod.GET,
             path: "path",
             deserializer: .jsonResponse({(_, json) in .success(json)}))
+    }
+    
+    func mockRouterBuilder() -> MockRouter {
+        MockRouter(environment: TestRouterEnvironment(config: OEXConfig(dictionary:[:]),
+                                                      interface: OEXInterface.shared()))
     }
 }
