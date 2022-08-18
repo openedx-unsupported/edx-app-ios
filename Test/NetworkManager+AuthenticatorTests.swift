@@ -18,8 +18,10 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         if waitForLogout {
             let expectation = self.expectation(description: "wait for mock LogOut")
 
-            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: "MockLogOutCalled") { (_, _, _) in
-                expectation.fulfill()
+            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: "MockLogOutCalled") { [weak router] (notification, _, _) in
+                if router?.testType == notification.object as? String {
+                    expectation.fulfill()
+                }
             }
 
             waitForExpectations()
@@ -41,6 +43,8 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     
     func testLogoutWithNoRefreshToken() {
         let router = mockRouterBuilder()
+        router.testType = #function
+        
         let session = OEXSession()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
@@ -115,7 +119,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func mockRouterBuilder() -> MockRouter {
-        MockRouter(environment: TestRouterEnvironment(config: OEXConfig(dictionary:[:]),
+        return MockRouter(environment: TestRouterEnvironment(config: OEXConfig(dictionary:[:]),
                                                       interface: OEXInterface.shared()))
     }
 }

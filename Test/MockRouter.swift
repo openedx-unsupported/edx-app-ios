@@ -11,9 +11,10 @@ import Foundation
 
 class MockRouter: OEXRouter {
     var logoutCalled = false
+    var testType: String = ""
 
     override func logout() {
         logoutCalled = true
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "MockLogOutCalled")))
+        NotificationCenter.default.post(name:  Notification.Name(rawValue: "MockLogOutCalled"), object: testType)
     }
 }
