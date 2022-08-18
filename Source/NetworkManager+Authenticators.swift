@@ -112,7 +112,7 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
             networkManager?.tokenStatus = .valid
             
             // Perform queued tasks if previously cached.
-            networkManager?.performQueuedTasksIfAny(withReauthenticationResult: success, request: result.request, response: result.response, originalData: result.baseData, error: result.error)
+            networkManager?.performQueuedTasksIfAny(success: success, request: result.request, response: result.response, originalData: result.baseData, error: result.error)
             
             return completion(success)
         }

@@ -11,7 +11,7 @@ import Foundation
 
 class MockRouter: OEXRouter {
     var logoutCalled = false
-    var testType: String = ""
+    var testType: String?
 
     override func logout() {
         logoutCalled = true

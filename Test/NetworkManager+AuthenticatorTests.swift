@@ -43,7 +43,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     
     func testLogoutWithNoRefreshToken() {
         let router = mockRouterBuilder()
-        router.testType = #function
+        router.testType = "testLogoutWithNoRefreshToken"
         
         let session = OEXSession()
         let response = simpleResponseBuilder(401)
@@ -119,7 +119,6 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func mockRouterBuilder() -> MockRouter {
-        return MockRouter(environment: TestRouterEnvironment(config: OEXConfig(dictionary:[:]),
-                                                      interface: OEXInterface.shared()))
+        return MockRouter(environment: TestRouterEnvironment(config: OEXConfig(dictionary:[:]), interface: OEXInterface.shared()))
     }
 }
