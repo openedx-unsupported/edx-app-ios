@@ -103,6 +103,17 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         return session
     }
     
+    func testMultipleRequestsWithExpiredAccessToken() {
+        let router = mockRouterBuilder()
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
+        let firstResult = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        let secondResult = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        XCTAssertTrue(firstResult.isAuthenticate)
+        XCTAssertTrue(secondResult.isQueued)
+    }
+    
     func simpleResponseBuilder(_ statusCode: Int) -> HTTPURLResponse?{
         return HTTPURLResponse(
             url: URL(string: "http://www.example.com")!,

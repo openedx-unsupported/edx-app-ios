@@ -37,16 +37,23 @@ public enum AuthenticationAction {
     case authenticate(AuthenticateRequestCreator)
     case queue
     
-    public var isProceed : Bool {
+    public var isProceed: Bool {
         switch self {
         case .proceed: return true
         default: return false
         }
     }
     
-    public var isAuthenticate : Bool {
+    public var isAuthenticate: Bool {
         switch self {
         case .authenticate(_): return true
+        default: return false
+        }
+    }
+    
+    public var isQueued: Bool {
+        switch self {
+        case .queue: return true
         default: return false
         }
     }
