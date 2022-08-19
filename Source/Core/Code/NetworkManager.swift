@@ -177,9 +177,9 @@ extension NSError {
 }
 
 public enum AccessTokenStatus {
-    case valid,
-    invalid,
-    refershing
+    case valid
+    case invalid
+    case refershing
 }
 
 public struct QueuedTask<T> {
