@@ -569,7 +569,7 @@ extension OEXRouter {
             let networkRequest = LogoutApi.invalidateToken(refreshToken: refreshToken, clientID: clientID)
             // As this is logout request, so must not add it to queuedTasks while refreshing. This must be called directly.
             // So in order to avoid from adding in queuedTasks, we directly call the 'performTaskForRequest' function.
-            environment.networkManager.performTaskForRequest(networkRequest) { result in}
+            environment.networkManager.performTaskForRequest(networkRequest) { result in }
         }
     }
 

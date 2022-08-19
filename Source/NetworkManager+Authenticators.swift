@@ -93,6 +93,7 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
         networkManager.tokenStatus = .refershing
         
         networkManager.performTaskForRequest(networkRequest) { [weak networkManager] result in
+            networkManager?.tokenStatus = .valid
             
             let success: Bool
             if let currentUser = session.currentUser {
@@ -102,17 +103,14 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
                 } else {
                     success = false
                 }
+                
+                // We need to call this method to allow tasks to callback thier handlers with success or error
+                networkManager?.performQueuedTasksIfAny(success: success, request: result.request, response: result.response, baseData: result.baseData, error: result.error)
             } else {
-                // remove all queued tasks if user logs out.
+                // Remove all queued tasks if user details are not available in session
                 networkManager?.removeAllQueuedTasks()
                 success = false
             }
-            
-            // As we have received the result. Now reset token status to valid.
-            networkManager?.tokenStatus = .valid
-            
-            // Perform queued tasks if previously cached.
-            networkManager?.performQueuedTasksIfAny(success: success, request: result.request, response: result.response, originalData: result.baseData, error: result.error)
             
             return completion(success)
         }
