@@ -35,7 +35,7 @@ public extension RemoteConfigProvider {
     
     @objc func initialize(remoteConfig: RemoteConfig) {
         let calendarSync = remoteConfig.configValue(forKey: Keys.courseDatesCalendarSync.rawValue).jsonValue as? [String : Any]
-        let calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
+        calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
         
         let dictionary: [String : Any] = [
             Keys.courseDatesCalendarSync.rawValue: calendarSyncConfig.toDictionary()
