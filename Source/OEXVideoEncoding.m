@@ -20,6 +20,7 @@ NSString* const OEXVideoEncodingHLS = @"hls";
 @property (copy, nonatomic) NSString* name;
 @property (copy, nonatomic) NSString* URL;
 @property (strong, nonatomic) NSNumber* size;
+@property (strong, nonatomic) NSNumber* streamPriority;
 
 @end
 
@@ -41,6 +42,7 @@ NSString* const OEXVideoEncodingHLS = @"hls";
         self.name = name;
         self.URL = dictionary[@"url"];
         self.size = dictionary[@"file_size"];
+        self.streamPriority = dictionary[@"stream_priority"];
     }
     
     return self;
