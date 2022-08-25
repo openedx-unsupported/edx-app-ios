@@ -133,7 +133,7 @@ class CourseUpgradeHelper: NSObject {
 
             environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError)
 
-            removeLoader(success: false, removeView: type != .verifyReceiptError)
+            removeLoader(success: false, removeView: type != .verifyReceiptError, shouldShowError: type != .sdnError)
             break
         }
     }
@@ -221,22 +221,22 @@ class CourseUpgradeHelper: NSObject {
         }
     }
     
-    func removeLoader(success: Bool? = false, removeView: Bool? = false, completion: (()-> ())? = nil) {
+    func removeLoader(success: Bool? = false, removeView: Bool? = false, shouldShowError: Bool = true, completion: (()-> ())? = nil) {
         self.completion = completion
         if success == true {
             courseUpgradeModel = nil
         }
-
+        
         if unlockController.isVisible, removeView == true {
             unlockController.removeView() { [weak self] in
                 self?.courseUpgradeModel = nil
                 if success == true {
                     self?.showSuccess()
-                } else {
+                } else if shouldShowError {
                     self?.showError()
                 }
             }
-        } else if success == false {
+        } else if success == false, shouldShowError {
             showError()
         }
     }
