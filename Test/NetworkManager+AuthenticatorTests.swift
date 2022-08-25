@@ -13,7 +13,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     func authenticatorResponseForRequest(
         _ response: HTTPURLResponse, data: Data, session: OEXSession, router: MockRouter, waitForLogout: Bool) -> AuthenticationAction {
         let clientId = "dummy client_id"
-            let result = NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId: clientId, response: response, data: data)
+        let result = NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId: clientId, response: response, data: data, needsTokenRefresh: false)
         
         if waitForLogout {
             let expectation = self.expectation(description: "wait for mock LogOut")
