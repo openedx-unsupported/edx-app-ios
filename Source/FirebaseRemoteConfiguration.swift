@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let remoteConfigUserDefaultKey = "remote-config"
+let NOTIFICATION_FIREBASE_REMOTE_CONFIG = "FirebaseRemoteConfigNotification"
 
 public protocol RemoteConfigProvider {
     var remoteConfig: FirebaseRemoteConfiguration { get }
@@ -25,35 +25,19 @@ public extension RemoteConfigProvider {
         case courseDatesCalendarSync = "COURSE_DATES_CALENDAR_SYNC"
     }
     
-    @objc static let shared =  FirebaseRemoteConfiguration()
+    @objc static let shared = FirebaseRemoteConfiguration()
     
-    var calendarSyncConfig = CalendarSyncConfig()
+    var calendarSyncConfig: CalendarSyncConfig
     
     private override init() {
+        self.calendarSyncConfig = CalendarSyncConfig()
         super.init()
     }
     
     @objc func initialize(remoteConfig: RemoteConfig) {
         let calendarSync = remoteConfig.configValue(forKey: Keys.courseDatesCalendarSync.rawValue).jsonValue as? [String : Any]
         calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
-        
-        let dictionary: [String : Any] = [
-            Keys.courseDatesCalendarSync.rawValue: calendarSyncConfig.toDictionary()
-        ]
-        saveRemoteConfig(with: dictionary)
-    }
-    
-    @objc func initialize() {
-        guard let remoteConfig = UserDefaults.standard.object(forKey: remoteConfigUserDefaultKey) as? [String: Any], remoteConfig.count > 0 else {
-            return
-        }
-        
-        let calendarSync = remoteConfig[Keys.courseDatesCalendarSync] as? [String : Any]
-        calendarSyncConfig = CalendarSyncConfig(dict: calendarSync)
-    }
-    
-    private func saveRemoteConfig(with values: [String: Any]) {
-        UserDefaults.standard.set(values, forKey: remoteConfigUserDefaultKey)
-        UserDefaults.standard.synchronize()
+
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_FIREBASE_REMOTE_CONFIG)))
     }
 }

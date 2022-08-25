@@ -79,7 +79,6 @@
     
     [self.window makeKeyAndVisible];
 
-    [self initializeRemoteConfig];
     [self setupGlobalEnvironment:launchOptions];
     [self setUpRemoteConfig];
     [self.environment.session performMigrations];
@@ -199,12 +198,6 @@
 }
 
 #pragma mark Environment
-
-// Initializing the Remote config with the already stored user default values
-// because the application would have theme values before setting global appearance
-- (void)initializeRemoteConfig {
-    [[FirebaseRemoteConfiguration shared] initialize];
-}
 
 - (void)setUpRemoteConfig {
     OEXConfig* config = self.environment.config;

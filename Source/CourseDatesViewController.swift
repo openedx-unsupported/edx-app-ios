@@ -56,9 +56,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return view
     }()
         
-    private lazy var calendarSyncConfig: CalendarSyncConfig = {
+    private var calendarSyncConfig: CalendarSyncConfig {
         return environment.remoteConfig.calendarSyncConfig
-    }()
+    }
     
     private lazy var courseQuerier: CourseOutlineQuerier = {
         return environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
@@ -153,6 +153,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private func addObserver() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.datesShifted = true
+            observer.loadStreams()
+        }
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_FIREBASE_REMOTE_CONFIG) { _, observer, _ in
             observer.loadStreams()
         }
     }
