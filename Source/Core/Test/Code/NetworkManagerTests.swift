@@ -13,9 +13,13 @@ import XCTest
 import edXCore
 
 class NetworkManagerTests: XCTestCase {
-    class AuthProvider : NSObject, AuthorizationHeaderProvider {
+    class AuthProvider : NSObject, AuthorizationHeaderProvider, SessionDataProvider {
         var authorizationHeaders : [String:String] {
             return ["FakeHeader": "TestValue"]
+        }
+        
+        var isUserLoggedin: Bool {
+            return true
         }
     }
     
@@ -29,7 +33,7 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testGetConstruction() {
-        let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: baseURL, cache : cache)
+        let manager = NetworkManager(authorizationDataProvider: authProvider, baseURL: baseURL, cache : cache)
         let apiRequest = NetworkRequest(
             method: HTTPMethod.GET,
             path: "/something",
@@ -51,7 +55,7 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testJSONPostConstruction() {
-        let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: baseURL, cache : cache)
+        let manager = NetworkManager(authorizationDataProvider: authProvider, baseURL: baseURL, cache : cache)
         let sampleJSON = JSON([
             "Some field" : true,
             "Some other field" : ["a", "b"]
@@ -79,7 +83,7 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testFormEncodingPostConstruction() {
-        let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: baseURL, cache : cache)
+        let manager = NetworkManager(authorizationDataProvider: authProvider, baseURL: baseURL, cache : cache)
         let fields = [
             "Some field" : "true",
             "Some other field" : "some value"
@@ -115,7 +119,7 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func requestEnvironment() -> (MockNetworkManager, NetworkRequest<Data>, URLRequest) {
-        let manager = MockNetworkManager(authorizationHeaderProvider: authProvider, baseURL: URL(string:"http://example.com")!)
+        let manager = MockNetworkManager(authorizationDataProvider: authProvider, baseURL: URL(string:"http://example.com")!)
         let request = NetworkRequest<Data> (
             method: HTTPMethod.GET,
             path: "path",
@@ -232,7 +236,7 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testAuthenticationActionAuthenticateSuccess() {
-        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: baseURL, cache : cache)
+        let manager = NetworkManager(authorizationDataProvider: nil, baseURL: baseURL, cache : cache)
         
         let expectation = self.expectation(description: "Request Completes")
         let request = NetworkRequest<JSON> (
@@ -255,7 +259,7 @@ class NetworkManagerTests: XCTestCase {
         })
         
         
-        manager.authenticator = { (response, data) -> AuthenticationAction in
+        manager.authenticator = { (response, data, _) -> AuthenticationAction in
             if response!.statusCode == 401 {
                 return AuthenticationAction.authenticate({ (networkManager, completion) in
                     OHHTTPStubs.removeStub(stub401Response)
@@ -276,7 +280,7 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testAuthenticationActionAuthenticateFailure() {
-        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: baseURL, cache : cache)
+        let manager = NetworkManager(authorizationDataProvider: nil, baseURL: baseURL, cache : cache)
        
         let expectation = self.expectation(description: "Request Completes")
         let request = NetworkRequest<JSON> (
@@ -291,7 +295,7 @@ class NetworkManagerTests: XCTestCase {
                 return expectedStubResponse
         })
         
-        manager.authenticator = { (response, data) -> AuthenticationAction in
+        manager.authenticator = { (response, data, _) -> AuthenticationAction in
             return AuthenticationAction.authenticate({ (networkManager, completion) in
                 OHHTTPStubs.removeStub(stub401Response)
                 return completion(false)

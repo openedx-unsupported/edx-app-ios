@@ -558,18 +558,17 @@ extension OEXRouter {
     }
     
     @objc public func logout() {
-        invalidateToken()
+        environment.networkManager.tokenStatus = .invalid
         environment.session.closeAndClear()
         environment.session.removeAllWebData()
+        invalidateToken()
         showLoggedOutScreen()
     }
     
     func invalidateToken() {
         if let refreshToken = environment.session.token?.refreshToken, let clientID = environment.config.oauthClientID() {
             let networkRequest = LogoutApi.invalidateToken(refreshToken: refreshToken, clientID: clientID)
-            // As this is logout request, so must not add it to queuedTasks while refreshing. This must be called directly.
-            // So in order to avoid from adding in queuedTasks, we directly call the 'performTaskForRequest' function.
-            environment.networkManager.performTaskForRequest(networkRequest) { result in }
+            environment.networkManager.taskForRequest(networkRequest) { result in }
         }
     }
 

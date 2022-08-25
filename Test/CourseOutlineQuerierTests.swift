@@ -17,7 +17,7 @@ class CourseOutlineQuerierTests: XCTestCase {
     
     func testBlockLoadsFromNetwork() {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
-        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://www.example.com")!)
+        let networkManager = MockNetworkManager(authorizationDataProvider: nil, baseURL: URL(string : "http://www.example.com")!)
         networkManager.interceptWhenMatching({_ in true}, successResponse: {
             return (nil, outline)
         })
@@ -86,7 +86,7 @@ class CourseOutlineQuerierTests: XCTestCase {
     }
     
     func testReloadsAfterFailure() {
-        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://www.example.com")!)
+        let networkManager = MockNetworkManager(authorizationDataProvider: nil, baseURL: URL(string : "http://www.example.com")!)
         let querier = CourseOutlineQuerier(courseID: courseID, interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil, environment: testEnvironment)
         let blockID = CourseOutlineTestDataFactory.knownSection
         

@@ -13,7 +13,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     func authenticatorResponseForRequest(
         _ response: HTTPURLResponse, data: Data, session: OEXSession, router: MockRouter, waitForLogout: Bool) -> AuthenticationAction {
         let clientId = "dummy client_id"
-        let result = NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId: clientId, response: response, data: data)
+            let result = NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId: clientId, response: response, data: data)
         
         if waitForLogout {
             let expectation = self.expectation(description: "wait for mock LogOut")
@@ -53,7 +53,8 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testNonExistentAccessToken() {
-        let environment = TestRouterEnvironment()
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
         let router = MockRouter(environment: environment)
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(400)
@@ -83,7 +84,8 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testExpiredAccessTokenReturnsAuthenticate() {
-        let environment = TestRouterEnvironment()
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
         let router = MockRouter(environment: environment)
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)
@@ -93,7 +95,8 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testMultipleRequestsWithExpiredAccessToken() {
-        let environment = TestRouterEnvironment()
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
         let router = MockRouter(environment: environment)
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)

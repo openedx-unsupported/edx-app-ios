@@ -11,7 +11,7 @@ class NetworkManager_InterceptionTests : XCTestCase {
 
     func checkJSONInterceptionWithStubResponse(_ router: OEXRouter, stubResponse : OHHTTPStubsResponse, verifier : @escaping (Result<JSON>) -> Void) {
 
-        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string:"http://example.com")!, cache : MockResponseCache())
+        let manager = NetworkManager(authorizationDataProvider: nil, baseURL: URL(string:"http://example.com")!, cache : MockResponseCache())
         manager.addStandardInterceptors()
         let request = NetworkRequest<JSON> (
             method: HTTPMethod.GET,
@@ -56,7 +56,7 @@ class NetworkManager_InterceptionTests : XCTestCase {
 
     // When running tests, we don't want network requests to actually work
     func testNetworkNotLive() {
-        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string:"https://google.com")!, cache : MockResponseCache())
+        let manager = NetworkManager(authorizationDataProvider: nil, baseURL: URL(string:"https://google.com")!, cache : MockResponseCache())
 
         let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : .dataResponse({_,_  -> Result<NSObject> in
             XCTFail("Shouldn't receive data")

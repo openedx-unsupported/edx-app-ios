@@ -123,7 +123,7 @@
         self.networkManagerBuilder = ^(OEXEnvironment* env) {
             PersistentResponseCache* cache = [[PersistentResponseCache alloc] initWithProvider: [[SessionUsernameProvider alloc] initWithSession:env.session]];
             NetworkManager* manager = [[NetworkManager alloc]
-                                       initWithAuthorizationHeaderProvider:env.session
+                                       initWithAuthorizationDataProvider:env.session
                                        credentialProvider:env.config
                                        baseURL:env.config.apiHostURL
                                        cache: cache];

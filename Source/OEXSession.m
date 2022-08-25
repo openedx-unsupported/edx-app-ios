@@ -72,6 +72,10 @@ static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
     self.thirdPartyAuthAccessToken = nil;
 }
 
+- (BOOL)doesUserDetailsExist {
+    return self.credentialStore.storedUserDetails != nil;
+}
+
 - (void)loadTokenFromStore {
     OEXAccessToken* tokenData = self.credentialStore.storedAccessToken;
     OEXUserDetails* userDetails = self.credentialStore.storedUserDetails;

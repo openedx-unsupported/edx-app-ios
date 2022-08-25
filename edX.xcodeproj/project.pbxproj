@@ -158,6 +158,7 @@
 		22F8A9141F4708A50025E18A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A9131F4708A50025E18A /* Main.storyboard */; };
 		22FDD0AC2552691600BA378D /* FirebaseRemoteConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FDD0AB2552691600BA378D /* FirebaseRemoteConfiguration.swift */; };
 		292CBABE28AB849100A5FB96 /* NetworkManager+QueuedTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292CBABD28AB849100A5FB96 /* NetworkManager+QueuedTask.swift */; };
+		298825A528B7053100B6F448 /* OEXSession+SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298825A128B6323E00B6F448 /* OEXSession+SessionData.swift */; };
 		3F92D6E420B1996800A69806 /* AgreementURLsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */; };
 		3F92D6E620B19C9B00A69806 /* AgreementURLsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F92D6E520B19C9B00A69806 /* AgreementURLsConfig.swift */; };
 		3FD829C636225A6B1FC5D32B /* libPods-edX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44022CD0B5ABB08252788A89 /* libPods-edX.a */; };
@@ -1147,6 +1148,7 @@
 		22F8A9131F4708A50025E18A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		22FDD0AB2552691600BA378D /* FirebaseRemoteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRemoteConfiguration.swift; sourceTree = "<group>"; };
 		292CBABD28AB849100A5FB96 /* NetworkManager+QueuedTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+QueuedTask.swift"; sourceTree = "<group>"; };
+		298825A128B6323E00B6F448 /* OEXSession+SessionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXSession+SessionData.swift"; sourceTree = "<group>"; };
 		2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_edXTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AgreementURLsConfigTests.swift; path = Test/AgreementURLsConfigTests.swift; sourceTree = SOURCE_ROOT; };
 		3F92D6E520B19C9B00A69806 /* AgreementURLsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgreementURLsConfig.swift; sourceTree = "<group>"; };
@@ -3478,6 +3480,7 @@
 			isa = PBXGroup;
 			children = (
 				77F76A6D1B0BD32A00ED3E39 /* OEXSession+Authorization.swift */,
+				298825A128B6323E00B6F448 /* OEXSession+SessionData.swift */,
 				7713DFBD1AC3C16C005A1756 /* OEXRegisteringUserDetails.h */,
 				7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */,
 				77FFA2CA1AC35CE800B4D69B /* OEXRegistrationStyles.h */,
@@ -5261,6 +5264,7 @@
 				77D470571C11EB4D00C6F0C9 /* ChoiceLabel.swift in Sources */,
 				5F46A7CC24ADFFA300347EFC /* CourseDateViewCell.swift in Sources */,
 				77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */,
+				298825A528B7053100B6F448 /* OEXSession+SessionData.swift in Sources */,
 				77DCD23B1C2B14BA00CAEBB5 /* UITableView+Layout.swift in Sources */,
 				B7CCC731209B16B100A66923 /* ConstraintMakerEditable.swift in Sources */,
 				22A3CECE22D31527005A046E /* APIURLVersionConfig.swift in Sources */,

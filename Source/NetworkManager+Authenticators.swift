@@ -13,8 +13,8 @@ import edXCore
 extension NetworkManager {
     
     @objc public func addRefreshTokenAuthenticator(router: OEXRouter, session: OEXSession, clientId: String) {
-        let invalidAccessAuthenticator = {[weak router] response, data in
-            NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId:clientId, response: response, data: data)
+        let invalidAccessAuthenticator = { [weak router] response, data, needsTokenRefresh in
+            NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId:clientId, response: response, data: data, needsTokenRefresh: needsTokenRefresh)
         }
         self.authenticator = invalidAccessAuthenticator
         
@@ -24,7 +24,14 @@ extension NetworkManager {
      message for an expired access token. If so, a new network request to
      refresh the access token is made and this new access token is saved.
      */
-    public static func invalidAccessAuthenticator(router: OEXRouter?, session: OEXSession, clientId: String, response: HTTPURLResponse?, data: Data?) -> AuthenticationAction {
+    public static func invalidAccessAuthenticator(router: OEXRouter?, session: OEXSession, clientId: String, response: HTTPURLResponse?, data: Data?, needsTokenRefresh: Bool? = nil) -> AuthenticationAction {
+        
+        // If access token is expired, then we must call the refresh access token API call.
+        if needsTokenRefresh ?? false {
+            return refreshAccessToken(router: router, clientId: clientId, refreshToken: session.token?.refreshToken ?? "", session: session)
+        }
+        
+        
         if let data = data,
             let response = response
         {
@@ -48,12 +55,14 @@ extension NetworkManager {
                 // one call succeeds but the other fails.
                 
                 if error.isAPIError(code: .OAuth2Expired) || error.isAPIError(code: .OAuth2Nonexistent) {
+                    let authAction: AuthenticationAction
                     if router?.environment.networkManager.tokenStatus == .valid {
-                        router?.environment.networkManager.tokenStatus = .invalid
-                        return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
+                        authAction = refreshAccessToken(router: router, clientId: clientId, refreshToken: refreshToken, session: session)
                     } else {
-                        return .queue
+                        authAction = .queue
                     }
+                    
+                    return authAction
                 }
                 
                 if error.isAPIError(code: .OAuth2InvalidGrant) || error.isAPIError(code: .OAuth2DisabledUser) {
@@ -81,7 +90,11 @@ private func logout(router:OEXRouter?) -> AuthenticationAction {
 /** Creates a networkRequest to refresh the access_token. If successful, the
  new access token is saved and a successful AuthenticationAction is returned.
  */
-private func refreshAccessToken(clientId: String, refreshToken: String, session: OEXSession) -> AuthenticationAction {
+private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshToken: String, session: OEXSession) -> AuthenticationAction {
+    
+    // Set token status refreshing
+    router?.environment.networkManager.tokenStatus = .authenticating
+    
     return AuthenticationAction.authenticate( { (networkManager,  completion) in
         
         let networkRequest = LoginAPI.requestTokenWithRefreshToken(
@@ -90,18 +103,16 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
             grantType: "refresh_token"
         )
         
-        networkManager.tokenStatus = .refershing
-        
         networkManager.performTaskForRequest(networkRequest) { [weak networkManager] result in
-            networkManager?.tokenStatus = .valid
             
-            let success: Bool
+            var success = false
             if let currentUser = session.currentUser {
                 if let newAccessToken = result.data {
                     session.save(newAccessToken, userDetails: currentUser)
                     success = true
+                    networkManager?.tokenStatus = .valid
                 } else {
-                    success = false
+                    networkManager?.tokenStatus = .failedAuthentication
                 }
                 
                 // We need to call this method to allow tasks to callback thier handlers with success or error
@@ -109,7 +120,6 @@ private func refreshAccessToken(clientId: String, refreshToken: String, session:
             } else {
                 // Remove all queued tasks if user details are not available in session
                 networkManager?.removeAllQueuedTasks()
-                success = false
             }
             
             return completion(success)
