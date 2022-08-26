@@ -16,7 +16,6 @@ extension NetworkManager {
         if queuedTasks.isEmpty { return }
         
         for queuedTask in queuedTasks {
-            
             switch queuedTask {
             case let task as QueuedTask<()>:
                 performTask(task: task, success: success, request: request, response: response, baseData: baseData, error: error)

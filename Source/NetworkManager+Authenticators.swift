@@ -20,12 +20,12 @@ extension NetworkManager {
         
     }
     
-    /** Checks if the response's status code is 401. Then checks the error
-     message for an expired access token. If so, a new network request to
-     refresh the access token is made and this new access token is saved.
+    /** If needsTokenRefresh is true, then a network request to refresh the access
+     token is made. Otherwise Checks if the response's status code is 401. Then
+     checks the error message for an expired access token. If so, a new network
+     request to refresh the access token is made and this new access token is saved.
      */
     public static func invalidAccessAuthenticator(router: OEXRouter?, session: OEXSession, clientId: String, response: HTTPURLResponse?, data: Data?, needsTokenRefresh: Bool) -> AuthenticationAction {
-        
         // If access token is expired, then we must call the refresh access token API call.
         if needsTokenRefresh {
             return refreshAccessToken(router: router, clientId: clientId, refreshToken: session.token?.refreshToken ?? "", session: session)
@@ -48,12 +48,7 @@ extension NetworkManager {
                     return logout(router: router)
                 }
                 
-                // Retry request with the current access_token if the original access_token used in
-                // request does not match the current access_token. This case can occur when
-                // asynchronous calls are made and are attempting to refresh the access_token where
-                // one call succeeds but the other fails.
-                
-                if error.isAPIError(code: .OAuth2Expired) || error.isAPIError(code: .OAuth2Nonexistent) {
+                if error.isAPIError(code: .OAuth2Expired) {
                     if router?.environment.networkManager.tokenStatus == .valid {
                         return refreshAccessToken(router: router, clientId: clientId, refreshToken: refreshToken, session: session)
                     } else {
@@ -61,7 +56,7 @@ extension NetworkManager {
                     }
                 }
                 
-                if error.isAPIError(code: .OAuth2InvalidGrant) || error.isAPIError(code: .OAuth2DisabledUser) {
+                if error.isAPIError(code: .OAuth2InvalidGrant) || error.isAPIError(code: .OAuth2DisabledUser) || error.isAPIError(code: .OAuth2Nonexistent) {
                     return logout(router: router)
                 }
             }
@@ -87,12 +82,10 @@ private func logout(router:OEXRouter?) -> AuthenticationAction {
  new access token is saved and a successful AuthenticationAction is returned.
  */
 private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshToken: String, session: OEXSession) -> AuthenticationAction {
-    
     // Set token status refreshing
     router?.environment.networkManager.tokenStatus = .authenticating
-    
+
     return AuthenticationAction.authenticate( { (networkManager,  completion) in
-        
         let networkRequest = LoginAPI.requestTokenWithRefreshToken(
             refreshToken: refreshToken,
             clientId: clientId,
@@ -100,7 +93,6 @@ private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshTok
         )
         
         networkManager.performTaskForRequest(networkRequest) { [weak networkManager] result in
-            
             var success = false
             if let currentUser = session.currentUser {
                 if let newAccessToken = result.data {
@@ -108,7 +100,7 @@ private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshTok
                     success = true
                     networkManager?.tokenStatus = .valid
                 } else {
-                    networkManager?.tokenStatus = .failedAuthentication
+                    networkManager?.tokenStatus = .expired
                 }
                 
                 // We need to call this method to allow tasks to callback thier handlers with success or error

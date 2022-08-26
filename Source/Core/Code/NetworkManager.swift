@@ -183,7 +183,7 @@ extension NSError {
 @objc public enum AccessTokenStatus: Int {
     // First three cases are for logged in user
     case valid = 0 // valid token
-    case failedAuthentication // failed authentication
+    case expired // token expired
     case authenticating // authentication in process
     case invalid // user is logged out
 }
@@ -361,7 +361,7 @@ open class NetworkManager : NSObject {
     }
     
     @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
-        if tokenStatus == .failedAuthentication {
+        if tokenStatus == .expired {
             if case .authenticate(let authenticateRequest) = authenticator?(nil, nil, true) {
                 authenticateRequest(self, { [weak self] success in
                     self?.handleAuthenticationResponse(base: base, networkRequest: networkRequest, handler: handler, success: success, request: nil, response: nil, baseData: nil, error: nil)
