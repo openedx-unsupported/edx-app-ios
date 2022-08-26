@@ -364,7 +364,8 @@ open class NetworkManager : NSObject {
         if tokenStatus == .expired {
             if case .authenticate(let authenticateRequest) = authenticator?(nil, nil, true) {
                 authenticateRequest(self, { [weak self] success in
-                    self?.handleAuthenticationResponse(base: base, networkRequest: networkRequest, handler: handler, success: success, request: nil, response: nil, baseData: nil, error: nil)
+                    let request = self?.URLRequestWithRequest(base: base, networkRequest).value
+                    self?.handleAuthenticationResponse(base: base, networkRequest: networkRequest, handler: handler, success: success, request: request, response: nil, baseData: nil, error: nil)
                 })
             }
             return nil

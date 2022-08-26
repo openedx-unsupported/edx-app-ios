@@ -104,7 +104,7 @@ private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshTok
                 }
                 
                 // We need to call this method to allow tasks to callback thier handlers with success or error
-                networkManager?.performQueuedTasksIfAny(success: success, request: result.request, response: result.response, baseData: result.baseData, error: result.error)
+                networkManager?.performQueuedTasksIfAny(success: success)
             } else {
                 // Remove all queued tasks if user details are not available in session
                 networkManager?.removeAllQueuedTasks()
