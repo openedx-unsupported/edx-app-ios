@@ -53,14 +53,13 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testNonExistentAccessToken() {
-        let user = OEXUserDetails.freshUser()
-        let environment = TestRouterEnvironment(user: user)
-        let router = MockRouter(environment: environment)
+        let router = MockRouter()
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(400)
         let data = "{\"error\":\"token_nonexistent\"}".data(using: String.Encoding.utf8)!
         let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
-        XCTAssertTrue(result.isAuthenticate)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertFalse(router.logoutCalled)
     }
 
     func testInvalidGrantAccessToken() {
