@@ -113,6 +113,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
+    private var courseBanner: CourseDateBannerModel?
+    
     init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
@@ -157,7 +159,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
         
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_FIREBASE_REMOTE_CONFIG) { _, observer, _ in
-            observer.loadStreams()
+            observer.updateHeaderView()
         }
     }
     
@@ -177,6 +179,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         datesLoader.addBackingStream(datesLoader)
         
         stream?.listen(self) { [weak self] response in
+            self?.refreshController.endRefreshing()
             switch response {
             case .success((var courseDateModel, let userPreference)):
                 if courseDateModel.dateBlocks.isEmpty {
@@ -204,7 +207,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.handleHeaderView(courseBanner: courseBanner)
+                self?.courseBanner = courseBanner
+                self?.updateHeaderView()
                 break
                 
             case .failure(let error):
@@ -214,7 +218,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func handleHeaderView(courseBanner: CourseDateBannerModel) {
+    private func updateHeaderView() {
+        guard let courseBanner = courseBanner else { return }
         loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabled)
     }
     
