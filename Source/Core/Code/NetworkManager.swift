@@ -214,9 +214,7 @@ open class NetworkManager : NSObject {
     fileprivate var jsonInterceptors : [JSONInterceptor] = []
     fileprivate var responseInterceptors: [ResponseInterceptor] = []
     open var authenticator : Authenticator?
-    
     @objc public var tokenStatus: AccessTokenStatus
-    
     public var queuedTasks = [Any]()
     
     @objc public init(authorizationDataProvider: (AuthorizationHeaderProvider & SessionDataProvider)? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
