@@ -28,7 +28,8 @@ enum PurchaseError: String {
     case verifyReceiptError // verify receipt API returns error
     case generalError // general error
     case alreadyPurchased // Course is already purchased on the same device
-
+    case sdnError // If user does not opt-in SDN checklist
+    
     var errorString: String {
         switch self {
         case .basketError:

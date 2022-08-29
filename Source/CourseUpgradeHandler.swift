@@ -12,6 +12,7 @@ class CourseUpgradeHandler: NSObject {
     
     enum CourseUpgradeState {
         case initial
+        case sdn
         case basket
         case checkout
         case payment
@@ -34,6 +35,7 @@ class CourseUpgradeHandler: NSObject {
     private(set) var course: OEXCourse?
     private var basketID: Int = 0
     private var courseSku: String = ""
+    
     private(set) var state: CourseUpgradeState = .initial {
         didSet {
             switch state {
@@ -127,11 +129,39 @@ class CourseUpgradeHandler: NSObject {
         super.init()
     }
     
-    func upgradeCourse(with upgradeMode: CourseUpgradeMode = .normal ,completion: UpgradeCompletionHandler?) {
+    func upgradeCourse(with upgradeMode: CourseUpgradeMode = .normal, completion: UpgradeCompletionHandler?) {
         self.completion = completion
         self.upgradeMode = upgradeMode
+        
         state = .initial
         
+        showSDNprompt { [weak self] success in
+            if success {
+                self?.state = .sdn
+                self?.proceedWithUpgrade()
+            } else {
+                self?.state = .error(type: .sdnError, error: self?.error(message: "user does not allow sdn check"))
+            }
+        }
+    }
+    
+    private func showSDNprompt(completion: @escaping (Bool) -> ()) {
+        guard let controller = UIApplication.shared.topMostController() else { return }
+        
+        let alert = UIAlertController().alert(withTitle: Strings.CourseUpgrade.Sdn.Prompt.title, message: Strings.CourseUpgrade.Sdn.Prompt.message, cancelButtonTitle: Strings.cancel) { controller, action, buttonIndex in
+            if buttonIndex == controller.cancelButtonIndex {
+                completion(false)
+            }
+        }
+        
+        alert.addButton(withTitle: Strings.ok) { _ in
+            completion(true)
+        }
+        
+        controller.present(alert, animated: true)
+    }
+    
+    private func proceedWithUpgrade() {
         guard let course = self.course,
               let coursePurchaseSku = course.sku else {
                   state = .error(type: .generalError, error: error(message: "course sku is missing"))
@@ -141,7 +171,7 @@ class CourseUpgradeHandler: NSObject {
         courseSku = coursePurchaseSku
 
         PaymentManager.shared.alreadyPurchased(courseSku) { [weak self] success in
-            if success ==  false {
+            if success == false {
                 self?.proceedUpgrade(for: coursePurchaseSku)
             }
             else {

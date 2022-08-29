@@ -35,6 +35,7 @@ class CourseUpgradeHelper: NSObject {
 
     enum CompletionState {
         case initial
+        case sdn
         case payment
         case fulfillment
         case success(_ courseID: String, _ componentID: String?)
@@ -102,6 +103,9 @@ class CourseUpgradeHelper: NSObject {
         case .initial:
             startTime = CFAbsoluteTimeGetCurrent()
             break
+        case .sdn:
+            trackSDNanlytics(allowed: true)
+            break
         case .payment:
             paymentStartTime = CFAbsoluteTimeGetCurrent()
             break
@@ -123,13 +127,19 @@ class CourseUpgradeHelper: NSObject {
         case .error(let type, _):
             if type == .paymentError {
                 environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
+            } else if type == .sdnError {
+                trackSDNanlytics(allowed: false)
             }
 
             environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError)
 
-            removeLoader(success: false, removeView: type != .verifyReceiptError)
+            removeLoader(success: false, removeView: type != .verifyReceiptError, shouldShowError: type != .sdnError)
             break
         }
+    }
+    
+    private func trackSDNanlytics(allowed: Bool) {
+        environment?.analytics.trackSDN(accept: allowed, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen)
     }
     
     func showSuccess() {
@@ -211,22 +221,22 @@ class CourseUpgradeHelper: NSObject {
         }
     }
     
-    func removeLoader(success: Bool? = false, removeView: Bool? = false, completion: (()-> ())? = nil) {
+    func removeLoader(success: Bool? = false, removeView: Bool? = false, shouldShowError: Bool = true, completion: (()-> ())? = nil) {
         self.completion = completion
         if success == true {
             courseUpgradeModel = nil
         }
-
+        
         if unlockController.isVisible, removeView == true {
             unlockController.removeView() { [weak self] in
                 self?.courseUpgradeModel = nil
                 if success == true {
                     self?.showSuccess()
-                } else {
+                } else if shouldShowError {
                     self?.showError()
                 }
             }
-        } else if success == false {
+        } else if success == false, shouldShowError {
             showError()
         }
     }
