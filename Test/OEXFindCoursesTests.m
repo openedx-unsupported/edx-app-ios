@@ -41,7 +41,7 @@
     OEXConfig *config = [[OEXConfig alloc] init];
     OEXSession *session = [[OEXSession alloc] init];
     NetworkManager *mockNetworkManager = [[NetworkManager alloc]
-                                          initWithAuthorizationHeaderProvider:NULL
+                                          initWithAuthorizationDataProvider:NULL
                                           credentialProvider:NULL
                                           baseURL:[[NSURL alloc] init]
                                           cache:[[PersistentResponseCache alloc] initWithProvider:[[SessionUsernameProvider alloc] initWithSession:session]]];

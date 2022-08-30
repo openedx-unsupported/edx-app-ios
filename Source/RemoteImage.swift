@@ -14,7 +14,7 @@ protocol RemoteImage {
     var image: UIImage? { get }
     
     /** Callback should be on main thread */
-    func fetchImage(completion: @escaping (_ remoteImage: NetworkResult<RemoteImage>) -> ()) -> Removable
+    func fetchImage(completion: @escaping (_ remoteImage: NetworkResult<RemoteImage>) -> ()) -> Removable?
 }
 
 
@@ -81,7 +81,7 @@ class RemoteImageImpl: RemoteImage {
     }
     
     /** Callback should be on main thread */
-    @discardableResult func fetchImage(completion: @escaping (NetworkResult<RemoteImage>) -> ()) -> Removable {
+    @discardableResult func fetchImage(completion: @escaping (NetworkResult<RemoteImage>) -> ()) -> Removable? {
         // Only authorize requests to the API host
         // This is necessary for two reasons:
         // 1. We don't want to leak credentials by loading random images
@@ -111,7 +111,7 @@ struct RemoteImageJustImage : RemoteImage {
         self.placeholder = image
     }
     
-    func fetchImage(completion: @escaping (NetworkResult<RemoteImage>) -> ()) -> Removable {
+    func fetchImage(completion: @escaping (NetworkResult<RemoteImage>) -> ()) -> Removable? {
         let result = NetworkResult<RemoteImage>(request: nil, response: nil, data: self, baseData: nil, error: nil)
         completion(result)
         return BlockRemovable {}

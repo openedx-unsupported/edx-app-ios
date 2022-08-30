@@ -36,8 +36,8 @@ class MockNetworkManager: NetworkManager {
     
     let responseCache = MockResponseCache()
     
-    init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL: URL = NSURL(string:"http://example.com")! as URL) {
-        super.init(authorizationHeaderProvider: authorizationHeaderProvider, baseURL: baseURL, cache: responseCache)
+    init(authorizationDataProvider: (AuthorizationHeaderProvider & SessionDataProvider)? = nil, baseURL: URL = NSURL(string:"http://example.com")! as URL) {
+        super.init(authorizationDataProvider: authorizationDataProvider, baseURL: baseURL, cache: responseCache)
     }
     
     @discardableResult func interceptWhenMatching<Out>(_ matcher: @escaping (NetworkRequest<Out>) -> Bool, afterDelay delay : TimeInterval = 0, withResponse response : @escaping (NetworkRequest<Out>) -> NetworkResult<Out>) -> Removable {
@@ -109,7 +109,7 @@ class MockNetworkManager: NetworkManager {
 class MockNetworkManagerTests : XCTestCase {
     
     func testInterception() {
-        let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://example.com")!)
+        let manager = MockNetworkManager(authorizationDataProvider: nil, baseURL: URL(string : "http://example.com")!)
         manager.interceptWhenMatching({ _ in true}, withResponse: { _ -> NetworkResult<String> in
             NetworkResult(request : nil, response : nil, data : "Success", baseData : nil, error : nil)
         })
@@ -127,7 +127,7 @@ class MockNetworkManagerTests : XCTestCase {
     }
     
     func testNoInterceptorsFails() {
-        let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://example.com")!)
+        let manager = MockNetworkManager(authorizationDataProvider: nil, baseURL: URL(string : "http://example.com")!)
         
         let expectation = self.expectation(description: "Request sent")
         let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .dataResponse({ _,_  -> Result<String> in

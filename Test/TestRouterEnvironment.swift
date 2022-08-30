@@ -20,11 +20,14 @@ class TestRouterEnvironment : RouterEnvironment {
 
     init(
         config : OEXConfig = OEXConfig(dictionary: [:]),
-        interface: OEXInterface? = nil)
+        interface: OEXInterface? = nil,
+        user: OEXUserDetails? = nil
+    )
     {
         mockStorage = OEXMockCredentialStorage()
+        mockStorage.storedUserDetails = user
         let session = OEXSession(credentialStore: mockStorage)
-        let mockNetworkManager = MockNetworkManager(authorizationHeaderProvider: session, baseURL: NSURL(string:"http://example.com")! as URL)
+        let mockNetworkManager = MockNetworkManager(authorizationDataProvider: session, baseURL: NSURL(string:"http://example.com")! as URL)
         self.mockNetworkManager = mockNetworkManager
         eventTracker = MockAnalyticsTracker()
         mockReachability = MockReachability()

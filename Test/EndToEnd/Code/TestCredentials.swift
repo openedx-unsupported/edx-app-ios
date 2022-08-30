@@ -35,7 +35,7 @@ private class TestCredentialManager {
     }()
 
     func registerUser(_ credentials: Credentials) {
-        let networkManager = NetworkManager(authorizationHeaderProvider: nil, credentialProvider: nil, baseURL: config.apiHostURL()!, cache: MockResponseCache())
+        let networkManager = NetworkManager(authorizationDataProvider: nil, credentialProvider: nil, baseURL: config.apiHostURL()!, cache: MockResponseCache())
         let body = [
             "email": credentials.email,
             "username": credentials.username,

@@ -558,6 +558,7 @@ extension OEXRouter {
     }
     
     @objc public func logout() {
+        environment.networkManager.tokenStatus = .invalid
         invalidateToken()
         environment.session.closeAndClear()
         environment.session.removeAllWebData()

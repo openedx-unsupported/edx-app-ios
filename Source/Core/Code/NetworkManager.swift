@@ -27,6 +27,7 @@ public enum RequestBody {
 private enum DeserializationResult<Out> {
     case deserializedResult(value : Result<Out>, original : Data?)
     case reauthenticationRequest(AuthenticateRequestCreator, original: Data?)
+    case queuedRequest(URLRequest: URLRequest, original: Data?)
 }
 
 public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager, _ _completion: @escaping (_ _success : Bool) -> Void) -> Void
@@ -34,18 +35,26 @@ public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager
 public enum AuthenticationAction {
     case proceed
     case authenticate(AuthenticateRequestCreator)
+    case queue
     
-    public var isProceed : Bool {
+    public var isProceed: Bool {
         switch self {
         case .proceed: return true
-        case .authenticate(_): return false
+        default: return false
         }
     }
     
-    public var isAuthenticate : Bool {
+    public var isAuthenticate: Bool {
         switch self {
-        case .proceed: return false
         case .authenticate(_): return true
+        default: return false
+        }
+    }
+    
+    public var isQueued: Bool {
+        switch self {
+        case .queue: return true
+        default: return false
         }
     }
 }
@@ -135,6 +144,10 @@ open class NetworkTask : Removable {
     var authorizationHeaders : [String:String] { get }
 }
 
+@objc public protocol SessionDataProvider {
+    var isUserLoggedin: Bool { get }
+}
+
 @objc public protocol URLCredentialProvider {
     func URLCredentialForHost(_ host : NSString) -> URLCredential?
 }
@@ -167,6 +180,20 @@ extension NSError {
     }
 }
 
+@objc public enum AccessTokenStatus: Int {
+    // First three cases are for logged in user
+    case valid = 0 // valid token
+    case expired // token expired
+    case authenticating // authentication in process
+    case invalid // user is logged out
+}
+
+public struct QueuedTask<T> {
+    public let base: String?
+    public let networkRequest: NetworkRequest<T>
+    public let handler: (NetworkResult<T>) -> Void
+}
+
 open class NetworkManager : NSObject {
     fileprivate static let errorDomain = "com.edx.NetworkManager"
     enum Error : Int {
@@ -177,22 +204,25 @@ open class NetworkManager : NSObject {
     public static let NETWORK = "NETWORK" // Logger key
     
     public typealias JSONInterceptor = (_ _response : HTTPURLResponse, _ _json : JSON) -> Result<JSON>
-    public typealias Authenticator = (_ _response: HTTPURLResponse?, _ _data: Data) -> AuthenticationAction
+    public typealias Authenticator = (_ _response: HTTPURLResponse?, _ _data: Data?, _ _needsTokenRefresh: Bool) -> AuthenticationAction
     
     public let baseURL : URL
     
-    fileprivate let authorizationHeaderProvider: AuthorizationHeaderProvider?
+    fileprivate let authorizationDataProvider: (AuthorizationHeaderProvider & SessionDataProvider)?
     fileprivate let credentialProvider : URLCredentialProvider?
     fileprivate let cache : ResponseCache
     fileprivate var jsonInterceptors : [JSONInterceptor] = []
     fileprivate var responseInterceptors: [ResponseInterceptor] = []
     open var authenticator : Authenticator?
+    @objc public var tokenStatus: AccessTokenStatus
+    public var queuedTasks = [Any]()
     
-    @objc public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
-        self.authorizationHeaderProvider = authorizationHeaderProvider
+    @objc public init(authorizationDataProvider: (AuthorizationHeaderProvider & SessionDataProvider)? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
+        self.authorizationDataProvider = authorizationDataProvider
         self.credentialProvider = credentialProvider
         self.baseURL = baseURL
         self.cache = cache
+        self.tokenStatus = authorizationDataProvider?.isUserLoggedin == true ? .valid : .invalid
     }
     
     public static var unknownError : NSError { return NSError.oex_unknownNetworkError() }
@@ -244,7 +274,7 @@ open class NetworkManager : NSObject {
             .flatMap { urlRequest in
                 let mutableURLRequest = (urlRequest as NSURLRequest).mutableCopy() as! NSMutableURLRequest
                 if request.requiresAuth {
-                    for (key, value) in self.authorizationHeaderProvider?.authorizationHeaders ?? [:] {
+                    for (key, value) in self.authorizationDataProvider?.authorizationHeaders ?? [:] {
                         mutableURLRequest.setValue(value, forHTTPHeaderField: key)
                     }
                 }
@@ -328,7 +358,27 @@ open class NetworkManager : NSObject {
         }
     }
     
-    @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
+    @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
+        if tokenStatus == .expired {
+            if case .authenticate(let authenticateRequest) = authenticator?(nil, nil, true) {
+                authenticateRequest(self, { [weak self] success in
+                    let request = self?.URLRequestWithRequest(base: base, networkRequest).value
+                    self?.handleAuthenticationResponse(base: base, networkRequest: networkRequest, handler: handler, success: success, request: request, response: nil, baseData: nil, error: nil)
+                })
+            }
+            return nil
+        }
+        
+        if tokenStatus == .authenticating {
+            queuedTasks.append(QueuedTask(base: base, networkRequest: networkRequest, handler: handler))
+            return nil
+        }
+        
+        return performTaskForRequest(base: base, networkRequest, handler: handler)
+    }
+    
+    @discardableResult open func performTaskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
+        
         let URLRequest = URLRequestWithRequest(base: base, networkRequest)
         
         let authenticator = self.authenticator
@@ -337,13 +387,17 @@ open class NetworkManager : NSObject {
             Logger.logInfo(NetworkManager.NETWORK, "Request is \(URLRequest)")
             let task = Manager.sharedInstance.request(URLRequest)
             
-            let serializer = { (URLRequest : Foundation.URLRequest, response : HTTPURLResponse?, data : Data?) -> (AnyObject?, NSError?) in
-                switch authenticator?(response, data!) ?? .proceed {
+            let serializer = { [weak self] (URLRequest : Foundation.URLRequest, response : HTTPURLResponse?, data : Data?) -> (AnyObject?, NSError?) in
+                switch authenticator?(response, data!, false) ?? .proceed {
                 case .proceed:
                     let result = NetworkManager.deserialize(networkRequest.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
                     return (Box(DeserializationResult.deserializedResult(value : result, original : data)), result.error)
                 case .authenticate(let authenticateRequest):
                     let result = Box<DeserializationResult<Out>>(DeserializationResult.reauthenticationRequest(authenticateRequest, original: data))
+                    return (result, nil)
+                case .queue:
+                    self?.queuedTasks.append(QueuedTask(base: base, networkRequest: networkRequest, handler: handler))
+                    let result = Box<DeserializationResult<Out>>(DeserializationResult.queuedRequest(URLRequest: URLRequest, original: data))
                     return (result, nil)
                 }
             }
@@ -355,25 +409,18 @@ open class NetworkManager : NSObject {
                     Logger.logInfo(NetworkManager.NETWORK, "Response is \(String(describing: response))")
                     handler(result)
                 case let .some(.reauthenticationRequest(authHandler, originalData)):
-                    authHandler(self, {success in
-                        if success {
-                            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting original request")
-                            self.taskForRequest(base: base, networkRequest, handler: handler)
-                        }
-                        else {
-                            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful")
-                            handler(NetworkResult<Out>(request: request, response: response, data: nil, baseData: originalData, error: error))
-                        }
+                    authHandler(self, { [weak self] success in
+                        self?.handleAuthenticationResponse(base: base, networkRequest: networkRequest, handler: handler, success: success, request: request, response: response, baseData: originalData, error: error)
                     })
+                case let .some(.queuedRequest(request, _)):
+                    Logger.logInfo(NetworkManager.NETWORK, "\(request.URLString) queued for token refresh")
                 case .none:
                     assert(false, "Deserialization failed in an unexpected way")
                     handler(NetworkResult<Out>(request:request, response:response, data: nil, baseData: nil, error: error))
                 }
             }
-            if let
-                host = URLRequest.url?.host,
-                let credential = self.credentialProvider?.URLCredentialForHost(host as NSString)
-            {
+            if let host = URLRequest.url?.host,
+                let credential = self.credentialProvider?.URLCredentialForHost(host as NSString) {
                 task.authenticate(usingCredential: credential)
             }
             task.resume()
@@ -437,7 +484,7 @@ open class NetworkManager : NSObject {
             result = combineWithPersistentCacheFetch(result, request: request)
         }
         
-        if autoCancel {
+        if autoCancel, let task = task {
             result = result.autoCancel(task)
         }
         
@@ -456,5 +503,14 @@ open class NetworkManager : NSObject {
         return result ?? networkResult.data.toResult(NetworkManager.unknownError)
     }
     
+    private func handleAuthenticationResponse<Out>(base: String? = nil, networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void, success: Bool, request: URLRequest?, response: HTTPURLResponse?, baseData: Data?, error: NSError?) {
+        if success {
+            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting original request")
+            performTaskForRequest(base: base, networkRequest, handler: handler)
+        } else {
+            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful")
+            handler(NetworkResult(request: request, response: response, data: nil, baseData: baseData, error: error))
+        }
+    }
 }
 
