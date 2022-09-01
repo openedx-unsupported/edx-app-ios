@@ -29,6 +29,7 @@
 @property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
 @property (nonatomic, strong) NSMutableArray *supportedEncodings;
 @property (nonatomic, copy) NSArray *allSources;
+@property (nonatomic, strong) NSArray* sortedEncodings;
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName;
 
@@ -85,6 +86,8 @@
         }
         
         self.allSources = [summary objectForKey:@"all_sources"];
+        
+        self.sortedEncodings = self.encodingsSortedByStreamPriority;
     }
     
     return self;
@@ -111,30 +114,48 @@
 }
 
 - (OEXVideoEncoding*)preferredEncoding {
-    OEXVideoEncoding* encoding = [self.encodingsSortedByStreamPriority firstObject];
-    
-    if (encoding != nil) {
-        return encoding;
+    for (OEXVideoEncoding* encoding in self.sortedEncodings) {
+        if ([[OEXVideoEncoding knownEncodingNames] containsObject:encoding.name]) {
+            return encoding;
+        }
     }
-    
     // Don't have a known encoding, so return default encoding
     return self.defaultEncoding;
 }
 
 - (NSArray*)encodingsSortedByStreamPriority {
-    return [[self.encodings allValues] sortedArrayUsingComparator:^NSComparisonResult(OEXVideoEncoding *a, OEXVideoEncoding *b) {
+    NSArray* sortedEncodings = [[self.encodings allValues] sortedArrayUsingComparator:^NSComparisonResult(OEXVideoEncoding *a, OEXVideoEncoding *b) {
         return [a.streamPriority compare:b.streamPriority];
     }];
+    
+    NSMutableArray* filteredArray = [sortedEncodings mutableCopy];
+    
+    int count = (int)filteredArray.count;
+    
+    int i = 0;
+    
+    for (int j = 0; j < count; j++) {
+        OEXVideoEncoding* encoding = filteredArray[j];
+        if (encoding.streamPriority != [NSNumber numberWithInt:-1]) {
+            if (i < j) {
+                [filteredArray exchangeObjectAtIndex:i withObjectAtIndex:j];
+            }
+            i++;
+        }
+    }
+    
+    return filteredArray;
 }
 
 - (BOOL)isYoutubeVideo {
-    for (OEXVideoEncoding* encoding in self.encodingsSortedByStreamPriority) {
-        if ([[OEXVideoEncoding knownEncodingNames] containsObject:encoding.name]) {
-            if ([self isSupportedEncoding:encoding.name]) {
-                return false;
-            } else if ([[encoding name] isEqualToString:OEXVideoEncodingYoutube]) {
-                return true;
-            }
+    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
+        OEXVideoEncoding* encoding = self.encodings[name];
+        
+        NSString *name = [encoding name];
+        if ([self isSupportedEncoding:name]) {
+            return false;
+        } else if ([[encoding name] isEqualToString:OEXVideoEncodingYoutube]) {
+            return true;
         }
     }
     
@@ -151,16 +172,16 @@
 
 - (BOOL)isSupportedVideo {
     BOOL isSupportedEncoding = false;
-    
-    for (OEXVideoEncoding* encoding in self.encodingsSortedByStreamPriority) {
-        if ([[OEXVideoEncoding knownEncodingNames] containsObject:encoding.name]) {
-            if (([encoding URL] && [OEXInterface isURLForVideo:[encoding URL]]) && [self isSupportedEncoding:encoding.name]) {
-                isSupportedEncoding = true;
-                break;
-            } else if ([[encoding name] isEqualToString:OEXVideoEncodingYoutube] && OEXConfig.sharedConfig.youtubeVideoConfig.enabled) {
-                isSupportedEncoding = true;
-                break;
-            }
+    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
+        OEXVideoEncoding* encoding = self.encodings[name];
+        NSString *name = [encoding name];
+        // fallback encoding can be with unsupported type like webm
+        if (([encoding URL] && [OEXInterface isURLForVideo:[encoding URL]]) && [self isSupportedEncoding:name]) {
+            isSupportedEncoding = true;
+            break;
+        } else if ([[encoding name] isEqualToString:OEXVideoEncodingYoutube] && OEXConfig.sharedConfig.youtubeVideoConfig.enabled) {
+            isSupportedEncoding = true;
+            break;
         }
     }
     
