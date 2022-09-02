@@ -20,11 +20,12 @@ extern NSString* const OEXVideoEncodingHLS;
 @interface OEXVideoEncoding : NSObject
 
 - (id)initWithDictionary:(NSDictionary*)dictionary name:(NSString*)name;
-- (id)initWithName:(nullable NSString*)name URL:(NSString*)URL size:(NSNumber*)size;
+- (id)initWithName:(nullable NSString*)name URL:(NSString*)URL size:(NSNumber*)size streamPriority:(NSNumber*)streamPriority;
 
 @property (readonly, nonatomic, copy, nullable) NSString* name;
 @property (readonly, nonatomic, copy, nullable) NSString* URL;
 @property (readonly, nonatomic, strong, nullable) NSNumber* size;
+@property (readonly, nonatomic, strong, nullable) NSNumber* streamPriority;
 
 /// [String], ordered by preference
 + (NSArray*)knownEncodingNames;
