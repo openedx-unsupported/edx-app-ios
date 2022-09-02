@@ -49,12 +49,13 @@ NSString* const OEXVideoEncodingHLS = @"hls";
 }
 
 
-- (id)initWithName:(NSString*)name URL:(NSString*)URL size:(NSNumber*)size {
+- (id)initWithName:(NSString*)name URL:(NSString*)URL size:(NSNumber*)size streamPriority:(NSNumber*)streamPriority {
     self = [super init];
     if(self != nil) {
         self.name = name;
         self.URL = URL;
         self.size = size;
+        self.streamPriority = streamPriority;
     }
     return self;
 }

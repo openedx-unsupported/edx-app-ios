@@ -73,7 +73,7 @@
         self.transcripts = [summary objectForKey:@"transcripts"];
         
         if (_encodings.count <=0)
-            _defaultEncoding = [[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:[summary objectForKey:@"video_url"] size:[summary objectForKey:@"size"]];
+            _defaultEncoding = [[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:[summary objectForKey:@"video_url"] size:[summary objectForKey:@"size"] streamPriority:@1];
         self.supportedEncodings = [[NSMutableArray alloc] initWithArray:@[
             OEXVideoEncodingHLS,
             OEXVideoEncodingDesktopMP4,
@@ -109,6 +109,7 @@
         self.name = name;
         self.videoID = videoID;
         self.encodings = encodings;
+        self.sortedEncodings = self.encodingsSortedByStreamPriority;
     }
     return self;
 }

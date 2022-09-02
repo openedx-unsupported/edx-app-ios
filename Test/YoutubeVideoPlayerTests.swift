@@ -30,7 +30,7 @@ class YoutubeVideoPlayerTests: XCTestCase {
     
     func testVideoPlay() {
         let summary = OEXVideoSummary(videoID: "some-video", name: "Youtube Video", encodings: [
-            OEXVideoEncodingYoutube: OEXVideoEncoding(name: OEXVideoEncodingYoutube, url: "https://some-youtube-url/watch?v=abc123", size: 12)])
+            OEXVideoEncodingYoutube: OEXVideoEncoding(name: OEXVideoEncodingYoutube, url: "https://some-youtube-url/watch?v=abc123", size: 12, streamPriority: 1)])
         let video = OEXHelperVideoDownload()
         video.summary = summary
         youtubeVideoPlayer?.play(video: video)
