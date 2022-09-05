@@ -10,7 +10,7 @@ import Foundation
 
 extension OEXSession: SessionDataProvider {
     public var isUserLoggedIn: Bool {
-        return currentUser != nil
+        return containsUserDetails()
     }
     
     public var tokenExpiryDuration: NSNumber? {

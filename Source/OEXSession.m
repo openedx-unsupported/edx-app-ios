@@ -57,9 +57,11 @@ static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
 }
 
 - (id)init {
-    self = [self initWithCredentialStore:[[OEXPersistentCredentialStorage alloc] init]];
-    [self loadTokenFromStore];
-    return self;
+    return [self initWithCredentialStore:[[OEXPersistentCredentialStorage alloc] init]];
+}
+
+- (BOOL)containsUserDetails {
+    return self.credentialStore.storedUserDetails != nil;
 }
 
 - (void)saveAccessToken:(OEXAccessToken*)token userDetails:(OEXUserDetails*)userDetails {
@@ -75,20 +77,16 @@ static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
 }
 
 - (void)loadTokenFromStore {
-    if (self.token && self.currentUser) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:OEXSessionStartedNotification object:nil userInfo:@{OEXSessionStartedUserDetailsKey : self.currentUser}];
-    } else {
-        OEXAccessToken* tokenData = self.credentialStore.storedAccessToken;
-        OEXUserDetails* userDetails = self.credentialStore.storedUserDetails;
+    OEXAccessToken* tokenData = self.credentialStore.storedAccessToken;
+    OEXUserDetails* userDetails = self.credentialStore.storedUserDetails;
 
-        if(tokenData && userDetails) {
-            self.token = tokenData;
-            self.currentUser = userDetails;
-            [[NSNotificationCenter defaultCenter] postNotificationName:OEXSessionStartedNotification object:nil userInfo:@{OEXSessionStartedUserDetailsKey : userDetails}];
-        }
-        else {
-            [self.credentialStore clear];
-        }
+    if(tokenData && userDetails) {
+        self.token = tokenData;
+        self.currentUser = userDetails;
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEXSessionStartedNotification object:nil userInfo:@{OEXSessionStartedUserDetailsKey : userDetails}];
+    }
+    else {
+        [self.credentialStore clear];
     }
 }
 
