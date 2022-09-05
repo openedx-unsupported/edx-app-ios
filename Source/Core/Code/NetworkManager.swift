@@ -145,7 +145,9 @@ open class NetworkTask : Removable {
 }
 
 @objc public protocol SessionDataProvider {
-    var isUserLoggedin: Bool { get }
+    var isUserLoggedIn: Bool { get }
+    var tokenExpiryDuration: NSNumber? { get }
+    var tokenExpiryDate: Date? { get }
 }
 
 @objc public protocol URLCredentialProvider {
@@ -181,11 +183,11 @@ extension NSError {
 }
 
 @objc public enum AccessTokenStatus: Int {
-    // First three cases are for logged in user
+    // first three cases are for logged in user
     case valid = 0 // valid token
     case expired // token expired
     case authenticating // authentication in process
-    case invalid // user is logged out
+    case prelogin // user is logged out
 }
 
 public struct QueuedTask<T> {
@@ -214,6 +216,8 @@ open class NetworkManager : NSObject {
     fileprivate var jsonInterceptors : [JSONInterceptor] = []
     fileprivate var responseInterceptors: [ResponseInterceptor] = []
     open var authenticator : Authenticator?
+    open var tokenExpiryDate: Date?
+    open var tokenExpiryDuration: NSNumber?
     @objc public var tokenStatus: AccessTokenStatus
     public var queuedTasks = [Any]()
     
@@ -222,7 +226,9 @@ open class NetworkManager : NSObject {
         self.credentialProvider = credentialProvider
         self.baseURL = baseURL
         self.cache = cache
-        self.tokenStatus = authorizationDataProvider?.isUserLoggedin == true ? .valid : .invalid
+        self.tokenStatus = authorizationDataProvider?.isUserLoggedIn == true ? .valid : .prelogin
+        self.tokenExpiryDate = authorizationDataProvider?.tokenExpiryDate
+        self.tokenExpiryDuration = authorizationDataProvider?.tokenExpiryDuration
     }
     
     public static var unknownError : NSError { return NSError.oex_unknownNetworkError() }
@@ -359,6 +365,16 @@ open class NetworkManager : NSObject {
     }
     
     @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
+        
+        if let tokenExpiryDate = tokenExpiryDate,
+            let duration = tokenExpiryDuration?.intValue {
+            // check for token expiry date/time with the token duration from server minus 60 secs
+            let tokenExpiryDate = tokenExpiryDate.add(.second, value: duration - 60)
+            if tokenExpiryDate < Date() {
+                tokenStatus = .expired
+            }
+        }
+        
         if tokenStatus == .expired {
             if case .authenticate(let authenticateRequest) = authenticator?(nil, nil, true) {
                 authenticateRequest(self, { [weak self] success in
@@ -514,3 +530,8 @@ open class NetworkManager : NSObject {
     }
 }
 
+fileprivate extension Date {
+    func add(_ unit: Calendar.Component, value: Int) -> Date {
+        return Calendar.current.date(byAdding: unit, value: value, to: self) ?? self
+    }
+}

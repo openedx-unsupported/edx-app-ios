@@ -18,8 +18,16 @@ class NetworkManagerTests: XCTestCase {
             return ["FakeHeader": "TestValue"]
         }
         
-        var isUserLoggedin: Bool {
+        var isUserLoggedIn: Bool {
             return true
+        }
+        
+        var tokenExpiryDuration: NSNumber? {
+            return 36000
+        }
+        
+        var tokenExpiryDate: Date? {
+            return Date.distantFuture
         }
     }
     
