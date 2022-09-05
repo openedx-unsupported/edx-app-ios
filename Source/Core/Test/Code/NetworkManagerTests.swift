@@ -23,11 +23,11 @@ class NetworkManagerTests: XCTestCase {
         }
         
         var tokenExpiryDuration: NSNumber? {
-            return 36000
+            return 1
         }
         
         var tokenExpiryDate: Date? {
-            return Date.distantFuture
+            return Date()
         }
     }
     
@@ -124,6 +124,31 @@ class NetworkManagerTests: XCTestCase {
             print("pairs are \(sortedPairs)")
             XCTAssertEqual(NSArray(array: sortedPairs), NSArray(array: [["Some%20field", "true"], ["Some%20other%20field", "some%20value"]]))
         }
+    }
+    
+    func testAccessTokenExpiry() {
+        let manager = NetworkManager(authorizationDataProvider: authProvider, baseURL: baseURL, cache: cache)
+        let expectation = expectation(description: "Request Completes")
+        
+        let apiRequest = NetworkRequest(
+            method: .POST,
+            path: "/something",
+            requiresAuth: true,
+            body: .emptyBody,
+            deserializer: .dataResponse { _, _ -> Result<Void> in
+                XCTFail("Shouldn't send request")
+                return .failure(NetworkManager.unknownError)
+            }
+        )
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            manager.taskForRequest(apiRequest) { _ in }
+            expectation.fulfill()
+        }
+        
+        waitForExpectations()
+        
+        XCTAssertEqual(manager.tokenStatus, AccessTokenStatus.expired)
     }
     
     func requestEnvironment() -> (MockNetworkManager, NetworkRequest<Data>, URLRequest) {
