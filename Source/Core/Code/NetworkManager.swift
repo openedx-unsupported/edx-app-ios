@@ -210,25 +210,24 @@ open class NetworkManager : NSObject {
     
     public let baseURL : URL
     
-    fileprivate let authorizationDataProvider: (AuthorizationHeaderProvider & SessionDataProvider)?
+    public typealias AuthorizationProvider = AuthorizationHeaderProvider & SessionDataProvider
+    
+    fileprivate let authorizationDataProvider: AuthorizationProvider?
     fileprivate let credentialProvider : URLCredentialProvider?
     fileprivate let cache : ResponseCache
     fileprivate var jsonInterceptors : [JSONInterceptor] = []
     fileprivate var responseInterceptors: [ResponseInterceptor] = []
     open var authenticator : Authenticator?
-    open var tokenExpiryDate: Date?
-    open var tokenExpiryDuration: NSNumber?
     @objc public var tokenStatus: AccessTokenStatus
     public var queuedTasks = [Any]()
+    private var tokenExpiryOffset = 60
     
-    @objc public init(authorizationDataProvider: (AuthorizationHeaderProvider & SessionDataProvider)? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
+    @objc public init(authorizationDataProvider: AuthorizationProvider? = nil, credentialProvider: URLCredentialProvider? = nil, baseURL: URL, cache: ResponseCache) {
         self.authorizationDataProvider = authorizationDataProvider
         self.credentialProvider = credentialProvider
         self.baseURL = baseURL
         self.cache = cache
         self.tokenStatus = authorizationDataProvider?.isUserLoggedIn == true ? .valid : .prelogin
-        self.tokenExpiryDate = authorizationDataProvider?.tokenExpiryDate
-        self.tokenExpiryDuration = authorizationDataProvider?.tokenExpiryDuration
     }
     
     public static var unknownError : NSError { return NSError.oex_unknownNetworkError() }
@@ -366,10 +365,10 @@ open class NetworkManager : NSObject {
     
     @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
         
-        if let tokenExpiryDate = tokenExpiryDate,
-            let duration = tokenExpiryDuration?.intValue {
+        if let tokenExpiryDate = authorizationDataProvider?.tokenExpiryDate,
+           let duration = authorizationDataProvider?.tokenExpiryDuration?.intValue {
             // check for token expiry date/time with the token duration from server minus 60 secs
-            let tokenExpiryDate = tokenExpiryDate.add(.second, value: duration - 60)
+            let tokenExpiryDate = tokenExpiryDate.add(.second, value: duration - tokenExpiryOffset)
             if tokenExpiryDate < Date() {
                 tokenStatus = .expired
             }
