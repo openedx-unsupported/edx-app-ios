@@ -71,9 +71,7 @@ class CourseUpgradeHandler: NSObject {
             case .paymentError:
                 return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
             case .verifyReceiptError:
-                return Strings.CourseUpgrade.FailureAlert.courseNotFullfilled
-            case .alreadyPurchased:
-                return Strings.CourseUpgrade.FailureAlert.courseAlreadyPaid
+                return executeErrorMessage(for: error)
             default:
                 return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
             }
@@ -100,6 +98,15 @@ class CourseUpgradeHandler: NSObject {
             return Strings.CourseUpgrade.FailureAlert.authenticationErrorMessage
         default:
             return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
+        }
+    }
+
+    private func executeErrorMessage(for error: NSError) -> String {
+        switch error.code {
+        case 409:
+            return Strings.CourseUpgrade.FailureAlert.courseAlreadyPaid
+        default:
+            return Strings.CourseUpgrade.FailureAlert.courseNotFullfilled
         }
     }
 
@@ -134,14 +141,21 @@ class CourseUpgradeHandler: NSObject {
         self.upgradeMode = upgradeMode
         
         state = .initial
-        
-        showSDNprompt { [weak self] success in
-            if success {
-                self?.state = .sdn
-                self?.proceedWithUpgrade()
-            } else {
-                self?.state = .error(type: .sdnError, error: self?.error(message: "user does not allow sdn check"))
+        // Show SDN alert only for while doing the payment
+        // Don't show in case of auto fullfilment on app reelaunch and restore
+        if upgradeMode == .normal {
+            state = .sdn
+            showSDNprompt { [weak self] success in
+
+                if success {
+                    self?.proceedWithUpgrade()
+                } else {
+                    self?.state = .error(type: .sdnError, error: self?.error(message: "user does not allow sdn check"))
+                }
             }
+        }
+        else {
+            proceedWithUpgrade()
         }
     }
     
@@ -167,26 +181,8 @@ class CourseUpgradeHandler: NSObject {
                   state = .error(type: .generalError, error: error(message: "course sku is missing"))
                   return
               }
-        
         courseSku = coursePurchaseSku
 
-        PaymentManager.shared.alreadyPurchased(courseSku) { [weak self] success in
-            if success == false {
-                self?.proceedUpgrade(for: coursePurchaseSku)
-            }
-            else {
-                let unfinishedSKUs = CourseUpgradeHelper.shared.savedUnfinishedIAPSKUsForCurrentUser() ?? []
-                if unfinishedSKUs.contains(coursePurchaseSku) {
-                    self?.proceedUpgrade(for: coursePurchaseSku)
-                }
-                else {
-                    self?.state = .error(type: .alreadyPurchased, error: self?.error(message: "course is already purchased on this device"))
-                }
-            }
-        }
-    }
-
-    private func proceedUpgrade(for courseSKU: String) {
         addToBasket { [weak self] (orderBasket, error) in
             if let basketID = orderBasket?.basketID {
                 self?.basketID = basketID

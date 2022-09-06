@@ -166,7 +166,7 @@ class CourseUpgradeHelper: NSObject {
 
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: upgradeHadler?.errorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
-        if case .error (let type, _) = upgradeHadler?.state, type == .verifyReceiptError {
+        if case .error (let type, let error) = upgradeHadler?.state, type == .verifyReceiptError && error?.errorCode != 409 {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.refreshToRetry, style: .default) { [weak self] _ in
                 self?.trackUpgradeErrorAction(errorAction: ErrorAction.refreshToRetry)
                 self?.refreshTime = CFAbsoluteTimeGetCurrent()
@@ -442,4 +442,8 @@ class InappPurchase: NSObject, NSCoding {
     }
 }
 
-
+extension Error {
+    var errorCode:Int? {
+        return (self as NSError).code
+    }
+}
