@@ -189,7 +189,11 @@ class LearnContainerHeaderView: UIView {
     private func rotateImageView(clockWise: Bool) {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let weakSelf = self else { return }
-            weakSelf.imageView.transform = weakSelf.imageView.transform.rotated(by: clockWise ? -(.pi * 0.999) : .pi)
+            if clockWise {
+                weakSelf.imageView.transform = weakSelf.imageView.transform.rotated(by: -(.pi * 0.999))
+            } else {
+                weakSelf.imageView.transform = .identity
+            }
         }
     }
 }
