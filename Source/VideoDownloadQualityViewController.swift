@@ -57,7 +57,9 @@ class VideoDownloadQualityViewController: UIViewController {
         title = Strings.videoDownloadQualityTitle
         
         setupViews()
-        addCloseButton()
+        if isModal() {
+            addCloseButton()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
