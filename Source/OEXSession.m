@@ -60,7 +60,7 @@ static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
     return [self initWithCredentialStore:[[OEXPersistentCredentialStorage alloc] init]];
 }
 
-- (BOOL)containsUserDetails {
+- (BOOL)userExists {
     return self.credentialStore.storedUserDetails != nil;
 }
 

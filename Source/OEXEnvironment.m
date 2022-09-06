@@ -120,7 +120,6 @@
                                             userPreferenceManager:userPreferenceManager
                     ];
         };
-        __weak typeof(self) weakSelf = self;
         self.networkManagerBuilder = ^(OEXEnvironment* env) {
             PersistentResponseCache* cache = [[PersistentResponseCache alloc] initWithProvider: [[SessionUsernameProvider alloc] initWithSession:env.session]];
             NetworkManager* manager = [[NetworkManager alloc]
@@ -132,7 +131,7 @@
                 [manager addStandardInterceptors];
                 [manager addResponseInterceptors];
                 [manager addRefreshTokenAuthenticatorWithRouter:env.router session:env.session clientId:env.config.oauthClientID];
-                [weakSelf.session loadTokenFromStore];
+                [env.session loadTokenFromStore];
             }];
             return manager;
         };
