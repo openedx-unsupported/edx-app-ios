@@ -256,7 +256,6 @@ import UIKit
         if topViewController is UserProfileViewController || topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
             if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is ProfileOptionsViewController}) {
                 topViewController.navigationController?.popToViewController(viewController, animated: true)
-                topViewController.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
                 completion?(true)
             }
             else {
@@ -275,7 +274,6 @@ import UIKit
                 
                 if let profileOptions = tabbarViewController.switchTab(with: .profile) as? ProfileOptionsViewController {
                     profileOptions.navigationController?.popToRootViewController(animated: true) {
-                        profileOptions.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
                         completion?(true)
                     }
                 }

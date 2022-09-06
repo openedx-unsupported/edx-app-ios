@@ -174,7 +174,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
             self?.imagePicker = ProfilePictureTaker(delegate: self!)
             self?.imagePicker?.start(alreadyHasImage: self!.profile.hasProfileImage)
         }
-        banner.style = .DarkContent
+        banner.style = .darkContent
         banner.shortProfView.borderColor = OEXStyles.shared().neutralLight()
         banner.backgroundColor = tableView.backgroundColor
         
@@ -254,7 +254,6 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: .plain, target: nil, action: nil)
         backItem.accessibilityIdentifier = "UserProfileEditViewController:back-item"
         backItem.oex_setAction {[weak self] in
-            self?.navigationController?.navigationBar.applyUserProfileNavbarColorScheme()
             self?.navigationController?.popViewController(animated: true)
         }
         navigationItem.leftBarButtonItem = backItem

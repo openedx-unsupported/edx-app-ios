@@ -12,14 +12,14 @@ import UIKit
 class ProfileBanner: UIView {
 
     enum Style {
-        case LightContent
-        case DarkContent
+        case lightContent
+        case darkContent
 
         var textColor: UIColor {
             switch(self) {
-            case .LightContent:
+            case .lightContent:
                 return OEXStyles.shared().neutralWhiteT()
-            case .DarkContent:
+            case .darkContent:
                 return OEXStyles.shared().primaryBaseColor()
             }
         }
@@ -31,7 +31,7 @@ class ProfileBanner: UIView {
     let changeCallback: (()->())?
     let changeButton = IconButton()
 
-    var style = Style.LightContent {
+    var style = Style.lightContent {
         didSet {
             usernameLabel.attributedText = usernameStyle.attributedString(withText: usernameLabel.attributedText?.string)
         }
@@ -72,8 +72,6 @@ class ProfileBanner: UIView {
                 self?.changeCallback?()
                 }, for: .touchUpInside)
         }
-      
-
     }
     
     init(editable: Bool, didChange: @escaping (()->())) {
