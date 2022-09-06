@@ -14,17 +14,17 @@ static NSString* const OEXTokenTypeKey = @"token_type";
 static NSString* const OEXTokenExpiryDurationKey = @"expires_in";
 static NSString* const OEXScopeKey = @"scope";
 static NSString* const OEXRefreshTokenKey = @"refresh_token";
-static NSString* const OEXTokenSavedOnDateKey = @"token_saved_on_date";
+static NSString* const OEXTokenCreationDateKey = @"creation_date";
 
 @implementation OEXAccessToken
 
 - (id)copyWithZone:(NSZone*)zone {
     id copy = [[OEXAccessToken alloc] initWithAccessToken:self.accessToken
                                                 tokenType:self.tokenType
-                                      tokenExpiryDuration:self.tokenExpiryDuration
+                                      tokenExpiryDuration:self.expiryDuration
                                                tokenScope:self.scope
                                              refreshToken:self.refreshToken
-                                              savedOnDate:self.savedOnDate]
+                                              savedOnDate:self.creationDate]
     ;
     return copy;
 }
@@ -38,10 +38,10 @@ static NSString* const OEXTokenSavedOnDateKey = @"token_saved_on_date";
     if((self = [super init])) {
         _accessToken = [accessToken copy];
         _tokenType = [tokenType copy];
-        _tokenExpiryDuration = [tokenExpiryDuration copy];
+        _expiryDuration = [tokenExpiryDuration copy];
         _scope = [scope copy];
         _refreshToken = [refreshToken copy];
-        _savedOnDate = [savedOnDate copy];
+        _creationDate = [savedOnDate copy];
     }
 
     return self;
@@ -52,10 +52,10 @@ static NSString* const OEXTokenSavedOnDateKey = @"token_saved_on_date";
     if(self) {
         _accessToken = [dict objectForKey:OEXAccessTokenKey];
         _tokenType = [dict objectForKey:OEXTokenTypeKey];
-        _tokenExpiryDuration = [dict objectForKey:OEXTokenExpiryDurationKey];
+        _expiryDuration = [dict objectForKey:OEXTokenExpiryDurationKey];
         _scope = [dict objectForKey:OEXScopeKey];
         _refreshToken = [dict objectForKey:OEXRefreshTokenKey];
-        _savedOnDate = [dict objectForKey:OEXTokenSavedOnDateKey];
+        _creationDate = [NSDate now];
         if(!_accessToken) {
             self = nil;
         }
@@ -69,10 +69,10 @@ static NSString* const OEXTokenSavedOnDateKey = @"token_saved_on_date";
     if(_accessToken) {
         [dict setSafeObject:_accessToken forKey:OEXAccessTokenKey];
         [dict setObjectOrNil:_tokenType forKey:OEXTokenTypeKey];
-        [dict setObjectOrNil:_tokenExpiryDuration forKey:OEXTokenExpiryDurationKey];
+        [dict setObjectOrNil:_expiryDuration forKey:OEXTokenExpiryDurationKey];
         [dict setObjectOrNil:_scope forKey:OEXScopeKey];
         [dict setObjectOrNil:_refreshToken forKey:OEXRefreshTokenKey];
-        [dict setObjectOrNil:[NSDate now] forKey:OEXTokenSavedOnDateKey];
+        [dict setObjectOrNil:[NSDate now] forKey:OEXTokenCreationDateKey];
     }
     else {
         return nil;
@@ -103,10 +103,10 @@ static NSString* const OEXTokenSavedOnDateKey = @"token_saved_on_date";
     }
     token.accessToken = dictionaryAccessToken;
     token.tokenType = accessTokenDictionary[OEXTokenTypeKey];
-    token.tokenExpiryDuration = accessTokenDictionary[OEXTokenExpiryDurationKey];
+    token.expiryDuration = accessTokenDictionary[OEXTokenExpiryDurationKey];
     token.scope = accessTokenDictionary[OEXScopeKey];
     token.refreshToken = accessTokenDictionary[OEXRefreshTokenKey];
-    token.savedOnDate = accessTokenDictionary[OEXTokenSavedOnDateKey];
+    token.creationDate = accessTokenDictionary[OEXTokenCreationDateKey];
     return token;
 }
 

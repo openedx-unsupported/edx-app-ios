@@ -14,10 +14,10 @@ extension OEXSession: SessionDataProvider {
     }
     
     public var tokenExpiryDuration: NSNumber? {
-        return token?.tokenExpiryDuration
+        return token?.expiryDuration
     }
     
     public var tokenExpiryDate: Date? {
-        return token?.savedOnDate
+        return token?.creationDate
     }
 }

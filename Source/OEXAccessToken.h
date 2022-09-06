@@ -15,12 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// data should have been previously created by the -accessTokenData method
 + (OEXAccessToken* _Nullable)accessTokenWithData:(NSData*)accessTokenData;
 
-@property(nonatomic, nullable) NSNumber* tokenExpiryDuration;
+@property(nonatomic, nullable) NSNumber* expiryDuration;
 @property(nonatomic, copy, nullable) NSString* accessToken;
 @property(nonatomic, copy, nullable) NSString* tokenType;
 @property(nonatomic, copy, nullable) NSString* scope;
 @property(nonatomic, copy, nullable) NSString* refreshToken;
-@property(nonatomic, copy, nullable) NSDate* savedOnDate;
+@property(nonatomic, copy, nullable) NSDate* creationDate;
 
 /// Provides a persistent representation of an access token
 - (NSData* _Nullable)accessTokenData;

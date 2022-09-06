@@ -564,13 +564,12 @@ extension OEXRouter {
         showLoggedOutScreen()
     }
     
-    func invalidateToken() {        
+    func invalidateToken() {
         if let refreshToken = environment.session.token?.refreshToken, let clientID = environment.config.oauthClientID() {
             let networkRequest = LogoutApi.invalidateToken(refreshToken: refreshToken, clientID: clientID)
-            environment.networkManager.taskForRequest(networkRequest) { [weak self] result in
-                self?.environment.networkManager.tokenStatus = .prelogin
-            }
+            environment.networkManager.taskForRequest(networkRequest) { _ in }
         }
+        environment.networkManager.tokenStatus = .prelogin
     }
 
     // MARK: - Debug
