@@ -396,20 +396,24 @@ open class NetworkManager : NSObject {
         
         if tokenStatus == .authenticating {
             let task = QueuedTask(base: base, networkRequest: networkRequest, handler: handler)
-            let alreadyQueued = queuedTasks.contains { queuedTask in
-                if let queuedTask = queuedTask as? QueuedTask<Out> {
-                    return queuedTask == task
-                }
-                return false
-            }
-            
-            if !alreadyQueued {
-                queuedTasks.append(task)
-                return nil
-            }
+            appendTaskToQueue(task: task)
+            return nil
         }
         
         return performTaskForRequest(base: base, networkRequest, handler: handler)
+    }
+    
+    private func appendTaskToQueue<Out>(task: QueuedTask<Out>) {
+        let alreadyQueued = queuedTasks.contains { queuedTask in
+            if let queuedTask = queuedTask as? QueuedTask<Out> {
+                return queuedTask == task
+            }
+            return false
+        }
+        
+        if !alreadyQueued {
+            queuedTasks.append(task)
+        }
     }
     
     @discardableResult open func performTaskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
@@ -431,7 +435,8 @@ open class NetworkManager : NSObject {
                     let result = Box<DeserializationResult<Out>>(DeserializationResult.reauthenticationRequest(authenticateRequest, original: data))
                     return (result, nil)
                 case .queue:
-                    self?.queuedTasks.append(QueuedTask(base: base, networkRequest: networkRequest, handler: handler))
+                    let task = QueuedTask(base: base, networkRequest: networkRequest, handler: handler)
+                    self?.appendTaskToQueue(task: task)
                     let result = Box<DeserializationResult<Out>>(DeserializationResult.queuedRequest(URLRequest: URLRequest, original: data))
                     return (result, nil)
                 }
