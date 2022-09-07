@@ -366,7 +366,8 @@ open class NetworkManager : NSObject {
     @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
         
         if let tokenExpiryDate = authorizationDataProvider?.tokenExpiryDate,
-           let duration = authorizationDataProvider?.tokenExpiryDuration?.intValue {
+           let duration = authorizationDataProvider?.tokenExpiryDuration?.intValue,
+           tokenStatus != .authenticating {
             // check for token expiry date/time with the token duration from server minus 60 secs
             let tokenExpiryDate = tokenExpiryDate.add(.second, value: duration - tokenExpiryOffset)
             if tokenExpiryDate < Date() {
