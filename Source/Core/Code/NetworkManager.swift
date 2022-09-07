@@ -190,10 +190,19 @@ extension NSError {
     case prelogin // user is logged out
 }
 
-public struct QueuedTask<T> {
+public struct QueuedTask<T>: Hashable {
     public let base: String?
     public let networkRequest: NetworkRequest<T>
     public let handler: (NetworkResult<T>) -> Void
+    
+    public static func == (lhs: QueuedTask<T>, rhs: QueuedTask<T>) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(networkRequest.method)
+        hasher.combine(networkRequest.path)
+    }
 }
 
 open class NetworkManager : NSObject {
@@ -386,8 +395,18 @@ open class NetworkManager : NSObject {
         }
         
         if tokenStatus == .authenticating {
-            queuedTasks.append(QueuedTask(base: base, networkRequest: networkRequest, handler: handler))
-            return nil
+            let task = QueuedTask(base: base, networkRequest: networkRequest, handler: handler)
+            let alreadyQueued = queuedTasks.contains { queuedTask in
+                if let queuedTask = queuedTask as? QueuedTask<Out> {
+                    return queuedTask == task
+                }
+                return false
+            }
+            
+            if !alreadyQueued {
+                queuedTasks.append(task)
+                return nil
+            }
         }
         
         return performTaskForRequest(base: base, networkRequest, handler: handler)
