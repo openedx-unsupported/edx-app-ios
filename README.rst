@@ -18,7 +18,7 @@ Building
 ========
 1. Check out the source code: ::
     
-    git clone https://github.com/edx/edx-app-ios
+    git clone https://github.com/openedx/edx-app-ios
 
 2. Open ``edX.xcworkspace``.
 
