@@ -396,14 +396,14 @@ open class NetworkManager : NSObject {
         
         if tokenStatus == .authenticating {
             let task = QueuedTask(base: base, networkRequest: networkRequest, handler: handler)
-            appendTaskToQueue(task: task)
+            addTaskToQueue(task: task)
             return nil
         }
         
         return performTaskForRequest(base: base, networkRequest, handler: handler)
     }
     
-    private func appendTaskToQueue<Out>(task: QueuedTask<Out>) {
+    private func addTaskToQueue<Out>(task: QueuedTask<Out>) {
         let alreadyQueued = queuedTasks.contains { queuedTask in
             if let queuedTask = queuedTask as? QueuedTask<Out> {
                 return queuedTask == task
@@ -436,7 +436,7 @@ open class NetworkManager : NSObject {
                     return (result, nil)
                 case .queue:
                     let task = QueuedTask(base: base, networkRequest: networkRequest, handler: handler)
-                    self?.appendTaskToQueue(task: task)
+                    self?.addTaskToQueue(task: task)
                     let result = Box<DeserializationResult<Out>>(DeserializationResult.queuedRequest(URLRequest: URLRequest, original: data))
                     return (result, nil)
                 }
