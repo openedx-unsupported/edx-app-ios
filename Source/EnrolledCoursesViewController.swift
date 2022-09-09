@@ -72,6 +72,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         setupListener()
         setupObservers()
+        addMenuButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +94,18 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
         
     }
+
+    private func addMenuButton() {
+            let menuButton = UIBarButtonItem(image: Icon.Menu.imageWithFontSize(size: 22), style: .plain, target: nil, action: nil)
+            menuButton.accessibilityLabel = Strings.accessibilityProfile
+            menuButton.accessibilityIdentifier = "EnrolledTabBarViewController:menu-button"
+            menuButton.accessibilityHint = Strings.Accessibility.profileMenuHint
+            navigationItem.rightBarButtonItem = menuButton
+
+            menuButton.oex_setAction { [weak self] in
+                self?.environment.router?.showProfile(controller: self)
+            }
+        }
     
     override func reloadViewData() {
         refreshIfNecessary()
