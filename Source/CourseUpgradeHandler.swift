@@ -35,7 +35,8 @@ class CourseUpgradeHandler: NSObject {
     private(set) var course: OEXCourse?
     private var basketID: Int = 0
     private var courseSku: String = ""
-    
+    private(set) var upgradeMode: CourseUpgradeMode = .normal
+
     private(set) var state: CourseUpgradeState = .initial {
         didSet {
             switch state {
@@ -58,78 +59,6 @@ class CourseUpgradeHandler: NSObject {
         }
     }
 
-    private(set) var upgradeMode: CourseUpgradeMode = .normal
-
-    var errorMessage: String {
-        if case .error (let type, let error) = state {
-            guard let error = error as NSError? else { return Strings.CourseUpgrade.FailureAlert.generalErrorMessage }
-            switch type {
-            case .basketError:
-                return basketErrorMessage(for: error)
-            case .checkoutError:
-                return checkoutErrorMessage(for: error)
-            case .paymentError:
-                return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
-            case .verifyReceiptError:
-                return executeErrorMessage(for: error)
-            default:
-                return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
-            }
-        }
-        return Strings.CourseUpgrade.FailureAlert.generalErrorMessage
-    }
-
-    private func basketErrorMessage(for error: NSError) -> String {
-        switch error.code {
-        case 400:
-            return Strings.CourseUpgrade.FailureAlert.courseNotFount
-        case 403:
-            return Strings.CourseUpgrade.FailureAlert.authenticationErrorMessage
-        case 406:
-            return Strings.CourseUpgrade.FailureAlert.courseAlreadyPaid
-        default:
-            return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
-        }
-    }
-
-    private func checkoutErrorMessage(for error: NSError) -> String {
-        switch error.code {
-        case 403:
-            return Strings.CourseUpgrade.FailureAlert.authenticationErrorMessage
-        default:
-            return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
-        }
-    }
-
-    private func executeErrorMessage(for error: NSError) -> String {
-        switch error.code {
-        case 409:
-            return Strings.CourseUpgrade.FailureAlert.courseAlreadyPaid
-        default:
-            return Strings.CourseUpgrade.FailureAlert.courseNotFullfilled
-        }
-    }
-
-    var formattedError: String {
-        let unhandledError = "unhandledError"
-        if case .error(let type, let error) = state {
-            guard let error = error as NSError? else { return unhandledError }
-            
-            if case .paymentError = type {
-                return "\(type.errorString)-\(error.code)-\(error.localizedDescription)"
-            }
-            
-            if let errorResponse = error.userInfo.values.first,
-               let json = errorResponse as? JSON,
-               let errorMessage = json.dictionary?.values.first {
-                return "\(type.errorString)-\(error.code)-\(errorMessage)"
-            }
-
-            return "\(type.errorString)-\(error.code)-\(unhandledError)"
-        }
-        return unhandledError
-    }
-
     init(for course: OEXCourse, environment: Environment) {
         self.course = course
         self.environment = environment
@@ -146,7 +75,6 @@ class CourseUpgradeHandler: NSObject {
         if upgradeMode == .normal {
             state = .sdn
             showSDNprompt { [weak self] success in
-
                 if success {
                     self?.proceedWithUpgrade()
                 } else {
@@ -267,8 +195,81 @@ class CourseUpgradeHandler: NSObject {
             }
         }
     }
+}
 
-    private func error(message: String) -> NSError {
+extension CourseUpgradeHandler {
+    // IAP error messages
+    var errorMessage: String {
+        if case .error (let type, let error) = state {
+            guard let error = error as NSError? else { return Strings.CourseUpgrade.FailureAlert.generalErrorMessage }
+            switch type {
+            case .basketError:
+                return basketErrorMessage(for: error)
+            case .checkoutError:
+                return checkoutErrorMessage(for: error)
+            case .paymentError:
+                return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
+            case .verifyReceiptError:
+                return executeErrorMessage(for: error)
+            default:
+                return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
+            }
+        }
+        return Strings.CourseUpgrade.FailureAlert.generalErrorMessage
+    }
+
+    private func basketErrorMessage(for error: NSError) -> String {
+        switch error.code {
+        case 400:
+            return Strings.CourseUpgrade.FailureAlert.courseNotFount
+        case 403:
+            return Strings.CourseUpgrade.FailureAlert.authenticationErrorMessage
+        case 406:
+            return Strings.CourseUpgrade.FailureAlert.courseAlreadyPaid
+        default:
+            return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
+        }
+    }
+
+    private func checkoutErrorMessage(for error: NSError) -> String {
+        switch error.code {
+        case 403:
+            return Strings.CourseUpgrade.FailureAlert.authenticationErrorMessage
+        default:
+            return Strings.CourseUpgrade.FailureAlert.paymentNotProcessed
+        }
+    }
+
+    private func executeErrorMessage(for error: NSError) -> String {
+        switch error.code {
+        case 409:
+            return Strings.CourseUpgrade.FailureAlert.courseAlreadyPaid
+        default:
+            return Strings.CourseUpgrade.FailureAlert.courseNotFullfilled
+        }
+    }
+
+    var formattedError: String {
+        let unhandledError = "unhandledError"
+        if case .error(let type, let error) = state {
+            guard let error = error as NSError? else { return unhandledError }
+
+            if case .paymentError = type {
+                return "\(type.errorString)-\(error.code)-\(error.localizedDescription)"
+            }
+
+            if let errorResponse = error.userInfo.values.first,
+               let json = errorResponse as? JSON,
+               let errorMessage = json.dictionary?.values.first {
+                return "\(type.errorString)-\(error.code)-\(errorMessage)"
+            }
+
+            return "\(type.errorString)-\(error.code)-\(unhandledError)"
+        }
+        return unhandledError
+    }
+
+    fileprivate func error(message: String) -> NSError {
         return NSError(domain:"edx.app.courseupgrade", code: 1010, userInfo: [NSLocalizedDescriptionKey: JSON(["error": message])])
     }
 }
