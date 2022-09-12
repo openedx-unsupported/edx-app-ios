@@ -12,11 +12,12 @@ import edXCore
 
 extension NetworkManager {
     
-    func 
-    performQueuedTasksIfAny(success: Bool) {
+    func performQueuedTasks(success: Bool) {
         if queuedTasks.isEmpty { return }
         
-        for queuedTask in queuedTasks {
+        var iterator = queuedTasks.makeIterator()
+        
+        while let queuedTask = iterator.next() {
             switch queuedTask {
             case let task as QueuedTask<()>:
                 performTask(task: task, success: success)
@@ -121,21 +122,19 @@ extension NetworkManager {
                 Logger.logInfo(NetworkManager.NETWORK, "Unable to handle task: \(queuedTask)")
             }
         }
-        // As we have enqueued all tasks, now remove the tasks.
-        removeAllQueuedTasks()
     }
     
     func removeAllQueuedTasks() {
-        queuedTasks.removeAll()
+        queuedTasks = []
     }
     
     private func performTask<T>(task: QueuedTask<T>, success: Bool) {
         if success {
-            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting request in queue")
+            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication success, attempting original request")
             performTaskForRequest(base: task.base, task.networkRequest, handler: task.handler)
         } else {
             let request = URLRequestWithRequest(base: task.base, task.networkRequest).value
-            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful so skip attempting for queued request: \(String(describing: request?.URLString))")
+            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication failure, skipping request: \(String(describing: request?.URLString))")
             task.handler(NetworkResult(request: request, response: nil, data: nil, baseData: nil, error: nil))
         }
     }

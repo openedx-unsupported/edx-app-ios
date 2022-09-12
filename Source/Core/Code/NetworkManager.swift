@@ -145,7 +145,9 @@ open class NetworkTask : Removable {
 }
 
 @objc public protocol SessionDataProvider {
-    var isUserLoggedin: Bool { get }
+    var isUserLoggedIn: Bool { get }
+    var tokenExpiryDuration: NSNumber? { get }
+    var tokenExpiryDate: Date? { get }
 }
 
 @objc public protocol URLCredentialProvider {
@@ -181,17 +183,26 @@ extension NSError {
 }
 
 @objc public enum AccessTokenStatus: Int {
-    // First three cases are for logged in user
+    // first three cases are for logged in user
     case valid = 0 // valid token
     case expired // token expired
     case authenticating // authentication in process
-    case invalid // user is logged out
+    case prelogin // user is logged out
 }
 
-public struct QueuedTask<T> {
+public struct QueuedTask<T>: Hashable {
     public let base: String?
     public let networkRequest: NetworkRequest<T>
     public let handler: (NetworkResult<T>) -> Void
+    
+    public static func == (lhs: QueuedTask<T>, rhs: QueuedTask<T>) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(networkRequest.method)
+        hasher.combine(networkRequest.path)
+    }
 }
 
 open class NetworkManager : NSObject {
@@ -208,7 +219,9 @@ open class NetworkManager : NSObject {
     
     public let baseURL : URL
     
-    fileprivate let authorizationDataProvider: (AuthorizationHeaderProvider & SessionDataProvider)?
+    public typealias AuthorizationProvider = AuthorizationHeaderProvider & SessionDataProvider
+    
+    fileprivate let authorizationDataProvider: AuthorizationProvider?
     fileprivate let credentialProvider : URLCredentialProvider?
     fileprivate let cache : ResponseCache
     fileprivate var jsonInterceptors : [JSONInterceptor] = []
@@ -216,13 +229,14 @@ open class NetworkManager : NSObject {
     open var authenticator : Authenticator?
     @objc public var tokenStatus: AccessTokenStatus
     public var queuedTasks = [Any]()
+    private var tokenExpiryOffset = 60
     
-    @objc public init(authorizationDataProvider: (AuthorizationHeaderProvider & SessionDataProvider)? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
+    @objc public init(authorizationDataProvider: AuthorizationProvider? = nil, credentialProvider: URLCredentialProvider? = nil, baseURL: URL, cache: ResponseCache) {
         self.authorizationDataProvider = authorizationDataProvider
         self.credentialProvider = credentialProvider
         self.baseURL = baseURL
         self.cache = cache
-        self.tokenStatus = authorizationDataProvider?.isUserLoggedin == true ? .valid : .invalid
+        self.tokenStatus = authorizationDataProvider?.isUserLoggedIn == true ? .valid : .prelogin
     }
     
     public static var unknownError : NSError { return NSError.oex_unknownNetworkError() }
@@ -359,6 +373,17 @@ open class NetworkManager : NSObject {
     }
     
     @discardableResult open func taskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
+        
+        if let tokenExpiryDate = authorizationDataProvider?.tokenExpiryDate,
+           let duration = authorizationDataProvider?.tokenExpiryDuration?.intValue,
+           tokenStatus != .authenticating {
+            // check for token expiry date/time with the token duration from server minus 60 secs
+            let tokenExpiryDate = tokenExpiryDate.add(.second, value: duration - tokenExpiryOffset)
+            if tokenExpiryDate < Date() {
+                tokenStatus = .expired
+            }
+        }
+        
         if tokenStatus == .expired {
             if case .authenticate(let authenticateRequest) = authenticator?(nil, nil, true) {
                 authenticateRequest(self, { [weak self] success in
@@ -370,11 +395,25 @@ open class NetworkManager : NSObject {
         }
         
         if tokenStatus == .authenticating {
-            queuedTasks.append(QueuedTask(base: base, networkRequest: networkRequest, handler: handler))
+            let task = QueuedTask(base: base, networkRequest: networkRequest, handler: handler)
+            addTaskToQueue(task: task)
             return nil
         }
         
         return performTaskForRequest(base: base, networkRequest, handler: handler)
+    }
+    
+    private func addTaskToQueue<Out>(task: QueuedTask<Out>) {
+        let alreadyQueued = queuedTasks.contains { queuedTask in
+            if let queuedTask = queuedTask as? QueuedTask<Out> {
+                return queuedTask == task
+            }
+            return false
+        }
+        
+        if !alreadyQueued {
+            queuedTasks.append(task)
+        }
     }
     
     @discardableResult open func performTaskForRequest<Out>(base: String? = nil, _ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable? {
@@ -396,7 +435,8 @@ open class NetworkManager : NSObject {
                     let result = Box<DeserializationResult<Out>>(DeserializationResult.reauthenticationRequest(authenticateRequest, original: data))
                     return (result, nil)
                 case .queue:
-                    self?.queuedTasks.append(QueuedTask(base: base, networkRequest: networkRequest, handler: handler))
+                    let task = QueuedTask(base: base, networkRequest: networkRequest, handler: handler)
+                    self?.addTaskToQueue(task: task)
                     let result = Box<DeserializationResult<Out>>(DeserializationResult.queuedRequest(URLRequest: URLRequest, original: data))
                     return (result, nil)
                 }
@@ -514,3 +554,8 @@ open class NetworkManager : NSObject {
     }
 }
 
+fileprivate extension Date {
+    func add(_ unit: Calendar.Component, value: Int) -> Date {
+        return Calendar.current.date(byAdding: unit, value: value, to: self) ?? self
+    }
+}

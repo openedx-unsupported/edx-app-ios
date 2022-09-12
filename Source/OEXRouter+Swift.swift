@@ -558,7 +558,6 @@ extension OEXRouter {
     }
     
     @objc public func logout() {
-        environment.networkManager.tokenStatus = .invalid
         invalidateToken()
         environment.session.closeAndClear()
         environment.session.removeAllWebData()
@@ -568,8 +567,9 @@ extension OEXRouter {
     func invalidateToken() {
         if let refreshToken = environment.session.token?.refreshToken, let clientID = environment.config.oauthClientID() {
             let networkRequest = LogoutApi.invalidateToken(refreshToken: refreshToken, clientID: clientID)
-            environment.networkManager.taskForRequest(networkRequest) { result in }
+            environment.networkManager.taskForRequest(networkRequest) { _ in }
         }
+        environment.networkManager.tokenStatus = .prelogin
     }
 
     // MARK: - Debug

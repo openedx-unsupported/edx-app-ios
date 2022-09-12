@@ -186,7 +186,7 @@
 - (void)testMigrationClearSessionStorage {
     OEXAccessToken* token = [[OEXAccessToken alloc] init];
     token.accessToken = @"some token";
-    token.expiryDate = [NSDate date];
+    token.expiryDuration = @36000;
     token.scope = @"sample scope";
     
     OEXUserDetails* userDetails = [[OEXUserDetails alloc] init];

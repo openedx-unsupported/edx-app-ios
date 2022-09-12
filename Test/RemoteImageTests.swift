@@ -11,7 +11,9 @@ import XCTest
 
 private class StubHeaderProvider : AuthorizationHeaderProvider, SessionDataProvider {
     @objc var authorizationHeaders: [String : String] = ["test-header": "fake-value"]
-    @objc var isUserLoggedin: Bool { return true }
+    @objc var isUserLoggedIn: Bool { return true }
+    var tokenExpiryDuration: NSNumber? { return 36000 }
+    var tokenExpiryDate: Date? { return Date.distantFuture }
 }
 
 class RemoteImageTests: XCTestCase {
