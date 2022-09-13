@@ -31,8 +31,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         self.environment = environment
         
         super.init(env: environment)
-        navigationItem.title = Strings.courses
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,6 +42,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         view.accessibilityIdentifier = "enrolled-courses-screen"
         view.backgroundColor = environment.styles.standardBackgroundColor()
+        navigationItem.title = Strings.courses
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         addChild(coursesContainer)
         coursesContainer.didMove(toParent: self)
