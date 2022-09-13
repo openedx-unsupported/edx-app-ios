@@ -9,8 +9,8 @@
 import UIKit
 
 class CourseUpgradeButtonView: UIView, ShimmerView {
-    static var height: CGFloat = {
-        return OEXConfig.shared().inappPurchasesEnabled ? 36 : 0
+    var height: CGFloat = {
+        return (ServerConfiguration.shared.iapConfig?.enabledforUser ?? false) ? 36 : 0
     }()
         
     private lazy var titleLabel: UILabel = {
@@ -60,7 +60,7 @@ class CourseUpgradeButtonView: UIView, ShimmerView {
         isAccessibilityElement = true
         accessibilityHint = Strings.Accessibility.upgradeButtonHint
         
-        isHidden = OEXConfig.shared().inappPurchasesEnabled
+        isHidden = ServerConfiguration.shared.iapConfig?.enabledforUser ?? false
     }
     
     private func addConstraints() {

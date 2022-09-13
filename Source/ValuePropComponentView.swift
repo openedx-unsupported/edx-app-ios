@@ -163,7 +163,7 @@ class ValuePropComponentView: UIView {
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             make.trailing.equalTo(container).inset(StandardHorizontalMargin)
             make.top.equalTo(infoMessagesView.snp.bottom).offset(StandardVerticalMargin * 3)
-            make.height.equalTo(CourseUpgradeButtonView.height)
+            make.height.equalTo(upgradeButton.height)
         }
     }
     
