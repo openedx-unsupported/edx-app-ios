@@ -25,7 +25,7 @@ class ProfileOptionsViewController: UIViewController {
         case deleteAccount
     }
     
-    typealias Environment = OEXStylesProvider & OEXConfigProvider & NetworkManagerProvider & DataManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXInterfaceProvider & OEXAnalyticsProvider
+    typealias Environment = OEXStylesProvider & OEXConfigProvider & NetworkManagerProvider & DataManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXInterfaceProvider & OEXAnalyticsProvider & ServerConfigProvider
     
     let environment: Environment
     
@@ -141,7 +141,7 @@ class ProfileOptionsViewController: UIViewController {
             options.append(.personalInformation)
         }
         
-        if environment.config.inappPurchasesEnabled {
+        if environment.serverConfig.iapConfig?.enabled ?? false {
             options.append(.restorePurchase)
         }
         

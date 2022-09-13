@@ -201,7 +201,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             make.leading.equalTo(view).offset(StandardHorizontalMargin)
             make.trailing.equalTo(view).inset(StandardHorizontalMargin)
             make.bottom.equalTo(safeBottom).inset(StandardVerticalMargin)
-            make.height.equalTo(CourseUpgradeButtonView.height)
+            make.height.equalTo(upgradeButton.height)
         }
     }
     

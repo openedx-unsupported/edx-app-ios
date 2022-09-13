@@ -84,12 +84,9 @@
     [self.environment.session performMigrations];
     [self.environment.router openInWindow:self.window];
     [self configureBranch:launchOptions];
-        
-    [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+    [[PaymentManager shared] completeTransactions];
 
-    if (self.environment.config.inappPurchasesEnabled) {
-        [[PaymentManager shared] completeTransactions];
-    }
+    [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 
     return YES;
 }
