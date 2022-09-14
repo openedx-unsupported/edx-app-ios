@@ -32,7 +32,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         super.init(env: environment)
         navigationItem.title = Strings.courses
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
