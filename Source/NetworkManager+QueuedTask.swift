@@ -122,6 +122,7 @@ extension NetworkManager {
                 Logger.logInfo(NetworkManager.NETWORK, "Unable to handle task: \(queuedTask)")
             }
         }
+        removeAllQueuedTasks()
     }
     
     func removeAllQueuedTasks() {
