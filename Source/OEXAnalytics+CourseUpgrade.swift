@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 extension OEXAnalytics {
     private enum SDNAction: String {
         case accept
@@ -21,7 +22,7 @@ extension OEXAnalytics {
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
-            AnalyticsEventDataKey.ScreenName.rawValue: screenName.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue,
             key_course_id: courseID,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
         ]
@@ -40,7 +41,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
         ]
 
@@ -57,7 +58,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
         ]
@@ -75,7 +76,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
         ]
@@ -93,7 +94,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.UpgradeError.rawValue: paymentError,
         ]
@@ -111,7 +112,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID,
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.UpgradeError.rawValue: upgradeError,
         ]
@@ -129,7 +130,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
         ]
 
         trackEvent(event, forComponent: nil, withInfo: info)
@@ -145,7 +146,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.ErrorAction.rawValue: errorAction,
             AnalyticsEventDataKey.UpgradeError.rawValue: upgradeError,
@@ -164,7 +165,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: price,
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
         ]
@@ -182,7 +183,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.text,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
         ]

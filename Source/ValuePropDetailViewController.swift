@@ -9,23 +9,10 @@
 import UIKit
 
 enum CourseUpgradeScreen: String {
-    case myCourses
-    case courseDashboard
-    case courseUnit
+    case myCourses = "course_enrollment"
+    case courseDashboard = "course_dashboard"
+    case courseUnit = "course_unit"
     case none
-
-    var text: String {
-        switch self {
-        case .myCourses:
-            return "course_enrollment"
-        case .courseDashboard:
-            return "course_dashboard"
-        case .courseUnit:
-            return "course_component"
-        case .none:
-            return "none"
-        }
-    }
 }
 
 class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverriding {
@@ -99,6 +86,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         addObserver()
         configureView()
         fetchCoursePrice()
+        trackValuePropMessageViewed()
     }
 
     private func fetchCoursePrice() {
@@ -121,6 +109,11 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 }
             }
         }
+    }
+    
+    private func trackValuePropMessageViewed() {
+        guard let courseID = course.course_id else { return }
+        environment.analytics.trackValuePropMessageViewed(courseID: courseID, iapExperiementEnabled: false, screen: screen)
     }
     
     private func trackPriceLoadDuration(elapsedTime: Int) {
