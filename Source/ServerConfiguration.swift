@@ -46,7 +46,7 @@ public extension ServerConfigProvider {
 class IAPConfig: NSObject {
 
     enum Keys: String, RawStringExtractable {
-        case enabled = "enebled"
+        case enabled = "enabled"
         case experimentEnabled = "experiment_enabled"
     }
 
