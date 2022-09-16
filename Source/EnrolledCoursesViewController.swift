@@ -31,7 +31,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         self.environment = environment
         
         super.init(env: environment)
-        navigationItem.title = Strings.courses
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,6 +40,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = Strings.courses
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         view.accessibilityIdentifier = "enrolled-courses-screen"
         view.backgroundColor = environment.styles.standardBackgroundColor()
         
