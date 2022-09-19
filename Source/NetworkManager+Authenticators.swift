@@ -26,6 +26,9 @@ extension NetworkManager {
     public static func invalidAccessAuthenticator(router: OEXRouter?, session: OEXSession, clientId: String, response: HTTPURLResponse?, data: Data?, needsTokenRefresh: Bool) -> AuthenticationAction {
         // If access token is expired, then we must call the refresh access token API call.
         if needsTokenRefresh {
+            guard let refreshToken = session.token?.refreshToken else {
+                return logout(router: router)
+            }
             return refreshAccessToken(router: router, clientId: clientId, refreshToken: session.token?.refreshToken ?? "", session: session)
         }
         
@@ -82,12 +85,7 @@ private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshTok
     router?.environment.networkManager.tokenStatus = .authenticating
     
     return .authenticate { networkManager, completion in
-        let networkRequest = LoginAPI.requestTokenWithRefreshToken(
-            refreshToken: refreshToken,
-            clientId: clientId,
-            grantType: "refresh_token",
-            tokenType: "jwt"
-        )
+        let networkRequest = LoginAPI.requestTokenWithRefreshToken(refreshToken: refreshToken, clientId: clientId)
         
         networkManager.performTaskForRequest(networkRequest) { [weak networkManager] result in
             var success = false

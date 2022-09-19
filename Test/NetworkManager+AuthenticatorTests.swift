@@ -8,6 +8,8 @@
 
 import Foundation
 
+let NOTIFICATION_MOCK_LOGOUT_CALLED = "MockLogOutCalled"
+
 class NetworkManager_AuthenticationTests : XCTestCase {
     
     func authenticatorResponseForRequest(
@@ -18,7 +20,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         if waitForLogout {
             let expectation = self.expectation(description: "wait for mock LogOut")
 
-            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: "MockLogOutCalled") { [weak router] (notification, _, _) in
+            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_MOCK_LOGOUT_CALLED) { [weak router] (notification, _, _) in
                 if router?.testType == notification.object as? String {
                     expectation.fulfill()
                 }
@@ -53,13 +55,15 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testNonExistentAccessToken() {
-        let router = MockRouter()
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(400)
         let data = "{\"error\":\"token_nonexistent\"}".data(using: String.Encoding.utf8)!
-        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: true)
         XCTAssertTrue(result.isProceed)
-        XCTAssertFalse(router.logoutCalled)
+        XCTAssertTrue(router.logoutCalled)
     }
 
     func testInvalidGrantAccessToken() {

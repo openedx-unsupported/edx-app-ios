@@ -38,10 +38,8 @@ enum APIErrorCode: String, CaseIterable {
     
     var action: APIErrorCodeAction {
         switch self {
-        case .JWTTokenExpired, .OAuth2Expired, .OAuth2Nonexistent:
+        case .JWTTokenExpired, .OAuth2Expired:
             return .refresh
-        case .OAuth2InvalidGrant:
-            return .doNothing
         default:
             return .logout
         }
