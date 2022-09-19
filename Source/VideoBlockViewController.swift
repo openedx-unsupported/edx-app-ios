@@ -39,7 +39,17 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         loadController = LoadStateViewController()
         let block = courseQuerier.blockWithID(id: blockID)
-        if environment.config.youtubeVideoConfig.enabled && block.value?.type.asVideo?.isYoutubeVideo ?? false  {
+
+        // highest priority givin to youtube video if requested by the server
+        // video prority depends on the wafle flag videos.deprecate_youtube
+        // if a video is downloaded give prority to the downloaded video
+        var videoDownloaded = false
+        if let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID) {
+            let path = "\(video.filePath).mp4"
+            videoDownloaded = FileManager.default.fileExists(atPath: path)
+        }
+
+        if environment.config.youtubeVideoConfig.enabled && block.value?.type.asVideo?.isYoutubeVideo ?? false && !videoDownloaded {
             videoPlayer = YoutubeVideoPlayer(environment: environment)
         }
         else {
