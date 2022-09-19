@@ -10,7 +10,7 @@ import UIKit
 
 class CourseUpgradeButtonView: UIView, ShimmerView {
     var height: CGFloat = {
-        return (ServerConfiguration.shared.iapConfig?.enabledforUser ?? false) ? 36 : 0
+        return ServerConfiguration.shared.iapConfig?.enabledforUser ?? false ? 36 : 0
     }()
         
     private lazy var titleLabel: UILabel = {
