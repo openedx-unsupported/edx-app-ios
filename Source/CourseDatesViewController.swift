@@ -124,7 +124,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         setConstraints()
         setAccessibilityIdentifiers()
         loadStreams()
-        addObserver()
+        addObservers()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -152,14 +152,16 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         loadCourseBannerStream()
     }
     
-    private func addObserver() {
+    private func addObservers() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_SHIFT_COURSE_DATES) { _, observer, _ in
             observer.datesShifted = true
             observer.loadStreams()
         }
         
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_FIREBASE_REMOTE_CONFIG) { _, observer, _ in
-            observer.updateHeaderView()
+            DispatchQueue.main.async {
+                observer.updateHeaderView()
+            }
         }
     }
     
