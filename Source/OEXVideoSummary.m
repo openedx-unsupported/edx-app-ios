@@ -149,7 +149,7 @@
 }
 
 - (BOOL)isYoutubeVideo {
-    OEXVideoEncoding *encoding = _preferredEncoding;
+    OEXVideoEncoding *encoding = self.preferredEncoding;
     if (encoding != nil) {
         if ([[encoding name] isEqualToString:OEXVideoEncodingYoutube]) {
             return true;
