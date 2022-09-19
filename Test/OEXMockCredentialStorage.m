@@ -17,7 +17,7 @@
 + (instancetype)fakeToken {
     OEXAccessToken* token = [[OEXAccessToken alloc] init];
     token.accessToken = [NSUUID UUID].UUIDString;
-    token.expiryDate = [[NSDate date] dateByAddingDays:1];
+    token.expiryDuration = @36000;
     token.scope = @"sample scope";
     token.tokenType = @"sample type";
     return token;

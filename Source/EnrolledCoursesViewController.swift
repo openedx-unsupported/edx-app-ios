@@ -31,8 +31,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         self.environment = environment
         
         super.init(env: environment)
-        navigationItem.title = Strings.courses
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,6 +40,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = Strings.courses
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         view.accessibilityIdentifier = "enrolled-courses-screen"
         view.backgroundColor = environment.styles.standardBackgroundColor()
         
@@ -72,6 +72,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         setupListener()
         setupObservers()
+        addMenuButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +94,18 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
         
     }
+
+    private func addMenuButton() {
+            let menuButton = UIBarButtonItem(image: Icon.Menu.imageWithFontSize(size: 22), style: .plain, target: nil, action: nil)
+            menuButton.accessibilityLabel = Strings.accessibilityProfile
+            menuButton.accessibilityIdentifier = "EnrolledTabBarViewController:menu-button"
+            menuButton.accessibilityHint = Strings.Accessibility.profileMenuHint
+            navigationItem.rightBarButtonItem = menuButton
+
+            menuButton.oex_setAction { [weak self] in
+                self?.environment.router?.showProfile(controller: self)
+            }
+        }
     
     override func reloadViewData() {
         refreshIfNecessary()

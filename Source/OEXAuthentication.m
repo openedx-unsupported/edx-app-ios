@@ -211,6 +211,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
             OEXUserDetails* userDetails = [[OEXUserDetails alloc] initWithUserDictionary:dictionary];
             if(token != nil && userDetails != nil) {
                 [[OEXSession sharedSession] saveAccessToken:token userDetails:userDetails];
+                [[OEXRouter sharedRouter].environment.networkManager setTokenStatus:AccessTokenStatusValid];
             }
             else {
                 // On the off chance that something messed up and we have nil

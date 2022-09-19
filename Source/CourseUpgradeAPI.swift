@@ -39,7 +39,7 @@ public struct CourseUpgradeAPI {
     static func checkoutAPI(basketID: Int) -> NetworkRequest<CheckoutBasket> {
         return NetworkRequest(
             method: .POST,
-            path: "/api/v2/checkout/",
+            path: "/api/iap/v1/checkout/",
             requiresAuth: true,
             body: .jsonBody(JSON([
                 "basket_id": basketID,

@@ -38,6 +38,7 @@ extern NSString* const OEXSessionEndedNotification;
 /// When registration is sucssessful, this token is removed.
 @property (nonatomic, strong, nullable) NSString* thirdPartyAuthAccessToken;
 
+- (BOOL)userExists;
 - (void)loadTokenFromStore;
 - (void)saveAccessToken:(OEXAccessToken*)token userDetails:(OEXUserDetails*)userDetails;
 - (void)closeAndClearSession;

@@ -13,13 +13,15 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     func authenticatorResponseForRequest(
         _ response: HTTPURLResponse, data: Data, session: OEXSession, router: MockRouter, waitForLogout: Bool) -> AuthenticationAction {
         let clientId = "dummy client_id"
-        let result = NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId: clientId, response: response, data: data)
+        let result = NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId: clientId, response: response, data: data, needsTokenRefresh: false)
         
         if waitForLogout {
             let expectation = self.expectation(description: "wait for mock LogOut")
 
-            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: "MockLogOutCalled") { (_, _, _) in
-                expectation.fulfill()
+            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: "MockLogOutCalled") { [weak router] (notification, _, _) in
+                if router?.testType == notification.object as? String {
+                    expectation.fulfill()
+                }
             }
 
             waitForExpectations()
@@ -41,6 +43,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     
     func testLogoutWithNoRefreshToken() {
         let router = MockRouter()
+        router.testType = "testLogoutWithNoRefreshToken"
         let session = OEXSession()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
@@ -55,7 +58,8 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         let response = simpleResponseBuilder(400)
         let data = "{\"error\":\"token_nonexistent\"}".data(using: String.Encoding.utf8)!
         let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
-        XCTAssertTrue(result.isAuthenticate)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertFalse(router.logoutCalled)
     }
 
     func testInvalidGrantAccessToken() {
@@ -79,7 +83,9 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testExpiredAccessTokenReturnsAuthenticate() {
-        let router = MockRouter()
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
@@ -87,6 +93,18 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         XCTAssertTrue(result.isAuthenticate)
     }
     
+    func testMultipleRequestsWithExpiredAccessToken() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
+        let firstResult = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        let secondResult = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        XCTAssertTrue(firstResult.isAuthenticate)
+        XCTAssertTrue(secondResult.isQueued)
+    }
 
     func sessionWithRefreshTokenBuilder() -> OEXSession {
         let accessToken = OEXAccessToken()

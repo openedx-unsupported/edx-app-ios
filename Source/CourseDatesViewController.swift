@@ -56,9 +56,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return view
     }()
         
-    private lazy var calendarSyncConfig: CalendarSyncConfig = {
+    private var calendarSyncConfig: CalendarSyncConfig {
         return environment.remoteConfig.calendarSyncConfig
-    }()
+    }
     
     private lazy var courseQuerier: CourseOutlineQuerier = {
         return environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
@@ -113,6 +113,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
+    private var courseBanner: CourseDateBannerModel?
+    
     init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
@@ -155,6 +157,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             observer.datesShifted = true
             observer.loadStreams()
         }
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_FIREBASE_REMOTE_CONFIG) { _, observer, _ in
+            observer.updateHeaderView()
+        }
     }
     
     private func setupView() {
@@ -173,6 +179,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         datesLoader.addBackingStream(datesLoader)
         
         stream?.listen(self) { [weak self] response in
+            self?.refreshController.endRefreshing()
             switch response {
             case .success((var courseDateModel, let userPreference)):
                 if courseDateModel.dateBlocks.isEmpty {
@@ -200,7 +207,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         courseBannerStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseBanner):
-                self?.handleHeaderView(courseBanner: courseBanner)
+                self?.courseBanner = courseBanner
+                self?.updateHeaderView()
                 break
                 
             case .failure(let error):
@@ -210,7 +218,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func handleHeaderView(courseBanner: CourseDateBannerModel) {
+    private func updateHeaderView() {
+        guard let courseBanner = courseBanner else { return }
         loadCourseDateHeaderView(bannerModel: courseBanner, calendarSyncEnabled: calendarSyncEnabled)
     }
     
@@ -228,8 +237,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private func updateCourseHeaderVisibility(visibile: Bool) {
         courseDatesHeaderView.isHidden = !true
         courseDatesHeaderView.snp.remakeConstraints { make in
-            make.leading.equalTo(tableView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(tableView).inset(StandardHorizontalMargin)
+            make.leading.equalTo(view).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(view).inset(StandardHorizontalMargin)
             make.top.equalTo(tableView).offset(StandardVerticalMargin)
             if !visibile {
                 make.height.equalTo(0)

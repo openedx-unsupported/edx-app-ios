@@ -9,8 +9,11 @@
 import XCTest
 @testable import edX
 
-private class StubHeaderProvider : AuthorizationHeaderProvider {
+private class StubHeaderProvider : AuthorizationHeaderProvider, SessionDataProvider {
     @objc var authorizationHeaders: [String : String] = ["test-header": "fake-value"]
+    @objc var isUserLoggedIn: Bool { return true }
+    var tokenExpiryDuration: NSNumber? { return 36000 }
+    var tokenExpiryDate: Date? { return Date.distantFuture }
 }
 
 class RemoteImageTests: XCTestCase {
@@ -20,7 +23,7 @@ class RemoteImageTests: XCTestCase {
             return OHHTTPStubsResponse(error: NetworkManager.unknownError)
         }
 
-        let networkManager = NetworkManager(authorizationHeaderProvider: StubHeaderProvider(), credentialProvider: nil, baseURL: URL(string:"http://example.com")!, cache: MockResponseCache())
+        let networkManager = NetworkManager(authorizationDataProvider: StubHeaderProvider(), credentialProvider: nil, baseURL: URL(string:"http://example.com")!, cache: MockResponseCache())
 
         let remoteImage = RemoteImageImpl(url: url, networkManager: networkManager, placeholder: nil, persist: false)
 

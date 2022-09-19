@@ -56,3 +56,7 @@
 "COURSE_UPGRADE.RESTORE.ALERT_MESSAGE"="All purchases are up to date. If you’re not seeing your purchases restored, please try restarting your app to refresh the experience.";
 /*Title of the inprogress indicator in restore purchases flow*/
 "COURSE_UPGRADE.RESTORE.INPROGRESS_TEXT"="Checking purchases...";
+/*Title of SDN prompt*/
+"COURSE_UPGRADE.SDN.PROMPT.TITLE"="SDN";
+/*Message of SDN prompt*/
+"COURSE_UPGRADE.SDN.PROMPT.MESSAGE"="SDN Message Body";

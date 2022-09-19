@@ -84,13 +84,12 @@ import UIKit
         }
         else if controller is OEXCourseInfoViewController {
             return .discoveryCourseDetail
-        } else if let _ = controller as? DiscoveryViewController {
+        } else if controller is DiscoveryViewController {
             return .discovery
         } else if controller is OEXFindCoursesViewController  {
             return .discovery
-        } else if let _ = controller as? ProgramsDiscoveryViewController {
+        } else if controller is ProgramsDiscoveryViewController {
             return .discoveryProgramDetail
-
         } else if controller is ProgramsViewController {
             return .program
         } else if controller is DiscussionTopicsViewController {
@@ -161,8 +160,12 @@ import UIKit
             break
         case .discovery:
             guard environment?.config.discovery.isEnabled ?? false else { return }
-            if let _ = topMostViewController as? DiscoveryViewController {
-                // TODO: Refresh discovery with course query if needed(Not decided yet).
+            if let courseInfoViewController = topMostViewController as? OEXCourseInfoViewController {
+                courseInfoViewController.navigationController?.popToRootViewController(animated: true)
+            }
+            if let tabbarViewController = topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
+                let controller = tabbarViewController.switchTab(with: .discovery)
+                controller.navigationController?.popToRootViewController(animated: true)                
             }
             break
             
@@ -176,8 +179,11 @@ import UIKit
         
         if isUserLoggedin() {
             dismiss() { [weak self] _ in
-                if let topController = self?.topMostViewController {
-                    self?.environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: true , pathID: pathId)
+                if let topController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) {
+                    if let controller = topController.switchTab(with: .discovery) as? OEXFindCoursesViewController,
+                       let courseId = link.courseId {
+                        self?.environment?.router?.showDiscoveryDetail(from: controller, type: .discoveryCourseDetail, pathID: courseId, bottomBar: controller.bottomBar)
+                    }
                 }
             }
         }
@@ -213,7 +219,7 @@ import UIKit
             let myProgramDetailURL = environment?.config.programConfig.programDetailURLTemplate,
             let pathID = link.pathID,
             let url = URL(string: myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathID))
-            else { return}
+            else { return }
         
         if let topController = topMostViewController, let controller = topController as? ProgramsViewController {
             if controller.type == .base {
@@ -246,7 +252,7 @@ import UIKit
             completion?(true)
             return
         }
-
+        
         if topViewController is UserProfileViewController || topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
             if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is ProfileOptionsViewController}) {
                 topViewController.navigationController?.popToViewController(viewController, animated: true)
@@ -259,11 +265,19 @@ import UIKit
         }
         else {
             dismiss() { [weak self] dismiss in
-                // dissmiss will be false if the notice banner is on screen while dismissing the presented controller
+                // dismiss will be false if the notice banner is on screen while dismissing the presented controller
                 if !dismiss { return }
-
-                if let topViewController = self?.topMostViewController {
-                    self?.environment?.router?.showProfile(controller: topViewController, completion: completion)
+                
+                guard let tabbarViewController = self?.topMostViewController?.find(viewController: EnrolledTabBarViewController.self) else {
+                    completion?(false)
+                    return
+                }
+                
+                if let profileOptions = tabbarViewController.switchTab(with: .profile) as? ProfileOptionsViewController {
+                    profileOptions.navigationController?.popToRootViewController(animated: true) {
+                        profileOptions.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
+                        completion?(true)
+                    }
                 }
             }
         }
@@ -521,6 +535,8 @@ import UIKit
             showProgramDetail(with: link)
             break
         case .profile:
+            showUserProfile(with: link)
+        case .settings:
             showProfile(with: link)
             break
         case .userProfile:

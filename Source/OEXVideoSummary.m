@@ -29,6 +29,7 @@
 @property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
 @property (nonatomic, strong) NSMutableArray *supportedEncodings;
 @property (nonatomic, copy) NSArray *allSources;
+@property (nonatomic, strong) NSArray* sortedEncodings;
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName;
 
@@ -72,7 +73,7 @@
         self.transcripts = [summary objectForKey:@"transcripts"];
         
         if (_encodings.count <=0)
-            _defaultEncoding = [[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:[summary objectForKey:@"video_url"] size:[summary objectForKey:@"size"]];
+            _defaultEncoding = [[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:[summary objectForKey:@"video_url"] size:[summary objectForKey:@"size"] streamPriority:@1];
         self.supportedEncodings = [[NSMutableArray alloc] initWithArray:@[
             OEXVideoEncodingHLS,
             OEXVideoEncodingDesktopMP4,
@@ -85,6 +86,8 @@
         }
         
         self.allSources = [summary objectForKey:@"all_sources"];
+        
+        self.sortedEncodings = self.encodingsSortedByStreamPriority;
     }
     
     return self;
@@ -106,20 +109,43 @@
         self.name = name;
         self.videoID = videoID;
         self.encodings = encodings;
+        self.sortedEncodings = self.encodingsSortedByStreamPriority;
     }
     return self;
 }
 
 - (OEXVideoEncoding*)preferredEncoding {
-    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
-        OEXVideoEncoding* encoding = self.encodings[name];
-        if (encoding != nil) {
+    for (OEXVideoEncoding* encoding in self.sortedEncodings) {
+        if ([[OEXVideoEncoding knownEncodingNames] containsObject:encoding.name]) {
             return encoding;
         }
     }
-    
     // Don't have a known encoding, so return default encoding
     return self.defaultEncoding;
+}
+
+- (NSArray*)encodingsSortedByStreamPriority {
+    NSArray* sortedEncodings = [[self.encodings allValues] sortedArrayUsingComparator:^NSComparisonResult(OEXVideoEncoding *a, OEXVideoEncoding *b) {
+        return [a.streamPriority compare:b.streamPriority];
+    }];
+    
+    NSMutableArray* filteredArray = [sortedEncodings mutableCopy];
+    
+    int count = (int)filteredArray.count;
+    
+    int i = 0;
+    
+    for (int j = 0; j < count; j++) {
+        OEXVideoEncoding* encoding = filteredArray[j];
+        if (encoding.streamPriority != [NSNumber numberWithInt:-1]) {
+            if (i < j) {
+                [filteredArray exchangeObjectAtIndex:i withObjectAtIndex:j];
+            }
+            i++;
+        }
+    }
+    
+    return filteredArray;
 }
 
 - (BOOL)isYoutubeVideo {
