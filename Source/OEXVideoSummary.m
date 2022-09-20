@@ -149,17 +149,15 @@
 }
 
 - (BOOL)isYoutubeVideo {
-    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
-        OEXVideoEncoding* encoding = self.encodings[name];
-        
-        NSString *name = [encoding name];
-        if ([self isSupportedEncoding:name]) {
-            return false;
-        } else if ([[encoding name] isEqualToString:OEXVideoEncodingYoutube]) {
+    OEXVideoEncoding *encoding = self.preferredEncoding;
+    if (encoding != nil) {
+        if ([[encoding name] isEqualToString:OEXVideoEncodingYoutube]) {
             return true;
         }
+        else if ([self isSupportedEncoding:[encoding name]]) {
+            return false;
+        }
     }
-    
     return false;
 }
 
