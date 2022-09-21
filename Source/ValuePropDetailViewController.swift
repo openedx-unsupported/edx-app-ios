@@ -113,7 +113,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     private func trackValuePropMessageViewed() {
         guard let courseID = course.course_id else { return }
-        environment.analytics.trackValuePropMessageViewed(courseID: courseID, iapExperiementEnabled: false, screen: screen)
+        environment.analytics.trackValuePropMessageViewed(courseID: courseID, paymentsEnabled: false, iapExperiementEnabled: false, screen: screen)
     }
     
     private func trackPriceLoadDuration(elapsedTime: Int) {

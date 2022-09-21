@@ -244,6 +244,7 @@ public enum AnalyticsEventDataKey: String {
     case IAPExperiementGroup = "iap_experiment_group"
     case Treatment = "treatment"
     case Control = "control"
+    case PaymentsEnabled = "payment_enabled"
 }
 
 extension OEXAnalytics {
@@ -435,15 +436,16 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
-    func trackValuePropMessageViewed(courseID: String, blockID: String? = nil, iapExperiementEnabled: Bool, group: String? = nil, screen: CourseUpgradeScreen) {
+    func trackValuePropMessageViewed(courseID: String, blockID: String? = nil, paymentsEnabled: Bool, iapExperiementEnabled: Bool, group: String? = nil, screen: CourseUpgradeScreen) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.ValuePropMessageViewed.rawValue
         event.name = AnalyticsEventName.ValuePropMessageViewed.rawValue
         
-        var info = [
+        var info: [String : Any] = [
             key_course_id: courseID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.PaymentsEnabled.rawValue: paymentsEnabled
         ]
         
         if iapExperiementEnabled {

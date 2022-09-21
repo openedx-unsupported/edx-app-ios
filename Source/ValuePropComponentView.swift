@@ -201,7 +201,7 @@ class ValuePropComponentView: UIView {
     
     private func trackValuePropMessageViewed() {
         guard let courseID = course?.course_id else { return }
-        environment.analytics.trackValuePropMessageViewed(courseID: courseID, blockID: blockID, iapExperiementEnabled: false, screen: .courseUnit)
+        environment.analytics.trackValuePropMessageViewed(courseID: courseID, blockID: blockID, paymentsEnabled: false, iapExperiementEnabled: false, screen: .courseUnit)
     }
     
     private func trackPriceLoadDuration(elapsedTime: Int) {
