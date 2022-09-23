@@ -15,7 +15,7 @@ protocol ValuePropMessageViewDelegate: AnyObject {
 
 class ValuePropComponentView: UIView {
     
-    typealias Environment = OEXStylesProvider & DataManagerProvider & OEXAnalyticsProvider
+    typealias Environment = OEXStylesProvider & DataManagerProvider & OEXAnalyticsProvider & ServerConfigProvider
         
     weak var delegate: ValuePropMessageViewDelegate?
         
@@ -90,6 +90,7 @@ class ValuePropComponentView: UIView {
         setupViews()
         setConstraints()
         setAccessibilityIdentifiers()
+        trackValuePropMessageViewed()
     }
     
     required init?(coder: NSCoder) {
@@ -196,6 +197,14 @@ class ValuePropComponentView: UIView {
                 }
             }
         }
+    }
+    
+    private func trackValuePropMessageViewed() {
+        guard let courseID = course?.course_id else { return }
+        let paymentsEnabled = (environment.serverConfig.iapConfig?.enabled ?? false) && course?.sku != nil
+        let iapExperiementEnabled = environment.serverConfig.iapConfig?.experimentEnabled ?? false
+        let group = environment.serverConfig.iapConfig?.experimentGroup
+        environment.analytics.trackValuePropMessageViewed(courseID: courseID, paymentsEnabled: paymentsEnabled, iapExperiementEnabled: iapExperiementEnabled, group: group, screen: .courseUnit)
     }
     
     private func trackPriceLoadDuration(elapsedTime: Int) {

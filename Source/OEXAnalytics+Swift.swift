@@ -29,6 +29,7 @@ public enum AnalyticsDisplayName : String {
     case ValuePropLockedContentClicked = "Value Prop Locked Content Clicked"
     case ValuePropShowMoreClicked = "Value Prop Show More Clicked"
     case ValuePropShowLessClicked = "Value Prop Show Less Clicked"
+    case ValuePropMessageViewed = "Value Prop Message Viewed"
     case CreateAccount = "Create Account Clicked"
     case RegistrationSuccess = "Registration Success"
     case EnrolledCourseClicked = "Course Enroll Clicked"
@@ -92,9 +93,9 @@ public enum AnalyticsDisplayName : String {
     case CourseUpgradeError = "Payments: Course Upgrade Error"
     case CourseUpgradeLoadError = "Payments: Price Load Error"
     case CourseUpgradeErrorAction = "Payments: Error Alert Action"
+    case SDNPromptAction = "Payments: SDN Prompt Action"
     case DiscoverExternalLinkOpenAlert = "Discovery: External Link Opening Alert"
     case DiscoverExternalLinkOpenAlertAction = "Discovery: External Link Opening Alert Action"
-    case SDNPromptAction = "Payments: SDN Prompt Action"
 }
 
 public enum AnalyticsEventName: String {
@@ -108,6 +109,7 @@ public enum AnalyticsEventName: String {
     case ValuePropLockedContentClicked = "edx.bi.app.course.unit.locked.content.clicked"
     case ValuePropShowMoreClicked = "edx.bi.app.value_prop.show_more.clicked"
     case ValuePropShowLessClicked = "edx.bi.app.value_prop.show_less.clicked"
+    case ValuePropMessageViewed = "edx.bi.app.value_prop_message.viewed"
     case ViewRating = "edx.bi.app.app_reviews.view_rating"
     case DismissRating = "edx.bi.app.app_reviews.dismiss_rating"
     case SubmitRating = "edx.bi.app.app_reviews.submit_rating"
@@ -239,6 +241,8 @@ public enum AnalyticsEventDataKey: String {
     case UpgradeError = "error"
     case ErrorAction = "error_action"
     case Action = "action"
+    case IAPExperiementGroup = "iap_experiment_group"
+    case PaymentsEnabled = "payment_enabled"
 }
 
 extension OEXAnalytics {
@@ -427,6 +431,25 @@ extension OEXAnalytics {
             key_course_id: courseID
         ]
 
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackValuePropMessageViewed(courseID: String, blockID: String? = nil, paymentsEnabled: Bool, iapExperiementEnabled: Bool, group: IAPExperiementGroup? = nil, screen: CourseUpgradeScreen) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.ValuePropMessageViewed.rawValue
+        event.name = AnalyticsEventName.ValuePropMessageViewed.rawValue
+        
+        var info: [String : Any] = [
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
+            AnalyticsEventDataKey.PaymentsEnabled.rawValue: paymentsEnabled
+        ]
+        
+        if iapExperiementEnabled {
+            info.setObjectOrNil(group?.rawValue, forKey: AnalyticsEventDataKey.IAPExperiementGroup.rawValue)
+        }
+        
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
