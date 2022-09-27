@@ -442,9 +442,10 @@ extension OEXAnalytics {
         var info: [String : Any] = [
             key_course_id: courseID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.PaymentsEnabled.rawValue: paymentsEnabled
         ]
+        
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
         
         if iapExperiementEnabled {
             info.setObjectOrNil(group?.rawValue, forKey: AnalyticsEventDataKey.IAPExperiementGroup.rawValue)
