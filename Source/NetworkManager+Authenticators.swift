@@ -29,7 +29,7 @@ extension NetworkManager {
             guard let refreshToken = session.token?.refreshToken else {
                 return logout(router: router)
             }
-            return refreshAccessToken(router: router, clientId: clientId, refreshToken: session.token?.refreshToken ?? "", session: session)
+            return refreshAccessToken(router: router, clientId: clientId, refreshToken: refreshToken, session: session)
         }
         
         if let data = data,
@@ -71,6 +71,7 @@ extension NetworkManager {
 }
 
 private func logout(router: OEXRouter?) -> AuthenticationAction {
+    router?.environment.networkManager.removeAllQueuedTasks()
     DispatchQueue.main.async {
         router?.logout()
     }
