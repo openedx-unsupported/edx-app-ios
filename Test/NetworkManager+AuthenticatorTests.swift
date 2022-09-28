@@ -44,7 +44,9 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testLogoutWithNoRefreshToken() {
-        let router = MockRouter()
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
         router.testType = "testLogoutWithNoRefreshToken"
         let session = OEXSession()
         let response = simpleResponseBuilder(401)
@@ -67,7 +69,9 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
 
     func testInvalidGrantAccessToken() {
-        let router = MockRouter()
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"invalid_grant\"}".data(using: String.Encoding.utf8)!
