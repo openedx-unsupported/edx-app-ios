@@ -48,6 +48,11 @@ public extension ServerConfigProvider {
     }
 }
 
+enum IAPExperiementGroup: String {
+    case control
+    case treatment
+}
+
 class IAPConfig: NSObject {
 
     enum Keys: String, RawStringExtractable {
@@ -69,6 +74,14 @@ class IAPConfig: NSObject {
         }
 
         return enabled
+    }
+    
+    var experimentGroup: IAPExperiementGroup? {
+        if experimentEnabled && enabled {
+            return OEXSession.shared()?.currentUser?.isFromControlGroup ?? false ? .control : .treatment
+        }
+        
+        return nil
     }
 }
 
