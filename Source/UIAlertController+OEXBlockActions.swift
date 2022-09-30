@@ -236,3 +236,21 @@ fileprivate extension UIActivityIndicatorView {
         transform = CGAffineTransform(scaleX: factor, y: factor)
     }
 }
+
+extension UIAlertController {
+    func setMessageAlignment(_ alignment: NSTextAlignment, fontSize: CGFloat = OEXTextStyle.pointSize(for: .small), textColor: UIColor = OEXStyles.shared().neutralBlackT()) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = alignment
+
+        let messageText = NSMutableAttributedString(
+            string: message ?? "",
+            attributes: [
+                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                NSAttributedString.Key.font: OEXStyles.shared().regularFont(ofSize: fontSize),
+                NSAttributedString.Key.foregroundColor: textColor
+            ]
+        )
+
+        setValue(messageText, forKey: "attributedMessage")
+    }
+}
