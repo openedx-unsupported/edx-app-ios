@@ -72,32 +72,32 @@ class CourseUpgradeHandler: NSObject {
         state = .initial
         // Show SDN alert only for while doing the payment
         // Don't show in case of auto fullfilment on app reelaunch and restore
-        if upgradeMode == .normal {
-            state = .sdn
-            showSDNprompt { [weak self] success in
-                if success {
-                    self?.proceedWithUpgrade()
-                } else {
-                    self?.state = .error(type: .sdnError, error: self?.error(message: "user does not allow sdn check"))
-                }
-            }
-        }
-        else {
-            proceedWithUpgrade()
-        }
+//        if upgradeMode == .normal {
+//            state = .sdn
+//            showSDNprompt { [weak self] success in
+//                if success {
+//                    self?.proceedWithUpgrade()
+//                } else {
+//                    self?.state = .error(type: .sdnError, error: self?.error(message: "user does not allow sdn check"))
+//                }
+//            }
+//        }
+//        else {
+//            proceedWithUpgrade()
+//        }
     }
     
-    private func showSDNprompt(completion: @escaping (Bool) -> ()) {
+    static func showSDNprompt(completion: @escaping (Bool) -> ()) {
         guard let controller = UIApplication.shared.topMostController() else { return }
         
-        let alert = UIAlertController().alert(withTitle: Strings.CourseUpgrade.Sdn.Prompt.title, message: Strings.CourseUpgrade.Sdn.Prompt.message, cancelButtonTitle: Strings.cancel) { controller, action, buttonIndex in
+        let alert = UIAlertController().alert(withTitle: "", message: Strings.CourseUpgrade.Sdn.Prompt.message, cancelButtonTitle: Strings.CourseUpgrade.Sdn.Prompt.confirm) { controller, _, buttonIndex in
             if buttonIndex == controller.cancelButtonIndex {
-                completion(false)
+                completion(true)
             }
         }
         
-        alert.addButton(withTitle: Strings.ok) { _ in
-            completion(true)
+        alert.addButton(withTitle: Strings.CourseUpgrade.Sdn.Prompt.reject) { _ in
+            completion(false)
         }
         
         controller.present(alert, animated: true)
