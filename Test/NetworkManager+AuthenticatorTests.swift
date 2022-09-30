@@ -79,6 +79,18 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         XCTAssertTrue(result.isProceed)
         XCTAssertFalse(router.logoutCalled)
     }
+
+    func testDisabledAccount() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"account_disabled\"}".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertFalse(router.logoutCalled)
+    }
     
     func testLogoutWithNonJSONData() {
         let router = MockRouter()
