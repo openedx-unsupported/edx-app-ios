@@ -12,6 +12,7 @@ class CourseUpgradeHandler: NSObject {
     
     enum CourseUpgradeState {
         case initial
+        case sdnPrompt
         case sdn
         case basket
         case checkout
@@ -73,9 +74,10 @@ class CourseUpgradeHandler: NSObject {
         // Show SDN alert only for while doing the payment
         // Don't show in case of auto fullfilment on app reelaunch and restore
         if upgradeMode == .normal {
-            state = .sdn
+            state = .sdnPrompt
             showSDNprompt { [weak self] success in
                 if success {
+                    self?.state = .sdn
                     self?.proceedWithUpgrade()
                 } else {
                     self?.state = .error(type: .sdnError, error: self?.error(message: "user does not allow sdn check"))
