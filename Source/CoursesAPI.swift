@@ -12,12 +12,12 @@ import edXCore
 struct CoursesAPI {
     private enum Keys: String, RawStringExtractable {
         case enrollments
-        case config
+        case configs
     }
     
     static func enrollmentsDeserializer(response: HTTPURLResponse, json: JSON) -> Result<[UserCourseEnrollment]> {
-        if json[Keys.config].exists() {
-            ServerConfiguration.shared.initialize(json: json[Keys.config])
+        if json[Keys.configs].exists() {
+            ServerConfiguration.shared.initialize(json: json[Keys.configs])
         }
         if json[Keys.enrollments].exists() {
             return (json[Keys.enrollments].array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()

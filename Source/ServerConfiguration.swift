@@ -21,6 +21,7 @@ public extension ServerConfigProvider {
 @objc public class ServerConfiguration: NSObject {
     private enum Keys: String, RawStringExtractable {
         case valuePropEnabled = "value_prop_enabled"
+        case config = "config"
     }
     
     @objc static let shared = ServerConfiguration()
@@ -32,7 +33,11 @@ public extension ServerConfigProvider {
     }
     
     func initialize(json: JSON) {
-        guard let dictionary = json.dictionaryObject else { return }
-        valuePropEnabled = dictionary[Keys.valuePropEnabled] as? Bool ?? false
+        guard let dictionary = json.dictionaryObject,
+              let configString = dictionary[Keys.config] as? String,
+              let configData = configString.data(using: .utf8),
+              let config = try? JSONSerialization.jsonObject(with: configData, options : []) as? Dictionary<String,Any> else { return }
+
+        valuePropEnabled = config[Keys.valuePropEnabled] as? Bool ?? false
     }
 }
