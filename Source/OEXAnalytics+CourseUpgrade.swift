@@ -9,8 +9,8 @@
 import Foundation
 extension OEXAnalytics {
     private enum SDNAction: String {
-        case accept
-        case cancel
+        case confirm
+        case reject
     }
     
     func trackUpgradeNow(with courseID: String, blockID: String? = nil, pacing: String, screenName: CourseUpgradeScreen, coursePrice: String) {
@@ -29,14 +29,14 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
     
-    func trackSDN(accept: Bool, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen) {
+    func trackSDN(confirm: Bool, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.SDNPromptAction.rawValue
         event.name = AnalyticsEventName.SDNPrompt.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
         
         let info = [
-            AnalyticsEventDataKey.Action.rawValue: accept ? SDNAction.accept.rawValue : SDNAction.cancel.rawValue,
+            AnalyticsEventDataKey.Action.rawValue: confirm ? SDNAction.confirm.rawValue : SDNAction.reject.rawValue,
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
