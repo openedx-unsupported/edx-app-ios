@@ -27,7 +27,7 @@ class CourseUpgradeHandler: NSObject {
         case restore
     }
     
-    typealias Environment = NetworkManagerProvider
+    typealias Environment = NetworkManagerProvider & OEXConfigProvider
     typealias UpgradeCompletionHandler = (CourseUpgradeState) -> Void
     
     private var environment: Environment? = nil
@@ -90,7 +90,7 @@ class CourseUpgradeHandler: NSObject {
     private func showSDNprompt(completion: @escaping (Bool) -> ()) {
         guard let controller = UIApplication.shared.topMostController() else { return }
         
-        let alert = UIAlertController().alert(withTitle: Strings.CourseUpgrade.Sdn.Prompt.title, message: Strings.CourseUpgrade.Sdn.Prompt.message, cancelButtonTitle: Strings.CourseUpgrade.Sdn.Prompt.confirm) { controller, _, buttonIndex in
+        let alert = UIAlertController().alert(withTitle: Strings.CourseUpgrade.Sdn.Prompt.title, message: Strings.CourseUpgrade.Sdn.Prompt.message(platformName: environment?.config.platformName() ?? ""), cancelButtonTitle: Strings.CourseUpgrade.Sdn.Prompt.confirm) { controller, _, buttonIndex in
             if buttonIndex == controller.cancelButtonIndex {
                 completion(true)
             }

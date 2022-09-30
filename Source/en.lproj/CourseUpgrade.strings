@@ -57,7 +57,7 @@
 /*Title of SDN prompt*/
 "COURSE_UPGRADE.SDN.PROMPT.TITLE"="Sanctions Compliance";
 /*Message of SDN prompt*/
-"COURSE_UPGRADE.SDN.PROMPT.MESSAGE"="I certify that: \n(i) I (and any 3rd party paying for my course participation) am not on any government sanctions, exclusion, or export-controlled related restricted party list; and, \n(ii) I am not located in, or ordinarily resident in, any country or region that is subject to US, EU, or other applicable jurisdiction's laws and regulations preventing edX from providing me services there.";
+"COURSE_UPGRADE.SDN.PROMPT.MESSAGE"="I certify that: \n(i) I (and any 3rd party paying for my course participation) am not on any government sanctions, exclusion, or export-controlled related restricted party list; and, \n(ii) I am not located in, or ordinarily resident in, any country or region that is subject to US, EU, or other applicable jurisdiction's laws and regulations preventing {platform_name} from providing me services there.";
 /*SDN Confirm*/
 "COURSE_UPGRADE.SDN.PROMPT.CONFIRM"="Confirm";
 /*SDN Reject*/
