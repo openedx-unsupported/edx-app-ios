@@ -78,7 +78,6 @@ class ProfileOptionsViewController: UIViewController {
         title = Strings.UserAccount.profile
                 
         setupViews()
-        addCloseButton()
         configureOptions()
         setupProfileLoader()
         
@@ -121,19 +120,7 @@ class ProfileOptionsViewController: UIViewController {
             profileFeed.refresh()
         }
     }
-
-    private func addCloseButton() {
-        let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: crossButtonSize), style: .plain, target: nil, action: nil)
-        closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
-        closeButton.accessibilityHint = Strings.Accessibility.closeHint
-        closeButton.accessibilityIdentifier = "ProfileOptionsViewController:close-button"
-        navigationItem.rightBarButtonItem = closeButton
-
-        closeButton.oex_setAction { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
-    }
-
+    
     private func configureOptions() {
         options.append(.videoSetting)
         
