@@ -97,9 +97,7 @@ class CourseUpgradeHandler: NSObject {
                 completion(true)
             }
         }
-        
-        alert.setMessageAlignment(.left)
-        
+                
         alert.addButton(withTitle: Strings.CourseUpgrade.Sdn.Prompt.reject) { _ in
             completion(false)
         }
