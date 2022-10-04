@@ -55,6 +55,11 @@
 /*Title of the inprogress indicator in restore purchases flow*/
 "COURSE_UPGRADE.RESTORE.INPROGRESS_TEXT"="Checking purchases...";
 /*Title of SDN prompt*/
-"COURSE_UPGRADE.SDN.PROMPT.TITLE"="SDN";
+"COURSE_UPGRADE.SDN.PROMPT.TITLE"="Sanctions Compliance";
 /*Message of SDN prompt*/
-"COURSE_UPGRADE.SDN.PROMPT.MESSAGE"="SDN Message Body";
+"COURSE_UPGRADE.SDN.PROMPT.MESSAGE"="I certify that: (i) I (and any 3rd party paying for my course participation) am not on any government sanctions, exclusion, or export-controlled related restricted party list; and, (ii) I am not located in, or ordinarily resident in, any country or region that is subject to US, EU, or other applicable jurisdiction's laws and regulations preventing {platform_name} from providing me services there.";
+/*SDN Confirm*/
+"COURSE_UPGRADE.SDN.PROMPT.CONFIRM"="Confirm";
+/*SDN Reject*/
+"COURSE_UPGRADE.SDN.PROMPT.REJECT"="Reject";
+
