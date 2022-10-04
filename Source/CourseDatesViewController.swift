@@ -239,8 +239,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private func updateCourseHeaderVisibility(visibile: Bool) {
         courseDatesHeaderView.isHidden = !true
         courseDatesHeaderView.snp.remakeConstraints { make in
-            make.leading.equalTo(view).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(view).inset(StandardHorizontalMargin)
+            make.leading.equalTo(safeLeading).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(safeTrailing).inset(StandardHorizontalMargin)
             make.top.equalTo(tableView).offset(StandardVerticalMargin)
             if !visibile {
                 make.height.equalTo(0)
