@@ -99,7 +99,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
                     let discoveryController = router.discoveryViewController() else { break }
                 item = TabBarItem(title: option.title(config: environment.config), viewController: ForwardingNavigationController(rootViewController: discoveryController), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-                EnrolledTabBarViewController.courseCatalogIndex = 0
+                EnrolledTabBarViewController.courseCatalogIndex = 2
 
             case .Debug:
                 if environment.config.shouldShowDebug() {
