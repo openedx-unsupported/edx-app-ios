@@ -9,28 +9,15 @@
 import UIKit
 
 enum CourseUpgradeScreen: String {
-    case myCourses
-    case courseDashboard
-    case courseUnit
+    case myCourses = "course_enrollment"
+    case courseDashboard = "course_dashboard"
+    case courseUnit = "course_unit"
     case none
-
-    var text: String {
-        switch self {
-        case .myCourses:
-            return "course_enrollment"
-        case .courseDashboard:
-            return "course_dashboard"
-        case .courseUnit:
-            return "course_component"
-        case .none:
-            return "none"
-        }
-    }
 }
 
 class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXConfigProvider & OEXInterfaceProvider
+    typealias Environment = OEXAnalyticsProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXConfigProvider & OEXInterfaceProvider & ServerConfigProvider
     
     private lazy var valuePropTableView: ValuePropMessagesView = {
         let tableView = ValuePropMessagesView()
@@ -99,6 +86,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         addObserver()
         configureView()
         fetchCoursePrice()
+        trackValuePropMessageViewed()
     }
 
     private func fetchCoursePrice() {
@@ -121,6 +109,14 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
                 }
             }
         }
+    }
+    
+    private func trackValuePropMessageViewed() {
+        guard let courseID = course.course_id else { return }
+        let paymentsEnabled = (environment.serverConfig.iapConfig?.enabled ?? false) && course.sku != nil
+        let iapExperiementEnabled = environment.serverConfig.iapConfig?.experimentEnabled ?? false
+        let group = environment.serverConfig.iapConfig?.experimentGroup
+        environment.analytics.trackValuePropMessageViewed(courseID: courseID, paymentsEnabled: paymentsEnabled, iapExperiementEnabled: iapExperiementEnabled, group: group, screen: screen)
     }
     
     private func trackPriceLoadDuration(elapsedTime: Int) {
@@ -201,7 +197,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             make.leading.equalTo(view).offset(StandardHorizontalMargin)
             make.trailing.equalTo(view).inset(StandardHorizontalMargin)
             make.bottom.equalTo(safeBottom).inset(StandardVerticalMargin)
-            make.height.equalTo(CourseUpgradeButtonView.height)
+            make.height.equalTo(upgradeButton.height)
         }
     }
     
