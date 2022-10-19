@@ -11,13 +11,11 @@ import Foundation
 import edXCore
 
 extension NetworkManager {
-    
     @objc public func addRefreshTokenAuthenticator(router: OEXRouter, session: OEXSession, clientId: String) {
         let invalidAccessAuthenticator = { [weak router] response, data, needsTokenRefresh in
             NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId:clientId, response: response, data: data, needsTokenRefresh: needsTokenRefresh)
         }
         self.authenticator = invalidAccessAuthenticator
-        
     }
     
     /** If needsTokenRefresh is true, then a network request to refresh the access
@@ -28,38 +26,41 @@ extension NetworkManager {
     public static func invalidAccessAuthenticator(router: OEXRouter?, session: OEXSession, clientId: String, response: HTTPURLResponse?, data: Data?, needsTokenRefresh: Bool) -> AuthenticationAction {
         // If access token is expired, then we must call the refresh access token API call.
         if needsTokenRefresh {
-            return refreshAccessToken(router: router, clientId: clientId, refreshToken: session.token?.refreshToken ?? "", session: session)
+            guard let refreshToken = session.token?.refreshToken else {
+                return logout(router: router)
+            }
+            return refreshAccessToken(router: router, clientId: clientId, refreshToken: refreshToken, session: session)
         }
         
         if let data = data,
            let response = response {
             do {
-                let raw = try JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions())
+                let raw = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions())
                 let json = JSON(raw)
                 
                 guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode),
                       let error = NSError(json: json, code: response.statusCode), statusCode.is4xx
                 else { return .proceed }
                 
-                guard let refreshToken = session.token?.refreshToken else {
+                guard let token = session.token, let refreshToken = token.refreshToken else {
                     return logout(router: router)
                 }
                 
-                if error.isAPIError(code: .OAuth2Expired) {
-                    if router?.environment.networkManager.tokenStatus == .valid {
+                if let error = error.apiError {
+                    switch error.action {
+                    case .doNothing:
+                        Logger.logError("Network Authenticator", "\(error.rawValue): " + response.debugDescription)
+                    case .refresh:
+                        if router?.environment.networkManager.tokenStatus == .valid {
                         return refreshAccessToken(router: router, clientId: clientId, refreshToken: refreshToken, session: session)
                     } else {
                         return .queue
                     }
+                    case .logout:
+                        return logout(router: router)
+                    }
                 }
-                
-                if error.isAPIError(code: .OAuth2InvalidGrant)
-                    || error.isAPIError(code: .OAuth2DisabledUser)
-                    || error.isAPIError(code: .OAuth2Nonexistent) {
-                    return logout(router: router)
-                }
-            }
-            catch let error as NSError {
+            } catch let error {
                 print("Failed to load: \(error.localizedDescription)")
             }
         }
@@ -69,7 +70,8 @@ extension NetworkManager {
     }
 }
 
-private func logout(router:OEXRouter?) -> AuthenticationAction {
+private func logout(router: OEXRouter?) -> AuthenticationAction {
+    router?.environment.networkManager.removeAllQueuedTasks()
     DispatchQueue.main.async {
         router?.logout()
     }
@@ -84,11 +86,7 @@ private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshTok
     router?.environment.networkManager.tokenStatus = .authenticating
     
     return .authenticate { networkManager, completion in
-        let networkRequest = LoginAPI.requestTokenWithRefreshToken(
-            refreshToken: refreshToken,
-            clientId: clientId,
-            grantType: "refresh_token"
-        )
+        let networkRequest = LoginAPI.requestTokenWithRefreshToken(refreshToken: refreshToken, clientId: clientId)
         
         networkManager.performTaskForRequest(networkRequest) { [weak networkManager] result in
             var success = false

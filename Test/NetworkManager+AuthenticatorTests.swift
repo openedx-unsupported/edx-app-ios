@@ -8,6 +8,8 @@
 
 import Foundation
 
+let NOTIFICATION_MOCK_LOGOUT_CALLED = "MockLogOutCalled"
+
 class NetworkManager_AuthenticationTests : XCTestCase {
     
     func authenticatorResponseForRequest(
@@ -18,7 +20,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         if waitForLogout {
             let expectation = self.expectation(description: "wait for mock LogOut")
 
-            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: "MockLogOutCalled") { [weak router] (notification, _, _) in
+            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_MOCK_LOGOUT_CALLED) { [weak router] (notification, _, _) in
                 if router?.testType == notification.object as? String {
                     expectation.fulfill()
                 }
@@ -42,7 +44,9 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testLogoutWithNoRefreshToken() {
-        let router = MockRouter()
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
         router.testType = "testLogoutWithNoRefreshToken"
         let session = OEXSession()
         let response = simpleResponseBuilder(401)
@@ -53,20 +57,36 @@ class NetworkManager_AuthenticationTests : XCTestCase {
     }
     
     func testNonExistentAccessToken() {
-        let router = MockRouter()
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(400)
         let data = "{\"error\":\"token_nonexistent\"}".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: true)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertTrue(router.logoutCalled)
+    }
+
+    func testInvalidGrantAccessToken() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"invalid_grant\"}".data(using: String.Encoding.utf8)!
         let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
         XCTAssertTrue(result.isProceed)
         XCTAssertFalse(router.logoutCalled)
     }
 
-    func testInvalidGrantAccessToken() {
-        let router = MockRouter()
+    func testDisabledAccount() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)
-        let data = "{\"error_code\":\"invalid_grant\"}".data(using: String.Encoding.utf8)!
+        let data = "{\"error_code\":\"account_disabled\"}".data(using: String.Encoding.utf8)!
         let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
         XCTAssertTrue(result.isProceed)
         XCTAssertFalse(router.logoutCalled)

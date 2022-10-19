@@ -50,7 +50,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 @implementation OEXAuthentication
 
 //This method gets called when user try to login with username password
-+ (void)requestTokenWithUser:(NSString* )username password:(NSString* )password completionHandler:(OEXURLRequestHandler)completionBlock {
++ (void)requestTokenWithUser:(NSString *)username password:(NSString *)password completionHandler:(OEXURLRequestHandler)completionBlock {
     NSString* body = [self plainTextAuthorizationHeaderForUserName:username password:password];
     NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     [sessionConfig setHTTPAdditionalHeaders:[sessionConfig defaultHTTPHeaders]];
@@ -100,6 +100,8 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
     NSMutableDictionary* parameters = [[NSMutableDictionary alloc] init];
     [parameters setSafeObject:token forKey:@"access_token"];
     [parameters setSafeObject:[[OEXConfig sharedConfig] oauthClientID] forKey:@"client_id"];
+    [parameters setSafeObject:@"jwt" forKey:@"token_type"];
+    [parameters setSafeObject:@"true" forKey:@"asymmetric_jwt"];
     NSString* path = [NSString oex_stringWithFormat:URL_EXCHANGE_TOKEN parameters:@{@"backend" : provider.backendName}];
     
     [self executePOSTRequestWithPath:path parameters:parameters completion:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
@@ -153,6 +155,8 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
     [arguments setSafeObject:@"password" forKey:@"grant_type"];
     [arguments setSafeObject:userName forKey:@"username"];
     [arguments setSafeObject:password forKey:@"password"];
+    [arguments setSafeObject:@"jwt" forKey:@"token_type"];
+    [arguments setSafeObject:@"true" forKey:@"asymmetric_jwt"];
     return [arguments oex_stringByUsingFormEncoding];
 }
 
