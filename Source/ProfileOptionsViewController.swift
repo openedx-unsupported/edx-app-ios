@@ -76,7 +76,8 @@ class ProfileOptionsViewController: UIViewController {
         super.viewDidLoad()
 
         title = Strings.UserAccount.profile
-                
+        navigationController?.view.backgroundColor = environment.styles.standardBackgroundColor()
+        
         setupViews()
         configureOptions()
         setupProfileLoader()
@@ -86,8 +87,8 @@ class ProfileOptionsViewController: UIViewController {
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: AnalyticsScreenName.Profile.rawValue)
         setupProfileLoader()
-        navigationController?.view.backgroundColor = environment.styles.standardBackgroundColor()
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.applyDefaultNavbarColorScheme()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

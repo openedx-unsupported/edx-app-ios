@@ -392,7 +392,6 @@ extension OEXRouter {
     func showProfile(controller: UIViewController? = nil, completion: ((_ success: Bool) -> ())? = nil) {
         let profileViewController = ProfileOptionsViewController(environment: environment)
         let navigationController = ForwardingNavigationController(rootViewController: profileViewController)
-        navigationController.navigationBar.prefersLargeTitles = true
         controller?.navigationController?.present(navigationController, animated: true) {
             completion?(true)
         }
