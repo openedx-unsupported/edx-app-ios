@@ -70,11 +70,14 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         presenter.refresh()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.applyDefaultNavbarColorScheme()
+    }
+    
     private func addBackBarButtonItem() {
         let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: .plain, target: nil, action: nil)
-        backItem.oex_setAction {[weak self] in
-            // Profile has different navbar color scheme that's why we need to revert nav bar color to original color while poping the controller
-            self?.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
+        backItem.oex_setAction { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
         navigationItem.leftBarButtonItem = backItem
@@ -88,7 +91,6 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
                 if let owner = self {
                     owner.environment.router?.showProfileEditorFromController(controller: owner)
                 }
-                self?.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
             }
             editButton.accessibilityLabel = Strings.Profile.editAccessibility
             navigationItem.rightBarButtonItem = editButton
