@@ -76,13 +76,11 @@ class ProfileOptionsViewController: UIViewController {
         super.viewDidLoad()
 
         title = Strings.UserAccount.profile
-                
+        navigationController?.view.backgroundColor = environment.styles.standardBackgroundColor()
+        
         setupViews()
-        addCloseButton()
         configureOptions()
         setupProfileLoader()
-        
-        navigationController?.view.backgroundColor = environment.styles.standardBackgroundColor()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,6 +88,7 @@ class ProfileOptionsViewController: UIViewController {
         environment.analytics.trackScreen(withName: AnalyticsScreenName.Profile.rawValue)
         setupProfileLoader()
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.applyDefaultNavbarColorScheme()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -121,19 +120,7 @@ class ProfileOptionsViewController: UIViewController {
             profileFeed.refresh()
         }
     }
-
-    private func addCloseButton() {
-        let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: crossButtonSize), style: .plain, target: nil, action: nil)
-        closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
-        closeButton.accessibilityHint = Strings.Accessibility.closeHint
-        closeButton.accessibilityIdentifier = "ProfileOptionsViewController:close-button"
-        navigationItem.rightBarButtonItem = closeButton
-
-        closeButton.oex_setAction { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
-    }
-
+    
     private func configureOptions() {
         options.append(.videoSetting)
         
