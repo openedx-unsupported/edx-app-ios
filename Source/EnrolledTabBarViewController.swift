@@ -9,15 +9,15 @@
 import UIKit
 
 private enum TabBarOptions: Int {
-    case Course, Program, CourseCatalog, Debug
-    static let options = [Course, Program, CourseCatalog, Debug]
+    case Course, Profile, CourseCatalog, Debug
+    static let options = [CourseCatalog, Course, Profile, Debug]
     
     func title(config: OEXConfig? = nil) -> String {
         switch self {
         case .Course:
-            return Strings.courses
-        case .Program:
-            return Strings.programs
+            return Strings.learn
+        case .Profile:
+            return Strings.UserAccount.profile
         case .CourseCatalog:
             return config?.discovery.type == .native ? Strings.findCourses : Strings.discover
         case .Debug:
@@ -61,7 +61,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         delegate = self
         
         view.accessibilityIdentifier = "EnrolledTabBarViewController:view"
-        selectedIndex = 0
+        selectedIndex = 1
         title = ""
     }
     
@@ -84,23 +84,17 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for option in TabBarOptions.options {
             switch option {
             case .Course:
-                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: EnrolledCoursesViewController(environment: environment)), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: LearnContainerViewController(environment: environment)), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-
-            case .Program:
-                guard environment.config.programConfig.enabled,
-                      let programsURL = environment.config.programConfig.programURL else { break}
-
-                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: ProgramsViewController(environment: environment, programsURL: programsURL)), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
+            case .Profile:
+                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: ProfileOptionsViewController.init(environment: environment)), icon: Icon.Person, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-
             case .CourseCatalog:
                 guard let router = environment.router,
                     let discoveryController = router.discoveryViewController() else { break }
                 item = TabBarItem(title: option.title(config: environment.config), viewController: ForwardingNavigationController(rootViewController: discoveryController), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-                EnrolledTabBarViewController.courseCatalogIndex = 2
-
+                EnrolledTabBarViewController.courseCatalogIndex = 0
             case .Debug:
                 if environment.config.shouldShowDebug() {
                     item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: DebugMenuViewController(environment: environment)), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
@@ -114,7 +108,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
                 AdditionalTabBarViewController(environment: environment, cellItems: additionalTabBarItems), icon: Icon.MoreOptionsIcon, detailText: "")
             tabBarItems.append(item)
         }
-
+    
         loadTabBarViewControllers(tabBarItems: tabBarItems)
     }
     
@@ -141,10 +135,12 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             controller = tabBarViewController(ProfileOptionsViewController.self)
             break
         case .program, .programDetail:
-            selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
+            selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
+            controller = tabBarViewController(LearnContainerViewController.self)
             break
         case .courseDashboard, .courseDates, .courseVideos, .courseHandout, .courseComponent:
-            selectedIndex = tabBarViewControllerIndex(with: EnrolledCoursesViewController.self)
+            selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
+            controller = tabBarViewController(LearnContainerViewController.self)
             break
         case .discovery, .discoveryCourseDetail, .discoveryProgramDetail:
             if environment.config.discovery.isEnabled {
