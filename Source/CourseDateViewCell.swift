@@ -16,7 +16,7 @@ protocol CourseDateViewCellDelegate: AnyObject {
 private let imageSize: CGFloat = 14
 
 class CourseDateViewCell: UITableViewCell {
-    static let identifier = String(describing: self)
+    static let identifier = String(describing: CourseDateViewCell.self)
     
     weak var delegate: CourseDateViewCellDelegate?
     
