@@ -80,13 +80,6 @@ class EnrolledTabBarViewController: UITabBarController, InterfaceOrientationOver
         return .allButUpsideDown
     }
     
-    private func addTabbarIndicator() {
-        guard let count = tabBar.items?.count else { return }
-        let tabBarItemSize = CGSize(width: tabBar.frame.width / CGFloat(count), height: tabBar.frame.height)
-        let indicator = UIImage.indicator(color: environment.styles.primaryDarkColor(), size: tabBarItemSize, lineHeight: 2)
-        tabBar.selectionIndicatorImage = indicator
-    }
-    
     private func prepareTabViewData() {
         tabBarItems = []
         var item : TabBarItem
@@ -180,8 +173,17 @@ extension EnrolledTabBarViewController: UITabBarControllerDelegate {
     }
 }
 
-fileprivate extension UIImage {
-    class func indicator(color: UIColor, size: CGSize, lineHeight: CGFloat) -> UIImage {
+extension UITabBarController {
+    func addTabbarIndicator(color: UIColor = OEXStyles.shared().primaryDarkColor(), lineHeight: CGFloat = 2) {
+        guard let count = tabBar.items?.count else { return }
+        let tabBarItemSize = CGSize(width: tabBar.frame.width / CGFloat(count), height: tabBar.frame.height)
+        let indicator = UIImage.tabbarIndicator(color: color, size: tabBarItemSize, lineHeight: lineHeight)
+        tabBar.selectionIndicatorImage = indicator
+    }
+}
+
+extension UIImage {
+    class func tabbarIndicator(color: UIColor, size: CGSize, lineHeight: CGFloat) -> UIImage {
         let rect = CGRect(x: 0, y: size.height - lineHeight, width: size.width, height: lineHeight )
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         color.setFill()
