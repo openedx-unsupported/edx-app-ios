@@ -585,7 +585,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "Looking for a new challenge?";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "Find a course";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "It looks like you are not enrolled in any courses yet.";
 /* Prompt indicating user needs to enter an email address */

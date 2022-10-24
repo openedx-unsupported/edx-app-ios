@@ -586,7 +586,7 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "À procura de novos desafios?";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "Encontre um Curso";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "Parece que você não se inscreveu em nenhum curso ainda.";
 /* Prompt indicating user needs to enter an email address */

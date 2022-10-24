@@ -148,9 +148,11 @@ class CoursesContainerViewController: UICollectionViewController {
         return environment.config.discovery.isEnabled
     }
     
-    private var shouldShowFooter: Bool {
+    private var shouldShowEmptyState: Bool {
         return context == .enrollmentList && isDiscoveryEnabled
     }
+    
+    private var emptyView: EnrolledCoursesEmptyState?
     
     init(environment: Environment, context: Context) {
         self.environment = environment
@@ -176,7 +178,6 @@ class CoursesContainerViewController: UICollectionViewController {
         }
         
         collectionView.register(CourseCardCell.self, forCellWithReuseIdentifier: CourseCardCell.cellIdentifier)
-        collectionView.register(EnrolledCoursesFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: EnrolledCoursesFooterView.identifier)
         
         insetsController.addSource(
             source: ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
@@ -194,24 +195,25 @@ class CoursesContainerViewController: UICollectionViewController {
         )
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return courses.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: shouldShowFooter ? EnrolledCoursesFooterViewHeight : 0)
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionFooter {
-            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: EnrolledCoursesFooterView.identifier, for: indexPath) as! EnrolledCoursesFooterView
-            footerView.findCoursesAction = {[weak self] in
-                self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
-            }
-            return footerView
+    func showEmptyStateView() {
+        let emptyView = EnrolledCoursesEmptyState()
+        view.addSubview(emptyView)
+        
+        emptyView.findCoursesAction = {[weak self] in
+            self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
         }
         
-        return UICollectionReusableView()
+        emptyView.snp.makeConstraints { make in
+            make.top.equalTo(view).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+        }
+        
+        self.emptyView = emptyView
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return courses.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
