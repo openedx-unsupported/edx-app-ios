@@ -230,7 +230,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             updateCourseHeaderVisibility(visibile: false)
         } else {
             trackDateBannerAppearanceEvent(bannerModel: bannerModel)
-            courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, calendarSyncEnabled: calendarSyncEnabled)
+            courseDatesHeaderView.setupView(with: bannerModel.bannerInfo, isSelfPaced: isSelfPaced, calendarSyncEnabled: calendarSyncEnabled)
             updateCourseHeaderVisibility(visibile: true)
             tableView.setAndLayoutTableHeaderView(header: courseDatesHeaderView)
         }
