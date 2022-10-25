@@ -177,13 +177,11 @@ extension UITabBarController {
     func addTabbarIndicator(color: UIColor = OEXStyles.shared().primaryDarkColor(), lineHeight: CGFloat = 2) {
         guard let count = tabBar.items?.count else { return }
         let tabBarItemSize = CGSize(width: tabBar.frame.width / CGFloat(count), height: tabBar.frame.height)
-        let indicator = UIImage.tabbarIndicator(color: color, size: tabBarItemSize, lineHeight: lineHeight)
+        let indicator = createTabbarIndicator(color: color, size: tabBarItemSize, lineHeight: lineHeight)
         tabBar.selectionIndicatorImage = indicator
     }
-}
-
-extension UIImage {
-    class func tabbarIndicator(color: UIColor, size: CGSize, lineHeight: CGFloat) -> UIImage {
+    
+    private func createTabbarIndicator(color: UIColor, size: CGSize, lineHeight: CGFloat) -> UIImage {
         let rect = CGRect(x: 0, y: size.height - lineHeight, width: size.width, height: lineHeight )
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         color.setFill()
