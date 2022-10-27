@@ -25,6 +25,8 @@
 #import "OEXNetworkConstants.h"
 #import "NSArray+OEXFunctional.h"
 
+#import "OEXGoogleAuthProvider.h"
+#import "OEXFacebookAuthProvider.h"
 #import "OEXAuthentication.h"
 #import "OEXAccessToken.h"
 #import "OEXAnalytics.h"

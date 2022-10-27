@@ -40,6 +40,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (strong, nonatomic) NSMutableArray* externalAuthProviders;
 // Used in auth from an external provider
 @property (strong, nonatomic) UIView* currentHeadingView;
+@property (strong, nonatomic) OEXExternalRegistrationOptionsView* headingView;
 @property (strong, nonatomic) id <OEXExternalAuthProvider> externalProvider;
 @property (copy, nonatomic) NSString* externalAccessToken;
 @property (copy, nonatomic) NSString* email;
@@ -191,9 +192,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)updateAuthView:(CGRect)frame {
-    OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders];
-    headingView.delegate = self;
-    [self useHeadingView:headingView];
+    self.headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders];
+    self.headingView.delegate = self;
+    [self useHeadingView:self.headingView];
 }
 
 -(void) setUpAgreementTextView {
@@ -210,11 +211,12 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)useHeadingView:(UIView*)headingView {
-    [self.currentHeadingView removeFromSuperview];
-    self.currentHeadingView = headingView;
-    [self.scrollView addSubview:self.currentHeadingView];
-    [self.view setNeedsUpdateConstraints];
-    [self.view setNeedsLayout];
+    if (self.currentHeadingView == nil) {
+        self.currentHeadingView = headingView;
+        [self.scrollView addSubview:self.currentHeadingView];
+        [self.view setNeedsUpdateConstraints];
+        [self.view setNeedsLayout];
+    }
 }
 
 - (IBAction)navigateBack:(id)sender {
@@ -351,34 +353,16 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)updateViewConstraints {
-    CGFloat margin = self.styles.formMargin;
-    [self.currentHeadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scrollView);
-        make.centerX.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView).offset(-margin);
-    }];
     [super updateViewConstraints];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     // Add space if the heading view won't do it for us
-    NSInteger topSpacing = self.currentHeadingView == nil ? 10 : 0;
     NSInteger horizontalSpacing = self.styles.formMargin;
-    NSInteger offset = 0;
+    NSInteger offset = 10;
     CGFloat width = self.scrollView.frame.size.width;
     NSInteger contentWidth = width - 2 * horizontalSpacing;
-    
-    // Force the heading view to layout, so we get its height
-    [self.currentHeadingView setNeedsLayout];
-    [self.currentHeadingView layoutIfNeeded];
-    
-    // Then do it again since we may have updated the preferred size of some text
-    [self.currentHeadingView setNeedsLayout];
-    
-    //Setting offset as topspacing
-    CGSize size = [self.currentHeadingView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-    offset = topSpacing + size.height;
     
     BOOL isOptionalFieldPresent = NO;
     
@@ -431,7 +415,21 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.progressIndicator.center = CGPointMake(progressIndicatorCenterX, self.registerButton.frame.size.height / 2);
     [self.scrollView addSubview:self.registerButton];
     offset = offset + self.registerButton.frame.size.height + 30;
-
+    
+    [self.currentHeadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.registerButton.mas_bottom).offset(16.0);
+        make.centerX.equalTo(self.scrollView);
+        make.width.equalTo(self.registerButton);
+        make.bottom.equalTo(self.scrollView.mas_bottom);
+    }];
+    
+    // Force the heading view to layout, so we get its height
+    [self.currentHeadingView setNeedsLayout];
+    [self.currentHeadingView layoutIfNeeded];
+    if (self.headingView) {
+        offset = offset + self.headingView.heightForAuthView;
+    }
+    
     [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }
 

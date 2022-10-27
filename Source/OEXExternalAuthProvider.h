@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class OEXRegisteringUserDetails;
+@class OEXTextStyle;
 
 @protocol OEXExternalAuthProvider <NSObject>
 
@@ -20,7 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// Name used when communicating with the server
 @property (readonly, nonatomic) NSString* backendName;
 
-- (UIButton*)freshAuthButton;
+- (UIView*)makeAuthView:(NSString*) text;
+- (UIImage*)iconImage;
+- (UIColor*)backgoundColor;
+- (OEXTextStyle*)textStyle;
 
 - (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString * _Nullable , OEXRegisteringUserDetails * _Nullable, NSError * _Nullable))completion;
 

@@ -13,11 +13,12 @@
 #import "OEXExternalAuthProviderButton.h"
 #import "OEXFBSocial.h"
 #import "OEXRegisteringUserDetails.h"
+#import <Masonry/Masonry.h>
 
 @implementation OEXFacebookAuthProvider
 
 - (UIColor*)facebookBlue {
-    return [UIColor colorWithRed:66.0/255. green:103.0/255. blue:178./255. alpha:1];
+    return [UIColor colorWithRed:24.0/255. green:119.0/255. blue:242./255. alpha:1];
 }
 
 - (NSString*)displayName {
@@ -28,12 +29,44 @@
     return @"facebook";
 }
 
-- (OEXExternalAuthProviderButton*)freshAuthButton {
-    OEXExternalAuthProviderButton* button = [[OEXExternalAuthProviderButton alloc] initWithFrame:CGRectZero];
-    button.provider = self;
-    [button setImage:[UIImage imageNamed:@"icon_facebook_white"] forState:UIControlStateNormal];
-    [button useBackgroundImageOfColor:[self facebookBlue]];
-    return button;
+- (UIView*)makeAuthView:(NSString *)text {
+    UIView* container = [[UIView alloc] init];
+    UIImageView* iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_facebook_white"]];
+    [iconImageView setContentMode:UIViewContentModeScaleAspectFit];
+    UILabel* label = [[UILabel alloc] init];
+    [container setBackgroundColor:self.backgoundColor];
+    [container addSubview:iconImageView];
+    [container addSubview:label];
+
+    [label setAttributedText:[[self textStyle] attributedStringWithText:text]];
+    
+    [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(container).offset(16);
+        make.height.equalTo([NSNumber numberWithInt:24]);
+        make.width.equalTo([NSNumber numberWithInt:24]);
+        make.centerY.equalTo(container);
+    }];
+    
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(iconImageView.mas_trailing).offset(16);
+        make.trailing.equalTo(container);
+        make.height.equalTo([NSNumber numberWithInt:19]);
+        make.centerY.equalTo(container);
+    }];
+    
+    return container;
+}
+
+- (UIImage*)iconImage {
+    return [UIImage imageNamed:@"icon_facebook_white"];
+}
+
+- (UIColor*)backgoundColor {
+    return self.facebookBlue;
+}
+
+- (OEXTextStyle*)textStyle {
+    return [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeLarge color:[[OEXStyles sharedStyles] neutralWhiteT]];
 }
 
 - (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString * _Nullable, OEXRegisteringUserDetails * _Nullable, NSError * _Nullable))completion {

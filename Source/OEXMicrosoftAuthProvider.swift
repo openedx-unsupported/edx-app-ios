@@ -23,13 +23,45 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
         return "azuread-oauth2"
     }
     
-    func freshAuthButton() -> UIButton {
-        let button = OEXExternalAuthProviderButton()
-        button.provider = self
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
-        button.setImage(UIImage(named: "icon_microsoft_white"), for: .normal)
-        button.useBackgroundImage(of: UIColor(red: 47.0/255.0, green: 47.0/255.0, blue: 47.0/255.0, alpha: 1.0))
-        return button
+    func makeAuthView(_ text: String) -> UIView {
+        let container = UIView()
+        let iconImageView = UIImageView(image: iconImage())
+        iconImageView.contentMode = .scaleAspectFit
+        let label = UILabel()
+        
+        container.backgroundColor = backgoundColor()
+        container.addSubview(iconImageView)
+        container.addSubview(label)
+        
+        label.attributedText = textStyle().attributedString(withText: text)
+        
+        iconImageView.snp.makeConstraints { make in
+            make.leading.equalTo(container).offset(StandardHorizontalMargin)
+            make.height.equalTo(24)
+            make.width.equalTo(24)
+            make.centerY.equalTo(container)
+        }
+        
+        label.snp.makeConstraints { make in
+            make.leading.equalTo(iconImageView.snp.trailing).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(container)
+            make.height.equalTo(19)
+            make.centerY.equalTo(container)
+        }
+        
+        return container
+    }
+    
+    func iconImage() -> UIImage {
+        return UIImage(named: "icon_microsoft_white") ?? UIImage()
+    }
+    
+    func backgoundColor() -> UIColor {
+        UIColor(hexString: "#2F2F2F", alpha: 1)
+    }
+    
+    func textStyle() -> OEXTextStyle {
+        return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralWhiteT())
     }
     
     func authorizeService(from controller: UIViewController, requestingUserDetails loadUserDetails: Bool, withCompletion completion: @escaping (String?, OEXRegisteringUserDetails?, Error?) -> Void) {

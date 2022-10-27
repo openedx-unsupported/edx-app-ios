@@ -694,8 +694,10 @@
 "REMOVE"="Remove";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="使用Safari浏览器查看";
-/* Button label to bring up course finder */
-"OR_SIGN_IN_WITH"="或者通过以下方式登录";
+/* Sign in with provider name button text */
+"SIGN_IN_WITH"="Sign in with {provider}";
+/* Login with provider name button text */
+"CONTINUE_WITH"="Continue with {provider}";
 /* Login screen password field title text */
 "PASSWORD_TITLE_TEXT" = "密码";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
