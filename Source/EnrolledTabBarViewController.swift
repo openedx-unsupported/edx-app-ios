@@ -26,12 +26,12 @@ private enum TabBarOptions: Int {
     }
 }
 
-class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelegate, InterfaceOrientationOverriding, ChromeCastConnectedButtonDelegate {
+class EnrolledTabBarViewController: UITabBarController, InterfaceOrientationOverriding, ChromeCastConnectedButtonDelegate {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & ServerConfigProvider
     
-    fileprivate let environment: Environment
-    private var tabBarItems : [TabBarItem] = []
+    private let environment: Environment
+    private var tabBarItems: [TabBarItem] = []
     
     // add the additional resources options like 'debug'(special developer option) in additionalTabBarItems
     private var additionalTabBarItems : [TabBarItem] = []
@@ -40,7 +40,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     static var courseCatalogIndex: Int = 0
     
     private var screenTitle: String {
-        guard let option = TabBarOptions.options.first else {return Strings.courses}
+        guard let option = TabBarOptions.options.first else { return Strings.courses }
         return option.title(config: environment.config)
     }
     
@@ -63,6 +63,8 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         view.accessibilityIdentifier = "EnrolledTabBarViewController:view"
         selectedIndex = 1
         title = ""
+        
+        addTabbarIndicator()
     }
     
     override func didReceiveMemoryWarning() {
@@ -162,11 +164,30 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     }
 }
 
-extension EnrolledTabBarViewController {
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
+extension EnrolledTabBarViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         navigationItem.title = viewController.navigationItem.title
         if TabBarOptions.options[tabBarController.selectedIndex] == .CourseCatalog {
             environment.analytics.trackUserFindsCourses()
         }
+    }
+}
+
+extension UITabBarController {
+    func addTabbarIndicator(color: UIColor = OEXStyles.shared().primaryDarkColor(), lineHeight: CGFloat = 2) {
+        guard let count = tabBar.items?.count else { return }
+        let tabBarItemSize = CGSize(width: tabBar.frame.width / CGFloat(count), height: tabBar.frame.height)
+        let indicator = createTabbarIndicator(color: color, size: tabBarItemSize, lineHeight: lineHeight)
+        tabBar.selectionIndicatorImage = indicator
+    }
+    
+    private func createTabbarIndicator(color: UIColor, size: CGSize, lineHeight: CGFloat) -> UIImage {
+        let rect = CGRect(x: 0, y: size.height - lineHeight, width: size.width, height: lineHeight )
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image ?? UIImage()
     }
 }
