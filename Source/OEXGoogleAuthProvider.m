@@ -30,7 +30,7 @@
 }
 
 - (UIView*)makeAuthView:(NSString *)text {
-    return [[ExternalProviderView alloc] initWithIconImage:self.iconImage text:text textStyle:self.textStyle backgroundColor:self.backgoundColor borderColor:[[OEXStyles sharedStyles] neutralXDark]];
+    return [[ExternalProviderButtonView alloc] initWithIconImage:self.iconImage text:text textStyle:self.textStyle backgroundColor:self.backgoundColor borderColor:[[OEXStyles sharedStyles] neutralXDark]];
 }
 
 - (UIImage*)iconImage {

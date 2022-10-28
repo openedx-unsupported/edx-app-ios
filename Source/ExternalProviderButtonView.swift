@@ -1,5 +1,5 @@
 //
-//  ExternalProviderView.swift
+//  ExternalProviderButtonView.swift
 //  edX
 //
 //  Created by MuhammadUmer on 28/10/2022.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ExternalProviderView: UIView {
+class ExternalProviderButtonView: UIView {
     private let iconImage: UIImage
     private let text: String
     private let textStyle: OEXTextStyle

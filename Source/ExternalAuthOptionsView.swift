@@ -50,7 +50,7 @@ class ExternalAuthOptionsView: UIView {
                 self?.tapAction(provider)
             }, for: .touchUpInside)
                         
-            let text = state == .register ? Strings.signInWith(provider: provider.displayName) : Strings.continueWith(provider: provider.displayName)
+            let text = state == .register ? Strings.continueWith(provider: provider.displayName) :  Strings.signInWith(provider: provider.displayName)
             let authButtonContainer = provider.makeAuthView(text)
             authButtonContainer.accessibilityIdentifier = "ExternalAuthOptionsView:\(provider.displayName.lowercased())-button"
             authButtonContainer.accessibilityLabel = "\(accessibilityString) \(text)"
