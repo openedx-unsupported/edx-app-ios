@@ -24,32 +24,33 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     func makeAuthView(_ text: String) -> UIView {
-        let container = UIView()
-        let iconImageView = UIImageView(image: iconImage())
-        iconImageView.contentMode = .scaleAspectFit
-        let label = UILabel()
-        
-        container.backgroundColor = backgoundColor()
-        container.addSubview(iconImageView)
-        container.addSubview(label)
-        
-        label.attributedText = textStyle().attributedString(withText: text)
-        
-        iconImageView.snp.makeConstraints { make in
-            make.leading.equalTo(container).offset(StandardHorizontalMargin)
-            make.height.equalTo(24)
-            make.width.equalTo(24)
-            make.centerY.equalTo(container)
-        }
-        
-        label.snp.makeConstraints { make in
-            make.leading.equalTo(iconImageView.snp.trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(container)
-            make.height.equalTo(19)
-            make.centerY.equalTo(container)
-        }
-        
-        return container
+        return ExternalProviderView(iconImage: iconImage(), text: text, textStyle: textStyle(), backgroundColor: backgoundColor())
+//        let container = UIView()
+//        let iconImageView = UIImageView(image: iconImage())
+//        iconImageView.contentMode = .scaleAspectFit
+//        let label = UILabel()
+//
+//        container.backgroundColor = backgoundColor()
+//        container.addSubview(iconImageView)
+//        container.addSubview(label)
+//
+//        label.attributedText = textStyle().attributedString(withText: text)
+//
+//        iconImageView.snp.makeConstraints { make in
+//            make.leading.equalTo(container).offset(StandardHorizontalMargin)
+//            make.height.equalTo(24)
+//            make.width.equalTo(24)
+//            make.centerY.equalTo(container)
+//        }
+//
+//        label.snp.makeConstraints { make in
+//            make.leading.equalTo(iconImageView.snp.trailing).offset(StandardHorizontalMargin)
+//            make.trailing.equalTo(container)
+//            make.height.equalTo(19)
+//            make.centerY.equalTo(container)
+//        }
+//
+//        return container
     }
     
     func iconImage() -> UIImage {

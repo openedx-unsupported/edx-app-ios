@@ -30,31 +30,7 @@
 }
 
 - (UIView*)makeAuthView:(NSString *)text {
-    UIView* container = [[UIView alloc] init];
-    UIImageView* iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_facebook_white"]];
-    [iconImageView setContentMode:UIViewContentModeScaleAspectFit];
-    UILabel* label = [[UILabel alloc] init];
-    [container setBackgroundColor:self.backgoundColor];
-    [container addSubview:iconImageView];
-    [container addSubview:label];
-
-    [label setAttributedText:[[self textStyle] attributedStringWithText:text]];
-    
-    [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(container).offset(16);
-        make.height.equalTo([NSNumber numberWithInt:24]);
-        make.width.equalTo([NSNumber numberWithInt:24]);
-        make.centerY.equalTo(container);
-    }];
-    
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(iconImageView.mas_trailing).offset(16);
-        make.trailing.equalTo(container);
-        make.height.equalTo([NSNumber numberWithInt:19]);
-        make.centerY.equalTo(container);
-    }];
-    
-    return container;
+    return [[ExternalProviderView alloc] initWithIconImage:self.iconImage text:text textStyle:self.textStyle backgroundColor:self.backgoundColor borderColor:nil];
 }
 
 - (UIImage*)iconImage {

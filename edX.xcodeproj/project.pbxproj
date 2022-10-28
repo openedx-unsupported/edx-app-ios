@@ -223,6 +223,7 @@
 		5FC5AE112847944E007E5917 /* LearnContainerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC5AE102847944E007E5917 /* LearnContainerHeaderView.swift */; };
 		5FD868362637F05E0045A149 /* CourseDatesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */; };
 		5FD868382637F0FC0045A149 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD868372637F0FC0045A149 /* CalendarManager.swift */; };
+		5FEA006B290BA06700D39B44 /* ExternalProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEA006A290BA06700D39B44 /* ExternalProviderView.swift */; };
 		5FF08645257F91FA0078877A /* ValuePropComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF08644257F91FA0078877A /* ValuePropComponentView.swift */; };
 		5FFB73BC2849F10D000523BF /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */; };
 		5FFB73BD2849F10D000523BF /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B42849F10D000523BF /* DPDConstants.swift */; };
@@ -1226,6 +1227,7 @@
 		5FC5AE102847944E007E5917 /* LearnContainerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnContainerHeaderView.swift; sourceTree = "<group>"; };
 		5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesHeaderView.swift; sourceTree = "<group>"; };
 		5FD868372637F0FC0045A149 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		5FEA006A290BA06700D39B44 /* ExternalProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalProviderView.swift; sourceTree = "<group>"; };
 		5FF08644257F91FA0078877A /* ValuePropComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropComponentView.swift; sourceTree = "<group>"; };
 		5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDKeyboardListener.swift; sourceTree = "<group>"; };
 		5FFB73B42849F10D000523BF /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDConstants.swift; sourceTree = "<group>"; };
@@ -2956,6 +2958,7 @@
 				B4B6D6451A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.h */,
 				B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */,
 				5F68992A29090FBD0060661B /* ExternalAuthOptionsView.swift */,
+				5FEA006A290BA06700D39B44 /* ExternalProviderView.swift */,
 			);
 			name = Screens;
 			sourceTree = "<group>";
@@ -5054,6 +5057,7 @@
 				220B1D332119B5190048ACBA /* MicrosoftSocial.swift in Sources */,
 				77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */,
 				B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */,
+				5FEA006B290BA06700D39B44 /* ExternalProviderView.swift in Sources */,
 				E02F65691E8B94CC000D1C4E /* TZStackViewAlignment.swift in Sources */,
 				B7CCC725209B16B100A66923 /* ConstraintMakerFinalizable.swift in Sources */,
 				778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */,
