@@ -39,8 +39,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) NSMutableArray* externalAuthProviders;
 // Used in auth from an external provider
-@property (strong, nonatomic) UIView* currentHeadingView;
-@property (strong, nonatomic) OEXExternalRegistrationOptionsView* headingView;
+@property (strong, nonatomic) UIView* footerView;
+@property (strong, nonatomic) OEXExternalRegistrationOptionsView* socialAuthView;
 @property (strong, nonatomic) id <OEXExternalAuthProvider> externalProvider;
 @property (copy, nonatomic) NSString* externalAccessToken;
 @property (copy, nonatomic) NSString* email;
@@ -99,7 +99,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.toggleOptionalFieldsButton.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-button";
     self.optionalFieldsSeparator.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-separator-image-view";
     self.progressIndicator.accessibilityIdentifier = @"RegistrationViewController:progress-indicator";
-    self.currentHeadingView.accessibilityIdentifier = @"RegistrationViewController:current-heading-view";
+    self.footerView.accessibilityIdentifier = @"RegistrationViewController:footer-view";
 }
 
 -(void)formFieldValueDidChange: (NSNotification *)notification {
@@ -192,9 +192,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)updateAuthView:(CGRect)frame {
-    self.headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders];
-    self.headingView.delegate = self;
-    [self useHeadingView:self.headingView];
+    self.socialAuthView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders];
+    self.socialAuthView.delegate = self;
+    [self useFooterview:self.socialAuthView];
 }
 
 -(void) setUpAgreementTextView {
@@ -210,10 +210,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
-- (void)useHeadingView:(UIView*)headingView {
-    if (self.currentHeadingView == nil) {
-        self.currentHeadingView = headingView;
-        [self.scrollView addSubview:self.currentHeadingView];
+- (void)useFooterview:(UIView*)footerView {
+    if (self.footerView == nil) {
+        self.footerView = footerView;
+        [self.scrollView addSubview:self.footerView];
         [self.view setNeedsUpdateConstraints];
         [self.view setNeedsLayout];
     }
@@ -256,9 +256,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                 if ([formField.defaultValue isEqualToString:provider.displayName]) {
                     self.externalAccessToken = self.environment.session.thirdPartyAuthAccessToken;
                     self.externalProvider = provider;
-
-                    UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
-                               [self useHeadingView:headingView];
+                    
+                    UIView* footerView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
+                    [self useFooterview:footerView];
                     break;
                 }
             }
@@ -358,7 +358,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    // Add space if the heading view won't do it for us
+
     NSInteger horizontalSpacing = self.styles.formMargin;
     NSInteger offset = 10;
     CGFloat width = self.scrollView.frame.size.width;
@@ -416,21 +416,25 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.scrollView addSubview:self.registerButton];
     offset = offset + self.registerButton.frame.size.height + 30;
     
-    [self.currentHeadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.footerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.registerButton.mas_bottom).offset(16.0);
         make.centerX.equalTo(self.scrollView);
         make.width.equalTo(self.registerButton);
         make.bottom.equalTo(self.scrollView.mas_bottom);
     }];
     
-    // Force the heading view to layout, so we get its height
-    [self.currentHeadingView setNeedsLayout];
-    [self.currentHeadingView layoutIfNeeded];
-    if (self.headingView) {
-        offset = offset + self.headingView.heightForAuthView;
+    // Force the footer view to layout, so we get its height
+    [self.footerView setNeedsLayout];
+    [self.footerView layoutIfNeeded];
+    
+    if (self.socialAuthView) {
+        offset = offset + self.socialAuthView.heightForAuthView;
     }
     
-    [self.scrollView setContentSize:CGSizeMake(width, offset)];
+    __block OEXRegistrationViewController *blockSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [blockSelf.scrollView setContentSize:CGSizeMake(width, offset)];
+    });
 }
 
 //This method will hide and unhide optional fields
@@ -484,8 +488,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     __block OEXRegistrationViewController *blockSelf = self;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
-        [blockSelf useHeadingView:headingView];
+        UIView* footerView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
+        [blockSelf useFooterview:footerView];
         [blockSelf receivedFields:userDetails fromProvider:provider withAccessToken:accessToken];
     });
 }

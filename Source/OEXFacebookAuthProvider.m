@@ -29,8 +29,8 @@
     return @"facebook";
 }
 
-- (UIView*)makeAuthView:(NSString *)text {
-    return [[ExternalProviderButtonView alloc] initWithIconImage:self.iconImage text:text textStyle:self.textStyle backgroundColor:self.backgoundColor borderColor:nil];
+- (UIView *)authViewWithTitle:(NSString *)title {
+    return [[ExternalProviderButtonView alloc] initWithIconImage:self.iconImage title:title textStyle:self.textStyle backgroundColor:self.backgoundColor borderColor:[[OEXStyles sharedStyles] neutralXDark]];
 }
 
 - (UIImage*)iconImage {

@@ -8,41 +8,40 @@
 
 import UIKit
 
-@objc enum ExternalAuthOptionsViewState: Int {
+@objc enum ExternalAuthOptionsType: Int {
     case register
     case login
 }
 
 class ExternalAuthOptionsView: UIView {
-    
-    private let offset = 16
+    private let verticalOffset = 16
     private let buttonHeight = 44
     
     @objc var height: CGFloat {
-        return CGFloat(providers.count * (offset + buttonHeight))
+        return CGFloat(providers.count * (verticalOffset + buttonHeight))
     }
     
     private let providers: [OEXExternalAuthProvider]
-    private let state: ExternalAuthOptionsViewState
+    private let type: ExternalAuthOptionsType
     private let accessibilityString: String
     private let tapAction: (OEXExternalAuthProvider) -> ()
     
-    @objc init(frame: CGRect, providers: [OEXExternalAuthProvider], state: ExternalAuthOptionsViewState, accessibilityLabel: String, tapAction: @escaping (OEXExternalAuthProvider) -> ()) {
+    @objc init(frame: CGRect, providers: [OEXExternalAuthProvider], type: ExternalAuthOptionsType, accessibilityLabel: String, tapAction: @escaping (OEXExternalAuthProvider) -> ()) {
         self.providers = providers.sorted { $0.displayName < $1.displayName }
-        self.state = state
+        self.type = type
         self.accessibilityString = accessibilityLabel
         self.tapAction = tapAction
         
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        addSubViews()
+        configureAuthProviders()
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func addSubViews() {
+    private func configureAuthProviders() {
         var container: UIView?
         for provider in providers {
             let button = UIButton()
@@ -50,10 +49,10 @@ class ExternalAuthOptionsView: UIView {
                 self?.tapAction(provider)
             }, for: .touchUpInside)
                         
-            let text = state == .register ? Strings.continueWith(provider: provider.displayName) :  Strings.signInWith(provider: provider.displayName)
-            let authButtonContainer = provider.makeAuthView(text)
+            let title = type == .register ? Strings.continueWith(provider: provider.displayName) : Strings.signInWith(provider: provider.displayName)
+            let authButtonContainer = provider.authView(withTitle: title)
             authButtonContainer.accessibilityIdentifier = "ExternalAuthOptionsView:\(provider.displayName.lowercased())-button"
-            authButtonContainer.accessibilityLabel = "\(accessibilityString) \(text)"
+            authButtonContainer.accessibilityLabel = "\(accessibilityString) \(title)"
             authButtonContainer.addSubview(button)
             addSubview(authButtonContainer)
             
@@ -61,11 +60,11 @@ class ExternalAuthOptionsView: UIView {
                 make.leading.equalTo(self)
                 make.trailing.equalTo(self)
                 if let container = container {
-                    make.top.equalTo(container.snp.bottom).offset(offset)
+                    make.top.equalTo(container.snp.bottom).offset(verticalOffset)
                 } else {
                     make.top.equalTo(self)
                 }
-                make.height.equalTo(44)
+                make.height.equalTo(buttonHeight)
             }
             
             button.snp.makeConstraints { make in

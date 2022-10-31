@@ -9,33 +9,24 @@
 import UIKit
 
 class ExternalProviderButtonView: UIView {
-    private let iconImage: UIImage
-    private let text: String
-    private let textStyle: OEXTextStyle
-    private let providerColor: UIColor
-    private let borderColor: UIColor?
+    private let imageSize = 24
+    private let textHeight = 19
     
-    
-    @objc init(iconImage: UIImage, text: String, textStyle: OEXTextStyle, backgroundColor: UIColor, borderColor: UIColor? = nil) {
-        self.iconImage = iconImage
-        self.text = text
-        self.textStyle = textStyle
-        self.providerColor = backgroundColor
-        self.borderColor = borderColor
+    @objc init(iconImage: UIImage, title: String, textStyle: OEXTextStyle, backgroundColor: UIColor, borderColor: UIColor? = nil) {
         super.init(frame: .zero)
-        addSubViews()
+        configureAuthButtonView(iconImage: iconImage, title: title, textStyle: textStyle, providerColor: backgroundColor, borderColor: borderColor)
     }
     
-    private func addSubViews() {
+    private func configureAuthButtonView(iconImage: UIImage, title: String, textStyle: OEXTextStyle, providerColor: UIColor, borderColor: UIColor? = nil) {
         let iconImageView = UIImageView(image: iconImage)
         iconImageView.contentMode = .scaleAspectFit
-        let label = UILabel()
+        let buttonTitle = UILabel()
         
         backgroundColor = providerColor
         addSubview(iconImageView)
-        addSubview(label)
+        addSubview(buttonTitle)
         
-        label.attributedText = textStyle.attributedString(withText: text)
+        buttonTitle.attributedText = textStyle.attributedString(withText: title)
         
         if let borderColor = borderColor {
             layer.borderWidth = 1
@@ -44,15 +35,15 @@ class ExternalProviderButtonView: UIView {
         
         iconImageView.snp.makeConstraints { make in
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
-            make.height.equalTo(24)
-            make.width.equalTo(24)
+            make.height.equalTo(imageSize)
+            make.width.equalTo(imageSize)
             make.centerY.equalTo(self)
         }
         
-        label.snp.makeConstraints { make in
+        buttonTitle.snp.makeConstraints { make in
             make.leading.equalTo(iconImageView.snp.trailing).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self)
-            make.height.equalTo(19)
+            make.height.equalTo(textHeight)
             make.centerY.equalTo(self)
         }
     }

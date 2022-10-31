@@ -23,8 +23,8 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
         return "azuread-oauth2"
     }
     
-    func makeAuthView(_ text: String) -> UIView {
-        return ExternalProviderButtonView(iconImage: iconImage(), text: text, textStyle: textStyle(), backgroundColor: backgoundColor())
+    func authView(withTitle title: String) -> UIView {
+        return ExternalProviderButtonView(iconImage: iconImage(), title: title, textStyle: textStyle(), backgroundColor: backgoundColor())
     }
     
     func iconImage() -> UIImage {
