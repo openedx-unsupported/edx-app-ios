@@ -16,43 +16,32 @@ import UIKit
 class ExternalAuthOptionsView: UIView {
     private let verticalOffset = 16
     private let buttonHeight = 44
-    
-    @objc var height: CGFloat {
-        return CGFloat(providers.count * (verticalOffset + buttonHeight))
-    }
-    
-    private let providers: [OEXExternalAuthProvider]
-    private let type: ExternalAuthOptionsType
-    private let accessibilityString: String
-    private let tapAction: (OEXExternalAuthProvider) -> ()
+        
+    @objc var height: CGFloat = 0
     
     @objc init(frame: CGRect, providers: [OEXExternalAuthProvider], type: ExternalAuthOptionsType, accessibilityLabel: String, tapAction: @escaping (OEXExternalAuthProvider) -> ()) {
-        self.providers = providers.sorted { $0.displayName < $1.displayName }
-        self.type = type
-        self.accessibilityString = accessibilityLabel
-        self.tapAction = tapAction
-        
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        configureAuthProviders()
+        configureAuthProviders(providers: providers, type: type, accessibilityLabel: accessibilityLabel, tapAction: tapAction)
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureAuthProviders() {
+    private func configureAuthProviders(providers: [OEXExternalAuthProvider], type: ExternalAuthOptionsType, accessibilityLabel: String, tapAction: @escaping (OEXExternalAuthProvider) -> ()) {
+        height = CGFloat(providers.count * (verticalOffset + buttonHeight))
         var container: UIView?
         for provider in providers {
             let button = UIButton()
-            button.oex_addAction({ [weak self] _ in
-                self?.tapAction(provider)
+            button.oex_addAction({ _ in
+                tapAction(provider)
             }, for: .touchUpInside)
                         
             let title = type == .register ? Strings.continueWith(provider: provider.displayName) : Strings.signInWith(provider: provider.displayName)
             let authButtonContainer = provider.authView(withTitle: title)
             authButtonContainer.accessibilityIdentifier = "ExternalAuthOptionsView:\(provider.displayName.lowercased())-button"
-            authButtonContainer.accessibilityLabel = "\(accessibilityString) \(title)"
+            authButtonContainer.accessibilityLabel = "\(accessibilityLabel) \(title)"
             authButtonContainer.addSubview(button)
             addSubview(authButtonContainer)
             

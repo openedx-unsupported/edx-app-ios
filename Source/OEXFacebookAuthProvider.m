@@ -17,10 +17,6 @@
 
 @implementation OEXFacebookAuthProvider
 
-- (UIColor*)facebookBlue {
-    return [UIColor colorWithRed:24.0/255. green:119.0/255. blue:242./255. alpha:1];
-}
-
 - (NSString*)displayName {
     return [Strings facebook];
 }
@@ -30,19 +26,8 @@
 }
 
 - (UIView *)authViewWithTitle:(NSString *)title {
-    return [[ExternalProviderButtonView alloc] initWithIconImage:self.iconImage title:title textStyle:self.textStyle backgroundColor:self.backgoundColor borderColor:[[OEXStyles sharedStyles] neutralXDark]];
-}
-
-- (UIImage*)iconImage {
-    return [UIImage imageNamed:@"icon_facebook_white"];
-}
-
-- (UIColor*)backgoundColor {
-    return self.facebookBlue;
-}
-
-- (OEXTextStyle*)textStyle {
-    return [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeLarge color:[[OEXStyles sharedStyles] neutralWhiteT]];
+    return [[ExternalProviderButtonView alloc]
+            initWithIconImage:[UIImage imageNamed:@"icon_facebook_white"] title:title textStyle:[[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeLarge color:[[OEXStyles sharedStyles] neutralWhiteT]] backgroundColor:[UIColor colorWithRed:24.0/255. green:119.0/255. blue:242./255. alpha:1] borderColor:[[OEXStyles sharedStyles] neutralXDark]];
 }
 
 - (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString * _Nullable, OEXRegisteringUserDetails * _Nullable, NSError * _Nullable))completion {

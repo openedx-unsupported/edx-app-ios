@@ -10,7 +10,7 @@ import UIKit
 
 class ExternalProviderButtonView: UIView {
     private let imageSize = 24
-    private let textHeight = 19
+    private let buttonHeight = 19
     
     @objc init(iconImage: UIImage, title: String, textStyle: OEXTextStyle, backgroundColor: UIColor, borderColor: UIColor? = nil) {
         super.init(frame: .zero)
@@ -43,7 +43,7 @@ class ExternalProviderButtonView: UIView {
         buttonTitle.snp.makeConstraints { make in
             make.leading.equalTo(iconImageView.snp.trailing).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self)
-            make.height.equalTo(textHeight)
+            make.height.equalTo(buttonHeight)
             make.centerY.equalTo(self)
         }
     }

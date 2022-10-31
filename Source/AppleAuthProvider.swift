@@ -24,19 +24,7 @@ import UIKit
     }
     
     func authView(withTitle title: String) -> UIView {
-        return ExternalProviderButtonView(iconImage: iconImage(), title: title, textStyle: textStyle(), backgroundColor: backgoundColor())
-    }
-    
-    func iconImage() -> UIImage {
-        return UIImage(named: "icon_apple") ?? UIImage()
-    }
-    
-    func backgoundColor() -> UIColor {
-        UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0)
-    }
-    
-    func textStyle() -> OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralWhiteT())
+        return ExternalProviderButtonView(iconImage: UIImage(named: "icon_apple") ?? UIImage(), title: title, textStyle: OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralWhiteT()), backgroundColor: UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0))
     }
     
     func authorizeService(from controller: UIViewController, requestingUserDetails loadUserDetails: Bool, withCompletion completion: @escaping (String?, OEXRegisteringUserDetails?, Error?) -> Void) {

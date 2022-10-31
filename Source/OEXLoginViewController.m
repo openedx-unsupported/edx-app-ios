@@ -128,7 +128,7 @@
     
     __weak __typeof(self) owner = self;
     
-    ExternalAuthOptionsView* externalAuthOptions = [[[ExternalAuthOptionsView alloc] init] initWithFrame:self.externalAuthContainer.bounds providers:providers type:ExternalAuthOptionsTypeLogin accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
+    ExternalAuthOptionsView* externalAuthOptions = [[ExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers type:ExternalAuthOptionsTypeLogin accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
         [owner externalLoginWithProvider:provider];
     }];
     

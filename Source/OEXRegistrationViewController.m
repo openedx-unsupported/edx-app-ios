@@ -39,7 +39,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) NSMutableArray* externalAuthProviders;
 // Used in auth from an external provider
-@property (strong, nonatomic) UIView* footerView;
+@property (strong, nonatomic) UIView* socialAuthViewContainer;
 @property (strong, nonatomic) OEXExternalRegistrationOptionsView* socialAuthView;
 @property (strong, nonatomic) id <OEXExternalAuthProvider> externalProvider;
 @property (copy, nonatomic) NSString* externalAccessToken;
@@ -99,7 +99,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.toggleOptionalFieldsButton.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-button";
     self.optionalFieldsSeparator.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-separator-image-view";
     self.progressIndicator.accessibilityIdentifier = @"RegistrationViewController:progress-indicator";
-    self.footerView.accessibilityIdentifier = @"RegistrationViewController:footer-view";
+    self.socialAuthViewContainer.accessibilityIdentifier = @"RegistrationViewController:social-auth-view";
 }
 
 -(void)formFieldValueDidChange: (NSNotification *)notification {
@@ -211,9 +211,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)useFooterview:(UIView*)footerView {
-    if (self.footerView == nil) {
-        self.footerView = footerView;
-        [self.scrollView addSubview:self.footerView];
+    if (self.socialAuthViewContainer == nil) {
+        self.socialAuthViewContainer = footerView;
+        [self.scrollView addSubview:self.socialAuthViewContainer];
         [self.view setNeedsUpdateConstraints];
         [self.view setNeedsLayout];
     }
@@ -257,8 +257,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                     self.externalAccessToken = self.environment.session.thirdPartyAuthAccessToken;
                     self.externalProvider = provider;
                     
-                    UIView* footerView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
-                    [self useFooterview:footerView];
+                    UIView* socialAuthView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
+                    [self useFooterview:socialAuthView];
                     break;
                 }
             }
@@ -416,7 +416,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.scrollView addSubview:self.registerButton];
     offset = offset + self.registerButton.frame.size.height + 30;
     
-    [self.footerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.socialAuthViewContainer mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.registerButton.mas_bottom).offset(16.0);
         make.centerX.equalTo(self.scrollView);
         make.width.equalTo(self.registerButton);
@@ -424,17 +424,13 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }];
     
     // Force the footer view to layout, so we get its height
-    [self.footerView setNeedsLayout];
-    [self.footerView layoutIfNeeded];
-    
+    [self.socialAuthView setNeedsLayout];
+    [self.socialAuthView layoutIfNeeded];
     if (self.socialAuthView) {
         offset = offset + self.socialAuthView.heightForAuthView;
     }
     
-    __block OEXRegistrationViewController *blockSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [blockSelf.scrollView setContentSize:CGSizeMake(width, offset)];
-    });
+    [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }
 
 //This method will hide and unhide optional fields
@@ -488,8 +484,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     __block OEXRegistrationViewController *blockSelf = self;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIView* footerView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
-        [blockSelf useFooterview:footerView];
+        UIView* socialAuthView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
+        [blockSelf useFooterview:socialAuthView];
         [blockSelf receivedFields:userDetails fromProvider:provider withAccessToken:accessToken];
     });
 }
