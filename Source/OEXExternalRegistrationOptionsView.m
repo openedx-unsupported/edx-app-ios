@@ -57,6 +57,7 @@
         make.top.equalTo(weakSelf.mas_top).offset(weakSelf.styles.headingPromptMarginTop);
         make.leading.equalTo(weakSelf.mas_leading);
         make.trailing.equalTo(weakSelf.mas_trailing);
+        make.bottom.equalTo(weakSelf.mas_bottom);
     }];
     
     [self.activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
