@@ -90,7 +90,6 @@ private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshTok
         
         networkManager.performTaskForRequest(networkRequest) { [weak networkManager] result in
             var success = false
-            
             if let currentUser = session.currentUser {
                 if let newAccessToken = result.data {
                     success = true
@@ -99,12 +98,21 @@ private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshTok
                 } else {
                     networkManager?.tokenStatus = .expired
                 }
-                networkManager?.performQueuedTasks(success: success)
-            } else {
-                networkManager?.removeAllQueuedTasks()
             }
+            performQueuedTasks(router: router, success: success)
             
             return completion(success)
+        }
+    }
+}
+
+private func performQueuedTasks(router: OEXRouter?, success: Bool) {
+    DispatchQueue.main.async {
+        if success == true {
+            router?.environment.networkManager.performQueuedTasks(success: success)
+        }
+        else {
+            router?.environment.networkManager.removeAllQueuedTasks()
         }
     }
 }
