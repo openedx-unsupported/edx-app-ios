@@ -594,7 +594,6 @@
 		77FDF4111AFBF0C300E8C639 /* VideoBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4101AFBF0C300E8C639 /* VideoBlockViewController.swift */; };
 		77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4181B02910D00E8C639 /* IconMessageView.swift */; };
 		77FEF2241C8A0A45009DFDB3 /* OEXFileUtility+TestAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FEF2231C8A0A45009DFDB3 /* OEXFileUtility+TestAdditions.m */; };
-		77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2BD1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m */; };
 		77FFA2C31AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2C21AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m */; };
 		77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */; };
 		7C2DD54F1D4A7901006148E0 /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2DD54E1D4A7901006148E0 /* UserPreference.swift */; };
@@ -854,6 +853,7 @@
 		E0D159911EB87658005E2A76 /* WhatsNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */; };
 		E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */; };
 		E0D159971EB87700005E2A76 /* WhatsNewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159961EB87700005E2A76 /* WhatsNewObject.swift */; };
+		E0D232D4291374A900051A04 /* UsingExternalAuthInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D232D3291374A900051A04 /* UsingExternalAuthInfoView.swift */; };
 		E0E163EC21368A1D00DAE9F0 /* FirebaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */; };
 		E0E163EE21368A4F00DAE9F0 /* FirebaseConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */; };
 		E0E163F021368A6300DAE9F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0E163EF21368A6300DAE9F0 /* GoogleService-Info.plist */; };
@@ -1637,8 +1637,6 @@
 		77FDF4181B02910D00E8C639 /* IconMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconMessageView.swift; sourceTree = "<group>"; };
 		77FEF2221C8A0A45009DFDB3 /* OEXFileUtility+TestAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEXFileUtility+TestAdditions.h"; sourceTree = "<group>"; };
 		77FEF2231C8A0A45009DFDB3 /* OEXFileUtility+TestAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXFileUtility+TestAdditions.m"; sourceTree = "<group>"; };
-		77FFA2BC1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXUsingExternalAuthHeadingView.h; sourceTree = "<group>"; };
-		77FFA2BD1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXUsingExternalAuthHeadingView.m; sourceTree = "<group>"; };
 		77FFA2BF1AC3087A00B4D69B /* NSAttributedString+OEXFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+OEXFormatting.h"; sourceTree = "<group>"; };
 		77FFA2C01AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+OEXFormatting.m"; sourceTree = "<group>"; };
 		77FFA2C21AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+OEXFormattingTests.m"; sourceTree = "<group>"; };
@@ -2006,6 +2004,7 @@
 		E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewViewController.swift; sourceTree = "<group>"; };
 		E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewDataModel.swift; sourceTree = "<group>"; };
 		E0D159961EB87700005E2A76 /* WhatsNewObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObject.swift; sourceTree = "<group>"; };
+		E0D232D3291374A900051A04 /* UsingExternalAuthInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingExternalAuthInfoView.swift; sourceTree = "<group>"; };
 		E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseConfig.swift; sourceTree = "<group>"; };
 		E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseConfigTests.swift; sourceTree = "<group>"; };
 		E0E163EF21368A6300DAE9F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -3505,8 +3504,6 @@
 			isa = PBXGroup;
 			children = (
 				77503E8B1B278B9A00C47229 /* RegistrationSelectOptionView.swift */,
-				77FFA2BC1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.h */,
-				77FFA2BD1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m */,
 				77ADF4A41AC1B35000AC8955 /* OEXExternalAuthProviderButton.h */,
 				77ADF4A51AC1B35000AC8955 /* OEXExternalAuthProviderButton.m */,
 				77ADF49C1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.h */,
@@ -3518,6 +3515,7 @@
 				B4B6D6131A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.h */,
 				B4B6D6141A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m */,
 				5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */,
+				E0D232D3291374A900051A04 /* UsingExternalAuthInfoView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -5192,6 +5190,7 @@
 				2271C54A21634E40001EA1E6 /* DeepLinkManager.swift in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
+				E0D232D4291374A900051A04 /* UsingExternalAuthInfoView.swift in Sources */,
 				0D930BC4236978D6001C80AF /* ChromeCastMetaDataModel.swift in Sources */,
 				B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
@@ -5244,7 +5243,6 @@
 				22A3CECE22D31527005A046E /* APIURLVersionConfig.swift in Sources */,
 				77509D941BE1710200B10CD3 /* TZStackView.swift in Sources */,
 				B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */,
-				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
 				775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */,
 				223DD6BB1F9F5A4B004A21B9 /* CourseDashboardViewController.swift in Sources */,
 				7793764D1BED27D000900A8C /* BasicAuthCredential.swift in Sources */,

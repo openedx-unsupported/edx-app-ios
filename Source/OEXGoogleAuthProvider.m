@@ -13,7 +13,6 @@
 #import "OEXExternalAuthProviderButton.h"
 #import "OEXGoogleSocial.h"
 #import "OEXRegisteringUserDetails.h"
-#import <Masonry/Masonry.h>
 
 @implementation OEXGoogleAuthProvider
 

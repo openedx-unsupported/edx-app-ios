@@ -26,7 +26,6 @@
 #import "OEXRegistrationStyles.h"
 #import "OEXRegisteringUserDetails.h"
 #import "OEXUserLicenseAgreementViewController.h"
-#import "OEXUsingExternalAuthHeadingView.h"
 #import "OEXRegistrationAgreement.h"
 
 
@@ -192,9 +191,16 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)updateAuthView:(CGRect)frame {
-    self.socialAuthView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders];
-    self.socialAuthView.delegate = self;
-    [self useFooterview:self.socialAuthView];
+    if (self.externalProvider != nil) {
+        [self setupLinkedAccountInfoView];
+    }
+    else {
+        if (self.socialAuthView == nil) {
+            self.socialAuthView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders];
+            self.socialAuthView.delegate = self;
+        }
+        [self useFooterview:self.socialAuthView];
+    }
 }
 
 -(void) setUpAgreementTextView {
@@ -210,13 +216,19 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
-- (void)useFooterview:(UIView*)footerView {
-    if (self.socialAuthViewContainer == nil) {
-        self.socialAuthViewContainer = footerView;
-        [self.scrollView addSubview:self.socialAuthViewContainer];
-        [self.view setNeedsUpdateConstraints];
-        [self.view setNeedsLayout];
+- (void) setupLinkedAccountInfoView {
+    if (self.externalProvider != nil) {
+        UIView* linkedInfoView = [[UsingExternalAuthInfoView alloc] initWithFrame:self.view.bounds providerName:self.externalProvider.displayName];
+        [self useFooterview:linkedInfoView];
     }
+}
+
+- (void)useFooterview:(UIView*)footerView {
+    [self.socialAuthViewContainer removeFromSuperview];
+    self.socialAuthViewContainer = footerView;
+    [self.scrollView addSubview:self.socialAuthViewContainer];
+    [self.view setNeedsUpdateConstraints];
+    [self.view setNeedsLayout];
 }
 
 - (IBAction)navigateBack:(id)sender {
@@ -256,9 +268,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                 if ([formField.defaultValue isEqualToString:provider.displayName]) {
                     self.externalAccessToken = self.environment.session.thirdPartyAuthAccessToken;
                     self.externalProvider = provider;
-                    
-                    UIView* socialAuthView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
-                    [self useFooterview:socialAuthView];
+                    [self setupLinkedAccountInfoView];
                     break;
                 }
             }
@@ -358,6 +368,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    BOOL isSocialAuthLinked = self.externalProvider != nil;
 
     NSInteger horizontalSpacing = self.styles.formMargin;
     NSInteger offset = 10;
@@ -365,7 +376,14 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     NSInteger contentWidth = width - 2 * horizontalSpacing;
     
     BOOL isOptionalFieldPresent = NO;
-    
+
+    if (isSocialAuthLinked) {
+        [self.socialAuthViewContainer setNeedsLayout];
+        [self.socialAuthViewContainer layoutIfNeeded];
+        CGSize size = [self.socialAuthViewContainer systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        offset = offset + size.height;
+    }
+
     for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
         UIView* view = fieldController.view;
         // Add view to scroll view if field is not optional and it is not agreement field.
@@ -417,19 +435,26 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     offset = offset + self.registerButton.frame.size.height + 30;
     
     [self.socialAuthViewContainer mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.registerButton.mas_bottom).offset(16.0);
+        if (isSocialAuthLinked) {
+            make.top.equalTo(self.scrollView);
+            make.width.equalTo(self.scrollView).offset(-self.styles.formMargin);
+        }
+        else {
+            make.top.equalTo(self.registerButton.mas_bottom).offset(16.0);
+            make.bottom.equalTo(self.scrollView.mas_bottom);
+            make.width.equalTo(self.registerButton);
+        }
         make.centerX.equalTo(self.scrollView);
-        make.width.equalTo(self.registerButton);
-        make.bottom.equalTo(self.scrollView.mas_bottom);
     }];
-    
-    // Force the footer view to layout, so we get its height
-    [self.socialAuthView setNeedsLayout];
-    [self.socialAuthView layoutIfNeeded];
-    if (self.socialAuthView) {
-        offset = offset + self.socialAuthView.heightForAuthView;
+
+    if (!isSocialAuthLinked) {
+        // Force the footer view to layout, so we get its height
+        [self.socialAuthView setNeedsLayout];
+        [self.socialAuthView layoutIfNeeded];
+        if (self.socialAuthView) {
+            offset = offset + self.socialAuthView.heightForAuthView;
+        }
     }
-    
     [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }
 
@@ -482,10 +507,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void) configureViewForSocial:(id<OEXExternalAuthProvider>)provider accessToken:(NSString *) accessToken userDetails:(OEXRegisteringUserDetails *) userDetails {
     // No account already, so continue registration process
     __block OEXRegistrationViewController *blockSelf = self;
-
+    self.externalProvider = provider;
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIView* socialAuthView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
-        [blockSelf useFooterview:socialAuthView];
+        [blockSelf setupLinkedAccountInfoView];
         [blockSelf receivedFields:userDetails fromProvider:provider withAccessToken:accessToken];
     });
 }

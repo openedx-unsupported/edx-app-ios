@@ -20,12 +20,12 @@ class ExternalProviderButtonView: UIView {
     private func configureAuthButtonView(iconImage: UIImage, title: String, textStyle: OEXTextStyle, providerColor: UIColor, borderColor: UIColor? = nil) {
         let iconImageView = UIImageView(image: iconImage)
         iconImageView.contentMode = .scaleAspectFit
+
         let buttonTitle = UILabel()
-        
         backgroundColor = providerColor
         addSubview(iconImageView)
         addSubview(buttonTitle)
-        
+
         buttonTitle.attributedText = textStyle.attributedString(withText: title)
         
         if let borderColor = borderColor {
@@ -46,6 +46,9 @@ class ExternalProviderButtonView: UIView {
             make.height.equalTo(buttonHeight)
             make.centerY.equalTo(self)
         }
+
+        buttonTitle.accessibilityIdentifier = "ExternalProviderButtonView:title"
+        iconImageView.accessibilityIdentifier = "ExternalProviderButtonView:icon"
     }
     
     required public init?(coder aDecoder: NSCoder) {

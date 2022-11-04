@@ -385,9 +385,11 @@
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "בחרו נושא...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
-"COMPLETE_REGISTRATION_INFO" = "נכנסתם בהצלחה באמצעות {service}. אנחנו רק צריכים קצת יותר מידע לפני שתתחילו ללמוד עם {platform_name}.";
+"REGISTRATION.SOCIAL_AUTH_LINKED.TITLE" = "נכנסתם בהצלחה באמצעות {service}.";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. */
+"REGISTRATION.SOCIAL_AUTH_LINKED.MESSAGE" = "אנחנו רק צריכים קצת יותר מידע לפני שתתחילו ללמוד עם {platform_name}.";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
-"COMPLETE_REGISTRATION_PROMPT" = "השלימו את ההרשמה שלכם";
+"REGISTRATION.SOCIAL_AUTH_LINKED.COMPLETE_REGISTRATION" = "השלימו את ההרשמה שלכם";
 /* Title of alert when confirming deletion of a video */
 "CONFIRM_DELETE_TITLE"="אשר מחיקה";
 /* Text of alert when confirming video deletion */
