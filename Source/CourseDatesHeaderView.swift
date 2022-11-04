@@ -124,13 +124,17 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         bottomContainer.addShadow(offset: CGSize(width: 0, height: 2), color: styles.primaryDarkColor(), radius: 2, opacity: 0.35, cornerRadius: 5)
     }
     
-    func setupView(with bannerInfo: DatesBannerInfo, calendarSyncEnabled: Bool) {
+    func setupView(with bannerInfo: DatesBannerInfo, isSelfPaced: Bool, calendarSyncEnabled: Bool) {
         self.bannerInfo = bannerInfo
         self.calendarSyncEnabled = calendarSyncEnabled
         
         setupTopContainer()
         if calendarSyncEnabled {
             setupBottomContainer()
+        }
+        
+        if !isSelfPaced && bannerInfo.status != .upgradeToCompleteGradedBanner {
+            topContainer.subviews.forEach { $0.removeFromSuperview() }
         }
         
         setAccessibilityIdentifiers()
@@ -159,7 +163,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
         let attributedText = descriptionTextStyle.attributedString(withText: status.header + status.body)
         descriptionLabel.attributedText = attributedText.setLineSpacing(6)
         
-        container.snp.remakeConstraints{ make in
+        container.snp.remakeConstraints { make in
             make.edges.equalTo(self)
         }
         
