@@ -152,7 +152,7 @@ class CoursesContainerViewController: UICollectionViewController {
         return context == .enrollmentList && isDiscoveryEnabled
     }
     
-    private var emptyView: EnrolledCoursesEmptyState?
+    private var emptyStateView: EnrolledCoursesEmptyState?
     
     init(environment: Environment, context: Context) {
         self.environment = environment
@@ -190,26 +190,32 @@ class CoursesContainerViewController: UICollectionViewController {
         coordinator.animate(
             alongsideTransition: { [weak self] _ in
                 self?.collectionView.collectionViewLayout.invalidateLayout()
+                self?.emptyStateView?.layoutIfNeeded()
+                self?.emptyStateView?.setNeedsLayout()
             },
             completion: { _ in }
         )
     }
     
     func showEmptyStateView() {
-        let emptyView = EnrolledCoursesEmptyState()
-        view.addSubview(emptyView)
+        emptyStateView?.removeFromSuperview()
         
-        emptyView.findCoursesAction = {[weak self] in
+        let emptyStateView = EnrolledCoursesEmptyState()
+        view.addSubview(emptyStateView)
+        view.backgroundColor = OEXStyles.shared().neutralWhiteT()
+
+        emptyStateView.findCoursesAction = { [weak self] in
             self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
         }
         
-        emptyView.snp.makeConstraints { make in
-            make.top.equalTo(view).offset(StandardVerticalMargin * 2)
+        emptyStateView.snp.makeConstraints { make in
+            make.top.equalTo(view)
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
+            make.bottom.equalTo(safeBottom)
         }
         
-        self.emptyView = emptyView
+        self.emptyStateView = emptyStateView
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

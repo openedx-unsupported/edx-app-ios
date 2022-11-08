@@ -9,22 +9,25 @@
 import Foundation
 
 class EnrolledCoursesEmptyState: UIView {
+    var findCoursesAction: (() -> Void)?
+    
+    private let container = UIView()
+    private let bottomContainer = UIView()
+    private let promptLabel = UILabel()
+    
     private lazy var imageView: UIImageView = {
         guard let image = UIImage(named: "empty_state_placeholder") else { return UIImageView() }
         return UIImageView(image: image)
     }()
     
-    private lazy var promptLabel: UILabel = {
-        let label = UILabel()
-        
-        return label
+    private lazy var findCoursesButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.oex_addAction({ [weak self] _ in
+            self?.findCoursesAction?()
+        }, for: .touchUpInside)
+        return button
     }()
-    
-    private let findCoursesButton = UIButton(type: .system)
-    private let container = UIView()
-    
-    var findCoursesAction : (() -> Void)?
-    
+        
     private var findCoursesTextStyle: OEXTextStyle {
         return OEXTextStyle(weight: .bold, size: .xxLarge, color: OEXStyles.shared().neutralBlackT())
     }
@@ -51,121 +54,126 @@ class EnrolledCoursesEmptyState: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(imageView)
+        addSubViews()
+        setAccessibilityIdentifiers()
+    }
+    
+    override func layoutSubviews() {
+        if traitCollection.verticalSizeClass == .regular {
+            addPortraitConstraints()
+        } else {
+            addLandscapeConstraints()
+        }
+
+        container.addShadow(offset: CGSize(width: 0, height: 2), color: OEXStyles.shared().primaryDarkColor(), radius: 2, opacity: 0.35, cornerRadius: 6)
+    }
+    
+    private func addSubViews() {
+        backgroundColor = OEXStyles.shared().neutralWhiteT()
+        
         addSubview(container)
-        container.addSubview(promptLabel)
-        container.addSubview(findCoursesButton)
+
+        container.addSubview(imageView)
+        container.addSubview(bottomContainer)
+        
+        bottomContainer.addSubview(promptLabel)
+        bottomContainer.addSubview(findCoursesButton)
+        
+        container.backgroundColor = OEXStyles.shared().neutralWhiteT()
         
         promptLabel.attributedText = findCoursesTextStyle.attributedString(withText: Strings.EnrollmentList.findCoursesPrompt)
         promptLabel.textAlignment = .center
-        
-        findCoursesButton.backgroundColor = OEXStyles.shared().secondaryBaseColor()
-        
+        promptLabel.numberOfLines = 0
+                
         let attributedString = NSMutableAttributedString()
         attributedString.append(attributedSearchImage)
         attributedString.append(attributedUnicodeSpace)
         attributedString.append(findCoursesButtonTextStyle.attributedString(withText: Strings.EnrollmentList.findCourses))
-        
         findCoursesButton.setAttributedTitle(attributedString, for: UIControl.State())
-        
-        imageView.snp.makeConstraints { make in
-            make.top.equalTo(self)
-            make.height.equalTo(StandardVerticalMargin * 33)
+        findCoursesButton.backgroundColor = OEXStyles.shared().secondaryBaseColor()
+    }
+    
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "EnrolledCoursesEmptyState:view"
+        imageView.accessibilityIdentifier = "EnrolledCoursesEmptyState:image-view"
+        promptLabel.accessibilityIdentifier = "EnrolledCoursesEmptyState:prompt-label"
+        findCoursesButton.accessibilityIdentifier = "EnrolledCoursesEmptyState:find-courses-button"
+        container.accessibilityIdentifier = "EnrolledCoursesEmptyState:container-view"
+        bottomContainer.accessibilityIdentifier = "EnrolledCoursesEmptyState:bottom-container-view"
+    }
+    
+    private func addPortraitConstraints() {
+        container.snp.remakeConstraints { make in
+            make.top.equalTo(self).offset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(bottomContainer.snp.bottom).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
         
-        container.backgroundColor = .white
-        container.snp.makeConstraints { make in
+        imageView.snp.remakeConstraints { make in
+            make.top.equalTo(container)
+            make.height.equalTo(StandardVerticalMargin * 33)
+            make.leading.equalTo(container)
+            make.trailing.equalTo(container)
+        }
+        
+        bottomContainer.snp.remakeConstraints { make in
             make.top.equalTo(imageView.snp.bottom)
             make.bottom.equalTo(findCoursesButton.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(container)
+            make.trailing.equalTo(container)
+        }
+        
+        promptLabel.snp.remakeConstraints { make in
+            make.top.equalTo(bottomContainer).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(bottomContainer).offset(StandardHorizontalMargin * 2.2)
+            make.trailing.equalTo(bottomContainer).inset(StandardHorizontalMargin * 2.2)
+        }
+        
+        findCoursesButton.snp.remakeConstraints { make in
+            make.top.equalTo(promptLabel.snp.bottom).offset(StandardVerticalMargin * 3.2)
+            make.bottom.equalTo(bottomContainer).inset(StandardVerticalMargin * 2)
+            make.height.equalTo(StandardVerticalMargin * 5.5)
+            make.leading.equalTo(bottomContainer).offset(StandardHorizontalMargin * 2)
+            make.trailing.equalTo(bottomContainer).inset(StandardHorizontalMargin * 2)
+        }
+    }
+    
+    private func addLandscapeConstraints() {
+        container.snp.remakeConstraints { make in
+            make.top.equalTo(self).offset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(self).inset(StandardVerticalMargin * 2)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
         
-        promptLabel.snp.makeConstraints { make in
-            make.top.equalTo(container).offset(StandardVerticalMargin * 2)
-            make.leading.equalTo(container).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(container).inset(StandardHorizontalMargin)
+        imageView.snp.remakeConstraints { make in
+            make.top.equalTo(container)
+            make.leading.equalTo(container)
+            make.bottom.equalTo(container)
+            make.width.equalTo(frame.size.width / 2)
         }
-        
-        findCoursesButton.snp.makeConstraints { make in
-            make.top.equalTo(promptLabel.snp.bottom).offset(StandardVerticalMargin * 2)
-            make.bottom.equalTo(container).inset(StandardVerticalMargin * 2)
+
+        bottomContainer.snp.remakeConstraints { make in
+            make.top.equalTo(container).offset(-StandardVerticalMargin * 2)
+            make.leading.equalTo(imageView.snp.trailing)
+            make.trailing.equalTo(container)
+            make.bottom.equalTo(container)
+        }
+
+        promptLabel.snp.remakeConstraints { make in
+            make.top.equalTo(bottomContainer).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(bottomContainer).offset(StandardHorizontalMargin * 2)
+            make.trailing.equalTo(bottomContainer).inset(StandardHorizontalMargin * 2)
+            make.bottom.equalTo(findCoursesButton.snp.top)
+        }
+
+        findCoursesButton.snp.remakeConstraints { make in
+            make.bottom.equalTo(bottomContainer).inset(StandardVerticalMargin * 4)
+            make.leading.equalTo(bottomContainer).offset(StandardHorizontalMargin * 2)
+            make.trailing.equalTo(bottomContainer).inset(StandardHorizontalMargin * 2)
             make.height.equalTo(StandardVerticalMargin * 5.5)
-            make.leading.equalTo(promptLabel)
-            make.trailing.equalTo(promptLabel)
         }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-let EnrolledCoursesFooterViewHeight: CGFloat = 100
-
-class EnrolledCoursesFooterView : UICollectionReusableView {
-    static let identifier = "EnrolledCoursesFooterView"
-    
-    private let promptLabel = UILabel()
-    private let findCoursesButton = UIButton(type:.system)
-    
-    private let container = UIView()
-    
-    var findCoursesAction : (() -> Void)?
-    
-    private var findCoursesTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
-    }
-    
-    override init(frame: CGRect) {    
-        super.init(frame: CGRect.zero)
-        
-        addSubview(container)
-        container.addSubview(promptLabel)
-        container.addSubview(findCoursesButton)
-        
-        self.promptLabel.attributedText = findCoursesTextStyle.attributedString(withText: Strings.EnrollmentList.findCoursesPrompt)
-        self.promptLabel.textAlignment = .center
-        
-        self.findCoursesButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle, withTitle: Strings.EnrollmentList.findCourses.oex_uppercaseStringInCurrentLocale())
-        
-        container.backgroundColor = OEXStyles.shared().standardBackgroundColor()
-        container.applyBorderStyle(style: BorderStyle())
-        
-        container.snp.makeConstraints { make in
-            make.top.equalTo(self).offset(CourseCardCell.margin)
-            make.bottom.equalTo(self)
-            make.leading.equalTo(self).offset(CourseCardCell.margin)
-            make.trailing.equalTo(self).offset(-CourseCardCell.margin)
-        }
-        
-        self.promptLabel.snp.makeConstraints { make in
-            make.leading.equalTo(container).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(container).offset(-StandardHorizontalMargin)
-            make.top.equalTo(container).offset(StandardVerticalMargin)
-        }
-        
-        self.findCoursesButton.snp.makeConstraints { make in
-            make.leading.equalTo(promptLabel)
-            make.trailing.equalTo(promptLabel)
-            make.top.equalTo(promptLabel.snp.bottom).offset(StandardVerticalMargin)
-            make.bottom.equalTo(container).offset(-StandardVerticalMargin)
-        }
-        
-        findCoursesButton.oex_addAction({[weak self] _ in
-            self?.findCoursesAction?()
-            }, for: .touchUpInside)
-
-        setAccessibilityIdentifiers()
-    }
-
-    private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "EnrolledCoursesFooterView:view"
-        promptLabel.accessibilityIdentifier = "EnrolledCoursesFooterView:prompt-label"
-        findCoursesButton.accessibilityIdentifier = "EnrolledCoursesFooterView:find-courses-button"
-        container.accessibilityIdentifier = "EnrolledCoursesFooterView:container-view"
     }
     
     required init?(coder aDecoder: NSCoder) {
