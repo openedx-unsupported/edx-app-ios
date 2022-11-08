@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)beginIndicatingActivity;
 - (void)endIndicatingActivity;
+- (CGFloat)heightForAuthView;
 
 @end
 

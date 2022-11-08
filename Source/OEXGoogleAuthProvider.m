@@ -28,13 +28,10 @@
     return @"google-oauth2";
 }
 
-- (OEXExternalAuthProviderButton*)freshAuthButton {
-    OEXExternalAuthProviderButton* button = [[OEXExternalAuthProviderButton alloc] initWithFrame:CGRectZero];
-    button.provider = self;
-    [button setImage:[UIImage imageNamed:@"icon_google_white"] forState:UIControlStateNormal];
-    [button useBackgroundImageOfColor:[self googleBlue]];
-    return button;
+- (UIView *)authViewWithTitle:(NSString *)title {
+    return [[ExternalProviderButtonView alloc] initWithIconImage:[UIImage imageNamed:@"icon_google_white"] title:title textStyle:[[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeLarge color:[[[OEXStyles sharedStyles] neutralBlackT] colorWithAlphaComponent:0.54]] backgroundColor:[UIColor colorWithRed:255.0 green:255.0 blue:255.0 alpha:1] borderColor:[[OEXStyles sharedStyles] neutralXDark]];
 }
+
 - (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString * _Nullable , OEXRegisteringUserDetails * _Nullable, NSError * _Nullable))completion {
 
     [[OEXGoogleSocial sharedInstance] loginFromController:controller withCompletion:^(NSString* token, NSError* error){

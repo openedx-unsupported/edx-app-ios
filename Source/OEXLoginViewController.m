@@ -19,7 +19,6 @@
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
 #import "OEXFBSocial.h"
-#import "OEXExternalAuthOptionsView.h"
 #import "OEXFacebookAuthProvider.h"
 #import "OEXFacebookConfig.h"
 #import "OEXGoogleAuthProvider.h"
@@ -47,7 +46,6 @@
 @property (nonatomic, strong) NSString* signInPassword;
 @property (nonatomic, assign) BOOL reachable;
 @property (strong, nonatomic) IBOutlet UIView* externalAuthContainer;
-@property (weak, nonatomic, nullable) IBOutlet OEXCustomLabel* lbl_OrSignIn;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorLeft;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorRight;
 
@@ -75,7 +73,6 @@
 
 - (void)layoutSubviews {
     if(!([self isFacebookEnabled] || [self isGoogleEnabled])) {
-        self.lbl_OrSignIn.hidden = YES;
         self.seperatorLeft.hidden = YES;
         self.seperatorRight.hidden = YES;
         self.agreementTextViewTop.constant = -30;
@@ -131,17 +128,18 @@
     
     __weak __typeof(self) owner = self;
     
-    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
+    ExternalAuthOptionsView* externalAuthOptions = [[ExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers type:ExternalAuthOptionsTypeLogin accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
         [owner externalLoginWithProvider:provider];
     }];
+    
     [self.externalAuthContainer addSubview:externalAuthOptions];
     [externalAuthOptions mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.externalAuthContainer);
     }];
-
-    [self.lbl_OrSignIn setText:[Strings orSignInWith]];
-    [self.lbl_OrSignIn setTextColor:[[OEXStyles sharedStyles] neutralBlack]];
-    [self.lbl_OrSignIn setIsAccessibilityElement:false];
+    
+    [self.externalAuthContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo([NSNumber numberWithFloat:externalAuthOptions.height]);
+    }];
     
     if (self.environment.config.isRegistrationEnabled) {
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack)];
@@ -198,7 +196,6 @@
     self.img_Map.accessibilityIdentifier = @"LoginViewController:map-image-view";
     self.activityIndicator.accessibilityIdentifier = @"LoginViewController:activity-indicator";
     self.versionLabel.accessibilityIdentifier = @"LoginViewController:version-label";
-    self.lbl_OrSignIn.accessibilityIdentifier = @"LoginViewController:sign-in-label";
 }
 
 - (void)navigateBack {

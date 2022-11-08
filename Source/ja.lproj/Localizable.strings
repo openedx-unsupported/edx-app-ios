@@ -376,9 +376,11 @@
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "トピックを選ぶ…";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
-"COMPLETE_REGISTRATION_INFO" = "{service} でサインインできました。 {platform_name} を使い始めるにはもう少し情報が必要です。";
+"REGISTRATION.SOCIAL_AUTH_LINKED.TITLE" = "{service} でサインインできました。";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. */
+"REGISTRATION.SOCIAL_AUTH_LINKED.MESSAGE" = "{platform_name} を使い始めるにはもう少し情報が必要です。";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
-"COMPLETE_REGISTRATION_PROMPT" = "登録完了";
+"REGISTRATION.SOCIAL_AUTH_LINKED.COMPLETE_REGISTRATION" = "登録完了";
 /* Title of alert when confirming deletion of a video */
 "CONFIRM_DELETE_TITLE"="削除の確認";
 /* Text of alert when confirming video deletion */
@@ -697,8 +699,10 @@
 "REMOVE"="Remove";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="Safari で見る";
-/* Button label to bring up course finder */
-"OR_SIGN_IN_WITH"="またはサインイン";
+/* Sign in with provider name button text */
+"SIGN_IN_WITH"="Sign in with {provider}";
+/* Login with provider name button text */
+"CONTINUE_WITH"="Continue with {provider}";
 /* Login screen password field title text */
 "PASSWORD_TITLE_TEXT" = "Password";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */

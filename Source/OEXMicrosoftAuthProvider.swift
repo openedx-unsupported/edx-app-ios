@@ -23,13 +23,8 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
         return "azuread-oauth2"
     }
     
-    func freshAuthButton() -> UIButton {
-        let button = OEXExternalAuthProviderButton()
-        button.provider = self
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
-        button.setImage(UIImage(named: "icon_microsoft_white"), for: .normal)
-        button.useBackgroundImage(of: UIColor(red: 47.0/255.0, green: 47.0/255.0, blue: 47.0/255.0, alpha: 1.0))
-        return button
+    func authView(withTitle title: String) -> UIView {
+        return ExternalProviderButtonView(iconImage: UIImage(named: "icon_microsoft_white") ?? UIImage(), title: title, textStyle: OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralWhiteT()), backgroundColor: UIColor(hexString: "#2F2F2F", alpha: 1))
     }
     
     func authorizeService(from controller: UIViewController, requestingUserDetails loadUserDetails: Bool, withCompletion completion: @escaping (String?, OEXRegisteringUserDetails?, Error?) -> Void) {
