@@ -26,7 +26,6 @@
 #import "OEXRegistrationStyles.h"
 #import "OEXRegisteringUserDetails.h"
 #import "OEXUserLicenseAgreementViewController.h"
-#import "OEXUsingExternalAuthHeadingView.h"
 #import "OEXRegistrationAgreement.h"
 
 
@@ -39,7 +38,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) NSMutableArray* externalAuthProviders;
 // Used in auth from an external provider
-@property (strong, nonatomic) UIView* currentHeadingView;
+@property (strong, nonatomic) UIView* socialAuthViewContainer;
+@property (strong, nonatomic) OEXExternalRegistrationOptionsView* socialAuthView;
 @property (strong, nonatomic) id <OEXExternalAuthProvider> externalProvider;
 @property (copy, nonatomic) NSString* externalAccessToken;
 @property (copy, nonatomic) NSString* email;
@@ -98,7 +98,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.toggleOptionalFieldsButton.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-button";
     self.optionalFieldsSeparator.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-separator-image-view";
     self.progressIndicator.accessibilityIdentifier = @"RegistrationViewController:progress-indicator";
-    self.currentHeadingView.accessibilityIdentifier = @"RegistrationViewController:current-heading-view";
+    self.socialAuthViewContainer.accessibilityIdentifier = @"RegistrationViewController:social-auth-view";
 }
 
 -(void)formFieldValueDidChange: (NSNotification *)notification {
@@ -191,9 +191,16 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)updateAuthView:(CGRect)frame {
-    OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders];
-    headingView.delegate = self;
-    [self useHeadingView:headingView];
+    if (self.externalProvider != nil) {
+        [self setupLinkedAccountInfoView];
+    }
+    else {
+        if (self.socialAuthView == nil) {
+            self.socialAuthView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders];
+            self.socialAuthView.delegate = self;
+        }
+        [self useFooterview:self.socialAuthView];
+    }
 }
 
 -(void) setUpAgreementTextView {
@@ -209,10 +216,17 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
-- (void)useHeadingView:(UIView*)headingView {
-    [self.currentHeadingView removeFromSuperview];
-    self.currentHeadingView = headingView;
-    [self.scrollView addSubview:self.currentHeadingView];
+- (void) setupLinkedAccountInfoView {
+    if (self.externalProvider != nil) {
+        UIView* linkedInfoView = [[UsingExternalAuthInfoView alloc] initWithFrame:self.view.bounds providerName:self.externalProvider.displayName];
+        [self useFooterview:linkedInfoView];
+    }
+}
+
+- (void)useFooterview:(UIView*)footerView {
+    [self.socialAuthViewContainer removeFromSuperview];
+    self.socialAuthViewContainer = footerView;
+    [self.scrollView addSubview:self.socialAuthViewContainer];
     [self.view setNeedsUpdateConstraints];
     [self.view setNeedsLayout];
 }
@@ -254,9 +268,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                 if ([formField.defaultValue isEqualToString:provider.displayName]) {
                     self.externalAccessToken = self.environment.session.thirdPartyAuthAccessToken;
                     self.externalProvider = provider;
-
-                    UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
-                               [self useHeadingView:headingView];
+                    [self setupLinkedAccountInfoView];
                     break;
                 }
             }
@@ -351,37 +363,27 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)updateViewConstraints {
-    CGFloat margin = self.styles.formMargin;
-    [self.currentHeadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scrollView);
-        make.centerX.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView).offset(-margin);
-    }];
     [super updateViewConstraints];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    // Add space if the heading view won't do it for us
-    NSInteger topSpacing = self.currentHeadingView == nil ? 10 : 0;
+    BOOL isSocialAuthLinked = self.externalProvider != nil;
+
     NSInteger horizontalSpacing = self.styles.formMargin;
-    NSInteger offset = 0;
+    NSInteger offset = 10;
     CGFloat width = self.scrollView.frame.size.width;
     NSInteger contentWidth = width - 2 * horizontalSpacing;
     
-    // Force the heading view to layout, so we get its height
-    [self.currentHeadingView setNeedsLayout];
-    [self.currentHeadingView layoutIfNeeded];
-    
-    // Then do it again since we may have updated the preferred size of some text
-    [self.currentHeadingView setNeedsLayout];
-    
-    //Setting offset as topspacing
-    CGSize size = [self.currentHeadingView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-    offset = topSpacing + size.height;
-    
     BOOL isOptionalFieldPresent = NO;
-    
+
+    if (isSocialAuthLinked) {
+        [self.socialAuthViewContainer setNeedsLayout];
+        [self.socialAuthViewContainer layoutIfNeeded];
+        CGSize size = [self.socialAuthViewContainer systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        offset = offset + size.height;
+    }
+
     for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
         UIView* view = fieldController.view;
         // Add view to scroll view if field is not optional and it is not agreement field.
@@ -431,7 +433,28 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.progressIndicator.center = CGPointMake(progressIndicatorCenterX, self.registerButton.frame.size.height / 2);
     [self.scrollView addSubview:self.registerButton];
     offset = offset + self.registerButton.frame.size.height + 30;
+    
+    [self.socialAuthViewContainer mas_remakeConstraints:^(MASConstraintMaker *make) {
+        if (isSocialAuthLinked) {
+            make.top.equalTo(self.scrollView);
+            make.width.equalTo(self.scrollView).offset(-self.styles.formMargin);
+        }
+        else {
+            make.top.equalTo(self.registerButton.mas_bottom).offset(16.0);
+            make.bottom.equalTo(self.scrollView.mas_bottom);
+            make.width.equalTo(self.registerButton);
+        }
+        make.centerX.equalTo(self.scrollView);
+    }];
 
+    if (!isSocialAuthLinked) {
+        // Force the footer view to layout, so we get its height
+        [self.socialAuthView setNeedsLayout];
+        [self.socialAuthView layoutIfNeeded];
+        if (self.socialAuthView) {
+            offset = offset + self.socialAuthView.heightForAuthView;
+        }
+    }
     [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }
 
@@ -484,10 +507,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void) configureViewForSocial:(id<OEXExternalAuthProvider>)provider accessToken:(NSString *) accessToken userDetails:(OEXRegisteringUserDetails *) userDetails {
     // No account already, so continue registration process
     __block OEXRegistrationViewController *blockSelf = self;
-
+    self.externalProvider = provider;
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
-        [blockSelf useHeadingView:headingView];
+        [blockSelf setupLinkedAccountInfoView];
         [blockSelf receivedFields:userDetails fromProvider:provider withAccessToken:accessToken];
     });
 }
