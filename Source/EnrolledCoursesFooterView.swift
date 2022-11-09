@@ -8,7 +8,9 @@
 
 import Foundation
 
-class EnrolledCoursesEmptyState: UIView {
+class EnrolledCoursesFooterView: UICollectionReusableView {
+    static let identifier = "EnrolledCoursesFooterView"
+    
     var findCoursesAction: (() -> Void)?
     
     private let container = UIView()
@@ -20,7 +22,6 @@ class EnrolledCoursesEmptyState: UIView {
         return UIImageView(image: image)
     }()
     
-
     private lazy var findCoursesButton: UIButton = {
         let button = UIButton(type: .system)
         button.oex_addAction({ [weak self] _ in
@@ -95,12 +96,12 @@ class EnrolledCoursesEmptyState: UIView {
     }
     
     private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "EnrolledCoursesEmptyState:view"
-        imageView.accessibilityIdentifier = "EnrolledCoursesEmptyState:image-view"
-        promptLabel.accessibilityIdentifier = "EnrolledCoursesEmptyState:prompt-label"
-        findCoursesButton.accessibilityIdentifier = "EnrolledCoursesEmptyState:find-courses-button"
-        container.accessibilityIdentifier = "EnrolledCoursesEmptyState:container-view"
-        bottomContainer.accessibilityIdentifier = "EnrolledCoursesEmptyState:bottom-container-view"
+        accessibilityIdentifier = "EnrolledCoursesFooterView:view"
+        imageView.accessibilityIdentifier = "EnrolledCoursesFooterView:image-view"
+        promptLabel.accessibilityIdentifier = "EnrolledCoursesFooterView:prompt-label"
+        findCoursesButton.accessibilityIdentifier = "EnrolledCoursesFooterView:find-courses-button"
+        container.accessibilityIdentifier = "EnrolledCoursesFooterView:container-view"
+        bottomContainer.accessibilityIdentifier = "EnrolledCoursesFooterView:bottom-container-view"
     }
     
     private func addPortraitConstraints() {

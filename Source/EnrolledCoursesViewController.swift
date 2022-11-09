@@ -187,8 +187,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         if !isDiscoveryEnabled {
             let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
             loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
-        } else {
-            coursesContainer.showEmptyStateView()
         }
     }
     
