@@ -35,7 +35,6 @@ class CourseUpgradeHelper: NSObject {
 
     enum CompletionState {
         case initial
-        case sdn
         case payment
         case fulfillment
         case success(_ courseID: String, _ componentID: String?)
@@ -103,9 +102,6 @@ class CourseUpgradeHelper: NSObject {
         case .initial:
             startTime = CFAbsoluteTimeGetCurrent()
             break
-        case .sdn:
-            trackSDNanlytics(confirm: true)
-            break
         case .payment:
             paymentStartTime = CFAbsoluteTimeGetCurrent()
             break
@@ -127,19 +123,13 @@ class CourseUpgradeHelper: NSObject {
         case .error(let type, _):
             if type == .paymentError {
                 environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
-            } else if type == .sdnError {
-                trackSDNanlytics(confirm: false)
             }
 
             environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError)
 
-            removeLoader(success: false, removeView: type != .verifyReceiptError, shouldShowError: type != .sdnError)
+            removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
         }
-    }
-    
-    private func trackSDNanlytics(confirm: Bool) {
-        environment?.analytics.trackSDN(confirm: confirm, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen)
     }
     
     func showSuccess() {
@@ -221,7 +211,7 @@ class CourseUpgradeHelper: NSObject {
         }
     }
     
-    func removeLoader(success: Bool? = false, removeView: Bool? = false, shouldShowError: Bool = true, completion: (()-> ())? = nil) {
+    func removeLoader(success: Bool? = false, removeView: Bool? = false, completion: (()-> ())? = nil) {
         self.completion = completion
         if success == true {
             courseUpgradeModel = nil
@@ -232,11 +222,11 @@ class CourseUpgradeHelper: NSObject {
                 self?.courseUpgradeModel = nil
                 if success == true {
                     self?.showSuccess()
-                } else if shouldShowError {
+                } else {
                     self?.showError()
                 }
             }
-        } else if success == false, shouldShowError {
+        } else if success == false {
             showError()
         }
     }

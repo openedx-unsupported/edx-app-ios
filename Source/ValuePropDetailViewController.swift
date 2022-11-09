@@ -214,9 +214,6 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             self?.enableUserInteraction(enable: false)
             
             switch status {
-            case .sdn:
-                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .sdn)
-                break
             case .payment:
                 self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .payment)
                 break
