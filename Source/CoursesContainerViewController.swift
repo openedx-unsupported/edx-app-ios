@@ -149,9 +149,9 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     private var shouldShowFooter: Bool {
-        return context == .enrollmentList && isDiscoveryEnabled
+        return context == .enrollmentList && isDiscoveryEnabled && courses.isEmpty
     }
-    
+        
     init(environment: Environment, context: Context) {
         self.environment = environment
         self.context = context
@@ -194,24 +194,24 @@ class CoursesContainerViewController: UICollectionViewController {
         )
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return courses.count
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: shouldShowFooter ? EnrolledCoursesFooterViewHeight : 0)
+        return CGSize(width: collectionView.frame.size.width, height: shouldShowFooter ? collectionView.frame.size.height : 0)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionFooter {
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: EnrolledCoursesFooterView.identifier, for: indexPath) as! EnrolledCoursesFooterView
-            footerView.findCoursesAction = {[weak self] in
+            footerView.findCoursesAction = { [weak self] in
                 self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
             }
             return footerView
         }
         
         return UICollectionReusableView()
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return courses.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -299,3 +299,4 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
 }
+

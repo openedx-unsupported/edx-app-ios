@@ -573,7 +573,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "寻找新的挑战？";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "发现课程";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "您还没有加入任何课程。";
 /* Prompt indicating user needs to enter an email address */
