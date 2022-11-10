@@ -250,7 +250,7 @@ public enum Icon {
         case .Courseware:
             return MaterialIconRenderer(icon: .classroom)
         case .CoursewareEnrolled:
-            return MaterialIconRenderer(icon: .bookmarkBorder)
+            return MaterialIconRenderer(icon: .menuBook)
         case .CourseUnknownContent:
             return MaterialIconRenderer(icon: .laptop)
         case .CourseVideoContent:
