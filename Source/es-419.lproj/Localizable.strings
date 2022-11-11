@@ -377,9 +377,11 @@
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Seleccione un tema...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
-"COMPLETE_REGISTRATION_INFO" = "Ha iniciado sesión exitosamente con {service}. Sólo necesitamos un poco más de información antes de que empiece a aprender con {platform_name}.";
+"REGISTRATION.SOCIAL_AUTH_LINKED.TITLE" = "Ha iniciado sesión exitosamente con {service}.";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. */
+"REGISTRATION.SOCIAL_AUTH_LINKED.MESSAGE" = "Sólo necesitamos un poco más de información antes de que empiece a aprender con {platform_name}.";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
-"COMPLETE_REGISTRATION_PROMPT" = "Complete su incripción";
+"REGISTRATION.SOCIAL_AUTH_LINKED.COMPLETE_REGISTRATION" = "Complete su incripción";
 /* Title of alert when confirming deletion of a video */
 "CONFIRM_DELETE_TITLE"="Confirmar borrado";
 /* Text of alert when confirming video deletion */
@@ -706,8 +708,10 @@
 "REMOVE"="Eliminar";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="Ver en Safari";
-/* Button label to bring up course finder */
-"OR_SIGN_IN_WITH"="O iniciar sesión con";
+/* Sign in with provider name button text */
+"SIGN_IN_WITH"="Sign in with {provider}";
+/* Login with provider name button text */
+"CONTINUE_WITH"="Continue with {provider}";
 /* Login screen password field title text */
 "PASSWORD_TITLE_TEXT" = "Contraseña";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */

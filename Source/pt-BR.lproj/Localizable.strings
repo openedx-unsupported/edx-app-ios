@@ -378,9 +378,11 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Escolha um tópico...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
-"COMPLETE_REGISTRATION_INFO" = "Você entrou com {service} com sucesso. Só precisamos de mais algumas informações antes que você comece a aprender com {platform_name}.";
+"REGISTRATION.SOCIAL_AUTH_LINKED.TITLE" = "Você entrou com {service} com sucesso.";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. */
+"REGISTRATION.SOCIAL_AUTH_LINKED.MESSAGE" = "Só precisamos de mais algumas informações antes que você comece a aprender com {platform_name}.";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
-"COMPLETE_REGISTRATION_PROMPT" = "Complete sua inscrição";
+"REGISTRATION.SOCIAL_AUTH_LINKED.COMPLETE_REGISTRATION" = "Complete sua inscrição";
 /* Title of alert when confirming deletion of a video */
 "CONFIRM_DELETE_TITLE"="Confirmar exclusão";
 /* Text of alert when confirming video deletion */
@@ -707,8 +709,10 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 "REMOVE"="Remove";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="Visualizar no Safari";
-/* Button label to bring up course finder */
-"OR_SIGN_IN_WITH"="Ou entre com";
+/* Sign in with provider name button text */
+"SIGN_IN_WITH"="Sign in with {provider}";
+/* Login with provider name button text */
+"CONTINUE_WITH"="Continue with {provider}";
 /* Login screen password field title text */
 "PASSWORD_TITLE_TEXT" = "Senha";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */

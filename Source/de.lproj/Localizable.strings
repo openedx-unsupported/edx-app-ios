@@ -377,9 +377,11 @@
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Wählen Sie ein Thema";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
-"COMPLETE_REGISTRATION_INFO" = "Sie haben sich erfolgreich über  {service} angemeldet. Bevor Sie auf der {platform_name} starten können, benötigen wir noch ein paar Informationen.";
+"REGISTRATION.SOCIAL_AUTH_LINKED.TITLE" = "Sie haben sich erfolgreich über  {service} angemeldet.";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. */
+"REGISTRATION.SOCIAL_AUTH_LINKED.MESSAGE" = "Bevor Sie auf der {platform_name} starten können, benötigen wir noch ein paar Informationen.";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
-"COMPLETE_REGISTRATION_PROMPT" = "Vervollständigen Sie Ihre Registrierung";
+"REGISTRATION.SOCIAL_AUTH_LINKED.COMPLETE_REGISTRATION" = "Vervollständigen Sie Ihre Registrierung";
 /* Title of alert when confirming deletion of a video */
 "CONFIRM_DELETE_TITLE"="Löschen Bestätigen";
 /* Text of alert when confirming video deletion */
@@ -706,8 +708,10 @@
 "REMOVE"="Remove";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="In Safari anschauen";
-/* Button label to bring up course finder */
-"OR_SIGN_IN_WITH"="Oder melden Sie sich an mit";
+/* Sign in with provider name button text */
+"SIGN_IN_WITH"="Sign in with {provider}";
+/* Login with provider name button text */
+"CONTINUE_WITH"="Continue with {provider}";
 /* Login screen password field title text */
 "PASSWORD_TITLE_TEXT" = "Passwort";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */

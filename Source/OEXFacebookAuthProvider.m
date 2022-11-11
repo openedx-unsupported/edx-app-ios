@@ -13,12 +13,9 @@
 #import "OEXExternalAuthProviderButton.h"
 #import "OEXFBSocial.h"
 #import "OEXRegisteringUserDetails.h"
+#import <Masonry/Masonry.h>
 
 @implementation OEXFacebookAuthProvider
-
-- (UIColor*)facebookBlue {
-    return [UIColor colorWithRed:66.0/255. green:103.0/255. blue:178./255. alpha:1];
-}
 
 - (NSString*)displayName {
     return [Strings facebook];
@@ -28,12 +25,9 @@
     return @"facebook";
 }
 
-- (OEXExternalAuthProviderButton*)freshAuthButton {
-    OEXExternalAuthProviderButton* button = [[OEXExternalAuthProviderButton alloc] initWithFrame:CGRectZero];
-    button.provider = self;
-    [button setImage:[UIImage imageNamed:@"icon_facebook_white"] forState:UIControlStateNormal];
-    [button useBackgroundImageOfColor:[self facebookBlue]];
-    return button;
+- (UIView *)authViewWithTitle:(NSString *)title {
+    return [[ExternalProviderButtonView alloc]
+            initWithIconImage:[UIImage imageNamed:@"icon_facebook_white"] title:title textStyle:[[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeLarge color:[[OEXStyles sharedStyles] neutralWhiteT]] backgroundColor:[UIColor colorWithRed:24.0/255. green:119.0/255. blue:242./255. alpha:1] borderColor:[[OEXStyles sharedStyles] neutralXDark]];
 }
 
 - (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString * _Nullable, OEXRegisteringUserDetails * _Nullable, NSError * _Nullable))completion {
