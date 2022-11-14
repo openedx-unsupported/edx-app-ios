@@ -27,7 +27,6 @@ enum PurchaseError: String {
     case checkoutError // checkout API returns error
     case verifyReceiptError // verify receipt API returns error
     case generalError // general error
-    case sdnError // If user does not opt-in SDN checklist
     
     var errorString: String {
         switch self {

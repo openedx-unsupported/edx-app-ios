@@ -12,8 +12,6 @@ class CourseUpgradeHandler: NSObject {
     
     enum CourseUpgradeState {
         case initial
-        case sdnPrompt
-        case sdn
         case basket
         case checkout
         case payment
@@ -69,50 +67,17 @@ class CourseUpgradeHandler: NSObject {
     func upgradeCourse(with upgradeMode: CourseUpgradeMode = .normal, completion: UpgradeCompletionHandler?) {
         self.completion = completion
         self.upgradeMode = upgradeMode
-        
+        guard let course = self.course,
+              let coursePurchaseSku = course.sku else {
+            state = .error(type: .generalError, error: error(message: "course sku is missing"))
+            return
+        }
         state = .initial
-        // Show SDN alert only for while doing the payment
-        // Don't show in case of auto fullfilment on app reelaunch and restore
-        if upgradeMode == .normal {
-            state = .sdnPrompt
-            showSDNprompt { [weak self] success in
-                if success {
-                    self?.state = .sdn
-                    self?.proceedWithUpgrade()
-                } else {
-                    self?.state = .error(type: .sdnError, error: self?.error(message: "user does not allow sdn check"))
-                }
-            }
-        }
-        else {
-            proceedWithUpgrade()
-        }
-    }
-    
-    private func showSDNprompt(completion: @escaping (Bool) -> ()) {
-        guard let controller = UIApplication.shared.topMostController() else { return }
-        
-        let alert = UIAlertController().alert(withTitle: Strings.CourseUpgrade.Sdn.Prompt.title, message: Strings.CourseUpgrade.Sdn.Prompt.message(platformName: environment?.config.platformName() ?? ""), cancelButtonTitle: Strings.CourseUpgrade.Sdn.Prompt.confirm) { controller, _, buttonIndex in
-            if buttonIndex == controller.cancelButtonIndex {
-                completion(true)
-            }
-        }
-                
-        alert.addButton(withTitle: Strings.CourseUpgrade.Sdn.Prompt.reject) { _ in
-            completion(false)
-        }
-        
-        controller.present(alert, animated: true)
+        courseSku = coursePurchaseSku
+        proceedWithUpgrade()
     }
     
     private func proceedWithUpgrade() {
-        guard let course = self.course,
-              let coursePurchaseSku = course.sku else {
-                  state = .error(type: .generalError, error: error(message: "course sku is missing"))
-                  return
-              }
-        courseSku = coursePurchaseSku
-
         addToBasket { [weak self] (orderBasket, error) in
             if let basketID = orderBasket?.basketID {
                 self?.basketID = basketID
