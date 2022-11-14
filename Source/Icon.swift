@@ -133,6 +133,7 @@ public enum Icon {
     case Menu
     case NoTopics
     case NoSearchResults
+    case Search
     case OpenURL
     case Pinned
     case RotateDevice
@@ -293,6 +294,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .list)
         case .NoSearchResults:
             return MaterialIconRenderer(icon: .playCircleOutline)
+        case .Search:
+            return MaterialIconRenderer(icon: .search)
         case .Trophy:
             return MaterialIconRenderer(icon: .emojiEvents)
         case .VideoFullscreen:
