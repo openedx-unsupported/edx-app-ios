@@ -230,6 +230,9 @@ extension CourseUpgradeHandler {
                let errorMessage = json.dictionary?.values.first {
                 return "\(type.errorString)-\(error.code)-\(errorMessage)"
             }
+            else if let errorMessage = error.userInfo[NSLocalizedDescriptionKey] as? String {
+                return errorMessage
+            }
 
             return "\(type.errorString)-\(error.code)-\(unhandledError)"
         }
