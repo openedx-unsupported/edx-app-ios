@@ -384,7 +384,7 @@ extension OEXAnalytics {
         event.courseID = courseID
         event.name = AnalyticsEventName.ValuePropLearnMoreClicked.rawValue
         event.displayName = AnalyticsDisplayName.ValuePropLearnMoreClicked.rawValue
-        
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         var info: [String:String] = [:]
         info.setObjectOrNil(screenName.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
         if assignmentID != nil {
@@ -438,7 +438,7 @@ extension OEXAnalytics {
         
         var info: [String : Any] = [
             key_course_id: courseID,
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen == .courseComponent ? "course_unit" : screen.rawValue,
             AnalyticsEventDataKey.PaymentsEnabled.rawValue: paymentsEnabled
         ]
         

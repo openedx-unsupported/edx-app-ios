@@ -20,7 +20,7 @@ extension EnrolledCoursesViewController {
         guard let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel
             else { return }
 
-        if courseUpgradeModel.screen == .courseDashboard || courseUpgradeModel.screen == .courseUnit {
+        if courseUpgradeModel.screen == .courseDashboard || courseUpgradeModel.screen == .courseComponent {
             navigationController?.popToViewController(of: EnrolledCoursesViewController.self, animated: true) { [weak self] in
                 guard let weakSelf = self else { return }
                 weakSelf.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: weakSelf, animated: true)

@@ -12,7 +12,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.UpgradeNowClicked.rawValue
         event.name = AnalyticsEventName.UpgradeNowClicked.rawValue
-
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         let info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
