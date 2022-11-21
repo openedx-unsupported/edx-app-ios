@@ -468,7 +468,7 @@ extension OEXRouter {
     }
     
     func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
-        let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
+        let controller = environment.config.isNewDashboardEnabled ? DashboardViewController(environment: environment, courseID: courseID) : CourseDashboardViewController(environment: environment, courseID: courseID)
         controller.hidesBottomBarWhenPushed = true
         fromController.navigationController?.pushViewController(controller, animated: animated, completion: completion)
     }
