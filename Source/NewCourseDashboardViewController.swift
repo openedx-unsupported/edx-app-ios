@@ -1,5 +1,5 @@
 //
-//  DashboardViewController.swift
+//  NewCourseDashboardViewController.swift
 //  edX
 //
 //  Created by MuhammadUmer on 18/11/2022.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DashboardViewController: UIViewController, InterfaceOrientationOverriding {
+class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider & ServerConfigProvider
     
@@ -20,8 +20,8 @@ class DashboardViewController: UIViewController, InterfaceOrientationOverriding 
     private let environment: Environment
     private let courseID: String
     
-    private lazy var headerView: DashboardHeaderView = {
-        let headerView = DashboardHeaderView(course: course, environment: environment)
+    private lazy var headerView: CourseDashboardHeaderView = {
+        let headerView = CourseDashboardHeaderView(course: course, environment: environment)
         headerView.delegate = self
         return headerView
     }()
@@ -32,20 +32,14 @@ class DashboardViewController: UIViewController, InterfaceOrientationOverriding 
         self.courseStream = BackedStream<UserCourseEnrollment>()
         self.loadStateController = LoadStateViewController()
         super.init(nibName: nil, bundle: nil)
+        
+        view.backgroundColor = environment.styles.neutralWhiteT()
+        loadStateController.setupInController(controller: self, contentView: view)
+        loadCourseStream()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = environment.styles.neutralWhiteT()
-        
-        loadStateController.setupInController(controller: self, contentView: view)
-        
-        loadCourseStream()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,7 +103,7 @@ class DashboardViewController: UIViewController, InterfaceOrientationOverriding 
     }
 }
 
-extension DashboardViewController: DashboardHeaderViewDelegate {
+extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
     func didTapOnValueProp() {
         guard let course = course else { return }
         environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course) { [weak self] in
@@ -119,7 +113,7 @@ extension DashboardViewController: DashboardHeaderViewDelegate {
     }
     
     func didTapOnClose() {
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true)
     }
     
     func didTapOnShareCourse() {

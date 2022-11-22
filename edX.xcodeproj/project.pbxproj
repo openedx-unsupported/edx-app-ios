@@ -179,8 +179,8 @@
 		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
-		5F2DFCB029262D8E00BDA40A /* DashboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2DFCAF29262D8E00BDA40A /* DashboardHeaderView.swift */; };
-		5F2DFCB229278F0200BDA40A /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2DFCB129278F0200BDA40A /* DashboardViewController.swift */; };
+		5F2DFCB029262D8E00BDA40A /* CourseDashboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2DFCAF29262D8E00BDA40A /* CourseDashboardHeaderView.swift */; };
+		5F2DFCB229278F0200BDA40A /* NewCourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */; };
 		5F35022427901E7400F76CB4 /* ValuePropUnlockViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */; };
 		5F371470260B3BC9004937DA /* Observeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F37146F260B3BC9004937DA /* Observeable.swift */; };
 		5F3A619A265796A7005329A4 /* CalendarSyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */; };
@@ -1167,8 +1167,8 @@
 		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
-		5F2DFCAF29262D8E00BDA40A /* DashboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardHeaderView.swift; sourceTree = "<group>"; };
-		5F2DFCB129278F0200BDA40A /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		5F2DFCAF29262D8E00BDA40A /* CourseDashboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDashboardHeaderView.swift; sourceTree = "<group>"; };
+		5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCourseDashboardViewController.swift; sourceTree = "<group>"; };
 		5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropUnlockViewContainer.swift; sourceTree = "<group>"; };
 		5F37146F260B3BC9004937DA /* Observeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observeable.swift; sourceTree = "<group>"; };
 		5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSyncConfig.swift; sourceTree = "<group>"; };
@@ -3669,8 +3669,8 @@
 				225E9FDB25BAF79E000D6332 /* CelebratoryModalViewController.swift */,
 				5FA7FEB0266A2BE5006286B6 /* BrowserViewController.swift */,
 				5F08321327018D810022971F /* BannerViewController.swift */,
-				5F2DFCAF29262D8E00BDA40A /* DashboardHeaderView.swift */,
-				5F2DFCB129278F0200BDA40A /* DashboardViewController.swift */,
+				5F2DFCAF29262D8E00BDA40A /* CourseDashboardHeaderView.swift */,
+				5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -5112,7 +5112,7 @@
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,
 				B7CCC722209B16B100A66923 /* ConstraintViewDSL.swift in Sources */,
-				5F2DFCB029262D8E00BDA40A /* DashboardHeaderView.swift in Sources */,
+				5F2DFCB029262D8E00BDA40A /* CourseDashboardHeaderView.swift in Sources */,
 				5FA7FEB1266A2BE5006286B6 /* BrowserViewController.swift in Sources */,
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				B7CCC721209B16B100A66923 /* ConstraintAttributes.swift in Sources */,
@@ -5209,7 +5209,7 @@
 				5DD0FFC31B17ED2100837121 /* DiscussionCommentsViewController.swift in Sources */,
 				770C514D1B1685F5009B9696 /* AuthenticatedWebViewController.swift in Sources */,
 				E0D159911EB87658005E2A76 /* WhatsNewViewController.swift in Sources */,
-				5F2DFCB229278F0200BDA40A /* DashboardViewController.swift in Sources */,
+				5F2DFCB229278F0200BDA40A /* NewCourseDashboardViewController.swift in Sources */,
 				9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */,
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
 				1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */,

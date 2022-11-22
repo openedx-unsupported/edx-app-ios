@@ -1,5 +1,5 @@
 //
-//  DashboardHeaderView.swift
+//  CourseDashboardHeaderView.swift
 //  edX
 //
 //  Created by MuhammadUmer on 15/11/2022.
@@ -8,18 +8,19 @@
 
 import UIKit
 
-protocol DashboardHeaderViewDelegate: AnyObject {
+protocol CourseDashboardHeaderViewDelegate: AnyObject {
     func didTapOnValueProp()
     func didTapOnClose()
     func didTapOnShareCourse()
 }
 
-class DashboardHeaderView: UIView {
+class CourseDashboardHeaderView: UIView {
     
     typealias Environment = OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & ServerConfigProvider
     
     private let imageSize: CGFloat = 20
     private let styles = OEXStyles.shared()
+    private let attributedUnicodeSpace = NSAttributedString(string: "\u{3000}")
     
     private lazy var container = UIView()
     private lazy var titleContainer = UIView()
@@ -28,12 +29,12 @@ class DashboardHeaderView: UIView {
     private lazy var courseTitle = UILabel()
     private lazy var courseAccessTitle = UILabel()
     
-    weak var delegate: DashboardHeaderViewDelegate?
+    weak var delegate: CourseDashboardHeaderViewDelegate?
     
     private lazy var closeButton: UIButton = {
         let closeButton = UIButton()
         let image = Icon.Close.imageWithFontSize(size: imageSize)
-        closeButton.setImage(image, for: UIControl.State())
+        closeButton.setImage(image, for: .normal)
         closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
         closeButton.accessibilityHint = Strings.Accessibility.closeHint
         
@@ -57,7 +58,6 @@ class DashboardHeaderView: UIView {
         }
         let attributedImageString = NSAttributedString(attachment: imageAttachment)
         let style = OEXTextStyle(weight: .semiBold, size: .base, color: environment.styles.neutralWhiteT())
-        let attributedUnicodeSpace = NSAttributedString(string: "\u{3000}")
         
         let attributedStrings = [
             attributedImageString,
@@ -120,7 +120,19 @@ class DashboardHeaderView: UIView {
         titleContainer.addSubview(courseAccessTitle)
         
         orgTitle.attributedText = orgTitleTextStyle.attributedString(withText: course?.org)
-        courseTitle.attributedText = courseTitleTextStyle.attributedString(withText: course?.name)
+        let courseTitleText = [
+            courseTitleTextStyle.attributedString(withText: course?.name),
+            attributedUnicodeSpace,
+            Icon.ShareCourse.attributedTextWithStyle(style: courseTitleTextStyle)
+        ]
+        courseTitle.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: courseTitleText)
+        courseTitle.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction { [weak self] gesture in
+            self?.courseTitleTap(gesture: gesture)
+        }
+        courseTitle.addGestureRecognizer(tapGesture)
         courseAccessTitle.attributedText = courseAccessTitleTextStyle.attributedString(withText: course?.nextRelevantDate)
     }
     
@@ -144,7 +156,7 @@ class DashboardHeaderView: UIView {
         }
         
         closeButton.snp.makeConstraints { make in
-            make.top.equalTo(container).offset(StandardVerticalMargin * 2)
+            make.top.equalTo(container).offset(StandardVerticalMargin * 8)
             make.trailing.equalTo(container).inset(StandardVerticalMargin * 2)
             make.height.equalTo(imageSize)
             make.width.equalTo(imageSize)
@@ -182,5 +194,38 @@ class DashboardHeaderView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func courseTitleTap(gesture: UITapGestureRecognizer) {
+        if gesture.didTapAttributedTextInLabel(label: courseTitle) {
+            delegate?.didTapOnShareCourse()
+        }
+    }
+}
+
+fileprivate extension UITapGestureRecognizer {
+    func didTapAttributedTextInLabel(label: UILabel) -> Bool {
+        let layoutManager = NSLayoutManager()
+        let textContainer = NSTextContainer(size: .zero)
+        let textStorage = NSTextStorage(attributedString: label.attributedText!)
+        layoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(layoutManager)
+        textContainer.lineFragmentPadding = 0
+        textContainer.lineBreakMode = label.lineBreakMode
+        textContainer.maximumNumberOfLines = label.numberOfLines
+        let labelSize = label.bounds.size
+        textContainer.size = labelSize
+        let locationOfTouchInLabel = location(in: label)
+        let textBoundingBox = layoutManager.usedRect(for: textContainer)
+        let textContainerOffset = CGPoint(x: (labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x, y: (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
+        let locationOfTouchInTextContainer = CGPoint(x: locationOfTouchInLabel.x - textContainerOffset.x, y: locationOfTouchInLabel.y - textContainerOffset.y)
+        let characterIndex = layoutManager.characterIndex(for: locationOfTouchInLabel, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        if characterIndex < textStorage.length {
+            let attachment = label.attributedText?.attribute(.attachment, at: characterIndex, effectiveRange: nil) as? NSTextAttachment
+            if attachment != nil {
+                return true
+            }
+        }
+        return false
     }
 }
