@@ -88,7 +88,6 @@ class CourseDashboardHeaderView: UIView {
     private lazy var courseAccessTitleTextStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: styles.neutralXLight())
     
     private var canShowValuePropView: Bool {
-        return true
         guard let course = course,
               let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id) else { return false }
         return enrollment.type == .audit && environment.serverConfig.valuePropEnabled
@@ -156,7 +155,7 @@ class CourseDashboardHeaderView: UIView {
         }
         
         closeButton.snp.makeConstraints { make in
-            make.top.equalTo(container).offset(StandardVerticalMargin * 8)
+            make.top.equalTo(container).offset(StandardVerticalMargin * 2)
             make.trailing.equalTo(container).inset(StandardVerticalMargin * 2)
             make.height.equalTo(imageSize)
             make.width.equalTo(imageSize)
@@ -216,9 +215,6 @@ fileprivate extension UITapGestureRecognizer {
         let labelSize = label.bounds.size
         textContainer.size = labelSize
         let locationOfTouchInLabel = location(in: label)
-        let textBoundingBox = layoutManager.usedRect(for: textContainer)
-        let textContainerOffset = CGPoint(x: (labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x, y: (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
-        let locationOfTouchInTextContainer = CGPoint(x: locationOfTouchInLabel.x - textContainerOffset.x, y: locationOfTouchInLabel.y - textContainerOffset.y)
         let characterIndex = layoutManager.characterIndex(for: locationOfTouchInLabel, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
         if characterIndex < textStorage.length {
             let attachment = label.attributedText?.attribute(.attachment, at: characterIndex, effectiveRange: nil) as? NSTextAttachment

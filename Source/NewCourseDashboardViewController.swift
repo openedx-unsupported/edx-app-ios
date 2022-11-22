@@ -12,6 +12,19 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider & ServerConfigProvider
     
+    private lazy var courseDashboardHeaderView: CourseDashboardHeaderView = {
+        let courseDashboardHeaderView = CourseDashboardHeaderView(course: course, environment: environment)
+        courseDashboardHeaderView.delegate = self
+        return courseDashboardHeaderView
+    }()
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
+    
     private var course: OEXCourse?
     
     private let courseStream: BackedStream<UserCourseEnrollment>
@@ -20,26 +33,23 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private let environment: Environment
     private let courseID: String
     
-    private lazy var headerView: CourseDashboardHeaderView = {
-        let headerView = CourseDashboardHeaderView(course: course, environment: environment)
-        headerView.delegate = self
-        return headerView
-    }()
-    
     init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID
         self.courseStream = BackedStream<UserCourseEnrollment>()
         self.loadStateController = LoadStateViewController()
         super.init(nibName: nil, bundle: nil)
-        
-        view.backgroundColor = environment.styles.neutralWhiteT()
-        loadStateController.setupInController(controller: self, contentView: view)
-        loadCourseStream()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        addSubviews()
+        loadCourseStream()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,15 +59,27 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseDashboard, courseID: courseID, value: nil)
     }
     
-    private func addSubViews() {
-        view.addSubview(headerView)
+    private func addSubviews() {
+        view.backgroundColor = environment.styles.neutralWhiteT()
+        view.addSubview(tableView)
         
-        headerView.snp.makeConstraints { make in
-            make.top.equalTo(view)
+        loadStateController.setupInController(controller: self, contentView: tableView)
+        
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
+        }
+    }
+    
+    private func addHeaderView() {
+        tableView.setAndLayoutTableHeaderView(header: courseDashboardHeaderView)
+
+        courseDashboardHeaderView.snp.remakeConstraints { make in
+            make.top.equalTo(tableView)
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
             make.height.equalTo(StandardVerticalMargin * 20)
         }
+        
     }
     
     private func loadCourseStream() {
@@ -69,7 +91,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private func loadedCourse(withCourse course: OEXCourse) {
         verifyAccess(forCourse: course)
-        addSubViews()
+        addHeaderView()
     }
     
     private func resultLoaded(result : Result<UserCourseEnrollment>) {
@@ -90,6 +112,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         if let access = course.courseware_access, !access.has_access {
             loadStateController.state = .failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info), icon: Icon.UnknownError)
         } else {
+            self.course = course
             loadStateController.state = .Loaded
         }
     }
@@ -100,6 +123,24 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+}
+
+extension NewCourseDashboardViewController: UITableViewDelegate {
+    
+}
+
+extension NewCourseDashboardViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
     }
 }
 
