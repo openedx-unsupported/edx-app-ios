@@ -179,7 +179,7 @@ class ValuePropComponentView: UIView {
     }
     
     private func fetchCoursePrice() {
-        guard let course = course, let courseSku = course.sku else { return }
+        guard let course = course, let courseSku = course.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
         let startTime = CFAbsoluteTimeGetCurrent()
         
         DispatchQueue.main.async { [weak self] in

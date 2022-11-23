@@ -90,7 +90,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
 
     private func fetchCoursePrice() {
-        guard let courseSku = course.sku else { return }
+        guard let courseSku = course.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
         
         let startTime = CFAbsoluteTimeGetCurrent()
         
