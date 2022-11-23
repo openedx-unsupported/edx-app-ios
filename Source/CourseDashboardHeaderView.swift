@@ -20,7 +20,7 @@ class CourseDashboardHeaderView: UIView {
     
     private let imageSize: CGFloat = 20
     private let styles = OEXStyles.shared()
-    private let attributedUnicodeSpace = NSAttributedString(string: "\u{3000}")
+    private let attributedUnicodeSpace = NSAttributedString(string: "\u{2002}")
     
     private lazy var container = UIView()
     private lazy var titleContainer = UIView()
@@ -122,7 +122,7 @@ class CourseDashboardHeaderView: UIView {
         let courseTitleText = [
             courseTitleTextStyle.attributedString(withText: course?.name),
             attributedUnicodeSpace,
-            Icon.ShareCourse.attributedTextWithStyle(style: courseTitleTextStyle)
+            Icon.Share.attributedTextWithStyle(style: courseTitleTextStyle)
         ]
         courseTitle.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: courseTitleText)
         courseTitle.isUserInteractionEnabled = true

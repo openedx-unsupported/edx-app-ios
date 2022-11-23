@@ -20,12 +20,14 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.register(NewDashboardErrorPlaceHolderCell.self, forCellReuseIdentifier: NewDashboardErrorPlaceHolderCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
         return tableView
     }()
     
     private var course: OEXCourse?
+    private var error: NSError?
     
     private let courseStream: BackedStream<UserCourseEnrollment>
     private let loadStateController: LoadStateViewController
@@ -71,21 +73,20 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }
     
     private func addHeaderView() {
-        tableView.setAndLayoutTableHeaderView(header: courseDashboardHeaderView)
-
+        tableView.tableHeaderView = courseDashboardHeaderView
         courseDashboardHeaderView.snp.remakeConstraints { make in
             make.top.equalTo(tableView)
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
             make.height.equalTo(StandardVerticalMargin * 20)
         }
-        
+        tableView.setAndLayoutTableHeaderView(header: courseDashboardHeaderView)
     }
     
     private func loadCourseStream() {
         courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
-        courseStream.listen(self) { [weak self] in
-            self?.resultLoaded(result: $0)
+        courseStream.listen(self) { [weak self] result in
+            self?.resultLoaded(result: result)
         }
     }
     
@@ -101,16 +102,18 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             loadedCourse(withCourse: enrollment.course)
         case .failure(let error):
             if !courseStream.active {
-                // enrollment list is cached locally, so if the stream is still active we may yet load the course
-                // don't show failure until the stream is done
-                loadStateController.state = .failed(error: error)
+                loadStateController.state = .Loaded
+                self.error = error
+                tableView.reloadData()
             }
         }
     }
     
     private func verifyAccess(forCourse course: OEXCourse){
         if let access = course.courseware_access, !access.has_access {
-            loadStateController.state = .failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info), icon: Icon.UnknownError)
+            loadStateController.state = .Loaded
+            self.error = OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info)
+            tableView.reloadData()
         } else {
             self.course = course
             loadStateController.state = .Loaded
@@ -136,11 +139,21 @@ extension NewCourseDashboardViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if error != nil {
+            return 1
+        }
+        
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        if let error = error {
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewDashboardErrorPlaceHolderCell.identifier, for: indexPath) as! NewDashboardErrorPlaceHolderCell
+            cell.setError(error)
+            return cell
+        } else {
+            return UITableViewCell()
+        }
     }
 }
 

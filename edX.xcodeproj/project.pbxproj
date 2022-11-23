@@ -196,6 +196,7 @@
 		5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */; };
 		5F68992B29090FBD0060661B /* ExternalAuthOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F68992A29090FBD0060661B /* ExternalAuthOptionsView.swift */; };
 		5F6AD05B27467898007686C2 /* ProfileOptions.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD05927467898007686C2 /* ProfileOptions.strings */; };
+		5F6C8A52292DFCBB00E5FA7F /* NewDashboardErrorPlaceHolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C8A51292DFCBB00E5FA7F /* NewDashboardErrorPlaceHolderCell.swift */; };
 		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
 		5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */; };
 		5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */; };
@@ -1204,6 +1205,7 @@
 		5F64839F274CEB6000DB38E0 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
 		5F68992A29090FBD0060661B /* ExternalAuthOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAuthOptionsView.swift; sourceTree = "<group>"; };
 		5F6AD05A27467898007686C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
+		5F6C8A51292DFCBB00E5FA7F /* NewDashboardErrorPlaceHolderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDashboardErrorPlaceHolderCell.swift; sourceTree = "<group>"; };
 		5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
@@ -3671,6 +3673,7 @@
 				5F08321327018D810022971F /* BannerViewController.swift */,
 				5F2DFCAF29262D8E00BDA40A /* CourseDashboardHeaderView.swift */,
 				5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */,
+				5F6C8A51292DFCBB00E5FA7F /* NewDashboardErrorPlaceHolderCell.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -5341,6 +5344,7 @@
 				220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */,
+				5F6C8A52292DFCBB00E5FA7F /* NewDashboardErrorPlaceHolderCell.swift in Sources */,
 				E0241782254043BB00E397EA /* SEGFirebaseIntegrationFactory.m in Sources */,
 				9EF21A9E1B4697CA000048F8 /* ResumeCourseController.swift in Sources */,
 				698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */,
