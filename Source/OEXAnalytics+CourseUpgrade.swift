@@ -166,4 +166,55 @@ extension OEXAnalytics {
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
+
+    func trackCourseUnfulfilledPurchaseInitiated(courseID: String, pacing: String, screen: CourseUpgradeScreen, flowType: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeUnfulfilledPurchaseInitiated.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeUnfulfilledPurchaseInitiated.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
+
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.PaymentFlowType.rawValue: flowType,
+        ]
+
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+
+    func trackCourseUpgradeNewEexperienceAlertAction(courseID: String, pacing: String, screen: CourseUpgradeScreen, flowType: String, action: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeNewEexperienceAlertAction.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeNewEexperienceAlertAction.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
+
+        let info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.PaymentFlowType.rawValue: flowType,
+            AnalyticsEventDataKey.Action.rawValue: action
+        ]
+
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+
+    func trackRestorePurchaseClicked() {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeRestorePurchaseClicked.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeRestorePurchaseClicked.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
+
+        trackEvent(event, forComponent: nil, withInfo: nil)
+    }
+
+    func trackRestoreSuccessAlertAction(action: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradeRestoreSuccessAlertAction.rawValue
+        event.name = AnalyticsEventName.CourseUpgradeRestoreSuccessAlertAction.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
+
+        trackEvent(event, forComponent: nil, withInfo: [AnalyticsEventDataKey.Action.rawValue: action])
+    }
 }

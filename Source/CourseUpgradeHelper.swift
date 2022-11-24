@@ -193,15 +193,17 @@ class CourseUpgradeHelper: NSObject {
         }
     }
 
-    func showRestorePurchasesAlert() {
+    func showRestorePurchasesAlert(environment: Environment?) {
         guard let topController = UIApplication.shared.topMostController() else { return }
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.Restore.alertTitle, message: Strings.CourseUpgrade.Restore.alertMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.getHelp) { [weak self] _ in
             self?.launchEmailComposer(errorMessage: "Error: restore_purchases")
+            environment?.analytics.trackRestoreSuccessAlertAction(action: "get_help")
         }
 
         alertController.addButton(withTitle: Strings.close, style: .default) { _ in
+            environment?.analytics.trackRestoreSuccessAlertAction(action: "close")
         }
     }
     
@@ -248,19 +250,25 @@ class CourseUpgradeHelper: NSObject {
         alertController.addButton(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertRefresh, style: .default) {[weak self] _ in
             self?.showLoader(forceShow: true)
             self?.popToEnrolledCourses()
+            self?.trackCourseUpgradeNewEexperienceAlertAction(action: "refresh")
         }
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertContinue, style: .default) {[weak self] _ in
             self?.resetUpgradeModel()
+            self?.trackCourseUpgradeNewEexperienceAlertAction(action: "continue_without_update")
         }
 
         topController.present(alertController, animated: true, completion: nil)
     }
 
+    private func trackCourseUpgradeNewEexperienceAlertAction(action: String) {
+        environment?.analytics.trackCourseUpgradeNewEexperienceAlertAction(courseID: courseID ?? "", pacing: pacing ?? "", screen: screen, flowType: upgradeHadler?.upgradeMode.analyticsText ?? "", action: action)
+    }
+
     private func popToEnrolledCourses() {
         dismiss { [weak self] in
             guard let topController = UIApplication.shared.topMostController(),
-                  let tabController = topController.navigationController?.viewControllers.first(where: {$0 is EnrolledTabBarViewController}) else {
+                  let tabController = topController.navigationController?.viewControllers.first(where: {$0 is EnrolledCoursesViewController}) else {
                       self?.postSuccessNotification()
                       return
                   }

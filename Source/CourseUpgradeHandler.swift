@@ -24,6 +24,17 @@ class CourseUpgradeHandler: NSObject {
         case silent
         case normal
         case restore
+
+        var analyticsText: String {
+            switch (self) {
+            case .silent:
+                return "silent"
+            case .normal:
+                return "user_initiated"
+            case .restore:
+                return "restore"
+            }
+        }
     }
     
     typealias Environment = NetworkManagerProvider & OEXConfigProvider
