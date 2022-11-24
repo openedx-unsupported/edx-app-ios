@@ -12,14 +12,16 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider & ServerConfigProvider
     
-    private lazy var courseDashboardHeaderView: CourseDashboardHeaderView = {
-        let courseDashboardHeaderView = CourseDashboardHeaderView(course: course, environment: environment)
-        courseDashboardHeaderView.delegate = self
-        return courseDashboardHeaderView
+    private lazy var headerView: CourseDashboardHeaderView = {
+        let view = CourseDashboardHeaderView(course: course, environment: environment)
+        view.accessibilityIdentifier = "NewCourseDashboardViewController:header-view"
+        view.delegate = self
+        return view
     }()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.accessibilityIdentifier = "NewCourseDashboardViewController:table-view"
         tableView.register(NewDashboardErrorPlaceHolderCell.self, forCellReuseIdentifier: NewDashboardErrorPlaceHolderCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -73,14 +75,12 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }
     
     private func addHeaderView() {
-        tableView.tableHeaderView = courseDashboardHeaderView
-        courseDashboardHeaderView.snp.remakeConstraints { make in
-            make.top.equalTo(tableView)
+        tableView.tableHeaderView = headerView
+        headerView.snp.remakeConstraints { make in
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
-            make.height.equalTo(StandardVerticalMargin * 20)
         }
-        tableView.setAndLayoutTableHeaderView(header: courseDashboardHeaderView)
+        tableView.setAndLayoutTableHeaderView(header: headerView)
     }
     
     private func loadCourseStream() {
