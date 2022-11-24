@@ -11,7 +11,7 @@ import UIKit
 enum CourseUpgradeScreen: String {
     case myCourses = "course_enrollment"
     case courseDashboard = "course_dashboard"
-    case courseUnit = "course_unit"
+    case courseComponent = "course_component"
     case none
 }
 
