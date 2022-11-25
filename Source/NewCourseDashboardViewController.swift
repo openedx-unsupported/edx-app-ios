@@ -74,7 +74,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         }
     }
     
-    private func addHeaderView() {
+    private func configureHeaderView() {
         tableView.tableHeaderView = headerView
         headerView.snp.remakeConstraints { make in
             make.leading.equalTo(safeLeading)
@@ -92,7 +92,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private func loadedCourse(withCourse course: OEXCourse) {
         verifyAccess(forCourse: course)
-        addHeaderView()
+        configureHeaderView()
     }
     
     private func resultLoaded(result : Result<UserCourseEnrollment>) {

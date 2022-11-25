@@ -64,3 +64,38 @@ extension GestureActionable where Self : UIGestureRecognizer {
     }
 }
 
+class AttachmentTapGestureRecognizer: UITapGestureRecognizer {
+
+    typealias TappedAttachment = (attachment: NSTextAttachment, characterIndex: Int)
+    private var action: ((AttachmentTapGestureRecognizer) -> Void)?
+    
+    init(action: @escaping (AttachmentTapGestureRecognizer) -> Void) {
+        super.init(target: nil, action: nil)
+        self.action = action
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        guard let textView = view as? UITextView else {
+            state = .failed
+            return
+        }
+
+        if let touch = touches.first, let _ = evaluateTouch(touch, on: textView) {
+            super.touchesBegan(touches, with: event)
+            action?(self)
+        } else {
+            state = .failed
+        }
+    }
+
+    private func evaluateTouch(_ touch: UITouch, on textView: UITextView) -> TappedAttachment? {
+        let touch = touch.location(in: textView)
+        let point = CGPoint(x: touch.x - textView.textContainerInset.left, y: touch.y - textView.textContainerInset.top)
+        let glyphIndex: Int = textView.layoutManager.glyphIndex(for: point, in: textView.textContainer, fractionOfDistanceThroughGlyph: nil)
+        let glyphRect = textView.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: textView.textContainer)
+        guard glyphRect.contains(point) else { return nil }
+        let characterIndex = textView.layoutManager.characterIndexForGlyph(at: glyphIndex)
+        guard characterIndex < textView.textStorage.length, NSTextAttachment.character == (textView.textStorage.string as NSString).character(at: characterIndex), let attachment = textView.textStorage.attribute(.attachment, at: characterIndex, effectiveRange: nil) as? NSTextAttachment else { return nil }
+        return (attachment, characterIndex)
+    }
+}
