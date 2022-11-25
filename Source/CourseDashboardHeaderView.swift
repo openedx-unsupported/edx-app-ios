@@ -22,11 +22,10 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
     
     private let imageSize: CGFloat = 20
     private let attributedIconOfset: CGFloat = -4
-    private let styles = OEXStyles.shared()
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{2002}")
     
-    private lazy var container = UIView()
-    private lazy var titleContainer = UIView()
+    private lazy var containerView = UIView()
+    private lazy var courseInfoContainerView = UIView()
     
     private lazy var orgLabel: UILabel = {
         let label = UILabel()
@@ -34,7 +33,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         return label
     }()
     
-    private lazy var courseLabel: UITextView = {
+    private lazy var courseTitle: UITextView = {
         let textView = UITextView()
         textView.accessibilityIdentifier = "CourseDashboardHeaderView:course-label"
         textView.isEditable = false
@@ -113,15 +112,15 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         return valuePropView
     }()
     
-    private lazy var orgTextStyle = OEXTextStyle(weight: .bold, size: .small, color: styles.accentBColor())
+    private lazy var orgTextStyle = OEXTextStyle(weight: .bold, size: .small, color: environment.styles.accentBColor())
     
     private lazy var courseTextStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(textStyle: OEXTextStyle(weight: .bold, size: .xLarge, color: styles.neutralWhiteT()))
+        let style = OEXMutableTextStyle(textStyle: OEXTextStyle(weight: .bold, size: .xLarge, color: environment.styles.neutralWhiteT()))
         style.lineBreakMode = .byWordWrapping
         return style
     }()
     
-    private lazy var accessTextStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: styles.neutralXLight())
+    private lazy var accessTextStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: environment.styles.neutralXLight())
     
     private var canShowValuePropView: Bool {
         guard let course = course,
@@ -139,12 +138,11 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: nil)
         
         addSubViews()
-        addConstraints()
+        setConstraints()
+        configureView()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
+    private func configureView() {
         let courseTitleText = [
             courseTextStyle.attributedString(withText: course?.name),
             attributedUnicodeSpace,
@@ -152,70 +150,70 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         ]
         
         orgLabel.attributedText = orgTextStyle.attributedString(withText: course?.org)
-        courseLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: courseTitleText)
+        courseTitle.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: courseTitleText)
         accessLabel.attributedText = accessTextStyle.attributedString(withText: course?.nextRelevantDate)
     }
     
     private func addSubViews() {
-        container.backgroundColor = styles.primaryLightColor()
-        closeButton.tintColor = styles.neutralWhiteT()
+        containerView.backgroundColor = environment.styles.primaryLightColor()
+        closeButton.tintColor = environment.styles.neutralWhiteT()
         
-        addSubview(container)
-        container.addSubview(closeButton)
-        container.addSubview(titleContainer)
+        addSubview(containerView)
+        containerView.addSubview(closeButton)
+        containerView.addSubview(courseInfoContainerView)
         
-        titleContainer.addSubview(orgLabel)
-        titleContainer.addSubview(courseLabel)
-        titleContainer.addSubview(accessLabel)
+        courseInfoContainerView.addSubview(orgLabel)
+        courseInfoContainerView.addSubview(courseTitle)
+        courseInfoContainerView.addSubview(accessLabel)
     }
     
-    private func addConstraints() {
-        container.snp.makeConstraints { make in
+    private func setConstraints() {
+        containerView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
         
         closeButton.snp.makeConstraints { make in
-            make.top.equalTo(container).offset(StandardVerticalMargin * 2)
-            make.trailing.equalTo(container).inset(StandardVerticalMargin * 2)
+            make.top.equalTo(containerView).offset(StandardVerticalMargin * 2)
+            make.trailing.equalTo(containerView).inset(StandardVerticalMargin * 2)
             make.height.equalTo(imageSize)
             make.width.equalTo(imageSize)
         }
         
-        titleContainer.snp.makeConstraints { make in
+        courseInfoContainerView.snp.makeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom)
-            make.leading.equalTo(container).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(container).inset(StandardHorizontalMargin)
+            make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(containerView).inset(StandardHorizontalMargin)
         }
         
         orgLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleContainer).offset(StandardVerticalMargin)
-            make.leading.equalTo(titleContainer)
-            make.trailing.equalTo(titleContainer)
+            make.top.equalTo(courseInfoContainerView).offset(StandardVerticalMargin)
+            make.leading.equalTo(courseInfoContainerView)
+            make.trailing.equalTo(courseInfoContainerView)
         }
                 
-        courseLabel.snp.makeConstraints { make in
+        courseTitle.snp.makeConstraints { make in
             make.top.equalTo(orgLabel.snp.bottom).offset(StandardVerticalMargin / 2)
-            make.leading.equalTo(titleContainer)
-            make.trailing.equalTo(titleContainer)
-            make.height.equalTo(heightForView(text: course?.name ?? "", style: courseTextStyle))
+            make.leading.equalTo(courseInfoContainerView)
+            make.trailing.equalTo(courseInfoContainerView)
+            //make.height.equalTo(heightForView(text: course?.name ?? "", style: courseTextStyle))
         }
         
         accessLabel.snp.makeConstraints { make in
-            make.top.equalTo(courseLabel.snp.bottom).offset(StandardVerticalMargin / 2)
-            make.leading.equalTo(titleContainer)
-            make.trailing.equalTo(titleContainer)
-            make.bottom.equalTo(titleContainer).inset(StandardVerticalMargin)
+            make.top.equalTo(courseTitle.snp.bottom).offset(StandardVerticalMargin / 2)
+            make.leading.equalTo(courseInfoContainerView)
+            make.trailing.equalTo(courseInfoContainerView)
+            make.bottom.equalTo(courseInfoContainerView).inset(StandardVerticalMargin)
         }
         
-        var bottomContainer = titleContainer
+        var bottomContainer = courseInfoContainerView
         
         if canShowValuePropView {
-            container.addSubview(valuePropView)
+            containerView.addSubview(valuePropView)
             
             valuePropView.snp.makeConstraints { make in
                 make.top.equalTo(bottomContainer.snp.bottom).offset(StandardVerticalMargin)
-                make.leading.equalTo(container).offset(StandardHorizontalMargin)
-                make.trailing.equalTo(container).inset(StandardHorizontalMargin)
+                make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
+                make.trailing.equalTo(containerView).inset(StandardHorizontalMargin)
                 make.height.equalTo(StandardVerticalMargin * 4.5)
             }
             
@@ -223,7 +221,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         }
         
         bottomContainer.snp.makeConstraints { make in
-            make.bottom.equalTo(container).inset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(containerView).inset(StandardVerticalMargin * 2)
         }
     }
     
