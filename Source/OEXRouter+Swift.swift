@@ -474,9 +474,15 @@ extension OEXRouter {
     }
     
     func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
-        let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
-        controller.hidesBottomBarWhenPushed = true
-        fromController.navigationController?.pushViewController(controller, animated: animated, completion: completion)
+        if environment.config.isNewDashboardEnabled {
+            let controller = NewCourseDashboardViewController(environment: environment, courseID: courseID)
+            controller.modalPresentationStyle = .fullScreen
+            fromController.navigationController?.present(controller, animated: true)
+        } else {
+            let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
+            controller.hidesBottomBarWhenPushed = true
+            fromController.navigationController?.pushViewController(controller, animated: animated, completion: completion)
+        }
     }
     
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil, searchQuery: String? = nil) {

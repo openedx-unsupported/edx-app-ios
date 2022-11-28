@@ -145,6 +145,7 @@ public enum Icon {
     case StarEmpty
     case StarFilled
     case ShareCourse
+    case Share
     case Discovery
     case Transcript
     case Trophy
@@ -286,6 +287,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .star)
         case .ShareCourse:
             return MaterialIconRenderer(icon: .shareiOS)
+        case .Share:
+            return MaterialIconRenderer(icon: .share)
         case .Discovery:
             return MaterialIconRenderer(icon: .search)
         case .UnknownError:
