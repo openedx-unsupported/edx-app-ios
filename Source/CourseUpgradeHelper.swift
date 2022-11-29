@@ -48,6 +48,14 @@ class CourseUpgradeHelper: NSObject {
         case emailSupport = "get_help"
         case close = "close"
     }
+
+    // These alert actions are used to send in analytics
+    enum AlertAction: String {
+        case close = "close"
+        case continueWithoutUpdate = "continue_without_update"
+        case getHelp = "get_help"
+        case refresh = "refresh"
+    }
     
     private(set) var courseUpgradeModel: CourseUpgradeModel?
     
@@ -113,7 +121,7 @@ class CourseUpgradeHelper: NSObject {
             break
         case .success(let courseID, let blockID):
             courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)
-            if upgradeHadler.upgradeMode == .normal {
+            if upgradeHadler.upgradeMode == .userInitiated {
                 postSuccessNotification()
             }
             else {
@@ -125,7 +133,7 @@ class CourseUpgradeHelper: NSObject {
                 environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
             }
 
-            environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError)
+            environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError, flowType: upgradeHadler.upgradeMode.rawValue)
 
             removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
@@ -137,16 +145,16 @@ class CourseUpgradeHelper: NSObject {
         topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successMessage, textSize: .xSmall, autoDismiss: true, duration: 3)
 
         let contentTime = CFAbsoluteTimeGetCurrent() - (contentUpgradeTime ?? 0)
-        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: contentTime.millisecond)
+        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: contentTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
         
         if let refreshTime = refreshTime {
             let refreshEndTime = CFAbsoluteTimeGetCurrent() - refreshTime
             
-            environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshEndTime.millisecond)
+            environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshEndTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
         }
 
         let endTime = CFAbsoluteTimeGetCurrent() - (startTime ?? 0)
-        environment?.analytics.trackCourseUpgradeSuccess(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", price: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
+        environment?.analytics.trackCourseUpgradeSuccess(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
 
         clearData()
     }
@@ -199,16 +207,16 @@ class CourseUpgradeHelper: NSObject {
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.getHelp) { [weak self] _ in
             self?.launchEmailComposer(errorMessage: "Error: restore_purchases")
-            environment?.analytics.trackRestoreSuccessAlertAction(action: "get_help")
+            environment?.analytics.trackRestoreSuccessAlertAction(action: AlertAction.getHelp.rawValue)
         }
 
         alertController.addButton(withTitle: Strings.close, style: .default) { _ in
-            environment?.analytics.trackRestoreSuccessAlertAction(action: "close")
+            environment?.analytics.trackRestoreSuccessAlertAction(action: AlertAction.close.rawValue)
         }
     }
     
     func showLoader(forceShow: Bool = false) {
-        if (!unlockController.isVisible && upgradeHadler?.upgradeMode == .normal) || forceShow {
+        if (!unlockController.isVisible && upgradeHadler?.upgradeMode == .userInitiated) || forceShow {
             unlockController.showView()
         }
     }
@@ -234,7 +242,7 @@ class CourseUpgradeHelper: NSObject {
     }
     
     private func trackUpgradeErrorAction(errorAction: ErrorAction) {
-        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, errorAction: errorAction.rawValue, upgradeError: upgradeHadler?.formattedError ?? "")
+        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, errorAction: errorAction.rawValue, upgradeError: upgradeHadler?.formattedError ?? "", flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
     }
 
     private func hideAlertAction() {
@@ -250,19 +258,19 @@ class CourseUpgradeHelper: NSObject {
         alertController.addButton(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertRefresh, style: .default) {[weak self] _ in
             self?.showLoader(forceShow: true)
             self?.popToEnrolledCourses()
-            self?.trackCourseUpgradeNewEexperienceAlertAction(action: "refresh")
+            self?.trackCourseUpgradeNewEexperienceAlertAction(action: AlertAction.refresh.rawValue)
         }
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.SuccessAlert.silentAlertContinue, style: .default) {[weak self] _ in
             self?.resetUpgradeModel()
-            self?.trackCourseUpgradeNewEexperienceAlertAction(action: "continue_without_update")
+            self?.trackCourseUpgradeNewEexperienceAlertAction(action: AlertAction.continueWithoutUpdate.rawValue)
         }
 
         topController.present(alertController, animated: true, completion: nil)
     }
 
     private func trackCourseUpgradeNewEexperienceAlertAction(action: String) {
-        environment?.analytics.trackCourseUpgradeNewEexperienceAlertAction(courseID: courseID ?? "", pacing: pacing ?? "", screen: screen, flowType: upgradeHadler?.upgradeMode.analyticsText ?? "", action: action)
+        environment?.analytics.trackCourseUpgradeNewEexperienceAlertAction(courseID: courseID ?? "", pacing: pacing ?? "", screen: screen, flowType: upgradeHadler?.upgradeMode.rawValue ?? "", action: action)
     }
 
     private func popToEnrolledCourses() {

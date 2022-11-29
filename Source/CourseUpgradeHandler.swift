@@ -20,21 +20,10 @@ class CourseUpgradeHandler: NSObject {
         case error(type: PurchaseError, error: Error?)
     }
 
-    enum CourseUpgradeMode {
-        case silent
-        case normal
-        case restore
-
-        var analyticsText: String {
-            switch (self) {
-            case .silent:
-                return "silent"
-            case .normal:
-                return "user_initiated"
-            case .restore:
-                return "restore"
-            }
-        }
+    enum CourseUpgradeMode: String {
+        case silent = "silent"
+        case userInitiated = "user_initiated"
+        case restore = "restore"
     }
     
     typealias Environment = NetworkManagerProvider & OEXConfigProvider
@@ -45,7 +34,7 @@ class CourseUpgradeHandler: NSObject {
     private(set) var course: OEXCourse?
     private var basketID: Int = 0
     private var courseSku: String = ""
-    private(set) var upgradeMode: CourseUpgradeMode = .normal
+    private(set) var upgradeMode: CourseUpgradeMode = .userInitiated
 
     private(set) var state: CourseUpgradeState = .initial {
         didSet {
@@ -57,7 +46,7 @@ class CourseUpgradeHandler: NSObject {
                 CourseUpgradeHelper.shared.markIAPSKUCompleteInKeychain(courseSku)
                 break
             case .error(let error, _):
-                if error != .verifyReceiptError && upgradeMode == .normal {
+                if error != .verifyReceiptError && upgradeMode == .userInitiated {
                     CourseUpgradeHelper.shared.removeIAPSKUFromKeychain(courseSku)
                 }
                 break
@@ -75,7 +64,7 @@ class CourseUpgradeHandler: NSObject {
         super.init()
     }
     
-    func upgradeCourse(with upgradeMode: CourseUpgradeMode = .normal, completion: UpgradeCompletionHandler?) {
+    func upgradeCourse(with upgradeMode: CourseUpgradeMode = .userInitiated, completion: UpgradeCompletionHandler?) {
         self.completion = completion
         self.upgradeMode = upgradeMode
         guard let course = self.course,
@@ -124,7 +113,7 @@ class CourseUpgradeHandler: NSObject {
         
         environment?.networkManager.taskForRequest(base: baseURL, request) { [weak self] response in
             if response.error == nil {
-                if self?.upgradeMode != .normal {
+                if self?.upgradeMode != .userInitiated {
                     self?.reverifyPayment()
                 } else {
                     self?.makePayment()
@@ -155,7 +144,7 @@ class CourseUpgradeHandler: NSObject {
         
         environment?.networkManager.taskForRequest(base: baseURL, request) { [weak self] response in
             if response.error == nil {
-                PaymentManager.shared.markPurchaseComplete(self?.courseSku ?? "", type: (self?.upgradeMode == .normal) ? .purchase : .transction)
+                PaymentManager.shared.markPurchaseComplete(self?.courseSku ?? "", type: (self?.upgradeMode == .userInitiated) ? .purchase : .transction)
                 self?.state = .complete
             } else {
                 self?.state = .error(type: .verifyReceiptError, error: response.error)

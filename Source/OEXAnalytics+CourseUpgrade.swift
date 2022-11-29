@@ -13,13 +13,17 @@ extension OEXAnalytics {
         event.displayName = AnalyticsDisplayName.UpgradeNowClicked.rawValue
         event.name = AnalyticsEventName.UpgradeNowClicked.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
-        let info = [
+
+        var info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue,
             key_course_id: courseID,
-            AnalyticsEventDataKey.Price.rawValue: coursePrice,
+            AnalyticsEventDataKey.Price.rawValue: coursePrice
         ]
+
+        if blockID?.isEmpty == false {
+            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
+        }
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -30,14 +34,17 @@ extension OEXAnalytics {
         event.name = AnalyticsEventName.CourseUpgradePaymentTime.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        let info = [
+        var info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
-            AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
+            AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)"
         ]
+
+        if blockID?.isEmpty == false {
+            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
+        }
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -48,14 +55,17 @@ extension OEXAnalytics {
         event.name = AnalyticsEventName.CourseUpgradeTimeToLoadPrice.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        let info = [
+        var info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
-            AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
+            AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)"
         ]
+
+        if blockID?.isEmpty == false {
+            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
+        }
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -66,32 +76,41 @@ extension OEXAnalytics {
         event.name = AnalyticsEventName.CourseUpgradePaymentError.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        let info = [
+        var info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
             AnalyticsEventDataKey.Price.rawValue: coursePrice,
-            AnalyticsEventDataKey.UpgradeError.rawValue: paymentError,
+            AnalyticsEventDataKey.UpgradeError.rawValue: paymentError
         ]
+
+        if blockID?.isEmpty == false {
+            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
+        }
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeError(courseID: String, blockID: String, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, upgradeError: String) {
+    func trackCourseUpgradeError(courseID: String, blockID: String, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, upgradeError: String, flowType: String) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeError.rawValue
         event.name = AnalyticsEventName.CourseUpgradeError.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        let info = [
+        var info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.Price.rawValue: coursePrice,
-            AnalyticsEventDataKey.UpgradeError.rawValue: upgradeError,
+            AnalyticsEventDataKey.UpgradeError.rawValue: upgradeError
         ]
+
+        if blockID.isEmpty == false {
+            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID
+        }
+
+        if coursePrice.isEmpty == false {
+            info[AnalyticsEventDataKey.Price.rawValue] = coursePrice
+        }
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -102,67 +121,91 @@ extension OEXAnalytics {
         event.name = AnalyticsEventName.CourseUpgradeLoadError.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        let info = [
+        var info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
         ]
+
+        if blockID?.isEmpty == false {
+            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
+        }
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeErrorAction(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, errorAction: String, upgradeError: String) {
+    func trackCourseUpgradeErrorAction(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, errorAction: String, upgradeError: String, flowType: String) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeErrorAction.rawValue
         event.name = AnalyticsEventName.CourseUpgradeErrorAction.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        let info = [
+        var info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.ErrorAction.rawValue: errorAction,
             AnalyticsEventDataKey.UpgradeError.rawValue: upgradeError,
+            AnalyticsEventDataKey.PaymentFlowType.rawValue: flowType
         ]
+
+        if blockID?.isEmpty == false {
+            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
+        }
+
+        if coursePrice.isEmpty == false {
+            info[AnalyticsEventDataKey.Price.rawValue] = coursePrice
+        }
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeSuccess(courseID: String, blockID: String? = nil, pacing: String, price: String, screen: CourseUpgradeScreen, elapsedTime: Int) {
+    func trackCourseUpgradeSuccess(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int, flowType: String) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeSuccess.rawValue
         event.name = AnalyticsEventName.CourseUpgradeSuccess.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        let info = [
+        var info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.Price.rawValue: price,
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
+            AnalyticsEventDataKey.PaymentFlowType.rawValue: flowType
         ]
+
+        if blockID?.isEmpty == false {
+            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
+        }
+
+        if coursePrice.isEmpty == false {
+            info[AnalyticsEventDataKey.Price.rawValue] = coursePrice
+        }
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeDuration(isRefresh: Bool, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int) {
+    func trackCourseUpgradeDuration(isRefresh: Bool, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int, flowType: String) {
         let event = OEXAnalyticsEvent()
         event.displayName = isRefresh ? AnalyticsDisplayName.CourseUpgradeSuccessDurationAfterRefresh.rawValue : AnalyticsDisplayName.CourseUpgradeSuccessDuration.rawValue
         event.name = isRefresh ? AnalyticsEventName.CourseUpgradeSuccessDurationAfterRefresh.rawValue : AnalyticsEventName.CourseUpgradeSuccessDuration.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        let info = [
+        var info = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
-            AnalyticsEventDataKey.ComponentID.rawValue: blockID ?? "",
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)",
+            AnalyticsEventDataKey.PaymentFlowType.rawValue: flowType
         ]
+
+        if blockID?.isEmpty == false {
+            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
+        }
+
+        if coursePrice.isEmpty == false {
+            info[AnalyticsEventDataKey.Price.rawValue] = coursePrice
+        }
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
