@@ -21,9 +21,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.Price.rawValue: coursePrice
         ]
 
-        if blockID?.isEmpty == false {
-            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
-        }
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -42,9 +40,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)"
         ]
 
-        if blockID?.isEmpty == false {
-            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
-        }
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -63,9 +59,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)"
         ]
 
-        if blockID?.isEmpty == false {
-            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
-        }
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -84,9 +78,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.UpgradeError.rawValue: paymentError
         ]
 
-        if blockID?.isEmpty == false {
-            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
-        }
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -104,13 +96,8 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.UpgradeError.rawValue: upgradeError
         ]
 
-        if blockID.isEmpty == false {
-            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID
-        }
-
-        if coursePrice.isEmpty == false {
-            info[AnalyticsEventDataKey.Price.rawValue] = coursePrice
-        }
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
+        info.setObjectOrNil(coursePrice, forKey: AnalyticsEventDataKey.Price.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -127,9 +114,7 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
         ]
 
-        if blockID?.isEmpty == false {
-            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
-        }
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -149,13 +134,8 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.PaymentFlowType.rawValue: flowType
         ]
 
-        if blockID?.isEmpty == false {
-            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
-        }
-
-        if coursePrice.isEmpty == false {
-            info[AnalyticsEventDataKey.Price.rawValue] = coursePrice
-        }
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
+        info.setObjectOrNil(coursePrice, forKey: AnalyticsEventDataKey.Price.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -174,13 +154,8 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.PaymentFlowType.rawValue: flowType
         ]
 
-        if blockID?.isEmpty == false {
-            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
-        }
-
-        if coursePrice.isEmpty == false {
-            info[AnalyticsEventDataKey.Price.rawValue] = coursePrice
-        }
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
+        info.setObjectOrNil(coursePrice, forKey: AnalyticsEventDataKey.Price.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -199,13 +174,8 @@ extension OEXAnalytics {
             AnalyticsEventDataKey.PaymentFlowType.rawValue: flowType
         ]
 
-        if blockID?.isEmpty == false {
-            info[AnalyticsEventDataKey.ComponentID.rawValue] = blockID ?? ""
-        }
-
-        if coursePrice.isEmpty == false {
-            info[AnalyticsEventDataKey.Price.rawValue] = coursePrice
-        }
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
+        info.setObjectOrNil(coursePrice, forKey: AnalyticsEventDataKey.Price.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
