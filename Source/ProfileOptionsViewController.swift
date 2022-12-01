@@ -348,6 +348,7 @@ extension ProfileOptionsViewController: HelpCellDelegate {
 
 extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
     func didTapRestorePurchases() {
+        environment.analytics.trackRestorePurchaseClicked()
         enableUserInteraction(enable: false)
         let indicator = showProgressIndicator()
         var unfinishedSKU = ""
@@ -379,11 +380,11 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
     }
 
     @objc func hideProgressIndicator(indicator: UIAlertController?, showSuccess: Bool = false) {
-        indicator?.dismiss(animated: true, completion: {
+        indicator?.dismiss(animated: true) { [weak self] in
             if showSuccess {
-                CourseUpgradeHelper.shared.showRestorePurchasesAlert()
+                CourseUpgradeHelper.shared.showRestorePurchasesAlert(environment: self?.environment)
             }
-        })
+        }
         enableUserInteraction(enable: true)
     }
 
@@ -404,8 +405,12 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
                   return
               }
 
+        let pacing: String = course.isSelfPaced == true ? "self" : "instructor"
+        CourseUpgradeHelper.shared.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", coursePrice: "", screen: .myCourses)
+        environment.analytics.trackCourseUnfulfilledPurchaseInitiated(courseID: course.course_id ?? "", pacing: pacing, screen: .myCourses, flowType: CourseUpgradeHandler.CourseUpgradeMode.restore.rawValue)
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
         upgradeHandler.upgradeCourse(with: .restore) { [weak self] state in
+
             switch state {
             case .complete:
                 self?.enableUserInteraction(enable: true)

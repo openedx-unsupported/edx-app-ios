@@ -228,13 +228,13 @@ class ValuePropComponentView: UIView {
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
             self?.fetchCoursePrice()
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price")
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
         }
 
         alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
             self?.upgradeButton.stopShimmerEffect()
             self?.upgradeButton.updateVisibility(visible: false)
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price")
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
         }
     }
 
