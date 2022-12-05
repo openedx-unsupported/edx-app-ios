@@ -12,11 +12,12 @@ protocol CourseDashboardHeaderViewDelegate: AnyObject {
     func didTapOnValueProp()
     func didTapOnClose()
     func didTapOnShareCourse()
+    func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem)
 }
 
 class CourseDashboardHeaderView: UITableViewHeaderFooterView {
     
-    typealias Environment = OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & ServerConfigProvider
+    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider & ServerConfigProvider & OEXSessionProvider & RemoteConfigProvider
     
     weak var delegate: CourseDashboardHeaderViewDelegate?
     
@@ -41,7 +42,6 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         textView.isUserInteractionEnabled = true
         textView.backgroundColor = .clear
         textView.isScrollEnabled = false
-        textView.translatesAutoresizingMaskIntoConstraints = false
         let padding = textView.textContainer.lineFragmentPadding
         textView.textContainerInset =  UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
         
@@ -77,7 +77,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         valuePropView.accessibilityIdentifier = "CourseDashboardHeaderView:value-prop-view"
         valuePropView.backgroundColor = environment.styles.standardBackgroundColor()
         
-        let lockedImage = Icon.Closed.imageWithFontSize(size: imageSize).image(with: OEXStyles.shared().neutralWhiteT())
+        let lockedImage = Icon.Closed.imageWithFontSize(size: imageSize).image(with: environment.styles.neutralWhiteT())
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = lockedImage
         
@@ -112,6 +112,13 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         return valuePropView
     }()
     
+    private lazy var tabbarView: CourseDashboardTabbarView = {
+        let tabbarView = CourseDashboardTabbarView(environment: environment, course: course)
+        tabbarView.accessibilityIdentifier = "CourseDashboardHeaderView:tabbar-view"
+        tabbarView.delegate = self
+        return tabbarView
+    }()
+    
     private lazy var orgTextStyle = OEXTextStyle(weight: .bold, size: .small, color: environment.styles.accentBColor())
     
     private lazy var courseTextStyle: OEXMutableTextStyle = {
@@ -121,7 +128,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
     }()
     
     private lazy var accessTextStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: environment.styles.neutralXLight())
-    
+        
     private var canShowValuePropView: Bool {
         guard let course = course,
               let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
@@ -132,13 +139,13 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
     private let course: OEXCourse?
     private let environment: Environment
     
-    init(course: OEXCourse?, environment: Environment) {
-        self.course = course
+    init(environment: Environment, course: OEXCourse?) {
         self.environment = environment
+        self.course = course
         super.init(reuseIdentifier: nil)
         
         addSubViews()
-        setConstraints()
+        addConstraints()
         configureView()
     }
     
@@ -161,44 +168,44 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         addSubview(containerView)
         containerView.addSubview(closeButton)
         containerView.addSubview(courseInfoContainerView)
+        containerView.addSubview(tabbarView)
         
         courseInfoContainerView.addSubview(orgLabel)
         courseInfoContainerView.addSubview(courseTitle)
         courseInfoContainerView.addSubview(accessLabel)
     }
     
-    private func setConstraints() {
-        containerView.snp.makeConstraints { make in
+    private func addConstraints(hidetabbar: Bool = true) {
+        containerView.snp.remakeConstraints { make in
             make.edges.equalTo(self)
         }
         
-        closeButton.snp.makeConstraints { make in
+        closeButton.snp.remakeConstraints { make in
             make.top.equalTo(containerView).offset(StandardVerticalMargin * 2)
             make.trailing.equalTo(containerView).inset(StandardVerticalMargin * 2)
             make.height.equalTo(imageSize)
             make.width.equalTo(imageSize)
         }
         
-        courseInfoContainerView.snp.makeConstraints { make in
+        courseInfoContainerView.snp.remakeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom)
             make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(containerView).inset(StandardHorizontalMargin)
         }
         
-        orgLabel.snp.makeConstraints { make in
+        orgLabel.snp.remakeConstraints { make in
             make.top.equalTo(courseInfoContainerView).offset(StandardVerticalMargin)
             make.leading.equalTo(courseInfoContainerView)
             make.trailing.equalTo(courseInfoContainerView)
         }
                 
-        courseTitle.snp.makeConstraints { make in
+        courseTitle.snp.remakeConstraints { make in
             make.top.equalTo(orgLabel.snp.bottom).offset(StandardVerticalMargin / 2)
             make.leading.equalTo(courseInfoContainerView)
             make.trailing.equalTo(courseInfoContainerView)
-            //make.height.equalTo(heightForView(text: course?.name ?? "", style: courseTextStyle))
         }
         
-        accessLabel.snp.makeConstraints { make in
+        accessLabel.snp.remakeConstraints { make in
             make.top.equalTo(courseTitle.snp.bottom).offset(StandardVerticalMargin / 2)
             make.leading.equalTo(courseInfoContainerView)
             make.trailing.equalTo(courseInfoContainerView)
@@ -210,7 +217,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         if canShowValuePropView {
             containerView.addSubview(valuePropView)
             
-            valuePropView.snp.makeConstraints { make in
+            valuePropView.snp.remakeConstraints { make in
                 make.top.equalTo(bottomContainer.snp.bottom).offset(StandardVerticalMargin)
                 make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(containerView).inset(StandardHorizontalMargin)
@@ -219,22 +226,27 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
             
             bottomContainer = valuePropView
         }
-        
-        bottomContainer.snp.makeConstraints { make in
-            make.bottom.equalTo(containerView).inset(StandardVerticalMargin * 2)
+                
+        tabbarView.snp.remakeConstraints { make in
+            make.top.equalTo(bottomContainer.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(containerView)
+            make.trailing.equalTo(containerView)
+            make.bottom.equalTo(containerView)
+            make.height.equalTo(hidetabbar ? 0 : StandardVerticalMargin * 4.8)
         }
+    }
+    
+    func showTabbarView(show: Bool) {
+        addConstraints(hidetabbar: !show)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func heightForView(text: String, style: OEXTextStyle) -> CGFloat {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - (StandardVerticalMargin * 2), height: .greatestFiniteMagnitude))
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.attributedText = style.attributedString(withText: text)
-        label.sizeToFit()
-        return label.frame.height
+}
+
+extension CourseDashboardHeaderView: CourseDashboardTabbarViewDelegate {
+    func didSelectItem(at position: Int, tabbarItem: TabBarItem) {
+        delegate?.didTapTabbarItem(at: position, tabbarItem: tabbarItem)
     }
 }
