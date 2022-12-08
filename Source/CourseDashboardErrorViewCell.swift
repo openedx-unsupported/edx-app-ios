@@ -11,7 +11,7 @@ import Foundation
 class CourseDashboardErrorViewCell: UITableViewCell {
     static let identifier = "CourseDashboardErrorView"
 
-    var gotoMyCoursesAction: (() -> Void)?
+    var myCoursesAction: (() -> Void)?
 
     private let containerView = UIView()
     private let bottomContainer = UIView()
@@ -38,7 +38,7 @@ class CourseDashboardErrorViewCell: UITableViewCell {
         button.accessibilityIdentifier = "CourseDashboardErrorViewCell:gotocourses-button"
         button.backgroundColor = OEXStyles.shared().secondaryBaseColor()
         button.oex_addAction({ [weak self] _ in
-            self?.gotoMyCoursesAction?()
+            self?.myCoursesAction?()
         }, for: .touchUpInside)
 
         let style = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhite())
@@ -66,7 +66,6 @@ class CourseDashboardErrorViewCell: UITableViewCell {
         setConstraints()
     }
 
-
     private func setConstraints() {
         if traitCollection.verticalSizeClass == .regular {
             addPortraitConstraints()
@@ -91,7 +90,6 @@ class CourseDashboardErrorViewCell: UITableViewCell {
 
     private func setAccessibilityIdentifiers() {
         accessibilityIdentifier = "CourseDashboardErrorViewCell:view"
-
         containerView.accessibilityIdentifier = "CourseDashboardErrorViewCell:container-view"
         bottomContainer.accessibilityIdentifier = "CourseDashboardErrorViewCell:bottom-container-view"
     }

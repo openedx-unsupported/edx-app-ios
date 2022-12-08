@@ -42,18 +42,6 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         return button
     }()
 
-    private var titleTextStyle: OEXTextStyle {
-        return OEXTextStyle(weight: .bold, size: .xLarge, color: OEXStyles.shared().neutralBlackT())
-    }
-
-    private var infoTextStyle: OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
-    }
-
-    private var findCourseButtonTextStyle: OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().secondaryBaseColor())
-    }
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
@@ -95,8 +83,8 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     func setError(course: OEXCourse?) {
         guard let course = course, let access = course.courseware_access else { return }
 
-        var title = ""
-        var info = ""
+        let title: String
+        let info: String
 
         if course.isEndDateOld {
             title = Strings.CourseDashboard.Error.courseEndedTitle
@@ -117,12 +105,14 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
             }
         }
 
+        let titleTextStyle = OEXTextStyle(weight: .bold, size: .xLarge, color: OEXStyles.shared().neutralBlackT())
+        let infoTextStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
+
         titleLabel.attributedText = titleTextStyle.attributedString(withText: title)
         infoLabel.attributedText = infoTextStyle.attributedString(withText: info)
     }
 
     private func formatedStartDate(displayInfo: OEXCourseStartDisplayInfo) -> String {
-
         if let displayDate = displayInfo.displayDate, displayInfo.type == .string && !displayDate.isEmpty {
             return Strings.CourseDashboard.Error.courseNotStartedInfo(startDate: displayDate)
         }

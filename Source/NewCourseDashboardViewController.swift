@@ -205,7 +205,7 @@ extension NewCourseDashboardViewController: UITableViewDataSource {
             return cell
         } else if showContentNotLoadedError {
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseDashboardErrorViewCell.identifier, for: indexPath) as! CourseDashboardErrorViewCell
-            cell.gotoMyCoursesAction = { [weak self] in
+            cell.myCoursesAction = { [weak self] in
                 self?.dismiss(animated: true)
             }
             return cell
