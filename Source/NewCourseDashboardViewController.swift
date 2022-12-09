@@ -13,7 +13,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider & ServerConfigProvider
     
     private lazy var headerView: CourseDashboardHeaderView = {
-        let view = CourseDashboardHeaderView(course: course, environment: environment)
+        let view = CourseDashboardHeaderView(environment: environment, course: course)
         view.accessibilityIdentifier = "NewCourseDashboardViewController:header-view"
         view.delegate = self
         return view
@@ -24,6 +24,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         tableView.accessibilityIdentifier = "NewCourseDashboardViewController:table-view"
         tableView.register(CourseDashboardErrorViewCell.self, forCellReuseIdentifier: CourseDashboardErrorViewCell.identifier)
         tableView.register(CourseDashboardAccessErrorCell.self, forCellReuseIdentifier: CourseDashboardAccessErrorCell.identifier)
+        tableView.register(NewDashboardContentCell.self, forCellReuseIdentifier: NewDashboardContentCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
         return tableView
@@ -31,10 +32,11 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private var course: OEXCourse?
     private var error: NSError?
-
+    private var selectedTabbarItem: TabBarItem?
+    
     private let courseStream: BackedStream<UserCourseEnrollment>
     private let loadStateController: LoadStateViewController
-    
+            
     private let environment: Environment
     private let courseID: String
     
@@ -114,19 +116,23 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             if !courseStream.active {
                 loadStateController.state = .Loaded
                 self.error = error
+                headerView.showTabbarView(show: false)
                 tableView.reloadData()
             }
         }
     }
     
-    private func verifyAccess(forCourse course: OEXCourse){
+    private func verifyAccess(forCourse course: OEXCourse) {
         if let access = course.courseware_access, !access.has_access {
             loadStateController.state = .Loaded
             error = OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info)
+            headerView.showTabbarView(show: false)
             tableView.reloadData()
         } else {
             self.course = course
             loadStateController.state = .Loaded
+            headerView.showTabbarView(show: true)
+            tableView.reloadData()
         }
     }
     
@@ -194,6 +200,14 @@ extension NewCourseDashboardViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let visibleCells = tableView.visibleCells as? [NewDashboardContentCell] {
+            visibleCells.forEach { cell in
+                cell.viewController?.willMove(toParent: nil)
+                cell.viewController?.view.removeFromSuperview()
+                cell.viewController?.removeFromParent()
+            }
+        }
+        
         if showCourseAccessError {
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseDashboardAccessErrorCell.identifier, for: indexPath) as! CourseDashboardAccessErrorCell
             cell.setError(course: course)
@@ -208,11 +222,27 @@ extension NewCourseDashboardViewController: UITableViewDataSource {
             cell.myCoursesAction = { [weak self] in
                 self?.dismiss(animated: true)
             }
+        } else if let tabBarItem = selectedTabbarItem {
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewDashboardContentCell.identifier, for: indexPath) as! NewDashboardContentCell
+            let contentController = tabBarItem.viewController
+            addChild(contentController)
+            cell.contentView.addSubview(contentController.view)
+            
+            let height = tableView.frame.height - headerView.frame.height
+            contentController.view.snp.makeConstraints { make in
+                make.edges.equalTo(cell.contentView)
+                make.height.equalTo(height)
+            }
+            
+            contentController.didMove(toParent: self)
+            contentController.view.layoutIfNeeded()
+            
+            cell.viewController = contentController
+            
             return cell
         }
-        else {
-            return UITableViewCell()
-        }
+        
+        return UITableViewCell()
     }
 }
 
@@ -242,5 +272,12 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
         
         controller.configurePresentationController(withSourceView: view)
         present(controller, animated: true, completion: nil)
+    }
+    
+    func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem) {
+        if error == nil {
+            selectedTabbarItem = tabbarItem
+            tableView.reloadData()
+        }
     }
 }
