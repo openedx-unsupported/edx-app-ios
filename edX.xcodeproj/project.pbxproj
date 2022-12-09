@@ -188,6 +188,7 @@
 		5F46A7CC24ADFFA300347EFC /* CourseDateViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */; };
 		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
 		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
+		5F5239BF293DB9560046FF07 /* CourseDashboardTabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5239BE293DB9560046FF07 /* CourseDashboardTabbarView.swift */; };
 		5F54D99D26B9228500F1EA71 /* PaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F54D99C26B9228500F1EA71 /* PaymentManager.swift */; };
 		5F58DCE12819879300787A75 /* CourseUpgrade.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F58DCE32819879300787A75 /* CourseUpgrade.strings */; };
 		5F592AD0257521F600D96214 /* ISOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F592ACF257521F600D96214 /* ISOParser.swift */; };
@@ -196,6 +197,7 @@
 		5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */; };
 		5F68992B29090FBD0060661B /* ExternalAuthOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F68992A29090FBD0060661B /* ExternalAuthOptionsView.swift */; };
 		5F6AD05B27467898007686C2 /* ProfileOptions.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD05927467898007686C2 /* ProfileOptions.strings */; };
+		5F6C8A52292DFCBB00E5FA7F /* NewDashboardContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */; };
 		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
 		5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */; };
 		5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */; };
@@ -1178,6 +1180,7 @@
 		5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDateViewCell.swift; sourceTree = "<group>"; };
 		5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePoint.swift; sourceTree = "<group>"; };
 		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		5F5239BE293DB9560046FF07 /* CourseDashboardTabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDashboardTabbarView.swift; sourceTree = "<group>"; };
 		5F54D99C26B9228500F1EA71 /* PaymentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManager.swift; sourceTree = "<group>"; };
 		5F58DCE22819879300787A75 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CourseUpgrade.strings; sourceTree = "<group>"; };
 		5F58DCE52819879600787A75 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/CourseUpgrade.strings"; sourceTree = "<group>"; };
@@ -1206,6 +1209,7 @@
 		5F64839F274CEB6000DB38E0 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
 		5F68992A29090FBD0060661B /* ExternalAuthOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAuthOptionsView.swift; sourceTree = "<group>"; };
 		5F6AD05A27467898007686C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
+		5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDashboardContentCell.swift; sourceTree = "<group>"; };
 		5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
@@ -3677,6 +3681,9 @@
 				5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */,
 				E0F9C02E29362806003D96DF /* CourseDashboardErrorViewCell.swift */,
 				E0F9C0302939C497003D96DF /* CourseDashboardAccessErrorCell.swift */,
+				5F6C8A51292DFCBB00E5FA7F /* NewDashboardErrorPlaceHolderCell.swift */,
+				5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */,
+				5F5239BE293DB9560046FF07 /* CourseDashboardTabbarView.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -4980,6 +4987,7 @@
 				9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */,
 				5FFC1D69286EECB700DD29EB /* ServerConfiguration.swift in Sources */,
 				B7CCC71F209B16B100A66923 /* ConstraintDescription.swift in Sources */,
+				5F5239BF293DB9560046FF07 /* CourseDashboardTabbarView.swift in Sources */,
 				E03168EB270301C300AD20FA /* OEXConfig+SingleKeys.swift in Sources */,
 				771273271BA36B76008BA397 /* LoggingAnalyticsTracker.swift in Sources */,
 				9E4E6C411B4BDB5C0034F7EB /* MockResumeCourseProvider.swift in Sources */,
@@ -5349,6 +5357,7 @@
 				220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */,
+				5F6C8A52292DFCBB00E5FA7F /* NewDashboardContentCell.swift in Sources */,
 				E0241782254043BB00E397EA /* SEGFirebaseIntegrationFactory.m in Sources */,
 				9EF21A9E1B4697CA000048F8 /* ResumeCourseController.swift in Sources */,
 				698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */,
