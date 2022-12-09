@@ -13,6 +13,26 @@
 
 /* Continue text for aleart button titles or for other places*/
 "CONTINUE_TEXT"="Continue";
+/* Find a new course button title on the course dashbaord error screen */
+"COURSE_DASHBOARD.ERROR.FIND_A_NEW_COURSE"="Find a new course";
+/* Course dashbaord loading eerror */
+"COURSE_DASHBOARD.ERROR.GENERAL_ERROR"="An error occured while loading your course";
+/* Go to my courses button title on the course dashbaord general error screen */
+"COURSE_DASHBOARD.ERROR.GO_TO_COURSES"="Go to My Courses";
+/*Error message title on course dashboard screen for course yet to start*/
+"COURSE_DASHBOARD.ERROR.COURSE_NOT_STARTED_TITLE" = "This course hasn’t started yet.";
+/*Error message info on course dashboard screen for course yet to start*/
+"COURSE_DASHBOARD.ERROR.COURSE_NOT_STARTED_INFO" = "Come back {start_date} to see all your course content here.";
+/*Error message title on course dashboard screen when audit access of course*/
+"COURSE_DASHBOARD.ERROR.COURSE_ACCESS_EXPIRED_TITLE" = "Your access to this course has expired.";
+/*Error message info on course dashboard screen when audit access expired of course or course ended*/
+"COURSE_DASHBOARD.ERROR.COURSE_ACCESS_EXPIRED_INFO" = "No new sessions are available at this time.";
+/*Error message title on course dashboard screen when audit access of course*/
+"COURSE_DASHBOARD.ERROR.COURSE_ENDED_TITLE" = "This course session has ended.";
+/*Title for Discover*/
+"DISCOVER"="Discover";
+/*Title for Discovery*/
+"EXPLORE_THE_CATALOG"="Explore the catalog";
 /*Title for dialog when user is leaving the app when tapped on link to be opened in external browser*/
 "LEAVING_APP_TITLE"="Leaving the app";
 /* Message for dialog when user is leaving the app when tapped on link to be opened in external browser */
@@ -23,7 +43,3 @@
 "MY_COURSES"="My courses";
 /*Title My programs*/
 "MY_PROGRAMS"="My programs";
-/*Title for Discovery*/
-"EXPLORE_THE_CATALOG"="Explore the catalog";
-/*Title for Discover*/
-"DISCOVER"="Discover";
