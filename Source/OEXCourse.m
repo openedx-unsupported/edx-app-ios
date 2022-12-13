@@ -119,6 +119,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         self.course_about = [info objectForKey:@"course_about"];
         self.subscription_id = [info objectForKey:@"subscription_id"];
         self.invitationOnly = [[info objectForKey:@"invitation_only"] boolValue];
+        self.upgrade_deadline = [DateFormatting dateWithServerString:[info objectForKey:@"dynamic_upgrade_deadline"] timeZone:NULL];
         NSDictionary* accessInfo = [info objectForKey:@"courseware_access"];
         self.courseware_access = [[OEXCoursewareAccess alloc] initWithDictionary: accessInfo];
         NSDictionary* updatesInfo = [info objectForKey:@"latest_updates"];
@@ -161,6 +162,10 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 
 - (BOOL) isAuditExpired {
     return [self.audit_expiry_date oex_isInThePast];
+}
+
+- (BOOL) isUpgradeable {
+    return self.upgrade_deadline != NULL && ![self.upgrade_deadline oex_isInThePast];
 }
 
 - (CourseMediaInfo*)courseImageMediaInfo {

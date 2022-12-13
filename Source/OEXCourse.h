@@ -69,10 +69,12 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @property (nonatomic, readonly) CourseShareUtmParameters *courseShareUtmParams;
 @property (readonly, nonatomic, strong, nullable) NSString* courseImageURL;
 @property (nonatomic, strong, nullable) NSDate* audit_expiry_date;
+@property (nonatomic, strong, nullable) NSDate* upgrade_deadline;
 @property (nonatomic, strong, nullable) NSString* sku;
 @property (readonly, nonatomic, assign) BOOL isStartDateOld;
 @property (readonly, nonatomic, assign) BOOL isEndDateOld;
 @property (readonly, nonatomic, assign) BOOL isAuditExpired;
+@property (readonly, nonatomic, assign) BOOL isUpgradeable;
 @property (readonly, nonatomic) BOOL isSelfPaced;
 
 @end
