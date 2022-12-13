@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString*)handoutsWithData:(NSData*)receivedData;
 
-- (OEXUserDetails*)userDetailsWithData:(NSData*)receivedData;
+- (nullable OEXUserDetails*)userDetailsWithData:(NSData*)receivedData;
 
 @end
 
