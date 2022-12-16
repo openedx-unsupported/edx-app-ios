@@ -4743,6 +4743,7 @@
 		};
 		E094D55D2474E8150071BAAD /* Firebase Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4763,6 +4764,7 @@
 		};
 		E0D9C59723FEAE100085218B /* Remove Unsupported Architectures */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

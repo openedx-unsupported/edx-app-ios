@@ -249,7 +249,7 @@ public struct JSON {
 }
 
 // unwrap nested JSON
-private func unwrap(_ object: Any) -> Any {
+private func unwrap(_ object: Any) -> Any? {
     switch object {
     case let json as JSON:
         return unwrap(json.object)
