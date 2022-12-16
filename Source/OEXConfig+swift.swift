@@ -11,11 +11,11 @@ import Foundation
 //MARK: - Basic & Helper Operations
 extension OEXConfig {
 
-    open subscript(value : RawStringExtractable) -> Any? {
+    public subscript(value : RawStringExtractable) -> Any? {
         return self.object(forKey: value.rawValue)
     }
 
-    open subscript(value : String) -> Any? {
+    public subscript(value : String) -> Any? {
         return self.object(forKey: value)
     }
 
