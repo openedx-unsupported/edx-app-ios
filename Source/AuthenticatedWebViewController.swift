@@ -221,6 +221,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     private func syncCookiesStorage() {
         let cookies = HTTPCookieStorage.shared.cookies
         DispatchQueue.global().async { [weak self] in
+            self?.logTestAnalayticsForCrash(name: "TestEvent: syncing cookies")
             let semaphore = DispatchSemaphore(value: 0)
             for cookie in cookies ?? [] {
                 if let webview = self?.webController.view as? WKWebView {
@@ -235,8 +236,20 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
             DispatchQueue.main.async {
                 self?.cookiesManager.updateSessionState(state: .created)
                 self?.reload()
+                self?.logTestAnalayticsForCrash(name: "TestEvent: cookies synced")
             }
         }
+    }
+
+    private func logTestAnalayticsForCrash(name: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = name;
+        let info = [
+            "loaded_url": contentRequest?.url?.absoluteString ?? "",
+            "token_status": environment.networkManager.tokenStatus.rawValue
+        ] as [String : Any]
+
+        environment.analytics.trackEvent(event, forComponent: nil, withInfo: info)
     }
 
     private func addAjaxCallbackScript(in contentController: WKUserContentController) {
