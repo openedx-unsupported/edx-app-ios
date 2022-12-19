@@ -95,6 +95,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 }
 
 + (void)requestTokenWithProvider:(id <OEXExternalAuthProvider>)provider externalToken:(NSString *)token completion:(OEXURLRequestHandler)completionBlock {
+    [OEXAuthentication logNonFatalErrorAndClearCookiesIfNeeded];
     
     NSMutableDictionary* parameters = [[NSMutableDictionary alloc] init];
     [parameters setSafeObject:token forKey:@"access_token"];
@@ -120,6 +121,23 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
         }
         OEXWrapURLCompletion(completionBlock)(data, response, error);
     }];
+}
+
++ (void) logNonFatalErrorAndClearCookiesIfNeeded {
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    if (cookies.count > 0) {
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+        for(NSHTTPCookie* cookie in cookies) {
+            [userInfo setObjectOrNil:cookie.name forKey:cookie.name];
+        }
+        NSError *error = [NSError errorWithDomain:@"org.edx.error" code:-100001 userInfo:userInfo];
+        [[FIRCrashlytics crashlytics] recordError:error];
+
+        //Although this isn't required in normal cases
+        //But in an unknown case somehow app is sending prod-edx-sessionid cookie in the request
+        // Which is causing errors on the backend
+        [[OEXPersistentCredentialStorage sharedKeychainAccess] clear];
+    }
 }
 
 + (void)resetPasswordWithEmailId:(NSString*)email completionHandler:(OEXURLRequestHandler)completionBlock {
