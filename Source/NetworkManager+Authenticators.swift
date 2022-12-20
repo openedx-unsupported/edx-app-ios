@@ -118,7 +118,7 @@ private func performQueuedTasks(router: OEXRouter?, success: Bool) {
     }
 }
 
-private func logTestAnalayticsForCrash(router:OEXRouter?,  name: String) {
+private func logTestAnalayticsForCrash(router: OEXRouter?, name: String) {
     let event = OEXAnalyticsEvent()
     event.displayName = name;
     let info = [
