@@ -82,7 +82,7 @@ private func logout(router: OEXRouter?) -> AuthenticationAction {
  new access token is saved and a successful AuthenticationAction is returned.
  */
 private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshToken: String, session: OEXSession) -> AuthenticationAction {
-    
+    logTestAnalayticsForCrash(router: router, name: "TestEvent: Refreshing Token")
     router?.environment.networkManager.tokenStatus = .authenticating
     
     return .authenticate { networkManager, completion in
@@ -114,5 +114,16 @@ private func performQueuedTasks(router: OEXRouter?, success: Bool) {
         else {
             router?.environment.networkManager.removeAllQueuedTasks()
         }
+        logTestAnalayticsForCrash(router: router, name: "TestEvent: Token Refreshed \(success)")
     }
+}
+
+private func logTestAnalayticsForCrash(router: OEXRouter?, name: String) {
+    let event = OEXAnalyticsEvent()
+    event.displayName = name;
+    let info = [
+        "token_status": router?.environment.networkManager.tokenStatus.rawValue ?? 100
+    ] as [String : Any]
+
+    router?.environment.analytics.trackEvent(event, forComponent: nil, withInfo: info)
 }
