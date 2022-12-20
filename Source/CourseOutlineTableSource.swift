@@ -97,7 +97,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 
     private var canShowValueProp: Bool {
-        return enrollment?.type == .audit && environment.serverConfig.valuePropEnabled
+        return enrollment?.isUpgradeable ?? false
     }
 
     private var enrollment: UserCourseEnrollment? {

@@ -31,6 +31,10 @@ public class UserCourseEnrollment : NSObject {
     
     /** Url if the user has completed a certificate */
     let certificateUrl: String?
+    
+    var isUpgradeable: Bool {
+        return type == .audit && course.isStartDateOld && !course.isEndDateOld && ServerConfiguration.shared.valuePropEnabled
+    }
 
     @objc init?(dictionary: [String : Any]) {
         created = dictionary["created"] as? String
