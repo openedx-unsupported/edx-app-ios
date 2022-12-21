@@ -33,7 +33,7 @@ public class UserCourseEnrollment : NSObject {
     let certificateUrl: String?
     
     var isUpgradeable: Bool {
-        return type == .audit && course.isStartDateOld && !course.isEndDateOld && ServerConfiguration.shared.valuePropEnabled
+        return type == .audit && course.isStartDateOld && !course.isEndDateOld
     }
 
     @objc init?(dictionary: [String : Any]) {

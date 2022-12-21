@@ -131,8 +131,8 @@ class CoursesContainerViewController: UICollectionViewController {
         didSet {
             if isiPad() {
                 let auditModeCourses = courses.filter { course -> Bool in
-                    let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-                    return enrollment?.isUpgradeable ?? false
+                    guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id) else { return false }
+                    return enrollment.isUpgradeable && environment.serverConfig.valuePropEnabled
                 }
                 isAuditModeCourseAvailable = !auditModeCourses.isEmpty
             }
@@ -244,7 +244,8 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     private func shouldShowValueProp(for course: OEXCourse) -> Bool {
-        return environment.interface?.enrollmentForCourse(withID: course.course_id)?.isUpgradeable ?? false
+        guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id) else { return false }
+        return enrollment.isUpgradeable && environment.serverConfig.valuePropEnabled
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {

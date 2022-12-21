@@ -83,7 +83,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private var watchedVideoBlock: [CourseBlockID] = []
     
     func addCertificateView() {
-        guard environment.config.certificatesEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl =  enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
+        guard environment.config.certificatesEnabled, let enrollment = enrollment, let certificateUrl =  enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
 
         let certificateItem =  CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: {[weak self] in
             if let weakSelf = self, let url = NSURL(string: certificateUrl) {
@@ -97,7 +97,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 
     private var canShowValueProp: Bool {
-        return enrollment?.isUpgradeable ?? false
+        guard let enrollment = enrollment else { return false }
+        return enrollment.isUpgradeable && environment.serverConfig.valuePropEnabled
     }
 
     private var enrollment: UserCourseEnrollment? {
@@ -195,7 +196,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 make.height.equalTo(0)
             }
         }
-        if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
+        if let course = enrollment?.course {
             switch courseOutlineMode {
             case .full:
                 CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
@@ -564,7 +565,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             updateHeaderConstraints()
             break
         case .video:
-            if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, courseBlockID == nil {
+            if let course = enrollment?.course, courseBlockID == nil {
                 videos = environment.interface?.downloadableVideos(of: course)
                 courseVideosHeaderView?.videos = videos ?? []
             }
