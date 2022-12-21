@@ -130,10 +130,7 @@ class CoursesContainerViewController: UICollectionViewController {
     var courses: [OEXCourse] = [] {
         didSet {
             if isiPad() {
-                let auditModeCourses = courses.filter { course -> Bool in
-                    guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id) else { return false }
-                    return enrollment.isUpgradeable && environment.serverConfig.valuePropEnabled
-                }
+                let auditModeCourses = courses.filter { valuePropEnabled(for: $0) }
                 isAuditModeCourseAvailable = !auditModeCourses.isEmpty
             }
         }
@@ -252,9 +249,7 @@ class CoursesContainerViewController: UICollectionViewController {
         if isiPad() {
             return isAuditModeCourseAvailable ? valuePropViewHeight : 0
         } else {
-            let course = courses[indexPath.row]
-            let valuePropEnabled = valuePropEnabled(for: course)
-            return valuePropEnabled ? valuePropViewHeight : 0
+            return valuePropEnabled(for: courses[indexPath.row]) ? valuePropViewHeight : 0
         }
     }
     
