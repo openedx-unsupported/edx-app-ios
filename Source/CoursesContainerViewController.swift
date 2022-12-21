@@ -238,12 +238,12 @@ class CoursesContainerViewController: UICollectionViewController {
         cell.course = course
 
         cell.resetCellView()
-        cell.setUp(valuePropEnabled: shouldShowValueProp(for: course))
+        cell.setUp(valuePropEnabled: valuePropEnabled(for: course))
         
         return cell
     }
     
-    private func shouldShowValueProp(for course: OEXCourse) -> Bool {
+    private func valuePropEnabled(for course: OEXCourse) -> Bool {
         guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id) else { return false }
         return enrollment.isUpgradeable && environment.serverConfig.valuePropEnabled
     }
@@ -253,7 +253,7 @@ class CoursesContainerViewController: UICollectionViewController {
             return isAuditModeCourseAvailable ? valuePropViewHeight : 0
         } else {
             let course = courses[indexPath.row]
-            let valuePropEnabled = shouldShowValueProp(for: course)
+            let valuePropEnabled = valuePropEnabled(for: course)
             return valuePropEnabled ? valuePropViewHeight : 0
         }
     }
