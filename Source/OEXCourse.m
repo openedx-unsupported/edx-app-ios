@@ -119,6 +119,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         self.course_about = [info objectForKey:@"course_about"];
         self.subscription_id = [info objectForKey:@"subscription_id"];
         self.invitationOnly = [[info objectForKey:@"invitation_only"] boolValue];
+        self.upgrade_deadline = [DateFormatting dateWithServerString:[info objectForKey:@"dynamic_upgrade_deadline"] timeZone:NULL];
         NSDictionary* accessInfo = [info objectForKey:@"courseware_access"];
         self.courseware_access = [[OEXCoursewareAccess alloc] initWithDictionary: accessInfo];
         NSDictionary* updatesInfo = [info objectForKey:@"latest_updates"];
