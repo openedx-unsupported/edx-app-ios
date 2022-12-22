@@ -41,14 +41,14 @@ public class UserCourseEnrollment : NSObject {
      - dynamic_upgrade_deadline is not past
      */
     var isUpgradeable: Bool {
-        guard let upgradeDeadline = course.upgrade_deadline as? NSDate,
-                course.sku != nil,
-                type == .audit,
-                !upgradeDeadline.oex_isInThePast() &&
-                course.isStartDateOld,
-                !course.isEndDateOld else { return false }
-        return true
+        guard let upgradeDeadline = course.upgrade_deadline as? NSDate else { return false }
+        return type == .audit
+            && verifiedModeAvailable
+            && !upgradeDeadline.oex_isInThePast()
+            && course.isStartDateOld
     }
+    
+    private var verifiedModeAvailable = false
     
     @objc init?(dictionary: [String : Any]) {
         created = dictionary["created"] as? String
@@ -62,6 +62,7 @@ public class UserCourseEnrollment : NSObject {
 
         if let courseModes = dictionary["course_modes"] as? [[String: AnyObject]]  {
             for mode in courseModes where mode["slug"] as? String == "verified" {
+                verifiedModeAvailable = true
                 if let sku = mode["ios_sku"] as? String {
                     iosSku = sku
                 }
