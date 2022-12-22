@@ -164,10 +164,6 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
     return [self.audit_expiry_date oex_isInThePast];
 }
 
-- (BOOL) isUpgradeable {
-    return self.upgrade_deadline != NULL && ![self.upgrade_deadline oex_isInThePast];
-}
-
 - (CourseMediaInfo*)courseImageMediaInfo {
     return self.mediaInfo[@"course_image"];
 }
