@@ -45,6 +45,7 @@ OEXStartType OEXStartTypeForString(NSString* type);
 
 // TODO: Rename these to CamelCase (MK - eh just make this swift)
 @property (readonly, nonatomic, strong, nullable) OEXLatestUpdates* latest_updates;
+@property (readonly, nonatomic, strong, nullable) NSDate* start;
 @property (readonly, nonatomic, strong, nullable) NSDate* end;
 @property (readonly, nonatomic, strong) OEXCourseStartDisplayInfo* start_display_info;
 @property (readonly, nonatomic, copy, nullable) NSString* name;

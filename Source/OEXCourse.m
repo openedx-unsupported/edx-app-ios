@@ -66,6 +66,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 @interface OEXCourse ()
 
 @property (nonatomic, strong) OEXLatestUpdates* latest_updates;
+@property (nonatomic, strong) NSDate* start;
 @property (nonatomic, strong) NSDate* end;
 @property (nonatomic, strong) OEXCourseStartDisplayInfo* start_display_info;
 @property (nonatomic, copy) NSString* course_image_url;
@@ -98,9 +99,9 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         info = [info oex_replaceNullsWithEmptyStrings];
         self.end = [DateFormatting dateWithServerString:[info objectForKey:@"end"] timeZone:NULL];
         
-        NSDate* startDate = [DateFormatting dateWithServerString:[info objectForKey:@"start"] timeZone:NULL];
+        self.start = [DateFormatting dateWithServerString:[info objectForKey:@"start"] timeZone:NULL];
         self.start_display_info = [[OEXCourseStartDisplayInfo alloc]
-                                   initWithDate:startDate
+                                   initWithDate:self.start
                                    displayDate:[info objectForKey:@"start_display"]
                                    type:OEXStartTypeForString([info objectForKey:@"start_type"])];
         self.course_image_url = [info objectForKey:@"course_image"];
