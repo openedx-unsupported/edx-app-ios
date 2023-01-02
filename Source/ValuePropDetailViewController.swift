@@ -11,7 +11,7 @@ import UIKit
 enum CourseUpgradeScreen: String {
     case myCourses = "course_enrollment"
     case courseDashboard = "course_dashboard"
-    case courseUnit = "course_unit"
+    case courseComponent = "course_component"
     case none
 }
 
@@ -90,7 +90,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     }
 
     private func fetchCoursePrice() {
-        guard let courseSku = course.sku else { return }
+        guard let courseSku = course.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
         
         let startTime = CFAbsoluteTimeGetCurrent()
         
@@ -139,13 +139,13 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
             self?.fetchCoursePrice()
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course.course_id ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price")
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course.course_id ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
         }
 
         alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
             self?.upgradeButton.stopShimmerEffect()
             self?.upgradeButton.isHidden = true
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course.course_id ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price")
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course.course_id ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
         }
     }
     
@@ -214,9 +214,6 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
             self?.enableUserInteraction(enable: false)
             
             switch status {
-            case .sdn:
-                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .sdn)
-                break
             case .payment:
                 self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .payment)
                 break

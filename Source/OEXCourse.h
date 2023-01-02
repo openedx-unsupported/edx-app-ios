@@ -45,6 +45,7 @@ OEXStartType OEXStartTypeForString(NSString* type);
 
 // TODO: Rename these to CamelCase (MK - eh just make this swift)
 @property (readonly, nonatomic, strong, nullable) OEXLatestUpdates* latest_updates;
+@property (readonly, nonatomic, strong, nullable) NSDate* start;
 @property (readonly, nonatomic, strong, nullable) NSDate* end;
 @property (readonly, nonatomic, strong) OEXCourseStartDisplayInfo* start_display_info;
 @property (readonly, nonatomic, copy, nullable) NSString* name;
@@ -68,6 +69,7 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @property (nonatomic, readonly) CourseShareUtmParameters *courseShareUtmParams;
 @property (readonly, nonatomic, strong, nullable) NSString* courseImageURL;
 @property (nonatomic, strong, nullable) NSDate* audit_expiry_date;
+@property (nonatomic, strong, nullable) NSDate* upgrade_deadline;
 @property (nonatomic, strong, nullable) NSString* sku;
 @property (readonly, nonatomic, assign) BOOL isStartDateOld;
 @property (readonly, nonatomic, assign) BOOL isEndDateOld;

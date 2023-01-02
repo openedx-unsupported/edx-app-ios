@@ -179,7 +179,7 @@ class ValuePropComponentView: UIView {
     }
     
     private func fetchCoursePrice() {
-        guard let course = course, let courseSku = course.sku else { return }
+        guard let course = course, let courseSku = course.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
         let startTime = CFAbsoluteTimeGetCurrent()
         
         DispatchQueue.main.async { [weak self] in
@@ -204,7 +204,7 @@ class ValuePropComponentView: UIView {
         let paymentsEnabled = (environment.serverConfig.iapConfig?.enabled ?? false) && course?.sku != nil
         let iapExperiementEnabled = environment.serverConfig.iapConfig?.experimentEnabled ?? false
         let group = environment.serverConfig.iapConfig?.experimentGroup
-        environment.analytics.trackValuePropMessageViewed(courseID: courseID, paymentsEnabled: paymentsEnabled, iapExperiementEnabled: iapExperiementEnabled, group: group, screen: .courseUnit)
+        environment.analytics.trackValuePropMessageViewed(courseID: courseID, paymentsEnabled: paymentsEnabled, iapExperiementEnabled: iapExperiementEnabled, group: group, screen: .courseComponent)
     }
     
     private func trackPriceLoadDuration(elapsedTime: Int) {
@@ -212,13 +212,13 @@ class ValuePropComponentView: UIView {
               let courseID = course.course_id,
               let coursePrice = coursePrice else { return }
         
-        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, blockID: blockID, pacing: pacing, coursePrice: coursePrice, screen: .courseUnit, elapsedTime: elapsedTime)
+        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, blockID: blockID, pacing: pacing, coursePrice: coursePrice, screen: .courseComponent, elapsedTime: elapsedTime)
     }
     
     private func trackLoadError() {
         guard let course = course,
               let courseID = course.course_id else { return }
-        environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, blockID: blockID, pacing: pacing, screen: .courseUnit)
+        environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, blockID: blockID, pacing: pacing, screen: .courseComponent)
     }
 
     private func showCoursePriceErrorAlert() {
@@ -228,13 +228,13 @@ class ValuePropComponentView: UIView {
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
             self?.fetchCoursePrice()
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseUnit, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price")
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
         }
 
         alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
             self?.upgradeButton.stopShimmerEffect()
             self?.upgradeButton.updateVisibility(visible: false)
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseUnit, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price")
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
         }
     }
 

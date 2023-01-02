@@ -66,6 +66,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 @interface OEXCourse ()
 
 @property (nonatomic, strong) OEXLatestUpdates* latest_updates;
+@property (nonatomic, strong) NSDate* start;
 @property (nonatomic, strong) NSDate* end;
 @property (nonatomic, strong) OEXCourseStartDisplayInfo* start_display_info;
 @property (nonatomic, copy) NSString* course_image_url;
@@ -98,9 +99,9 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         info = [info oex_replaceNullsWithEmptyStrings];
         self.end = [DateFormatting dateWithServerString:[info objectForKey:@"end"] timeZone:NULL];
         
-        NSDate* startDate = [DateFormatting dateWithServerString:[info objectForKey:@"start"] timeZone:NULL];
+        self.start = [DateFormatting dateWithServerString:[info objectForKey:@"start"] timeZone:NULL];
         self.start_display_info = [[OEXCourseStartDisplayInfo alloc]
-                                   initWithDate:startDate
+                                   initWithDate:self.start
                                    displayDate:[info objectForKey:@"start_display"]
                                    type:OEXStartTypeForString([info objectForKey:@"start_type"])];
         self.course_image_url = [info objectForKey:@"course_image"];
@@ -118,6 +119,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         self.course_about = [info objectForKey:@"course_about"];
         self.subscription_id = [info objectForKey:@"subscription_id"];
         self.invitationOnly = [[info objectForKey:@"invitation_only"] boolValue];
+        self.upgrade_deadline = [DateFormatting dateWithServerString:[info objectForKey:@"dynamic_upgrade_deadline"] timeZone:NULL];
         NSDictionary* accessInfo = [info objectForKey:@"courseware_access"];
         self.courseware_access = [[OEXCoursewareAccess alloc] initWithDictionary: accessInfo];
         NSDictionary* updatesInfo = [info objectForKey:@"latest_updates"];

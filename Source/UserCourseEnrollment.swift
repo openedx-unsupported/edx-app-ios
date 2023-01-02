@@ -31,7 +31,25 @@ public class UserCourseEnrollment : NSObject {
     
     /** Url if the user has completed a certificate */
     let certificateUrl: String?
-
+    
+    /**
+     Course is upgradeable if:
+     - value prop boolean: enabled
+     - course is in audit mode
+     - start date is not in future
+     - verified mode is available
+     - dynamic_upgrade_deadline is not past
+     */
+    var isUpgradeable: Bool {
+        guard let upgradeDeadline = course.upgrade_deadline as? NSDate else { return false }
+        return type == .audit
+            && verifiedModeAvailable
+            && !upgradeDeadline.oex_isInThePast()
+            && course.isStartDateOld
+    }
+    
+    private var verifiedModeAvailable = false
+    
     @objc init?(dictionary: [String : Any]) {
         created = dictionary["created"] as? String
         mode = dictionary["mode"] as? String
@@ -44,6 +62,7 @@ public class UserCourseEnrollment : NSObject {
 
         if let courseModes = dictionary["course_modes"] as? [[String: AnyObject]]  {
             for mode in courseModes where mode["slug"] as? String == "verified" {
+                verifiedModeAvailable = true
                 if let sku = mode["ios_sku"] as? String {
                     iosSku = sku
                 }

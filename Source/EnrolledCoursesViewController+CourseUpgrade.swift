@@ -20,8 +20,8 @@ extension EnrolledCoursesViewController {
         guard let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel
             else { return }
 
-        if courseUpgradeModel.screen == .courseDashboard || courseUpgradeModel.screen == .courseUnit {
-            navigationController?.popToViewController(of: EnrolledTabBarViewController.self, animated: true) { [weak self] in
+        if courseUpgradeModel.screen == .courseDashboard || courseUpgradeModel.screen == .courseComponent {
+            navigationController?.popToViewController(of: EnrolledCoursesViewController.self, animated: true) { [weak self] in
                 guard let weakSelf = self else { return }
                 weakSelf.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: weakSelf, animated: true)
             }
@@ -96,6 +96,9 @@ extension EnrolledCoursesViewController {
                   }
                   return
               }
+        let pacing: String = course.isSelfPaced == true ? "self" : "instructor"
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", coursePrice: "", screen: .myCourses)
+        environment.analytics.trackCourseUnfulfilledPurchaseInitiated(courseID: course.course_id ?? "", pacing: pacing, screen: .myCourses, flowType: CourseUpgradeHandler.CourseUpgradeMode.silent.rawValue)
 
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
         upgradeHandler.upgradeCourse(with: .silent) { [weak self] state in

@@ -2610,7 +2610,7 @@
 		05A62E5ABA20F4CEA5F190E215B78839 /* FIRMessagingContextManagerService.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FIRMessagingContextManagerService.m; path = FirebaseMessaging/Sources/FIRMessagingContextManagerService.m; sourceTree = "<group>"; };
 		05F903C51587FB0DF226014856DD16B4 /* FIRIAMSDKSettings.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRIAMSDKSettings.h; path = FirebaseInAppMessaging/Sources/Private/Runtime/FIRIAMSDKSettings.h; sourceTree = "<group>"; };
 		0652DE620691D31543B647D959614D51 /* GULAppEnvironmentUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GULAppEnvironmentUtil.h; path = GoogleUtilities/Environment/Public/GoogleUtilities/GULAppEnvironmentUtil.h; sourceTree = "<group>"; };
-		0658A00D4C8A9B46603915904D499E93 /* Appboy-iOS-SDK-AppboyUI.InAppMessage */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Appboy-iOS-SDK-AppboyUI.InAppMessage"; path = AppboyUI.InAppMessage.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		0658A00D4C8A9B46603915904D499E93 /* AppboyUI.InAppMessage.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppboyUI.InAppMessage.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		06851759CE22D097BAF631FD749D1E8B /* FIRInstallationsStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRInstallationsStore.h; path = FirebaseInstallations/Source/Library/InstallationsStore/FIRInstallationsStore.h; sourceTree = "<group>"; };
 		06854D986A1966974EFD0E8D5EFC81C4 /* GULReachabilityChecker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GULReachabilityChecker.h; path = GoogleUtilities/Reachability/Public/GoogleUtilities/GULReachabilityChecker.h; sourceTree = "<group>"; };
 		068F5902B7DCB4C467986C979F4CF750 /* appboy_cc_icon_pinned@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "appboy_cc_icon_pinned@2x.png"; path = "AppboyUI/ABKContentCards/Resources/images/appboy_cc_icon_pinned@2x.png"; sourceTree = "<group>"; };
@@ -3538,7 +3538,7 @@
 		841EE471CB3D1F0624ACBB64464E4482 /* FIRInstallations.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRInstallations.h; path = FirebaseInstallations/Source/Library/Public/FirebaseInstallations/FIRInstallations.h; sourceTree = "<group>"; };
 		8466B4322A362875BCE9AD34FF364847 /* NSBundle+GID3PAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+GID3PAdditions.m"; path = "GoogleSignIn/Sources/NSBundle+GID3PAdditions.m"; sourceTree = "<group>"; };
 		847DA9F9A8E42268F33C7BA9659E6A6D /* RCNConfigExperiment.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RCNConfigExperiment.m; path = FirebaseRemoteConfig/Sources/RCNConfigExperiment.m; sourceTree = "<group>"; };
-		84A724414E920F056EE548CF0A0CB8A6 /* Appboy-iOS-SDK-AppboyUI.NewsFeed */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Appboy-iOS-SDK-AppboyUI.NewsFeed"; path = AppboyUI.NewsFeed.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		84A724414E920F056EE548CF0A0CB8A6 /* AppboyUI.NewsFeed.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppboyUI.NewsFeed.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D5E1F4F0CEC75AE8068235CEAFA465 /* GDTCORReachability.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GDTCORReachability.h; path = GoogleDataTransport/GDTCORLibrary/Internal/GDTCORReachability.h; sourceTree = "<group>"; };
 		84DD1BF0156A35DE068E1783095E92DB /* FIRMessagingPendingTopicsList.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRMessagingPendingTopicsList.h; path = FirebaseMessaging/Sources/FIRMessagingPendingTopicsList.h; sourceTree = "<group>"; };
 		84F4729DE47DB485BC236F063A2E3B6E /* MASViewAttribute.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASViewAttribute.m; path = Masonry/MASViewAttribute.m; sourceTree = "<group>"; };
@@ -3902,7 +3902,7 @@
 		B3B75130A123D3600C6A14C964880648 /* ABKInAppMessageButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ABKInAppMessageButton.h; path = AppboyKit/include/ABKInAppMessageButton.h; sourceTree = "<group>"; };
 		B3CA729D91F0CA097844CD848DB48924 /* SEGAliasPayload.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SEGAliasPayload.m; path = Segment/Classes/SEGAliasPayload.m; sourceTree = "<group>"; };
 		B4140A0A986E461039964C187BD4DC9F /* ABKClassicContentCardCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ABKClassicContentCardCell.m; path = AppboyUI/ABKContentCards/ViewControllers/Cells/ABKClassicContentCardCell.m; sourceTree = "<group>"; };
-		B417416C7A485EDC28E38A89AF647AC7 /* FirebaseInAppMessaging-InAppMessagingDisplayResources */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "FirebaseInAppMessaging-InAppMessagingDisplayResources"; path = InAppMessagingDisplayResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		B417416C7A485EDC28E38A89AF647AC7 /* InAppMessagingDisplayResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InAppMessagingDisplayResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		B43874C6CBB50E7134FBEC24BABFE14F /* GoogleUtilities */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = GoogleUtilities; path = libGoogleUtilities.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B46BFCA5B341AF554871BC19ACB76BDE /* FBLPromise+Wrap.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "FBLPromise+Wrap.m"; path = "Sources/FBLPromises/FBLPromise+Wrap.m"; sourceTree = "<group>"; };
 		B518EAA37FA57681EB6E16D7A5A4512D /* FIRInstallationsItem+RegisterInstallationAPI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FIRInstallationsItem+RegisterInstallationAPI.h"; path = "FirebaseInstallations/Source/Library/InstallationsAPI/FIRInstallationsItem+RegisterInstallationAPI.h"; sourceTree = "<group>"; };
@@ -4120,7 +4120,7 @@
 		CEB9228FD0F024793FF764EA9F5B605B /* FIRIAMClearcutUploader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRIAMClearcutUploader.h; path = FirebaseInAppMessaging/Sources/Private/Analytics/FIRIAMClearcutUploader.h; sourceTree = "<group>"; };
 		CEC50EB55EE194D976749E6B1C67B651 /* FBLPromise+Any.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "FBLPromise+Any.m"; path = "Sources/FBLPromises/FBLPromise+Any.m"; sourceTree = "<group>"; };
 		CEC772F5133EE254A14CE2187C92EBFD /* BNCLocale.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BNCLocale.m; path = "Branch-SDK/BNCLocale.m"; sourceTree = "<group>"; };
-		CEE8B530FAEB5C527CCADBCA6E51C998 /* Appboy-iOS-SDK-AppboyUI.ContentCards */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Appboy-iOS-SDK-AppboyUI.ContentCards"; path = AppboyUI.ContentCards.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEE8B530FAEB5C527CCADBCA6E51C998 /* AppboyUI.ContentCards.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppboyUI.ContentCards.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF35CDD29AA7FC66833ECBFAA09C1AEC /* FIRComponent.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRComponent.h; path = FirebaseCore/Sources/Private/FIRComponent.h; sourceTree = "<group>"; };
 		CF6FCC06891AFDB9CEC4A4F954F71F15 /* GIDProfileData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDProfileData.h; path = GoogleSignIn/Sources/Public/GoogleSignIn/GIDProfileData.h; sourceTree = "<group>"; };
 		CF8BD47C05E9159563922653934B0A07 /* FIRCLSReportUploader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRCLSReportUploader.h; path = Crashlytics/Crashlytics/Controllers/FIRCLSReportUploader.h; sourceTree = "<group>"; };
@@ -4168,7 +4168,7 @@
 		D4E10C52DD5F899D0957852000023176 /* ABKSDWebImageImageDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ABKSDWebImageImageDelegate.h; path = AppboyUI/ABKUIUtils/ABKSDWebImageImageDelegate.h; sourceTree = "<group>"; };
 		D4F87CBAFE602A80AB0E8F6E7857DFCA /* SDImageCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCache.h; path = SDWebImage/Core/SDImageCache.h; sourceTree = "<group>"; };
 		D4FD64DC6769755EEDF2053F5B56C553 /* FirebaseMessaging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FirebaseMessaging.debug.xcconfig; sourceTree = "<group>"; };
-		D5291433031FF0071C717DAF0AD6B4D5 /* Appboy-iOS-SDK-Appboy */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Appboy-iOS-SDK-Appboy"; path = Appboy.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5291433031FF0071C717DAF0AD6B4D5 /* Appboy.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Appboy.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		D55E3A2F6C9882951D7F7C67CD07604E /* ABKInAppMessageHTMLBaseViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ABKInAppMessageHTMLBaseViewController.h; path = AppboyUI/ABKInAppMessage/ViewControllers/ABKInAppMessageHTMLBaseViewController.h; sourceTree = "<group>"; };
 		D571AF48D7ECA2AD4BEA33C7F8DFFEBF /* RCNConfigFetch.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RCNConfigFetch.h; path = FirebaseRemoteConfig/Sources/Private/RCNConfigFetch.h; sourceTree = "<group>"; };
 		D5902F456253FCC20985DA9BEDB9079E /* pt-PT.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = "pt-PT.lproj"; path = "AppboyKit/Appboy.bundle/pt-PT.lproj"; sourceTree = "<group>"; };
@@ -4293,7 +4293,7 @@
 		E51547E540EB8EFC1EE217E6D13EC80A /* FIRIAMMessageContentDataWithImageURL.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRIAMMessageContentDataWithImageURL.h; path = FirebaseInAppMessaging/Sources/Private/Data/FIRIAMMessageContentDataWithImageURL.h; sourceTree = "<group>"; };
 		E540EC10754CAAACDE7CAC377FCE4D38 /* GTMOAuth2KeychainCompatibility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMOAuth2KeychainCompatibility.h; path = GTMAppAuth/Sources/Public/GTMAppAuth/GTMOAuth2KeychainCompatibility.h; sourceTree = "<group>"; };
 		E57A2271DBF534CF15447102677498F3 /* OIDScopes.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDScopes.m; path = Source/AppAuthCore/OIDScopes.m; sourceTree = "<group>"; };
-		E5BA41B7F2E1FE47F9ABCAC27C9E4281 /* GoogleSignIn-GoogleSignIn */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "GoogleSignIn-GoogleSignIn"; path = GoogleSignIn.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5BA41B7F2E1FE47F9ABCAC27C9E4281 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoogleSignIn.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5FF5D04F9D8D782FB2331D8A6002562 /* FIRCLSUnwind.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = FIRCLSUnwind.c; path = Crashlytics/Crashlytics/Unwind/FIRCLSUnwind.c; sourceTree = "<group>"; };
 		E6158222144E486E362961926B2E159E /* FIRIAMRuntimeManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FIRIAMRuntimeManager.m; path = FirebaseInAppMessaging/Sources/Runtime/FIRIAMRuntimeManager.m; sourceTree = "<group>"; };
 		E61D5B4DBCE1D92B120C9A2C4EA28BA7 /* FPRGDTEvent.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FPRGDTEvent.h; path = FirebasePerformance/Sources/Loggers/FPRGDTEvent.h; sourceTree = "<group>"; };
@@ -7125,10 +7125,10 @@
 				2CE4B6165F426953A26419DF02AF0D93 /* libAnalytics.a */,
 				3FD1B4C1246D643E9476438C28048FA8 /* AppAuth */,
 				7BF6B06070D71460A3C861FCDF6F84E5 /* libAppboy-iOS-SDK.a */,
-				D5291433031FF0071C717DAF0AD6B4D5 /* Appboy-iOS-SDK-Appboy */,
-				CEE8B530FAEB5C527CCADBCA6E51C998 /* Appboy-iOS-SDK-AppboyUI.ContentCards */,
-				0658A00D4C8A9B46603915904D499E93 /* Appboy-iOS-SDK-AppboyUI.InAppMessage */,
-				84A724414E920F056EE548CF0A0CB8A6 /* Appboy-iOS-SDK-AppboyUI.NewsFeed */,
+				D5291433031FF0071C717DAF0AD6B4D5 /* Appboy.bundle */,
+				CEE8B530FAEB5C527CCADBCA6E51C998 /* AppboyUI.ContentCards.bundle */,
+				0658A00D4C8A9B46603915904D499E93 /* AppboyUI.InAppMessage.bundle */,
+				84A724414E920F056EE548CF0A0CB8A6 /* AppboyUI.NewsFeed.bundle */,
 				50466679031AFFDEC718950031906D26 /* libBranch.a */,
 				4AF171581392AD234F23BE913F0C22FE /* libDateTools.a */,
 				7C3AE4425E7B08F16F1B4FD32951CA7F /* FirebaseABTesting */,
@@ -7136,14 +7136,14 @@
 				8CC9178C366942FD6FF6A115604EAD58 /* FirebaseCoreDiagnostics */,
 				86375444C196BA272DDBB8165BF64A15 /* libFirebaseCrashlytics.a */,
 				D62C4F37ECE9B53ACB7DD80C7F0CEA50 /* libFirebaseInAppMessaging.a */,
-				B417416C7A485EDC28E38A89AF647AC7 /* FirebaseInAppMessaging-InAppMessagingDisplayResources */,
+				B417416C7A485EDC28E38A89AF647AC7 /* InAppMessagingDisplayResources.bundle */,
 				13C8C8B254851998F9289F71229B28A2 /* FirebaseInstallations */,
 				5B654B4B042BA7DC93766943A643E42B /* libFirebaseMessaging.a */,
 				6A15BE02073953CBB87C2DF4C39D91FA /* FirebasePerformance */,
 				AD776F1C94991D3E551CEAA515DB110A /* libFirebaseRemoteConfig.a */,
 				856B5CD56F194FAD26EA91620B66D614 /* GoogleDataTransport */,
 				FD56AB51475BC5F592781EE2692D1412 /* GoogleSignIn */,
-				E5BA41B7F2E1FE47F9ABCAC27C9E4281 /* GoogleSignIn-GoogleSignIn */,
+				E5BA41B7F2E1FE47F9ABCAC27C9E4281 /* GoogleSignIn.bundle */,
 				B43874C6CBB50E7134FBEC24BABFE14F /* GoogleUtilities */,
 				6FD122EA0AB9AB2A8FFA5F676C795DF0 /* GTMAppAuth */,
 				C1998E0D8085221AD87F89B614C10E52 /* GTMSessionFetcher */,
@@ -8901,7 +8901,7 @@
 			);
 			name = "Appboy-iOS-SDK-AppboyUI.ContentCards";
 			productName = AppboyUI.ContentCards;
-			productReference = CEE8B530FAEB5C527CCADBCA6E51C998 /* Appboy-iOS-SDK-AppboyUI.ContentCards */;
+			productReference = CEE8B530FAEB5C527CCADBCA6E51C998 /* AppboyUI.ContentCards.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		2B1A4F9261E8F421732B6CB1319CCC3E /* DateTools */ = {
@@ -8969,7 +8969,7 @@
 			);
 			name = "Appboy-iOS-SDK-AppboyUI.NewsFeed";
 			productName = AppboyUI.NewsFeed;
-			productReference = 84A724414E920F056EE548CF0A0CB8A6 /* Appboy-iOS-SDK-AppboyUI.NewsFeed */;
+			productReference = 84A724414E920F056EE548CF0A0CB8A6 /* AppboyUI.NewsFeed.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		3F260FF3F07DB0A77109DA4C37189AD9 /* Segment-Appboy */ = {
@@ -9230,7 +9230,7 @@
 			);
 			name = "GoogleSignIn-GoogleSignIn";
 			productName = GoogleSignIn;
-			productReference = E5BA41B7F2E1FE47F9ABCAC27C9E4281 /* GoogleSignIn-GoogleSignIn */;
+			productReference = E5BA41B7F2E1FE47F9ABCAC27C9E4281 /* GoogleSignIn.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		8627999EF1D5E93E13DAFF580DA8CDCF /* GTMAppAuth */ = {
@@ -9286,7 +9286,7 @@
 			);
 			name = "FirebaseInAppMessaging-InAppMessagingDisplayResources";
 			productName = InAppMessagingDisplayResources;
-			productReference = B417416C7A485EDC28E38A89AF647AC7 /* FirebaseInAppMessaging-InAppMessagingDisplayResources */;
+			productReference = B417416C7A485EDC28E38A89AF647AC7 /* InAppMessagingDisplayResources.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		8D7F5D5DD528D21A72DC87ADA5B12E2D /* GoogleUtilities */ = {
@@ -9391,7 +9391,7 @@
 			);
 			name = "Appboy-iOS-SDK-AppboyUI.InAppMessage";
 			productName = AppboyUI.InAppMessage;
-			productReference = 0658A00D4C8A9B46603915904D499E93 /* Appboy-iOS-SDK-AppboyUI.InAppMessage */;
+			productReference = 0658A00D4C8A9B46603915904D499E93 /* AppboyUI.InAppMessage.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		C19C04E8E26CAA8BC94E9B923CF427AD /* Branch */ = {
@@ -9569,7 +9569,7 @@
 			);
 			name = "Appboy-iOS-SDK-Appboy";
 			productName = Appboy;
-			productReference = D5291433031FF0071C717DAF0AD6B4D5 /* Appboy-iOS-SDK-Appboy */;
+			productReference = D5291433031FF0071C717DAF0AD6B4D5 /* Appboy.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		E2F262313F0C34DAE92BD7640E49D1E7 /* Segment-GoogleAnalytics */ = {
@@ -9622,7 +9622,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1410;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 12.0";
@@ -11846,12 +11846,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3CDBB83D69B1894199D36B42308B1F /* Appboy-iOS-SDK.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-AppboyUI.ContentCards-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = AppboyUI.ContentCards;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -11973,12 +11977,16 @@
 			baseConfigurationReference = 420B173C288FF6538527A771A2C29BD4 /* Appboy-iOS-SDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-AppboyUI.NewsFeed-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = AppboyUI.NewsFeed;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -12215,12 +12223,16 @@
 			baseConfigurationReference = 420B173C288FF6538527A771A2C29BD4 /* Appboy-iOS-SDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-AppboyUI.ContentCards-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = AppboyUI.ContentCards;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -12921,6 +12933,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -12952,12 +12965,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3CDBB83D69B1894199D36B42308B1F /* Appboy-iOS-SDK.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-Appboy-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = Appboy;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -13082,12 +13099,16 @@
 			baseConfigurationReference = 26EF0A2926357AAFAE0DCCEB9DD13BCA /* FirebaseInAppMessaging.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/FirebaseInAppMessaging";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = FirebaseInAppMessaging;
 				INFOPLIST_FILE = "Target Support Files/FirebaseInAppMessaging/ResourceBundle-InAppMessagingDisplayResources-FirebaseInAppMessaging-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = InAppMessagingDisplayResources;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -13101,6 +13122,7 @@
 			baseConfigurationReference = 9CF01D8BD08E70AAFB6DB71F547C0E95 /* GoogleSignIn.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleSignIn";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = GoogleSignIn;
 				INFOPLIST_FILE = "Target Support Files/GoogleSignIn/ResourceBundle-GoogleSignIn-GoogleSignIn-Info.plist";
@@ -13118,12 +13140,16 @@
 			baseConfigurationReference = 420B173C288FF6538527A771A2C29BD4 /* Appboy-iOS-SDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-AppboyUI.InAppMessage-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = AppboyUI.InAppMessage;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -13222,12 +13248,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3CDBB83D69B1894199D36B42308B1F /* Appboy-iOS-SDK.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-AppboyUI.NewsFeed-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = AppboyUI.NewsFeed;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -13331,12 +13361,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 26EF0A2926357AAFAE0DCCEB9DD13BCA /* FirebaseInAppMessaging.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/FirebaseInAppMessaging";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = FirebaseInAppMessaging;
 				INFOPLIST_FILE = "Target Support Files/FirebaseInAppMessaging/ResourceBundle-InAppMessagingDisplayResources-FirebaseInAppMessaging-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = InAppMessagingDisplayResources;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -13399,12 +13433,16 @@
 			baseConfigurationReference = 420B173C288FF6538527A771A2C29BD4 /* Appboy-iOS-SDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-Appboy-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = Appboy;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -13588,12 +13626,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 420B173C288FF6538527A771A2C29BD4 /* Appboy-iOS-SDK.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-AppboyUI.ContentCards-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = AppboyUI.ContentCards;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -13673,6 +13715,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -13841,12 +13884,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 420B173C288FF6538527A771A2C29BD4 /* Appboy-iOS-SDK.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-Appboy-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = Appboy;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -13964,6 +14011,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -14080,6 +14128,7 @@
 			baseConfigurationReference = 21C4295DD3843CB20CB127CF8146B6E7 /* GoogleSignIn.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleSignIn";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = GoogleSignIn;
 				INFOPLIST_FILE = "Target Support Files/GoogleSignIn/ResourceBundle-GoogleSignIn-GoogleSignIn-Info.plist";
@@ -14098,6 +14147,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleSignIn";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = GoogleSignIn;
 				INFOPLIST_FILE = "Target Support Files/GoogleSignIn/ResourceBundle-GoogleSignIn-GoogleSignIn-Info.plist";
@@ -14382,12 +14432,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3CDBB83D69B1894199D36B42308B1F /* Appboy-iOS-SDK.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-AppboyUI.InAppMessage-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = AppboyUI.InAppMessage;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -14448,12 +14502,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 420B173C288FF6538527A771A2C29BD4 /* Appboy-iOS-SDK.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-AppboyUI.InAppMessage-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = AppboyUI.InAppMessage;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -14581,12 +14639,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6D713F5216CC3E6B611A5D6251C7EBCA /* FirebaseInAppMessaging.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/FirebaseInAppMessaging";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = FirebaseInAppMessaging;
 				INFOPLIST_FILE = "Target Support Files/FirebaseInAppMessaging/ResourceBundle-InAppMessagingDisplayResources-FirebaseInAppMessaging-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = InAppMessagingDisplayResources;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -15090,12 +15152,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 420B173C288FF6538527A771A2C29BD4 /* Appboy-iOS-SDK.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Appboy-iOS-SDK";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				IBSC_MODULE = Appboy_iOS_SDK;
 				INFOPLIST_FILE = "Target Support Files/Appboy-iOS-SDK/ResourceBundle-AppboyUI.NewsFeed-Appboy-iOS-SDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_NAME = AppboyUI.NewsFeed;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

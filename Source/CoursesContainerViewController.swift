@@ -130,13 +130,7 @@ class CoursesContainerViewController: UICollectionViewController {
     var courses: [OEXCourse] = [] {
         didSet {
             if isiPad() {
-                let auditModeCourses = courses.filter { course -> Bool in
-                    let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-                    if enrollment?.type == .audit && environment.serverConfig.valuePropEnabled {
-                        return true
-                    }
-                    return false
-                }
+                let auditModeCourses = courses.filter { valuePropEnabled(for: $0) }
                 isAuditModeCourseAvailable = !auditModeCourses.isEmpty
             }
         }
@@ -241,23 +235,21 @@ class CoursesContainerViewController: UICollectionViewController {
         cell.course = course
 
         cell.resetCellView()
-        cell.setUp(valuePropEnabled: shouldShowValueProp(for: course))
+        cell.setUp(valuePropEnabled: valuePropEnabled(for: course))
         
         return cell
     }
     
-    private func shouldShowValueProp(for course: OEXCourse) -> Bool {
+    private func valuePropEnabled(for course: OEXCourse) -> Bool {
         guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id) else { return false }
-        return enrollment.type == .audit && environment.serverConfig.valuePropEnabled && !course.isEndDateOld
+        return enrollment.isUpgradeable && environment.serverConfig.valuePropEnabled
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {
         if isiPad() {
             return isAuditModeCourseAvailable ? valuePropViewHeight : 0
         } else {
-            let course = courses[indexPath.row]
-            let valuePropEnabled = shouldShowValueProp(for: course)
-            return valuePropEnabled ? valuePropViewHeight : 0
+            return valuePropEnabled(for: courses[indexPath.row]) ? valuePropViewHeight : 0
         }
     }
     

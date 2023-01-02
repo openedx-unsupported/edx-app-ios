@@ -83,6 +83,8 @@ public enum AnalyticsDisplayName : String {
     case ProfileDeleteAccountClicked = "Profile: Delete Account Clicked"
     case RegistrationOptinTurnedOn = "Registration: Opt-in Turned On"
     case RegistrationOptinTurnedOff = "Registration: Opt-in Turned Off"
+    case DiscoverExternalLinkOpenAlert = "Discovery: External Link Opening Alert"
+    case DiscoverExternalLinkOpenAlertAction = "Discovery: External Link Opening Alert Action"
     case UpgradeNowClicked = "Payments: Upgrade Now Clicked"
     case CourseUpgradeSuccess = "Payments: Course Upgrade Success"
     case CourseUpgradeSuccessDuration = "Payments: Time to Unlock Upgraded Content"
@@ -93,9 +95,11 @@ public enum AnalyticsDisplayName : String {
     case CourseUpgradeError = "Payments: Course Upgrade Error"
     case CourseUpgradeLoadError = "Payments: Price Load Error"
     case CourseUpgradeErrorAction = "Payments: Error Alert Action"
-    case SDNPromptAction = "Payments: SDN Prompt Action"
-    case DiscoverExternalLinkOpenAlert = "Discovery: External Link Opening Alert"
-    case DiscoverExternalLinkOpenAlertAction = "Discovery: External Link Opening Alert Action"
+    case CourseUpgradeUnfulfilledPurchaseInitiated = "Payments: Unfulfilled Purchase Initiated"
+    case CourseUpgradeNewEexperienceAlertAction = "Payments: New Experience Alert Action"
+    case CourseUpgradeRestorePurchaseClicked = "Payments: Restore Purchases Clicked"
+    case CourseUpgradeRestoreSuccessAlertAction = "Payments: Purchases successfully Restored Alert Action"
+
 }
 
 public enum AnalyticsEventName: String {
@@ -167,6 +171,8 @@ public enum AnalyticsEventName: String {
     case ProfileDeleteAccountClicked = "edx.bi.app.profile.delete_account.clicked"
     case RegistrationOptinTurnedOn = "edx.bi.app.user.register.opt_in.on"
     case RegistrationOptinTurnedOff = "edx.bi.app.user.register.opt_in.off"
+    case DiscoverExternalLinkOpenAlert = "edx.bi.app.discovery.external_link.opening.alert"
+    case DiscoverExternalLinkOpenAlertAction = "edx.bi.app.discovery.external_link.opening.alert_action"
     case UpgradeNowClicked = "edx.bi.app.payments.upgrade_now.clicked"
     case CourseUpgradeSuccess = "edx.bi.app.payments.course_upgrade_success"
     case CourseUpgradeSuccessDuration = "edx.bi.app.payments.time_to_unlock_upgraded_content"
@@ -177,9 +183,10 @@ public enum AnalyticsEventName: String {
     case CourseUpgradeError = "edx.bi.app.payments.course_upgrade_error"
     case CourseUpgradeLoadError = "edx.bi.app.payments.price_load_error"
     case CourseUpgradeErrorAction = "edx.bi.app.payments.error_alert_action"
-    case DiscoverExternalLinkOpenAlert = "edx.bi.app.discovery.external_link.opening.alert"
-    case DiscoverExternalLinkOpenAlertAction = "edx.bi.app.discovery.external_link.opening.alert_action"
-    case SDNPrompt = "edx.bi.app.payments.sdn_prompt_action"
+    case CourseUpgradeUnfulfilledPurchaseInitiated = "edx.bi.app.payments.unfulfilled_purchase.initiated"
+    case CourseUpgradeNewEexperienceAlertAction = "edx.bi.app.payments.new_experience.alert_action"
+    case CourseUpgradeRestorePurchaseClicked = "edx.bi.app.payments.restore_purchases.clicked"
+    case CourseUpgradeRestoreSuccessAlertAction = "edx.bi.app.payments.purchases_successfully_restored.alert_action"
 }
 
 public enum AnalyticsScreenName: String {
@@ -240,9 +247,10 @@ public enum AnalyticsEventDataKey: String {
     case Price = "price"
     case UpgradeError = "error"
     case ErrorAction = "error_action"
-    case Action = "action"
     case IAPExperiementGroup = "iap_experiment_group"
     case PaymentsEnabled = "payment_enabled"
+    case PaymentFlowType = "flow_type"
+    case Action = "action"
 }
 
 extension OEXAnalytics {
@@ -387,7 +395,7 @@ extension OEXAnalytics {
         event.courseID = courseID
         event.name = AnalyticsEventName.ValuePropLearnMoreClicked.rawValue
         event.displayName = AnalyticsDisplayName.ValuePropLearnMoreClicked.rawValue
-        
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
         var info: [String:String] = [:]
         info.setObjectOrNil(screenName.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
         if assignmentID != nil {
@@ -441,7 +449,7 @@ extension OEXAnalytics {
         
         var info: [String : Any] = [
             key_course_id: courseID,
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen == .courseComponent ? "course_unit" : screen.rawValue,
             AnalyticsEventDataKey.PaymentsEnabled.rawValue: paymentsEnabled
         ]
         
