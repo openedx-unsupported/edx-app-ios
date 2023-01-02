@@ -50,7 +50,7 @@ class ValuePropMessagesView: UIView {
         }
     }
 
-    public func height()-> CGFloat {
+    public func height() -> CGFloat {
         tableView.layoutIfNeeded()
         return tableView.contentSize.height
     }

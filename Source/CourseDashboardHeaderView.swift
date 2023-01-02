@@ -133,15 +133,23 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         guard let course = course,
               let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
         else { return false }
+        
+        if let error = error {
+            if error.type == .auditExpired {
+                return false
+            }
+        }
         return enrollment.type == .audit && environment.serverConfig.valuePropEnabled
     }
     
-    private let course: OEXCourse?
     private let environment: Environment
+    private let course: OEXCourse?
+    private let error: CourseAccessError?
     
-    init(environment: Environment, course: OEXCourse?) {
+    init(environment: Environment, course: OEXCourse?, error: CourseAccessError?) {
         self.environment = environment
         self.course = course
+        self.error = error
         super.init(reuseIdentifier: nil)
         
         addSubViews()

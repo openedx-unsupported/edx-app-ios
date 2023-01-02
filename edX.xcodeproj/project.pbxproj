@@ -3681,7 +3681,6 @@
 				5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */,
 				E0F9C02E29362806003D96DF /* CourseDashboardErrorViewCell.swift */,
 				E0F9C0302939C497003D96DF /* CourseDashboardAccessErrorCell.swift */,
-				5F6C8A51292DFCBB00E5FA7F /* NewDashboardErrorPlaceHolderCell.swift */,
 				5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */,
 				5F5239BE293DB9560046FF07 /* CourseDashboardTabbarView.swift */,
 			);

@@ -26,11 +26,11 @@ class WhatsNewDataModel {
         } catch {
             json = JSON(NSNull())
             //Assert to crash on development
-            assert(false, "Unable to load \(String(describing: name)).json")
+            //assert(false, "Unable to load \(String(describing: name)).json")
             return
         }
         
-        populateFields()
+        //populateFields()
     }
     
     private func populateFields() {
