@@ -119,10 +119,6 @@ private func performQueuedTasks(router: OEXRouter?, success: Bool) {
 }
 
 private func logTestAnalayticsForCrash(router: OEXRouter?, name: String) {
-    #if DEBUG
-    return
-    #endif
-    
     let event = OEXAnalyticsEvent()
     event.displayName = name;
     let info = [

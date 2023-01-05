@@ -8,84 +8,10 @@
 
 import Foundation
 
-enum CourseError {
-    case isEndDateOld
-    case startDateError
-    case auditExpired
-    case none
-}
-
-class CourseAccessError {
-    private let course: OEXCourse?
-    
-    lazy var type: CourseError = {
-        guard let course = course else { return .none }
-        if course.isEndDateOld {
-            return .isEndDateOld
-        } else {
-            guard let errorCode = course.courseware_access?.error_code else { return .none }
-            switch errorCode {
-            case .startDateError:
-                return .startDateError
-            case .auditExpired:
-                return .auditExpired
-                
-            default:
-                return .none
-            }
-        }
-    }()
-    
-    init(course: OEXCourse?) {
-        self.course = course
-    }
-    
-    var errorTitle: String? {
-        switch type {
-        case .isEndDateOld:
-            return Strings.CourseDashboard.Error.courseEndedTitle
-        case .startDateError:
-            return Strings.CourseDashboard.Error.courseNotStartedTitle
-        case .auditExpired:
-            return Strings.CourseDashboard.Error.courseAccessExpiredTitle
-        default:
-            return Strings.CourseDashboard.Error.courseAccessExpiredTitle
-        }
-    }
-    
-    var errorInfo: String? {
-        guard let course = course else { return nil }
-        
-        switch type {
-        case .isEndDateOld:
-            return Strings.CourseDashboard.Error.courseAccessExpiredInfo
-        case .startDateError:
-            return formatedStartDate(displayInfo: course.start_display_info)
-        case .auditExpired:
-            return "Upgrade to get full access to this course and pursue a certificate."
-        default:
-            return Strings.CourseDashboard.Error.courseAccessExpiredInfo
-        }
-    }
-    
-    private func formatedStartDate(displayInfo: OEXCourseStartDisplayInfo) -> String {
-        if let displayDate = displayInfo.displayDate, displayInfo.type == .string && !displayDate.isEmpty {
-            return Strings.CourseDashboard.Error.courseNotStartedInfo(startDate: displayDate)
-        }
-        
-        if let displayDate = displayInfo.date as? NSDate, displayInfo.type == .timestamp {
-            let formattedDisplayDate = DateFormatting.format(asMonthDayYearString: displayDate) ?? ""
-            return Strings.CourseDashboard.Error.courseNotStartedInfo(startDate: formattedDisplayDate)
-        }
-        
-        return Strings.courseNotStarted
-    }
-}
-
 protocol CourseDashboardAccessErrorCellDelegate: AnyObject {
     func findCourseAction()
-    func upgradeCourseAction(course: OEXCourse)
-    func fetchCoursePrice()
+    func upgradeCourseAction(cell: CourseDashboardAccessErrorCell, course: OEXCourse, completion: @escaping ((Bool) -> ()) )
+    func fetchCoursePrice(cell: CourseDashboardAccessErrorCell, completion: @escaping (String?, Bool) -> ())
 }
 
 class CourseDashboardAccessErrorCell: UITableViewCell {
@@ -98,8 +24,16 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     lazy var upgradeButton: CourseUpgradeButtonView = {
         let upgradeButton = CourseUpgradeButtonView()
         upgradeButton.tapAction = { [weak self] in
-            guard let course = self?.course else { return }
-            self?.delegate?.upgradeCourseAction(course: course)
+            guard let weakSelf = self, let course = self?.course else { return }
+            self?.delegate?.upgradeCourseAction(cell: weakSelf, course: course) { [weak self] done in
+                if done {
+                    upgradeButton.isHidden = true
+                    weakSelf.setConstraints(showValueProp: false, showUpgradeButton: false)
+                } else {
+                    weakSelf.setConstraints(showValueProp: true, showUpgradeButton: true)
+                    upgradeButton.stopAnimating()
+                }
+            }
         }
         return upgradeButton
     }()
@@ -149,7 +83,7 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCourseError(error: CourseAccessError) {
+    func handleCourseAccessError(_ error: CourseAccessError) {
         guard let title = error.errorTitle,
               let info = error.errorInfo else { return }
         
@@ -160,7 +94,17 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         update(title: title, info: info)
         
         if showValueProp {
-            delegate?.fetchCoursePrice()
+            upgradeButton.startShimeringEffect()
+            delegate?.fetchCoursePrice(cell: self) { [weak self] price, error in
+                self?.upgradeButton.stopShimmerEffect()
+                
+                if error {
+                    self?.upgradeButton.isHidden = true
+                    self?.setConstraints(showValueProp: showValueProp, showUpgradeButton: false)
+                } else if let price = price {
+                    self?.upgradeButton.setPrice(price)
+                }
+            }
         }
     }
     
@@ -169,13 +113,17 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         contentView.addSubview(infoLabel)
         contentView.addSubview(findCourseButton)
         
-        titleLabel.snp.makeConstraints { make in
+        setConstraints(showValueProp: showValueProp)
+    }
+    
+    private func setConstraints(showValueProp: Bool = false, showUpgradeButton: Bool = true) {
+        titleLabel.snp.remakeConstraints { make in
             make.top.equalTo(contentView).offset(2 * StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
         
-        infoLabel.snp.makeConstraints { make in
+        infoLabel.snp.remakeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(2 * StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
@@ -186,26 +134,33 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         
         if showValueProp {
             contentView.addSubview(infoMessagesView)
-            contentView.addSubview(upgradeButton)
             
-            infoMessagesView.snp.makeConstraints { make in
+            infoMessagesView.snp.remakeConstraints { make in
                 make.top.equalTo(infoLabel.snp.bottom).offset(2 * StandardVerticalMargin)
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
                 make.height.equalTo(infoMessagesView.height())
             }
             
-            upgradeButton.snp.makeConstraints { make in
-                make.top.equalTo(infoMessagesView.snp.bottom).offset(4 * StandardVerticalMargin)
-                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-                make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            }
+            containerView = infoMessagesView
             
-            containerView = upgradeButton
+            if showUpgradeButton {
+                contentView.addSubview(upgradeButton)
+                
+                upgradeButton.snp.remakeConstraints { make in
+                    make.top.equalTo(infoMessagesView.snp.bottom).offset(4 * StandardVerticalMargin)
+                    make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+                    make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+                    make.height.equalTo(StandardVerticalMargin * 4.5)
+                }
+                
+                containerView = infoMessagesView
+            }
+                        
             bottomOffset = 2
         }
         
-        findCourseButton.snp.makeConstraints { make in
+        findCourseButton.snp.remakeConstraints { make in
             make.top.equalTo(containerView.snp.bottom).offset(bottomOffset * StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)

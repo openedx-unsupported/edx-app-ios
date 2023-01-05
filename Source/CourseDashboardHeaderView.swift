@@ -135,7 +135,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         else { return false }
         
         if let error = error {
-            if error.type == .auditExpired {
+            if error.type == .auditExpired || error.type == .isEndDateOld {
                 return false
             }
         }
@@ -161,7 +161,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         let courseTitleText = [
             courseTextStyle.attributedString(withText: course?.name),
             attributedUnicodeSpace,
-            Icon.Share.attributedText(style: courseTextStyle, yOffset: attributedIconOfset)
+            Icon.ShareCourse.attributedText(style: courseTextStyle, yOffset: attributedIconOfset)
         ]
         
         orgLabel.attributedText = orgTextStyle.attributedString(withText: course?.org)

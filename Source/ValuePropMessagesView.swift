@@ -55,6 +55,10 @@ class ValuePropMessagesView: UIView {
         return tableView.contentSize.height
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        tableView.isScrollEnabled = tableView.contentSize.height > tableView.frame.size.height
+    }
 }
 
 extension ValuePropMessagesView: UITableViewDataSource, UITableViewDelegate {

@@ -30,6 +30,8 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         return tableView
     }()
     
+    private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
+    
     private var pacing: String {
         guard let course = course else { return "" }
         return course.isSelfPaced ? "self" : "instructor"
@@ -40,18 +42,20 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private var courseAccessError: CourseAccessError?
     private var selectedTabbarItem: TabBarItem?
     
+    private var isModalDismissable = true
     private let courseStream: BackedStream<UserCourseEnrollment>
     private let loadStateController: LoadStateViewController
             
     private let environment: Environment
     private let courseID: String
-    
+    private let blockID: CourseBlockID?
     private let screen: CourseUpgradeScreen = .courseDashboard
     private var coursePrice: String?
     
-    init(environment: Environment, courseID: String) {
+    init(environment: Environment, courseID: String, blockID: CourseBlockID? = nil) {
         self.environment = environment
         self.courseID = courseID
+        self.blockID = blockID
         self.courseStream = BackedStream<UserCourseEnrollment>()
         self.loadStateController = LoadStateViewController()
         super.init(nibName: nil, bundle: nil)
@@ -154,21 +158,12 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }
 
     private func redirectToDiscovery() {
-        guard let rootController = UIApplication.shared.window?.rootViewController,
-              let tabController = rootController.children.first as? EnrolledTabBarViewController else {
-            return
+        dismiss(animated: true) {
+            guard let rootController = UIApplication.shared.window?.rootViewController,
+                  let enrolledTabbarViewController = rootController.children.first as? EnrolledTabBarViewController else { return }
+            
+            enrolledTabbarViewController.switchTab(with: .discovery)
         }
-
-        var learnController: UIViewController? = nil
-        for controller in tabController.viewControllers ?? [] {
-            if let controller  = controller as? ForwardingNavigationController {
-                learnController = controller.children.first(where: {$0 is LearnContainerViewController})
-                if learnController != nil { break }
-            }
-        }
-
-        guard let coursesContainer = learnController?.children.first(where: { $0 is EnrolledCoursesViewController }) else { return }
-        environment.router?.showCourseCatalog(fromController: coursesContainer, bottomBar: nil)
     }
 
     var showCourseAccessError: Bool {
@@ -183,15 +178,9 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         tableView.reloadData()
     }
-    
-    private func trackValuePropMessageViewed() {
-        guard let course = course, let courseID = course.course_id else { return }
-        let paymentsEnabled = (environment.serverConfig.iapConfig?.enabled ?? false) && course.sku != nil
-        let iapExperiementEnabled = environment.serverConfig.iapConfig?.experimentEnabled ?? false
-        let group = environment.serverConfig.iapConfig?.experimentGroup
-        environment.analytics.trackValuePropMessageViewed(courseID: courseID, paymentsEnabled: paymentsEnabled, iapExperiementEnabled: iapExperiementEnabled, group: group, screen: screen)
-    }
-    
+}
+
+extension NewCourseDashboardViewController {
     private func trackPriceLoadDuration(elapsedTime: Int) {
         guard let course = course,
               let courseID = course.course_id,
@@ -205,21 +194,19 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, pacing: pacing, screen: screen)
     }
 
-    private func showCoursePriceErrorAlert() {
+    private func showCoursePriceErrorAlert(cell: CourseDashboardAccessErrorCell, completion: @escaping (String?, Bool) -> ()) {
         guard let course = course, let topController = UIApplication.shared.topMostController() else { return }
 
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
 
         alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
-            self?.fetchCoursePrice()
+            self?.fetchCoursePrice(cell: cell, completion: completion)
             self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: course.course_id ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
         }
 
         alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
-            guard let cell = self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? CourseDashboardAccessErrorCell else { return }
-            cell.upgradeButton.stopShimmerEffect()
-            cell.upgradeButton.isHidden = true
+            completion(nil, true)
             self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: course.course_id ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
         }
     }
@@ -235,11 +222,7 @@ extension NewCourseDashboardViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if showCourseAccessError || showContentNotLoadedError {
-            return 1
-        }
-        
-        return 0
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -257,7 +240,7 @@ extension NewCourseDashboardViewController: UITableViewDataSource {
             cell.delegate = self
             
             if let error = courseAccessError {
-                cell.setCourseError(error: error)
+                cell.handleCourseAccessError(error)
             }
             
             return cell
@@ -327,21 +310,12 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
 }
 
 extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelegate {
-    func findCourseAction() {
-        redirectToDiscovery()
-    }
-    
-    func upgradeCourseAction(course: OEXCourse) {
-        
-    }
-    
-    func fetchCoursePrice() {
+    func fetchCoursePrice(cell: CourseDashboardAccessErrorCell, completion: @escaping (String?, Bool) -> ()) {
         guard let courseSku = course?.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
         
         let startTime = CFAbsoluteTimeGetCurrent()
         
         DispatchQueue.main.async { [weak self] in
-            guard let cell = self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? CourseDashboardAccessErrorCell else { return }
             cell.upgradeButton.startShimeringEffect()
             PaymentManager.shared.productPrice(courseSku) { [weak self] price in
                 if let price = price {
@@ -351,9 +325,75 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelega
                     cell.upgradeButton.stopShimmerEffect()
                 } else {
                     self?.trackLoadError()
-                    self?.showCoursePriceErrorAlert()
+                    self?.showCoursePriceErrorAlert(cell: cell, completion: completion)
                 }
             }
         }
+    }
+    
+    func findCourseAction() {
+        redirectToDiscovery()
+    }
+    
+    func upgradeCourseAction(cell: CourseDashboardAccessErrorCell, course: OEXCourse, completion: @escaping ((Bool) -> ())) {
+        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
+              let courseID = course.course_id, let coursePrice = coursePrice else { return }
+        
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: self.blockID ?? "", pacing: pacing, screenName: .courseComponent, coursePrice: coursePrice)
+        
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: .courseComponent)
+        
+        let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
+        upgradeHandler.upgradeCourse { [weak self] status in
+            guard let weakSelf = self else { return }
+            weakSelf.enableUserInteraction(enable: false)
+            
+            switch status {
+            case .payment:
+                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .payment)
+                break
+                
+            case .verify:
+                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment)
+                break
+                
+            case .complete:
+                weakSelf.enableUserInteraction(enable: true)
+                completion(true)
+                weakSelf.dismiss(animated: true) { [weak self] in
+                    self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(course.course_id ?? "", self?.blockID))
+                }
+                break
+                
+            case .error(let type, let error):
+                weakSelf.enableUserInteraction(enable: true)
+                completion(false)
+                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error), delegate: type == .verifyReceiptError ? weakSelf : nil)
+                break
+           
+            default:
+                break
+            }
+        }
+    }
+    
+    private func enableUserInteraction(enable: Bool) {
+        isModalDismissable = enable
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationItem.rightBarButtonItem?.isEnabled = enable
+            self?.view.isUserInteractionEnabled = enable
+        }
+    }
+}
+
+extension NewCourseDashboardViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return isModalDismissable
+    }
+}
+
+extension NewCourseDashboardViewController: CourseUpgradeHelperDelegate {
+    func hideAlertAction() {
+        dismiss(animated: true, completion: nil)
     }
 }
