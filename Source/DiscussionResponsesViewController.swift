@@ -567,7 +567,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let thread = self.thread {
             cell.titleLabel.attributedText = titleTextStyle.attributedString(withText: thread.title)
             
-            cell.bodyTextLabel.attributedText = detailTextStyle.attributedString(withText: thread.rawBody)
+            DispatchQueue.main.async { [weak self] in
+                let formattedThreadText = self?.detailTextStyle.markdownString(withText: thread.renderedBody)
+                cell.bodyTextLabel.attributedText = formattedThreadText
+            }
             
             let visibilityString : String
             if let cohortName = thread.groupName {
