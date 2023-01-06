@@ -160,7 +160,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     return
                 }
                 
-                self?.loadController.state = LoadState.failed(error: error)
+                self?.loadController.state = .Loaded
+                self?.showError()
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
                     self?.hideSnackBar()
                 }
@@ -172,9 +173,14 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     
     private func enrollmentsEmptyState() {
         if !isDiscoveryEnabled {
-            let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
+            let error = NSError.oex_error(with: .unknown, message: Strings.Dashboard.generalErrorMessage)
             loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
         }
+    }
+    
+    private func showError() {
+        loadController.state = .Loaded
+        coursesContainer.showError()
     }
     
     private func setupObservers() {
@@ -248,6 +254,11 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         environment.router?.showValuePropDetailView(from: self, screen: .myCourses, course: course) { [weak self] in
             self?.environment.analytics.trackValuePropModal(with: .CourseEnrollment, courseId: course.course_id ?? "")
         }
+    }
+    
+    func reload() {
+        loadController.state = .Initial
+        refreshIfNecessary()
     }
     
     private func showWhatsNewIfNeeded() {
