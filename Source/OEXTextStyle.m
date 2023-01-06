@@ -207,9 +207,12 @@
                                                                           options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
                                                                documentAttributes:nil
                                                                             error:nil];
-    // only replace last \n which is being appended while conversion
-    NSRange lastNewLine = [attributedText.mutableString rangeOfString:@"\n" options:NSBackwardsSearch];
-    [attributedText.mutableString replaceOccurrencesOfString:@"\n" withString:@"" options:NSCaseInsensitiveSearch range:lastNewLine];
+    
+    if ([attributedText.mutableString containsString:@"\n"]) {
+        // only replace last \n which is being appended while conversion
+        NSRange lastNewLine = [attributedText.mutableString rangeOfString:@"\n" options:NSBackwardsSearch];
+        [attributedText.mutableString replaceOccurrencesOfString:@"\n" withString:@"" options:NSCaseInsensitiveSearch range:lastNewLine];
+    }
     
     return attributedText;
 }
