@@ -24,7 +24,7 @@ class DiscussionPostCell: UITableViewCell {
     static let identifier = "DiscussionPostCell"
 
     @IBOutlet fileprivate var titleLabel: UILabel!
-    @IBOutlet fileprivate var bodyTextLabel: UILabel!
+    @IBOutlet fileprivate var bodyTextView: UITextView!
     @IBOutlet fileprivate var visibilityLabel: UILabel!
     @IBOutlet fileprivate var authorButton: UIButton!
     @IBOutlet fileprivate var responseCountLabel:UILabel!
@@ -105,7 +105,7 @@ class DiscussionPostCell: UITableViewCell {
     private func setAccessibilityIdentifiers() {
         contentView.accessibilityIdentifier = "DiscussionPostCell:content-view"
         titleLabel.accessibilityIdentifier = "DiscussionPostCell:title-label"
-        bodyTextLabel.accessibilityIdentifier = "DiscussionPostCell:body-text-label"
+        bodyTextView.accessibilityIdentifier = "DiscussionPostCell:body-text-view"
         visibilityLabel.accessibilityIdentifier = "DiscussionPostCell:visibility-label"
         authorButton.accessibilityIdentifier = "DiscussionPostCell:author-button"
         responseCountLabel.accessibilityIdentifier = "DiscussionPostCell:response-count-label"
@@ -569,7 +569,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             DispatchQueue.main.async { [weak self] in
                 let formattedThreadText = self?.detailTextStyle.markdownString(withText: thread.renderedBody)
-                cell.bodyTextLabel.attributedText = formattedThreadText
+                cell.bodyTextView.attributedText = formattedThreadText
             }
             
             let visibilityString : String
