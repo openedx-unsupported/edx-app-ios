@@ -155,10 +155,12 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     return
                 }
                 
-                self?.loadController.state = .Loaded
-                //self?.showError()
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
-                    //self?.hideSnackBar()
+                    self?.loadController.state = .failed(error: error)
+                    self?.hideSnackBar()
+                } else {
+                    self?.loadController.state = .Loaded
+                    self?.showGeneralError()
                 }
                 
                 self?.handleUpgradationLoader(success: false)
@@ -173,7 +175,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
     }
     
-    private func showError() {
+    private func showGeneralError() {
         loadController.state = .Loaded
         coursesContainer.showError()
     }
@@ -214,8 +216,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     }
     
     private func showVersionUpgradeSnackBarIfNecessary() {
-        showVersionUpgradeSnackBar(string: "testing")
-        return
         if let _ = VersionUpgradeInfoController.sharedController.latestVersion {
             var infoString = Strings.VersionUpgrade.newVersionAvailable
             if let _ = VersionUpgradeInfoController.sharedController.lastSupportedDateString {
