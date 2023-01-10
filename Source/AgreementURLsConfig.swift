@@ -12,6 +12,8 @@ fileprivate enum AgreementURLsKeys: String, RawStringExtractable {
     case tosURL = "TOS_URL"
     case privacyPolicyURL = "PRIVACY_POLICY_URL"
     case supportedlanguages = "SUPPORTED_LANGUAGES"
+    case cookiePolicyURL = "COOKIE_POLICY_URL"
+    case dataSellConsentURL = "DATA_SELL_CONSENT_URL"
 
     var bundlePath: String {
         switch self {
@@ -31,6 +33,8 @@ class AgreementURLsConfig : NSObject {
     private var eula: String = ""
     private var tos: String = ""
     private var privacyPolicy: String = ""
+    private var cookiePolicy: String = ""
+    private var dataSellConsent: String = ""
     private let spiliter = "webview"
     private var localURLs = false
 
@@ -45,8 +49,20 @@ class AgreementURLsConfig : NSObject {
     var privacyPolicyURL: URL? {
         return localURLs ? URL(fileURLWithPath: privacyPolicy) : URL(string: completePath(url: privacyPolicy))
     }
+    
+    var cookiePolicyURL: URL? {
+        return URL(string: cookiePolicy)
+    }
+    
+    var dataSellConsentURL: URL? {
+        return URL(string: dataSellConsent)
+    }
 
     var supportedlanguages: [String] = []
+    
+    var enabledForProfile: Bool {
+        return !privacyPolicy.isEmpty || !cookiePolicy.isEmpty || !dataSellConsent.isEmpty
+    }
 
     init(dictionary: [String: AnyObject]) {
         super.init()
@@ -54,6 +70,8 @@ class AgreementURLsConfig : NSObject {
         eula = dictionary[AgreementURLsKeys.eulaURL] as? String ?? ""
         tos = dictionary[AgreementURLsKeys.tosURL] as? String ?? ""
         privacyPolicy = dictionary[AgreementURLsKeys.privacyPolicyURL] as? String ?? ""
+        cookiePolicy = dictionary[AgreementURLsKeys.cookiePolicyURL] as? String ?? ""
+        dataSellConsent = dictionary[AgreementURLsKeys.dataSellConsentURL] as? String ?? ""
         supportedlanguages = dictionary[AgreementURLsKeys.supportedlanguages] as? [String] ?? []
 
         if !eula.isEmpty || !tos.isEmpty || !privacyPolicy.isEmpty { }

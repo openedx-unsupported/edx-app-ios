@@ -99,7 +99,9 @@ public enum AnalyticsDisplayName : String {
     case CourseUpgradeNewEexperienceAlertAction = "Payments: New Experience Alert Action"
     case CourseUpgradeRestorePurchaseClicked = "Payments: Restore Purchases Clicked"
     case CourseUpgradeRestoreSuccessAlertAction = "Payments: Purchases successfully Restored Alert Action"
-
+    case PrivacyPolicyClicked = "Privacy Policy Clicked"
+    case CookiePolicyClicked = "Cookie Policy Clicked"
+    case DataSellConsentClicked = "Do Not Sell Data Clicked"
 }
 
 public enum AnalyticsEventName: String {
@@ -187,6 +189,9 @@ public enum AnalyticsEventName: String {
     case CourseUpgradeNewEexperienceAlertAction = "edx.bi.app.payments.new_experience.alert_action"
     case CourseUpgradeRestorePurchaseClicked = "edx.bi.app.payments.restore_purchases.clicked"
     case CourseUpgradeRestoreSuccessAlertAction = "edx.bi.app.payments.purchases_successfully_restored.alert_action"
+    case PrivacyPolicyClicked = "edx.bi.app.profile.privacy_policy.clicked"
+    case CookiePolicyClicked = "edx.bi.app.profile.cookie_policy.clicked"
+    case DataSellConsentClicked = "edx.bi.app.profile.do_not_sell_data.clicked"
 }
 
 public enum AnalyticsScreenName: String {

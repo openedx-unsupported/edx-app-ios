@@ -40,3 +40,11 @@
 "PROFILE_OPTIONS.DELETEACCOUNT.INFO_MESSAGE" = "按照下一屏幕上的说明删除您的帐户和所有相关数据。";
 /* Settings title for delete account web view*/
 "PROFILE_OPTIONS.DELETEACCOUNT.WEBVIEW_TITLE" = "删除你的账户";
+/* Settings title for privacy */
+"PROFILE_OPTIONS.PRIVACY.TITLE" = "Privacy";
+/* Settings title for privacy */
+"PROFILE_OPTIONS.PRIVACY.PRIVACY_POLICY" = "Privacy policy";
+/* Settings title for privacy cookie policy*/
+"PROFILE_OPTIONS.PRIVACY.COOKIE_POLICY" = "Cookie policy";
+/* Settings title for privacy do not sell my personal data*/
+"PROFILE_OPTIONS.PRIVACY.DATA_SELL_CONSENT" = "Do not sell my personal data";

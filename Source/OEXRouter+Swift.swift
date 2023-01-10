@@ -408,14 +408,20 @@ extension OEXRouter {
         controller?.present(ForwardingNavigationController(rootViewController: upgradeDetailController), animated: true, completion: completion)
     }
     
-    func showBrowserViewController(from controller: UIViewController, title: String?,  url: URL, completion: (() -> Void)? = nil) {
+    func showBrowserViewController(from controller: UIViewController, title: String?,  url: URL, completion: (() -> Void)? = nil, modal: Bool = true) {
         let browserViewController = BrowserViewController(title: title, url: url, environment: environment)
         if let controller = controller as? BrowserViewControllerDelegate {
             browserViewController.delegate = controller
         }
-        let navController = ForwardingNavigationController(rootViewController: browserViewController)
-        navController.modalPresentationStyle = .fullScreen
-        controller.present(navController, animated: true, completion: completion)
+        if modal {
+            let navController = ForwardingNavigationController(rootViewController: browserViewController)
+            navController.modalPresentationStyle = .fullScreen
+            controller.present(navController, animated: true, completion: completion)
+        }
+        else {
+            controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            controller.navigationController?.pushViewController(browserViewController, animated: true)
+        }
     }
     
     func showBannerViewController(from controller: UIViewController, url: URL, title: String?, delegate: BannerViewControllerDelegate? = nil, modal: Bool = true, showNavbar: Bool = false) {
