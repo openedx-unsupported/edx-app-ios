@@ -268,15 +268,13 @@ class CoursesContainerViewController: UICollectionViewController {
     
     func showError(message: String? = nil) {
         view.subviews.forEach { $0.removeFromSuperview() }
-        
         view.addSubview(errorView)
+        
         errorView.snp.makeConstraints { make in
             make.edges.equalTo(view)
         }
         
-        if let message = message {
-            errorView.setMessage(message: message)
-        }
+        errorView.setErrorMessage(message: message)
     }
 }
 

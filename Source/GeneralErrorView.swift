@@ -37,7 +37,7 @@ class GeneralErrorView: UIView {
         let label = UILabel()
         label.accessibilityIdentifier = "GeneralErrorView:error-label"
         label.numberOfLines = 0
-        label.attributedText = errorLabelstyle.attributedString(withText: Strings.CourseDashboard.Error.generalError)
+        label.attributedText = errorLabelstyle.attributedString(withText: Strings.Dashboard.generalErrorMessage)
         return label
     }()
 
@@ -144,7 +144,7 @@ class GeneralErrorView: UIView {
             make.top.equalTo(containerView)
             make.leading.equalTo(containerView)
             make.height.equalTo(StandardVerticalMargin * 33)
-            make.width.equalTo(self.frame.width / 2)
+            make.width.equalTo(frame.width / 2)
             make.bottom.equalTo(containerView)
         }
 
@@ -170,8 +170,8 @@ class GeneralErrorView: UIView {
         }
     }
     
-    func setMessage(message: String) {
-        errorLabel.attributedText = errorLabelstyle.attributedString(withText: Strings.CourseDashboard.Error.generalError)
+    func setErrorMessage(message: String? = nil) {
+        errorLabel.attributedText = errorLabelstyle.attributedString(withText: message ?? Strings.Dashboard.generalErrorMessage)
     }
     
     required public init?(coder aDecoder: NSCoder) {

@@ -141,11 +141,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     self?.coursesContainer.courses = enrollments.compactMap { $0.course }
                     self?.coursesContainer.collectionView.reloadData()
                     self?.loadController.state = .Loaded
-                    
-                    if enrollments.isEmpty {
-                        self?.enrollmentsEmptyState()
-                    }
-
                     self?.handleUpgradationLoader(success: true)
                 }
                 else {
@@ -161,9 +156,9 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                 }
                 
                 self?.loadController.state = .Loaded
-                self?.showError()
+                //self?.showError()
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
-                    self?.hideSnackBar()
+                    //self?.hideSnackBar()
                 }
                 
                 self?.handleUpgradationLoader(success: false)
@@ -219,6 +214,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     }
     
     private func showVersionUpgradeSnackBarIfNecessary() {
+        showVersionUpgradeSnackBar(string: "testing")
+        return
         if let _ = VersionUpgradeInfoController.sharedController.latestVersion {
             var infoString = Strings.VersionUpgrade.newVersionAvailable
             if let _ = VersionUpgradeInfoController.sharedController.lastSupportedDateString {
