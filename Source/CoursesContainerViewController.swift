@@ -131,7 +131,9 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private lazy var errorView: GeneralErrorView = {
         let errorView = GeneralErrorView()
-        errorView.delegate = self
+        errorView.tapAction = { [weak self] in
+            self?.delegate?.reload()
+        }
         return errorView
     }()
     
@@ -308,11 +310,5 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
         let valuePropHeight: CGFloat = calculateValuePropHeight(for: indexPath)
         let heightPerItem =  widthPerItem * StandardImageAspectRatio + valuePropHeight
         return CGSize(width: widthPerItem, height: heightPerItem)
-    }
-}
-
-extension CoursesContainerViewController: GeneralErrorViewDelegate {
-    func didTapButton() {
-        delegate?.reload()
     }
 }

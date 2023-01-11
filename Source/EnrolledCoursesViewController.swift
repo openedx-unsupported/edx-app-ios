@@ -10,7 +10,7 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, InterfaceOrientationOverriding {
+class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & ServerConfigProvider & OEXSessionProvider
     
@@ -159,19 +159,11 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     self?.loadController.state = .failed(error: error)
                     self?.hideSnackBar()
                 } else {
-                    self?.loadController.state = .Loaded
                     self?.showGeneralError()
                 }
                 
                 self?.handleUpgradationLoader(success: false)
             }
-        }
-    }
-    
-    private func enrollmentsEmptyState() {
-        if !isDiscoveryEnabled {
-            let error = NSError.oex_error(with: .unknown, message: Strings.Dashboard.generalErrorMessage)
-            loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
         }
     }
     
@@ -237,27 +229,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
     }
     
-    func coursesContainerChoseCourse(course: OEXCourse) {
-        if let course_id = course.course_id {
-            environment.router?.showCourseWithID(courseID: course_id, fromController: self, animated: true)
-        }
-        else {
-            preconditionFailure("course without a course id")
-        }
-    }
-    
-    func showValuePropDetailView(with course: OEXCourse) {
-        environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
-        environment.router?.showValuePropDetailView(from: self, screen: .myCourses, course: course) { [weak self] in
-            self?.environment.analytics.trackValuePropModal(with: .CourseEnrollment, courseId: course.course_id ?? "")
-        }
-    }
-    
-    func reload() {
-        loadController.state = .Initial
-        refreshIfNecessary()
-    }
-    
     private func showWhatsNewIfNeeded() {
         if WhatsNewViewController.canShowWhatsNew(environment: environment as? RouterEnvironment) {
             environment.router?.showWhatsNew(fromController: self)
@@ -272,6 +243,28 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension EnrolledCoursesViewController: CoursesContainerViewControllerDelegate {
+    func coursesContainerChoseCourse(course: OEXCourse) {
+        if let course_id = course.course_id {
+            environment.router?.showCourseWithID(courseID: course_id, fromController: self, animated: true)
+        } else {
+            preconditionFailure("course without a course id")
+        }
+    }
+    
+    func showValuePropDetailView(with course: OEXCourse) {
+        environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: AnalyticsScreenName.CourseEnrollment)
+        environment.router?.showValuePropDetailView(from: self, screen: .myCourses, course: course) { [weak self] in
+            self?.environment.analytics.trackValuePropModal(with: .CourseEnrollment, courseId: course.course_id ?? "")
+        }
+    }
+    
+    func reload() {
+        loadController.state = .Initial
+        refreshIfNecessary()
     }
 }
 

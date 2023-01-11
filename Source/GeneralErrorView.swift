@@ -8,13 +8,9 @@
 
 import Foundation
 
-protocol GeneralErrorViewDelegate: AnyObject {
-    func didTapButton()
-}
-
 class GeneralErrorView: UIView {
     
-    weak var delegate: GeneralErrorViewDelegate?
+    var tapAction: (() -> ())?
     
     init() {
         super.init(frame: .zero)
@@ -53,7 +49,7 @@ class GeneralErrorView: UIView {
         button.accessibilityIdentifier = "GeneralErrorView:error-action-button"
         button.backgroundColor = OEXStyles.shared().secondaryBaseColor()
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didTapButton()
+            self?.tapAction?()
         }, for: .touchUpInside)
 
         let style = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhite())
