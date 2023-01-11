@@ -275,9 +275,10 @@ extension ProfileOptionsViewController: UITableViewDataSource {
     private func privacyCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyCell.identifier, for: indexPath) as! PrivacyCell
         cell.delegate = self
-        let privacyEnabled = !(environment.config.agreementURLsConfig.privacyPolicyURL?.absoluteString.isEmpty ?? true)
-        let cookieEnabled = !(environment.config.agreementURLsConfig.cookiePolicyURL?.absoluteString.isEmpty ?? true)
-        let dataSellConsentEnabled = !(environment.config.agreementURLsConfig.dataSellConsentURL?.absoluteString.isEmpty ?? true)
+        let confif = environment.config.agreementURLsConfig
+        let privacyEnabled = !(confif.privacyPolicyURL?.absoluteString.isEmpty ?? true)
+        let cookieEnabled = !(confif.cookiePolicyURL?.absoluteString.isEmpty ?? true)
+        let dataSellConsentEnabled = !(confif.dataSellConsentURL?.absoluteString.isEmpty ?? true)
         cell.configure(privacyEnabled: privacyEnabled, cookieEnabled: cookieEnabled, dataSellConsentEnabled: dataSellConsentEnabled)
         
         return cell
@@ -1019,7 +1020,7 @@ class PrivacyCell: UITableViewCell {
     private var privacyPolicyEnabled = false
     private var cookiePolicyEnabled = false
     private var dataSellConsentEnabled = false
-
+    
     private lazy var optionLabel: UILabel = {
         let label = UILabel()
         label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Purchases.title)
@@ -1044,7 +1045,7 @@ class PrivacyCell: UITableViewCell {
         view.accessibilityIdentifier = "PrivacyCell:data-sell-consent--view"
         return view
     }()
-   
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -1065,22 +1066,21 @@ class PrivacyCell: UITableViewCell {
     }
     
     private func setupViews() {
+        contentView.subviews.forEach { $0.removeFromSuperview() }
         contentView.addSubview(optionLabel)
         if privacyPolicyEnabled {
-            privacyView.removeFromSuperview()
             contentView.addSubview(privacyView)
         }
         if cookiePolicyEnabled {
-            cookieView.removeFromSuperview()
             contentView.addSubview(cookieView)
         }
         if dataSellConsentEnabled {
-            dataSellConsentView.removeFromSuperview()
             contentView.addSubview(dataSellConsentView)
         }
     }
     
     private func setupConstrains() {
+        var upperView: UIView = optionLabel
         optionLabel.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardVerticalMargin + (StandardVerticalMargin / 2))
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
@@ -1089,7 +1089,7 @@ class PrivacyCell: UITableViewCell {
         
         if privacyPolicyEnabled {
             privacyView.snp.makeConstraints { make in
-                make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
+                make.top.equalTo(upperView.snp.bottom).offset(StandardVerticalMargin)
                 make.trailing.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.leading.equalTo(contentView).inset(StandardHorizontalMargin)
                 
@@ -1097,44 +1097,27 @@ class PrivacyCell: UITableViewCell {
                     make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
                 }
             }
+            upperView = privacyView
         }
         
         if cookiePolicyEnabled {
             cookieView.snp.makeConstraints { make in
-                if !privacyPolicyEnabled {
-                    make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
-                    make.trailing.equalTo(contentView).offset(StandardHorizontalMargin)
-                    make.leading.equalTo(contentView).inset(StandardHorizontalMargin)
-                } else {
-                    make.top.equalTo(privacyView.snp.bottom).offset(StandardVerticalMargin / 2)
-                    make.trailing.equalTo(privacyView)
-                    make.leading.equalTo(privacyView)
-                }
+                make.top.equalTo(upperView.snp.bottom).offset(StandardVerticalMargin / 2)
+                make.trailing.equalTo(upperView)
+                make.leading.equalTo(upperView)
                 
                 if !dataSellConsentEnabled {
                     make.bottom.equalTo(contentView).inset((StandardVerticalMargin + (StandardVerticalMargin / 2)))
                 }
             }
+            upperView = cookieView
         }
         
         if dataSellConsentEnabled {
             dataSellConsentView.snp.makeConstraints { make in
-                if !cookiePolicyEnabled && !privacyPolicyEnabled {
-                    make.top.equalTo(optionLabel.snp.bottom).offset(StandardVerticalMargin)
-                    make.trailing.equalTo(contentView).offset(StandardHorizontalMargin)
-                    make.leading.equalTo(contentView).inset(StandardHorizontalMargin)
-                }
-                else if !cookiePolicyEnabled {
-                    make.top.equalTo(privacyView.snp.bottom).offset(StandardVerticalMargin / 2)
-                    make.trailing.equalTo(privacyView)
-                    make.leading.equalTo(privacyView)
-                }
-                else {
-                    make.top.equalTo(cookieView.snp.bottom).offset(StandardVerticalMargin / 2)
-                    make.trailing.equalTo(cookieView)
-                    make.leading.equalTo(cookieView)
-                }
-                
+                make.top.equalTo(upperView.snp.bottom).offset(StandardVerticalMargin / 2)
+                make.trailing.equalTo(upperView)
+                make.leading.equalTo(upperView)
                 make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
             }
         }
