@@ -23,7 +23,9 @@ class AgreementURLsConfigTests : XCTestCase {
             "AGREEMENT_URLS" : [
                 "EULA_URL": eulaUrl,
                 "TOS_URL": tosUrl,
-                "PRIVACY_POLICY_URL": privacyPolicyUrl
+                "PRIVACY_POLICY_URL": privacyPolicyUrl,
+                "COOKIE_POLICY_URL": cookieUrl,
+                "DATA_SELL_CONSENT_URL": dataSellConsentUrl
             ]
         ]
         let config = OEXConfig(dictionary: configDictionary)
