@@ -144,9 +144,9 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
     
     private let environment: Environment
     private let course: OEXCourse?
-    private let error: CourseAccessError?
+    private let error: CourseAccessErrorHelper?
     
-    init(environment: Environment, course: OEXCourse?, error: CourseAccessError?) {
+    init(environment: Environment, course: OEXCourse?, error: CourseAccessErrorHelper?) {
         self.environment = environment
         self.course = course
         self.error = error

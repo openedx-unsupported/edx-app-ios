@@ -1,41 +1,53 @@
 //
-//  CourseAccessError.swift
+//  CourseAccessErrorHelper.swift
 //  edX
 //
 //  Created by MuhammadUmer on 05/01/2023.
 //  Copyright © 2023 edX. All rights reserved.
 //
 
-enum CourseAccessErrorType {
+enum CourseAccessErrorHelperType {
     case isEndDateOld
     case startDateError
     case auditExpired
-    case none
+    case upgradeable
 }
 
-class CourseAccessError {
-    private let course: OEXCourse?
+class CourseAccessErrorHelper {
+    private let course: OEXCourse
+    private let enrollment: UserCourseEnrollment?
     
-    lazy var type: CourseAccessErrorType = {
-        guard let course = course else { return .none }
+    init(course: OEXCourse, enrollment: UserCourseEnrollment? = nil) {
+        self.course = course
+        self.enrollment = enrollment
+    }
+    
+    var type: CourseAccessErrorHelperType? {
+        guard let enrollment = enrollment else { return nil }
+        
         if course.isEndDateOld {
-            return .isEndDateOld
+            if enrollment.isUpgradeable {
+                return .upgradeable
+            } else {
+                return .isEndDateOld
+            }
         } else {
-            guard let errorCode = course.courseware_access?.error_code else { return .none }
+            guard let errorCode = course.courseware_access?.error_code else { return nil }
+            
             switch errorCode {
             case .startDateError:
                 return .startDateError
             case .auditExpired:
                 return .auditExpired
-                
+            
             default:
-                return .none
+                return nil
             }
         }
-    }()
+    }
     
-    init(course: OEXCourse?) {
-        self.course = course
+    var shouldShowValueProp: Bool {
+        return type == .upgradeable || type == .auditExpired
     }
     
     var errorTitle: String? {
@@ -52,8 +64,6 @@ class CourseAccessError {
     }
     
     var errorInfo: String? {
-        guard let course = course else { return nil }
-        
         switch type {
         case .isEndDateOld:
             return Strings.CourseDashboard.Error.courseAccessExpiredInfo

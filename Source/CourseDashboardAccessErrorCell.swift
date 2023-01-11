@@ -11,7 +11,7 @@ import Foundation
 protocol CourseDashboardAccessErrorCellDelegate: AnyObject {
     func findCourseAction()
     func upgradeCourseAction(cell: CourseDashboardAccessErrorCell, course: OEXCourse, completion: @escaping ((Bool) -> ()) )
-    func fetchCoursePrice(cell: CourseDashboardAccessErrorCell, completion: @escaping (String?, Bool) -> ())
+    func fetchCoursePrice(cell: CourseDashboardAccessErrorCell, completion: @escaping (String?) -> ())
 }
 
 class CourseDashboardAccessErrorCell: UITableViewCell {
@@ -26,13 +26,8 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         upgradeButton.tapAction = { [weak self] in
             guard let weakSelf = self, let course = self?.course else { return }
             self?.delegate?.upgradeCourseAction(cell: weakSelf, course: course) { [weak self] done in
-                if done {
-                    upgradeButton.isHidden = true
-                    weakSelf.setConstraints(showValueProp: false, showUpgradeButton: false)
-                } else {
-                    weakSelf.setConstraints(showValueProp: true, showUpgradeButton: true)
-                    upgradeButton.stopAnimating()
-                }
+                upgradeButton.stopAnimating()
+                weakSelf.addBottomView(showValueProp: !done, showUpgradeButton: !done)
             }
         }
         return upgradeButton
@@ -56,17 +51,10 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     private lazy var findCourseButton: UIButton = {
         let button = UIButton(type: .system)
         button.accessibilityIdentifier = "CourseDashboardAccessErrorCell:findcourse-button"
-        button.backgroundColor = .clear
         button.oex_addAction({ [weak self] _ in
             self?.delegate?.findCourseAction()
         }, for: .touchUpInside)
         
-        let style = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().secondaryBaseColor())
-        button.setAttributedTitle(style.attributedString(withText: Strings.CourseDashboard.Error.findANewCourse), for: UIControl.State())
-        button.layer.borderWidth = 1
-        button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
-        button.layer.cornerRadius = 0
-        button.layer.masksToBounds = true
         return button
     }()
     
@@ -76,6 +64,9 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         accessibilityIdentifier = "CourseDashboardAccessErrorCell:view"
     }
     
+    private var containerView: UIView?
+    private var bottomOffset: CGFloat = 4
+    
     private var course: OEXCourse?
     private var coursePrice: String?
     
@@ -83,26 +74,23 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func handleCourseAccessError(_ error: CourseAccessError) {
+    func handleCourseAccessError(_ error: CourseAccessErrorHelper) {
         guard let title = error.errorTitle,
               let info = error.errorInfo else { return }
         
-        let showValueProp = error.type == .auditExpired
-        
+        let showValueProp = error.shouldShowValueProp
         configureView(showValueProp: showValueProp)
-        
         update(title: title, info: info)
         
         if showValueProp {
             upgradeButton.startShimeringEffect()
-            delegate?.fetchCoursePrice(cell: self) { [weak self] price, error in
+            delegate?.fetchCoursePrice(cell: self) { [weak self] price in
                 self?.upgradeButton.stopShimmerEffect()
-                
-                if error {
-                    self?.upgradeButton.isHidden = true
-                    self?.setConstraints(showValueProp: showValueProp, showUpgradeButton: false)
-                } else if let price = price {
+                if let price = price {
                     self?.upgradeButton.setPrice(price)
+                } else {
+                    self?.upgradeButton.isHidden = true
+                    self?.addBottomView(showValueProp: showValueProp, showUpgradeButton: false)
                 }
             }
         }
@@ -111,14 +99,13 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     private func configureView(showValueProp: Bool = false) {
         contentView.addSubview(titleLabel)
         contentView.addSubview(infoLabel)
-        contentView.addSubview(findCourseButton)
         
         setConstraints(showValueProp: showValueProp)
     }
     
     private func setConstraints(showValueProp: Bool = false, showUpgradeButton: Bool = true) {
         titleLabel.snp.remakeConstraints { make in
-            make.top.equalTo(contentView).offset(2 * StandardVerticalMargin)
+            make.top.equalTo(contentView).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
@@ -129,14 +116,15 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
         
-        var containerView: UIView = infoLabel
-        var bottomOffset: CGFloat = 4
-        
+        containerView = infoLabel
+    }
+    
+    private func addBottomView(showValueProp: Bool, showUpgradeButton: Bool) {
         if showValueProp {
             contentView.addSubview(infoMessagesView)
             
             infoMessagesView.snp.remakeConstraints { make in
-                make.top.equalTo(infoLabel.snp.bottom).offset(2 * StandardVerticalMargin)
+                make.top.equalTo(infoLabel.snp.bottom).offset(StandardVerticalMargin * 2)
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
                 make.height.equalTo(infoMessagesView.height())
@@ -148,16 +136,25 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
                 contentView.addSubview(upgradeButton)
                 
                 upgradeButton.snp.remakeConstraints { make in
-                    make.top.equalTo(infoMessagesView.snp.bottom).offset(4 * StandardVerticalMargin)
+                    make.top.equalTo(infoMessagesView.snp.bottom).offset(StandardVerticalMargin * bottomOffset)
                     make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                     make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
                     make.height.equalTo(StandardVerticalMargin * 4.5)
                 }
                 
-                containerView = infoMessagesView
+                containerView = upgradeButton
+                bottomOffset = 2
             }
-                        
-            bottomOffset = 2
+        }
+        
+        contentView.addSubview(findCourseButton)
+        
+        guard let containerView = containerView else { return }
+        
+        if showUpgradeButton {
+            applyLightStyle(findCourseButton, text: Strings.CourseDashboard.Error.findANewCourse)
+        } else {
+            applyDarkStyle(findCourseButton, text: Strings.CourseDashboard.Error.findANewCourse)
         }
         
         findCourseButton.snp.remakeConstraints { make in
@@ -175,5 +172,26 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         
         titleLabel.attributedText = titleTextStyle.attributedString(withText: title)
         infoLabel.attributedText = infoTextStyle.attributedString(withText: info)
+    }
+    
+    private func applyLightStyle(_ button: UIButton, text: String) {
+        let style = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().secondaryBaseColor())
+        button.setAttributedTitle(style.attributedString(withText: Strings.CourseDashboard.Error.findANewCourse), for: UIControl.State())
+        
+        button.backgroundColor = .clear
+        button.layer.borderWidth = 1
+        button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
+        button.layer.cornerRadius = 0
+        button.layer.masksToBounds = true
+    }
+    
+    private func applyDarkStyle(_ button: UIButton, text: String) {
+        let style = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhiteT())
+        button.setAttributedTitle(style.attributedString(withText: Strings.CourseDashboard.Error.findANewCourse), for: UIControl.State())
+        
+        button.backgroundColor = OEXStyles.shared().secondaryBaseColor()
+        button.layer.borderWidth = 0
+        button.layer.cornerRadius = 0
+        button.layer.masksToBounds = true
     }
 }

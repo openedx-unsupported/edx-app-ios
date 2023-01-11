@@ -39,7 +39,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private var course: OEXCourse?
     private var error: NSError?
-    private var courseAccessError: CourseAccessError?
+    private var courseAccessError: CourseAccessErrorHelper?
     private var selectedTabbarItem: TabBarItem?
     
     private var isModalDismissable = true
@@ -136,7 +136,8 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private func verifyAccess(forCourse course: OEXCourse) {
         if let access = course.courseware_access, !access.has_access {
             loadStateController.state = .Loaded
-            courseAccessError = CourseAccessError(course: course)
+            let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
+            courseAccessError = CourseAccessErrorHelper(course: course, enrollment: enrollment)
             headerView.showTabbarView(show: false)
             tableView.reloadData()
         } else {
@@ -276,7 +277,7 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
 }
 
 extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelegate {
-    func fetchCoursePrice(cell: CourseDashboardAccessErrorCell, completion: @escaping (String?, Bool) -> ()) {
+    func fetchCoursePrice(cell: CourseDashboardAccessErrorCell, completion: @escaping (String?) -> ()) {
         guard let courseSku = course?.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
         
         let startTime = CFAbsoluteTimeGetCurrent()
@@ -288,10 +289,10 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelega
                     let endTime = CFAbsoluteTimeGetCurrent() - startTime
                     self?.coursePrice = price
                     self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
-                    cell.upgradeButton.stopShimmerEffect()
+                    completion(price)
                 } else {
+                    completion(nil)
                     self?.trackLoadError()
-                    self?.showCoursePriceErrorAlert(cell: cell, completion: completion)
                 }
             }
         }
@@ -364,22 +365,6 @@ extension NewCourseDashboardViewController {
     private func trackLoadError() {
         guard let course = course, let courseID = course.course_id else { return }
         environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, pacing: pacing, screen: screen)
-    }
-
-    private func showCoursePriceErrorAlert(cell: CourseDashboardAccessErrorCell, completion: @escaping (String?, Bool) -> ()) {
-        guard let course = course, let topController = UIApplication.shared.topMostController() else { return }
-
-        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
-
-        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
-            self?.fetchCoursePrice(cell: cell, completion: completion)
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: course.course_id ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
-        }
-
-        alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
-            completion(nil, true)
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: course.course_id ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
-        }
     }
 }
 
