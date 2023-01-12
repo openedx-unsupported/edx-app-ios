@@ -35,7 +35,8 @@ class BrowserViewController: UIViewController, InterfaceOrientationOverriding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        navigationItem.largeTitleDisplayMode = .never
         view.backgroundColor = environment.styles.standardBackgroundColor()
         configureSubview()
         loadRequest()
@@ -62,6 +63,8 @@ class BrowserViewController: UIViewController, InterfaceOrientationOverriding {
     }
     
     private func addCloseButton() {
+        if !isModal() { return }
+        
         let closeButton = UIBarButtonItem(image: Icon.Close.imageWithFontSize(size: 20), style: .plain, target: nil, action: nil)
         closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
         closeButton.accessibilityHint = Strings.Accessibility.closeHint

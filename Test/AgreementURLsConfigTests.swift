@@ -17,11 +17,15 @@ class AgreementURLsConfigTests : XCTestCase {
         let eulaUrl = "https://example-eula.com"
         let tosUrl = "https://example-tos.com"
         let privacyPolicyUrl = "https://example-policy.com"
+        let cookieUrl = "https://example-cookie.com"
+        let dataSellConsentUrl = "https://example-datasellconsent.com"
         let configDictionary = [
             "AGREEMENT_URLS" : [
                 "EULA_URL": eulaUrl,
                 "TOS_URL": tosUrl,
-                "PRIVACY_POLICY_URL": privacyPolicyUrl
+                "PRIVACY_POLICY_URL": privacyPolicyUrl,
+                "COOKIE_POLICY_URL": cookieUrl,
+                "DATA_SELL_CONSENT_URL": dataSellConsentUrl
             ]
         ]
         let config = OEXConfig(dictionary: configDictionary)
@@ -30,10 +34,14 @@ class AgreementURLsConfigTests : XCTestCase {
         XCTAssertNotNil(config.agreementURLsConfig.eulaURL)
         XCTAssertNotNil(config.agreementURLsConfig.tosURL)
         XCTAssertNotNil(config.agreementURLsConfig.privacyPolicyURL)
+        XCTAssertNotNil(config.agreementURLsConfig.cookiePolicyURL)
+        XCTAssertNotNil(config.agreementURLsConfig.dataSellConsentURL)
         
         XCTAssertEqual(config.agreementURLsConfig.eulaURL?.absoluteString, eulaUrl)
         XCTAssertEqual(config.agreementURLsConfig.tosURL?.absoluteString, tosUrl)
         XCTAssertEqual(config.agreementURLsConfig.privacyPolicyURL?.absoluteString, privacyPolicyUrl)
+        XCTAssertEqual(config.agreementURLsConfig.cookiePolicyURL?.absoluteString, cookieUrl)
+        XCTAssertEqual(config.agreementURLsConfig.dataSellConsentURL?.absoluteString, dataSellConsentUrl)
     }
 
     func testAgreementURLsNoConfig() {
