@@ -58,7 +58,7 @@ class AgreementURLsConfig : NSObject {
         return URL(string: dataSellConsent)
     }
 
-    var supportedlanguages: [String] = []
+    private var supportedLanguages: [String] = []
     
     var enabledForProfile: Bool {
         return !privacyPolicy.isEmpty || !cookiePolicy.isEmpty || !dataSellConsent.isEmpty
@@ -72,7 +72,7 @@ class AgreementURLsConfig : NSObject {
         privacyPolicy = dictionary[AgreementURLsKeys.privacyPolicyURL] as? String ?? ""
         cookiePolicy = dictionary[AgreementURLsKeys.cookiePolicyURL] as? String ?? ""
         dataSellConsent = dictionary[AgreementURLsKeys.dataSellConsentURL] as? String ?? ""
-        supportedlanguages = dictionary[AgreementURLsKeys.supportedlanguages] as? [String] ?? []
+        supportedLanguages = dictionary[AgreementURLsKeys.supportedlanguages] as? [String] ?? []
 
         if !eula.isEmpty || !tos.isEmpty || !privacyPolicy.isEmpty { }
         else {
@@ -85,7 +85,7 @@ class AgreementURLsConfig : NSObject {
 
     private func completePath(url: String) -> String {
         let langCode = Locale.current.languageCode ?? ""
-        if !supportedlanguages.contains(langCode) {
+        if !supportedLanguages.contains(langCode) {
             return url
         }
 

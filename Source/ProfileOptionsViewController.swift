@@ -275,10 +275,10 @@ extension ProfileOptionsViewController: UITableViewDataSource {
     private func privacyCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyCell.identifier, for: indexPath) as! PrivacyCell
         cell.delegate = self
-        let confif = environment.config.agreementURLsConfig
-        let privacyEnabled = !(confif.privacyPolicyURL?.absoluteString.isEmpty ?? true)
-        let cookieEnabled = !(confif.cookiePolicyURL?.absoluteString.isEmpty ?? true)
-        let dataSellConsentEnabled = !(confif.dataSellConsentURL?.absoluteString.isEmpty ?? true)
+        let config = environment.config.agreementURLsConfig
+        let privacyEnabled = !(config.privacyPolicyURL?.absoluteString.isEmpty ?? true)
+        let cookieEnabled = !(config.cookiePolicyURL?.absoluteString.isEmpty ?? true)
+        let dataSellConsentEnabled = !(config.dataSellConsentURL?.absoluteString.isEmpty ?? true)
         cell.configure(privacyEnabled: privacyEnabled, cookieEnabled: cookieEnabled, dataSellConsentEnabled: dataSellConsentEnabled)
         
         return cell
