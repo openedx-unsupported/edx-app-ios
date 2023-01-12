@@ -40,3 +40,11 @@
 "PROFILE_OPTIONS.DELETEACCOUNT.INFO_MESSAGE" = "Siga as instruções da próxima tela para excluir sua conta e todos os dados relacionados.";
 /* Settings title for delete account web view*/
 "PROFILE_OPTIONS.DELETEACCOUNT.WEBVIEW_TITLE" = "Excluir sua conta";
+/* Settings title for privacy */
+"PROFILE_OPTIONS.PRIVACY.TITLE" = "Privacy";
+/* Settings title for privacy */
+"PROFILE_OPTIONS.PRIVACY.PRIVACY_POLICY" = "Privacy policy";
+/* Settings title for privacy cookie policy*/
+"PROFILE_OPTIONS.PRIVACY.COOKIE_POLICY" = "Cookie policy";
+/* Settings title for privacy do not sell my personal data*/
+"PROFILE_OPTIONS.PRIVACY.DATA_SELL_CONSENT" = "Do not sell my personal data";

@@ -20,6 +20,7 @@ class ProfileOptionsViewController: UIViewController {
         case videoSetting
         case personalInformation
         case restorePurchase
+        case privacy
         case help(Bool, Bool)
         case signout
         case deleteAccount
@@ -42,6 +43,7 @@ class ProfileOptionsViewController: UIViewController {
         tableView.register(VideoSettingCell.self, forCellReuseIdentifier: VideoSettingCell.identifier)
         tableView.register(PersonalInformationCell.self, forCellReuseIdentifier: PersonalInformationCell.identifier)
         tableView.register(RestorePurchasesCell.self, forCellReuseIdentifier: RestorePurchasesCell.identifier)
+        tableView.register(PrivacyCell.self, forCellReuseIdentifier: PrivacyCell.identifier)
         tableView.register(HelpCell.self, forCellReuseIdentifier: HelpCell.identifier)
         tableView.register(SignOutVersionCell.self, forCellReuseIdentifier: SignOutVersionCell.identifier)
         tableView.register(DeleteAccountCell.self, forCellReuseIdentifier: DeleteAccountCell.identifier)
@@ -145,6 +147,10 @@ class ProfileOptionsViewController: UIViewController {
             options.append(.restorePurchase)
         }
         
+        if environment.config.agreementURLsConfig.enabledForProfile {
+            options.append(.privacy)
+        }
+        
         let feedbackEnabled =  environment.config.feedbackEmailAddress() != nil
         let faqEnabled = environment.config.faqURL != nil
         
@@ -221,6 +227,9 @@ extension ProfileOptionsViewController: UITableViewDataSource {
         case .restorePurchase:
             return restorePurchaseCell(tableView, indexPath: indexPath)
             
+        case .privacy:
+            return privacyCell(tableView, indexPath: indexPath)
+            
         case .help(let feedbackEnabled, let faqEnabled):
             return helpCell(tableView, indexPath: indexPath, feedbackEnabled: feedbackEnabled, faqEnabled: faqEnabled)
             
@@ -260,6 +269,18 @@ extension ProfileOptionsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: RestorePurchasesCell.identifier, for: indexPath) as! RestorePurchasesCell
         cell.delegate = self
 
+        return cell
+    }
+    
+    private func privacyCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyCell.identifier, for: indexPath) as! PrivacyCell
+        cell.delegate = self
+        let config = environment.config.agreementURLsConfig
+        let privacyEnabled = !(config.privacyPolicyURL?.absoluteString.isEmpty ?? true)
+        let cookieEnabled = !(config.cookiePolicyURL?.absoluteString.isEmpty ?? true)
+        let dataSellConsentEnabled = !(config.dataSellConsentURL?.absoluteString.isEmpty ?? true)
+        cell.configure(privacyEnabled: privacyEnabled, cookieEnabled: cookieEnabled, dataSellConsentEnabled: dataSellConsentEnabled)
+        
         return cell
     }
 
@@ -420,6 +441,32 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
             default:
                 break
             }
+        }
+    }
+}
+
+extension ProfileOptionsViewController: PrivacyCellCellDelegate {
+    func didTapURL(type: PrivacyType) {
+        let URL: URL?
+        let title: String
+        
+        switch type {
+        case .privacy:
+            URL = environment.config.agreementURLsConfig.privacyPolicyURL
+            title = Strings.ProfileOptions.Privacy.privacyPolicy
+            environment.analytics.trackEvent(with: .PrivacyPolicyClicked, name: .PrivacyPolicyClicked)
+        case .cookie:
+            URL = environment.config.agreementURLsConfig.cookiePolicyURL
+            title = Strings.ProfileOptions.Privacy.cookiePolicy
+            environment.analytics.trackEvent(with: .CookiePolicyClicked, name: .CookiePolicyClicked)
+        case .dataSellConsent:
+            URL = environment.config.agreementURLsConfig.dataSellConsentURL
+            title = Strings.ProfileOptions.Privacy.dataSellConsent
+            environment.analytics.trackEvent(with: .DataSellConsentClicked, name: .DataSellConsentClicked)
+        }
+        
+        if let URL = URL {
+            environment.router?.showBrowserViewController(from: self, title: title, url: URL, modal: false)
         }
     }
 }
@@ -875,6 +922,199 @@ class RestorePurchasesCell: UITableViewCell {
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
             make.height.equalTo(StandardVerticalMargin * 5)
             make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
+        }
+    }
+}
+
+
+enum PrivacyType: String {
+    case privacy, cookie, dataSellConsent
+}
+
+protocol PrivacyCellCellDelegate: AnyObject {
+    func didTapURL(type: PrivacyType)
+}
+
+class PrivacyCell: UITableViewCell {
+    
+    class PrivacyCellView: UIView {
+        var type: PrivacyType = .privacy
+        var owner: PrivacyCell? = nil
+        
+        init(type: PrivacyType, owner: PrivacyCell?) {
+            super.init(frame: .zero)
+            
+            self.type = type
+            self.owner = owner
+            setupView()
+        }
+        
+        var title: String {
+            switch type {
+            case .privacy:
+                return Strings.ProfileOptions.Privacy.privacyPolicy
+            case .cookie:
+                return Strings.ProfileOptions.Privacy.cookiePolicy
+            case .dataSellConsent:
+                return Strings.ProfileOptions.Privacy.dataSellConsent
+            }
+        }
+        
+        private lazy var button: UIButton = {
+            let buttonStyle = OEXTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryBaseColor())
+            
+            let button = UIButton()
+            button.accessibilityIdentifier = "PrivacyCellView:\(type)-button"
+            button.contentHorizontalAlignment = .left
+            button.setAttributedTitle(buttonStyle.attributedString(withText: title), for: UIControl.State())
+            button.oex_addAction({ [weak self] _ in
+                guard let self = self else { return }
+                self.owner?.delegate?.didTapURL(type: self.type)
+            }, for: .touchUpInside)
+            
+            return button
+        }()
+        
+        private lazy var chevronImageView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.image = Icon.ChevronRight.imageWithFontSize(size: imageSize)
+            imageView.tintColor = OEXStyles.shared().primaryBaseColor()
+            imageView.isAccessibilityElement = false
+            imageView.accessibilityIdentifier = "PrivacyCellView:chevron-image-view"
+            return imageView
+        }()
+        
+        private func setupView() {
+            addSubview(button)
+            addSubview(chevronImageView)
+            
+            button.snp.makeConstraints { make in
+                make.top.equalTo(self)
+                make.leading.equalTo(self)
+                make.trailing.equalTo(chevronImageView.snp.leading)
+                make.bottom.equalTo(self)
+                make.height.equalTo(30)
+            }
+            
+            chevronImageView.snp.makeConstraints { make in
+                make.height.equalTo(imageSize)
+                make.width.equalTo(imageSize)
+                make.trailing.equalTo(self).inset(2 * StandardHorizontalMargin)
+                make.centerY.equalTo(button)
+            }
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+    }
+    
+    static let identifier = "PrivacyCell"
+    weak var delegate: PrivacyCellCellDelegate?
+    
+    private var privacyPolicyEnabled = false
+    private var cookiePolicyEnabled = false
+    private var dataSellConsentEnabled = false
+    
+    private lazy var optionLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Purchases.title)
+        label.accessibilityIdentifier = "PrivacyCell:option-label"
+        return label
+    }()
+    
+    private lazy var privacyView: PrivacyCellView = {
+        let view = PrivacyCellView(type: .privacy, owner: self)
+        view.accessibilityIdentifier = "PrivacyCell:privacy-policy-view"
+        return view
+    }()
+    
+    private lazy var cookieView: PrivacyCellView = {
+        let view = PrivacyCellView(type: .cookie, owner: self)
+        view.accessibilityIdentifier = "PrivacyCell:cookie-policy-view"
+        return view
+    }()
+    
+    private lazy var dataSellConsentView: PrivacyCellView = {
+        let view = PrivacyCellView(type: .dataSellConsent, owner: self)
+        view.accessibilityIdentifier = "PrivacyCell:data-sell-consent--view"
+        return view
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = .none
+        accessibilityIdentifier = "ProfileOptionsViewController:restore-purchases-cell"
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(privacyEnabled: Bool, cookieEnabled: Bool, dataSellConsentEnabled: Bool) {
+        privacyPolicyEnabled = privacyEnabled
+        cookiePolicyEnabled = cookieEnabled
+        self.dataSellConsentEnabled = dataSellConsentEnabled
+        setupViews()
+        setupConstrains()
+    }
+    
+    private func setupViews() {
+        contentView.subviews.forEach { $0.removeFromSuperview() }
+        contentView.addSubview(optionLabel)
+        if privacyPolicyEnabled {
+            contentView.addSubview(privacyView)
+        }
+        if cookiePolicyEnabled {
+            contentView.addSubview(cookieView)
+        }
+        if dataSellConsentEnabled {
+            contentView.addSubview(dataSellConsentView)
+        }
+    }
+    
+    private func setupConstrains() {
+        var upperView: UIView = optionLabel
+        optionLabel.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(StandardVerticalMargin + (StandardVerticalMargin / 2))
+            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+        }
+        
+        if privacyPolicyEnabled {
+            privacyView.snp.makeConstraints { make in
+                make.top.equalTo(upperView.snp.bottom).offset(StandardVerticalMargin)
+                make.trailing.equalTo(contentView).offset(StandardHorizontalMargin)
+                make.leading.equalTo(contentView).inset(StandardHorizontalMargin)
+                
+                if !cookiePolicyEnabled && !dataSellConsentEnabled {
+                    make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
+                }
+            }
+            upperView = privacyView
+        }
+        
+        if cookiePolicyEnabled {
+            cookieView.snp.makeConstraints { make in
+                make.top.equalTo(upperView.snp.bottom).offset(StandardVerticalMargin / 2)
+                make.trailing.equalTo(upperView)
+                make.leading.equalTo(upperView)
+                
+                if !dataSellConsentEnabled {
+                    make.bottom.equalTo(contentView).inset((StandardVerticalMargin + (StandardVerticalMargin / 2)))
+                }
+            }
+            upperView = cookieView
+        }
+        
+        if dataSellConsentEnabled {
+            dataSellConsentView.snp.makeConstraints { make in
+                make.top.equalTo(upperView.snp.bottom).offset(StandardVerticalMargin / 2)
+                make.trailing.equalTo(upperView)
+                make.leading.equalTo(upperView)
+                make.bottom.equalTo(contentView).inset(StandardVerticalMargin + (StandardVerticalMargin / 2))
+            }
         }
     }
 }
