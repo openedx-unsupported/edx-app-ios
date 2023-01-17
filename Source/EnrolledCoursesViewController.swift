@@ -142,6 +142,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOri
                     self?.coursesContainer.collectionView.reloadData()
                     self?.loadController.state = .Loaded
                     self?.handleUpgradationLoader(success: true)
+                    
+                    if enrollments.isEmpty {
+                        self?.enrollmentsEmptyState()
+                    }
                 }
                 else {
                     self?.loadController.state = .Initial
@@ -170,6 +174,14 @@ class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOri
     private func showGeneralError() {
         loadController.state = .Loaded
         coursesContainer.showError()
+    }
+    
+    // set empty state when course discovery is disabled
+    private func enrollmentsEmptyState() {
+        if !isDiscoveryEnabled {
+            let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
+            loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
+        }
     }
     
     private func setupObservers() {
