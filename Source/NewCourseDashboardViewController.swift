@@ -135,14 +135,16 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }
     
     private func verifyAccess(forCourse course: OEXCourse) {
+        self.course = course
+        
         if let access = course.courseware_access, !access.has_access {
             loadStateController.state = .Loaded
             let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
             courseAccessError = CourseAccessErrorHelper(course: course, enrollment: enrollment)
+            fetchCoursePrice()
             headerView.showTabbarView(show: false)
             tableView.reloadData()
         } else {
-            self.course = course
             loadStateController.state = .Loaded
             headerView.showTabbarView(show: true)
             tableView.reloadData()
@@ -178,6 +180,31 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         tableView.reloadData()
     }
+    
+    private func fetchCoursePrice() {
+        guard let courseSku = course?.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
+        
+        let startTime = CFAbsoluteTimeGetCurrent()
+        
+        DispatchQueue.main.async { [weak self] in
+            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
+                if let price = price {
+                    let endTime = CFAbsoluteTimeGetCurrent() - startTime
+                    self?.coursePrice = price
+                    self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
+                    self?.reloadCoursePriceIfNecessary()
+                } else {
+                    self?.trackLoadError()
+                }
+            }
+        }
+    }
+    
+    private func reloadCoursePriceIfNecessary() {
+        if let _ = tableView.visibleCells.first(where: { $0 is CourseDashboardAccessErrorCell }) {
+            tableView.reloadData()
+        }
+    }
 }
 
 extension NewCourseDashboardViewController: UITableViewDelegate {
@@ -206,7 +233,7 @@ extension NewCourseDashboardViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseDashboardAccessErrorCell.identifier, for: indexPath) as! CourseDashboardAccessErrorCell
             
             cell.delegate = self
-            
+            cell.coursePrice = coursePrice
             if let error = courseAccessError {
                 cell.handleCourseAccessError(course: course, error: error)
             }
@@ -278,38 +305,23 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
 }
 
 extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelegate {
-    func fetchCoursePrice(completion: @escaping (String?) -> ()) {
-        guard let courseSku = course?.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
-        
-        let startTime = CFAbsoluteTimeGetCurrent()
-        
-        DispatchQueue.main.async { [weak self] in
-            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
-                if let price = price {
-                    let endTime = CFAbsoluteTimeGetCurrent() - startTime
-                    self?.coursePrice = price
-                    self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
-                    completion(price)
-                } else {
-                    self?.trackLoadError()
-                    completion(nil)
-                }
-            }
-        }
-    }
-    
     func findCourseAction() {
         redirectToDiscovery()
     }
     
-    func upgradeCourseAction(course: OEXCourse) {
-        guard let courseID = course.course_id, let coursePrice = coursePrice else { return }
+    func upgradeCourseAction(course: OEXCourse, completion: @escaping ((Bool) -> ())) {
+       let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
+        
+        guard let courseID = course.course_id, let coursePrice = coursePrice else {
+            courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(.generalError, nil))
+            completion(false)
+            return
+        }
         
         environment.analytics.trackUpgradeNow(with: courseID, pacing: pacing, screenName: .courseDashboard, coursePrice: coursePrice)
         
         courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, coursePrice: coursePrice, screen: .courseDashboard)
         
-        let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
         upgradeHandler.upgradeCourse { [weak self] status in
             guard let weakSelf = self else { return }
             weakSelf.enableUserInteraction(enable: false)
@@ -328,11 +340,13 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelega
                 weakSelf.dismiss(animated: true) { [weak self] in
                     self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(course.course_id ?? "", nil))
                 }
+                completion(true)
                 break
                 
             case .error(let type, let error):
                 weakSelf.enableUserInteraction(enable: true)
                 weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error), delegate: type == .verifyReceiptError ? weakSelf : nil)
+                completion(false)
                 break
            
             default:
