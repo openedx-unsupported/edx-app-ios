@@ -105,10 +105,12 @@ class CourseCardCell : UICollectionViewCell {
 protocol CoursesContainerViewControllerDelegate : AnyObject {
     func coursesContainerChoseCourse(course : OEXCourse)
     func showValuePropDetailView(with course: OEXCourse)
+    func reload()
 }
 
 extension CoursesContainerViewControllerDelegate {
     func showValuePropDetailView(with course: OEXCourse) {}
+    func reload() {}
 }
 
 class CoursesContainerViewController: UICollectionViewController {
@@ -126,6 +128,14 @@ class CoursesContainerViewController: UICollectionViewController {
     weak var delegate: CoursesContainerViewControllerDelegate?
     
     private var isAuditModeCourseAvailable: Bool = false
+    
+    private lazy var errorView: GeneralErrorView = {
+        let errorView = GeneralErrorView()
+        errorView.tapAction = { [weak self] in
+            self?.delegate?.reload()
+        }
+        return errorView
+    }()
     
     var courses: [OEXCourse] = [] {
         didSet {
@@ -257,6 +267,17 @@ class CoursesContainerViewController: UICollectionViewController {
         super.viewDidLayoutSubviews()
         insetsController.updateInsets()
     }
+    
+    func showError(message: String? = nil) {
+        view.subviews.forEach { $0.removeFromSuperview() }
+        view.addSubview(errorView)
+        
+        errorView.snp.makeConstraints { make in
+            make.edges.equalTo(view)
+        }
+        
+        errorView.setErrorMessage(message: message)
+    }
 }
 
 extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
@@ -291,4 +312,3 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
 }
-
