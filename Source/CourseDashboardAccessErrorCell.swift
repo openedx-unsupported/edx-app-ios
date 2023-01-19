@@ -10,21 +10,24 @@ import Foundation
 
 protocol CourseDashboardAccessErrorCellDelegate: AnyObject {
     func findCourseAction()
-    func upgradeCourseAction(course: OEXCourse, completion: @escaping ((Bool)->()))
+    func upgradeCourseAction(course: OEXCourse, price: String?, completion: @escaping ((Bool)->()))
+    func coursePrice(cell: CourseDashboardAccessErrorCell, price: String?, elapsedTime: Int)
 }
 
 class CourseDashboardAccessErrorCell: UITableViewCell {
     static let identifier = "CourseDashboardAccessErrorCell"
     
+    typealias Environment = OEXConfigProvider & ServerConfigProvider
     weak var delegate: CourseDashboardAccessErrorCellDelegate?
     
     private lazy var infoMessagesView = ValuePropMessagesView()
+    private var environment: Environment?
     
     private lazy var upgradeButton: CourseUpgradeButtonView = {
         let upgradeButton = CourseUpgradeButtonView()
         upgradeButton.tapAction = { [weak self] in
             guard let course = self?.course, let error = self?.error else { return }
-            self?.delegate?.upgradeCourseAction(course: course) { _ in
+            self?.delegate?.upgradeCourseAction(course: course, price: self?.coursePrice) { _ in
                 self?.upgradeButton.stopAnimating()
             }
         }
@@ -54,14 +57,19 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         return button
     }()
     
+    private lazy var hiddenView: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "CourseDashboardAccessErrorCell:hidden-view"
+        view.backgroundColor = .clear
+        
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         accessibilityIdentifier = "CourseDashboardAccessErrorCell:view"
     }
-    
-    private var containerView: UIView?
-    private var bottomOffset: CGFloat = 4
     
     private var course: OEXCourse?
     private var error: CourseAccessErrorHelper?
@@ -72,33 +80,26 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func handleCourseAccessError(course: OEXCourse?, error: CourseAccessErrorHelper) {
+    func handleCourseAccessError(environment: Environment, course: OEXCourse?, error: CourseAccessErrorHelper?) {
         guard let course = course else { return }
         
         self.course = course
         self.error = error
+        self.environment = environment
         
-        guard let title = error.errorTitle,
-              let info = error.errorInfo else { return }
+        guard let title = error?.errorTitle,
+              let info = error?.errorInfo else { return }
         
-        let showValueProp = error.shouldShowValueProp
+        let showValueProp = error?.shouldShowValueProp ?? false
         configureViews()
         update(title: title, info: info)
         
-        if showValueProp {
-            if course.sku == nil {
-                setConstraints(showValueProp: showValueProp, showUpgradeButton: false)
-            } else {
-                setConstraints(showValueProp: showValueProp, showUpgradeButton: true)
-                if let coursePrice = coursePrice {
-                    upgradeButton.stopShimmerEffect()
-                    upgradeButton.setPrice(coursePrice)
-                } else {
-                    upgradeButton.startShimeringEffect()
-                }
-            }
-        } else {
-            setConstraints(showValueProp: false, showUpgradeButton: false)
+        if course.sku != nil {
+            setConstraints(showValueProp: showValueProp, showUpgradeButton: true)
+            fetchCoursePrice()
+        }
+        else {
+            setConstraints(showValueProp: showValueProp, showUpgradeButton: false)
         }
     }
     
@@ -108,6 +109,11 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         contentView.addSubview(infoMessagesView)
         contentView.addSubview(upgradeButton)
         contentView.addSubview(findCourseButton)
+        contentView.addSubview(hiddenView)
+    }
+    
+    func hideUpgradeButton() {
+        setConstraints(showValueProp: error?.shouldShowValueProp ?? false, showUpgradeButton: false)
     }
     
     private func setConstraints(showValueProp: Bool, showUpgradeButton: Bool) {
@@ -123,17 +129,18 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
         
-        containerView = infoLabel
+        var lastView: UIView
+        lastView = infoLabel
         
         if showValueProp {
             infoMessagesView.snp.remakeConstraints { make in
-                make.top.equalTo(infoLabel.snp.bottom).offset(StandardVerticalMargin * 2)
+                make.top.equalTo(lastView.snp.bottom).offset(StandardVerticalMargin * 2)
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
                 make.height.equalTo(infoMessagesView.height())
             }
             
-            containerView = infoMessagesView
+            lastView = infoMessagesView
         }
         
         if showUpgradeButton {
@@ -141,27 +148,31 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
             
             upgradeButton.isHidden = false
             upgradeButton.snp.remakeConstraints { make in
-                make.top.equalTo(infoMessagesView.snp.bottom).offset(StandardVerticalMargin * 5)
+                make.top.equalTo(lastView.snp.bottom).offset(StandardVerticalMargin * 5)
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-                make.height.equalTo(upgradeButton.height)
+                make.height.equalTo(StandardVerticalMargin * 5.5)
             }
             
-            containerView = upgradeButton
-            bottomOffset = 2
+            lastView = upgradeButton
         } else {
             applyStyle(to: findCourseButton, text: Strings.CourseDashboard.Error.findANewCourse, light: false)
             upgradeButton.isHidden = true
+            upgradeButton.snp.remakeConstraints { make in
+                make.height.equalTo(0)
+            }
         }
         
-        guard let containerView = containerView else { return }
-        
         findCourseButton.snp.remakeConstraints { make in
-            make.top.equalTo(containerView.snp.bottom).offset(StandardVerticalMargin * bottomOffset)
+            make.top.equalTo(lastView.snp.bottom).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
             make.height.equalTo(StandardVerticalMargin * 5.5)
-            make.bottom.equalTo(contentView)
+        }
+        
+        hiddenView.snp.remakeConstraints { make in
+            make.top.equalTo(findCourseButton.snp.bottom)
+            make.bottom.equalTo(contentView).offset(1)
         }
     }
     
@@ -196,5 +207,28 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         button.layer.borderColor = borderColor.cgColor
         button.layer.cornerRadius = 0
         button.layer.masksToBounds = true
+    }
+    
+    func fetchCoursePrice() {
+        guard let courseSku = course?.sku, environment?.serverConfig.iapConfig?.enabledforUser == true else { return }
+        
+        let startTime = CFAbsoluteTimeGetCurrent()
+        DispatchQueue.main.async { [weak self] in
+            self?.upgradeButton.startShimeringEffect()
+            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
+                guard let self else { return }
+                
+                if let price = price {
+                    let elapsedTime = CFAbsoluteTimeGetCurrent() - startTime
+                    self.coursePrice = price
+                    self.delegate?.coursePrice(cell: self, price: price, elapsedTime: elapsedTime.millisecond)
+                    self.upgradeButton.setPrice(price)
+                    self.upgradeButton.stopShimmerEffect()
+                }
+                else {
+                    self.delegate?.coursePrice(cell: self, price: nil, elapsedTime: 0)
+                }
+            }
+        }
     }
 }

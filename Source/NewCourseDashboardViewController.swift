@@ -25,6 +25,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         tableView.register(CourseDashboardErrorViewCell.self, forCellReuseIdentifier: CourseDashboardErrorViewCell.identifier)
         tableView.register(CourseDashboardAccessErrorCell.self, forCellReuseIdentifier: CourseDashboardAccessErrorCell.identifier)
         tableView.register(NewDashboardContentCell.self, forCellReuseIdentifier: NewDashboardContentCell.identifier)
+        tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.delegate = self
         tableView.dataSource = self
@@ -50,7 +51,6 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private let environment: Environment
     private let courseID: String
     private let screen: CourseUpgradeScreen = .courseDashboard
-    private var coursePrice: String?
     
     init(environment: Environment, courseID: String) {
         self.environment = environment
@@ -141,9 +141,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             loadStateController.state = .Loaded
             let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
             courseAccessError = CourseAccessErrorHelper(course: course, enrollment: enrollment)
-            fetchCoursePrice()
             headerView.showTabbarView(show: false)
-            tableView.reloadData()
         } else {
             loadStateController.state = .Loaded
             headerView.showTabbarView(show: true)
@@ -169,7 +167,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }
 
     var showCourseAccessError: Bool {
-        return courseAccessError != nil ? true : false
+        return courseAccessError != nil
     }
 
     var showContentNotLoadedError: Bool {
@@ -179,25 +177,6 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         tableView.reloadData()
-    }
-    
-    private func fetchCoursePrice() {
-        guard let courseSku = course?.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
-        
-        let startTime = CFAbsoluteTimeGetCurrent()
-        
-        DispatchQueue.main.async { [weak self] in
-            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
-                if let price = price {
-                    let endTime = CFAbsoluteTimeGetCurrent() - startTime
-                    self?.coursePrice = price
-                    self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
-                    self?.reloadCoursePriceIfNecessary()
-                } else {
-                    self?.trackLoadError()
-                }
-            }
-        }
     }
     
     private func reloadCoursePriceIfNecessary() {
@@ -233,10 +212,7 @@ extension NewCourseDashboardViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseDashboardAccessErrorCell.identifier, for: indexPath) as! CourseDashboardAccessErrorCell
             
             cell.delegate = self
-            cell.coursePrice = coursePrice
-            if let error = courseAccessError {
-                cell.handleCourseAccessError(course: course, error: error)
-            }
+            cell.handleCourseAccessError(environment: environment, course: course, error: courseAccessError)
             
             return cell
         } else if showContentNotLoadedError {
@@ -298,8 +274,12 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
     
     func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem) {
         if error == nil {
+            let needToReload = selectedTabbarItem != nil && selectedTabbarItem != tabbarItem
             selectedTabbarItem = tabbarItem
-            tableView.reloadData()
+            
+            if needToReload {
+                tableView.reloadData()
+            }
         }
     }
 }
@@ -309,10 +289,19 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelega
         redirectToDiscovery()
     }
     
-    func upgradeCourseAction(course: OEXCourse, completion: @escaping ((Bool) -> ())) {
-       let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
+    func coursePrice(cell: CourseDashboardAccessErrorCell, price: String?, elapsedTime: Int) {
+        if let price {
+            trackPriceLoadDuration(price: price, elapsedTime: elapsedTime)
+        }
+        else {
+            trackPriceLoadError(cell: cell)
+        }
+    }
+    
+    func upgradeCourseAction(course: OEXCourse, price: String?, completion: @escaping ((Bool) -> ())) {
+        let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
         
-        guard let courseID = course.course_id, let coursePrice = coursePrice else {
+        guard let courseID = course.course_id, let coursePrice = price else {
             courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(.generalError, nil))
             completion(false)
             return
@@ -323,32 +312,32 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelega
         courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, coursePrice: coursePrice, screen: .courseDashboard)
         
         upgradeHandler.upgradeCourse { [weak self] status in
-            guard let weakSelf = self else { return }
-            weakSelf.enableUserInteraction(enable: false)
+            guard let self else { return }
+            self.enableUserInteraction(enable: false)
             
             switch status {
             case .payment:
-                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .payment)
+                self.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .payment)
                 break
                 
             case .verify:
-                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment)
+                self.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment)
                 break
                 
             case .complete:
-                weakSelf.enableUserInteraction(enable: true)
-                weakSelf.dismiss(animated: true) { [weak self] in
+                self.enableUserInteraction(enable: true)
+                self.dismiss(animated: true) { [weak self] in
                     self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(course.course_id ?? "", nil))
                 }
                 completion(true)
                 break
                 
             case .error(let type, let error):
-                weakSelf.enableUserInteraction(enable: true)
-                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error), delegate: type == .verifyReceiptError ? weakSelf : nil)
+                self.enableUserInteraction(enable: true)
+                self.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error), delegate: type == .verifyReceiptError ? self : nil)
                 completion(false)
                 break
-           
+                
             default:
                 break
             }
@@ -365,17 +354,34 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelega
 }
 
 extension NewCourseDashboardViewController {
-    private func trackPriceLoadDuration(elapsedTime: Int) {
+    private func trackPriceLoadDuration(price: String, elapsedTime: Int) {
         guard let course = course,
-              let courseID = course.course_id,
-              let coursePrice = coursePrice else { return }
+              let courseID = course.course_id else { return }
         
-        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, pacing: pacing, coursePrice: coursePrice, screen: screen, elapsedTime: elapsedTime)
+        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, pacing: pacing, coursePrice: price, screen: screen, elapsedTime: elapsedTime)
     }
     
-    private func trackLoadError() {
+    private func trackPriceLoadError(cell: CourseDashboardAccessErrorCell) {
         guard let course = course, let courseID = course.course_id else { return }
         environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, pacing: pacing, screen: screen)
+        showCoursePriceErrorAlert(cell: cell)
+    }
+    
+    private func showCoursePriceErrorAlert(cell: CourseDashboardAccessErrorCell) {
+        guard let topController = UIApplication.shared.topMostController() else { return }
+
+        let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
+
+
+        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
+            cell.fetchCoursePrice()
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course?.course_id ?? "" , blockID: "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+        }
+
+        alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
+            cell.hideUpgradeButton()
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course?.course_id ?? "" , blockID: "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+        }
     }
 }
 
