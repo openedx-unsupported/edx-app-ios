@@ -53,3 +53,7 @@
 "COURSE_DASHBOARD.ERROR.AUDIT_EXPIRED_UPGRADE_INFO"="Upgrade to get full access to this course and pursue a certificate.";
 /* Title for audit title message */
 "COURSE.AUDIT_ACCESS_EXPIRED"="Access expired {expiry_date}";
+/* Enrolled courses loading error */
+"DASHBOARD.GENERAL_ERROR_MESSAGE"="An error occured while loading your courses";
+/* Enrolled courses loading error try again*/
+"DASHBOARD.TRY_AGAIN"="Try again";
