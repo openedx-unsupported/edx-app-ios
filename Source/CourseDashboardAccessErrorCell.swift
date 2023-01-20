@@ -212,17 +212,17 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
             PaymentManager.shared.productPrice(courseSku) { [weak self] price in
-                guard let self else { return }
+                guard let weakSelf = self else { return }
                 
                 if let price = price {
                     let elapsedTime = CFAbsoluteTimeGetCurrent() - startTime
-                    self.coursePrice = price
-                    self.delegate?.coursePrice(cell: self, price: price, elapsedTime: elapsedTime.millisecond)
-                    self.upgradeButton.setPrice(price)
-                    self.upgradeButton.stopShimmerEffect()
+                    weakSelf.coursePrice = price
+                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: price, elapsedTime: elapsedTime.millisecond)
+                    weakSelf.upgradeButton.setPrice(price)
+                    weakSelf.upgradeButton.stopShimmerEffect()
                 }
                 else {
-                    self.delegate?.coursePrice(cell: self, price: nil, elapsedTime: 0)
+                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: nil, elapsedTime: 0)
                 }
             }
         }

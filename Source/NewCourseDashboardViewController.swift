@@ -308,29 +308,29 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelega
         courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, coursePrice: coursePrice, screen: .courseDashboard)
         
         upgradeHandler.upgradeCourse { [weak self] status in
-            guard let self else { return }
-            self.enableUserInteraction(enable: false)
+            guard let weakSelf = self else { return }
+            weakSelf.enableUserInteraction(enable: false)
             
             switch status {
             case .payment:
-                self.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .payment)
+                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .payment)
                 break
                 
             case .verify:
-                self.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment)
+                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment)
                 break
                 
             case .complete:
-                self.enableUserInteraction(enable: true)
-                self.dismiss(animated: true) { [weak self] in
+                weakSelf.enableUserInteraction(enable: true)
+                weakSelf.dismiss(animated: true) { [weak self] in
                     self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(course.course_id ?? "", nil))
                 }
                 completion(true)
                 break
                 
             case .error(let type, let error):
-                self.enableUserInteraction(enable: true)
-                self.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error), delegate: type == .verifyReceiptError ? self : nil)
+                weakSelf.enableUserInteraction(enable: true)
+                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(type, error), delegate: type == .verifyReceiptError ? self : nil)
                 completion(false)
                 break
                 

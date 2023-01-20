@@ -23,8 +23,8 @@ extension EnrolledCoursesViewController {
         if courseUpgradeModel.screen == .courseDashboard || courseUpgradeModel.screen == .courseComponent {
             dismiss() { [weak self] _ in
                 self?.navigationController?.popToViewController(of: LearnContainerViewController.self, animated: true) { [weak self] in
-                    guard let self else { return }
-                    self.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: self, animated: true)
+                    guard let weakSelf = self else { return }
+                    weakSelf.environment.router?.showCourseWithID(courseID: courseUpgradeModel.courseID, fromController: weakSelf, animated: true)
                 }
             }
         } else {
