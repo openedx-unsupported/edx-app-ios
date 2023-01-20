@@ -15,3 +15,9 @@ struct TabBarItem {
     let icon: Icon
     let detailText: String
 }
+
+extension TabBarItem: Equatable {
+    static func == (lhs: TabBarItem, rhs: TabBarItem) -> Bool {
+        lhs.title == rhs.title
+    }
+}

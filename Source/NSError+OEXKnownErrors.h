@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, OEXErrorCode) {
 
 - (id)initWithCoursewareAccess:(OEXCoursewareAccess*)access displayInfo:(nullable OEXCourseStartDisplayInfo*)info;
 
+@property (strong, nonatomic) OEXCoursewareAccess* access;
 @property (readonly, nonatomic) OEXCoursewareAccessError* error;
 
 @end

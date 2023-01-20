@@ -133,15 +133,23 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         guard let course = course,
               let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
         else { return false }
+        
+        if let error = error {
+            if error.type == .auditExpired || error.type == .isEndDateOld {
+                return false
+            }
+        }
         return enrollment.type == .audit && environment.serverConfig.valuePropEnabled
     }
     
-    private let course: OEXCourse?
     private let environment: Environment
+    private let course: OEXCourse?
+    private let error: CourseAccessErrorHelper?
     
-    init(environment: Environment, course: OEXCourse?) {
+    init(environment: Environment, course: OEXCourse?, error: CourseAccessErrorHelper?) {
         self.environment = environment
         self.course = course
+        self.error = error
         super.init(reuseIdentifier: nil)
         
         addSubViews()
@@ -153,7 +161,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         let courseTitleText = [
             courseTextStyle.attributedString(withText: course?.name),
             attributedUnicodeSpace,
-            Icon.Share.attributedText(style: courseTextStyle, yOffset: attributedIconOfset)
+            Icon.ShareCourse.attributedText(style: courseTextStyle, yOffset: attributedIconOfset)
         ]
         
         orgLabel.attributedText = orgTextStyle.attributedString(withText: course?.org)
