@@ -273,11 +273,9 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
     }
     
     func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem) {
-        if error == nil {
-            if selectedTabbarItem != tabbarItem {
-                selectedTabbarItem = tabbarItem
-                tableView.reloadData()
-            }
+        if courseAccessError == nil && selectedTabbarItem != tabbarItem  {
+            selectedTabbarItem = tabbarItem
+            tableView.reloadData()
         }
     }
 }

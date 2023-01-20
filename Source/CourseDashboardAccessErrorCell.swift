@@ -87,19 +87,16 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         self.error = error
         self.environment = environment
         
-        let title = error?.errorTitle ?? ""
-        let info = error?.errorInfo ?? ""
-        let showValueProp = error?.shouldShowValueProp ?? true
+        let title = error?.errorTitle ?? Strings.CourseDashboard.Error.courseEndedTitle
+        let info = error?.errorInfo ?? Strings.CourseDashboard.Error.courseAccessExpiredInfo
+        let showValueProp = error?.shouldShowValueProp ?? false
         
         configureViews()
         update(title: title, info: info)
+        fetchCoursePrice()
         
-        if course.sku != nil {
-            setConstraints(showValueProp: showValueProp, showUpgradeButton: true)
-            fetchCoursePrice()
-        } else {
-            setConstraints(showValueProp: showValueProp, showUpgradeButton: false)
-        }
+        let upgradeEnabled = course.sku != nil && environment.serverConfig.iapConfig?.enabledforUser == true
+        setConstraints(showValueProp: showValueProp, showUpgradeButton: upgradeEnabled)
     }
     
     private func configureViews() {
