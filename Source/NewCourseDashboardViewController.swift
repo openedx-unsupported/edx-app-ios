@@ -274,10 +274,8 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
     
     func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem) {
         if error == nil {
-            let needToReload = selectedTabbarItem != nil && selectedTabbarItem != tabbarItem
-            selectedTabbarItem = tabbarItem
-            
-            if needToReload {
+            if selectedTabbarItem != tabbarItem {
+                selectedTabbarItem = tabbarItem
                 tableView.reloadData()
             }
         }

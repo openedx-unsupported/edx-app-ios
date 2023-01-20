@@ -26,7 +26,7 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     private lazy var upgradeButton: CourseUpgradeButtonView = {
         let upgradeButton = CourseUpgradeButtonView()
         upgradeButton.tapAction = { [weak self] in
-            guard let course = self?.course, let error = self?.error else { return }
+            guard let course = self?.course else { return }
             self?.delegate?.upgradeCourseAction(course: course, price: self?.coursePrice) { _ in
                 self?.upgradeButton.stopAnimating()
             }
@@ -87,18 +87,17 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
         self.error = error
         self.environment = environment
         
-        guard let title = error?.errorTitle,
-              let info = error?.errorInfo else { return }
+        let title = error?.errorTitle ?? ""
+        let info = error?.errorInfo ?? ""
+        let showValueProp = error?.shouldShowValueProp ?? true
         
-        let showValueProp = error?.shouldShowValueProp ?? false
         configureViews()
         update(title: title, info: info)
         
         if course.sku != nil {
             setConstraints(showValueProp: showValueProp, showUpgradeButton: true)
             fetchCoursePrice()
-        }
-        else {
+        } else {
             setConstraints(showValueProp: showValueProp, showUpgradeButton: false)
         }
     }

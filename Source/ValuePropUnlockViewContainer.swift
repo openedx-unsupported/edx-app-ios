@@ -54,9 +54,11 @@ class ValuePropUnlockViewContainer: NSObject {
     
     func removeView(completion: (()-> ())? = nil) {
         func dismiss() {
+            controller?.dismiss(animated: false)
+            controller?.view.removeFromSuperview()
+            controller?.removeFromParent()
             container?.subviews.forEach { $0.removeFromSuperview() }
             container?.removeFromSuperview()
-            controller?.removeFromParent()
             container = nil
             controller = nil
             shouldDismiss.unsubscribe(observer: self)
