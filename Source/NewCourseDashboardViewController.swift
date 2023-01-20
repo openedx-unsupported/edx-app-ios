@@ -286,7 +286,7 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelega
     }
     
     func coursePrice(cell: CourseDashboardAccessErrorCell, price: String?, elapsedTime: Int) {
-        if let price {
+        if let price = price {
             trackPriceLoadDuration(price: price, elapsedTime: elapsedTime)
         }
         else {
