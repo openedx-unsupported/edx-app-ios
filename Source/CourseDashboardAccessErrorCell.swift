@@ -26,7 +26,7 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     private lazy var upgradeButton: CourseUpgradeButtonView = {
         let upgradeButton = CourseUpgradeButtonView()
         upgradeButton.tapAction = { [weak self] in
-            guard let course = self?.course, let error = self?.error else { return }
+            guard let course = self?.course else { return }
             self?.delegate?.upgradeCourseAction(course: course, price: self?.coursePrice) { _ in
                 self?.upgradeButton.stopAnimating()
             }
