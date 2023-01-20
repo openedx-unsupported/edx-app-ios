@@ -217,7 +217,7 @@
 		5F7C0C6A2534521300A344B9 /* FillBackgroundLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */; };
 		5F903AF4255020D7006365DE /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F903AF3255020D7006365DE /* UIDeviceExtension.swift */; };
 		5F99F3BD26C68308000605B4 /* VideoDownloadQualityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99F3BC26C68308000605B4 /* VideoDownloadQualityViewController.swift */; };
-		5FA426712967E6AD0013BBA8 /* GeneralErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA426702967E6AD0013BBA8 /* GeneralErrorView.swift */; };
+		5FA4266F2966B1110013BBA8 /* CourseAccessErrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA4266E2966B1110013BBA8 /* CourseAccessErrorHelper.swift */; };
 		5FA7FEB1266A2BE5006286B6 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7FEB0266A2BE5006286B6 /* BrowserViewController.swift */; };
 		5FA8F8D827C4B153006003DA /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA8F8D327C4B153006003DA /* ShimmerView.swift */; };
 		5FAE055324EA647D00A29B1D /* CourseDates.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAE055124EA618000A29B1D /* CourseDates.json */; };
@@ -228,6 +228,7 @@
 		5FC5AE112847944E007E5917 /* LearnContainerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC5AE102847944E007E5917 /* LearnContainerHeaderView.swift */; };
 		5FD868362637F05E0045A149 /* CourseDatesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */; };
 		5FD868382637F0FC0045A149 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD868372637F0FC0045A149 /* CalendarManager.swift */; };
+		5FE2B8EE297ACBD60071FEF7 /* GeneralErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE2B8ED297ACBD50071FEF7 /* GeneralErrorView.swift */; };
 		5FEA006B290BA06700D39B44 /* ExternalProviderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEA006A290BA06700D39B44 /* ExternalProviderButtonView.swift */; };
 		5FF08645257F91FA0078877A /* ValuePropComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF08644257F91FA0078877A /* ValuePropComponentView.swift */; };
 		5FFB73BC2849F10D000523BF /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */; };
@@ -1228,7 +1229,7 @@
 		5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundLayoutManager.swift; sourceTree = "<group>"; };
 		5F903AF3255020D7006365DE /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		5F99F3BC26C68308000605B4 /* VideoDownloadQualityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloadQualityViewController.swift; sourceTree = "<group>"; };
-		5FA426702967E6AD0013BBA8 /* GeneralErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralErrorView.swift; sourceTree = "<group>"; };
+		5FA4266E2966B1110013BBA8 /* CourseAccessErrorHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseAccessErrorHelper.swift; sourceTree = "<group>"; };
 		5FA7FEB0266A2BE5006286B6 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		5FA8F8D327C4B153006003DA /* ShimmerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		5FAE055124EA618000A29B1D /* CourseDates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CourseDates.json; sourceTree = "<group>"; };
@@ -1239,6 +1240,7 @@
 		5FC5AE102847944E007E5917 /* LearnContainerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnContainerHeaderView.swift; sourceTree = "<group>"; };
 		5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesHeaderView.swift; sourceTree = "<group>"; };
 		5FD868372637F0FC0045A149 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		5FE2B8ED297ACBD50071FEF7 /* GeneralErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralErrorView.swift; sourceTree = "<group>"; };
 		5FEA006A290BA06700D39B44 /* ExternalProviderButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalProviderButtonView.swift; sourceTree = "<group>"; };
 		5FF08644257F91FA0078877A /* ValuePropComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropComponentView.swift; sourceTree = "<group>"; };
 		5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDKeyboardListener.swift; sourceTree = "<group>"; };
@@ -2979,6 +2981,7 @@
 		7772BE781AF40A730081CA7A /* Controller Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5FE2B8ED297ACBD50071FEF7 /* GeneralErrorView.swift */,
 				7765025E1C7CEBC5007384E7 /* SingleChildContainingViewController.swift */,
 				779D1CE01B8E6FE000FCC847 /* PullRefreshController.swift */,
 				77E00B701B82A06F00573622 /* GrowingTextViewController.swift */,
@@ -3683,6 +3686,7 @@
 				5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */,
 				E0F9C02E29362806003D96DF /* CourseDashboardErrorViewCell.swift */,
 				E0F9C0302939C497003D96DF /* CourseDashboardAccessErrorCell.swift */,
+				5FA4266E2966B1110013BBA8 /* CourseAccessErrorHelper.swift */,
 				5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */,
 				5F5239BE293DB9560046FF07 /* CourseDashboardTabbarView.swift */,
 			);
@@ -4064,7 +4068,6 @@
 				22F8A9131F4708A50025E18A /* Main.storyboard */,
 				77DCD2381C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift */,
 				77D6A9A51C28F98A00E67CCF /* EnrolledCoursesViewController.swift */,
-				5FA426702967E6AD0013BBA8 /* GeneralErrorView.swift */,
 				223972E01FE92BB500B2BBEC /* EnrolledTabBarViewController.swift */,
 				2240FD551FF266E4001D6589 /* TabBarItem.swift */,
 				E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */,
@@ -5113,6 +5116,7 @@
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */,
 				B78823A61FC6F59A00F9CD61 /* LogistrationTextField.swift in Sources */,
+				5FE2B8EE297ACBD60071FEF7 /* GeneralErrorView.swift in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */,
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */,
@@ -5337,7 +5341,6 @@
 				777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */,
 				9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */,
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
-				5FA426712967E6AD0013BBA8 /* GeneralErrorView.swift in Sources */,
 				E40AEA75218D076200049C39 /* YoutubeVideoPlayer.swift in Sources */,
 				69C12C661E07F5F8004E7261 /* VideoTranscript.swift in Sources */,
 				E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */,
@@ -5386,6 +5389,7 @@
 				1AB539F51BFDFBC10065501F /* DebugMenuViewController.swift in Sources */,
 				5D43B18A1B0C1F9200448B52 /* MenuOptionsViewController.swift in Sources */,
 				E0B58CDC2818F7DF0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift in Sources */,
+				5FA4266F2966B1110013BBA8 /* CourseAccessErrorHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

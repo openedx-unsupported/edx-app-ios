@@ -8,120 +8,223 @@
 
 import Foundation
 
+protocol CourseDashboardAccessErrorCellDelegate: AnyObject {
+    func findCourseAction()
+    func upgradeCourseAction(course: OEXCourse, price: String?, completion: @escaping ((Bool)->()))
+    func coursePrice(cell: CourseDashboardAccessErrorCell, price: String?, elapsedTime: Int)
+}
+
 class CourseDashboardAccessErrorCell: UITableViewCell {
     static let identifier = "CourseDashboardAccessErrorCell"
-
-    var findCourseAction: (() -> Void)?
-
+    
+    typealias Environment = OEXConfigProvider & ServerConfigProvider
+    weak var delegate: CourseDashboardAccessErrorCellDelegate?
+    
+    private lazy var infoMessagesView = ValuePropMessagesView()
+    private var environment: Environment?
+    
+    private lazy var upgradeButton: CourseUpgradeButtonView = {
+        let upgradeButton = CourseUpgradeButtonView()
+        upgradeButton.tapAction = { [weak self] in
+            guard let course = self?.course else { return }
+            self?.delegate?.upgradeCourseAction(course: course, price: self?.coursePrice) { _ in
+                self?.upgradeButton.stopAnimating()
+            }
+        }
+        return upgradeButton
+    }()
+    
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.accessibilityIdentifier = "CourseDashboardAccessErrorCell:title-label"
         return label
     }()
-
+    
     private var infoLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.accessibilityIdentifier = "CourseDashboardAccessErrorCell:info-label"
-
         return label
     }()
-
+    
     private lazy var findCourseButton: UIButton = {
         let button = UIButton(type: .system)
         button.accessibilityIdentifier = "CourseDashboardAccessErrorCell:findcourse-button"
-        button.backgroundColor = OEXStyles.shared().secondaryBaseColor()
         button.oex_addAction({ [weak self] _ in
-            self?.findCourseAction?()
+            self?.delegate?.findCourseAction()
         }, for: .touchUpInside)
-
-        let style = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhite())
-        button.setAttributedTitle(style.attributedString(withText: Strings.CourseDashboard.Error.findANewCourse), for: UIControl.State())
-
         return button
     }()
-
+    
+    private lazy var hiddenView: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "CourseDashboardAccessErrorCell:hidden-view"
+        view.backgroundColor = .clear
+        
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         accessibilityIdentifier = "CourseDashboardAccessErrorCell:view"
-
-        configureView()
     }
-
+    
+    private var course: OEXCourse?
+    private var error: CourseAccessErrorHelper?
+    
+    var coursePrice: String?
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    private func configureView() {
+    
+    func handleCourseAccessError(environment: Environment, course: OEXCourse?, error: CourseAccessErrorHelper?) {
+        guard let course = course else { return }
+        
+        self.course = course
+        self.error = error
+        self.environment = environment
+        
+        let title = error?.errorTitle ?? Strings.CourseDashboard.Error.courseEndedTitle
+        let info = error?.errorInfo ?? Strings.CourseDashboard.Error.courseAccessExpiredInfo
+        let showValueProp = error?.shouldShowValueProp ?? false
+        
+        configureViews()
+        update(title: title, info: info)
+        fetchCoursePrice()
+        
+        let upgradeEnabled = course.sku != nil && environment.serverConfig.iapConfig?.enabledforUser == true
+        setConstraints(showValueProp: showValueProp, showUpgradeButton: upgradeEnabled)
+    }
+    
+    private func configureViews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(infoLabel)
+        contentView.addSubview(infoMessagesView)
+        contentView.addSubview(upgradeButton)
         contentView.addSubview(findCourseButton)
-
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(2 * StandardVerticalMargin)
+        contentView.addSubview(hiddenView)
+    }
+    
+    func hideUpgradeButton() {
+        setConstraints(showValueProp: error?.shouldShowValueProp ?? false, showUpgradeButton: false)
+    }
+    
+    private func setConstraints(showValueProp: Bool, showUpgradeButton: Bool) {
+        titleLabel.snp.remakeConstraints { make in
+            make.top.equalTo(contentView).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
-
-        infoLabel.snp.makeConstraints { make in
+        
+        infoLabel.snp.remakeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(2 * StandardVerticalMargin)
-            make.leading.equalTo(titleLabel)
-            make.trailing.equalTo(titleLabel)
+            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
         }
-
-        findCourseButton.snp.makeConstraints { make in
-            make.top.equalTo(infoLabel.snp.bottom).offset(4 * StandardVerticalMargin)
-            make.leading.equalTo(titleLabel)
-            make.trailing.equalTo(titleLabel)
-            make.height.equalTo(StandardVerticalMargin * 5.5)
-            make.bottom.equalTo(contentView)
+        
+        var lastView: UIView
+        lastView = infoLabel
+        
+        if showValueProp {
+            infoMessagesView.snp.remakeConstraints { make in
+                make.top.equalTo(lastView.snp.bottom).offset(StandardVerticalMargin * 2)
+                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+                make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+                make.height.equalTo(infoMessagesView.height())
+            }
+            
+            lastView = infoMessagesView
         }
-    }
-
-    func setError(course: OEXCourse?) {
-        guard let course = course, let access = course.courseware_access else { return }
-
-        let title: String
-        let info: String
-
-        if course.isEndDateOld {
-            title = Strings.CourseDashboard.Error.courseEndedTitle
-            info = Strings.CourseDashboard.Error.courseAccessExpiredInfo
-        }
-        else {
-            switch access.error_code {
-            case .startDateError:
-                title = Strings.CourseDashboard.Error.courseNotStartedTitle
-                info = formatedStartDate(displayInfo: course.start_display_info)
-            case .auditExpired:
-                title = Strings.CourseDashboard.Error.courseAccessExpiredTitle
-                info = Strings.CourseDashboard.Error.courseAccessExpiredInfo
-            default:
-                title = Strings.CourseDashboard.Error.courseAccessExpiredTitle
-                info = Strings.CourseDashboard.Error.courseAccessExpiredInfo
-                break
+        
+        if showUpgradeButton {
+            applyStyle(to: findCourseButton, text: Strings.CourseDashboard.Error.findANewCourse, light: true)
+            
+            upgradeButton.isHidden = false
+            upgradeButton.snp.remakeConstraints { make in
+                make.top.equalTo(lastView.snp.bottom).offset(StandardVerticalMargin * 5)
+                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+                make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+                make.height.equalTo(StandardVerticalMargin * 5.5)
+            }
+            
+            lastView = upgradeButton
+        } else {
+            applyStyle(to: findCourseButton, text: Strings.CourseDashboard.Error.findANewCourse, light: false)
+            upgradeButton.isHidden = true
+            upgradeButton.snp.remakeConstraints { make in
+                make.height.equalTo(0)
             }
         }
-
+        
+        findCourseButton.snp.remakeConstraints { make in
+            make.top.equalTo(lastView.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            make.height.equalTo(StandardVerticalMargin * 5.5)
+        }
+        
+        hiddenView.snp.remakeConstraints { make in
+            make.top.equalTo(findCourseButton.snp.bottom)
+            make.bottom.equalTo(contentView).offset(1)
+        }
+    }
+    
+    private func update(title: String, info: String) {
         let titleTextStyle = OEXTextStyle(weight: .bold, size: .xLarge, color: OEXStyles.shared().neutralBlackT())
         let infoTextStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
-
         titleLabel.attributedText = titleTextStyle.attributedString(withText: title)
         infoLabel.attributedText = infoTextStyle.attributedString(withText: info)
     }
+    
+    private func applyStyle(to button: UIButton, text: String, light: Bool) {
+        let style: OEXTextStyle
+        let backgroundColor: UIColor
+        let borderWidth: CGFloat
+        let borderColor: UIColor
 
-    private func formatedStartDate(displayInfo: OEXCourseStartDisplayInfo) -> String {
-        if let displayDate = displayInfo.displayDate, displayInfo.type == .string && !displayDate.isEmpty {
-            return Strings.CourseDashboard.Error.courseNotStartedInfo(startDate: displayDate)
+        if light {
+            style = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().secondaryBaseColor())
+            backgroundColor = .clear
+            borderWidth = 1
+            borderColor = OEXStyles.shared().neutralXLight()
+        } else {
+            style = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhiteT())
+            backgroundColor = OEXStyles.shared().secondaryBaseColor()
+            borderWidth = 0
+            borderColor = .clear
         }
-
-        if let displayDate = displayInfo.date as? NSDate, displayInfo.type == .timestamp {
-            let formattedDisplayDate = DateFormatting.format(asMonthDayYearString: displayDate) ?? ""
-            return Strings.CourseDashboard.Error.courseNotStartedInfo(startDate: formattedDisplayDate)
+        
+        button.setAttributedTitle(style.attributedString(withText: text), for: UIControl.State())
+        button.backgroundColor = backgroundColor
+        button.layer.borderWidth = borderWidth
+        button.layer.borderColor = borderColor.cgColor
+        button.layer.cornerRadius = 0
+        button.layer.masksToBounds = true
+    }
+    
+    func fetchCoursePrice() {
+        guard let courseSku = course?.sku, environment?.serverConfig.iapConfig?.enabledforUser == true else { return }
+        
+        let startTime = CFAbsoluteTimeGetCurrent()
+        DispatchQueue.main.async { [weak self] in
+            self?.upgradeButton.startShimeringEffect()
+            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
+                guard let weakSelf = self else { return }
+                
+                if let price = price {
+                    let elapsedTime = CFAbsoluteTimeGetCurrent() - startTime
+                    weakSelf.coursePrice = price
+                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: price, elapsedTime: elapsedTime.millisecond)
+                    weakSelf.upgradeButton.setPrice(price)
+                    weakSelf.upgradeButton.stopShimmerEffect()
+                }
+                else {
+                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: nil, elapsedTime: 0)
+                }
+            }
         }
-
-        return Strings.courseNotStarted
     }
 }

@@ -41,7 +41,6 @@ NSString* const OEXErrorDomain = @"org.edx.error";
 
 @interface OEXCoursewareAccessError ()
 
-@property (strong, nonatomic) OEXCoursewareAccess* access;
 @property (strong, nonatomic) OEXCourseStartDisplayInfo* displayInfo;
 
 @end
