@@ -186,15 +186,29 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         view.setNeedsUpdateConstraints()
         view.addSubview(modalView)
         
-        setupViews()
         setIdentifiers()
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackCourseCelebrationFirstSection(courseID: courseID)
         markCelebratoryModalAsViewed()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateViewConstraints()
+    }
+    
+    override func updateViewConstraints() {
+        if  isVerticallyCompact() {
+            setupLandscapeView()
+        }
+        else{
+            setupPortraitView()
+        }
+        
+        super.updateViewConstraints()
     }
     
     deinit {
@@ -213,14 +227,6 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         congratulationImageView.accessibilityIdentifier = "CelebratoryModalView:congratulation-image-view"
         shareButtonView.accessibilityIdentifier = "CelebratoryModalView:share-button-view"
         shareImageView.accessibilityIdentifier = "CelebratoryModalView:share-image-view"
-    }
-    
-    private func setupViews() {
-        if isVerticallyCompact() {
-            setupLandscapeView()
-        } else {
-            setupPortraitView()
-        }
     }
     
     private func setupPortraitView() {
@@ -473,10 +479,6 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         stackView.snp.remakeConstraints { make in
             make.edges.equalTo(modalView).inset(20)
         }
-    }
-    
-    @objc func orientationDidChange() {
-        setupViews()
     }
     
     private func shareCourse(courseID: String, courseURL: String, utmParameters: CourseShareUtmParameters) {
