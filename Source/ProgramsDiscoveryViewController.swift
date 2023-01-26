@@ -72,18 +72,6 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
             environment.analytics.trackScreen(withName: AnalyticsScreenName.ProgramInfo.rawValue)
         }
     }
-
-    private func logTestAnalayticsForCrash(url: String?) {
-        let event = OEXAnalyticsEvent()
-        event.displayName = "TestEvent: program detail";
-        let info = [
-            "path_id": pathId ?? "",
-            "program_url": url ?? "",
-            "token_status": environment.networkManager.tokenStatus.rawValue
-        ] as [String : Any]
-
-        environment.analytics.trackEvent(event, forComponent: nil, withInfo: info)
-    }
     
     func loadProgramDetails(with pathId: String) {
         self.pathId = pathId
@@ -110,8 +98,6 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, searchQuery: searchQuery)
         webviewHelper?.baseURL = searchBaseURL
         webviewHelper?.load(withURL: url)
-
-        logTestAnalayticsForCrash(url: url.absoluteString)
     }
     
 }
