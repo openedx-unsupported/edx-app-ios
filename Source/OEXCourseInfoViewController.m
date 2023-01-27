@@ -85,16 +85,6 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     }
     
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenCourseInfo];
-    [self logTestAnalayticsForCrash];
-}
-
-- (void) logTestAnalayticsForCrash {
-    OEXAnalyticsEvent *event = [[OEXAnalyticsEvent alloc] init];
-    event.displayName = @"TestEvent: course info";
-
-    NSDictionary *info = @{@"path_id": self.pathID, @"course_url": self.courseInfoURL, @"token_status": [NSNumber numberWithLong:(long)[[OEXRouter sharedRouter].environment.networkManager tokenStatus]]};
-
-    [self.environment.analytics trackEvent:event forComponent:nil withInfo:info];
 }
 
 - (void) loadCourseInfoWith: (NSString *) pathId forceLoad: (BOOL)forceLoad {
