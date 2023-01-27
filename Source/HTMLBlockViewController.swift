@@ -60,18 +60,6 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         }
     }
 
-    private func logTestAnalayticsForCrash() {
-        let event = OEXAnalyticsEvent()
-        event.displayName = "TestEvent: Loading block URL";
-        let info = [
-            "block_id": blockID ?? "",
-            "course_id": courseID,
-            "token_status": environment.networkManager.tokenStatus.rawValue
-        ] as [String : Any]
-
-        environment.analytics.trackEvent(event, forComponent: nil, withInfo: info)
-    }
-
     private func setupViews() {
         view.addSubview(courseDateBannerView)
         courseDateBannerView.snp.makeConstraints { make in
@@ -133,7 +121,6 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
                 if let url = block.blockURL {
                     let request = NSURLRequest(url: url as URL)
                     self?.webController.loadRequest(request: request)
-                    self?.logTestAnalayticsForCrash()
                 }
                 else {
                     self?.webController.showError(error: nil)

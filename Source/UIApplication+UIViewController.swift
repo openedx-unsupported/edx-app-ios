@@ -11,16 +11,38 @@ import UIKit
 extension UIApplication {
     
     @objc var window: UIWindow? {
-        return UIApplication
-            .shared
-            .connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap { $0.windows }
-            .first { $0.isKeyWindow }
+        if Thread.isMainThread {
+            return UIApplication
+                .shared
+                .connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .flatMap { $0.windows }
+                .first { $0.isKeyWindow }
+        } else {
+            var win: UIWindow?
+            DispatchQueue.main.sync {
+                win = UIApplication
+                    .shared
+                    .connectedScenes
+                    .compactMap { $0 as? UIWindowScene }
+                    .flatMap { $0.windows }
+                    .first { $0.isKeyWindow }
+            }
+            
+            return win
+        }
     }
-    
+         
     var interfaceOrientation: UIInterfaceOrientation {
-        return window?.windowScene?.interfaceOrientation ?? .portrait
+        if Thread.isMainThread {
+            return window?.windowScene?.interfaceOrientation ?? .portrait
+        } else {
+            var orientation: UIInterfaceOrientation?
+            DispatchQueue.main.sync {
+                orientation = window?.windowScene?.interfaceOrientation ?? .portrait
+            }
+            return orientation ?? .portrait
+        }
     }
 
     @objc func topMostController() -> UIViewController?  {
