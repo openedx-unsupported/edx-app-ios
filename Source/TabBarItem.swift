@@ -8,6 +8,14 @@
 
 import UIKit
 
+public protocol ScrollViewControllerDelegateProvider {
+    var scrollViewDelegate: ScrollableViewControllerDelegate? { get set }
+}
+
+@objc public protocol ScrollableViewControllerDelegate: AnyObject {
+    func scrollViewDidScroll(scrollView: UIScrollView)
+}
+
 // TabBarItem represent each tab in tabBarViewController
 struct TabBarItem {
     let title: String

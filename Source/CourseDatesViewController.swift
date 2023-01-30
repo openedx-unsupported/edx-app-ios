@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
+class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding, ScrollViewControllerDelegateProvider {
     
     private enum Pacing: String {
         case user = "self"
@@ -114,6 +114,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private var courseBanner: CourseDateBannerModel?
+    
+    weak var scrollViewDelegate: ScrollableViewControllerDelegate?
     
     init(environment: Environment, courseID: String) {
         self.courseID = courseID
@@ -641,6 +643,12 @@ extension CourseDatesViewController: CourseShiftDatesDelegate {
 extension CourseDatesViewController: CourseDatesHeaderViewDelegate {
     func didToggleCalendarSwitch(isOn: Bool) {
         calendarState = isOn
+    }
+}
+
+extension CourseDatesViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
     }
 }
 

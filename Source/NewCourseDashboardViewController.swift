@@ -19,18 +19,19 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         return view
     }()
     
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.accessibilityIdentifier = "NewCourseDashboardViewController:table-view"
-        tableView.register(CourseDashboardErrorViewCell.self, forCellReuseIdentifier: CourseDashboardErrorViewCell.identifier)
-        tableView.register(CourseDashboardAccessErrorCell.self, forCellReuseIdentifier: CourseDashboardAccessErrorCell.identifier)
-        tableView.register(NewDashboardContentCell.self, forCellReuseIdentifier: NewDashboardContentCell.identifier)
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.delegate = self
-        tableView.dataSource = self
-        return tableView
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "NewCourseDashboardViewController:contentView-view"
+        return view
     }()
+    
+    private lazy var container: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "NewCourseDashboardViewController:container-view"
+        return view
+    }()
+    
+    private var collapsed = false
     
     private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
@@ -80,9 +81,11 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private func addSubviews() {
         view.backgroundColor = environment.styles.neutralWhiteT()
-        view.addSubview(tableView)
-        
-        loadStateController.setupInController(controller: self, contentView: tableView)
+        view.addSubview(contentView)
+        contentView.snp.remakeConstraints { make in
+            make.edges.equalTo(safeEdges)
+        }
+        loadStateController.setupInController(controller: self, contentView: contentView)
     }
 
     override func viewWillLayoutSubviews() {
@@ -91,20 +94,29 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }
 
     override func updateViewConstraints() {
-        tableView.snp.remakeConstraints { make in
-            make.edges.equalTo(safeEdges)
-        }
-        configureHeaderView()
+        setupConstraints()
         super.updateViewConstraints()
     }
     
-    private func configureHeaderView() {
-        tableView.tableHeaderView = headerView
+    private func setupConstraints() {
+        container.removeFromSuperview()
+        headerView.removeFromSuperview()
+        
+        contentView.addSubview(container)
+        contentView.addSubview(headerView)
+        
         headerView.snp.remakeConstraints { make in
-            make.leading.equalTo(safeLeading)
-            make.trailing.equalTo(safeTrailing)
+            make.top.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
         }
-        tableView.setAndLayoutTableHeaderView(header: headerView)
+        
+        container.snp.remakeConstraints { make in
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.top.equalTo(headerView.snp.bottom)
+            make.bottom.equalTo(contentView)
+        }
     }
     
     private func loadCourseStream() {
@@ -116,7 +128,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private func loadedCourse(withCourse course: OEXCourse) {
         verifyAccess(forCourse: course)
-        configureHeaderView()
+        setupConstraints()
     }
     
     private func resultLoaded(result: Result<UserCourseEnrollment>) {
@@ -124,12 +136,13 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         case .success(let enrollment):
             course = enrollment.course
             loadedCourse(withCourse: enrollment.course)
+            setupConstraints()
         case .failure(let error):
             if !courseStream.active {
                 loadStateController.state = .Loaded
                 self.error = error
                 headerView.showTabbarView(show: false)
-                tableView.reloadData()
+                setupContentView()
             }
         }
     }
@@ -145,7 +158,42 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         } else {
             loadStateController.state = .Loaded
             headerView.showTabbarView(show: true)
-            tableView.reloadData()
+            setupContentView()
+        }
+    }
+    
+    private func setupContentView() {
+        container.subviews.forEach { $0.removeFromSuperview() }
+        
+        if showCourseAccessError {
+            let view = CourseDashboardAccessErrorView()
+            view.delegate = self
+            view.handleCourseAccessError(environment: environment, course: course, error: courseAccessError)
+            container.addSubview(view)
+            view.snp.remakeConstraints { make in
+                make.edges.equalTo(container)
+            }
+        } else if showContentNotLoadedError {
+            let view = CourseDashboardErrorView()
+            view.myCoursesAction = { [weak self] in
+                self?.dismiss(animated: true)
+            }
+            container.addSubview(view)
+            view.snp.remakeConstraints { make in
+                make.edges.equalTo(container)
+            }
+        } else if let tabBarItem = selectedTabbarItem {
+            let contentController = tabBarItem.viewController
+            if var controller = contentController as? ScrollViewControllerDelegateProvider {
+                controller.scrollViewDelegate = self
+            }
+            addChild(contentController)
+            container.addSubview(contentController.view)
+            contentController.view.snp.remakeConstraints { make in
+                make.edges.equalTo(container)
+            }
+            contentController.didMove(toParent: self)
+            contentController.view.layoutIfNeeded()
         }
     }
     
@@ -176,71 +224,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        tableView.reloadData()
-    }
-    
-    private func reloadCoursePriceIfNecessary() {
-        if let _ = tableView.visibleCells.first(where: { $0 is CourseDashboardAccessErrorCell }) {
-            tableView.reloadData()
-        }
-    }
-}
-
-extension NewCourseDashboardViewController: UITableViewDelegate {
-    
-}
-
-extension NewCourseDashboardViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let visibleCells = tableView.visibleCells as? [NewDashboardContentCell] {
-            visibleCells.forEach { cell in
-                cell.viewController?.willMove(toParent: nil)
-                cell.viewController?.view.removeFromSuperview()
-                cell.viewController?.removeFromParent()
-            }
-        }
-        
-        if showCourseAccessError {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CourseDashboardAccessErrorCell.identifier, for: indexPath) as! CourseDashboardAccessErrorCell
-            
-            cell.delegate = self
-            cell.handleCourseAccessError(environment: environment, course: course, error: courseAccessError)
-            
-            return cell
-        } else if showContentNotLoadedError {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CourseDashboardErrorViewCell.identifier, for: indexPath) as! CourseDashboardErrorViewCell
-            cell.myCoursesAction = { [weak self] in
-                self?.dismiss(animated: true)
-            }
-        } else if let tabBarItem = selectedTabbarItem {
-            let cell = tableView.dequeueReusableCell(withIdentifier: NewDashboardContentCell.identifier, for: indexPath) as! NewDashboardContentCell
-            let contentController = tabBarItem.viewController
-            addChild(contentController)
-            cell.contentView.addSubview(contentController.view)
-            
-            let height = tableView.frame.height - headerView.frame.height
-            contentController.view.snp.makeConstraints { make in
-                make.edges.equalTo(cell.contentView)
-                make.height.equalTo(height)
-            }
-            
-            contentController.didMove(toParent: self)
-            contentController.view.layoutIfNeeded()
-            
-            cell.viewController = contentController
-            
-            return cell
-        }
-        
-        return UITableViewCell()
+        setupContentView()
     }
 }
 
@@ -274,18 +258,19 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
     
     func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem) {
         if courseAccessError == nil && selectedTabbarItem != tabbarItem  {
+            selectedTabbarItem?.viewController.removeFromParent()
             selectedTabbarItem = tabbarItem
-            tableView.reloadData()
+            setupContentView()
         }
     }
 }
 
-extension NewCourseDashboardViewController: CourseDashboardAccessErrorCellDelegate {
+extension NewCourseDashboardViewController: CourseDashboardAccessErrorViewDelegate {
     func findCourseAction() {
         redirectToDiscovery()
     }
     
-    func coursePrice(cell: CourseDashboardAccessErrorCell, price: String?, elapsedTime: Int) {
+    func coursePrice(cell: CourseDashboardAccessErrorView, price: String?, elapsedTime: Int) {
         if let price = price {
             trackPriceLoadDuration(price: price, elapsedTime: elapsedTime)
         }
@@ -357,13 +342,13 @@ extension NewCourseDashboardViewController {
         environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, pacing: pacing, coursePrice: price, screen: screen, elapsedTime: elapsedTime)
     }
     
-    private func trackPriceLoadError(cell: CourseDashboardAccessErrorCell) {
+    private func trackPriceLoadError(cell: CourseDashboardAccessErrorView) {
         guard let course = course, let courseID = course.course_id else { return }
         environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, pacing: pacing, screen: screen)
         showCoursePriceErrorAlert(cell: cell)
     }
     
-    private func showCoursePriceErrorAlert(cell: CourseDashboardAccessErrorCell) {
+    private func showCoursePriceErrorAlert(cell: CourseDashboardAccessErrorView) {
         guard let topController = UIApplication.shared.topMostController() else { return }
 
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
@@ -390,5 +375,46 @@ extension NewCourseDashboardViewController: UIAdaptivePresentationControllerDele
 extension NewCourseDashboardViewController: CourseUpgradeHelperDelegate {
     func hideAlertAction() {
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension NewCourseDashboardViewController: ScrollableViewControllerDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y <= 0 {
+            UIView.animate(withDuration: 0.4, delay: 0.1) { [weak self ] in
+                self?.moveToOriginal()
+            } completion: { [weak self ] _ in
+                self?.collapsed = false
+            }
+        } else {
+            if !collapsed {
+                UIView.animate(withDuration: 0.1, delay: 0.1) { [weak self ] in
+                    self?.collapseHeaderView()
+                } completion: { [weak self ] _ in
+                    self?.collapsed = true
+                }
+            }
+        }
+    }
+}
+
+extension NewCourseDashboardViewController: UIScrollViewDelegate {
+    private func collapseHeaderView() {
+        headerView.moveToCenter()
+        headerView.snp.remakeConstraints { make in
+            make.top.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.height.equalTo(StandardVerticalMargin * 12)
+        }
+    }
+    
+    private func moveToOriginal() {
+        headerView.moveToOriginalFrame()
+        headerView.snp.remakeConstraints { make in
+            make.top.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+        }
     }
 }

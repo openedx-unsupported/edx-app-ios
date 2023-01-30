@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
+public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding, ScrollViewControllerDelegateProvider {
     
     public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXConfigProvider
 
@@ -18,6 +18,8 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
     let webView : WKWebView
     let loadController : LoadStateViewController
     let handouts : BackedStream<String> = BackedStream()
+    
+    public weak var scrollViewDelegate: ScrollableViewControllerDelegate?
     
     init(environment : Environment, courseID : String) {
         self.environment = environment
@@ -42,6 +44,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
         setConstraints()
         setStyles()
         webView.navigationDelegate = self
+        webView.scrollView.delegate = self
         view.backgroundColor = environment.styles.standardBackgroundColor()
 
         setAccessibilityIdentifiers()
@@ -147,5 +150,11 @@ extension CourseHandoutsViewController: WKNavigationDelegate {
             decisionHandler(.allow)
         }
 
+    }
+}
+
+extension CourseHandoutsViewController: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
     }
 }

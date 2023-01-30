@@ -15,7 +15,7 @@ protocol CourseDashboardHeaderViewDelegate: AnyObject {
     func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem)
 }
 
-class CourseDashboardHeaderView: UITableViewHeaderFooterView {
+class CourseDashboardHeaderView: UIView {
     
     typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider & ServerConfigProvider & OEXSessionProvider & RemoteConfigProvider
     
@@ -32,6 +32,13 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         let label = UILabel()
         label.accessibilityIdentifier = "CourseDashboardHeaderView:org-label"
         return label
+    }()
+    
+    private lazy var courseTitleLabel: UILabel = {
+        let textView = UILabel()
+        textView.accessibilityIdentifier = "CourseDashboardHeaderView:course-title-label"
+        textView.backgroundColor = .clear
+        return textView
     }()
     
     private lazy var courseTitle: UITextView = {
@@ -127,6 +134,12 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         return style
     }()
     
+    private lazy var courseTextLabelStyle: OEXMutableTextStyle = {
+        let style = OEXMutableTextStyle(textStyle: OEXTextStyle(weight: .bold, size: .base, color: environment.styles.neutralWhiteT()))
+        style.lineBreakMode = .byWordWrapping
+        return style
+    }()
+    
     private lazy var accessTextStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: environment.styles.neutralXLight())
         
     private var canShowValuePropView: Bool {
@@ -142,6 +155,8 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         return enrollment.type == .audit && environment.serverConfig.valuePropEnabled
     }
     
+    private var showTabbar = false
+    
     private let environment: Environment
     private let course: OEXCourse?
     private let error: CourseAccessErrorHelper?
@@ -150,7 +165,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         self.environment = environment
         self.course = course
         self.error = error
-        super.init(reuseIdentifier: nil)
+        super.init(frame: .zero)
         
         addSubViews()
         addConstraints()
@@ -183,7 +198,7 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
         courseInfoContainerView.addSubview(accessLabel)
     }
     
-    private func addConstraints(hidetabbar: Bool = true) {
+    private func addConstraints() {
         containerView.snp.remakeConstraints { make in
             make.edges.equalTo(self)
         }
@@ -240,16 +255,49 @@ class CourseDashboardHeaderView: UITableViewHeaderFooterView {
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
             make.bottom.equalTo(containerView)
-            make.height.equalTo(hidetabbar ? 0 : StandardVerticalMargin * 4.8)
+            make.height.equalTo(showTabbar ? StandardVerticalMargin * 4.8 : 0)
         }
     }
     
     func showTabbarView(show: Bool) {
-        addConstraints(hidetabbar: !show)
+        showTabbar = show
+        addConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func moveToCenter() {
+        containerView.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: StandardVerticalMargin * 12)
+        courseInfoContainerView.frame = .zero
+        courseInfoContainerView.isHidden = true
+        valuePropView.frame = .zero
+        valuePropView.isHidden = true
+        
+        containerView.addSubview(courseTitleLabel)
+        courseTitleLabel.snp.remakeConstraints { make in
+            make.top.equalTo(closeButton)
+            make.centerY.equalTo(closeButton)
+            make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(closeButton.snp.leading).offset(-StandardHorizontalMargin)
+        }
+        
+        courseTitleLabel.attributedText = courseTextLabelStyle.attributedString(withText: course?.name)
+        
+        tabbarView.snp.remakeConstraints { make in
+            make.top.equalTo(closeButton.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(containerView)
+            make.trailing.equalTo(containerView)
+            make.height.equalTo(StandardVerticalMargin * 5.5)
+        }
+    }
+    
+    func moveToOriginalFrame() {
+        courseTitleLabel.removeFromSuperview()
+        courseInfoContainerView.isHidden = false
+        valuePropView.isHidden = false
+        addConstraints()
     }
 }
 

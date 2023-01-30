@@ -18,7 +18,7 @@ private func announcementsDeserializer(response: HTTPURLResponse, json: JSON) ->
     }
 }
 
-class CourseAnnouncementsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
+class CourseAnnouncementsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding, ScrollViewControllerDelegateProvider {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
@@ -31,6 +31,8 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
     private let environment: Environment
     private let fontStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralBlack())
     private let switchStyle = OEXStyles.shared().standardSwitchStyle()
+    
+    weak var scrollViewDelegate: ScrollableViewControllerDelegate?
     
     @objc init(environment: Environment, courseID: String) {
         self.courseID = courseID
@@ -54,6 +56,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
         webView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         webView.isOpaque = false
         webView.navigationDelegate = self
+        webView.scrollView.delegate = self
         
         loadController.setupInController(controller: self, contentView: webView)
         announcementsLoader.listen(self) {[weak self] in
@@ -172,5 +175,11 @@ extension CourseAnnouncementsViewController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         loadController.state = LoadState.failed(error: error as NSError)
+    }
+}
+
+extension CourseAnnouncementsViewController: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
     }
 }
