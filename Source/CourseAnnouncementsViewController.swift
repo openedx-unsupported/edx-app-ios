@@ -34,6 +34,8 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
     
     weak var scrollViewDelegate: ScrollableViewControllerDelegate?
     
+    private var scrollByDragging = false
+    
     @objc init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
@@ -57,6 +59,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
         webView.isOpaque = false
         webView.navigationDelegate = self
         webView.scrollView.delegate = self
+        webView.scrollView.alwaysBounceVertical = false
         
         loadController.setupInController(controller: self, contentView: webView)
         announcementsLoader.listen(self) {[weak self] in
@@ -179,7 +182,13 @@ extension CourseAnnouncementsViewController: WKNavigationDelegate {
 }
 
 extension CourseAnnouncementsViewController: UIScrollViewDelegate {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        if scrollByDragging {
+            scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
     }
 }

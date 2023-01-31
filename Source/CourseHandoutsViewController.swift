@@ -21,6 +21,8 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
     
     public weak var scrollViewDelegate: ScrollableViewControllerDelegate?
     
+    private var scrollByDragging = false
+    
     init(environment : Environment, courseID : String) {
         self.environment = environment
         self.courseID = courseID
@@ -45,6 +47,8 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
         setStyles()
         webView.navigationDelegate = self
         webView.scrollView.delegate = self
+        webView.scrollView.alwaysBounceVertical = false
+        
         view.backgroundColor = environment.styles.standardBackgroundColor()
 
         setAccessibilityIdentifiers()
@@ -154,7 +158,13 @@ extension CourseHandoutsViewController: WKNavigationDelegate {
 }
 
 extension CourseHandoutsViewController: UIScrollViewDelegate {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        if scrollByDragging {
+            scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
     }
 }

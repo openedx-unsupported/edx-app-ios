@@ -32,6 +32,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }()
     
     private var collapsed = false
+    private var isAnimating = false
     
     private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
@@ -87,16 +88,6 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         }
         loadStateController.setupInController(controller: self, contentView: contentView)
     }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        updateViewConstraints()
-    }
-
-    override func updateViewConstraints() {
-        setupConstraints()
-        super.updateViewConstraints()
-    }
     
     private func setupConstraints() {
         container.removeFromSuperview()
@@ -109,6 +100,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
+            make.height.lessThanOrEqualTo(StandardVerticalMargin * 29)
         }
         
         container.snp.remakeConstraints { make in
@@ -121,7 +113,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private func loadCourseStream() {
         courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
-        courseStream.listen(self) { [weak self] result in
+        courseStream.listenOnce(self) { [weak self] result in
             self?.resultLoaded(result: result)
         }
     }
@@ -380,18 +372,23 @@ extension NewCourseDashboardViewController: CourseUpgradeHelperDelegate {
 
 extension NewCourseDashboardViewController: ScrollableViewControllerDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        if isAnimating { return }
         if scrollView.contentOffset.y <= 0 {
-            UIView.animate(withDuration: 0.4, delay: 0.1) { [weak self ] in
+            isAnimating = true
+            UIView.animate(withDuration: 0.4, delay: 0.1) { [weak self] in
                 self?.moveToOriginal()
-            } completion: { [weak self ] _ in
+            } completion: { [weak self] _ in
                 self?.collapsed = false
+                self?.isAnimating = false
             }
         } else {
             if !collapsed {
-                UIView.animate(withDuration: 0.1, delay: 0.1) { [weak self ] in
+                isAnimating = true
+                UIView.animate(withDuration: 0.1, delay: 0.1) { [weak self] in
                     self?.collapseHeaderView()
-                } completion: { [weak self ] _ in
+                } completion: { [weak self] _ in
                     self?.collapsed = true
+                    self?.isAnimating = false
                 }
             }
         }
