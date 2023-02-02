@@ -22,12 +22,12 @@ protocol CourseOutlineTableControllerDelegate: AnyObject {
     func resetCourseDate(controller: CourseOutlineTableController)
 }
 
-class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate, VideoDownloadQualityDelegate, ScrollViewControllerDelegateProvider {
+class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate, VideoDownloadQualityDelegate, ScrollableDelegateProvider {
 
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & ServerConfigProvider
     
     weak var delegate: CourseOutlineTableControllerDelegate?
-    weak var scrollViewDelegate: ScrollableViewControllerDelegate?
+    weak var scrollableDelegate: ScrollableDelegate?
     private let environment: Environment
     let courseQuerier: CourseOutlineQuerier
     let courseID: String
@@ -623,7 +623,7 @@ extension CourseOutlineTableController: BlockCompletionDelegate {
 
 extension CourseOutlineTableController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
     }
 }
 

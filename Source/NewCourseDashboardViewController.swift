@@ -80,6 +80,11 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseDashboard, courseID: courseID, value: nil)
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     private func addSubviews() {
         view.backgroundColor = environment.styles.neutralWhiteT()
         view.addSubview(contentView)
@@ -150,8 +155,8 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         } else {
             loadStateController.state = .Loaded
             headerView.showTabbarView(show: true)
-            setupContentView()
         }
+        setupContentView()
     }
     
     private func setupContentView() {
@@ -176,8 +181,8 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             }
         } else if let tabBarItem = selectedTabbarItem {
             let contentController = tabBarItem.viewController
-            if var controller = contentController as? ScrollViewControllerDelegateProvider {
-                controller.scrollViewDelegate = self
+            if var controller = contentController as? ScrollableDelegateProvider {
+                controller.scrollableDelegate = self
             }
             addChild(contentController)
             container.addSubview(contentController.view)
@@ -370,48 +375,61 @@ extension NewCourseDashboardViewController: CourseUpgradeHelperDelegate {
     }
 }
 
-extension NewCourseDashboardViewController: ScrollableViewControllerDelegate {
+extension NewCourseDashboardViewController: ScrollableDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if isAnimating { return }
+        guard !isAnimating else { return }
+        
         if scrollView.contentOffset.y <= 0 {
-            isAnimating = true
-            UIView.animate(withDuration: 0.4, delay: 0.1) { [weak self] in
-                self?.moveToOriginal()
-            } completion: { [weak self] _ in
-                self?.collapsed = false
-                self?.isAnimating = false
-            }
-        } else {
-            if !collapsed {
-                isAnimating = true
-                UIView.animate(withDuration: 0.1, delay: 0.1) { [weak self] in
-                    self?.collapseHeaderView()
-                } completion: { [weak self] _ in
-                    self?.collapsed = true
-                    self?.isAnimating = false
-                }
-            }
+            expandHeaderView()
+        } else if !collapsed {
+            collapseHeaderView()
         }
     }
 }
 
-extension NewCourseDashboardViewController: UIScrollViewDelegate {
+extension NewCourseDashboardViewController {
+    private func expandHeaderView() {
+        isAnimating = true
+        
+        headerView.snp.remakeConstraints { make in
+            make.top.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.height.lessThanOrEqualTo(StandardVerticalMargin * 29)
+        }
+        
+        UIView.animate(withDuration: 0.2) {
+            self.headerView.updateTabbarConstraints(collapse: false)
+            self.headerView.showCourseTitleHeaderLabel(show: false)
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            UIView.animate(withDuration: 0.2) {
+                self.headerView.updateHeader(collapse: false)
+            } completion: { _ in
+                self.collapsed = false
+                self.isAnimating = false
+            }
+        }
+    }
+    
     private func collapseHeaderView() {
-        headerView.moveToCenter()
+        isAnimating = true
+        
+        headerView.updateHeader(collapse: true)
+        
         headerView.snp.remakeConstraints { make in
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.height.equalTo(StandardVerticalMargin * 12)
         }
-    }
-    
-    private func moveToOriginal() {
-        headerView.moveToOriginalFrame()
-        headerView.snp.remakeConstraints { make in
-            make.top.equalTo(contentView)
-            make.leading.equalTo(contentView)
-            make.trailing.equalTo(contentView)
+        
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.view.layoutIfNeeded()
+            self?.headerView.showCourseTitleHeaderLabel(show: true)
+        } completion: { [weak self] _ in
+            self?.collapsed = true
+            self?.isAnimating = false
         }
     }
 }

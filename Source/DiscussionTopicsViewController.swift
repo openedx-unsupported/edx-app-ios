@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding, LoadStateViewReloadSupport, ScrollViewControllerDelegateProvider {
+public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding, LoadStateViewReloadSupport, ScrollableDelegateProvider {
     
     public typealias Environment = DataManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & ReachabilityProvider & NetworkManagerProvider
     
@@ -31,7 +31,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     private let tableView = UITableView()
     private let searchBarSeparator = UIView()
     
-    public weak var scrollViewDelegate: ScrollableViewControllerDelegate?
+    public weak var scrollableDelegate: ScrollableDelegate?
     
     public init(environment: Environment, courseID: String) {
         self.environment = environment
@@ -243,7 +243,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
 
 extension DiscussionTopicsViewController: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
     }
 }
 

@@ -18,7 +18,7 @@ private func announcementsDeserializer(response: HTTPURLResponse, json: JSON) ->
     }
 }
 
-class CourseAnnouncementsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding, ScrollViewControllerDelegateProvider {
+class CourseAnnouncementsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding, ScrollableDelegateProvider {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
@@ -32,7 +32,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
     private let fontStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralBlack())
     private let switchStyle = OEXStyles.shared().standardSwitchStyle()
     
-    weak var scrollViewDelegate: ScrollableViewControllerDelegate?
+    weak var scrollableDelegate: ScrollableDelegate?
     
     private var scrollByDragging = false
     
@@ -182,13 +182,17 @@ extension CourseAnnouncementsViewController: WKNavigationDelegate {
 }
 
 extension CourseAnnouncementsViewController: UIScrollViewDelegate {
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         scrollByDragging = true
     }
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollByDragging {
-            scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
         }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }

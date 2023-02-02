@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding, ScrollViewControllerDelegateProvider {
+public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding, ScrollableDelegateProvider {
     
     public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXConfigProvider
 
@@ -19,8 +19,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
     let loadController : LoadStateViewController
     let handouts : BackedStream<String> = BackedStream()
     
-    public weak var scrollViewDelegate: ScrollableViewControllerDelegate?
-    
+    public weak var scrollableDelegate: ScrollableDelegate?
     private var scrollByDragging = false
     
     init(environment : Environment, courseID : String) {
@@ -164,7 +163,7 @@ extension CourseHandoutsViewController: UIScrollViewDelegate {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollByDragging {
-            scrollViewDelegate?.scrollViewDidScroll(scrollView: scrollView)
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
         }
     }
 }

@@ -469,7 +469,8 @@ extension OEXRouter {
     
     func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
         if environment.config.isNewDashboardEnabled {
-            let controller = NewCourseDashboardViewController(environment: environment, courseID: courseID)
+            let controller = ForwardingNavigationController(rootViewController: NewCourseDashboardViewController(environment: environment, courseID: courseID))
+            controller.navigationController?.setNavigationBarHidden(true, animated: false)
             controller.modalPresentationStyle = .fullScreen
             fromController.navigationController?.present(controller, animated: true)
         } else {

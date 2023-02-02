@@ -21,7 +21,7 @@ public class CourseOutlineViewController :
     PullRefreshControllerDelegate,
     LoadStateViewReloadSupport,
     InterfaceOrientationOverriding,
-    ScrollViewControllerDelegateProvider
+    ScrollableDelegateProvider
 {
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider & ServerConfigProvider
     
@@ -68,9 +68,9 @@ public class CourseOutlineViewController :
         return environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
     }
     
-    public weak var scrollViewDelegate: ScrollableViewControllerDelegate? {
+    public weak var scrollableDelegate: ScrollableDelegate? {
         didSet {
-            tableController.scrollViewDelegate = scrollViewDelegate
+            tableController.scrollableDelegate = scrollableDelegate
         }
     }
     
