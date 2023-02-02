@@ -166,4 +166,8 @@ extension CourseHandoutsViewController: UIScrollViewDelegate {
             scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
         }
     }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
+    }
 }

@@ -45,6 +45,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private var error: NSError?
     private var courseAccessError: CourseAccessErrorHelper?
     private var selectedTabbarItem: TabBarItem?
+    private var headerViewState: CourseDashboardHeaderViewState = .expanded
     
     private var isModalDismissable = true
     private let courseStream: BackedStream<UserCourseEnrollment>
@@ -77,12 +78,13 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         super.viewWillAppear(animated)
         
         navigationItem.setHidesBackButton(true, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseDashboard, courseID: courseID, value: nil)
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        self.navigationController?.navigationBar.isHidden = true
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     private func addSubviews() {
@@ -377,11 +379,15 @@ extension NewCourseDashboardViewController: CourseUpgradeHelperDelegate {
 
 extension NewCourseDashboardViewController: ScrollableDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        guard !isAnimating else { return }
+        guard headerViewState != .animating else { return }
         
         if scrollView.contentOffset.y <= 0 {
-            expandHeaderView()
-        } else if !collapsed {
+            if headerViewState == .collapsed {
+                headerViewState = .animating
+                expandHeaderView()
+            }
+        } else if headerViewState == .expanded {
+            headerViewState = .animating
             collapseHeaderView()
         }
     }
@@ -389,8 +395,6 @@ extension NewCourseDashboardViewController: ScrollableDelegate {
 
 extension NewCourseDashboardViewController {
     private func expandHeaderView() {
-        isAnimating = true
-        
         headerView.snp.remakeConstraints { make in
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
@@ -398,23 +402,21 @@ extension NewCourseDashboardViewController {
             make.height.lessThanOrEqualTo(StandardVerticalMargin * 29)
         }
         
-        UIView.animate(withDuration: 0.2) {
-            self.headerView.updateTabbarConstraints(collapse: false)
-            self.headerView.showCourseTitleHeaderLabel(show: false)
-            self.view.layoutIfNeeded()
-        } completion: { _ in
-            UIView.animate(withDuration: 0.2) {
-                self.headerView.updateHeader(collapse: false)
-            } completion: { _ in
-                self.collapsed = false
-                self.isAnimating = false
+        UIView.animateKeyframes(withDuration: 0.4, delay: 0, options: .calculationModeLinear) { [weak self] in
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                self?.headerView.updateTabbarConstraints(collapse: false)
+                self?.headerView.showCourseTitleHeaderLabel(show: false)
+                self?.view.layoutIfNeeded()
             }
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5) {
+                self?.headerView.updateHeader(collapse: false)
+            }
+        } completion: { [weak self] _ in
+            self?.headerViewState = .expanded
         }
     }
     
     private func collapseHeaderView() {
-        isAnimating = true
-        
         headerView.updateHeader(collapse: true)
         
         headerView.snp.remakeConstraints { make in
@@ -424,12 +426,11 @@ extension NewCourseDashboardViewController {
             make.height.equalTo(StandardVerticalMargin * 12)
         }
         
-        UIView.animate(withDuration: 0.4) { [weak self] in
-            self?.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3) { [weak self] in
             self?.headerView.showCourseTitleHeaderLabel(show: true)
+            self?.view.layoutIfNeeded()
         } completion: { [weak self] _ in
-            self?.collapsed = true
-            self?.isAnimating = false
+            self?.headerViewState = .collapsed
         }
     }
 }

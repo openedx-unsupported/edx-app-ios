@@ -32,6 +32,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     private let searchBarSeparator = UIView()
     
     public weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
     
     public init(environment: Environment, courseID: String) {
         self.environment = environment
@@ -158,7 +159,6 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
         refreshTopics()
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     override func reloadViewData() {
@@ -242,8 +242,18 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
 }
 
 extension DiscussionTopicsViewController: UIScrollViewDelegate {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }
 

@@ -27,11 +27,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & ServerConfigProvider
     
     weak var delegate: CourseOutlineTableControllerDelegate?
-    weak var scrollableDelegate: ScrollableDelegate?
+    
     private let environment: Environment
-    let courseQuerier: CourseOutlineQuerier
-    let courseID: String
+    private let courseID: String
     private var courseOutlineMode: CourseOutlineMode
+    private var courseBlockID: CourseBlockID?
+    private let courseQuerier: CourseOutlineQuerier
     
     private let courseDateBannerView = CourseDateBannerView(frame: .zero)
     private let courseCard = CourseCardView(frame: .zero)
@@ -39,12 +40,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let headerContainer = UIView()
     private lazy var resumeCourseView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText: Strings.resume, subtitleText: "Placeholder")
     private lazy var valuePropView = UIView()
-    
+
     var courseVideosHeaderView: CourseVideosHeaderView?
-    private var isResumeCourse = false
-    private var shouldHideTableViewHeader:Bool = false
     let refreshController = PullRefreshController()
-    private var courseBlockID: CourseBlockID?
+    
+    private var isResumeCourse = false
+    private var shouldHideTableViewHeader: Bool = false
+    
+    weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
     
     var isSectionOutline = false {
         didSet {
@@ -622,8 +626,18 @@ extension CourseOutlineTableController: BlockCompletionDelegate {
 }
 
 extension CourseOutlineTableController {
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }
 

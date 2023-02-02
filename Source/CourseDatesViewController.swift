@@ -116,6 +116,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var courseBanner: CourseDateBannerModel?
     
     weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
     
     init(environment: Environment, courseID: String) {
         self.courseID = courseID
@@ -647,8 +648,18 @@ extension CourseDatesViewController: CourseDatesHeaderViewDelegate {
 }
 
 extension CourseDatesViewController {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }
 

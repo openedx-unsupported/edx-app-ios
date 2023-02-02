@@ -33,7 +33,6 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
     private let switchStyle = OEXStyles.shared().standardSwitchStyle()
     
     weak var scrollableDelegate: ScrollableDelegate?
-    
     private var scrollByDragging = false
     
     @objc init(environment: Environment, courseID: String) {

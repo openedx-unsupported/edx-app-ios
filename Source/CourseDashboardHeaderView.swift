@@ -15,6 +15,12 @@ protocol CourseDashboardHeaderViewDelegate: AnyObject {
     func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem)
 }
 
+enum CourseDashboardHeaderViewState {
+    case animating
+    case expanded
+    case collapsed
+}
+
 class CourseDashboardHeaderView: UIView {
     
     typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider & ServerConfigProvider & OEXSessionProvider & RemoteConfigProvider
