@@ -58,7 +58,6 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
         webView.isOpaque = false
         webView.navigationDelegate = self
         webView.scrollView.delegate = self
-        webView.scrollView.alwaysBounceVertical = false
         
         loadController.setupInController(controller: self, contentView: webView)
         announcementsLoader.listen(self) {[weak self] in

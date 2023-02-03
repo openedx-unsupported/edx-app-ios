@@ -70,6 +70,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         addSubviews()
         loadCourseStream()
     }

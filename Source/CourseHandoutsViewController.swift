@@ -46,7 +46,6 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
         setStyles()
         webView.navigationDelegate = self
         webView.scrollView.delegate = self
-        webView.scrollView.alwaysBounceVertical = false
         
         view.backgroundColor = environment.styles.standardBackgroundColor()
 
