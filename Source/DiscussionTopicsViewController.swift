@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding, LoadStateViewReloadSupport  {
+public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding, LoadStateViewReloadSupport, ScrollableDelegateProvider {
     
     public typealias Environment = DataManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & ReachabilityProvider & NetworkManagerProvider
     
@@ -30,6 +30,9 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     private let contentView = UIView()
     private let tableView = UITableView()
     private let searchBarSeparator = UIView()
+    
+    public weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
     
     public init(environment: Environment, courseID: String) {
         self.environment = environment
@@ -155,7 +158,6 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
         refreshTopics()
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     override func reloadViewData() {
@@ -235,6 +237,22 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     
     public func numberOfSections(in tableView: UITableView) -> Int {
         return 3
+    }
+}
+
+extension DiscussionTopicsViewController: UIScrollViewDelegate {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }
 

@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
+public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding, ScrollableDelegateProvider {
     
     public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXConfigProvider
 
@@ -18,6 +18,9 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
     let webView : WKWebView
     let loadController : LoadStateViewController
     let handouts : BackedStream<String> = BackedStream()
+    
+    public weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
     
     init(environment : Environment, courseID : String) {
         self.environment = environment
@@ -42,6 +45,8 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
         setConstraints()
         setStyles()
         webView.navigationDelegate = self
+        webView.scrollView.delegate = self
+        
         view.backgroundColor = environment.styles.standardBackgroundColor()
 
         setAccessibilityIdentifiers()
@@ -147,5 +152,21 @@ extension CourseHandoutsViewController: WKNavigationDelegate {
             decisionHandler(.allow)
         }
 
+    }
+}
+
+extension CourseHandoutsViewController: UIScrollViewDelegate {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }

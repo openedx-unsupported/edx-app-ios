@@ -1,5 +1,5 @@
 //
-//  CourseDashboardErrorViewCell.swift
+//  CourseDashboardErrorView.swift
 //  edX
 //
 //  Created by Saeed Bashir on 11/29/22.
@@ -8,16 +8,15 @@
 
 import Foundation
 
-class CourseDashboardErrorViewCell: UITableViewCell {
-    static let identifier = "CourseDashboardErrorView"
-
+class CourseDashboardErrorView: UIView {
     var myCoursesAction: (() -> Void)?
 
+    private let contentView = UIView()
     private let containerView = UIView()
     private let bottomContainer = UIView()
     private let errorLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "CourseDashboardErrorViewCell:error-label"
+        label.accessibilityIdentifier = "CourseDashboardErrorView:error-label"
         label.numberOfLines = 0
         let style = OEXMutableTextStyle(weight: .bold, size: .xxLarge, color: OEXStyles.shared().neutralBlackT())
         style.alignment = .center
@@ -29,13 +28,13 @@ class CourseDashboardErrorViewCell: UITableViewCell {
     private lazy var errorImageView: UIImageView = {
         guard let image = UIImage(named: "dashboard_error_image") else { return UIImageView() }
         let imageView = UIImageView(image: image)
-        imageView.accessibilityIdentifier = "CourseDashboardErrorViewCell:error-imageView"
+        imageView.accessibilityIdentifier = "CourseDashboardErrorView:error-imageView"
         return imageView
     }()
 
     private lazy var gotoMyCoursesButton: UIButton = {
         let button = UIButton(type: .system)
-        button.accessibilityIdentifier = "CourseDashboardErrorViewCell:gotocourses-button"
+        button.accessibilityIdentifier = "CourseDashboardErrorView:gotocourses-button"
         button.backgroundColor = OEXStyles.shared().secondaryBaseColor()
         button.oex_addAction({ [weak self] _ in
             self?.myCoursesAction?()
@@ -47,16 +46,10 @@ class CourseDashboardErrorViewCell: UITableViewCell {
         return button
     }()
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-
+    init() {
+        super.init(frame: .zero)
         addSubViews()
         setAccessibilityIdentifiers()
-        setConstraints()
-    }
-
-    override func prepareForReuse() {
         setConstraints()
     }
 
@@ -76,9 +69,8 @@ class CourseDashboardErrorViewCell: UITableViewCell {
 
     private func addSubViews() {
         backgroundColor = OEXStyles.shared().neutralWhiteT()
-
+        addSubview(contentView)
         contentView.addSubview(containerView)
-
         containerView.addSubview(errorImageView)
         containerView.addSubview(bottomContainer)
 
@@ -89,12 +81,16 @@ class CourseDashboardErrorViewCell: UITableViewCell {
     }
 
     private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "CourseDashboardErrorViewCell:view"
-        containerView.accessibilityIdentifier = "CourseDashboardErrorViewCell:container-view"
-        bottomContainer.accessibilityIdentifier = "CourseDashboardErrorViewCell:bottom-container-view"
+        accessibilityIdentifier = "CourseDashboardErrorView:view"
+        containerView.accessibilityIdentifier = "CourseDashboardErrorView:container-view"
+        bottomContainer.accessibilityIdentifier = "CourseDashboardErrorView:bottom-container-view"
     }
 
     private func addPortraitConstraints() {
+        contentView.snp.remakeConstraints { make in
+            make.edges.equalTo(self)
+        }
+        
         containerView.snp.remakeConstraints { make in
             make.top.equalTo(contentView).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)

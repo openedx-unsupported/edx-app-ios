@@ -1,5 +1,5 @@
 //
-//  CourseDashboardAccessErrorCell.swift
+//  CourseDashboardAccessErrorView.swift
 //  edX
 //
 //  Created by Saeed Bashir on 12/2/22.
@@ -8,20 +8,21 @@
 
 import Foundation
 
-protocol CourseDashboardAccessErrorCellDelegate: AnyObject {
+protocol CourseDashboardAccessErrorViewDelegate: AnyObject {
     func findCourseAction()
     func upgradeCourseAction(course: OEXCourse, price: String?, completion: @escaping ((Bool)->()))
-    func coursePrice(cell: CourseDashboardAccessErrorCell, price: String?, elapsedTime: Int)
+    func coursePrice(cell: CourseDashboardAccessErrorView, price: String?, elapsedTime: Int)
 }
 
-class CourseDashboardAccessErrorCell: UITableViewCell {
-    static let identifier = "CourseDashboardAccessErrorCell"
+class CourseDashboardAccessErrorView: UIView {
     
     typealias Environment = OEXConfigProvider & ServerConfigProvider
-    weak var delegate: CourseDashboardAccessErrorCellDelegate?
+    weak var delegate: CourseDashboardAccessErrorViewDelegate?
     
     private lazy var infoMessagesView = ValuePropMessagesView()
     private var environment: Environment?
+    
+    private lazy var contentView = UIView()
     
     private lazy var upgradeButton: CourseUpgradeButtonView = {
         let upgradeButton = CourseUpgradeButtonView()
@@ -37,20 +38,20 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.accessibilityIdentifier = "CourseDashboardAccessErrorCell:title-label"
+        label.accessibilityIdentifier = "CourseDashboardAccessErrorView:title-label"
         return label
     }()
     
     private var infoLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.accessibilityIdentifier = "CourseDashboardAccessErrorCell:info-label"
+        label.accessibilityIdentifier = "CourseDashboardAccessErrorView:info-label"
         return label
     }()
     
     private lazy var findCourseButton: UIButton = {
         let button = UIButton(type: .system)
-        button.accessibilityIdentifier = "CourseDashboardAccessErrorCell:findcourse-button"
+        button.accessibilityIdentifier = "CourseDashboardAccessErrorView:findcourse-button"
         button.oex_addAction({ [weak self] _ in
             self?.delegate?.findCourseAction()
         }, for: .touchUpInside)
@@ -59,16 +60,14 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     
     private lazy var hiddenView: UIView = {
         let view = UIView()
-        view.accessibilityIdentifier = "CourseDashboardAccessErrorCell:hidden-view"
+        view.accessibilityIdentifier = "CourseDashboardAccessErrorView:hidden-view"
         view.backgroundColor = .clear
         
         return view
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-        accessibilityIdentifier = "CourseDashboardAccessErrorCell:view"
+    init() {     
+        super.init(frame: .zero)
     }
     
     private var course: OEXCourse?
@@ -100,6 +99,8 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     }
     
     private func configureViews() {
+        accessibilityIdentifier = "CourseDashboardAccessErrorView:view"
+        addSubview(contentView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(infoLabel)
         contentView.addSubview(infoMessagesView)
@@ -113,6 +114,10 @@ class CourseDashboardAccessErrorCell: UITableViewCell {
     }
     
     private func setConstraints(showValueProp: Bool, showUpgradeButton: Bool) {
+        contentView.snp.remakeConstraints { make in
+            make.edges.equalTo(self)
+        }
+        
         titleLabel.snp.remakeConstraints { make in
             make.top.equalTo(contentView).offset(StandardVerticalMargin * 2)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
