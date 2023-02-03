@@ -168,9 +168,10 @@ extension OEXRouter {
     
     @objc(showMyCoursesAnimated:pushingCourseWithID:) func showMyCourses(animated: Bool = true, pushingCourseWithID courseID: String? = nil) {
         let controller = EnrolledTabBarViewController(environment: environment)
+        let learnController = controller.children.flatMap { $0.children }.compactMap { $0 as? LearnContainerViewController } .first
         showContentStack(withRootController: controller, animated: animated)
-        if let courseID = courseID {
-            showCourseWithID(courseID: courseID, fromController: controller, animated: false)
+        if let courseID = courseID, let learnController = learnController {
+            showCourseWithID(courseID: courseID, fromController: learnController, animated: false)
         }
     }
 
