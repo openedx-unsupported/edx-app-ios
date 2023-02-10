@@ -131,9 +131,6 @@ class CoursesContainerViewController: UICollectionViewController {
     
     private lazy var errorView: GeneralErrorView = {
         let errorView = GeneralErrorView()
-        errorView.tapAction = { [weak self] in
-            self?.delegate?.reload()
-        }
         return errorView
     }()
     
@@ -269,14 +266,32 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     func showError(message: String? = nil) {
+        setupErrorView()
+        errorView.setErrorMessage(message: message)
+        
+        errorView.tapAction = { [weak self] in
+            self?.delegate?.reload()
+        }
+    }
+    
+    private func setupErrorView() {
         view.subviews.forEach { $0.removeFromSuperview() }
         view.addSubview(errorView)
         
         errorView.snp.makeConstraints { make in
             make.edges.equalTo(view)
         }
+    }
+    
+    func showOutdatedVersionError() {
+        setupErrorView()
+        errorView.showOutdatedVersionError()
         
-        errorView.setErrorMessage(message: message)
+        errorView.tapAction = { [weak self] in
+            if let URL = self?.environment.config.appUpgradeConfig.iOSAppStoreURL() as? URL, UIApplication.shared.canOpenURL(URL) {
+                UIApplication.shared.open(URL as URL, options: [:], completionHandler: nil)
+            }
+        }
     }
 }
 

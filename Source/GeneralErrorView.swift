@@ -43,6 +43,8 @@ class GeneralErrorView: UIView {
         imageView.accessibilityIdentifier = "GeneralErrorView:error-imageView"
         return imageView
     }()
+    
+    private let buttonTitleStyle = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhite())
 
     private lazy var errorActionButton: UIButton = {
         let button = UIButton(type: .system)
@@ -52,8 +54,7 @@ class GeneralErrorView: UIView {
             self?.tapAction?()
         }, for: .touchUpInside)
 
-        let style = OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhite())
-        button.setAttributedTitle(style.attributedString(withText: Strings.Dashboard.tryAgain), for: UIControl.State())
+        button.setAttributedTitle(buttonTitleStyle.attributedString(withText: Strings.Dashboard.tryAgain), for: UIControl.State())
 
         return button
     }()
@@ -166,8 +167,26 @@ class GeneralErrorView: UIView {
         }
     }
     
-    func setErrorMessage(message: String? = nil) {
+    func setErrorMessage(message: String? = nil, imageName: String? = nil, buttonTitle: String? = nil) {
         errorLabel.attributedText = errorLabelstyle.attributedString(withText: message ?? Strings.Dashboard.generalErrorMessage)
+        
+        if let image = UIImage(named: imageName ?? "") {
+            errorImageView.image = image
+        }
+        
+        if let buttonTitle = buttonTitle {
+            errorActionButton.setAttributedTitle(buttonTitleStyle.attributedString(withText: buttonTitle), for: UIControl.State())
+        }
+    }
+    
+    func showOutdatedVersionError() {
+        errorLabel.attributedText = errorLabelstyle.attributedString(withText: Strings.VersionUpgrade.outDatedMessage)
+        
+        if let image = UIImage(named: "app_update_image") {
+            errorImageView.image = image
+        }
+        
+        errorActionButton.setAttributedTitle(buttonTitleStyle.attributedString(withText: Strings.Coursedates.calendarShiftPromptUpdateNow), for: UIControl.State())
     }
     
     required public init?(coder aDecoder: NSCoder) {

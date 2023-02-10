@@ -1007,7 +1007,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Ứng dụng đã có phiên bản mới hơn.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Phiên bản hiện tại của ứng dụng không còn được hỗ trợ.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Phiên bản hiện tại của ứng dụng không còn được hỗ trợ";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Phiên bản hiện tại của ứng dụng không còn được hỗ trợ. Cập nhật lên phiên bản mới nhất để đăng nhập.";
 /*New version available without deadline message*/

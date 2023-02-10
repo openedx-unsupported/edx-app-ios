@@ -1025,7 +1025,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Une nouvelle version est disponible.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Votre version n'est plus supportée.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Votre version n'est plus supportée";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Votre version n'est plus supportée. Mettez à jour avec la dernière version pour vous connecter.";
 /*New version available without deadline message*/

@@ -30,7 +30,7 @@ private enum DeserializationResult<Out> {
     case queuedRequest(URLRequest: URLRequest, original: Data?)
 }
 
-public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager, _ _completion: @escaping (_ _success : Bool) -> Void) -> Void
+public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager, _ _completion: @escaping (_ _response: HTTPURLResponse?, _ _success : Bool) -> Void) -> Void
 
 public enum AuthenticationAction {
     case proceed
@@ -386,9 +386,9 @@ open class NetworkManager : NSObject {
         
         if tokenStatus == .expired {
             if case .authenticate(let authenticateRequest) = authenticator?(nil, nil, true) {
-                authenticateRequest(self, { [weak self] success in
+                authenticateRequest(self, { [weak self] response, success in
                     let request = self?.URLRequestWithRequest(base: base, networkRequest).value
-                    self?.handleAuthenticationResponse(base: base, networkRequest: networkRequest, handler: handler, success: success, request: request, response: nil, baseData: nil, error: nil)
+                    self?.handleAuthenticationResponse(base: base, networkRequest: networkRequest, handler: handler, success: success, request: request, response: response, baseData: nil, error: nil)
                 })
             }
             return nil
@@ -449,7 +449,7 @@ open class NetworkManager : NSObject {
                     Logger.logInfo(NetworkManager.NETWORK, "Response is \(String(describing: response))")
                     handler(result)
                 case let .some(.reauthenticationRequest(authHandler, originalData)):
-                    authHandler(self, { [weak self] success in
+                    authHandler(self, { [weak self] _, success in
                         self?.handleAuthenticationResponse(base: base, networkRequest: networkRequest, handler: handler, success: success, request: request, response: response, baseData: originalData, error: error)
                     })
                 case let .some(.queuedRequest(request, _)):

@@ -1025,7 +1025,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Es ist eine neue Version der App verfügbar.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Ihre Version der App wird nicht weiter unterstützt.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Ihre Version der App wird nicht weiter unterstützt";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Ihre Version der App wird nicht weiter unterstützt. Aktualisieren Sie auf die letzte Version, um sich anzumelden.";
 /*New version available without deadline message*/

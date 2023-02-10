@@ -1025,9 +1025,9 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Uygulamanın yeni bir sürümü mevcut.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor";
 /*Outdated version alert message for login screen*/
-"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor. Giriş yapmak için en son sürüme güncelleyin.";
+"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor. Giriş yapmak için en son sürüme güncelleyin";
 /*New version available without deadline message*/
 "VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "Uygulamanın yeni bir sürümü mevcut.";
 /*Video player remaining time default value*/
