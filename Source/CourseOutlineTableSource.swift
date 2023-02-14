@@ -50,6 +50,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     weak var scrollableDelegate: ScrollableDelegate?
     private var scrollByDragging = false
     
+    private var hiddenSections = Set<Int>()
+    private var expandedSections = Set<Int>()
+    
     var isSectionOutline = false {
         didSet {
             if isSectionOutline {
@@ -75,10 +78,30 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     var groups : [CourseOutlineQuerier.BlockGroup] = [] {
         didSet {
             courseQuerier.remove(observer: self)
+            
+            groups.enumerated().forEach { index, group in
+                let allCompleted: Bool
+                if courseOutlineMode == .video {
+                    allCompleted = group.block.type == .Unit ?
+                    group.children.allSatisfy { $0.isCompleted } :
+                    group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
+                } else {
+                    allCompleted = group.children.allSatisfy { $0.isCompleted }
+                }
+                
+                if allCompleted {
+                    hiddenSections.insert(index)
+                }
+                
+                let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
+                courseQuerier.add(observer: observer)
+            }
+            
+            
             groups.forEach { group in
                 let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
                 courseQuerier.add(observer: observer)
-            }            
+            }
         }
     }
     
@@ -294,40 +317,71 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let group = groups[section]
-        return group.children.count
+        if OEXConfig.shared().isNewDashboardEnabled {
+            if courseOutlineMode == .full {
+                return hiddenSections.contains(section) ? 0 : groups[section].children.count
+            } else {
+                return groups[section].children.count
+            }
+        } else {
+            return groups[section].children.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // Will remove manual heights when dropping iOS7 support and move to automatic cell heights.
-        return 60.0
+        if OEXConfig.shared().isNewDashboardEnabled {
+            return StandardVerticalMargin * 5
+        } else {
+            return 30
+        }
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let group = groups[section]
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CourseOutlineHeaderCell.identifier) as! CourseOutlineHeaderCell
-        header.block = group.block
         
+        header.section = section
+        header.block = group.block
+        header.delegate = self
+        
+        let allCompleted: Bool
         if courseOutlineMode == .video {
-            var allCompleted: Bool
-            
-            if group.block.type == .Unit {
-                allCompleted = group.children.allSatisfy { $0.isCompleted }
-            } else {
-                allCompleted = group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
-            }
-            
-            allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
+            allCompleted = group.block.type == .Unit ?
+                group.children.allSatisfy { $0.isCompleted } :
+                group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
+            header.isTapActionEnabled = false
         } else {
-            let allCompleted = group.children.allSatisfy { $0.isCompleted }
-            allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
+            allCompleted = group.children.allSatisfy { $0.isCompleted }
+            
+            if OEXConfig.shared().isNewDashboardEnabled {
+                header.isExpanded = !hiddenSections.contains(section)
+                header.isCompleted = allCompleted
+                header.isTapActionEnabled = true
+            }
         }
         
+        if OEXConfig.shared().isNewDashboardEnabled {
+            header.applyBorderStyle(style: BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: environment.styles.neutralDark()))
+        }
+        allCompleted ? header.showCompletedStyle() : header.showNeutralStyle()
+        
         return header
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if OEXConfig.shared().isNewDashboardEnabled {
+            return StandardVerticalMargin * 2
+        }
+        return 0
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // Will remove manual heights when dropping iOS7 support and move to automatic cell heights.
+        return 60.0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -638,6 +692,22 @@ extension CourseOutlineTableController {
     
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         scrollByDragging = false
+    }
+}
+
+extension CourseOutlineTableController: CourseOutlineHeaderCellDelegate {
+    func toggleSection(header: CourseOutlineHeaderCell, section: Int) {
+        if OEXConfig.shared().isNewDashboardEnabled {
+            let shouldExpand = !header.isExpanded
+            header.isExpanded = shouldExpand
+            
+            if hiddenSections.contains(section) {
+                hiddenSections.remove(section)
+            } else {
+                hiddenSections.insert(section)
+            }
+            tableView.reloadSections([section], with: .none)
+        }
     }
 }
 

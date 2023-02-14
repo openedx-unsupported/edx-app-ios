@@ -260,6 +260,7 @@ public class CourseOutlineItemView: UIView {
     }
     
     private func addSubviews() {
+        applyBorderStyle(style: BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: OEXStyles.shared().neutralDark()))
         addSubview(leadingImageButton)
         addSubview(trailingContainer)
         addSubview(titleLabel)

@@ -45,7 +45,7 @@ public class CourseOutlineQuerier : NSObject {
     
     public struct BlockGroup {
         public let block : CourseBlock
-        public let children : [CourseBlock]
+        public var children : [CourseBlock]
     }
     
     public typealias Environment = OEXConfigProvider
@@ -78,7 +78,7 @@ public class CourseOutlineQuerier : NSObject {
     
     private var blocks: [CourseBlockID : CourseBlock] = [:] {
         didSet {
-            subscribeToBlockCompletion()
+            //subscribeToBlockCompletion()
         }
     }
     
