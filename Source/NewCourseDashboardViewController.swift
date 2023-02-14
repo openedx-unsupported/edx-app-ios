@@ -108,7 +108,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.lessThanOrEqualTo(StandardVerticalMargin * 29)
+            make.height.lessThanOrEqualTo(StandardVerticalMargin * 60)
         }
         
         container.snp.remakeConstraints { make in
@@ -400,7 +400,7 @@ extension NewCourseDashboardViewController {
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.lessThanOrEqualTo(StandardVerticalMargin * 29)
+            make.height.lessThanOrEqualTo(StandardVerticalMargin * 60)
         }
         
         UIView.animateKeyframes(withDuration: 0.4, delay: 0, options: .calculationModeLinear) { [weak self] in

@@ -86,6 +86,23 @@ class CourseDashboardHeaderView: UIView {
         return button
     }()
     
+    private lazy var certificateView: CourseCertificateView? = nil
+    
+    private func addCertificateView() {
+        guard let course = course,
+              let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id),
+                let certificateUrl =  enrollment.certificateUrl,
+                let certificateImage = UIImage(named: "courseCertificate") else { return }
+        
+        let certificateItem =  CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: { [weak self] in
+            if let weakSelf = self, let url = NSURL(string: certificateUrl), let parent = weakSelf.firstAvailableUIViewController() {
+                weakSelf.environment.router?.showCertificate(url: url, title: enrollment.course.name, fromController: parent)
+            }
+        })
+        certificateView = CourseCertificateView(certificateItem: certificateItem)
+        certificateView?.accessibilityIdentifier = "CourseDashboardHeaderView:certificate-view"
+    }
+    
     private lazy var valuePropView: UIView = {
         let valuePropView = UIView()
         valuePropView.accessibilityIdentifier = "CourseDashboardHeaderView:value-prop-view"
@@ -206,6 +223,7 @@ class CourseDashboardHeaderView: UIView {
         courseInfoContainerView.addSubview(accessLabel)
         
         showCourseTitleHeaderLabel(show: false)
+        addCertificateView()
     }
     
     private func addConstraints() {
@@ -254,6 +272,18 @@ class CourseDashboardHeaderView: UIView {
         
         bottomContainer = courseInfoContainerView
         
+        if let certificateView = certificateView {
+            containerView.addSubview(certificateView)
+
+            certificateView.snp.remakeConstraints { make in
+                make.top.equalTo(bottomContainer.snp.bottom).offset(StandardVerticalMargin)
+                make.leading.equalTo(containerView)
+                make.trailing.equalTo(containerView)
+            }
+
+            bottomContainer = certificateView
+        }
+        
         if canShowValuePropView {
             containerView.addSubview(valuePropView)
             
@@ -268,7 +298,8 @@ class CourseDashboardHeaderView: UIView {
         }
                 
         tabbarView.snp.remakeConstraints { make in
-            make.top.equalTo(bottomContainer.snp.bottom).offset(StandardVerticalMargin * 2)
+            let offSet = bottomContainer == certificateView ? 0 : StandardVerticalMargin * 2
+            make.top.equalTo(bottomContainer.snp.bottom).offset(offSet)
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
             make.bottom.equalTo(containerView)
@@ -288,6 +319,7 @@ class CourseDashboardHeaderView: UIView {
     func updateHeader(collapse: Bool) {
         courseInfoContainerView.alpha = collapse ? 0 : 1
         valuePropView.alpha = collapse ? 0 : (canShowValuePropView ? 1 : 0)
+        certificateView?.alpha = collapse ? 0 : 1
         updateTabbarConstraints(collapse: collapse)
     }
     
@@ -297,7 +329,8 @@ class CourseDashboardHeaderView: UIView {
     
     func updateTabbarConstraints(collapse: Bool) {
         tabbarView.snp.remakeConstraints { make in
-            make.top.equalTo(collapse ? closeButton.snp.bottom : bottomContainer.snp.bottom).offset(StandardVerticalMargin * 2)
+            let offSet = bottomContainer == certificateView && !collapse ? 0 : StandardVerticalMargin * 2
+            make.top.equalTo(collapse ? closeButton.snp.bottom : bottomContainer.snp.bottom).offset(offSet)
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
             make.height.equalTo(collapse ? StandardVerticalMargin * 5.5 : showTabbar ? StandardVerticalMargin * 4.8 : 0)
