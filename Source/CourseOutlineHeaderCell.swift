@@ -28,6 +28,7 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         }
     }
     
+    private let horizontalTopLine = UIView()
     private lazy var leadingImageButton: UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         return button
@@ -73,6 +74,7 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     private func setAccessibilityIdentifiers() {
         accessibilityIdentifier = "CourseOutlineHeaderCell:view"
         headerLabel.accessibilityIdentifier = "CourseOutlineHeaderCell:header-label"
+        horizontalTopLine.accessibilityIdentifier = "CourseOutlineHeaderCell:horizontal-top-line"
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -81,6 +83,7 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
 
     //MARK: Helper Methods
     private func addSubviews() {
+        addSubview(horizontalTopLine)
         addSubview(leadingImageButton)
         addSubview(headerLabel)
         addSubview(button)
@@ -138,7 +141,8 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     
     private func setStyles() {
         //Using CGRectZero size because the backgroundView automatically resizes.
-        backgroundView = UIView(frame: .zero)        
+        backgroundView = UIView(frame: .zero)
+        horizontalTopLine.backgroundColor = OEXStyles.shared().neutralBase()
     }
     
     func showCompletedStyle() {
@@ -188,5 +192,13 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
                 weakSelf.trailingImageView.transform = .identity
             }
         }
+    }
+    
+    // Skip autolayout for performance reasons
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let margin = StandardHorizontalMargin - 5
+        headerLabel.frame = bounds.inset(by: UIEdgeInsets.init(top: 0, left: margin, bottom: 0, right: margin))
+        horizontalTopLine.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: OEXStyles.dividerSize())
     }
 }

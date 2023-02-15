@@ -376,7 +376,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return UIView()
+        if OEXConfig.shared().isNewDashboardEnabled {
+            return UIView()
+        }
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
