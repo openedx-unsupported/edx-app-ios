@@ -181,6 +181,12 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.minimumScaleFactor = 0.6
         subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
         setConstraints(with: blockType)
+        
+        if blockType == .Section {
+            if OEXConfig.shared().isNewDashboardEnabled {
+                applyBorderStyle(style: BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: OEXStyles.shared().neutralDark()))
+            }
+        }
     }
     
     func setContentIcon(icon: Icon?, color: UIColor) {
@@ -260,9 +266,6 @@ public class CourseOutlineItemView: UIView {
     }
     
     private func addSubviews() {
-        if OEXConfig.shared().isNewDashboardEnabled {
-            applyBorderStyle(style: BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: OEXStyles.shared().neutralDark()))
-        }
         addSubview(leadingImageButton)
         addSubview(trailingContainer)
         addSubview(titleLabel)

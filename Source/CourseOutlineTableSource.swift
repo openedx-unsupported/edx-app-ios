@@ -58,6 +58,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             if isSectionOutline {
                 hideTableHeaderView()
             }
+            
+            if OEXConfig.shared().isNewDashboardEnabled {
+                hideTableHeaderView()
+            }
+            
             tableView.reloadData()
         }
     }
@@ -206,6 +211,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         refreshController.setupInScrollView(scrollView: tableView)
 
         setAccessibilityIdentifiers()
+        
+        if OEXConfig.shared().isNewDashboardEnabled {
+            hideTableHeaderView()
+        }
     }
     
     private func configureHeaderView() {
@@ -312,24 +321,23 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         refreshTableHeaderView(isResumeCourse: isResumeCourse)
     }
     
+    private func shouldApplyNewStyle(_ group: CourseOutlineQuerier.BlockGroup) -> Bool {
+        return OEXConfig.shared().isNewDashboardEnabled && courseOutlineMode == .full && group.block.type == .Chapter
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return groups.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if OEXConfig.shared().isNewDashboardEnabled {
-            if courseOutlineMode == .full {
-                return hiddenSections.contains(section) ? 0 : groups[section].children.count
-            } else {
-                return groups[section].children.count
-            }
-        } else {
-            return groups[section].children.count
+        if shouldApplyNewStyle(groups[section]) {
+            return hiddenSections.contains(section) ? 0 : groups[section].children.count
         }
+        return groups[section].children.count
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if OEXConfig.shared().isNewDashboardEnabled {
+        if shouldApplyNewStyle(groups[section]) {
             return StandardVerticalMargin * 5
         } else {
             return 30
@@ -344,6 +352,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         header.block = group.block
         header.delegate = self
         
+        var appliedStyle = false
+        
         let allCompleted: Bool
         if courseOutlineMode == .video {
             allCompleted = group.block.type == .Unit ?
@@ -353,30 +363,37 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         } else {
             allCompleted = group.children.allSatisfy { $0.isCompleted }
             
-            if OEXConfig.shared().isNewDashboardEnabled {
+            if shouldApplyNewStyle(group) {
+                appliedStyle = true
+                header.setup()
                 header.isExpanded = !hiddenSections.contains(section)
                 header.isCompleted = allCompleted
                 header.isTapActionEnabled = true
             }
         }
         
-        if OEXConfig.shared().isNewDashboardEnabled {
-            header.applyBorderStyle(style: BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: environment.styles.neutralDark()))
+        if !appliedStyle {
+            header.setupOld()
         }
-        allCompleted ? header.showCompletedStyle() : header.showNeutralStyle()
+        
+        allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
+        
+        if shouldApplyNewStyle(group) {
+            header.addConstraints()
+        }
         
         return header
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if OEXConfig.shared().isNewDashboardEnabled {
+        if shouldApplyNewStyle(groups[section]) {
             return StandardVerticalMargin * 2
         }
         return 0
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if OEXConfig.shared().isNewDashboardEnabled {
+        if shouldApplyNewStyle(groups[section]) {
             return UIView()
         }
         return nil
@@ -401,6 +418,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.block = block
             cell.courseID = courseID
             cell.delegate = self
+            cell.isSectionOutline = isSectionOutline
             cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             return cell
         case .HTML(.Base), .HTML(.DragAndDrop), .HTML(.WordCloud), .HTML(.LTIConsumer):
@@ -440,11 +458,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             cell.delegate = self
             cell.courseID = courseID
-                        
             return cell
         case .Discussion:
             let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionTableViewCell.identifier, for: indexPath) as! DiscussionTableViewCell
             cell.block = block
+            cell.isSectionOutline = isSectionOutline
             return cell
         }
     }

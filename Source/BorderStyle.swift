@@ -74,3 +74,41 @@ extension OEXPlaceholderTextView {
         applyBorderStyle(style: OEXStyles.shared().entryFieldBorderStyle)
     }
 }
+
+extension UIView {
+    enum BorderSide {
+        case top
+        case left
+        case right
+        case bottom
+    }
+    
+    func addBorders(edges: [BorderSide], color: UIColor, width: CGFloat) {
+        for border in edges {
+            let borderLayer = CALayer()
+            borderLayer.backgroundColor = color.cgColor
+            borderLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+            borderLayer.borderWidth = width
+            
+            switch border {
+            case .top:
+                borderLayer.frame = CGRect(x: 0, y: 0, width: frame.width, height: width)
+            case .left:
+                borderLayer.frame = CGRect(x: 0, y: 0, width: width, height: frame.height)
+            case .right:
+                borderLayer.frame = CGRect(x: frame.width - width, y: 0, width: width, height: frame.height)
+            case .bottom:
+                borderLayer.frame = CGRect(x: 0, y: frame.height - width, width: frame.width, height: width)
+            }
+            
+            layer.addSublayer(borderLayer)
+        }
+    }
+}
+
+extension UITableViewCell {
+    func addLeftAndRightBorder(color: UIColor, width: CGFloat) {
+        let edges: [UIView.BorderSide] = [.left, .right]
+        contentView.addBorders(edges: edges, color: color, width: width)
+    }
+}

@@ -24,11 +24,18 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     var isExpanded = false
     var isCompleted = false {
         didSet {
-            isCompleted ? showCompletedStyle() : showNeutralStyle()
+            if isCompleted {
+                showCompletedBackground()
+            } else {
+                showNeutralBackground()
+            }
+            addConstraints()
         }
     }
     
     private let horizontalTopLine = UIView()
+    private let containerView = UIView()
+    
     private lazy var leadingImageButton: UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         return button
@@ -65,10 +72,34 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+    }
+    
+    func setup() {
         addSubviews()
         addConstraints()
-        setStyles()
         setAccessibilityIdentifiers()
+        backgroundView = UIView(frame: .zero)
+        containerView.applyBorderStyle(style: BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: OEXStyles.shared().neutralDark()))
+    }
+    
+    func setupOld() {
+        addSubviewsOld()
+        
+        let margin = StandardHorizontalMargin - 5
+        
+        headerLabel.snp.remakeConstraints { make in
+            make.leading.equalTo(self).offset(margin)
+            make.trailing.equalTo(self).offset(margin)
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
+        }
+        
+        horizontalTopLine.snp.remakeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.width.equalTo(self)
+            make.height.equalTo(OEXStyles.dividerSize())
+        }
     }
 
     private func setAccessibilityIdentifiers() {
@@ -80,22 +111,28 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    //MARK: Helper Methods
+    
     private func addSubviews() {
-        addSubview(horizontalTopLine)
-        addSubview(leadingImageButton)
-        addSubview(headerLabel)
-        addSubview(button)
-        addSubview(trailingImageView)
+        addSubview(containerView)
+        containerView.addSubview(leadingImageButton)
+        containerView.addSubview(headerLabel)
+        containerView.addSubview(button)
+        containerView.addSubview(trailingImageView)
         button.superview?.bringSubviewToFront(button)
     }
     
-    private func addConstraints() {
+    func addConstraints() {
         leadingImageButton.isHidden = !isCompleted
         
         var offset: CGFloat = 2.65
         var leadingContainer: UIView = self
+        
+        containerView.snp.remakeConstraints { make in
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
+        }
         
         if isCompleted {
             offset = 2.15
@@ -106,15 +143,15 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
             leadingImageButton.tintColor = OEXStyles.shared().successBase()
             
             leadingImageButton.snp.remakeConstraints { make in
-                make.centerY.equalTo(self)
-                make.leading.equalTo(self).offset(StandardHorizontalMargin / 2)
+                make.centerY.equalTo(containerView)
+                make.leading.equalTo(containerView).offset(StandardHorizontalMargin / 2)
                 make.size.equalTo(iconSize)
             }
         }
         
         trailingImageView.snp.remakeConstraints { make in
-            make.centerY.equalTo(self)
-            make.trailing.equalTo(self).inset(StandardHorizontalMargin / 2)
+            make.centerY.equalTo(containerView)
+            make.trailing.equalTo(containerView).inset(StandardHorizontalMargin / 2)
             make.size.equalTo(iconSize)
         }
         
@@ -122,12 +159,12 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         
         headerLabel.snp.remakeConstraints { make in
             make.leading.equalTo(leadingContainer).offset(StandardHorizontalMargin * offset)
-            make.centerY.equalTo(self)
-            make.trailing.equalTo(isCompleted ? trailingImageView : self).inset(StandardHorizontalMargin * offset)
+            make.centerY.equalTo(containerView)
+            make.trailing.equalTo(isCompleted ? trailingImageView.snp.leading : containerView).inset(StandardHorizontalMargin * offset)
         }
         
         button.snp.remakeConstraints { make in
-            make.edges.equalTo(self)
+            make.edges.equalTo(containerView)
         }
         
         if OEXConfig.shared().isNewDashboardEnabled {
@@ -139,28 +176,21 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         }
     }
     
+    private func addSubviewsOld() {
+        addSubview(horizontalTopLine)
+        addSubview(headerLabel)
+    }
+    
     private func setStyles() {
-        //Using CGRectZero size because the backgroundView automatically resizes.
-        backgroundView = UIView(frame: .zero)
         horizontalTopLine.backgroundColor = OEXStyles.shared().neutralBase()
     }
     
-    func showCompletedStyle() {
-        addConstraints()
-        showCompletedBackground()
-    }
-    
-    func showNeutralStyle() {
-        addConstraints()
-        showNeutralBackground()
-    }
-    
-    private func showCompletedBackground() {
+    func showCompletedBackground() {
         updateAccessibilityLabel(completion: true)
         backgroundView?.backgroundColor = OEXStyles.shared().successXXLight()
     }
     
-    private func showNeutralBackground() {
+    func showNeutralBackground() {
         updateAccessibilityLabel(completion: false)
         backgroundView?.backgroundColor = OEXStyles.shared().neutralWhite()
     }
@@ -192,13 +222,5 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
                 weakSelf.trailingImageView.transform = .identity
             }
         }
-    }
-    
-    // Skip autolayout for performance reasons
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let margin = StandardHorizontalMargin - 5
-        headerLabel.frame = bounds.inset(by: UIEdgeInsets.init(top: 0, left: margin, bottom: 0, right: margin))
-        horizontalTopLine.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: OEXStyles.dividerSize())
     }
 }

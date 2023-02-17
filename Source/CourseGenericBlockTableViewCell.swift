@@ -19,10 +19,20 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         contentView.addSubview(content)
+        
         content.snp.makeConstraints { make in
-            make.edges.equalTo(contentView)
+            if OEXConfig.shared().isNewDashboardEnabled {
+                make.top.equalTo(contentView)
+                make.bottom.equalTo(contentView)
+                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+                make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            } else {
+                make.edges.equalTo(contentView)
+            }
         }
+        
         accessibilityIdentifier = "CourseGenericBlockTableViewCell:view"
         content.accessibilityIdentifier = "CourseGenericBlockTableViewCell:content-view"
     }

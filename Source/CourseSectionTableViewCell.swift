@@ -37,8 +37,16 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
+        
         content.snp.makeConstraints { make in
-            make.edges.equalTo(contentView)
+            if OEXConfig.shared().isNewDashboardEnabled && courseOutlineMode == .full {
+                make.top.equalTo(contentView)
+                make.bottom.equalTo(contentView)
+                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+                make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            } else {
+                make.edges.equalTo(contentView)
+            }
         }
         
         for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {

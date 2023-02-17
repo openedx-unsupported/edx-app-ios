@@ -114,8 +114,16 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     private func setupContentView() {
         contentView.addSubview(content)
+        
         content.snp.makeConstraints { make in
-            make.edges.equalTo(contentView)
+            if OEXConfig.shared().isNewDashboardEnabled {
+                make.top.equalTo(contentView)
+                make.bottom.equalTo(contentView)
+                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+                make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            } else {
+                make.edges.equalTo(contentView)
+            }
         }
         
         content.setTitleTrailingIcon(icon: Icon.CourseVideoContent)
