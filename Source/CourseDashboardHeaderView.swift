@@ -91,10 +91,10 @@ class CourseDashboardHeaderView: UIView {
     private func addCertificateView() {
         guard let course = course,
               let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id),
-                let certificateUrl =  enrollment.certificateUrl,
-                let certificateImage = UIImage(named: "courseCertificate") else { return }
+              let certificateUrl =  enrollment.certificateUrl,
+              let certificateImage = UIImage(named: "courseCertificate") else { return }
         
-        let certificateItem =  CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: { [weak self] in
+        let certificateItem = CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: { [weak self] in
             if let weakSelf = self, let url = NSURL(string: certificateUrl), let parent = weakSelf.firstAvailableUIViewController() {
                 weakSelf.environment.router?.showCertificate(url: url, title: enrollment.course.name, fromController: parent)
             }
