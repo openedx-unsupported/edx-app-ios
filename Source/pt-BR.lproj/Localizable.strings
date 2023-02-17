@@ -1026,7 +1026,7 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Uma nova versão do aplicativo está disponível.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "A versão do seu aplicativo não é mais compatível. ";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "A versão do seu aplicativo não é mais compatível";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "A versão do seu aplicativa não é mais compativel. Atualize para a última versão para entrar. ";
 /*New version available without deadline message*/

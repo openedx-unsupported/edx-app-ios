@@ -1009,7 +1009,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "应用程序有新版本可用。";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "不支持您的新版本。";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "不支持您的新版本";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "您的应用版本不再受支持。请更新到最新版本后再登录。";
 /*New version available without deadline message*/

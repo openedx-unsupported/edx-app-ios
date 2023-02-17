@@ -160,8 +160,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOri
                 }
                 
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
-                    self?.loadController.state = .failed(error: error)
-                    self?.hideSnackBar()
+                    self?.showOutdatedVersionError()
                 } else {
                     self?.showGeneralError()
                 }
@@ -174,6 +173,12 @@ class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOri
     private func showGeneralError() {
         loadController.state = .Loaded
         coursesContainer.showError()
+    }
+    
+    private func showOutdatedVersionError() {
+        loadController.state = .Loaded
+        coursesContainer.showOutdatedVersionError()
+        hideSnackBar()
     }
     
     // set empty state when course discovery is disabled
@@ -275,8 +280,11 @@ extension EnrolledCoursesViewController: CoursesContainerViewControllerDelegate 
     }
     
     func reload() {
-        loadController.state = .Initial
-        refreshIfNecessary()
+        if environment.reachability.isReachable() {
+            loadController.state = .Initial
+            enrollmentFeed.refresh()
+            userPreferencesFeed.refresh()
+        }
     }
 }
 

@@ -1089,7 +1089,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "نسخة جديدة من التطبيق متوفرة حالياً.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "النسخة التي لديك من التطبيق لم تعُد مدعومة.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "النسخة التي لديك من التطبيق لم تعُد مدعومة";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "النسخة التي لديك من التطبيق لم تعُد مدعومة. أحصل على أحدث نسخة لتسجل الدخول.";
 /*New version available without deadline message*/

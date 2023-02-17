@@ -100,7 +100,7 @@ private func refreshAccessToken(router: OEXRouter?, clientId: String, refreshTok
             }
             performQueuedTasks(router: router, success: success)
             
-            return completion(success)
+            return completion(result.response, success)
         }
     }
 }

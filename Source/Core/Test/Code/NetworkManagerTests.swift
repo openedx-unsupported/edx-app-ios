@@ -296,7 +296,7 @@ class NetworkManagerTests: XCTestCase {
             if response!.statusCode == 401 {
                 return AuthenticationAction.authenticate({ (networkManager, completion) in
                     OHHTTPStubs.removeStub(stub401Response)
-                    return completion(true)
+                    return completion(nil, true)
                 })}
             else {
                 OHHTTPStubs.removeStub(stub200Response)
@@ -331,7 +331,7 @@ class NetworkManagerTests: XCTestCase {
         manager.authenticator = { (response, data, _) -> AuthenticationAction in
             return AuthenticationAction.authenticate({ (networkManager, completion) in
                 OHHTTPStubs.removeStub(stub401Response)
-                return completion(false)
+                return completion(nil, false)
             })
         }
         
