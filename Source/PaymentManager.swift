@@ -45,7 +45,6 @@ enum PurchaseError: String {
 }
 
 @objc class PaymentManager: NSObject {
-    private typealias storeKit = SwiftyStoreKit
     @objc static let shared = PaymentManager()
     // Use this dictionary to keep track of inprocess transctions and allow only one transction at a time
     private(set) var purchases: [String: Any] = [:]
@@ -76,7 +75,7 @@ enum PurchaseError: String {
 
     @objc func completeTransactions() {
         // save and check if purchase is already there
-        storeKit.completeTransactions(atomically: false) { [weak self] purchases in // atomically = false
+        SwiftyStoreKit.completeTransactions(atomically: false) { [weak self] purchases in // atomically = false
             for purchase in purchases {
                 switch purchase.transaction.transactionState {
                 case .purchased, .restored:
@@ -101,7 +100,7 @@ enum PurchaseError: String {
     }
 
     func purchaseProduct(_ identifier: String, completion: PurchaseCompletionHandler?) {
-        guard storeKit.canMakePayments else {
+        guard SwiftyStoreKit.canMakePayments else {
             if let controller = UIApplication.shared.topMostController() {
                 UIAlertController().showAlert(withTitle: "Payment Error", message: "This device is not able or allowed to make payments", onViewController: controller)
             }
@@ -115,7 +114,7 @@ enum PurchaseError: String {
         }
         self.completion = completion
 
-        storeKit.purchaseProduct(identifier, atomically: false, applicationUsername: applicationUserName) { [weak self] result in
+        SwiftyStoreKit.purchaseProduct(identifier, atomically: false, applicationUsername: applicationUserName) { [weak self] result in
             switch result {
             case .success(let purchase):
                 self?.purchases[purchase.productId] = purchase
@@ -154,7 +153,7 @@ enum PurchaseError: String {
     }
 
     func productPrice(_ identifier: String, completion: ((String?) -> Void)? = nil) {
-        storeKit.retrieveProductsInfo([identifier]) { result in
+        SwiftyStoreKit.retrieveProductsInfo([identifier]) { result in
             if let product = result.retrievedProducts.first {
                 completion?(product.localizedPrice)
             }
@@ -168,7 +167,7 @@ enum PurchaseError: String {
     }
     
     func productPrice(_ identifiers: [String]) {
-        storeKit.retrieveProductsInfo(Set(identifiers.map { $0 })) { _ in }
+        SwiftyStoreKit.retrieveProductsInfo(Set(identifiers.map { $0 })) { _ in }
     }
     
     func purchaseReceipt(completion: PurchaseCompletionHandler? = nil) {
@@ -176,7 +175,7 @@ enum PurchaseError: String {
             self.completion = completion
         }
 
-        storeKit.fetchReceipt(forceRefresh: false) { [weak self] result in
+        SwiftyStoreKit.fetchReceipt(forceRefresh: false) { [weak self] result in
             switch result {
             case .success(let receiptData):
                 let encryptedReceipt = receiptData.base64EncodedString(options: [])
@@ -192,7 +191,7 @@ enum PurchaseError: String {
     func restorePurchases(completion: ((_ success: Bool, _ purchases: [Purchase]?) -> ())? = nil) {
         guard let applicationUserName = OEXSession.shared()?.currentUser?.username else { return }
 
-        storeKit.restorePurchases(atomically: false, applicationUsername: applicationUserName) { results in
+        SwiftyStoreKit.restorePurchases(atomically: false, applicationUsername: applicationUserName) { results in
             if !results.restoredPurchases.isEmpty {
                 completion?(true, results.restoredPurchases)
             }
@@ -228,14 +227,14 @@ enum PurchaseError: String {
         case .transction:
             if let purchase = purchases[productID] as? Purchase {
                 if purchase.needsFinishTransaction {
-                    storeKit.finishTransaction(purchase.transaction)
+                    SwiftyStoreKit.finishTransaction(purchase.transaction)
                 }
             }
             break
         case .purchase:
             if let purchase = purchases[productID] as? PurchaseDetails {
                 if purchase.needsFinishTransaction {
-                    storeKit.finishTransaction(purchase.transaction)
+                    SwiftyStoreKit.finishTransaction(purchase.transaction)
                 }
             }
             break
@@ -249,7 +248,7 @@ enum PurchaseError: String {
     }
     
     func restoreFailedPurchase() {
-        storeKit.restorePurchases { restoreResults in
+        SwiftyStoreKit.restorePurchases { restoreResults in
             restoreResults.restoreFailedPurchases.forEach { error, _ in
                 print(error)
             }
