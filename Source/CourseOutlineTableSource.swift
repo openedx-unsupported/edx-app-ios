@@ -22,7 +22,7 @@ protocol CourseOutlineTableControllerDelegate: AnyObject {
     func resetCourseDate(controller: CourseOutlineTableController)
 }
 
-class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate, VideoDownloadQualityDelegate, ScrollableDelegateProvider {
+class CourseOutlineTableController: UITableViewController, ScrollableDelegateProvider {
 
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & ServerConfigProvider
     
@@ -67,19 +67,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
     }
     
-    init(environment: Environment, courseID: String, forMode mode: CourseOutlineMode, courseBlockID: CourseBlockID? = nil) {
-        self.courseID = courseID
-        self.courseBlockID = courseBlockID
-        self.environment = environment
-        self.courseOutlineMode = mode
-        self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     var groups : [CourseOutlineQuerier.BlockGroup] = [] {
         didSet {
             courseQuerier.remove(observer: self)
@@ -101,12 +88,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
                 courseQuerier.add(observer: observer)
             }
-            
-            
-            groups.forEach { group in
-                let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
-                courseQuerier.add(observer: observer)
-            }
         }
     }
     
@@ -114,6 +95,19 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private var videos: [OEXHelperVideoDownload]?
     
     private var watchedVideoBlock: [CourseBlockID] = []
+    
+    init(environment: Environment, courseID: String, forMode mode: CourseOutlineMode, courseBlockID: CourseBlockID? = nil) {
+        self.courseID = courseID
+        self.courseBlockID = courseBlockID
+        self.environment = environment
+        self.courseOutlineMode = mode
+        self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func addCertificateView() {
         guard environment.config.certificatesEnabled, let enrollment = enrollment, let certificateUrl =  enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
@@ -136,52 +130,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
 
     private var enrollment: UserCourseEnrollment? {
         return environment.interface?.enrollmentForCourse(withID: courseID)
-    }
-
-    private func addValuePropView() {
-        if !canShowValueProp { return }
-
-        headerContainer.addSubview(valuePropView)
-        valuePropView.backgroundColor = environment.styles.standardBackgroundColor()
-
-        valuePropView.snp.remakeConstraints { make in
-            make.height.equalTo(0)
-        }
-        let lockedImage = Icon.Closed.imageWithFontSize(size: 20).image(with: OEXStyles.shared().neutralWhiteT())
-        let imageAttachment = NSTextAttachment()
-        imageAttachment.image = lockedImage
-        if let image = imageAttachment.image {
-            imageAttachment.bounds = CGRect(x: 0, y: -4, width: image.size.width, height: image.size.height)
-        }
-        let attributedImageString = NSAttributedString(attachment: imageAttachment)
-        let style = OEXTextStyle(weight: .semiBold, size: .base, color: environment.styles.neutralWhiteT())
-        let attributedStrings = [
-            attributedImageString,
-            NSAttributedString(string: "\u{200b}"),
-            style.attributedString(withText: Strings.ValueProp.courseDashboardButtonTitle)
-        ]
-        let attributedTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
-        
-        let button = UIButton(type: .system)
-        button.oex_addAction({ [weak self] _ in
-            if let course = self?.enrollment?.course {
-                self?.environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course) {
-                    self?.environment.analytics.trackValuePropModal(with: .CourseDashboard, courseId: course.course_id ?? "")
-                }
-                self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: .CourseDashboard)
-            }
-        }, for: .touchUpInside)
-
-        button.backgroundColor = environment.styles.secondaryDarkColor()
-        button.setAttributedTitle(attributedTitle, for: .normal)
-        valuePropView.addSubview(button)
-
-        button.snp.remakeConstraints { make in
-            make.height.equalTo(StandardVerticalMargin * 4.5)
-            make.leading.equalTo(valuePropView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(valuePropView).inset(StandardHorizontalMargin)
-            make.center.equalTo(valuePropView)
-        }
     }
 
     private func setAccessibilityIdentifiers() {
@@ -217,99 +165,19 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
     }
     
-    private func configureHeaderView() {
-        if courseOutlineMode == .full {
-            courseDateBannerView.delegate = self
-            headerContainer.addSubview(courseDateBannerView)
-            headerContainer.addSubview(courseCard)
-            headerContainer.addSubview(resumeCourseView)
-            addCertificateView()
-            addValuePropView()
-            
-            courseDateBannerView.snp.remakeConstraints { make in
-                make.trailing.equalTo(headerContainer)
-                make.leading.equalTo(headerContainer)
-                make.top.equalTo(headerContainer)
-                make.height.equalTo(0)
-            }
-        }
-        if let course = enrollment?.course {
-            switch courseOutlineMode {
-            case .full:
-                CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
-                break
-            case .video:
-                if let courseBlockID = courseBlockID {
-                    let stream = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: courseBlockID)
-                    stream.listen(self) {[weak self] downloads in
-                        self?.videos = downloads.value?.filter { $0.summary?.isDownloadableVideo ?? false }
-                        self?.addBulkDownloadHeaderView(course: course, videos: self?.videos)
-                    }
-                }
-                else {
-                    videos = environment.interface?.downloadableVideos(of: course)
-                    addBulkDownloadHeaderView(course: course, videos: videos)
-                }
-                break
-            }
-            refreshTableHeaderView(isResumeCourse: false)
-        }
-    }
-    
-    private func addBulkDownloadHeaderView(course: OEXCourse, videos: [OEXHelperVideoDownload]?) {
-        courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment, videos: videos, blockID: courseBlockID)
-        courseVideosHeaderView?.delegate = self
-        if let headerView = courseVideosHeaderView {
-            headerContainer.addSubview(headerView)
-        }
-        
-        refreshTableHeaderView(isResumeCourse: false)
-    }
-    
-    func courseVideosHeaderViewTapped() {
-        delegate?.outlineTableControllerChoseShowDownloads(controller: self)
-    }
-    
-    func invalidOrNoNetworkFound() {
-        showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
-    }
-    
-    func didTapVideoQuality() {
-        environment.analytics.trackEvent(with: AnalyticsDisplayName.CourseVideosDownloadQualityClicked, name: AnalyticsEventName.CourseVideosDownloadQualityClicked)
-        environment.router?.showDownloadVideoQuality(from: self, delegate: self, modal: true)
-    }
-    
-    func didUpdateVideoQuality() {
-        if courseOutlineMode == .video {
-            courseVideosHeaderView?.refreshView()
-        }
-    }
-    
-    private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
-        for (i, group) in groups.enumerated() {
-            for (j, block) in group.children.enumerated() {
-                if block.blockID == blockID {
-                    return IndexPath(row: j, section: i) as NSIndexPath
-                }
-            }
-        }
-        return nil
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let path = self.tableView.indexPathForSelectedRow {
-            self.tableView.deselectRow(at: path, animated: false)
+        if let path = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: path, animated: false)
         }
-        if let highlightID = highlightedBlockID, let indexPath = indexPathForBlockWithID(blockID: highlightID)
-        {
+
+        if let highlightID = highlightedBlockID,
+           let indexPath = indexPathForBlockWithID(blockID: highlightID) {
             tableView.scrollToRow(at: indexPath as IndexPath, at: UITableView.ScrollPosition.middle, animated: false)
         }
-        
-        if courseOutlineMode == .video {
-            courseVideosHeaderView?.refreshView()
-        }
+
+        courseOutlineMode == .video ? courseVideosHeaderView?.refreshView() : nil
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -325,62 +193,50 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         return OEXConfig.shared().isNewDashboardEnabled && courseOutlineMode == .full && group.block.type == .Chapter
     }
     
+    // MARK: UITableView DataSource & Delegate
     override func numberOfSections(in tableView: UITableView) -> Int {
         return groups.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if shouldApplyNewStyle(groups[section]) {
-            return hiddenSections.contains(section) ? 0 : groups[section].children.count
-        }
-        return groups[section].children.count
+        return shouldApplyNewStyle(groups[section])
+            ? hiddenSections.contains(section) ? 0 : groups[section].children.count
+            : groups[section].children.count
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if shouldApplyNewStyle(groups[section]) {
-            return StandardVerticalMargin * 5
-        } else {
-            return 30
-        }
+        return shouldApplyNewStyle(groups[section]) ? StandardVerticalMargin * 7.5 : StandardVerticalMargin * 3.75
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let group = groups[section]
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CourseOutlineHeaderCell.identifier) as! CourseOutlineHeaderCell
         
+        let group = groups[section]
         header.section = section
         header.block = group.block
         header.delegate = self
         
-        var appliedStyle = false
-        
         let allCompleted: Bool
+        
         if courseOutlineMode == .video {
-            allCompleted = group.block.type == .Unit ?
-                group.children.allSatisfy { $0.isCompleted } :
-                group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
-            header.isTapActionEnabled = false
+            allCompleted = group.block.type == .Unit
+            ? group.children.allSatisfy { $0.isCompleted }
+            : group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
         } else {
             allCompleted = group.children.allSatisfy { $0.isCompleted }
-            
-            if shouldApplyNewStyle(group) {
-                appliedStyle = true
-                header.setup()
-                header.isExpanded = !hiddenSections.contains(section)
-                header.isCompleted = allCompleted
-                header.isTapActionEnabled = true
-            }
         }
         
-        if !appliedStyle {
+        if shouldApplyNewStyle(group) {
+            header.setup()
+            header.isExpanded = !hiddenSections.contains(section)
+            header.isCompleted = allCompleted
+            header.isTapActionEnabled = true
+            header.addConstraints()
+        } else {
             header.setupOld()
         }
         
         allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
-        
-        if shouldApplyNewStyle(group) {
-            header.addConstraints()
-        }
         
         return header
     }
@@ -399,9 +255,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         return nil
     }
     
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // Will remove manual heights when dropping iOS7 support and move to automatic cell heights.
-        return 60.0
+        return UITableView.automaticDimension
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -484,7 +343,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        
         guard let cell = tableView.cellForRow(at: indexPath) as? SwipeableCell, cell.state != .initial  else {
             return indexPath
         }
@@ -492,24 +350,115 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         return nil
     }
     
-    func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
-        self.delegate?.outlineTableController(controller: self, choseDownloadVideoForBlock: block)
+    deinit {
+        courseQuerier.remove(observer: self)
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension CourseOutlineTableController {
+    private func configureHeaderView() {
+        if courseOutlineMode == .full {
+            courseDateBannerView.delegate = self
+            headerContainer.addSubview(courseDateBannerView)
+            headerContainer.addSubview(courseCard)
+            headerContainer.addSubview(resumeCourseView)
+            addCertificateView()
+            addValuePropView()
+            
+            courseDateBannerView.snp.remakeConstraints { make in
+                make.trailing.equalTo(headerContainer)
+                make.leading.equalTo(headerContainer)
+                make.top.equalTo(headerContainer)
+                make.height.equalTo(0)
+            }
+        }
+        if let course = enrollment?.course {
+            switch courseOutlineMode {
+            case .full:
+                CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
+                break
+            case .video:
+                if let courseBlockID = courseBlockID {
+                    let stream = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: courseBlockID)
+                    stream.listen(self) {[weak self] downloads in
+                        self?.videos = downloads.value?.filter { $0.summary?.isDownloadableVideo ?? false }
+                        self?.addBulkDownloadHeaderView(course: course, videos: self?.videos)
+                    }
+                }
+                else {
+                    videos = environment.interface?.downloadableVideos(of: course)
+                    addBulkDownloadHeaderView(course: course, videos: videos)
+                }
+                break
+            }
+            refreshTableHeaderView(isResumeCourse: false)
+        }
     }
     
-    func videoCellChoseShowDownloads(cell: CourseVideoTableViewCell) {
-        self.delegate?.outlineTableControllerChoseShowDownloads(controller: self)
+    private func addBulkDownloadHeaderView(course: OEXCourse, videos: [OEXHelperVideoDownload]?) {
+        courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment, videos: videos, blockID: courseBlockID)
+        courseVideosHeaderView?.delegate = self
+        if let headerView = courseVideosHeaderView {
+            headerContainer.addSubview(headerView)
+        }
+        
+        refreshTableHeaderView(isResumeCourse: false)
     }
     
-    func reloadCell(cell: UITableViewCell) {
-        self.delegate?.outlineTableControllerReload(controller: self)
+    private func indexPathForBlockWithID(blockID: CourseBlockID) -> IndexPath? {
+        for (i, group) in groups.enumerated() {
+            if let j = group.children.firstIndex(where: { $0.blockID == blockID }) {
+                return IndexPath(row: j, section: i)
+            }
+        }
+        return nil
     }
     
-    func sectionCellChoseShowDownloads(cell: CourseSectionTableViewCell) {
-        self.delegate?.outlineTableControllerChoseShowDownloads(controller: self)
-    }
-    
-    func sectionCellChoseDownload(cell: CourseSectionTableViewCell, videos: [OEXHelperVideoDownload], forBlock block : CourseBlock) {
-        self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
+    private func addValuePropView() {
+        if !canShowValueProp { return }
+
+        headerContainer.addSubview(valuePropView)
+        valuePropView.backgroundColor = environment.styles.standardBackgroundColor()
+
+        valuePropView.snp.remakeConstraints { make in
+            make.height.equalTo(0)
+        }
+        let lockedImage = Icon.Closed.imageWithFontSize(size: 20).image(with: OEXStyles.shared().neutralWhiteT())
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = lockedImage
+        if let image = imageAttachment.image {
+            imageAttachment.bounds = CGRect(x: 0, y: -4, width: image.size.width, height: image.size.height)
+        }
+        let attributedImageString = NSAttributedString(attachment: imageAttachment)
+        let style = OEXTextStyle(weight: .semiBold, size: .base, color: environment.styles.neutralWhiteT())
+        let attributedStrings = [
+            attributedImageString,
+            NSAttributedString(string: "\u{200b}"),
+            style.attributedString(withText: Strings.ValueProp.courseDashboardButtonTitle)
+        ]
+        let attributedTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
+        
+        let button = UIButton(type: .system)
+        button.oex_addAction({ [weak self] _ in
+            if let course = self?.enrollment?.course {
+                self?.environment.router?.showValuePropDetailView(from: self, screen: .courseDashboard, course: course) {
+                    self?.environment.analytics.trackValuePropModal(with: .CourseDashboard, courseId: course.course_id ?? "")
+                }
+                self?.environment.analytics.trackValuePropLearnMore(courseID: course.course_id ?? "", screenName: .CourseDashboard)
+            }
+        }, for: .touchUpInside)
+
+        button.backgroundColor = environment.styles.secondaryDarkColor()
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        valuePropView.addSubview(button)
+
+        button.snp.remakeConstraints { make in
+            make.height.equalTo(StandardVerticalMargin * 4.5)
+            make.leading.equalTo(valuePropView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(valuePropView).inset(StandardHorizontalMargin)
+            make.center.equalTo(valuePropView)
+        }
     }
     
     private func resumeCourse(with item: ResumeCourseItem) {
@@ -669,10 +618,33 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
            let courseMode = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.mode else { return }
         environment.analytics.trackDatesBannerAppearence(screenName: AnalyticsScreenName.CourseDashboard, courseMode: courseMode, eventName: eventName, bannerType: bannerType)
     }
+}
+
+extension CourseOutlineTableController: CourseVideoTableViewCellDelegate {
+    func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
+        delegate?.outlineTableController(controller: self, choseDownloadVideoForBlock: block)
+    }
     
-    deinit {
-        courseQuerier.remove(observer: self)
-        NotificationCenter.default.removeObserver(self)
+    func videoCellChoseShowDownloads(cell: CourseVideoTableViewCell) {
+        delegate?.outlineTableControllerChoseShowDownloads(controller: self)
+    }
+    
+    func reloadCell(cell: UITableViewCell) {
+        delegate?.outlineTableControllerReload(controller: self)
+    }
+}
+
+extension CourseOutlineTableController: CourseSectionTableViewCellDelegate {
+    func sectionCellChoseShowDownloads(cell: CourseSectionTableViewCell) {
+        delegate?.outlineTableControllerChoseShowDownloads(controller: self)
+    }
+    
+    func sectionCellChoseDownload(cell: CourseSectionTableViewCell, videos: [OEXHelperVideoDownload], forBlock block : CourseBlock) {
+        delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
+    }
+    
+    func reloadSectionCell(cell: UITableViewCell) {
+        delegate?.outlineTableControllerReload(controller: self)
     }
 }
 
@@ -682,14 +654,35 @@ extension CourseOutlineTableController: CourseShiftDatesDelegate {
     }
 }
 
+extension CourseOutlineTableController: CourseVideosHeaderViewDelegate {
+    func courseVideosHeaderViewTapped() {
+        delegate?.outlineTableControllerChoseShowDownloads(controller: self)
+    }
+    
+    func invalidOrNoNetworkFound() {
+        showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
+    }
+    
+    func didTapVideoQuality() {
+        environment.analytics.trackEvent(with: AnalyticsDisplayName.CourseVideosDownloadQualityClicked, name: AnalyticsEventName.CourseVideosDownloadQualityClicked)
+        environment.router?.showDownloadVideoQuality(from: self, delegate: self, modal: true)
+    }
+}
+
+extension CourseOutlineTableController: VideoDownloadQualityDelegate {
+    func didUpdateVideoQuality() {
+        if courseOutlineMode == .video {
+            courseVideosHeaderView?.refreshView()
+        }
+    }
+}
+
 extension CourseOutlineTableController: BlockCompletionDelegate {
     func didCompletionChanged(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode) {
         
         if mode != courseOutlineMode { return }
         
-        guard let index = groups.firstIndex(where: {
-            return $0.block.blockID == blockGroup.block.blockID
-        }) else { return }
+        guard let index = groups.firstIndex(where: { return $0.block.blockID == blockGroup.block.blockID }) else { return }
         
         if tableView.isValidSection(with: index) {
             if mode == .full {
@@ -719,14 +712,8 @@ extension CourseOutlineTableController {
 extension CourseOutlineTableController: CourseOutlineHeaderCellDelegate {
     func toggleSection(header: CourseOutlineHeaderCell, section: Int) {
         if OEXConfig.shared().isNewDashboardEnabled {
-            let shouldExpand = !header.isExpanded
-            header.isExpanded = shouldExpand
-            
-            if hiddenSections.contains(section) {
-                hiddenSections.remove(section)
-            } else {
-                hiddenSections.insert(section)
-            }
+            header.isExpanded = !header.isExpanded
+            hiddenSections = hiddenSections.symmetricDifference([section])
             tableView.reloadSections([section], with: .none)
         }
     }

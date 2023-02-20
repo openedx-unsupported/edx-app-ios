@@ -37,7 +37,11 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     private let containerView = UIView()
     
     private lazy var leadingImageButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
+        let button = UIButton(type: .system)
+        let image = Icon.CheckCircle.imageWithFontSize(size: 17)
+        button.setImage(image, for: .normal)
+        button.tintColor = OEXStyles.shared().successBase()
+        button.isHidden = true
         return button
     }()
     
@@ -124,9 +128,6 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     func addConstraints() {
         leadingImageButton.isHidden = !isCompleted
         
-        var offset: CGFloat = 2.65
-        var leadingContainer: UIView = self
-        
         containerView.snp.remakeConstraints { make in
             make.top.equalTo(self)
             make.bottom.equalTo(self)
@@ -134,19 +135,10 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
         
-        if isCompleted {
-            offset = 2.15
-            leadingContainer = leadingImageButton
-            
-            let image = Icon.CheckCircle.imageWithFontSize(size: 17)
-            leadingImageButton.setImage(image, for: .normal)
-            leadingImageButton.tintColor = OEXStyles.shared().successBase()
-            
-            leadingImageButton.snp.remakeConstraints { make in
-                make.centerY.equalTo(containerView)
-                make.leading.equalTo(containerView).offset(StandardHorizontalMargin / 2)
-                make.size.equalTo(iconSize)
-            }
+        leadingImageButton.snp.remakeConstraints { make in
+            make.centerY.equalTo(containerView)
+            make.leading.equalTo(containerView).offset(StandardHorizontalMargin / 2)
+            make.size.equalTo(iconSize)
         }
         
         trailingImageView.snp.remakeConstraints { make in
@@ -158,21 +150,13 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         rotateImageView(clockWise: !isExpanded)
         
         headerLabel.snp.remakeConstraints { make in
-            make.leading.equalTo(leadingContainer).offset(StandardHorizontalMargin * offset)
+            make.leading.equalTo(leadingImageButton).offset(StandardHorizontalMargin * 2.15)
             make.centerY.equalTo(containerView)
-            make.trailing.equalTo(isCompleted ? trailingImageView.snp.leading : containerView).inset(StandardHorizontalMargin * offset)
+            make.trailing.equalTo(trailingImageView.snp.leading).offset(-StandardHorizontalMargin * 2.15)
         }
         
         button.snp.remakeConstraints { make in
             make.edges.equalTo(containerView)
-        }
-        
-        if OEXConfig.shared().isNewDashboardEnabled {
-            leadingImageButton.isHidden = false
-            trailingImageView.isHidden = false
-        } else {
-            leadingImageButton.isHidden = true
-            trailingImageView.isHidden = true
         }
     }
     

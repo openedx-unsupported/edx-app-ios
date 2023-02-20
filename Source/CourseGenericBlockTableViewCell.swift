@@ -23,14 +23,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         contentView.addSubview(content)
         
         content.snp.makeConstraints { make in
-            if OEXConfig.shared().isNewDashboardEnabled {
-                make.top.equalTo(contentView)
-                make.bottom.equalTo(contentView)
-                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-                make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-            } else {
-                make.edges.equalTo(contentView)
-            }
+            make.edges.equalTo(contentView)
         }
         
         accessibilityIdentifier = "CourseGenericBlockTableViewCell:view"

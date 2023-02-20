@@ -30,6 +30,13 @@ public class CourseOutlineItemView: UIView {
     
     private let fontStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
     private let boldFontStyle = OEXTextStyle(weight: .bold, size: .small, color : OEXStyles.shared().neutralBlack())
+    
+    private lazy var content: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let leadingImageButton = UIButton(type: UIButton.ButtonType.system)
@@ -123,6 +130,7 @@ public class CourseOutlineItemView: UIView {
     }
     
     func setTitleText(title: String, elipsis: Bool = true) {
+        titleLabel.numberOfLines = 0
         if !elipsis {
             titleLabel.attributedText = fontStyle.attributedString(withText: title)
         } else {
@@ -132,6 +140,7 @@ public class CourseOutlineItemView: UIView {
             attributedString.append(attributedTitle)
             attributedString.append(attributedUnicodeSpace)
             attributedString.append(attributedTrailingImage)
+            
             titleLabel.attributedText = attributedString
             setConstraints()
         }
@@ -219,23 +228,34 @@ public class CourseOutlineItemView: UIView {
     }
     
     private func setConstraints(with blockType: CourseBlockType? = nil) {
+        content.snp.remakeConstraints { make in
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.height.greaterThanOrEqualTo(60)
+        }
+        
         leadingImageButton.isHidden = !shouldShowLeadingView
         
         leadingImageButton.snp.remakeConstraints { make in
             make.centerY.equalTo(titleLabel)
             let offsetMargin = shouldShowLeadingView ? StandardHorizontalMargin / 2 : 0
-            make.leading.equalTo(self).offset(offsetMargin)
+            make.leading.equalTo(content).offset(offsetMargin)
             make.size.equalTo(IconSize)
         }
         
         let shouldOffsetTitle = !(subtitleLabel.text?.isEmpty ?? true)
         titleLabel.snp.remakeConstraints { make in
+            make.top.equalTo(content).offset(StandardVerticalMargin)
+            
             let titleOffset = shouldOffsetTitle ? TitleOffsetCenterY : 0
-            make.centerY.equalTo(self).offset(titleOffset)
+            make.centerY.equalTo(content).offset(titleOffset)
+            
             if shouldShowLeadingView {
                 make.leading.equalTo(leadingImageButton.snp.trailing).offset(StandardHorizontalMargin / 2)
             } else {
-                make.leading.equalTo(self).offset(StandardHorizontalMargin)
+                make.leading.equalTo(content).offset(StandardHorizontalMargin)
             }
             make.trailing.lessThanOrEqualTo(trailingContainer.snp.leading).offset(TitleOffsetTrailing)
         }
@@ -254,7 +274,7 @@ public class CourseOutlineItemView: UIView {
             } else {
                 make.leading.equalTo(subtitleLeadingImageView.snp.leading).offset(0)
             }
-            make.trailing.lessThanOrEqualTo(self).offset(-StandardHorizontalMargin)
+            make.trailing.lessThanOrEqualTo(content).offset(-StandardHorizontalMargin)
         }
         
         separator.snp.remakeConstraints { make in
@@ -266,12 +286,13 @@ public class CourseOutlineItemView: UIView {
     }
     
     private func addSubviews() {
-        addSubview(leadingImageButton)
-        addSubview(trailingContainer)
-        addSubview(titleLabel)
-        addSubview(subtitleLabel)
-        addSubview(subtitleLeadingImageView)
-        addSubview(separator)
+        addSubview(content)
+        content.addSubview(leadingImageButton)
+        content.addSubview(trailingContainer)
+        content.addSubview(titleLabel)
+        content.addSubview(subtitleLabel)
+        content.addSubview(subtitleLeadingImageView)
+        content.addSubview(separator)
         
         // For performance only add the static constraints once
         
@@ -283,7 +304,7 @@ public class CourseOutlineItemView: UIView {
         }
         
         subtitleLabel.snp.remakeConstraints { make in
-            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            make.centerY.equalTo(content).offset(SubtitleOffsetCenterY)
             
             if subtitleLeadingImageView.isHidden {
                 make.leading.equalTo(subtitleLeadingImageView.snp.leading).offset(SubtitleLeadingOffset)
@@ -297,8 +318,8 @@ public class CourseOutlineItemView: UIView {
     
     private func refreshTrailingViewConstraints() {
         trailingContainer.snp.remakeConstraints { make in
-            make.trailing.equalTo(self.snp.trailing).inset(isSectionOutline ? 10 : CellOffsetTrailing)
-            make.centerY.equalTo(self)
+            make.trailing.equalTo(content.snp.trailing).inset(isSectionOutline ? 10 : CellOffsetTrailing)
+            make.centerY.equalTo(content)
             make.width.equalTo(SmallIconSize * 2)
         }
     }

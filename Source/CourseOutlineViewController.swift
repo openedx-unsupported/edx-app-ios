@@ -161,7 +161,10 @@ public class CourseOutlineViewController :
         loadController.insets = UIEdgeInsets(top: view.safeAreaInsets.top, left: 0, bottom: view.safeAreaInsets.bottom, right : 0)
         
         tableController.view.snp.remakeConstraints { make in
-            make.edges.equalTo(safeEdges)
+            make.top.equalTo(safeTop).offset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(safeBottom)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
         }
         super.updateViewConstraints()
     }

@@ -11,7 +11,7 @@ import UIKit
 protocol CourseSectionTableViewCellDelegate : AnyObject {
     func sectionCellChoseDownload(cell : CourseSectionTableViewCell, videos : [OEXHelperVideoDownload], forBlock block : CourseBlock)
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
-    func reloadCell(cell: UITableViewCell)
+    func reloadSectionCell(cell: UITableViewCell)
 }
 
 class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
@@ -236,7 +236,7 @@ extension CourseSectionTableViewCell: SwipeableCellDelegate {
     @objc private func invalidateTimer(){
         spinnerTimer.invalidate()
         downloadView.state = .Done
-        delegate?.reloadCell(cell: self)
+        delegate?.reloadSectionCell(cell: self)
     }
 }
 
