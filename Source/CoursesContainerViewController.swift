@@ -113,7 +113,7 @@ extension CoursesContainerViewControllerDelegate {
     func reload() {}
 }
 
-class CoursesContainerViewController: UICollectionViewController {
+class CoursesContainerViewController: UICollectionViewController, ScrollableDelegateProvider {
     
     enum Context {
         case courseCatalog
@@ -121,6 +121,9 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXInterfaceProvider & OEXAnalyticsProvider & ServerConfigProvider
+    
+    weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
     
     private let environment : Environment
     private let context: Context
@@ -325,5 +328,21 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
         let valuePropHeight: CGFloat = calculateValuePropHeight(for: indexPath)
         let heightPerItem =  widthPerItem * StandardImageAspectRatio + valuePropHeight
         return CGSize(width: widthPerItem, height: heightPerItem)
+    }
+}
+
+extension CoursesContainerViewController {
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }

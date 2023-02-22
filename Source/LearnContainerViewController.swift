@@ -31,6 +31,8 @@ class LearnContainerViewController: UIViewController {
     
     private let environment: Environment
     
+    private var headerViewState: HeaderViewState = .expanded
+    
     private lazy var components: [Component] = {
         var items: [Component] = []
         items.append(.courses)
@@ -40,11 +42,23 @@ class LearnContainerViewController: UIViewController {
         return items
     }()
     
+    private let container = UIView()
     private lazy var headerView = LearnContainerHeaderView(items: components)
     
-    private let container = UIView()
-    private let coursesViewController: EnrolledCoursesViewController
-    private var programsViewController: ProgramsViewController?
+    private lazy var coursesViewController: EnrolledCoursesViewController = {
+        let controller = EnrolledCoursesViewController(environment: environment)
+        controller.scrollableDelegate = self
+        return controller
+    }()
+    
+    private lazy var programsViewController: ProgramsViewController? = {
+        if programsEnabled, let programsURL = environment.config.programConfig.programURL {
+            let controller = ProgramsViewController(environment: environment, programsURL: programsURL)
+            controller.scrollableDelegate = self
+            return controller
+        }
+        return nil
+    }()
     
     private var selectedComponent: Component?
     
@@ -56,11 +70,6 @@ class LearnContainerViewController: UIViewController {
     
     init(environment: Environment) {
         self.environment = environment
-        self.coursesViewController = EnrolledCoursesViewController(environment: environment)
-        if environment.config.programConfig.enabled,
-           let programsURL = environment.config.programConfig.programURL {
-            self.programsViewController = ProgramsViewController(environment: environment, programsURL: programsURL)
-        }
         super.init(nibName: nil, bundle: nil)
         setupViews()
     }
@@ -78,9 +87,16 @@ class LearnContainerViewController: UIViewController {
         update(component: .courses)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationItem.setHidesBackButton(true, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        navigationController?.setNavigationBarHidden(false, animated: true)
         headerView.dimissDropDown()
     }
     
@@ -93,18 +109,18 @@ class LearnContainerViewController: UIViewController {
         view.addSubview(headerView)
         view.addSubview(container)
         
-        headerView.snp.makeConstraints { make in
-            make.top.equalTo(view)
+        headerView.snp.remakeConstraints { make in
+            make.top.equalTo(safeTop)
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
-            make.height.equalTo(LearnContainerHeaderView.height)
+            make.height.lessThanOrEqualTo(LearnContainerHeaderView.expandedHeight)
         }
         
         container.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom)
-            make.bottom.equalTo(view)
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.bottom.equalTo(safeBottom)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
         }
     }
     
@@ -186,6 +202,52 @@ extension LearnContainerViewController: LearnContainerHeaderViewDelegate {
     func didTapOnDropDown(item: LearnContainerHeaderItem) {
         guard let component = item as? Component else { return }
         update(component: component)
+    }
+}
+
+extension LearnContainerViewController: ScrollableDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y <= 0 {
+            if headerViewState == .collapsed {
+                headerViewState = .animating
+                expandHeaderView()
+            }
+        } else if headerViewState == .expanded {
+            headerViewState = .animating
+            collapseHeaderView()
+        }
+    }
+
+    private func expandHeaderView() {
+        headerView.snp.remakeConstraints { make in
+            make.top.equalTo(safeTop)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
+            make.height.lessThanOrEqualTo(LearnContainerHeaderView.expandedHeight)
+        }
+        
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.headerView.updateHeaderViewState(collapse: false)
+            self?.view.layoutIfNeeded()
+        } completion: { [weak self] _ in
+            self?.headerViewState = .expanded
+        }
+    }
+    
+    private func collapseHeaderView() {
+        headerView.snp.remakeConstraints { make in
+            make.top.equalTo(safeTop)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
+            make.height.lessThanOrEqualTo(LearnContainerHeaderView.collapsedHeight)
+        }
+        
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.headerView.updateHeaderViewState(collapse: true)
+            self?.view.layoutIfNeeded()
+        } completion: { [weak self] _ in
+            self?.headerViewState = .collapsed
+        }
     }
 }
 

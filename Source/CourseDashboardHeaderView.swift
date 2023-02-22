@@ -15,7 +15,7 @@ protocol CourseDashboardHeaderViewDelegate: AnyObject {
     func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem)
 }
 
-enum CourseDashboardHeaderViewState {
+enum HeaderViewState {
     case animating
     case expanded
     case collapsed
