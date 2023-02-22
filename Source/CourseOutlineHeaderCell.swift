@@ -163,9 +163,11 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     private func addSubviewsOld() {
         addSubview(horizontalTopLine)
         addSubview(headerLabel)
+        backgroundView = UIView(frame: .zero)
     }
     
     private func setStyles() {
+        backgroundView = UIView(frame: .zero)
         horizontalTopLine.backgroundColor = OEXStyles.shared().neutralBase()
     }
     

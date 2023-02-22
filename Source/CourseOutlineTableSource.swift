@@ -190,7 +190,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     }
     
     private func shouldApplyNewStyle(_ group: CourseOutlineQuerier.BlockGroup) -> Bool {
-        return OEXConfig.shared().isNewDashboardEnabled && courseOutlineMode == .full && group.block.type == .Chapter
+        return OEXConfig.shared().isNewDashboardEnabled && group.block.type == .Chapter
     }
     
     // MARK: UITableView DataSource & Delegate

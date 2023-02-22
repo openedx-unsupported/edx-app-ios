@@ -130,7 +130,10 @@ public class CourseOutlineItemView: UIView {
     }
     
     func setTitleText(title: String, elipsis: Bool = true) {
-        titleLabel.numberOfLines = 0
+        if OEXConfig.shared().isNewDashboardEnabled {
+            titleLabel.numberOfLines = 0
+        }
+        
         if !elipsis {
             titleLabel.attributedText = fontStyle.attributedString(withText: title)
         } else {
