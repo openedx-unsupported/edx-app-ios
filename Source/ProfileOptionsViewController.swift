@@ -433,6 +433,9 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
         upgradeHandler.upgradeCourse(with: .restore) { [weak self] state in
 
             switch state {
+            case .verify:
+                CourseUpgradeHelper.shared.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment(showLoader: false))
+                break
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 self?.hideProgressIndicator(indicator: indicator)

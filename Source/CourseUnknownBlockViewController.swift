@@ -226,7 +226,7 @@ extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
                 break
             case .verify:
                 upgradeView.stopAnimating()
-                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment)
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment(showLoader: true))
                 break
             case .complete:
                 self?.enableUserInteraction(enable: true)
