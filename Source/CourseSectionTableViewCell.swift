@@ -24,7 +24,11 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     weak var delegate : CourseSectionTableViewCellDelegate?
     fileprivate var spinnerTimer = Timer()
     var courseID: String?
-    var courseOutlineMode: CourseOutlineMode = .full
+    var courseOutlineMode: CourseOutlineMode = .full {
+        didSet {
+            content.courseOutlineMode = courseOutlineMode
+        }
+    }
     
     var videos : OEXStream<[OEXHelperVideoDownload]> = OEXStream() {
         didSet {
@@ -161,24 +165,27 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     var block: CourseBlock? = nil {
         didSet {
             guard let block = block else { return }
-            
             content.setTitleText(title: block.displayName, elipsis: false)
             content.isGraded = block.graded
             content.setDetailText(title: block.format ?? "", dueDate: block.dueDate, blockType: block.type)
-            
-            if courseOutlineMode == .video,
-               let sectionChild = courseQuerier?.childrenOfBlockWithID(blockID: block.blockID, forMode: .video).value,
-               sectionChild.block.type == .Section,
-               let unitChild = courseQuerier?.childrenOfBlockWithID(blockID: sectionChild.block.blockID, forMode: .video).value,
-               unitChild.children.allSatisfy ({ $0.isCompleted }) {
-                completionAction?()
-                showCompletionBackground()
-            } else {
-                handleBlockNormally(block)
-            }
-            
+            handleVideoBlockIfNeeded(block)
             setupDownloadView()
         }
+    }
+    
+    private func handleVideoBlockIfNeeded(_ block: CourseBlock) {
+        guard courseOutlineMode == .video,
+              let sectionChild = courseQuerier?.childrenOfBlockWithID(blockID: block.blockID, forMode: .video).value,
+              sectionChild.block.type == .Section,
+              let unitChild = courseQuerier?.childrenOfBlockWithID(blockID: sectionChild.block.blockID, forMode: .video).value,
+              unitChild.children.allSatisfy ({ $0.isCompleted })
+        else {
+            handleBlockNormally(block)
+            return
+        }
+        
+        completionAction?()
+        showCompletionBackground()
     }
     
     private func handleBlockNormally(_ block: CourseBlock) {

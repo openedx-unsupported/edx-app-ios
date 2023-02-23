@@ -332,8 +332,7 @@ public class CourseOutlineViewController :
     private func loadRowsStream() {
         rowsLoader.listen(self, success : { [weak self] groups in
                 if let owner = self {
-                    owner.tableController.groups = groups
-                    owner.tableController.tableView.reloadData()
+                    owner.tableController.setGroups(groups)
                     owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded
                 }
             }, failure : {[weak self] error in
@@ -531,7 +530,7 @@ extension CourseOutlineViewController {
     }
     
     public func t_currentChildCount() -> Int {
-        return tableController.groups.count
+        return tableController.t_groupsCount
     }
     
     public func t_populateResumeCourseItem(item : ResumeCourseItem) -> Bool {

@@ -46,6 +46,7 @@ public class CourseOutlineItemView: UIView {
     
     private var shouldShowLeadingView: Bool = true
     
+    var courseOutlineMode: CourseOutlineMode = .full
     var isSectionOutline = false {
         didSet {
             refreshTrailingViewConstraints()
@@ -130,7 +131,8 @@ public class CourseOutlineItemView: UIView {
     }
     
     func setTitleText(title: String, elipsis: Bool = true) {
-        if OEXConfig.shared().isNewDashboardEnabled {
+        
+        if OEXConfig.shared().isNewDashboardEnabled && courseOutlineMode == .full {
             titleLabel.numberOfLines = 0
         }
         
@@ -194,10 +196,8 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
         setConstraints(with: blockType)
         
-        if blockType == .Section {
-            if OEXConfig.shared().isNewDashboardEnabled {
-                applyBorderStyle(style: BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: OEXStyles.shared().neutralDark()))
-            }
+        if blockType == .Section && OEXConfig.shared().isNewDashboardEnabled && courseOutlineMode == .full {
+            applyBorderStyle(style: BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: OEXStyles.shared().neutralDark()))
         }
     }
     

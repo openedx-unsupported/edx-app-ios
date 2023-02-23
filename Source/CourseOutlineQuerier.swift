@@ -63,22 +63,17 @@ public class CourseOutlineQuerier : NSObject {
     private var observers: [BlockCompletionObserver] = []
     
     func add(observer: BlockCompletionObserver) {
-        if let index = observers.firstIndexMatching({ $0.controller === observer.controller && $0.blockID == observer.blockID }) {
-            observers.remove(at: index)
-        }
-        
+        observers.removeAll { $0.controller === observer.controller && $0.blockID == observer.blockID }
         observers.append(observer)
     }
     
     func remove(observer: UIViewController) {
-        let filtered = observers.filter { $0.controller !== observer }
-        observers = []
-        observers.append(contentsOf: filtered)
+        observers.removeAll { $0.controller === observer }
     }
     
     private var blocks: [CourseBlockID : CourseBlock] = [:] {
         didSet {
-            //subscribeToBlockCompletion()
+            subscribeToBlockCompletion()
         }
     }
     

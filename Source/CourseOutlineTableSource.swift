@@ -49,52 +49,24 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     
     weak var scrollableDelegate: ScrollableDelegate?
     private var scrollByDragging = false
+        
+    private var collapsedSections = Set<Int>()
+    private var hasAddedToCollapsedSections = false
     
-    private var hiddenSections = Set<Int>()
-    private var expandedSections = Set<Int>()
+    var highlightedBlockID : CourseBlockID? = nil
+    private var groups : [CourseOutlineQuerier.BlockGroup] = []
+    private var videos: [OEXHelperVideoDownload]?
+    private var watchedVideoBlock: [CourseBlockID] = []
     
     var isSectionOutline = false {
         didSet {
-            if isSectionOutline {
-                hideTableHeaderView()
-            }
-            
-            if OEXConfig.shared().isNewDashboardEnabled {
+            if isSectionOutline || OEXConfig.shared().isNewDashboardEnabled {
                 hideTableHeaderView()
             }
             
             tableView.reloadData()
         }
     }
-    
-    var groups : [CourseOutlineQuerier.BlockGroup] = [] {
-        didSet {
-            courseQuerier.remove(observer: self)
-            
-            groups.enumerated().forEach { index, group in
-                let allCompleted: Bool
-                if courseOutlineMode == .video {
-                    allCompleted = group.block.type == .Unit ?
-                    group.children.allSatisfy { $0.isCompleted } :
-                    group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
-                } else {
-                    allCompleted = group.children.allSatisfy { $0.isCompleted }
-                }
-                
-                if allCompleted {
-                    hiddenSections.insert(index)
-                }
-                
-                let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
-                courseQuerier.add(observer: observer)
-            }
-        }
-    }
-    
-    var highlightedBlockID : CourseBlockID? = nil
-    private var videos: [OEXHelperVideoDownload]?
-    
-    private var watchedVideoBlock: [CourseBlockID] = []
     
     init(environment: Environment, courseID: String, forMode mode: CourseOutlineMode, courseBlockID: CourseBlockID? = nil) {
         self.courseID = courseID
@@ -190,7 +162,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     }
     
     private func shouldApplyNewStyle(_ group: CourseOutlineQuerier.BlockGroup) -> Bool {
-        return OEXConfig.shared().isNewDashboardEnabled && group.block.type == .Chapter
+        return OEXConfig.shared().isNewDashboardEnabled && group.block.type == .Chapter && courseOutlineMode == .full
     }
     
     // MARK: UITableView DataSource & Delegate
@@ -200,7 +172,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return shouldApplyNewStyle(groups[section])
-            ? hiddenSections.contains(section) ? 0 : groups[section].children.count
+            ? collapsedSections.contains(section) ? 0 : groups[section].children.count
             : groups[section].children.count
     }
     
@@ -216,21 +188,13 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         header.block = group.block
         header.delegate = self
         
-        let allCompleted: Bool
-        
-        if courseOutlineMode == .video {
-            allCompleted = group.block.type == .Unit
-            ? group.children.allSatisfy { $0.isCompleted }
-            : group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
-        } else {
-            allCompleted = group.children.allSatisfy { $0.isCompleted }
-        }
+        let allCompleted = allBlocksCompleted(for: group)
         
         if shouldApplyNewStyle(group) {
-            header.setup()
-            header.isExpanded = !hiddenSections.contains(section)
+            header.isExpanded = !collapsedSections.contains(section)
             header.isCompleted = allCompleted
             header.isTapActionEnabled = true
+            header.setup()
             header.addConstraints()
         } else {
             header.setupOld()
@@ -242,17 +206,11 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if shouldApplyNewStyle(groups[section]) {
-            return StandardVerticalMargin * 2
-        }
-        return 0
+        return shouldApplyNewStyle(groups[section]) ? StandardVerticalMargin * 2 : 0
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if shouldApplyNewStyle(groups[section]) {
-            return UIView()
-        }
-        return nil
+        return shouldApplyNewStyle(groups[section]) ? UIView() : nil
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -317,6 +275,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
             cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             cell.delegate = self
             cell.courseID = courseID
+            cell.selectionStyle = .none
             return cell
         case .Discussion:
             let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionTableViewCell.identifier, for: indexPath) as! DiscussionTableViewCell
@@ -357,6 +316,28 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
 }
 
 extension CourseOutlineTableController {
+    func setGroups(_ groups: [CourseOutlineQuerier.BlockGroup]) {
+        self.groups = groups
+        let collapsedSectionsBeforeReload = collapsedSections
+        collapsedSections = Set<Int>(0..<numberOfSections(in: tableView)).filter { collapsedSectionsBeforeReload.contains($0) }
+        courseQuerier.remove(observer: self)
+        
+        for (index, group) in groups.enumerated() {
+            let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
+            courseQuerier.add(observer: observer)
+            
+            if !hasAddedToCollapsedSections && allBlocksCompleted(for: group) {
+                let completedChildren = group.children.filter { $0.isCompleted }
+                if !completedChildren.isEmpty && !collapsedSections.contains(index) {
+                    collapsedSections.insert(index)
+                }
+            }
+        }
+        
+        hasAddedToCollapsedSections = true
+        tableView.reloadData()
+    }
+    
     private func configureHeaderView() {
         if courseOutlineMode == .full {
             courseDateBannerView.delegate = self
@@ -404,6 +385,16 @@ extension CourseOutlineTableController {
         }
         
         refreshTableHeaderView(isResumeCourse: false)
+    }
+    
+    private func allBlocksCompleted(for group: CourseOutlineQuerier.BlockGroup) -> Bool {
+        if courseOutlineMode == .video {
+            return group.block.type == .Unit ?
+                group.children.allSatisfy { $0.isCompleted } :
+                group.children.map { $0.blockID }.allSatisfy(watchedVideoBlock.contains)
+        } else {
+            return group.children.allSatisfy { $0.isCompleted }
+        }
     }
     
     private func indexPathForBlockWithID(blockID: CourseBlockID) -> IndexPath? {
@@ -713,9 +704,15 @@ extension CourseOutlineTableController: CourseOutlineHeaderCellDelegate {
     func toggleSection(header: CourseOutlineHeaderCell, section: Int) {
         if OEXConfig.shared().isNewDashboardEnabled {
             header.isExpanded = !header.isExpanded
-            hiddenSections = hiddenSections.symmetricDifference([section])
+            collapsedSections = collapsedSections.symmetricDifference([section])
             tableView.reloadSections([section], with: .none)
         }
+    }
+}
+
+extension CourseOutlineTableController {
+    var t_groupsCount: Int {
+        return groups.count
     }
 }
 
@@ -733,4 +730,3 @@ extension UITableView {
         return index < numberOfSections
     }
 }
-

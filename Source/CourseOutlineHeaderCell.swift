@@ -22,16 +22,7 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     
     var isTapActionEnabled = false
     var isExpanded = false
-    var isCompleted = false {
-        didSet {
-            if isCompleted {
-                showCompletedBackground()
-            } else {
-                showNeutralBackground()
-            }
-            addConstraints()
-        }
-    }
+    var isCompleted = false
     
     private let horizontalTopLine = UIView()
     private let containerView = UIView()
