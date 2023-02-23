@@ -595,6 +595,7 @@ extension OEXRouter {
         let programDetailsController = ProgramsViewController(environment: environment, programsURL: url, viewType: .detail)
         programDetailsController.hidesBottomBarWhenPushed = true
         controller.navigationController?.pushViewController(programDetailsController, animated: true)
+        controller.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     @objc public func showCourseDetails(from controller: UIViewController, with coursePathID: String, bottomBar: UIView?) {

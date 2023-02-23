@@ -90,13 +90,12 @@ class LearnContainerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
         headerView.dimissDropDown()
     }
     
