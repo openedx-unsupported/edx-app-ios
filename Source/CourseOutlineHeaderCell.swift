@@ -10,25 +10,29 @@ import Foundation
 import UIKit
 
 protocol CourseOutlineHeaderCellDelegate: AnyObject {
-    func toggleSection(header: CourseOutlineHeaderCell, section: Int)
+    func toggleSection(section: Int)
 }
 
 class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     
-    weak var delegate: CourseOutlineHeaderCellDelegate?
-    var section = 0
-    
     static let identifier = "CourseOutlineHeaderCellIdentifier"
     
-    var isTapActionEnabled = false
-    var isExpanded = false
-    var isCompleted = false
+    weak var delegate: CourseOutlineHeaderCellDelegate?
+    
+    var section = 0
+    
+    private var isExpanded = false
+    private var isCompleted = false
     
     private let horizontalTopLine = UIView()
     private let containerView = UIView()
+    private let iconSize = CGSize(width: 25, height: 25)
+    private let headerFontStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
+    private let headerLabel = UILabel()
     
     private lazy var leadingImageButton: UIButton = {
         let button = UIButton(type: .system)
+        button.accessibilityIdentifier = "CourseOutlineHeaderCell:trailing-button-view"
         let image = Icon.CheckCircle.imageWithFontSize(size: 17)
         button.setImage(image, for: .normal)
         button.tintColor = OEXStyles.shared().successBase()
@@ -44,13 +48,9 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         return imageView
     }()
     
-    private let iconSize = CGSize(width: 25, height: 25)
-    
-    private let headerFontStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
-    private let headerLabel = UILabel()
-    
     private lazy var button: UIButton = {
         let button = UIButton()
+        button.accessibilityIdentifier = "CourseOutlineHeaderCell:button-view"
         button.oex_addAction({ [weak self] _ in
             self?.handleTap()
         }, for: .touchUpInside)
@@ -69,32 +69,20 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
     }
     
-    func setup() {
-        addSubviews()
-        addConstraints()
+    func setupViewsNewDesign(isExpanded: Bool, isCompleted: Bool) {
+        self.isExpanded = isExpanded
+        self.isCompleted = isCompleted
+        
+        addSubviewsForNewDesign()
+        setConstraintsForNewDesign()
         setAccessibilityIdentifiers()
         backgroundView = UIView(frame: .zero)
         containerView.applyBorderStyle(style: BorderStyle(cornerRadius: .Size(0), width: .Size(1), color: OEXStyles.shared().neutralDark()))
     }
     
-    func setupOld() {
-        addSubviewsOld()
-        
-        let margin = StandardHorizontalMargin - 5
-        
-        headerLabel.snp.remakeConstraints { make in
-            make.leading.equalTo(self).offset(margin)
-            make.trailing.equalTo(self).offset(margin)
-            make.top.equalTo(self)
-            make.bottom.equalTo(self)
-        }
-        
-        horizontalTopLine.snp.remakeConstraints { make in
-            make.leading.equalTo(self)
-            make.trailing.equalTo(self)
-            make.width.equalTo(self)
-            make.height.equalTo(OEXStyles.dividerSize())
-        }
+    func setupViewsForOldDesign() {
+        addSubviewsForOldDesign()
+        setConstraintsForOldDesign()
     }
 
     private func setAccessibilityIdentifiers() {
@@ -107,7 +95,7 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func addSubviews() {
+    private func addSubviewsForNewDesign() {
         addSubview(containerView)
         containerView.addSubview(leadingImageButton)
         containerView.addSubview(headerLabel)
@@ -116,7 +104,7 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         button.superview?.bringSubviewToFront(button)
     }
     
-    func addConstraints() {
+    func setConstraintsForNewDesign() {
         leadingImageButton.isHidden = !isCompleted
         
         containerView.snp.remakeConstraints { make in
@@ -138,8 +126,6 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
             make.size.equalTo(iconSize)
         }
         
-        rotateImageView(clockWise: !isExpanded)
-        
         headerLabel.snp.remakeConstraints { make in
             make.leading.equalTo(leadingImageButton).offset(StandardHorizontalMargin * 2.15)
             make.centerY.equalTo(containerView)
@@ -149,12 +135,32 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         button.snp.remakeConstraints { make in
             make.edges.equalTo(containerView)
         }
+        
+        rotateImageView(clockWise: isExpanded)
     }
     
-    private func addSubviewsOld() {
+    private func addSubviewsForOldDesign() {
         addSubview(horizontalTopLine)
         addSubview(headerLabel)
         backgroundView = UIView(frame: .zero)
+    }
+    
+    private func setConstraintsForOldDesign() {
+        let margin = StandardHorizontalMargin - 5
+        
+        headerLabel.snp.remakeConstraints { make in
+            make.leading.equalTo(self).offset(margin)
+            make.trailing.equalTo(self).offset(margin)
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
+        }
+        
+        horizontalTopLine.snp.remakeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.width.equalTo(self)
+            make.height.equalTo(OEXStyles.dividerSize())
+        }
     }
     
     private func setStyles() {
@@ -177,17 +183,7 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     }
     
     private func handleTap() {
-        guard OEXConfig.shared().isNewDashboardEnabled else { return }
-        
-        if isExpanded {
-            rotateImageView(clockWise: true)
-        } else {
-            rotateImageView(clockWise: false)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.delegate?.toggleSection(header: self, section: self.section)
-        }
+        delegate?.toggleSection(section: section)
     }
     
     private func rotateImageView(clockWise: Bool) {

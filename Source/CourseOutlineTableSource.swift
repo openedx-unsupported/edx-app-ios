@@ -191,13 +191,9 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         let allCompleted = allBlocksCompleted(for: group)
         
         if shouldApplyNewStyle(group) {
-            header.isExpanded = !collapsedSections.contains(section)
-            header.isCompleted = allCompleted
-            header.isTapActionEnabled = true
-            header.setup()
-            header.addConstraints()
+            header.setupViewsNewDesign(isExpanded: !collapsedSections.contains(section), isCompleted: allCompleted)
         } else {
-            header.setupOld()
+            header.setupViewsForOldDesign()
         }
         
         allCompleted ? header.showCompletedBackground() : header.showNeutralBackground()
@@ -235,7 +231,6 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
             cell.block = block
             cell.courseID = courseID
             cell.delegate = self
-            cell.isSectionOutline = isSectionOutline
             cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             return cell
         case .HTML(.Base), .HTML(.DragAndDrop), .HTML(.WordCloud), .HTML(.LTIConsumer):
@@ -701,9 +696,8 @@ extension CourseOutlineTableController {
 }
 
 extension CourseOutlineTableController: CourseOutlineHeaderCellDelegate {
-    func toggleSection(header: CourseOutlineHeaderCell, section: Int) {
+    func toggleSection(section: Int) {
         if OEXConfig.shared().isNewDashboardEnabled {
-            header.isExpanded = !header.isExpanded
             collapsedSections = collapsedSections.symmetricDifference([section])
             tableView.reloadSections([section], with: .none)
         }
