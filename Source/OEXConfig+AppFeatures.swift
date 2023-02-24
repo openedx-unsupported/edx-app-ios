@@ -84,7 +84,6 @@ extension OEXConfig {
     }
     
     var isNewDashboardEnabled: Bool {
-        return true
         return bool(forKey: "NEW_DASHBOARD_ENABLED", defaultValue: false)
     }
 }
