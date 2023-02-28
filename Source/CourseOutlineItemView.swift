@@ -264,7 +264,7 @@ public class CourseOutlineItemView: UIView {
         }
         
         subtitleLabel.snp.remakeConstraints { make in
-            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            make.top.equalTo(titleLabel.snp.bottom)
             
             if let blockType = blockType {
                 if case CourseBlockType.Section = blockType {
@@ -307,7 +307,7 @@ public class CourseOutlineItemView: UIView {
         }
         
         subtitleLabel.snp.remakeConstraints { make in
-            make.centerY.equalTo(contentView).offset(SubtitleOffsetCenterY)
+            make.top.equalTo(titleLabel.snp.bottom)
             
             if subtitleLeadingImageView.isHidden {
                 make.leading.equalTo(subtitleLeadingImageView.snp.leading).offset(SubtitleLeadingOffset)
