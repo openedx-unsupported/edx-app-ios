@@ -427,22 +427,6 @@
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Khóa học hiện tại không có ngày nào cần chú ý.";
-/* Label for date when course starts */
-"COURSE.STARTING" = "Bắt đầu {start_date}";
-/* Label for date when course end */
-"COURSE.ENDING" = "Kết thúc {end_date}";
-/* Label indicated that a course has ended */
-"COURSE.ENDED"="Đã kết thúc {end_date}";
-/* Course audit will expires on date*/
-"COURSE.AUDIT.EXPIRES_ON" = "Ngày hết hạn tham gia khóa học {expiry_date}";
-/* Course audit will expires in {time_duration}*/
-"COURSE.AUDIT.EXPIRES_IN" = "Khóa học sẽ hết hạn tham gia sau {time_duration}";
-/* Course audit expired n days ago*/
-"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Khóa học đã hết hạn tham gia {days} ngày trước";
-/* Course audit expired in less than 24 hours*/
-"COURSE.AUDIT.EXPIRED_AGO" = "Khóa học đã hết hạn tham gia {time_duaration}";
-/* Course audit expired on date*/
-"COURSE.AUDIT.EXPIRED_ON" = "Ngày hết hạn tham gia khóa học {expiry_date}";
 /* Course audit expiry in n number of days*/
 "COURSE.AUDIT.DAYS" = "{days} ngày";
 /* 1 hour remaining in course audit expiry*/

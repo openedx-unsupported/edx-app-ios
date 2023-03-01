@@ -13,6 +13,26 @@
 
 /* Continue text for aleart button titles or for other places*/
 "CONTINUE_TEXT"="Continue";
+/* Label for date when course starts */
+"COURSE.STARTING" = "Starts {start_date}";
+/* Label for date when course end */
+"COURSE.ENDING" = "Ends {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Ended on {end_date}";
+/* Course audit will expires on date*/
+"COURSE.AUDIT.EXPIRES_ON" = "Access expires {expiry_date}";
+/* Course audit will expires in {time_duration}*/
+"COURSE.AUDIT.EXPIRES_IN" = "Access expires in {time_duration}";
+/* Course audit expired n days ago*/
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Access expired {days} days ago";
+/* Course audit expired in less than 24 hours*/
+"COURSE.AUDIT.EXPIRED_AGO" = "Access expired {time_duaration}";
+/* Course audit expired on date*/
+"COURSE.AUDIT.EXPIRED_ON" = "Expired on {expiry_date}";
+/*Title for Discover*/
+"DISCOVER"="Discovery";
+/*Title for Discovery*/
+"EXPLORE_THE_CATALOG"="Explore the catalog";
 /*Title for dialog when user is leaving the app when tapped on link to be opened in external browser*/
 "LEAVING_APP_TITLE"="Leaving the app";
 /* Message for dialog when user is leaving the app when tapped on link to be opened in external browser */
@@ -23,7 +43,3 @@
 "MY_COURSES"="My courses";
 /*Title My programs*/
 "MY_PROGRAMS"="My programs";
-/*Title for Discovery*/
-"EXPLORE_THE_CATALOG"="Explore the catalog";
-/*Title for Discover*/
-"DISCOVER"="Discovery";
