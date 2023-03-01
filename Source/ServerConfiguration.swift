@@ -58,14 +58,19 @@ class IAPConfig: NSObject {
     enum Keys: String, RawStringExtractable {
         case enabled = "enabled"
         case experimentEnabled = "experiment_enabled"
+        case disabledVersions = "ios_disabled_versions"
     }
 
     private(set) var enabled: Bool = false
     private(set) var experimentEnabled: Bool = false
+    private(set) var disabledVersions: [String] = []
 
     init(dictionary: Dictionary<String, Any>) {
         enabled = dictionary[Keys.enabled] as? Bool ?? false
         experimentEnabled = dictionary[Keys.experimentEnabled] as? Bool ?? false
+        disabledVersions = dictionary[Keys.disabledVersions] as? [String] ?? []
+        
+        enabled = enabled && !disabledVersions.contains(Bundle.main.oex_shortVersionString())
     }
 
     var enabledforUser: Bool {
