@@ -70,7 +70,9 @@ class IAPConfig: NSObject {
         experimentEnabled = dictionary[Keys.experimentEnabled] as? Bool ?? false
         disabledVersions = dictionary[Keys.disabledVersions] as? [String] ?? []
         
-        enabled = enabled && !disabledVersions.contains(Bundle.main.oex_shortVersionString())
+        if disabledVersions.contains(Bundle.main.oex_shortVersionString()) {
+            enabled = false
+        }
     }
 
     var enabledforUser: Bool {
