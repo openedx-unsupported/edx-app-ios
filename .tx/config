@@ -1,26 +1,27 @@
 [main]
 host = https://www.transifex.com
 
-[edx-mobile-apps.ios-app-localizable-strings]
-type = STRINGS
-file_filter = Source/<lang>.proj/Localizable.strings
-source_file = Source/en.lproj/Localizable.strings
-source_lang = en
-
-[edx-mobile-apps.ios-app-info-strings]
-type = STRINGS
-file_filter = Source/<lang>.proj/InfoPlist.strings
-source_file = Source/en.lproj/InfoPlist.strings
-source_lang = en
-
-[edx-mobile-apps.app-localizable-profiles]
-type = KEYVALUEJSON
-file_filter = Source/<lang>.proj/profiles.json
-source_file = Source/en.lproj/profiles.json
-source_lang = en
-
-[edx-mobile-apps.app-localizable-languages]
-type = KEYVALUEJSON
+[o:open-edx:p:edx-mobile-apps:r:app-localizable-languages]
 file_filter = Source/<lang>.proj/languages.json
 source_file = Source/en.lproj/languages.json
 source_lang = en
+type        = KEYVALUEJSON
+
+[o:open-edx:p:edx-mobile-apps:r:app-localizable-profiles]
+file_filter = Source/<lang>.proj/profiles.json
+source_file = Source/en.lproj/profiles.json
+source_lang = en
+type        = KEYVALUEJSON
+
+[o:open-edx:p:edx-mobile-apps:r:ios-app-info-strings]
+file_filter = Source/<lang>.proj/InfoPlist.strings
+source_file = Source/en.lproj/InfoPlist.strings
+source_lang = en
+type        = STRINGS
+
+[o:open-edx:p:edx-mobile-apps:r:ios-app-localizable-strings]
+file_filter = Source/<lang>.proj/Localizable.strings
+source_file = Source/en.lproj/Localizable.strings
+source_lang = en
+type        = STRINGS
+
