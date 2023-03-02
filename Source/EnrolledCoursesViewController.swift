@@ -10,16 +10,22 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOrientationOverriding {
+class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOrientationOverriding, ScrollableDelegateProvider {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider & OEXInterfaceProvider & ServerConfigProvider & OEXSessionProvider
     
-    let environment : Environment
-    private let coursesContainer : CoursesContainerViewController
+    weak var scrollableDelegate: ScrollableDelegate? {
+        didSet {
+            coursesContainer.scrollableDelegate = scrollableDelegate
+        }
+    }
+    
+    let environment: Environment
+    private let coursesContainer: CoursesContainerViewController
     private let loadController = LoadStateViewController()
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
-    fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
+    private let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
     var handleBannerOnStart: Bool = false // this will be used to send first call for the banners
     lazy var courseUpgradeHelper = CourseUpgradeHelper.shared

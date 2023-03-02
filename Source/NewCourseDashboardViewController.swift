@@ -45,7 +45,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private var error: NSError?
     private var courseAccessError: CourseAccessErrorHelper?
     private var selectedTabbarItem: TabBarItem?
-    private var headerViewState: CourseDashboardHeaderViewState = .expanded
+    private var headerViewState: HeaderViewState = .expanded
     
     private var isModalDismissable = true
     private let courseStream: BackedStream<UserCourseEnrollment>
