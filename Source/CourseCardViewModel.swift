@@ -112,7 +112,7 @@ extension OEXCourse {
         guard let auditExpiry = audit_expiry_date as NSDate? else {return "" }
 
         let formattedExpiryDate = (DateFormatting.format(asMonthDayString: auditExpiry)) ?? ""
-        let timeSpan = 30 // number of days
+        let timeSpan = 7 // show number of days when less than a week
         if isAuditExpired {
             let days = auditExpiry.daysAgo()
             if days < 1 { // showing time for better readability
