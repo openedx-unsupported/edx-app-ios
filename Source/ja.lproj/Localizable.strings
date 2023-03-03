@@ -432,22 +432,6 @@
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="講座の日時は現在不明です。";
-/* Label for date when course starts */
-"COURSE.STARTING" = "Starting {start_date}";
-/* Label for date when course end */
-"COURSE.ENDING" = "Ending {end_date}";
-/* Label indicated that a course has ended */
-"COURSE.ENDED"="Ended {end_date}";
-/* Course audit will expires on date*/
-"COURSE.AUDIT.EXPIRES_ON" = "Course access expires on {expiry_date}";
-/* Course audit will expires in {time_duration}*/
-"COURSE.AUDIT.EXPIRES_IN" = "Course access expires in {time_duration}";
-/* Course audit expired n days ago*/
-"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
-/* Course audit expired in less than 24 hours*/
-"COURSE.AUDIT.EXPIRED_AGO" = "Course access expired {time_duaration}";
-/* Course audit expired on date*/
-"COURSE.AUDIT.EXPIRED_ON" = "Course access expired on {expiry_date}";
 /* Course audit expiry in n number of days*/
 "COURSE.AUDIT.DAYS" = "{days} days";
 /* 1 hour remaining in course audit expiry*/
