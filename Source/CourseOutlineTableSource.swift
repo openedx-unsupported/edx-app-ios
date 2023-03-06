@@ -317,13 +317,23 @@ extension CourseOutlineTableController {
         collapsedSections = Set<Int>(0..<numberOfSections(in: tableView)).filter { collapsedSectionsBeforeReload.contains($0) }
         courseQuerier.remove(observer: self)
         
+        var firstIncompleteSection: Int?
+        
         for (index, group) in groups.enumerated() {
             let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
             courseQuerier.add(observer: observer)
             
-            if !hasAddedToCollapsedSections && allBlocksCompleted(for: group) {
+            if firstIncompleteSection == nil && !allBlocksCompleted(for: group) && !hasAddedToCollapsedSections {
+                firstIncompleteSection = index
+            }
+            
+            if let firstIncompleteSection = firstIncompleteSection {
+                if index > firstIncompleteSection {
+                    collapsedSections.insert(index)
+                }
+            } else {
                 let completedChildren = group.children.filter { $0.isCompleted }
-                if !completedChildren.isEmpty && !collapsedSections.contains(index) {
+                if collapsedSections.isEmpty && !completedChildren.isEmpty && !collapsedSections.contains(index) {
                     collapsedSections.insert(index)
                 }
             }
@@ -332,6 +342,7 @@ extension CourseOutlineTableController {
         hasAddedToCollapsedSections = true
         tableView.reloadData()
     }
+
     
     private func configureHeaderView() {
         if courseOutlineMode == .full {
