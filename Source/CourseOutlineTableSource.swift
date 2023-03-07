@@ -340,9 +340,10 @@ extension CourseOutlineTableController {
         }
         
         hasAddedToCollapsedSections = true
-        tableView.reloadData()
+        UIView.performWithoutAnimation { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
-
     
     private func configureHeaderView() {
         if courseOutlineMode == .full {
