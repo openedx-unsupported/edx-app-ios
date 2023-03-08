@@ -200,7 +200,7 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
             let capturedLink = navigationAction.navigationType == .linkActivated
             let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
             var externalLink = false
-            if let queryParameters = request.url?.queryParameters, let externalLinkValue =  queryParameters["external_link"] as? String, externalLinkValue.caseInsensitiveCompare("true") == .orderedSame {
+            if let queryParameters = request.url?.queryParameters, let externalLinkValue = queryParameters["external_link"] as? String, externalLinkValue.caseInsensitiveCompare("true") == .orderedSame {
                 externalLink = true
             }
             
