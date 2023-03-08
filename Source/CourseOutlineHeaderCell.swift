@@ -27,8 +27,14 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     private let horizontalTopLine = UIView()
     private let containerView = UIView()
     private let iconSize = CGSize(width: 25, height: 25)
-    private let headerFontStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
     private let headerLabel = UILabel()
+    
+    private lazy var headerFontStyle: OEXTextStyle = {
+        if OEXConfig.shared().isNewDashboardEnabled {
+            return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlackT())
+        }
+        return OEXTextStyle(weight: .semiBold, size: .xSmall, color: OEXStyles.shared().neutralXDark())
+    }()
     
     private lazy var leadingImageButton: UIButton = {
         let button = UIButton(type: .system)
@@ -147,20 +153,8 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     
     private func setConstraintsForOldDesign() {
         let margin = StandardHorizontalMargin - 5
-        
-        headerLabel.snp.remakeConstraints { make in
-            make.leading.equalTo(self).offset(margin)
-            make.trailing.equalTo(self).offset(margin)
-            make.top.equalTo(self)
-            make.bottom.equalTo(self)
-        }
-        
-        horizontalTopLine.snp.remakeConstraints { make in
-            make.leading.equalTo(self)
-            make.trailing.equalTo(self)
-            make.width.equalTo(self)
-            make.height.equalTo(OEXStyles.dividerSize())
-        }
+        headerLabel.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: margin, bottom: 0, right: margin))
+        horizontalTopLine.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: OEXStyles.dividerSize())
     }
     
     private func setStyles() {
