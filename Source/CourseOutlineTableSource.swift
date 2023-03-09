@@ -96,8 +96,15 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     }
 
     private var canShowValueProp: Bool {
-        guard let enrollment = enrollment else { return false }
-        return enrollment.isUpgradeable && environment.serverConfig.valuePropEnabled
+        guard let course = enrollment?.course, let enrollment = enrollment
+        else { return false }
+        
+        let courseAccessHelper = CourseAccessHelper(course: course, enrollment: enrollment)
+        
+        if courseAccessHelper.type == .auditExpired || courseAccessHelper.type == .isEndDateOld {
+            return false
+        }
+        return enrollment.type == .audit && environment.serverConfig.valuePropEnabled
     }
 
     private var enrollment: UserCourseEnrollment? {

@@ -165,7 +165,7 @@ class CourseDashboardHeaderView: UIView {
     }()
     
     private lazy var accessTextStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: environment.styles.neutralXLight())
-        
+    
     private var canShowValuePropView: Bool {
         guard let course = course,
               let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
@@ -181,9 +181,9 @@ class CourseDashboardHeaderView: UIView {
     
     private let environment: Environment
     private let course: OEXCourse?
-    private let error: CourseAccessErrorHelper?
+    private let error: CourseAccessHelper?
     
-    init(environment: Environment, course: OEXCourse?, error: CourseAccessErrorHelper?) {
+    init(environment: Environment, course: OEXCourse?, error: CourseAccessHelper?) {
         self.environment = environment
         self.course = course
         self.error = error

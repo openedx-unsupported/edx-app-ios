@@ -1,5 +1,5 @@
 //
-//  CourseAccessErrorHelper.swift
+//  CourseAccessHelper.swift
 //  edX
 //
 //  Created by MuhammadUmer on 05/01/2023.
@@ -13,7 +13,7 @@ enum CourseAccessErrorHelperType {
     case upgradeable
 }
 
-class CourseAccessErrorHelper {
+class CourseAccessHelper {
     private let course: OEXCourse
     private let enrollment: UserCourseEnrollment?
     
