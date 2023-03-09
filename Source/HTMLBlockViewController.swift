@@ -101,8 +101,8 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
             }
 
             openInBrowserView.snp.remakeConstraints { make in
-                make.leading.equalTo(view)
-                make.trailing.equalTo(view)
+                make.leading.equalTo(safeLeading)
+                make.trailing.equalTo(safeTrailing)
                 make.top.equalTo(webController.view.snp.bottom)
                 make.height.equalTo(55)
                 make.bottom.equalTo(safeBottom)
