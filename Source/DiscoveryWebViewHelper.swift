@@ -57,10 +57,7 @@ class DiscoveryWebViewHelper: NSObject {
         guard let container = delegate?.webViewContainingController() else { return }
         container.view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
-            make.top.equalTo(container.safeTop)
-            make.trailing.equalTo(container.safeTrailing)
-            make.leading.equalTo(container.safeLeading)
-            make.bottom.equalTo(container.safeBottom)
+            make.edges.equalTo(container.safeEdges)
         }
         loadController.setupInController(controller: container, contentView: contentView)
         refreshController.setupInScrollView(scrollView: webView.scrollView)
