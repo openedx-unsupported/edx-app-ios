@@ -153,7 +153,7 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        if !OEXConfig.shared().isNewDashboardEnabled {
+        if subviews.contains(headerLabel) && subviews.contains(horizontalTopLine) {
             let margin = StandardHorizontalMargin - 5
             headerLabel.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: margin, bottom: 0, right: margin))
             horizontalTopLine.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: OEXStyles.dividerSize())
