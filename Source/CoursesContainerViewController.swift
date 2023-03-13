@@ -251,15 +251,8 @@ class CoursesContainerViewController: UICollectionViewController, ScrollableDele
     }
     
     private func valuePropEnabled(for course: OEXCourse) -> Bool {
-        guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-        else { return false }
-        
-        let courseAccessHelper = CourseAccessHelper(course: course, enrollment: enrollment)
-        
-        if courseAccessHelper.type == .auditExpired || courseAccessHelper.type == .isEndDateOld {
-            return false
-        }
-        return enrollment.type == .audit && environment.serverConfig.valuePropEnabled
+        guard let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id) else { return false }
+        return enrollment.isUpgradeable && environment.serverConfig.valuePropEnabled
     }
     
     private func calculateValuePropHeight(for indexPath: IndexPath) -> CGFloat {
