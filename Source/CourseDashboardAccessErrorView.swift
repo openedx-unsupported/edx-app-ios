@@ -71,7 +71,7 @@ class CourseDashboardAccessErrorView: UIView {
     }
     
     private var course: OEXCourse?
-    private var error: CourseAccessErrorHelper?
+    private var error: CourseAccessHelper?
     
     var coursePrice: String?
     
@@ -79,7 +79,7 @@ class CourseDashboardAccessErrorView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func handleCourseAccessError(environment: Environment, course: OEXCourse?, error: CourseAccessErrorHelper?) {
+    func handleCourseAccessError(environment: Environment, course: OEXCourse?, error: CourseAccessHelper?) {
         guard let course = course else { return }
         
         self.course = course

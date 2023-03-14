@@ -114,6 +114,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     private func setupContentView() {
         contentView.addSubview(content)
+        
         content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }

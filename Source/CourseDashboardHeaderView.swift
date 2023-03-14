@@ -165,25 +165,19 @@ class CourseDashboardHeaderView: UIView {
     }()
     
     private lazy var accessTextStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: environment.styles.neutralXLight())
-        
+    
     private var canShowValuePropView: Bool {
-        guard let course = course,
-              let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id)
-        else { return false }
-        
-        if let error = error, error.type == .auditExpired || error.type == .isEndDateOld {
-            return false
-        }
-        return enrollment.type == .audit && environment.serverConfig.valuePropEnabled
+        guard let enrollment = environment.interface?.enrollmentForCourse(withID: course?.course_id) else { return false }
+        return enrollment.isUpgradeable && environment.serverConfig.valuePropEnabled
     }
     
     private var showTabbar = false
     
     private let environment: Environment
     private let course: OEXCourse?
-    private let error: CourseAccessErrorHelper?
+    private let error: CourseAccessHelper?
     
-    init(environment: Environment, course: OEXCourse?, error: CourseAccessErrorHelper?) {
+    init(environment: Environment, course: OEXCourse?, error: CourseAccessHelper?) {
         self.environment = environment
         self.course = course
         self.error = error

@@ -13,7 +13,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider & ServerConfigProvider
     
     private lazy var headerView: CourseDashboardHeaderView = {
-        let view = CourseDashboardHeaderView(environment: environment, course: course, error: courseAccessError)
+        let view = CourseDashboardHeaderView(environment: environment, course: course, error: courseAccessHelper)
         view.accessibilityIdentifier = "NewCourseDashboardViewController:header-view"
         view.delegate = self
         return view
@@ -43,7 +43,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private var course: OEXCourse?
     private var error: NSError?
-    private var courseAccessError: CourseAccessErrorHelper?
+    private var courseAccessHelper: CourseAccessHelper?
     private var selectedTabbarItem: TabBarItem?
     private var headerViewState: HeaderViewState = .expanded
     
@@ -153,7 +153,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         if let access = course.courseware_access, !access.has_access {
             loadStateController.state = .Loaded
             let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
-            courseAccessError = CourseAccessErrorHelper(course: course, enrollment: enrollment)
+            courseAccessHelper = CourseAccessHelper(course: course, enrollment: enrollment)
             headerView.showTabbarView(show: false)
         } else {
             loadStateController.state = .Loaded
@@ -168,7 +168,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         if showCourseAccessError {
             let view = CourseDashboardAccessErrorView()
             view.delegate = self
-            view.handleCourseAccessError(environment: environment, course: course, error: courseAccessError)
+            view.handleCourseAccessError(environment: environment, course: course, error: courseAccessHelper)
             container.addSubview(view)
             view.snp.remakeConstraints { make in
                 make.edges.equalTo(container)
@@ -215,7 +215,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }
 
     var showCourseAccessError: Bool {
-        return courseAccessError != nil
+        return courseAccessHelper != nil
     }
 
     var showContentNotLoadedError: Bool {
@@ -257,7 +257,7 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
     }
     
     func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem) {
-        if courseAccessError == nil && selectedTabbarItem != tabbarItem  {
+        if courseAccessHelper == nil && selectedTabbarItem != tabbarItem  {
             selectedTabbarItem?.viewController.removeFromParent()
             selectedTabbarItem = tabbarItem
             setupContentView()
