@@ -464,8 +464,14 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
-        courseDateBannerView.bannerInfo = bannerInfo
-        updateCourseDateBannerView(show: true)
+        if canShowValueProp && bannerInfo.status == .resetDatesBanner {
+            courseDateBannerView.bannerInfo = bannerInfo
+            updateCourseDateBannerView(show: true)
+        }
+        else if !canShowValueProp {
+            courseDateBannerView.bannerInfo = bannerInfo
+            updateCourseDateBannerView(show: true)
+        }
     }
     
     func hideCourseDateBanner() {
