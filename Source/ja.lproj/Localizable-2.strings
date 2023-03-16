@@ -57,3 +57,5 @@
 "DASHBOARD.GENERAL_ERROR_MESSAGE"="An error occured while loading your courses";
 /* Enrolled courses loading error try again*/
 "DASHBOARD.TRY_AGAIN"="Try again";
+/* Course Dashboard Resume Course button title*/
+"DASHBOARD.RESUME_COURSE"="Resume course";

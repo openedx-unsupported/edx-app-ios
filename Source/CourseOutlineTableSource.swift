@@ -38,12 +38,14 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     private let courseCard = CourseCardView(frame: .zero)
     private var courseCertificateView: CourseCertificateView?
     private let headerContainer = UIView()
+    
+    private lazy var resumeCourseHeaderView = ResumeCourseHeaderView()
     private lazy var resumeCourseView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText: Strings.resume, subtitleText: "Placeholder")
     private lazy var valuePropView = UIView()
 
     var courseVideosHeaderView: CourseVideosHeaderView?
     let refreshController = PullRefreshController()
-    
+        
     private var isResumeCourse = false
     private var shouldHideTableViewHeader: Bool = false
     
@@ -127,13 +129,78 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         tableView.register(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.register(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
-        configureHeaderView()
-        refreshController.setupInScrollView(scrollView: tableView)
-
-        setAccessibilityIdentifiers()
         
-        if OEXConfig.shared().isNewDashboardEnabled {
-            hideTableHeaderView()
+        if !OEXConfig.shared().isNewDashboardEnabled {
+            configureOldHeaderView()
+        }
+        
+        refreshController.setupInScrollView(scrollView: tableView)
+        setAccessibilityIdentifiers()
+    }
+    
+    private func configureNewHeaderView() {
+        headerContainer.addSubview(resumeCourseHeaderView)
+        tableView.tableHeaderView = headerContainer
+        
+        resumeCourseHeaderView.snp.makeConstraints { make in
+            make.top.equalTo(headerContainer)
+            make.bottom.equalTo(headerContainer).inset(StandardVerticalMargin * 2)
+            make.leading.equalTo(headerContainer).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(headerContainer).inset(StandardHorizontalMargin)
+            make.height.equalTo(StandardVerticalMargin * 4.5)
+        }
+        
+        tableView.setAndLayoutTableHeaderView(header: headerContainer)
+        
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
+    private func configureOldHeaderView() {
+        if courseOutlineMode == .full {
+            courseDateBannerView.delegate = self
+            headerContainer.addSubview(courseDateBannerView)
+            headerContainer.addSubview(courseCard)
+            headerContainer.addSubview(resumeCourseView)
+            addCertificateView()
+            addValuePropView()
+            
+            courseDateBannerView.snp.remakeConstraints { make in
+                make.trailing.equalTo(headerContainer)
+                make.leading.equalTo(headerContainer)
+                make.top.equalTo(headerContainer)
+                make.height.equalTo(0)
+            }
+        }
+        if let course = enrollment?.course {
+            switch courseOutlineMode {
+            case .full:
+                CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
+                break
+            case .video:
+                if let courseBlockID = courseBlockID {
+                    let stream = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: courseBlockID)
+                    stream.listen(self) {[weak self] downloads in
+                        self?.videos = downloads.value?.filter { $0.summary?.isDownloadableVideo ?? false }
+                        self?.addBulkDownloadHeaderView(course: course, videos: self?.videos)
+                    }
+                }
+                else {
+                    videos = environment.interface?.downloadableVideos(of: course)
+                    addBulkDownloadHeaderView(course: course, videos: videos)
+                }
+                break
+            }
+            refreshTableHeaderView(isResumeCourse: false)
+        }
+    }
+    
+    private func addBulkDownloadHeaderView(course: OEXCourse, videos: [OEXHelperVideoDownload]?) {
+        courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment, videos: videos, blockID: courseBlockID)
+        courseVideosHeaderView?.delegate = self
+        if let headerView = courseVideosHeaderView {
+            headerContainer.addSubview(headerView)
         }
     }
     
@@ -384,16 +451,6 @@ extension CourseOutlineTableController {
         }
     }
     
-    private func addBulkDownloadHeaderView(course: OEXCourse, videos: [OEXHelperVideoDownload]?) {
-        courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment, videos: videos, blockID: courseBlockID)
-        courseVideosHeaderView?.delegate = self
-        if let headerView = courseVideosHeaderView {
-            headerContainer.addSubview(headerView)
-        }
-        
-        refreshTableHeaderView(isResumeCourse: false)
-    }
-    
     private func allBlocksCompleted(for group: CourseOutlineQuerier.BlockGroup) -> Bool {
         if courseOutlineMode == .video {
             return group.block.type == .Unit ?
@@ -466,16 +523,37 @@ extension CourseOutlineTableController {
     
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
     func showResumeCourse(item: ResumeCourseItem) {
+        if OEXConfig.shared().isNewDashboardEnabled {
+            showResumeCourseNewDesign(item: item)
+        } else {
+            showResumeCourseOldDesign(item: item)
+        }
+    }
+    
+    func showResumeCourseNewDesign(item: ResumeCourseItem) {
         if !item.lastVisitedBlockID.isEmpty {
-            courseQuerier.blockWithID(id: item.lastVisitedBlockID).extendLifetimeUntilFirstResult (success: { [weak self] block in
+            courseQuerier.blockWithID(id: item.lastVisitedBlockID).extendLifetimeUntilFirstResult { [weak self] block in
+                self?.configureNewHeaderView()
+                self?.resumeCourseHeaderView.tapAction = { [weak self] in
+                    self?.resumeCourse(with: item)
+                }
+            } failure: { [weak self] _ in
+                self?.tableView.tableHeaderView = nil
+            }
+        }
+    }
+    
+    func showResumeCourseOldDesign(item: ResumeCourseItem) {
+        if !item.lastVisitedBlockID.isEmpty {
+            courseQuerier.blockWithID(id: item.lastVisitedBlockID).extendLifetimeUntilFirstResult { [weak self] block in
                 self?.resumeCourseView.subtitleText = block.displayName
                 self?.resumeCourseView.setViewButtonAction { [weak self] _ in
                     self?.resumeCourse(with: item)
                 }
                 self?.refreshTableHeaderView(isResumeCourse: true)
-            }, failure: { [weak self] _ in
+            } failure: { [weak self] _ in
                 self?.refreshTableHeaderView(isResumeCourse: false)
-            })
+            }
         } else {
             refreshTableHeaderView(isResumeCourse: false)
         }
@@ -491,11 +569,13 @@ extension CourseOutlineTableController {
     }
     
     func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
+        if OEXConfig.shared().isNewDashboardEnabled { return }
         courseDateBannerView.bannerInfo = bannerInfo
         updateCourseDateBannerView(show: true)
     }
     
     func hideCourseDateBanner() {
+        if OEXConfig.shared().isNewDashboardEnabled { return }
         courseDateBannerView.bannerInfo = nil
         updateCourseDateBannerView(show: false)
     }
@@ -532,7 +612,21 @@ extension CourseOutlineTableController {
             tableView.tableHeaderView = nil
             return
         }
+        
+        if OEXConfig.shared().isNewDashboardEnabled {
+            updateNewHeaderConstraints()
+        } else {
+            updateOldHeaderConstraints()
+        }
 
+        tableView.setAndLayoutTableHeaderView(header: headerContainer)
+    }
+    
+    private func updateNewHeaderConstraints() {
+        
+    }
+    
+    private func updateOldHeaderConstraints() {
         var constraintView: UIView = courseCard
         courseCard.snp.remakeConstraints { make in
             make.trailing.equalTo(headerContainer)
@@ -579,10 +673,11 @@ extension CourseOutlineTableController {
             make.height.equalTo(height)
             make.bottom.equalTo(headerContainer)
         }
-        tableView.setAndLayoutTableHeaderView(header: headerContainer)
     }
     
     private func refreshTableHeaderView(isResumeCourse: Bool) {
+        if OEXConfig.shared().isNewDashboardEnabled { return }
+        
         self.isResumeCourse = isResumeCourse
         resumeCourseView.isHidden = !isResumeCourse
         
