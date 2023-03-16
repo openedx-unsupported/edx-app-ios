@@ -130,7 +130,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         tableView.register(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
         
-        if !environment.config.isNewDashboardEnabled {
+        if !environment.config.isNewDashboardEnabled || courseOutlineMode != .full {
             configureOldHeaderView()
         }
         
@@ -637,7 +637,7 @@ extension CourseOutlineTableController {
     }
     
     private func refreshTableHeaderView(isResumeCourse: Bool) {
-        if environment.config.isNewDashboardEnabled { return }
+        if environment.config.isNewDashboardEnabled && courseOutlineMode == .full { return }
         
         self.isResumeCourse = isResumeCourse
         resumeCourseView.isHidden = !isResumeCourse
