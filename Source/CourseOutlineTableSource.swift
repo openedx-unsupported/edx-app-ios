@@ -62,7 +62,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     
     var isSectionOutline = false {
         didSet {
-            if isSectionOutline || OEXConfig.shared().isNewDashboardEnabled {
+            if isSectionOutline || environment.config.isNewDashboardEnabled {
                 hideTableHeaderView()
             }
             
@@ -130,7 +130,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         tableView.register(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
         
-        if !OEXConfig.shared().isNewDashboardEnabled {
+        if !environment.config.isNewDashboardEnabled {
             configureOldHeaderView()
         }
         
@@ -147,7 +147,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
             make.bottom.equalTo(headerContainer).inset(StandardVerticalMargin * 2)
             make.leading.equalTo(headerContainer).offset(StandardHorizontalMargin)
             make.trailing.equalTo(headerContainer).inset(StandardHorizontalMargin)
-            make.height.equalTo(StandardVerticalMargin * 4.5)
+            make.height.equalTo(StandardVerticalMargin * 5)
         }
         
         tableView.setAndLayoutTableHeaderView(header: headerContainer)
@@ -229,7 +229,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     }
     
     private func shouldApplyNewStyle(_ group: CourseOutlineQuerier.BlockGroup) -> Bool {
-        return OEXConfig.shared().isNewDashboardEnabled && group.block.type == .Chapter && courseOutlineMode == .full
+        return environment.config.isNewDashboardEnabled && group.block.type == .Chapter && courseOutlineMode == .full
     }
     
     // MARK: UITableView DataSource & Delegate
@@ -412,45 +412,6 @@ extension CourseOutlineTableController {
         }
     }
     
-    private func configureHeaderView() {
-        if courseOutlineMode == .full {
-            courseDateBannerView.delegate = self
-            headerContainer.addSubview(courseDateBannerView)
-            headerContainer.addSubview(courseCard)
-            headerContainer.addSubview(resumeCourseView)
-            addCertificateView()
-            addValuePropView()
-            
-            courseDateBannerView.snp.remakeConstraints { make in
-                make.trailing.equalTo(headerContainer)
-                make.leading.equalTo(headerContainer)
-                make.top.equalTo(headerContainer)
-                make.height.equalTo(0)
-            }
-        }
-        if let course = enrollment?.course {
-            switch courseOutlineMode {
-            case .full:
-                CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
-                break
-            case .video:
-                if let courseBlockID = courseBlockID {
-                    let stream = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: courseBlockID)
-                    stream.listen(self) {[weak self] downloads in
-                        self?.videos = downloads.value?.filter { $0.summary?.isDownloadableVideo ?? false }
-                        self?.addBulkDownloadHeaderView(course: course, videos: self?.videos)
-                    }
-                }
-                else {
-                    videos = environment.interface?.downloadableVideos(of: course)
-                    addBulkDownloadHeaderView(course: course, videos: videos)
-                }
-                break
-            }
-            refreshTableHeaderView(isResumeCourse: false)
-        }
-    }
-    
     private func allBlocksCompleted(for group: CourseOutlineQuerier.BlockGroup) -> Bool {
         if courseOutlineMode == .video {
             return group.block.type == .Unit ?
@@ -523,7 +484,7 @@ extension CourseOutlineTableController {
     
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
     func showResumeCourse(item: ResumeCourseItem) {
-        if OEXConfig.shared().isNewDashboardEnabled {
+        if environment.config.isNewDashboardEnabled {
             showResumeCourseNewDesign(item: item)
         } else {
             showResumeCourseOldDesign(item: item)
@@ -569,13 +530,13 @@ extension CourseOutlineTableController {
     }
     
     func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
-        if OEXConfig.shared().isNewDashboardEnabled { return }
+        if environment.config.isNewDashboardEnabled { return }
         courseDateBannerView.bannerInfo = bannerInfo
         updateCourseDateBannerView(show: true)
     }
     
     func hideCourseDateBanner() {
-        if OEXConfig.shared().isNewDashboardEnabled { return }
+        if environment.config.isNewDashboardEnabled { return }
         courseDateBannerView.bannerInfo = nil
         updateCourseDateBannerView(show: false)
     }
@@ -613,7 +574,7 @@ extension CourseOutlineTableController {
             return
         }
         
-        if OEXConfig.shared().isNewDashboardEnabled {
+        if environment.config.isNewDashboardEnabled {
             updateNewHeaderConstraints()
         } else {
             updateOldHeaderConstraints()
@@ -676,7 +637,7 @@ extension CourseOutlineTableController {
     }
     
     private func refreshTableHeaderView(isResumeCourse: Bool) {
-        if OEXConfig.shared().isNewDashboardEnabled { return }
+        if environment.config.isNewDashboardEnabled { return }
         
         self.isResumeCourse = isResumeCourse
         resumeCourseView.isHidden = !isResumeCourse
@@ -804,7 +765,7 @@ extension CourseOutlineTableController {
 
 extension CourseOutlineTableController: CourseOutlineHeaderCellDelegate {
     func toggleSection(section: Int) {
-        if OEXConfig.shared().isNewDashboardEnabled {
+        if environment.config.isNewDashboardEnabled {
             collapsedSections = collapsedSections.symmetricDifference([section])
             tableView.reloadSections([section], with: .none)
         }

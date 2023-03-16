@@ -107,6 +107,8 @@ class CourseOutlineHeaderCell: UITableViewHeaderFooterView {
         containerView.addSubview(button)
         containerView.addSubview(trailingImageView)
         button.superview?.bringSubviewToFront(button)
+        
+        containerView.backgroundColor = OEXStyles.shared().neutralWhiteT()
     }
     
     func setConstraintsForNewDesign() {

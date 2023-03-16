@@ -15,12 +15,12 @@ class ResumeCourseHeaderView: UIView {
     private lazy var button: UIButton = {
         let button = UIButton()
                 
-        let lockedImage = Icon.ArrowForward.imageWithFontSize(size: 14).image(with: OEXStyles.shared().primaryBaseColor())
+        let lockedImage = Icon.ArrowForward.imageWithFontSize(size: 18).image(with: OEXStyles.shared().primaryBaseColor())
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = lockedImage
         
         if let image = imageAttachment.image {
-            imageAttachment.bounds = CGRect(x: 0, y: -3, width: image.size.width, height: image.size.height)
+            imageAttachment.bounds = CGRect(x: 0, y: -4, width: image.size.width, height: image.size.height)
         }
         
         let attributedImageString = NSAttributedString(attachment: imageAttachment)
@@ -35,7 +35,7 @@ class ResumeCourseHeaderView: UIView {
         let attributedTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
         
         button.setAttributedTitle(attributedTitle, for: UIControl.State())
-        button.backgroundColor = .clear
+        button.backgroundColor = OEXStyles.shared().neutralWhiteT()
         button.layer.borderWidth = 1
         button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
         button.layer.cornerRadius = 0
