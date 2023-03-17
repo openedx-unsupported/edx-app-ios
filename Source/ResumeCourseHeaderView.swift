@@ -15,9 +15,9 @@ class ResumeCourseHeaderView: UIView {
     private lazy var button: UIButton = {
         let button = UIButton()
                 
-        let lockedImage = Icon.ArrowForward.imageWithFontSize(size: 18).image(with: OEXStyles.shared().primaryBaseColor())
+        let arrowImage = Icon.ArrowForward.imageWithFontSize(size: 18).image(with: OEXStyles.shared().primaryBaseColor())
         let imageAttachment = NSTextAttachment()
-        imageAttachment.image = lockedImage
+        imageAttachment.image = arrowImage
         
         if let image = imageAttachment.image {
             imageAttachment.bounds = CGRect(x: 0, y: -4, width: image.size.width, height: image.size.height)
