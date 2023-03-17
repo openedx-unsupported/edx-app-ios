@@ -31,9 +31,6 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         return view
     }()
     
-    private var collapsed = false
-    private var isAnimating = false
-    
     private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
     private var pacing: String {

@@ -73,6 +73,10 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         }
         downloadView.addGestureRecognizer(tapGesture)
         setAccessibilityIdentifiers()
+        
+        if OEXConfig.shared().isNewDashboardEnabled {
+            content.backgroundColor = OEXStyles.shared().neutralWhiteT()
+        }
     }
     
     private func setAccessibilityIdentifiers() {
