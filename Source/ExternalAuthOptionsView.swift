@@ -41,7 +41,7 @@ class ExternalAuthOptionsView: UIView {
             let title = type == .register ? Strings.continueWith(provider: provider.displayName) : Strings.signInWith(provider: provider.displayName)
             let authButtonContainer = provider.authView(withTitle: title)
             authButtonContainer.accessibilityIdentifier = "ExternalAuthOptionsView:\(provider.displayName.lowercased())-button"
-            authButtonContainer.accessibilityLabel = "\(accessibilityLabel) \(title)"
+            authButtonContainer.accessibilityLabel = accessibilityLabel.isEmpty ? "\(title)" : "\(accessibilityLabel) \(title)"
             authButtonContainer.addSubview(button)
             addSubview(authButtonContainer)
             
