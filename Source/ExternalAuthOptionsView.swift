@@ -19,17 +19,17 @@ class ExternalAuthOptionsView: UIView {
         
     @objc var height: CGFloat = 0
     
-    @objc init(frame: CGRect, providers: [OEXExternalAuthProvider], type: ExternalAuthOptionsType, accessibilityLabel: String, tapAction: @escaping (OEXExternalAuthProvider) -> ()) {
+    @objc init(frame: CGRect, providers: [OEXExternalAuthProvider], type: ExternalAuthOptionsType, tapAction: @escaping (OEXExternalAuthProvider) -> ()) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        configureAuthProviders(providers: providers, type: type, accessibilityLabel: accessibilityLabel, tapAction: tapAction)
+        configureAuthProviders(providers: providers, type: type, tapAction: tapAction)
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureAuthProviders(providers: [OEXExternalAuthProvider], type: ExternalAuthOptionsType, accessibilityLabel: String, tapAction: @escaping (OEXExternalAuthProvider) -> ()) {
+    private func configureAuthProviders(providers: [OEXExternalAuthProvider], type: ExternalAuthOptionsType, tapAction: @escaping (OEXExternalAuthProvider) -> ()) {
         height = CGFloat(providers.count * (verticalOffset + buttonHeight))
         var container: UIView?
         for provider in providers {
@@ -41,9 +41,9 @@ class ExternalAuthOptionsView: UIView {
             let title = type == .register ? Strings.continueWith(provider: provider.displayName) : Strings.signInWith(provider: provider.displayName)
             let authButtonContainer = provider.authView(withTitle: title)
             authButtonContainer.accessibilityIdentifier = "ExternalAuthOptionsView:\(provider.displayName.lowercased())-button"
-            authButtonContainer.accessibilityLabel = accessibilityLabel.isEmpty ? "\(title)" : "\(accessibilityLabel) \(title)"
             authButtonContainer.addSubview(button)
             addSubview(authButtonContainer)
+            button.accessibilityLabel = title
             
             authButtonContainer.snp.makeConstraints { make in
                 make.leading.equalTo(self)
