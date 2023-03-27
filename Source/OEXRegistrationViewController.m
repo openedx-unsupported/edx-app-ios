@@ -151,6 +151,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
     ////Create progrssIndicator as subview to btnCreateAccount
     self.progressIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [self.progressIndicator setColor:_environment.styles.neutralWhiteT];
     [self.registerButton addSubview:self.progressIndicator];
     [self.progressIndicator hidesWhenStopped];
     self.optionalFieldsSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
@@ -429,7 +430,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     offset = offset + self.agreementTextView.frame.size.height;
     
     [self.registerButton setFrame:CGRectMake(horizontalSpacing, offset, contentWidth, 40)];
-    const int progressIndicatorCenterX = [self isRTL] ? 40 : self.registerButton.frame.size.width - 40;
+    const int progressIndicatorCenterX = [self isRTL] ? 20 : self.registerButton.frame.size.width - 20;
     self.progressIndicator.center = CGPointMake(progressIndicatorCenterX, self.registerButton.frame.size.height / 2);
     [self.scrollView addSubview:self.registerButton];
     offset = offset + self.registerButton.frame.size.height + 30;
