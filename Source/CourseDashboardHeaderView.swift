@@ -144,7 +144,7 @@ class CourseDashboardHeaderView: UIView {
     }()
     
     private lazy var tabbarView: CourseDashboardTabbarView = {
-        let tabbarView = CourseDashboardTabbarView(environment: environment, course: course)
+        let tabbarView = CourseDashboardTabbarView(environment: environment, course: course, tabbarItems: tabbarItems)
         tabbarView.accessibilityIdentifier = "CourseDashboardHeaderView:tabbar-view"
         tabbarView.delegate = self
         return tabbarView
@@ -175,11 +175,13 @@ class CourseDashboardHeaderView: UIView {
     
     private let environment: Environment
     private let course: OEXCourse?
+    private let tabbarItems: [TabBarItem]
     private let error: CourseAccessHelper?
     
-    init(environment: Environment, course: OEXCourse?, error: CourseAccessHelper?) {
+    init(environment: Environment, course: OEXCourse?, tabbarItems: [TabBarItem], error: CourseAccessHelper?) {
         self.environment = environment
         self.course = course
+        self.tabbarItems = tabbarItems
         self.error = error
         super.init(frame: .zero)
         
@@ -301,13 +303,17 @@ class CourseDashboardHeaderView: UIView {
         }
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateTabbarView(item: TabBarItem) {
+        tabbarView.updateView(item: item)
+    }
+    
     func showTabbarView(show: Bool) {
         showTabbar = show
         addConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func updateHeader(collapse: Bool) {

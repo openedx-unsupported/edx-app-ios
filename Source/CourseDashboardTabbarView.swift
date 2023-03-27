@@ -53,13 +53,12 @@ class CourseDashboardTabbarView: UIView {
     private let environment: Environment
     private let course: OEXCourse?
     
-    init(environment: Environment, course: OEXCourse?) {
+    init(environment: Environment, course: OEXCourse?, tabbarItems: [TabBarItem]) {
         self.environment = environment
         self.course = course
+        self.tabBarItems = tabbarItems
         super.init(frame: .zero)
-        
         accessibilityIdentifier = "CourseDashboardTabbarView"
-        prepareTabViewData()
         addSubViews()
     }
     
@@ -87,36 +86,14 @@ class CourseDashboardTabbarView: UIView {
         }
     }
     
-    private func prepareTabViewData() {
-        tabBarItems = []
-        guard let courseID = course?.course_id else { return }
-        
-        var item = TabBarItem(title: Strings.Dashboard.courseHome, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
-        tabBarItems.append(item)
-        
-        if environment.config.isCourseVideosEnabled {
-            item = TabBarItem(title: Strings.Dashboard.courseVideos, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .video), icon: Icon.CourseVideos, detailText: Strings.Dashboard.courseVideosDetail)
-            tabBarItems.append(item)
-        }
-        
-        if shouldShowDiscussions {
-            item = TabBarItem(title: Strings.Dashboard.courseDiscussion, viewController: DiscussionTopicsViewController(environment: environment, courseID: courseID), icon: Icon.Discussions, detailText: Strings.Dashboard.courseDiscussionDetail)
-            tabBarItems.append(item)
-        }
-        
-        if environment.config.courseDatesEnabled {
-            item = TabBarItem(title: Strings.Dashboard.courseImportantDates, viewController: CourseDatesViewController(environment: environment , courseID: courseID), icon: Icon.Calendar, detailText: Strings.Dashboard.courseImportantDatesDetail)
-            tabBarItems.append(item)
-        }
-
-        if shouldShowHandouts {
-            item = TabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: courseID), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
-            tabBarItems.append(item)
-        }
-        
-        if environment.config.isAnnouncementsEnabled {
-            item = TabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: courseID), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
-            tabBarItems.append(item)
+    func updateView(item: TabBarItem) {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            guard let weakSelf = self else { return }
+            if let index = weakSelf.tabBarItems.firstIndex(of: item) {
+                let indexPath = IndexPath(item: index, section: 0)
+                weakSelf.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+                weakSelf.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }   
         }
     }
 }
