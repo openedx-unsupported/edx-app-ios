@@ -22,6 +22,7 @@ class ExternalProviderButtonView: UIView {
         iconImageView.contentMode = .scaleAspectFit
 
         let buttonTitle = UILabel()
+        buttonTitle.isAccessibilityElement = false
         backgroundColor = providerColor
         addSubview(iconImageView)
         addSubview(buttonTitle)

@@ -31,7 +31,7 @@
         self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         self.activityIndicator.hidden = YES;
         __weak __typeof(self) owner = self;
-        self.authOptionsView = [[ExternalAuthOptionsView alloc] initWithFrame:self.bounds providers:providers type:ExternalAuthOptionsTypeRegister accessibilityLabel:[Strings registrationRegisterPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
+        self.authOptionsView = [[ExternalAuthOptionsView alloc] initWithFrame:self.bounds providers:providers type:ExternalAuthOptionsTypeRegister tapAction:^(id<OEXExternalAuthProvider> provider) {
             [owner choseProvider:provider];
         }];
         [self.authOptionsView mas_makeConstraints:^(MASConstraintMaker *make) {
