@@ -140,7 +140,7 @@ class EnrolledTabBarViewController: UITabBarController, InterfaceOrientationOver
             selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
             controller = tabBarViewController(LearnContainerViewController.self)
             break
-        case .courseDashboard, .courseDates, .courseVideos, .courseHandout, .courseComponent:
+        case .courseDashboard, .courseDates, .courseVideos, .courseHandout, .courseComponent, .courseAnnouncement:
             selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
             controller = tabBarViewController(LearnContainerViewController.self)
             break
