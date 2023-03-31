@@ -34,7 +34,7 @@ class DiscoveryWebViewHelper: NSObject {
         return (webView.url as NSURL?)?.oex_queryParameters() as? [String : String]
     }
     
-    private var bottomSpace: CGFloat {
+    private var bottomBarHeight: CGFloat {
         //TODO: this should be the height of bottomBar but for now giving it static value as the NSCopying making new object's frame as zero
         return 90
     }
@@ -78,6 +78,7 @@ class DiscoveryWebViewHelper: NSObject {
                 make.leading.equalTo(contentView)
                 make.trailing.equalTo(contentView)
                 make.bottom.equalTo(contentView)
+                make.height.equalTo(bottomBarHeight)
             }
         }
 
@@ -86,12 +87,7 @@ class DiscoveryWebViewHelper: NSObject {
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)
             make.top.equalTo(contentView)
-            if !isUserLoggedIn {
-                make.bottom.equalTo(contentView).offset(-bottomSpace)
-            }
-            else {
-                make.bottom.equalTo(contentView)
-            }
+            make.bottom.equalTo(contentView)
         }
 
         addObserver()
