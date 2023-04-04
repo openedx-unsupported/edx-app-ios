@@ -537,7 +537,7 @@ import UIKit
         }
         
         switch type {
-        case .courseDashboard, .courseVideos, .discussions, .courseDates, .courseComponent:
+        case .courseDashboard, .courseVideos, .discussions, .courseDates, .courseComponent, .courseHandout, .courseAnnouncement, .discussionTopic, .discussionComment, .discussionPost:
             showCourseDashboardViewController(with: link)
             break
         case .program:
@@ -564,12 +564,12 @@ import UIKit
             break
         case .discussionComment:
             showdiscussionComments(with: link)
-        case .courseHandout:
-            showCourseHandout(with: link)
-            break
-        case .courseAnnouncement:
-            showCourseAnnouncement(with: link)
-            break
+//        case .courseHandout:
+//            showCourseHandout(with: link)
+//            break
+//        case .courseAnnouncement:
+//            showCourseAnnouncement(with: link)
+//            break
         default:
             break
         }

@@ -311,12 +311,22 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     }
     
     func tabbarViewItem(with controller: AnyClass, courseOutlineMode: CourseOutlineMode? = .full) -> TabBarItem? {
-        if let item = tabBarItems.first(where: { $0.viewController.isKind(of: controller) }),
-           let courseOutlineVC = item.viewController as? CourseOutlineViewController,
-           courseOutlineVC.courseOutlineMode == courseOutlineMode {
-            return item
-        } else if let item = tabBarItems.first(where: { $0.viewController.isKind(of: controller) }) {
-            return item
+        for item in tabBarItems {
+            if item.viewController.isKind(of: controller) {
+                if item.viewController.isKind(of: CourseOutlineViewController.self) {
+                    if let courseOutlineVC = item.viewController as? CourseOutlineViewController {
+                        if let courseOutlineMode = courseOutlineMode {
+                            if courseOutlineVC.courseOutlineMode == courseOutlineMode {
+                                return item
+                            }
+                        } else {
+                            return item
+                        }
+                    }
+                } else {
+                    return item
+                }
+            }
         }
         return nil
     }

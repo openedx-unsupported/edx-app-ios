@@ -266,8 +266,13 @@ extension OEXRouter {
                 }
             }
             showCourseWithID(courseID: courseID, fromController: switchedViewController, animated: true) { controller in
-                guard let dashboardController = controller as? CourseDashboardViewController else { return }
-                dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
+                var dashboardController: NewCourseDashboardViewController?
+                if let controller = controller as? ForwardingNavigationController {
+                    dashboardController = controller.viewControllers.first(where: { $0 is NewCourseDashboardViewController }) as? NewCourseDashboardViewController
+                } else {
+                    dashboardController = controller as? NewCourseDashboardViewController
+                }
+                dashboardController?.switchTab(with: deeplink.type, componentID: deeplink.componentID)
             }
         }
     }
@@ -517,7 +522,8 @@ extension OEXRouter {
     
     func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
         if environment.config.isNewDashboardEnabled {
-            let controller = ForwardingNavigationController(rootViewController: NewCourseDashboardViewController(environment: environment, courseID: courseID))
+            let courseDashboardViewController = NewCourseDashboardViewController(environment: environment, courseID: courseID)
+            let controller = ForwardingNavigationController(rootViewController: courseDashboardViewController)
             controller.navigationController?.setNavigationBarHidden(true, animated: false)
             controller.modalPresentationStyle = .fullScreen
             fromController.navigationController?.presentViewControler(controller, animated: animated, completion: completion)
