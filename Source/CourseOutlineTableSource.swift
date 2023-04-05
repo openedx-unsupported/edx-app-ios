@@ -178,6 +178,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         refreshController.setupInScrollView(scrollView: tableView)
 
         setAccessibilityIdentifiers()
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXDownloadDeleted.rawValue) { _, observer, _ in
+            observer.tableView.reloadData()
+        }
     }
     
     private func configureHeaderView() {
