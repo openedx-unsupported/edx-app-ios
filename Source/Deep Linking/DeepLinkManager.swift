@@ -536,8 +536,10 @@ import UIKit
             return
         }
         
+        let isNewDashboardEnabled = environment?.config.isNewDashboardEnabled ?? false
+        
         switch type {
-        case .courseDashboard, .courseVideos, .discussions, .courseDates, .courseComponent, .courseHandout, .courseAnnouncement, .discussionTopic, .discussionComment, .discussionPost:
+        case .courseDashboard, .courseVideos, .discussions, .courseDates, .courseComponent:
             showCourseDashboardViewController(with: link)
             break
         case .program:
@@ -557,19 +559,39 @@ import UIKit
             showUserProfile(with: link)
             break
         case .discussionTopic:
-            showDiscussionTopic(with: link)
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showDiscussionTopic(with: link)
+            }
             break
         case .discussionPost:
-            showDiscussionResponses(with: link)
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showDiscussionResponses(with: link)
+            }
             break
         case .discussionComment:
-            showdiscussionComments(with: link)
-//        case .courseHandout:
-//            showCourseHandout(with: link)
-//            break
-//        case .courseAnnouncement:
-//            showCourseAnnouncement(with: link)
-//            break
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showdiscussionComments(with: link)
+            }
+        case .courseHandout:
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showCourseHandout(with: link)
+            }
+            break
+        case .courseAnnouncement:
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showCourseAnnouncement(with: link)
+            }
+            break
         default:
             break
         }
