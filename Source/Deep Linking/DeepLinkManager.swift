@@ -109,12 +109,12 @@ import UIKit
         if environment?.config.isNewDashboardEnabled == true {
             if let courseDashboardView = topViewController as? NewCourseDashboardViewController, courseDashboardView.courseID == link.courseId {
                 if !controllerAlreadyDisplayed(for: link.type) {
-                    courseDashboardView.switchTab(with: link.type, componentID: link.componentID)
+                    courseDashboardView.switchTab(with: link.type)
                     return
                 }
             } else if let dashboardViewController = topViewController.navigationController?.viewControllers.first(where: { $0 is NewCourseDashboardViewController }) as? NewCourseDashboardViewController, dashboardViewController.courseID == link.courseId {
                 dashboardViewController.navigationController?.popToRootViewController(animated: true) {
-                    dashboardViewController.switchTab(with: link.type, componentID: link.componentID)
+                    dashboardViewController.switchTab(with: link.type)
                 }
                 return
             }

@@ -267,7 +267,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         }
     }
     
-    func switchTab(with type: DeepLinkType, componentID: String? = nil) {
+    func switchTab(with type: DeepLinkType, deeplink: DeepLink? = nil) {
         var selectedItem: TabBarItem?
         
         switch type {
@@ -277,7 +277,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         case .courseComponent:
             selectedItem = tabbarViewItem(with: CourseOutlineViewController.self, courseOutlineMode: .full)
             if let controller = selectedItem?.viewController as? CourseOutlineViewController {
-                controller.componentID = componentID
+                controller.componentID = deeplink?.componentID
             }
             break
         case .courseVideos:
@@ -285,6 +285,9 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             break
         case .discussions, .discussionTopic, .discussionPost, .discussionComment:
             selectedItem = tabbarViewItem(with: DiscussionTopicsViewController.self)
+            if let controller = selectedItem?.viewController as? DiscussionTopicsViewController {
+                
+            }
             break
         case .courseDates:
             selectedItem = tabbarViewItem(with: CourseDatesViewController.self)
