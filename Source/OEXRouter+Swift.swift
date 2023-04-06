@@ -85,10 +85,17 @@ extension OEXRouter {
         if controller is CourseOutlineViewController {
             outlineViewController = controller
         } else {
-            guard let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController else { return }
-            dashboardController.switchTab(with: .courseDashboard)
-            guard let outlineController = dashboardController.currentVisibleController as? CourseOutlineViewController else { return }
-            outlineViewController = outlineController
+            if environment.config.isNewDashboardEnabled {
+                guard let dashboardController = controller.navigationController?.viewControllers.first as? NewCourseDashboardViewController else { return }
+                dashboardController.switchTab(with: .courseDashboard)
+                guard let outlineController = dashboardController.currentVisibileController else { return }
+                outlineViewController = outlineController
+            } else {
+                guard let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController else { return }
+                dashboardController.switchTab(with: .courseDashboard)
+                guard let outlineController = dashboardController.currentVisibleController as? CourseOutlineViewController else { return }
+                outlineViewController = outlineController
+            }
         }
         
         showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: outlineViewController) { [weak self] visibleController in
@@ -190,23 +197,41 @@ extension OEXRouter {
     }
     
     func showDatesTabController(controller: UIViewController) {
-        if let dashboardController = controller as? CourseDashboardViewController {
-            dashboardController.switchTab(with: .courseDates)
-        } else if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
-            controller.navigationController?.popToViewController(dashboardController, animated: false)
-            dashboardController.switchTab(with: .courseDates)
+        if environment.config.isNewDashboardEnabled {
+            guard let dashboardController = controller.navigationController?.viewControllers.first as? NewCourseDashboardViewController else { return }
+            popToRoot(controller: dashboardController) {
+                dashboardController.switchTab(with: .courseDates)
+            }
+        } else {
+            if let dashboardController = controller as? CourseDashboardViewController {
+                dashboardController.switchTab(with: .courseDates)
+            } else if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
+                controller.navigationController?.popToViewController(dashboardController, animated: false)
+                dashboardController.switchTab(with: .courseDates)
+            }
         }
     }
     
     // MARK: Deep Linking
     //Method can be use to navigate on particular tab of course dashboard with deep link type
-    func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController) {
+    func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController, completion: ((UIViewController) -> Void)? = nil) {
+        if environment.config.isNewDashboardEnabled {
+            showCourseNew(with: deeplink, courseID: courseID, from: controller, completion: completion)
+        } else {
+            showCourseOld(with: deeplink, courseID: courseID, from: controller, completion: completion)
+        }
+    }
+    
+    private func showCourseOld(with deeplink: DeepLink, courseID: String, from controller: UIViewController, completion: ((UIViewController) -> Void)? = nil) {
         let courseDashboardController = controller.navigationController?.viewControllers.first(where: { $0.isKind(of: CourseDashboardViewController.self) })
         
         if let dashboardController = courseDashboardController as? CourseDashboardViewController, dashboardController.courseID == deeplink.courseId {
             controller.navigationController?.setToolbarHidden(true, animated: false)
             controller.navigationController?.popToViewController(dashboardController, animated: true)
             dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
+            if let currentVisibleController = dashboardController.currentVisibleController {
+                completion?(currentVisibleController)
+            }
         } else if let enrolledTabBarController = controller.find(viewController: EnrolledTabBarViewController.self) {
             if let courseDashboardController = courseDashboardController {
                 courseDashboardController.navigationController?.popToRootViewController(animated: true) { [weak self] in
@@ -214,6 +239,9 @@ extension OEXRouter {
                     self?.showCourseWithID(courseID: courseID, fromController: switchedViewController, animated: true) { controller in
                         guard let dashboardController = controller as? CourseDashboardViewController else { return }
                         dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
+                        if let currentVisibleController = dashboardController.currentVisibleController {
+                            completion?(currentVisibleController)
+                        }
                     }
                 }
             } else {
@@ -226,6 +254,39 @@ extension OEXRouter {
                 showCourseWithID(courseID: courseID, fromController: switchedViewController, animated: true) { controller in
                     guard let dashboardController = controller as? CourseDashboardViewController else { return }
                     dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
+                    if let currentVisibleController = dashboardController.currentVisibleController {
+                        completion?(currentVisibleController)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func showCourseNew(with deeplink: DeepLink, courseID: String, from controller: UIViewController, completion: ((UIViewController) -> Void)? = nil) {
+        let courseDashboardController = controller.navigationController?.viewControllers.first(where: { $0.isKind(of: NewCourseDashboardViewController.self) })
+        
+        if let dashboardController = courseDashboardController as? NewCourseDashboardViewController, dashboardController.courseID == deeplink.courseId {
+            dashboardController.switchTab(with: deeplink.type, deeplink: deeplink)
+            if let currentVisibleController = dashboardController.currentVisibileController {
+                completion?(currentVisibleController)
+            }
+        } else if let enrolledTabBarController = controller.find(viewController: EnrolledTabBarViewController.self) {
+            let switchedViewController = enrolledTabBarController.switchTab(with: deeplink.type)
+            if let switchedViewController = switchedViewController as? LearnContainerViewController {
+                switchedViewController.navigationController?.popToRootViewController(animated: true) {
+                    switchedViewController.switchTo(component: .courses)
+                }
+            }
+            showCourseWithID(courseID: courseID, fromController: switchedViewController, animated: true) { controller in
+                var dashboardController: NewCourseDashboardViewController?
+                if let controller = controller as? ForwardingNavigationController {
+                    dashboardController = controller.viewControllers.first(where: { $0 is NewCourseDashboardViewController }) as? NewCourseDashboardViewController
+                } else {
+                    dashboardController = controller as? NewCourseDashboardViewController
+                }
+                dashboardController?.switchTab(with: deeplink.type, deeplink: deeplink)
+                if let currentVisibleController = dashboardController?.currentVisibileController {
+                    completion?(currentVisibleController)
                 }
             }
         }
@@ -476,10 +537,11 @@ extension OEXRouter {
     
     func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
         if environment.config.isNewDashboardEnabled {
-            let controller = ForwardingNavigationController(rootViewController: NewCourseDashboardViewController(environment: environment, courseID: courseID))
+            let courseDashboardViewController = NewCourseDashboardViewController(environment: environment, courseID: courseID)
+            let controller = ForwardingNavigationController(rootViewController: courseDashboardViewController)
             controller.navigationController?.setNavigationBarHidden(true, animated: false)
             controller.modalPresentationStyle = .fullScreen
-            fromController.navigationController?.present(controller, animated: true)
+            fromController.navigationController?.presentViewControler(controller, animated: animated, completion: completion)
         } else {
             let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
             controller.hidesBottomBarWhenPushed = true

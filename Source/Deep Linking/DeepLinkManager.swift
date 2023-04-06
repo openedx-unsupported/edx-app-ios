@@ -106,10 +106,24 @@ import UIKit
     private func showCourseDashboardViewController(with link: DeepLink) {
         guard let topViewController = topMostViewController else { return }
         
-        if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
-            if !controllerAlreadyDisplayed(for: link.type) {
-                courseDashboardView.switchTab(with: link.type, componentID: link.componentID)
+        if environment?.config.isNewDashboardEnabled == true {
+            if let courseDashboardView = topViewController as? NewCourseDashboardViewController, courseDashboardView.courseID == link.courseId {
+                if !controllerAlreadyDisplayed(for: link.type) {
+                    courseDashboardView.switchTab(with: link.type)
+                    return
+                }
+            } else if let dashboardViewController = topViewController.navigationController?.viewControllers.first(where: { $0 is NewCourseDashboardViewController }) as? NewCourseDashboardViewController, dashboardViewController.courseID == link.courseId {
+                dashboardViewController.navigationController?.popToRootViewController(animated: true) {
+                    dashboardViewController.switchTab(with: link.type)
+                }
                 return
+            }
+        } else {
+            if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
+                if !controllerAlreadyDisplayed(for: link.type) {
+                    courseDashboardView.switchTab(with: link.type, componentID: link.componentID)
+                    return
+                }
             }
         }
         
@@ -522,6 +536,8 @@ import UIKit
             return
         }
         
+        let isNewDashboardEnabled = environment?.config.isNewDashboardEnabled ?? false
+        
         switch type {
         case .courseDashboard, .courseVideos, .discussions, .courseDates, .courseComponent:
             showCourseDashboardViewController(with: link)
@@ -543,18 +559,38 @@ import UIKit
             showUserProfile(with: link)
             break
         case .discussionTopic:
-            showDiscussionTopic(with: link)
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showDiscussionTopic(with: link)
+            }
             break
         case .discussionPost:
-            showDiscussionResponses(with: link)
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showDiscussionResponses(with: link)
+            }
             break
         case .discussionComment:
-            showdiscussionComments(with: link)
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showdiscussionComments(with: link)
+            }
         case .courseHandout:
-            showCourseHandout(with: link)
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showCourseHandout(with: link)
+            }
             break
         case .courseAnnouncement:
-            showCourseAnnouncement(with: link)
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showCourseAnnouncement(with: link)
+            }
             break
         default:
             break

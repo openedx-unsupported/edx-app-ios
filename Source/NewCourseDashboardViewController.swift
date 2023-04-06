@@ -13,7 +13,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider & ServerConfigProvider
     
     private lazy var headerView: CourseDashboardHeaderView = {
-        let view = CourseDashboardHeaderView(environment: environment, course: course, error: courseAccessHelper)
+        let view = CourseDashboardHeaderView(environment: environment, course: course, tabbarItems: tabBarItems, error: courseAccessHelper)
         view.accessibilityIdentifier = "NewCourseDashboardViewController:header-view"
         view.delegate = self
         return view
@@ -38,18 +38,28 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         return course.isSelfPaced ? "self" : "instructor"
     }
     
+    private var shouldShowDiscussions: Bool {
+        guard let course = course else { return false }
+        return environment.config.discussionsEnabled && course.hasDiscussionsEnabled
+    }
+    
+    private var shouldShowHandouts: Bool {
+        guard let course = course else { return false }
+        return course.course_handouts?.isEmpty == false
+    }
+    
     private var course: OEXCourse?
     private var error: NSError?
     private var courseAccessHelper: CourseAccessHelper?
     private var selectedTabbarItem: TabBarItem?
     private var headerViewState: HeaderViewState = .expanded
-    
+    private var tabBarItems: [TabBarItem] = []
     private var isModalDismissable = true
     private let courseStream: BackedStream<UserCourseEnrollment>
     private let loadStateController: LoadStateViewController
             
     private let environment: Environment
-    private let courseID: String
+    let courseID: String
     private let screen: CourseUpgradeScreen = .courseDashboard
     
     init(environment: Environment, courseID: String) {
@@ -132,6 +142,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         switch result {
         case .success(let enrollment):
             course = enrollment.course
+            prepareTabViewData()
             loadedCourse(withCourse: enrollment.course)
             setupConstraints()
         case .failure(let error):
@@ -222,6 +233,106 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         setupContentView()
+    }
+    
+    private func prepareTabViewData() {
+        tabBarItems = []
+        
+        var item = TabBarItem(title: Strings.Dashboard.courseHome, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+        tabBarItems.append(item)
+        
+        if environment.config.isCourseVideosEnabled {
+            item = TabBarItem(title: Strings.Dashboard.courseVideos, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .video), icon: Icon.CourseVideos, detailText: Strings.Dashboard.courseVideosDetail)
+            tabBarItems.append(item)
+        }
+        
+        if shouldShowDiscussions {
+            item = TabBarItem(title: Strings.Dashboard.courseDiscussion, viewController: DiscussionTopicsViewController(environment: environment, courseID: courseID), icon: Icon.Discussions, detailText: Strings.Dashboard.courseDiscussionDetail)
+            tabBarItems.append(item)
+        }
+        
+        if environment.config.courseDatesEnabled {
+            item = TabBarItem(title: Strings.Dashboard.courseImportantDates, viewController: CourseDatesViewController(environment: environment , courseID: courseID), icon: Icon.Calendar, detailText: Strings.Dashboard.courseImportantDatesDetail)
+            tabBarItems.append(item)
+        }
+
+        if shouldShowHandouts {
+            item = TabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: courseID), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
+            tabBarItems.append(item)
+        }
+        
+        if environment.config.isAnnouncementsEnabled {
+            item = TabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: courseID), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
+            tabBarItems.append(item)
+        }
+    }
+    
+    func switchTab(with type: DeepLinkType, deeplink: DeepLink? = nil) {
+        var selectedItem: TabBarItem?
+        
+        switch type {
+        case .courseDashboard:
+            selectedItem = tabbarViewItem(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+            break
+        case .courseComponent:
+            selectedItem = tabbarViewItem(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+            if let controller = selectedItem?.viewController as? CourseOutlineViewController {
+                controller.componentID = deeplink?.componentID
+            }
+            break
+        case .courseVideos:
+            selectedItem = tabbarViewItem(with: CourseOutlineViewController.self, courseOutlineMode: .video)
+            break
+        case .discussions, .discussionTopic, .discussionPost, .discussionComment:
+            selectedItem = tabbarViewItem(with: DiscussionTopicsViewController.self)
+            break
+        case .courseDates:
+            selectedItem = tabbarViewItem(with: CourseDatesViewController.self)
+            break
+        case .courseHandout:
+            let item = tabbarViewItem(with: CourseHandoutsViewController.self)
+            selectedItem = item == nil ? tabbarViewItem(with: AdditionalTabBarViewController.self) : item
+            break
+        case .courseAnnouncement:
+            let item = tabbarViewItem(with: CourseAnnouncementsViewController.self)
+            selectedItem = item == nil ? tabbarViewItem(with: AdditionalTabBarViewController.self) : item
+            break
+        default:
+            selectedItem = tabBarItems.first
+            break
+        }
+        
+        if let selectedItem = selectedItem {
+            selectedTabbarItem?.viewController.removeFromParent()
+            selectedTabbarItem = selectedItem
+            headerView.updateTabbarView(item: selectedItem)
+            setupContentView()
+        }
+    }
+    
+    func tabbarViewItem(with controller: AnyClass, courseOutlineMode: CourseOutlineMode? = .full) -> TabBarItem? {
+        for item in tabBarItems {
+            if item.viewController.isKind(of: controller) {
+                if item.viewController.isKind(of: CourseOutlineViewController.self) {
+                    if let courseOutlineVC = item.viewController as? CourseOutlineViewController {
+                        if let courseOutlineMode = courseOutlineMode {
+                            if courseOutlineVC.courseOutlineMode == courseOutlineMode {
+                                return item
+                            }
+                        } else {
+                            return item
+                        }
+                    }
+                } else {
+                    return item
+                }
+            }
+        }
+        return nil
+    }
+    
+    var currentVisibileController: UIViewController? {
+        return selectedTabbarItem?.viewController
     }
 }
 

@@ -113,6 +113,25 @@ extension UINavigationController {
     }
 }
 
+extension UINavigationController {
+    public func presentViewControler(_ viewController: UIViewController, animated flag: Bool, completion: ((UIViewController) -> Void)? = nil) {
+        present(viewController, animated: flag)
+        guard flag, let coordinator = transitionCoordinator else {
+            DispatchQueue.main.async { [weak self] in
+                if let presentedController = self?.presentedViewController {
+                    completion?(presentedController)
+                }
+            }
+            return
+        }
+        coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+            if let presentedController = self?.presentedViewController {
+                completion?(presentedController)
+            }
+        }
+    }
+}
+
 /// https://stackoverflow.com/a/33767837
 /// https://iganin.hatenablog.com/entry/2019/07/27/172911
 extension UINavigationController {
