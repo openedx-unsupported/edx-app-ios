@@ -285,9 +285,6 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             break
         case .discussions, .discussionTopic, .discussionPost, .discussionComment:
             selectedItem = tabbarViewItem(with: DiscussionTopicsViewController.self)
-            if let controller = selectedItem?.viewController as? DiscussionTopicsViewController {
-                
-            }
             break
         case .courseDates:
             selectedItem = tabbarViewItem(with: CourseDatesViewController.self)

@@ -357,8 +357,6 @@ extension UITabBarController {
                 if let viewController = viewController as? CourseOutlineViewController,
                    viewController.courseOutlineMode == courseOutlineMode {
                     return index
-                } else {
-                    return index
                 }
             } else if let forwardingNavigationController = viewController as? ForwardingNavigationController,
                       let rootViewController = forwardingNavigationController.viewControllers.first,
