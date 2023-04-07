@@ -267,9 +267,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     private let addResponseButton = UIButton(type: .system)
     private let responsesDataController = DiscussionResponsesDataController()
-    var thread: DiscussionThread?
+    var thread: DiscussionThread? {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.threadRenderedBody = self?.detailTextStyle.markdownString(withText: self?.thread?.renderedBody)
+            }
+        }
+    }
     var threadID: String? // this will be use for deep linking
-    
+    var threadRenderedBody: NSAttributedString?
     var postFollowing = false
     var profileFeed: Feed<UserProfile>?
     var tempComment: DiscussionComment? // this will be used for injecting user info to added comment
@@ -452,21 +458,22 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         paginationController?.stream.listen(self, success:
-            { [weak self] responses in
-                self?.loadController?.state = .Loaded
-                self?.responsesDataController.endorsedResponses = responses
-                self?.tableView.reloadData()
-                UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: nil)
-                if self?.paginationController?.hasNext ?? false { }
-                else {
-                    // load unanswered responses
-                    self?.loadUnansweredResponses()
-                }
-                
-            }, failure: { [weak self] (error) -> Void in
-                self?.loadController?.state = LoadState.failed(error: error)
-                
-            })
+                                                { [weak self] responses in
+            self?.responsesDataController.renderAndSaveBody(with: self?.detailTextStyle, responses: responses)
+            self?.responsesDataController.endorsedResponses = responses
+            self?.loadController?.state = .Loaded
+            self?.tableView.reloadData()
+            UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: nil)
+            if self?.paginationController?.hasNext ?? false { }
+            else {
+                // load unanswered responses
+                self?.loadUnansweredResponses()
+            }
+            
+        }, failure: { [weak self] (error) -> Void in
+            self?.loadController?.state = LoadState.failed(error: error)
+            
+        })
         
         paginationController?.loadMore()
     }
@@ -482,21 +489,22 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         paginationController?.stream.listen(self, success:
-            { [weak self] responses in
+                                                { [weak self] responses in
+            self?.responsesDataController.renderAndSaveBody(with: self?.detailTextStyle, responses: responses)
+            self?.responsesDataController.responses = responses
+            self?.loadController?.state = .Loaded
+            self?.tableView.reloadData()
+            UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: nil)
+            
+        }, failure: { [weak self] (error) -> Void in
+            // endorsed responses are loaded in separate request and also populated in different section
+            if self?.responsesDataController.endorsedResponses.count ?? 0 <= 0 {
+                self?.loadController?.state = LoadState.failed(error: error)
+            }
+            else {
                 self?.loadController?.state = .Loaded
-                self?.responsesDataController.responses = responses
-                self?.tableView.reloadData()
-                UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: nil)
-                
-            }, failure: { [weak self] (error) -> Void in
-                // endorsed responses are loaded in separate request and also populated in different section
-                if self?.responsesDataController.endorsedResponses.count ?? 0 <= 0 {
-                    self?.loadController?.state = LoadState.failed(error: error)
-                }
-                else {
-                    self?.loadController?.state = .Loaded
-                }
-            })
+            }
+        })
         
         paginationController?.loadMore()
     }
@@ -567,10 +575,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let thread = self.thread {
             cell.titleLabel.attributedText = titleTextStyle.attributedString(withText: thread.title)
             
-            DispatchQueue.main.async { [weak self] in
-                let formattedThreadText = self?.detailTextStyle.markdownString(withText: thread.renderedBody)
-                cell.bodyTextView.attributedText = formattedThreadText
-            }
+            cell.bodyTextView.attributedText = threadRenderedBody
             
             let visibilityString : String
             if let cohortName = thread.groupName {
@@ -674,7 +679,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func cellForResponseAtIndexPath(indexPath : IndexPath, response: DiscussionComment) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionResponseCell.identifier, for: indexPath) as! DiscussionResponseCell
         
-        cell.bodyTextView.attributedText = detailTextStyle.markdownString(withText: response.renderedBody)
+        cell.bodyTextView.attributedText = responsesDataController.renderedResponses[response.commentID]
         
         if let thread = thread {
             let formatedTitle = response.formattedUserLabel(name: response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,endorsedLabel: true, threadType: thread.type, textStyle: infoTextStyle)
