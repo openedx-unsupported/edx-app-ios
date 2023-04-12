@@ -36,7 +36,7 @@ class CourseUpgradeHelper: NSObject {
     enum CompletionState {
         case initial
         case payment
-        case fulfillment
+        case fulfillment(showLoader: Bool)
         case success(_ courseID: String, _ componentID: String?)
         case error(PurchaseError, Error?)
     }
@@ -113,11 +113,15 @@ class CourseUpgradeHelper: NSObject {
         case .payment:
             paymentStartTime = CFAbsoluteTimeGetCurrent()
             break
-        case .fulfillment:
+        case .fulfillment(let show):
             contentUpgradeTime = CFAbsoluteTimeGetCurrent()
-            let endTime = CFAbsoluteTimeGetCurrent() - (paymentStartTime ?? 0)
-            environment?.analytics.trackCourseUpgradePaymentTime(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
-            showLoader()
+            if upgradeHadler.upgradeMode == .userInitiated {
+                let endTime = CFAbsoluteTimeGetCurrent() - (paymentStartTime ?? 0)
+                environment?.analytics.trackCourseUpgradePaymentTime(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
+            }
+            if show {
+                showLoader()
+            }
             break
         case .success(let courseID, let blockID):
             courseUpgradeModel = CourseUpgradeModel(courseID: courseID, blockID: blockID, screen: screen)

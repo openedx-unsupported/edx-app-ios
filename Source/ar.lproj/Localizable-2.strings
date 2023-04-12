@@ -29,6 +29,22 @@
 "COURSE_DASHBOARD.ERROR.COURSE_ACCESS_EXPIRED_INFO" = "No new sessions are available at this time.";
 /*Error message title on course dashboard screen when audit access of course*/
 "COURSE_DASHBOARD.ERROR.COURSE_ENDED_TITLE" = "This course session has ended.";
+/* Label for date when course starts */
+"COURSE.STARTING" = "Starts {start_date}";
+/* Label for date when course end */
+"COURSE.ENDING" = "Ends {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Ended on {end_date}";
+/* Course audit will expires on date*/
+"COURSE.AUDIT.EXPIRES_ON" = "Access expires {expiry_date}";
+/* Course audit will expires in {time_duration}*/
+"COURSE.AUDIT.EXPIRES_IN" = "Access expires in {time_duration}";
+/* Course audit expired n days ago*/
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Access expired {days} days ago";
+/* Course audit expired in less than 24 hours*/
+"COURSE.AUDIT.EXPIRED_AGO" = "Access expired {time_duaration}";
+/* Course audit expired on date*/
+"COURSE.AUDIT.EXPIRED_ON" = "Expired on {expiry_date}";
 /*Title for Discover*/
 "DISCOVER"="Discover";
 /*Title for Discovery*/
@@ -43,10 +59,6 @@
 "MY_COURSES"="My courses";
 /*Title My programs*/
 "MY_PROGRAMS"="My programs";
-/*Title for Discovery*/
-"EXPLORE_THE_CATALOG"="Explore the catalog";
-/*Title for Discover*/
-"DISCOVER"="Discover";
 /* Title text for the Home section of the course dashboard */
 "DASHBOARD.COURSE_HOME"="Home";
 /* Title for audit exipred error */

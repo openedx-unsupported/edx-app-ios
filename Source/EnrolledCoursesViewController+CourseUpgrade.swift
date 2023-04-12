@@ -69,17 +69,6 @@ extension EnrolledCoursesViewController {
         guard let skus = courseUpgradeHelper.savedUnfinishedIAPSKUsForCurrentUser(),
               !skus.isEmpty && PaymentManager.shared.unfinishedPurchases else { return }
 
-        // Find unresolved
-        var unResolvedCoursesSkus: [String] = []
-        let auditEnrollments = environment.interface?.courses?.filter({ $0.type == .audit}) ?? []
-        for enrollment in auditEnrollments {
-            if let courseSku = enrollment.course.sku {
-                if skus.contains(courseSku) {
-                    unResolvedCoursesSkus.append(courseSku)
-                }
-            }
-        }
-
         let unfinishedPurchases = PaymentManager.shared.unfinishedProductIDs
         var resolveAbleSkus: [String] = []
 
@@ -115,6 +104,9 @@ extension EnrolledCoursesViewController {
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
         upgradeHandler.upgradeCourse(with: .silent) { [weak self] state in
             switch state {
+            case .verify:
+                self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment(showLoader: false))
+                break
             case .complete:
                 skus.removeAll { $0 == sku }
                 self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(course.course_id ?? "", nil))

@@ -15,7 +15,7 @@ private let LandscapeBottomBarHeight:CGFloat = 75.0
 
 class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
-    typealias Environment = OEXRouterProvider & OEXConfigProvider & OEXAnalyticsProvider & OEXStylesProvider
+    typealias Environment = OEXRouterProvider & OEXConfigProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider
 
     private let logoImageView = UIImageView()
     private let searchView = UIView()
@@ -272,12 +272,13 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 }
 
 public class BottomBarView: UIView, NSCopying {
-    typealias Environment = OEXRouterProvider & OEXStylesProvider
+    typealias Environment = OEXRouterProvider & OEXStylesProvider & OEXSessionProvider
     private var environment : Environment?
     private let bottomBar = TZStackView()
     private let signInButton = UIButton()
     private let registerButton = UIButton()
-
+    private var viewHidden = false
+    
     init(frame: CGRect = CGRect.zero, environment:Environment?) {
         super.init(frame:frame)
         self.environment = environment
@@ -336,7 +337,10 @@ public class BottomBarView: UIView, NSCopying {
         bottomBar.axis = .horizontal
         bottomBar.snp.remakeConstraints { make in
             make.edges.equalTo(self)
-            if UIDevice.current.orientation.isLandscape {
+            
+            if viewHidden {
+                make.height.equalTo(0)
+            } else if UIDevice.current.orientation.isLandscape {
                 make.height.equalTo(LandscapeBottomBarHeight)
             }
             else {
@@ -361,11 +365,23 @@ public class BottomBarView: UIView, NSCopying {
     
     //MARK: - Actions
     func showLogin() {
-        environment?.router?.showLoginScreen(from: firstAvailableUIViewController(), completion: nil)
+        environment?.router?.showLoginScreen(from: firstAvailableUIViewController()) { [weak self] in
+            self?.hideBottomBar()
+        }
     }
     
     func showRegistration() {
-        environment?.router?.showSignUpScreen(from: firstAvailableUIViewController(), completion: nil)
+        environment?.router?.showSignUpScreen(from: firstAvailableUIViewController()) { [weak self] in
+            self?.hideBottomBar()
+        }
+    }
+    
+    private func hideBottomBar() {
+        if environment?.session.currentUser != nil {
+            viewHidden = true
+            isHidden = true
+            updateContraints()
+        }
     }
 
     deinit {

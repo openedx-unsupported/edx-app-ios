@@ -437,22 +437,6 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="As datas do curso não estão disponíveis no momento.";
-/* Label for date when course starts */
-"COURSE.STARTING" = "Iniciando {start_date}";
-/* Label for date when course end */
-"COURSE.ENDING" = "Finalizando {end_date}";
-/* Label indicated that a course has ended */
-"COURSE.ENDED"="Finalizado {end_date}";
-/* Course audit will expires on date*/
-"COURSE.AUDIT.EXPIRES_ON" = "O acesso ao curso expira em {expiry_date}";
-/* Course audit will expires in {time_duration}*/
-"COURSE.AUDIT.EXPIRES_IN" = "O acesso ao curso expira em {time_duration}";
-/* Course audit expired n days ago*/
-"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "O acesso ao curso expirou {days} dias atrás";
-/* Course audit expired in less than 24 hours*/
-"COURSE.AUDIT.EXPIRED_AGO" = "O acesso ao curso expirou {time_duaration}";
-/* Course audit expired on date*/
-"COURSE.AUDIT.EXPIRED_ON" = "Acesso ao curso expirado em {expiry_date}";
 /* Course audit expiry in n number of days*/
 "COURSE.AUDIT.DAYS" = "{days} dias";
 /* 1 hour remaining in course audit expiry*/

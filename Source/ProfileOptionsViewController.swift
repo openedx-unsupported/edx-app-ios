@@ -420,6 +420,9 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
         upgradeHandler.upgradeCourse(with: .restore) { [weak self] state in
 
             switch state {
+            case .verify:
+                CourseUpgradeHelper.shared.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment(showLoader: false))
+                break
             case .complete:
                 self?.enableUserInteraction(enable: true)
                 self?.hideProgressIndicator(indicator: indicator)
@@ -1010,7 +1013,7 @@ class PrivacyCell: UITableViewCell {
     
     private lazy var optionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Purchases.title)
+        label.attributedText = titleTextStyle.attributedString(withText: Strings.ProfileOptions.Privacy.title)
         label.accessibilityIdentifier = "PrivacyCell:option-label"
         return label
     }()
@@ -1128,8 +1131,7 @@ class HelpCell: UITableViewCell {
     
     private var platformName: String? {
         didSet {
-            guard let platformName = platformName else { return }
-            feedbackSubtitleLabel.attributedText = textStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.support(platformName: platformName)).setLineSpacing(lineSpacing)
+            feedbackSubtitleLabel.attributedText = textStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.feedback)
         }
     }
     
@@ -1191,7 +1193,8 @@ class HelpCell: UITableViewCell {
     private lazy var supportSubtitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = textStyle.attributedString(withText: Strings.ProfileOptions.Help.Message.feedback).setLineSpacing(lineSpacing)
+        label.attributedText = textStyle.attributedString(withText:
+                                                            Strings.ProfileOptions.Help.Message.support(platformName: platformName ?? "")).setLineSpacing(lineSpacing)
         label.accessibilityIdentifier = "HelpCell:support-subtitle-label"
         return label
     }()

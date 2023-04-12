@@ -20,6 +20,8 @@ fileprivate struct NotificationObserver {
     var observer: Removable
 }
 
+private let videosDownloadSwitchValueKey = "videosDownloadSwitchValueKey"
+
 class CourseVideosHeaderView: UIView {
     
     typealias Environment =  OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
@@ -163,7 +165,7 @@ class CourseVideosHeaderView: UIView {
     
     // MARK: - Properties -
     private var toggledOn: Bool {
-        return state == .downloading || state == .downloaded
+        return state == .downloading || state == .downloaded || UserDefaults.standard.bool(forKey: videosDownloadSwitchValueKey)
     }
     
     private var title: String {
@@ -256,7 +258,9 @@ class CourseVideosHeaderView: UIView {
     fileprivate func addObserver(notification: Notification.Name) {
         let observer = NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (notification, observer, _) -> Void in
             if observer.toggledOn {
-                observer.refreshView()
+                DispatchQueue.main.async {
+                    observer.refreshView()
+                }
             }
         }
         let notificationObserver = NotificationObserver(notification: notification, observer: observer)
@@ -309,7 +313,12 @@ class CourseVideosHeaderView: UIView {
         toggleAction?.cancel()
         if toggleSwitch.isOn {
             if (environment.interface?.canDownload() ?? false) {
-                toggleAction = DispatchWorkItem { [weak self] in self?.startDownloading() }
+                toggleAction = DispatchWorkItem { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.startDownloading()
+                    }
+                    
+                }
                 if let task = toggleAction {
                     DispatchQueue.main.async(execute: task)
                 }
@@ -338,6 +347,8 @@ class CourseVideosHeaderView: UIView {
                 self?.refreshView()
             }
             else {
+                UserDefaults.standard.set(true, forKey: videosDownloadSwitchValueKey)
+                UserDefaults.standard.synchronize()
                 if let owner = self {
                     owner.environment.analytics.trackBulkDownloadToggle(isOn: owner.toggleSwitch.isOn, courseID: owner.bulkDownloadHelper.course.course_id ?? "", totalVideosCount: owner.videos.count, remainingVideosCount: owner.bulkDownloadHelper.newVideosCount, blockID: owner.blockID)
                 }
@@ -346,9 +357,13 @@ class CourseVideosHeaderView: UIView {
     }
     
     private func stopAndDeleteDownloads() {
+        UserDefaults.standard.set(false, forKey: videosDownloadSwitchValueKey)
+        UserDefaults.standard.synchronize()
         environment.interface?.deleteDownloadedVideos(videos) { [weak self] _ in
-            self?.toggleAction = nil
-            self?.refreshView()
+            DispatchQueue.main.async {
+                self?.toggleAction = nil
+                self?.refreshView()
+            }
         }
     }
     

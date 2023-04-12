@@ -436,22 +436,6 @@
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Ders tarihleri şu an mevcut değil.";
-/* Label for date when course starts */
-"COURSE.STARTING" = "Başlangıç {start_date}";
-/* Label for date when course end */
-"COURSE.ENDING" = "Bitiş {end_date}";
-/* Label indicated that a course has ended */
-"COURSE.ENDED"="Bitti {end_date}";
-/* Course audit will expires on date*/
-"COURSE.AUDIT.EXPIRES_ON" = "Derse erişim {expiry_date} tarihinde sona eriyor";
-/* Course audit will expires in {time_duration}*/
-"COURSE.AUDIT.EXPIRES_IN" = "Derse erişim {time_duration} sonra sona erecek";
-/* Course audit expired n days ago*/
-"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Derse erişim {days} gün önce sona erdi";
-/* Course audit expired in less than 24 hours*/
-"COURSE.AUDIT.EXPIRED_AGO" = "Derse erişim {time_duaration} tarihinde sona erdi";
-/* Course audit expired on date*/
-"COURSE.AUDIT.EXPIRED_ON" = "Derse erişim {expiry_date} tarihinde sona erdi";
 /* Course audit expiry in n number of days*/
 "COURSE.AUDIT.DAYS" = "{days} gün";
 /* 1 hour remaining in course audit expiry*/

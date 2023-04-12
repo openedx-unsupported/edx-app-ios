@@ -400,23 +400,25 @@ static OEXInterface* _sharedInterface = nil;
         return 0;
     }
     
-    NSInteger count = 0;
+    __block NSInteger count = 0;
     __block NSInteger downloadStartedCount = 0;
-    for(OEXHelperVideoDownload* video in array) {
-        if(video.summary.downloadURL.length > 0 && video.downloadState == OEXDownloadStateNew) {
-            [self downloadAllTranscriptsForVideo:video];
-            [self addVideoForDownload:video completionHandler:^(BOOL success){
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        for(OEXHelperVideoDownload* video in array) {
+            if(video.summary.downloadURL.length > 0 && video.downloadState == OEXDownloadStateNew) {
+                [self downloadAllTranscriptsForVideo:video];
+                [self addVideoForDownload:video completionHandler:^(BOOL success){
+                    downloadStartedCount++;
+                    if (array.count == downloadStartedCount) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadStartedNotification object:nil];
+                    }
+                }];
+                count++;
+            }
+            else {
                 downloadStartedCount++;
-                if (array.count == downloadStartedCount) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadStartedNotification object:nil];
-                }
-            }];
-            count++;
+            }
         }
-        else {
-            downloadStartedCount++;
-        }
-    }
+    });
     if (downloadVideosCompletionHandler) {
         downloadVideosCompletionHandler(false);
         downloadVideosCompletionHandler = nil;

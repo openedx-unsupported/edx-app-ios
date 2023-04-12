@@ -436,22 +436,6 @@
 "COURSE_CONTENT_GATED"= "Non disponible sur mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Aucune date de cours disponible.";
-/* Label for date when course starts */
-"COURSE.STARTING" = "Commence le {start_date}";
-/* Label for date when course end */
-"COURSE.ENDING" = "Se termine le {end_date}";
-/* Label indicated that a course has ended */
-"COURSE.ENDED"="Terminé le {end_date}";
-/* Course audit will expires on date*/
-"COURSE.AUDIT.EXPIRES_ON" = "L'accès au cours expire le {expiry_date}";
-/* Course audit will expires in {time_duration}*/
-"COURSE.AUDIT.EXPIRES_IN" = "L'accès au cours expire dans {time_duration}";
-/* Course audit expired n days ago*/
-"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "L'accès au cours a expiré il y a {days} jours";
-/* Course audit expired in less than 24 hours*/
-"COURSE.AUDIT.EXPIRED_AGO" = "Course access expired {time_duaration}";
-/* Course audit expired on date*/
-"COURSE.AUDIT.EXPIRED_ON" = "L'accès au cours a expiré le {expiry_date}";
 /* Course audit expiry in n number of days*/
 "COURSE.AUDIT.DAYS" = "{days} jours";
 /* 1 hour remaining in course audit expiry*/

@@ -425,26 +425,6 @@
 "COURSE_CONTENT_UNKNOWN" = "此组件在手机上不可用。\n\n请浏览此课程的其他部分或在网页中观看。";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="课程日期当前不可用。";
-/* Label for date when course starts */
-"COURSE.STARTING" = "开始于 {start_date}";
-/* Label for date when course end */
-"COURSE.ENDING" = "结束于 {end_date}";
-/* Message shown when attempting to display content not available on the app, from dates tab */
-"COURSE_CONTENT_NOT_AVAILABLE" = "该互动组件尚无法在移动设备上使用";
-/* Message shown when course content is gated */
-"COURSE_CONTENT_GATED"= "Not available on Mobile";
-/* Label indicated that a course has ended */
-"COURSE.ENDED"="已结束 {end_date}";
-/* Course audit will expires on date*/
-"COURSE.AUDIT.EXPIRES_ON" = "课程访问过期于 {expiry_date}";
-/* Course audit will expires in {time_duration}*/
-"COURSE.AUDIT.EXPIRES_IN" = "课程访问有效期 {time_duration}";
-/* Course audit expired n days ago*/
-"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "课程访问已于 {days} 天前过期";
-/* Course audit expired in less than 24 hours*/
-"COURSE.AUDIT.EXPIRED_AGO" = "课程访问有效期剩余 {time_duaration}";
-/* Course audit expired on date*/
-"COURSE.AUDIT.EXPIRED_ON" = "课程访问已过期于 {expiry_date}";
 /* Course audit expiry in n number of days*/
 "COURSE.AUDIT.DAYS" = "{days} 天";
 /* 1 hour remaining in course audit expiry*/

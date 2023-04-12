@@ -136,6 +136,10 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         
         refreshController.setupInScrollView(scrollView: tableView)
         setAccessibilityIdentifiers()
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXDownloadDeleted.rawValue) { _, observer, _ in
+            observer.tableView.reloadData()
+        }
     }
     
     private func configureNewHeaderView() {
@@ -531,8 +535,15 @@ extension CourseOutlineTableController {
     
     func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
         if environment.config.isNewDashboardEnabled { return }
-        courseDateBannerView.bannerInfo = bannerInfo
-        updateCourseDateBannerView(show: true)
+       
+        if canShowValueProp && bannerInfo.status == .resetDatesBanner {
+            courseDateBannerView.bannerInfo = bannerInfo
+            updateCourseDateBannerView(show: true)
+        }
+        else if !canShowValueProp {
+            courseDateBannerView.bannerInfo = bannerInfo
+            updateCourseDateBannerView(show: true)
+        }
     }
     
     func hideCourseDateBanner() {

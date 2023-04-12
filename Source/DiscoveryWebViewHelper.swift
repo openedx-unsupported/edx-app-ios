@@ -34,7 +34,7 @@ class DiscoveryWebViewHelper: NSObject {
         return (webView.url as NSURL?)?.oex_queryParameters() as? [String : String]
     }
     
-    private var bottomSpace: CGFloat {
+    private var bottomBarHeight: CGFloat {
         //TODO: this should be the height of bottomBar but for now giving it static value as the NSCopying making new object's frame as zero
         return 90
     }
@@ -57,10 +57,7 @@ class DiscoveryWebViewHelper: NSObject {
         guard let container = delegate?.webViewContainingController() else { return }
         container.view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
-            make.top.equalTo(0)
-            make.trailing.equalTo(container.view)
-            make.leading.equalTo(container.view)
-            make.bottom.equalTo(container.view)
+            make.edges.equalTo(container.safeEdges)
         }
         loadController.setupInController(controller: container, contentView: contentView)
         refreshController.setupInScrollView(scrollView: webView.scrollView)
@@ -81,6 +78,7 @@ class DiscoveryWebViewHelper: NSObject {
                 make.leading.equalTo(contentView)
                 make.trailing.equalTo(contentView)
                 make.bottom.equalTo(contentView)
+                make.height.equalTo(bottomBarHeight)
             }
         }
 
@@ -89,12 +87,7 @@ class DiscoveryWebViewHelper: NSObject {
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)
             make.top.equalTo(contentView)
-            if !isUserLoggedIn {
-                make.bottom.equalTo(contentView).offset(-bottomSpace)
-            }
-            else {
-                make.bottom.equalTo(contentView)
-            }
+            make.bottom.equalTo(contentView)
         }
 
         addObserver()
@@ -199,7 +192,12 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
         } else {
             let capturedLink = navigationAction.navigationType == .linkActivated
             let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
-            if let url = request.url, outsideLink || capturedLink {
+            var externalLink = false
+            if let queryParameters = request.url?.queryParameters, let externalLinkValue = queryParameters["external_link"] as? String, externalLinkValue.caseInsensitiveCompare("true") == .orderedSame {
+                externalLink = true
+            }
+            
+            if let url = request.url, outsideLink || capturedLink || externalLink {
                 guard let contrller = delegate?.webViewContainingController(), UIApplication.shared.canOpenURL(url) else {
                     decisionHandler(.cancel)
                     return
