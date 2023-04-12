@@ -1,58 +1,52 @@
 /* Message shown when course content is gated, prompt user how to unlock */
-"COURSE_UPGRADE.LEARN_HOW_TO_UNLOCK"= "Unlock graded assignments";
+"COURSE_UPGRADE.LEARN_HOW_TO_UNLOCK"= "Schalten Sie benotete Aufgaben frei";
 /* Title for dialog when email client is not configured */
 "COURSE_UPGRADE.EMAIL_NOT_SETUP_TITLE"= "Email not set up";
 /* Message for dialog when email client is not configured */
 "COURSE_UPGRADE.EMAIL_NOT_SETUP_MESSAGE"= "Your email is not set up on this device. Please reach out to {email} for support processing your payment.";
 /*Course upgrade success message*/
-"COURSE_UPGRADE.SUCCESS_MESSAGE"="Thank you for your purchase. Enjoy full access to your course!";
+"COURSE_UPGRADE.SUCCESS_MESSAGE"="Danke für Ihren Einkauf. Genießen Sie vollen Zugriff auf Ihren Kurs!";
 /*Course upgrade success alert title*/
 "COURSE_UPGRADE.SUCCESS_ALERT.TITLE"="Upgrade abgeschlossen";
 /*Course upgrade success alert message*/
 "COURSE_UPGRADE.SUCCESS_ALERT.MESSAGE"="Danke für Ihren Einkauf. Sie können genau dort weitermachen, wo Sie aufgehört haben, und vollen Zugriff auf Ihre Kursinhalte haben.";
 /*Course upgrade success alert continue button title*/
-"COURSE_UPGRADE.SUCCESS_ALERT.CONTINUE_BUTTON_TITLE"="Continue";
+"COURSE_UPGRADE.SUCCESS_ALERT.CONTINUE_BUTTON_TITLE"="Fortfahren";
 /*Alert title in case, the course upgraded silently on app relaunch*/
-"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_TITLE"="New experience available";
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_TITLE"="Neue Erfahrung verfügbar";
 /*Alert messages in case, the course upgraded silently on app relaunch*/
-"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_MESSAGE"="An update is available to unlock a purchased course. To update, we need to quickly refresh your app. If you choose not to update now, we’ll try again later.";
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_MESSAGE"="Es ist ein Update verfügbar, um einen gekauften Kurs freizuschalten. Zum Aktualisieren müssen wir Ihre App schnell aktualisieren. Wenn Sie sich jetzt gegen eine Aktualisierung entscheiden, versuchen wir es später erneut.";
 /*Alert button title for refreh the data in case, the course upgraded silently on app relaunch*/
-"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_REFRESH"="Refresh now";
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_REFRESH"="Jetzt aktualisieren";
 /*Alert button title to continue in case, the course upgraded silently on app relaunch*/
-"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_CONTINUE"="Continue without update";
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_CONTINUE"="Weiter ohne Update";
 /*Course upgrade failure alert title*/
-"COURSE_UPGRADE.FAILURE_ALERT.ALERT_TITLE"="An error occurred";
+"COURSE_UPGRADE.FAILURE_ALERT.ALERT_TITLE"="Es ist ein Fehler aufgetreten";
 /*Course upgrade failure alert message*/
-"COURSE_UPGRADE.FAILURE_ALERT.GENERAL_ERROR_MESSAGE"="It looks like something went wrong when upgrading your course.";
-/*Course upgrade failure alert get help button title*/
-"COURSE_UPGRADE.FAILURE_ALERT_GET_HELP"="Get help";
+"COURSE_UPGRADE.FAILURE_ALERT.GENERAL_ERROR_MESSAGE"="Anscheinend ist beim Upgrade Ihres Kurses etwas schief gelaufen. Wenn dieser Fehler weiterhin besteht, wenden Sie sich bitte an den Support.";
 /*Authentication error in course upgrade API's add basket, checkout, execute*/
-"COURSE_UPGRADE.FAILURE_ALERT.AUTHENTICATION_ERROR_MESSAGE"="Your account could not be authenticated. Try signing out and signing back into the app. If this error continues, please contact Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.AUTHENTICATION_ERROR_MESSAGE"="Ihr Konto konnte nicht authentifiziert werden. Versuchen Sie, sich von der App abzumelden und wieder anzumelden. Wenn dieser Fehler weiterhin besteht, wenden Sie sich bitte an den Support.";
 /*Course didn't found againt the course sku in the course upgrade API's add basket, checkout, execute*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FOUNT"="The course you are looking to upgrade could not be found. Please try your upgrade again. If this error continues, contact Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FOUNT"="Der Kurs, den Sie aktualisieren möchten, konnte nicht gefunden werden. Bitte versuchen Sie Ihr Upgrade erneut. Wenn dieser Fehler weiterhin besteht, wenden Sie sich an den Support.";
 /*The course is already upgraded*/
 "COURSE_UPGRADE.FAILURE_ALERT.COURSE_ALREADY_PAID"="The course you are looking to upgrade has already been paid for. For additional help, reach out to Support.";
 /*Course sku or the payment processor didn't found*/
-"COURSE_UPGRADE.FAILURE_ALERT.PAYMENT_NOT_PROCESSED"="Your payment could not be processed at this time. Please try again. For additional help, reach out to Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.PAYMENT_NOT_PROCESSED"="Ihre Zahlung konnte derzeit nicht verarbeitet werden. Bitte versuchen Sie es erneut. Wenden Sie sich für weitere Hilfe an den Support.";
 /*The native payment is complete but an error errored while marking the course verified*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FULLFILLED"="Something happened when we tried to update your course experience. If this error continues, reach out to Support for help.";
+"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FULLFILLED"="Beim Versuch, Ihre Kurserfahrung zu aktualisieren, ist etwas schiefgelaufen. Wenn dieser Fehler weiterhin auftritt, wenden Sie sich an den Support, um Hilfe zu erhalten.";
 /*App is not able to fetch the price from the app store*/
-"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR_MESSAGE"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR_MESSAGE"="Ihre Anfrage konnte derzeit nicht abgeschlossen werden. Wenn dieser Fehler weiterhin auftritt, wenden Sie sich bitte an den Support.";
 /*Try again button on the failure alert to re-fetch the price from the app store*/
-"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR"="Try again";
+"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR"="Versuchen Sie es noch einmal";
 /*Try again button on the failure alert to retry the course upgrade after the successful payment*/
-"COURSE_UPGRADE.FAILURE_ALERT.REFRESH_TO_RETRY"="Refresh to retry";
-/*Try again button on the failure alert to retry the course upgrade after the successful payment*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_PRICE_ERROR"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
-/*The course was paid by the on the device with same app store user but from a different app user*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_ALREADY_PAID"="The course you are looking to upgrade has already been paid for on this device by the associated Apple ID. For additional help, reach out to Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.REFRESH_TO_RETRY"="Aktualisieren, um es erneut zu versuchen";
 /*Course upgrade failure alert get help button title*/
-"COURSE_UPGRADE.FAILURE_ALERT.GET_HELP"="Get help";
+"COURSE_UPGRADE.FAILURE_ALERT.GET_HELP"="Hilfe bekommen";
 /*Get support e-mail subject in the payment error flow*/
-"COURSE_UPGRADE.GET_SUPPORT_EMAIL_SUBJECT"="Error upgrading course in app";
+"COURSE_UPGRADE.GET_SUPPORT_EMAIL_SUBJECT"="Fehler beim Aktualisieren des Kurses in der App";
 /*Title of the restore alert when show a success alert*/
-"COURSE_UPGRADE.RESTORE.ALERT_TITLE"="Purchases have been successfully restored";
+"COURSE_UPGRADE.RESTORE.ALERT_TITLE"="Käufe wurden erfolgreich wiederhergestellt";
 /*Message of the restore alert when show a success alert*/
-"COURSE_UPGRADE.RESTORE.ALERT_MESSAGE"="All purchases are up to date. If you’re not seeing your purchases restored, please try restarting your app to refresh the experience.";
+"COURSE_UPGRADE.RESTORE.ALERT_MESSAGE"="Alle Käufe sind aktuell. Wenn Ihre Einkäufe nicht wiederhergestellt werden, versuchen Sie bitte, Ihre App neu zu starten, um die Erfahrung zu aktualisieren.";
 /*Title of the inprogress indicator in restore purchases flow*/
-"COURSE_UPGRADE.RESTORE.INPROGRESS_TEXT"="Checking purchases...";
+"COURSE_UPGRADE.RESTORE.INPROGRESS_TEXT"="Einkäufe prüfen...";
