@@ -410,7 +410,7 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorViewDelega
                 break
                 
             case .verify:
-                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment)
+                weakSelf.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment(showLoader: true))
                 break
                 
             case .complete:
