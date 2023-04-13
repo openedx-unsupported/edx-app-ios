@@ -922,13 +922,13 @@
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "个人资料";
 /* Value prop unlocking content */
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "正在解锁 所有权限 访问您的课程";
 /* Value prop unlocking content part one*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "Unlocking";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "正在解锁";
 /* Value prop unlocking content part two*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "full access";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "所有权限";
 /* Value prop unlocking content part three*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "访问您的课程";
 /* Value prop upgrade text */
 "VALUE_PROP.UPGRADE"= "升级{course_name}的访问模式";
 /* Value prop upgrade button text with price */

@@ -942,13 +942,13 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Perfil";
 /* Value prop unlocking content */
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Desbloqueando acesso total para o seu curso";
 /* Value prop unlocking content part one*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "Unlocking";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "Desbloqueando";
 /* Value prop unlocking content part two*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "full access";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "acesso total";
 /* Value prop unlocking content part three*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "para o seu curso";
 /* Value prop upgrade text */
 "VALUE_PROP.UPGRADE"= "Atualizar {course_name}";
 /* Value prop upgrade button text with price */

@@ -965,13 +965,13 @@
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "פרופיל";
 /* Value prop unlocking content */
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "הגישה המלאה לקורס שלך מתבצעת";
 /* Value prop unlocking content part one*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "Unlocking";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "הגישה המלאה";
 /* Value prop unlocking content part two*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "full access";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "לקורס שלך";
 /* Value prop unlocking content part three*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "מתבצעת";
 /* Value prop upgrade text */
 "VALUE_PROP.UPGRADE"= "שדרג את {course_name}";
 /* Value prop upgrade button text with price */

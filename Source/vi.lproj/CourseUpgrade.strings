@@ -1,58 +1,52 @@
 /* Message shown when course content is gated, prompt user how to unlock */
-"COURSE_UPGRADE.LEARN_HOW_TO_UNLOCK"= "Unlock graded assignments";
+"COURSE_UPGRADE.LEARN_HOW_TO_UNLOCK"= "Mở khóa bài tập đã chấm điểm";
 /* Title for dialog when email client is not configured */
 "COURSE_UPGRADE.EMAIL_NOT_SETUP_TITLE"= "Email not set up";
 /* Message for dialog when email client is not configured */
 "COURSE_UPGRADE.EMAIL_NOT_SETUP_MESSAGE"= "Your email is not set up on this device. Please reach out to {email} for support processing your payment.";
 /*Course upgrade success message*/
-"COURSE_UPGRADE.SUCCESS_MESSAGE"="Thank you for your purchase. Enjoy full access to your course!";
+"COURSE_UPGRADE.SUCCESS_MESSAGE"="Cảm ơn bạn đã mua khóa học. Hãy tận hưởng toàn quyền truy cập vào khóa học của bạn!";
 /*Course upgrade success alert title*/
 "COURSE_UPGRADE.SUCCESS_ALERT.TITLE"="Hoàn thành nâng cấp";
 /*Course upgrade success alert message*/
 "COURSE_UPGRADE.SUCCESS_ALERT.MESSAGE"="Cảm ơn bạn đã mua. Bạn có thể tiếp tục từ nơi bạn đã bở dở và tận hưởng quyền truy cập toàn bộ nội dung khóa học.";
 /*Course upgrade success alert continue button title*/
-"COURSE_UPGRADE.SUCCESS_ALERT.CONTINUE_BUTTON_TITLE"="Continue";
+"COURSE_UPGRADE.SUCCESS_ALERT.CONTINUE_BUTTON_TITLE"="Tiếp tục";
 /*Alert title in case, the course upgraded silently on app relaunch*/
-"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_TITLE"="New experience available";
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_TITLE"="Trải nghiệm mới có sẵn";
 /*Alert messages in case, the course upgraded silently on app relaunch*/
-"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_MESSAGE"="An update is available to unlock a purchased course. To update, we need to quickly refresh your app. If you choose not to update now, we’ll try again later.";
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_MESSAGE"="Đã có bản cập nhật để mở khóa khóa học đã mua. Để cập nhật, chúng tôi cần nhanh chóng làm mới ứng dụng của bạn. Nếu bạn chọn không cập nhật ngay bây giờ, chúng tôi sẽ thử lại sau.";
 /*Alert button title for refreh the data in case, the course upgraded silently on app relaunch*/
-"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_REFRESH"="Refresh now";
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_REFRESH"="Làm mới ngay";
 /*Alert button title to continue in case, the course upgraded silently on app relaunch*/
-"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_CONTINUE"="Continue without update";
+"COURSE_UPGRADE.SUCCESS_ALERT.SILENT_ALERT_CONTINUE"="Tiếp tục mà không cập nhật";
 /*Course upgrade failure alert title*/
-"COURSE_UPGRADE.FAILURE_ALERT.ALERT_TITLE"="An error occurred";
+"COURSE_UPGRADE.FAILURE_ALERT.ALERT_TITLE"="Đã xảy ra lỗi";
 /*Course upgrade failure alert message*/
-"COURSE_UPGRADE.FAILURE_ALERT.GENERAL_ERROR_MESSAGE"="It looks like something went wrong when upgrading your course.";
-/*Course upgrade failure alert get help button title*/
-"COURSE_UPGRADE.FAILURE_ALERT_GET_HELP"="Get help";
+"COURSE_UPGRADE.FAILURE_ALERT.GENERAL_ERROR_MESSAGE"="Có vẻ như đã xảy ra lỗi khi nâng cấp khóa học của bạn. Nếu lỗi này vẫn tiếp diễn, vui lòng liên hệ Hỗ trợ.";
 /*Authentication error in course upgrade API's add basket, checkout, execute*/
-"COURSE_UPGRADE.FAILURE_ALERT.AUTHENTICATION_ERROR_MESSAGE"="Your account could not be authenticated. Try signing out and signing back into the app. If this error continues, please contact Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.AUTHENTICATION_ERROR_MESSAGE"="Tài khoản của bạn không thể xác thực. Hãy thử đăng xuất và đăng nhập lại vào ứng dụng. Nếu lỗi này vẫn tiếp diễn, vui lòng liên hệ Hỗ trợ.";
 /*Course didn't found againt the course sku in the course upgrade API's add basket, checkout, execute*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FOUNT"="The course you are looking to upgrade could not be found. Please try your upgrade again. If this error continues, contact Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FOUNT"="Không tìm thấy khóa học bạn muốn nâng cấp. Vui lòng thử nâng cấp lại. Nếu lỗi này vẫn tiếp diễn, vui lòng liên hệ Hỗ trợ.";
 /*The course is already upgraded*/
 "COURSE_UPGRADE.FAILURE_ALERT.COURSE_ALREADY_PAID"="The course you are looking to upgrade has already been paid for. For additional help, reach out to Support.";
 /*Course sku or the payment processor didn't found*/
-"COURSE_UPGRADE.FAILURE_ALERT.PAYMENT_NOT_PROCESSED"="Your payment could not be processed at this time. Please try again. For additional help, reach out to Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.PAYMENT_NOT_PROCESSED"="Thanh toán của bạn không thể được xử lý vào lúc này. Vui lòng thử lại. Để được trợ giúp thêm, vui lòng liên hệ Hỗ trợ.";
 /*The native payment is complete but an error errored while marking the course verified*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FULLFILLED"="Something happened when we tried to update your course experience. If this error continues, reach out to Support for help.";
+"COURSE_UPGRADE.FAILURE_ALERT.COURSE_NOT_FULLFILLED"="Đã xảy ra sự cố khi chúng tôi cố gắng cập nhật trải nghiệm khóa học của bạn. Nếu lỗi này vẫn tiếp diễn, vui lòng liên hệ Hỗ trợ để được trợ giúp.";
 /*App is not able to fetch the price from the app store*/
-"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR_MESSAGE"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR_MESSAGE"="Yêu cầu của bạn không thể được hoàn thành tại thời điểm này. Nếu lỗi này vẫn tiếp diễn, vui lòng liên hệ Hỗ trợ.";
 /*Try again button on the failure alert to re-fetch the price from the app store*/
-"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR"="Try again";
+"COURSE_UPGRADE.FAILURE_ALERT.PRICE_FETCH_ERROR"="Thử lại";
 /*Try again button on the failure alert to retry the course upgrade after the successful payment*/
-"COURSE_UPGRADE.FAILURE_ALERT.REFRESH_TO_RETRY"="Refresh to retry";
-/*Try again button on the failure alert to retry the course upgrade after the successful payment*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_PRICE_ERROR"="Your request could not be completed at this time. If this error continues, please reach out to Support.";
-/*The course was paid by the on the device with same app store user but from a different app user*/
-"COURSE_UPGRADE.FAILURE_ALERT.COURSE_ALREADY_PAID"="The course you are looking to upgrade has already been paid for on this device by the associated Apple ID. For additional help, reach out to Support.";
+"COURSE_UPGRADE.FAILURE_ALERT.REFRESH_TO_RETRY"="Làm mới để thử lại";
 /*Course upgrade failure alert get help button title*/
-"COURSE_UPGRADE.FAILURE_ALERT.GET_HELP"="Get help";
+"COURSE_UPGRADE.FAILURE_ALERT.GET_HELP"="Nhận trợ giúp";
 /*Get support e-mail subject in the payment error flow*/
-"COURSE_UPGRADE.GET_SUPPORT_EMAIL_SUBJECT"="Error upgrading course in app";
+"COURSE_UPGRADE.GET_SUPPORT_EMAIL_SUBJECT"="Lỗi nâng cấp khóa học trong ứng dụng";
 /*Title of the restore alert when show a success alert*/
-"COURSE_UPGRADE.RESTORE.ALERT_TITLE"="Purchases have been successfully restored";
+"COURSE_UPGRADE.RESTORE.ALERT_TITLE"="Các giao dịch mua đã được khôi phục thành công";
 /*Message of the restore alert when show a success alert*/
-"COURSE_UPGRADE.RESTORE.ALERT_MESSAGE"="All purchases are up to date. If you’re not seeing your purchases restored, please try restarting your app to refresh the experience.";
+"COURSE_UPGRADE.RESTORE.ALERT_MESSAGE"="Tất cả các giao dịch mua đều được cập nhật. Nếu bạn không thấy giao dịch mua của mình được khôi phục, vui lòng thử khởi động lại ứng dụng để làm mới trải nghiệm.";
 /*Title of the inprogress indicator in restore purchases flow*/
-"COURSE_UPGRADE.RESTORE.INPROGRESS_TEXT"="Checking purchases...";
+"COURSE_UPGRADE.RESTORE.INPROGRESS_TEXT"="Đang kiểm tra giao dịch mua khóa học...";
