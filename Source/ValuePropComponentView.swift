@@ -101,7 +101,7 @@ class ValuePropComponentView: UIView {
         
         container.addShadow(offset: CGSize(width: 0, height: 2), color: OEXStyles.shared().primaryDarkColor(), radius: 2, opacity: 0.35, cornerRadius: 5)
         
-        fetchCoursePrice()
+//        fetchCoursePrice()
     }
 
     private func setupViews() {

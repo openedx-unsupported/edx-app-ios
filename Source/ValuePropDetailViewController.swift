@@ -98,7 +98,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         addObserver()
         configureView()
-        fetchCoursePrice()
+//        fetchCoursePrice()
     }
 
     private func fetchCoursePrice() {
