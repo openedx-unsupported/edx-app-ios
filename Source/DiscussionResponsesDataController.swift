@@ -12,6 +12,14 @@ class DiscussionResponsesDataController: NSObject {
  
     var responses: [DiscussionComment] = []
     var endorsedResponses: [DiscussionComment] = []
+    var renderedResponses: [String : NSAttributedString] = [:]
+    
+    /// pre render and save the response body for smoothness 
+    func renderAndSaveBody(with style: OEXTextStyle?, responses: [DiscussionComment]) {
+        for response in responses {
+            renderedResponses[response.commentID] = style?.markdownString(withText: response.renderedBody)
+        }
+    }
     
     /// "Given a new comment, looks through responses and increments the childCount of the parent of that comment."
     func addedChildComment(comment: DiscussionComment) {
