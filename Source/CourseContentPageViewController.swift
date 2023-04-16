@@ -102,7 +102,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setToolbarHidden(true, animated: animated)
+        if environment.config.isNewDashboardEnabled == false {
+            navigationController?.setToolbarHidden(true, animated: animated)
+        }
         removeObservers()
     }
     
@@ -213,14 +215,28 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
         switch direction {
         case .Next:
-            titleText = isGroup ? Strings.nextUnit : Strings.next
+            if environment.config.isNewDashboardEnabled {
+                titleText = Strings.next
+            } else {
+                titleText = isGroup ? Strings.nextUnit : Strings.next
+            }
             moveDirection = .forward
         case .Prev:
-            titleText = isGroup ? Strings.previousUnit : Strings.previous
+            if environment.config.isNewDashboardEnabled {
+                titleText = Strings.previous
+            } else {
+                titleText =  isGroup ? Strings.previousUnit : Strings.previous
+            }
             moveDirection = .reverse
         }
         
-        let destinationText = adjacentGroup?.displayName
+        let destinationText: String?
+        
+        if environment.config.isNewDashboardEnabled {
+            destinationText = nil
+        } else {
+            destinationText = adjacentGroup?.displayName
+        }
         
         let view = DetailToolbarButton(direction: direction, titleText: titleText, destinationText: destinationText) {[weak self] in
             self?.moveInDirection(direction: moveDirection)

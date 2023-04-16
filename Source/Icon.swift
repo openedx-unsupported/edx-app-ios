@@ -92,6 +92,7 @@ public enum Icon {
     case ArrowUp
     case ArrowDown
     case ArrowForward
+    case ArrowBack
     case Camera
     case ChevronRight
     case Close
@@ -182,6 +183,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .arrowDownward)
         case .ArrowForward:
             return MaterialIconRenderer(icon: .arrowForward)
+        case .ArrowBack:
+            return MaterialIconRenderer(icon: .arrowBackiOS)
         case .Account:
             return MaterialIconRenderer(icon: .moreVert)
         case .Camera:

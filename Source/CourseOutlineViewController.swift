@@ -346,24 +346,33 @@ public class CourseOutlineViewController :
     }
     
     private func handleNavigationIfNeeded() {
-        if let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel {
-            courseUpgradeHelper.resetUpgradeModel()
-
-            if courseUpgradeModel.screen == .courseDashboard {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                    self?.courseUpgradeHelper.removeLoader(success: true, removeView: true)
-                }
-            } else if courseUpgradeModel.screen == .courseComponent, let blockID = courseUpgradeModel.blockID {
-                environment.router?.navigateToComponentScreen(from: self, courseID: courseUpgradeModel.courseID, componentID: blockID) { _ in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                        self?.courseUpgradeHelper.removeLoader(success: true, removeView: true)
-                    }
-                }
-            }
-        } else {
+        guard let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel else {
             // navigation from deeplink
             navigateToComponentScreenIfNeeded()
+            return
         }
+        
+        courseUpgradeHelper.resetUpgradeModel()
+        
+        switch courseUpgradeModel.screen {
+        case .courseDashboard:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                self?.removeLoader()
+            }
+        case .courseComponent:
+            guard let blockID = courseUpgradeModel.blockID else { return }
+            environment.router?.navigateToComponentScreen(from: self, courseID: courseUpgradeModel.courseID, componentID: blockID) { _ in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                    self?.removeLoader()
+                }
+            }
+        default:
+            break
+        }
+    }
+
+    private func removeLoader() {
+        courseUpgradeHelper.removeLoader(success: true, removeView: true)
     }
     
     private func loadBackedStreams() {

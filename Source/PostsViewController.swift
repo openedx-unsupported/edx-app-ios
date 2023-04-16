@@ -8,9 +8,12 @@
 
 import UIKit
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding, DiscussionNewPostViewControllerDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding, DiscussionNewPostViewControllerDelegate, ScrollableDelegateProvider {
 
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
+    
+    weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
     
     enum Context {
         case Topic(DiscussionTopic)
@@ -733,3 +736,18 @@ extension PostsViewController {
     }
 }
 
+extension PostsViewController {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
+    }
+}

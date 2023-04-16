@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
+class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController, ScrollableDelegateProvider {
 
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider
     
@@ -31,6 +31,9 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
 
     private lazy var openInBrowserView = OpenInExternalBrowserView(frame: .zero)
     
+    weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
+    
     public init(blockID: CourseBlockID?, courseID: String, environment: Environment, subkind: CourseHTMLBlockSubkind) {
         self.courseID = courseID
         self.blockID = blockID
@@ -43,6 +46,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
 
         webController.delegate = self
         webController.ajaxCallbackDelegate = self
+        webController.scrollView.delegate = self
         
         addObserver()
         setupViews()
@@ -305,5 +309,21 @@ extension HTMLBlockViewController: OpenInExternalBrowserViewDelegate, BrowserVie
     // on the in-app browser screen, the learner get updated experience on the component as well
     func didDismissBrowser() {
         loadWebviewStream(true)
+    }
+}
+
+extension HTMLBlockViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }
