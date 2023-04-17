@@ -71,7 +71,7 @@ extension OEXRouter {
     }
     
     func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID, completion: ((UIViewController) -> Void)? = nil) {
-        if environment.config.isNewDashboardEnabled {
+        if environment.config.isNewComponentNavigationEnabled {
            // TODO: Handle navigation to component screen in new course dashboard
         } else {
             navigateToComponentScreenOld(from: controller, courseID: courseID, componentID: componentID, completion: completion)
@@ -117,7 +117,7 @@ extension OEXRouter {
     }
     
     func showContainerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: ((UIViewController) -> Void)? = nil) {
-        if environment.config.isNewDashboardEnabled {
+        if environment.config.isNewComponentNavigationEnabled {
             let contentController = NewCourseContentController(environment: environment, blockID: blockID, parentID: parentID, courseID: courseID)
             controller.navigationController?.pushViewController(contentController, animated: true, completion: completion)
         } else {

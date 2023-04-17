@@ -102,7 +102,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if environment.config.isNewDashboardEnabled == false {
+        if environment.config.isNewComponentNavigationEnabled == false {
             navigationController?.setToolbarHidden(true, animated: animated)
         }
         removeObservers()
@@ -215,14 +215,14 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
         switch direction {
         case .Next:
-            if environment.config.isNewDashboardEnabled {
+            if environment.config.isNewComponentNavigationEnabled {
                 titleText = Strings.next
             } else {
                 titleText = isGroup ? Strings.nextUnit : Strings.next
             }
             moveDirection = .forward
         case .Prev:
-            if environment.config.isNewDashboardEnabled {
+            if environment.config.isNewComponentNavigationEnabled {
                 titleText = Strings.previous
             } else {
                 titleText =  isGroup ? Strings.previousUnit : Strings.previous
@@ -232,7 +232,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
         let destinationText: String?
         
-        if environment.config.isNewDashboardEnabled {
+        if environment.config.isNewComponentNavigationEnabled {
             destinationText = nil
         } else {
             destinationText = adjacentGroup?.displayName

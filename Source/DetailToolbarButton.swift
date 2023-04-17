@@ -82,7 +82,7 @@ class DetailToolbarButton: UIView {
     }
     
     private var titleStyle : OEXTextStyle {
-        if OEXConfig.shared().isNewDashboardEnabled {
+        if OEXConfig.shared().isNewComponentNavigationEnabled {
             let style = OEXMutableTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralXDark())
             style.alignment = self.textAlignment
             style.dynamicTypeSupported = false
