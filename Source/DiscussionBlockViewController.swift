@@ -8,9 +8,15 @@
 
 import Foundation
 
-class DiscussionBlockViewController: UIViewController, CourseBlockViewController {
+class DiscussionBlockViewController: UIViewController, CourseBlockViewController, ScrollableDelegateProvider {
     
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & DataManagerProvider & OEXConfigProvider
+    
+    weak var scrollableDelegate: ScrollableDelegate? {
+        didSet {
+            postsController.scrollableDelegate = scrollableDelegate
+        }
+    }
     
     let courseID: String
     let blockID : CourseBlockID?

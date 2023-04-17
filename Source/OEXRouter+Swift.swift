@@ -71,6 +71,14 @@ extension OEXRouter {
     }
     
     func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID, completion: ((UIViewController) -> Void)? = nil) {
+        if environment.config.isNewComponentNavigationEnabled {
+           // TODO: Handle navigation to component screen in new course dashboard
+        } else {
+            navigateToComponentScreenOld(from: controller, courseID: courseID, componentID: componentID, completion: completion)
+        }
+    }
+    
+    func navigateToComponentScreenOld(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID, completion: ((UIViewController) -> Void)? = nil) {
         let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         guard let childBlock = courseQuerier.blockWithID(id: componentID).firstSuccess().value,
               let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
@@ -109,6 +117,15 @@ extension OEXRouter {
     }
     
     func showContainerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: ((UIViewController) -> Void)? = nil) {
+        if environment.config.isNewComponentNavigationEnabled {
+            let contentController = NewCourseContentController(environment: environment, blockID: blockID, parentID: parentID, courseID: courseID)
+            controller.navigationController?.pushViewController(contentController, animated: true, completion: completion)
+        } else {
+            showContainerForBlockWithIDOld(blockID: blockID, type: type, parentID: parentID, courseID: courseID, fromController: controller, forMode: mode, completion: completion)
+        }
+    }
+    
+    func showContainerForBlockWithIDOld(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: ((UIViewController) -> Void)? = nil) {
         switch type {
         case .Outline:
             fallthrough
