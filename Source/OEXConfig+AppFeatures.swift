@@ -86,4 +86,8 @@ extension OEXConfig {
     var isNewDashboardEnabled: Bool {
         return bool(forKey: "NEW_DASHBOARD_ENABLED", defaultValue: false)
     }
+    
+    var isNewComponentNavigationEnabled: Bool {
+        return bool(forKey: "NEW_COMPONENT_NAVIGATION_ENABLED", defaultValue: false)
+    }
 }
