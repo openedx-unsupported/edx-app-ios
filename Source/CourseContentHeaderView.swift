@@ -20,6 +20,8 @@ class CourseContentHeaderView: UIView {
     private let environment: Environment
     
     private let imageSize: CGFloat = 20
+    private let attributedIconOfset: CGFloat = -4
+    private let attributedUnicodeSpace = NSAttributedString(string: "\u{2002}")
     
     private lazy var titleTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.neutralWhiteT())
     private lazy var subtitleTextStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.neutralWhiteT())
@@ -39,6 +41,7 @@ class CourseContentHeaderView: UIView {
         let label = UILabel()
         label.accessibilityIdentifier = "CourseContentHeaderView:header-label"
         label.backgroundColor = .clear
+        label.alpha = 0
         return label
     }()
     
@@ -49,33 +52,48 @@ class CourseContentHeaderView: UIView {
         return label
     }()
     
-    private lazy var subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.accessibilityIdentifier = "CourseContentHeaderView:subtitle-label"
-        label.backgroundColor = .clear
-        return label
+    private lazy var subtitleView: UITextView = {
+        let textView = UITextView()
+        textView.accessibilityIdentifier = "CourseContentHeaderView:subtitle-label"
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.isUserInteractionEnabled = true
+        textView.backgroundColor = .clear
+        textView.isScrollEnabled = false
+        let padding = textView.textContainer.lineFragmentPadding
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
+        
+        let tapGesture = AttachmentTapGestureRecognizer { [weak self] _ in
+            print("yeeee")
+            //self?.delegate?.didTapOnShareCourse()
+        }
+        
+        textView.addGestureRecognizer(tapGesture)
+        
+        return textView
     }()
     
     init(environment: Environment) {
         self.environment = environment
         super.init(frame: .zero)
-        setupSubviews()
+        addSubViews()
+        addConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupSubviews() {
+    private func addSubViews() {
         backgroundColor = environment.styles.primaryLightColor()
         
         addSubview(backButton)
         addSubview(headerLabel)
         addSubview(titleLabel)
-        addSubview(subtitleLabel)
-        
-        headerLabel.alpha = 0
-        
+        addSubview(subtitleView)
+    }
+    
+    private func addConstraints() {
         backButton.snp.makeConstraints { make in
             make.leading.equalTo(self).inset(StandardHorizontalMargin * 0.86)
             make.top.equalTo(self).offset(StandardVerticalMargin * 1.25)
@@ -94,11 +112,11 @@ class CourseContentHeaderView: UIView {
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
         
-        subtitleLabel.snp.makeConstraints { make in
+        subtitleView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin / 2)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
-        }        
+        }
     }
     
     func showHeaderLabel(show: Bool) {
@@ -106,8 +124,15 @@ class CourseContentHeaderView: UIView {
     }
     
     func setup(title: String, subtitle: String?) {
-        titleLabel.attributedText = titleTextStyle.attributedString(withText: title)
         headerLabel.attributedText = titleTextStyle.attributedString(withText: title)
-        subtitleLabel.attributedText = subtitleTextStyle.attributedString(withText: subtitle)
+        titleLabel.attributedText = titleTextStyle.attributedString(withText: title)
+        
+        let subtitleTextString = [
+            subtitleTextStyle.attributedString(withText: title),
+            attributedUnicodeSpace,
+            Icon.Dropdown.attributedText(style: subtitleTextStyle, yOffset: attributedIconOfset)
+        ]
+        
+        subtitleView.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: subtitleTextString)
     }
 }
