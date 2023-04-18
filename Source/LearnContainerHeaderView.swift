@@ -124,7 +124,7 @@ class LearnContainerHeaderView: UIView {
         
         let selectedTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryBaseColor())
         selectedTextStyle.alignment = .center
-        
+        dropDown.setup()
         dropDown.accessibilityIdentifier = "LearnContainerHeaderView:drop-down-view"
         dropDown.bottomOffset = CGPoint(x: 0, y: dropDownBottomOffset)
         dropDown.direction = .bottom
@@ -132,8 +132,8 @@ class LearnContainerHeaderView: UIView {
         dropDown.dismissMode = .automatic
         dropDown.normalTextStyle = normalTextStyle
         dropDown.selectedTextStyle = selectedTextStyle
-        dropDown.selectedBackgroundColor = OEXStyles.shared().neutralXLight()
-        dropDown.normalBackgroundColor = OEXStyles.shared().neutralWhiteT()
+        dropDown.selectionBackgroundColor = OEXStyles.shared().neutralXLight()
+        dropDown.backgroundColor = OEXStyles.shared().neutralWhiteT()
         dropDown.textColor = OEXStyles.shared().primaryBaseColor()
         dropDown.selectedTextColor = OEXStyles.shared().primaryBaseColor()
         dropDown.dataSource = items.map { $0.title }

@@ -176,6 +176,7 @@
 		5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */; };
 		5F08321427018D810022971F /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F08321327018D810022971F /* BannerViewController.swift */; };
 		5F11143A298A9C7F00964F02 /* ScrollableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F111439298A9C7F00964F02 /* ScrollableDelegate.swift */; };
+		5F12861E29F71C13006F778A /* DropDownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F12861D29F71C13006F778A /* DropDownCell.xib */; };
 		5F1E03FC26CA64B9004F8139 /* VideoDownloadQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */; };
 		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
@@ -199,6 +200,14 @@
 		5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */; };
 		5F68992B29090FBD0060661B /* ExternalAuthOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F68992A29090FBD0060661B /* ExternalAuthOptionsView.swift */; };
 		5F6AD05B27467898007686C2 /* ProfileOptions.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD05927467898007686C2 /* ProfileOptions.strings */; };
+		5F6AF0BD29F926B200450B42 /* NewCourseContentHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0BC29F926B200450B42 /* NewCourseContentHeaderTableViewCell.swift */; };
+		5F6AF0BF29F94B7C00450B42 /* NewCourseGatedContentHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0BE29F94B7C00450B42 /* NewCourseGatedContentHeaderTableViewCell.swift */; };
+		5F6AF0C329F992BE00450B42 /* DPDUIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C029F992BC00450B42 /* DPDUIView+Extension.swift */; };
+		5F6AF0C429F992BE00450B42 /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C129F992BD00450B42 /* DPDKeyboardListener.swift */; };
+		5F6AF0C529F992BE00450B42 /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C229F992BE00450B42 /* DPDConstants.swift */; };
+		5F6AF0C729F992CE00450B42 /* DropDown+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C629F992CD00450B42 /* DropDown+Appearance.swift */; };
+		5F6AF0CA29F992D600450B42 /* DropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C829F992D500450B42 /* DropDownCell.swift */; };
+		5F6AF0CB29F992D600450B42 /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C929F992D600450B42 /* DropDown.swift */; };
 		5F6C8A52292DFCBB00E5FA7F /* NewDashboardContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */; };
 		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
 		5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */; };
@@ -234,12 +243,6 @@
 		5FE2B8EE297ACBD60071FEF7 /* GeneralErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE2B8ED297ACBD50071FEF7 /* GeneralErrorView.swift */; };
 		5FEA006B290BA06700D39B44 /* ExternalProviderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEA006A290BA06700D39B44 /* ExternalProviderButtonView.swift */; };
 		5FF08645257F91FA0078877A /* ValuePropComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF08644257F91FA0078877A /* ValuePropComponentView.swift */; };
-		5FFB73BC2849F10D000523BF /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */; };
-		5FFB73BD2849F10D000523BF /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B42849F10D000523BF /* DPDConstants.swift */; };
-		5FFB73BE2849F10D000523BF /* DPDUIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B52849F10D000523BF /* DPDUIView+Extension.swift */; };
-		5FFB73C02849F10D000523BF /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B82849F10D000523BF /* DropDown.swift */; };
-		5FFB73C12849F10D000523BF /* DropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B92849F10D000523BF /* DropDownCell.swift */; };
-		5FFB73C22849F10D000523BF /* DropDown+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73BA2849F10D000523BF /* DropDown+Appearance.swift */; };
 		5FFC1D69286EECB700DD29EB /* ServerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC1D68286EECB700DD29EB /* ServerConfiguration.swift */; };
 		5FFC5D0729E4911800467829 /* NewCourseContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC5D0629E4911800467829 /* NewCourseContentController.swift */; };
 		5FFCF2C7284CA12600D6456F /* LearnContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFCF2C6284CA12600D6456F /* LearnContainerViewController.swift */; };
@@ -1175,6 +1178,7 @@
 		5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesAPI.swift; sourceTree = "<group>"; };
 		5F08321327018D810022971F /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
 		5F111439298A9C7F00964F02 /* ScrollableDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableDelegate.swift; sourceTree = "<group>"; };
+		5F12861D29F71C13006F778A /* DropDownCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DropDownCell.xib; path = ../../../../../DropDown/DropDown/resources/DropDownCell.xib; sourceTree = "<group>"; };
 		5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloadQuality.swift; sourceTree = "<group>"; };
 		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
@@ -1218,6 +1222,14 @@
 		5F64839F274CEB6000DB38E0 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
 		5F68992A29090FBD0060661B /* ExternalAuthOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAuthOptionsView.swift; sourceTree = "<group>"; };
 		5F6AD05A27467898007686C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
+		5F6AF0BC29F926B200450B42 /* NewCourseContentHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCourseContentHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		5F6AF0BE29F94B7C00450B42 /* NewCourseGatedContentHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCourseGatedContentHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		5F6AF0C029F992BC00450B42 /* DPDUIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DPDUIView+Extension.swift"; sourceTree = "<group>"; };
+		5F6AF0C129F992BD00450B42 /* DPDKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDKeyboardListener.swift; sourceTree = "<group>"; };
+		5F6AF0C229F992BE00450B42 /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDConstants.swift; sourceTree = "<group>"; };
+		5F6AF0C629F992CD00450B42 /* DropDown+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DropDown+Appearance.swift"; sourceTree = "<group>"; };
+		5F6AF0C829F992D500450B42 /* DropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownCell.swift; sourceTree = "<group>"; };
+		5F6AF0C929F992D600450B42 /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
 		5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDashboardContentCell.swift; sourceTree = "<group>"; };
 		5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -1251,12 +1263,6 @@
 		5FE2B8ED297ACBD50071FEF7 /* GeneralErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralErrorView.swift; sourceTree = "<group>"; };
 		5FEA006A290BA06700D39B44 /* ExternalProviderButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalProviderButtonView.swift; sourceTree = "<group>"; };
 		5FF08644257F91FA0078877A /* ValuePropComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropComponentView.swift; sourceTree = "<group>"; };
-		5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDKeyboardListener.swift; sourceTree = "<group>"; };
-		5FFB73B42849F10D000523BF /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDConstants.swift; sourceTree = "<group>"; };
-		5FFB73B52849F10D000523BF /* DPDUIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DPDUIView+Extension.swift"; sourceTree = "<group>"; };
-		5FFB73B82849F10D000523BF /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
-		5FFB73B92849F10D000523BF /* DropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownCell.swift; sourceTree = "<group>"; };
-		5FFB73BA2849F10D000523BF /* DropDown+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DropDown+Appearance.swift"; sourceTree = "<group>"; };
 		5FFC1D68286EECB700DD29EB /* ServerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfiguration.swift; sourceTree = "<group>"; };
 		5FFC5D0629E4911800467829 /* NewCourseContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCourseContentController.swift; sourceTree = "<group>"; };
 		5FFCF2C6284CA12600D6456F /* LearnContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnContainerViewController.swift; sourceTree = "<group>"; };
@@ -2567,6 +2573,7 @@
 		5FFB73B02849F10D000523BF /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				5F12861D29F71C13006F778A /* DropDownCell.xib */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -2574,9 +2581,9 @@
 		5FFB73B22849F10D000523BF /* helpers */ = {
 			isa = PBXGroup;
 			children = (
-				5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */,
-				5FFB73B42849F10D000523BF /* DPDConstants.swift */,
-				5FFB73B52849F10D000523BF /* DPDUIView+Extension.swift */,
+				5F6AF0C229F992BE00450B42 /* DPDConstants.swift */,
+				5F6AF0C129F992BD00450B42 /* DPDKeyboardListener.swift */,
+				5F6AF0C029F992BC00450B42 /* DPDUIView+Extension.swift */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -2584,9 +2591,9 @@
 		5FFB73B72849F10D000523BF /* src */ = {
 			isa = PBXGroup;
 			children = (
-				5FFB73B82849F10D000523BF /* DropDown.swift */,
-				5FFB73B92849F10D000523BF /* DropDownCell.swift */,
-				5FFB73BA2849F10D000523BF /* DropDown+Appearance.swift */,
+				5F6AF0C929F992D600450B42 /* DropDown.swift */,
+				5F6AF0C829F992D500450B42 /* DropDownCell.swift */,
+				5F6AF0C629F992CD00450B42 /* DropDown+Appearance.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -3698,6 +3705,8 @@
 				5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */,
 				5FFC5D0629E4911800467829 /* NewCourseContentController.swift */,
 				5F48E79829E868F900F52C4B /* CourseContentHeaderView.swift */,
+				5F6AF0BC29F926B200450B42 /* NewCourseContentHeaderTableViewCell.swift */,
+				5F6AF0BE29F94B7C00450B42 /* NewCourseGatedContentHeaderTableViewCell.swift */,
 				E0F9C02E29362806003D96DF /* CourseDashboardErrorView.swift */,
 				E0F9C0302939C497003D96DF /* CourseDashboardAccessErrorView.swift */,
 				5FA4266E2966B1110013BBA8 /* CourseAccessHelper.swift */,
@@ -4531,6 +4540,7 @@
 				69ECC60A1D50D1170030CF87 /* Icon-29@3x.png in Resources */,
 				5F6F2B64255AABA400AA3708 /* Inter-SemiBold.ttf in Resources */,
 				69ECC6191D50D1170030CF87 /* bt_grey_deactive.png in Resources */,
+				5F12861E29F71C13006F778A /* DropDownCell.xib in Resources */,
 				5F6F2B67255AABA400AA3708 /* Inter-LightItalic.ttf in Resources */,
 				6926CDAC1D59BE3600A16E22 /* ic_next.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
@@ -4951,6 +4961,7 @@
 				7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */,
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				E01F68CE2626BF2F006B6716 /* BrazeConfig.swift in Sources */,
+				5F6AF0CA29F992D600450B42 /* DropDownCell.swift in Sources */,
 				778F17851C10A1B50099BF93 /* CourseCatalogDetailViewController.swift in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
 				22E6A219207AA54600D50EDE /* PlayerView.swift in Sources */,
@@ -4983,13 +4994,12 @@
 				BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */,
 				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
 				B70BD00720B57E89005F0D19 /* OEXTabBarItemsCell.m in Sources */,
+				5F6AF0C529F992BE00450B42 /* DPDConstants.swift in Sources */,
 				E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */,
 				223CE58F25BEEACC0081C30F /* UIImage+GIF.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
-				5FFB73BC2849F10D000523BF /* DPDKeyboardListener.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
-				5FFB73C22849F10D000523BF /* DropDown+Appearance.swift in Sources */,
 				7765025F1C7CEBC5007384E7 /* SingleChildContainingViewController.swift in Sources */,
 				7C2DD54F1D4A7901006148E0 /* UserPreference.swift in Sources */,
 				1A3AFFE51BD56370002846F3 /* CropViewController.swift in Sources */,
@@ -5045,11 +5055,11 @@
 				9E882B6A1BBA9825007347A2 /* DiscussionTopicCell.swift in Sources */,
 				B7CCC72C209B16B100A66923 /* ConstraintView.swift in Sources */,
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
-				5FFB73C12849F10D000523BF /* DropDownCell.swift in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
 				E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */,
 				E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */,
+				5F6AF0CB29F992D600450B42 /* DropDown.swift in Sources */,
 				E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
@@ -5069,6 +5079,7 @@
 				9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */,
 				B7CCC720209B16B100A66923 /* ConstraintMakerPriortizable.swift in Sources */,
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
+				5F6AF0C429F992BE00450B42 /* DPDKeyboardListener.swift in Sources */,
 				80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */,
 				775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */,
 				22AB111F2375695C007D03D2 /* PushLink.swift in Sources */,
@@ -5087,7 +5098,6 @@
 				1A8172531C3C21DE007262AA /* TwitterConfig.swift in Sources */,
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
-				5FFB73C02849F10D000523BF /* DropDown.swift in Sources */,
 				69EFBB0D1E36270000FF66C4 /* RatingContainerView.swift in Sources */,
 				5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */,
 				B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */,
@@ -5131,6 +5141,7 @@
 				777DE71A1C1656ED0068E280 /* CourseCatalogDetailView.swift in Sources */,
 				775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */,
 				B760E5562010DD6800ECACAB /* BulkDownloadHelper.swift in Sources */,
+				5F6AF0BD29F926B200450B42 /* NewCourseContentHeaderTableViewCell.swift in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */,
 				B78823A61FC6F59A00F9CD61 /* LogistrationTextField.swift in Sources */,
@@ -5180,7 +5191,6 @@
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
 				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
 				9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */,
-				5FFB73BD2849F10D000523BF /* DPDConstants.swift in Sources */,
 				E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */,
 				9ED168B01B29A9EF00AA7B5B /* ResumeCourseItem.swift in Sources */,
 				227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */,
@@ -5308,6 +5318,7 @@
 				9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */,
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,
 				021AD6251F150BA3009AF653 /* Dictionary+SafeAccess.swift in Sources */,
+				5F6AF0C329F992BE00450B42 /* DPDUIView+Extension.swift in Sources */,
 				77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */,
 				B7CCC728209B16B100A66923 /* ConstraintPriority.swift in Sources */,
 				E09B73722342034400D0EE45 /* FCMProvider.swift in Sources */,
@@ -5323,6 +5334,7 @@
 				1AFEB1B11BBD51EE004C471D /* JSONFormBuilderChooser.swift in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
 				E40AEA73218D074700049C39 /* YoutubeVideoConfig.swift in Sources */,
+				5F6AF0C729F992CE00450B42 /* DropDown+Appearance.swift in Sources */,
 				B7CCC730209B16B100A66923 /* ConstraintOffsetTarget.swift in Sources */,
 				E076A5C21C7DB624008A99C6 /* DiscussionResponsesDataController.swift in Sources */,
 				5F99F3BD26C68308000605B4 /* VideoDownloadQualityViewController.swift in Sources */,
@@ -5365,7 +5377,6 @@
 				E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */,
 				773B1D421B1F48F100B861DF /* CourseOutlineHeaderView.swift in Sources */,
 				B7A09BD520F88FBC00A6C249 /* ProgramsViewController.swift in Sources */,
-				5FFB73BE2849F10D000523BF /* DPDUIView+Extension.swift in Sources */,
 				22FDD0AC2552691600BA378D /* FirebaseRemoteConfiguration.swift in Sources */,
 				2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */,
 				E0357C4726CA59120041947A /* CourseUpgradeHandler.swift in Sources */,
@@ -5378,6 +5389,7 @@
 				5FC5AE112847944E007E5917 /* LearnContainerHeaderView.swift in Sources */,
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
+				5F6AF0BF29F94B7C00450B42 /* NewCourseGatedContentHeaderTableViewCell.swift in Sources */,
 				2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */,
 				22CF27D025D3CC87008D5F7A /* CourseCelebrationModel.swift in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,

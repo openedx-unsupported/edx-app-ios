@@ -26,8 +26,8 @@ class NewCourseContentController: UIViewController {
     
     private lazy var headerView: CourseContentHeaderView = {
         let headerView = CourseContentHeaderView(environment: environment)
-        headerView.delegate = self
         headerView.accessibilityIdentifier = "NewCourseContentController:header-view"
+        headerView.delegate = self
         return headerView
     }()
     
@@ -42,15 +42,28 @@ class NewCourseContentController: UIViewController {
         return stackView
     }()
     
-    private var firstInCompletedBlock: CourseBlock?
     private var courseContentViewController: CourseContentPageViewController?
     private var headerViewState: HeaderViewState = .expanded
+    
+    private var currentBlock: CourseBlock? {
+        willSet {
+            currentBlock?.completion.unsubscribe(observer: self)
+        }
+        
+        didSet {
+            updateView()
+            
+            currentBlock?.completion.subscribe(observer: self) { [weak self] _,_ in
+                self?.updateView()
+            }
+        }
+    }
     
     private let environment: Environment
     private let blockID: CourseBlockID?
     private let parentID: CourseBlockID?
     private let courseID: CourseBlockID
-    private let courseQuerier : CourseOutlineQuerier
+    private let courseQuerier: CourseOutlineQuerier
     
     init(environment: Environment, blockID: CourseBlockID?, parentID: CourseBlockID?, courseID: CourseBlockID) {
         self.environment = environment
@@ -70,6 +83,8 @@ class NewCourseContentController: UIViewController {
         super.viewDidLoad()
         
         addSubViews()
+        setupComponentView()
+        setupCompletedBlocksView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,38 +125,16 @@ class NewCourseContentController: UIViewController {
             make.top.equalTo(stackView.snp.bottom)
             make.bottom.equalTo(contentView)
         }
-        
-        setupComponentView()
-        if let block = firstInCompletedBlock {
-            setupCompletedBlocksView(for: block)
-        }
-    }
-    
-    private func setupCompletedBlocksView(for block: CourseBlock) {
-        guard let sectionBlock = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value
-        else { return }
-        
-        let childViews = sectionBlock.children
-            .compactMap { courseQuerier.blockWithID(id: $0).firstSuccess().value }
-            .flatMap { $0.children }
-            .compactMap { courseQuerier.blockWithID(id: $0).firstSuccess().value }
-            .map { childBlock in
-                let childView = UIView()
-                childView.backgroundColor = childBlock.isCompleted ? environment.styles.accentBColor() : environment.styles.neutralDark()
-                return childView
-            }
-        
-        stackView.removeAllArrangedSubviews()
-        stackView.addArrangedSubviews(childViews)
     }
     
     private func setupComponentView() {
-        guard let firstIncompleteBlock = firstInCompletedBlock,
-              let parent = courseQuerier.parentOfBlockWith(id: firstIncompleteBlock.blockID).firstSuccess().value
+        guard let currentBlock = currentBlock,
+              let parent = courseQuerier.parentOfBlockWith(id: currentBlock.blockID).firstSuccess().value
         else { return }
         
         let courseContentViewController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: parent.blockID, forMode: .full)
         courseContentViewController.navigationDelegate = self
+        
         let childViewController = ForwardingNavigationController(rootViewController: courseContentViewController)
         courseContentViewController.navigationController?.setNavigationBarHidden(true, animated: false)
         
@@ -155,49 +148,75 @@ class NewCourseContentController: UIViewController {
         childViewController.didMove(toParent: self)
         
         self.courseContentViewController = courseContentViewController
+    }
+    
+    private func setupCompletedBlocksView() {
+        guard let block = currentBlock,
+              let section = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value
+        else { return }
         
-        updateTitle(block: firstIncompleteBlock)
+        let childBlocks = section.children
+            .compactMap { courseQuerier.blockWithID(id: $0).firstSuccess().value }
+            .flatMap { $0.children }
+            .compactMap { courseQuerier.blockWithID(id: $0).firstSuccess().value }
+        
+        let childViews = childBlocks.map { block in
+            let view = UIView()
+            view.backgroundColor = block.isCompleted ? environment.styles.accentBColor() : environment.styles.neutralDark()
+            return view
+        }
+        
+        headerView.setBlocks(currentBlock: block, blocks: childBlocks)
+        stackView.removeAllArrangedSubviews()
+        stackView.addArrangedSubviews(childViews)
     }
     
     private func findCourseBlockToShow() {
-        guard let children = courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: .full)
+        guard let childBlocks = courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: .full)
             .firstSuccess().value?.children.compactMap({ $0 }).filter({ $0.type == .Unit })
         else { return }
         
-        guard let firstIncompleted = children.flatMap({ $0.children })
+        guard let firstInCompleteBlock = childBlocks.flatMap({ $0.children })
             .compactMap({ courseQuerier.blockWithID(id: $0).value })
             .first(where: { !$0.isCompleted })
         else {
-            self.firstInCompletedBlock = children.first
+            currentBlock = courseQuerier.childrenOfBlockWithID(blockID: childBlocks.first?.blockID, forMode: .full).firstSuccess().value?.children.first
             return
         }
         
-        self.firstInCompletedBlock = firstIncompleted
+        currentBlock = firstInCompleteBlock
+    }
+    
+    private func updateView() {
+        guard let block = currentBlock else { return }
+        updateTitle(block: block)
+        setupCompletedBlocksView()
     }
     
     private func updateTitle(block: CourseBlock) {
-        guard let parentBlock = courseQuerier.parentOfBlockWith(id: block.blockID).firstSuccess().value
+        guard let parent = courseQuerier.parentOfBlockWith(id: block.blockID).firstSuccess().value
         else { return }
-        headerView.setup(title: parentBlock.displayName, subtitle: block.displayName)
+        headerView.setup(title: parent.displayName, subtitle: block.displayName)
     }
 }
 
 extension NewCourseContentController: CourseContentPageViewControllerDelegate {
     func courseContentPageViewController(controller: CourseContentPageViewController, enteredBlockWithID blockID: CourseBlockID, parentID: CourseBlockID) {
         guard let block = courseQuerier.blockWithID(id: blockID).firstSuccess().value else { return }
-        updateTitle(block: block)
-        
+        currentBlock = block
         if var controller = controller.viewControllers?.first as? ScrollableDelegateProvider {
             controller.scrollableDelegate = self
         }
-        
-        setupCompletedBlocksView(for: block)
     }
 }
 
 extension NewCourseContentController: CourseContentHeaderViewDelegate {
     func didTapOnClose() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func didTapOnBlock(block: CourseBlock, index: Int) {
+        courseContentViewController?.moveToBlock(block: block, index: index)
     }
 }
 
@@ -230,7 +249,7 @@ extension NewCourseContentController {
             self?.headerView.showHeaderLabel(show: false)
             self?.view.layoutIfNeeded()
         } completion: { [weak self] _ in
-            self?.headerViewState = .collapsed
+            self?.headerViewState = .expanded
         }
     }
     
@@ -239,7 +258,7 @@ extension NewCourseContentController {
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.equalTo(StandardVerticalMargin * 8)
+            make.height.equalTo(StandardVerticalMargin * 5)
         }
         
         UIView.animate(withDuration: 0.3) { [weak self] in
