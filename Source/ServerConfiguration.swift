@@ -59,16 +59,33 @@ class IAPConfig: NSObject {
         case enabled = "enabled"
         case experimentEnabled = "experiment_enabled"
         case disabledVersions = "ios_disabled_versions"
+        case allowedUsers = "allowed_users"
     }
 
     private(set) var enabled: Bool = false
     private(set) var experimentEnabled: Bool = false
-    private(set) var disabledVersions: [String] = []
+    private var disabledVersions: [String] = []
+    private var allowedUsers: [String] = []
 
     init(dictionary: Dictionary<String, Any>) {
         enabled = dictionary[Keys.enabled] as? Bool ?? false
         experimentEnabled = dictionary[Keys.experimentEnabled] as? Bool ?? false
         disabledVersions = dictionary[Keys.disabledVersions] as? [String] ?? []
+        allowedUsers = dictionary[Keys.allowedUsers] as? [String] ?? []
+        
+        // if allowed_users have the username of logged in user, enable the payment by ignoring experiment_enabled flag
+        if let userName = OEXSession.shared()?.currentUser?.username, allowedUsers.contains(userName) {
+            experimentEnabled = false
+        }
+        else {
+            enabled = false
+        }
+        
+        // if allowed_users value is all_useres then falback to the original settings of the iap_config
+        if allowedUsers.contains("all_useres") {
+            enabled = dictionary[Keys.enabled] as? Bool ?? false
+            experimentEnabled = dictionary[Keys.experimentEnabled] as? Bool ?? false
+        }
         
         if disabledVersions.contains(Bundle.main.oex_shortVersionString()) {
             enabled = false
