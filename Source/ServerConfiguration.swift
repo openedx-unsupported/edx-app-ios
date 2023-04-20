@@ -81,8 +81,8 @@ class IAPConfig: NSObject {
             enabled = false
         }
         
-        // if allowed_users value is all_useres then falback to the original settings of the iap_config
-        if allowedUsers.contains("all_useres") {
+        // if allowed_users value is all_users then falback to the original settings of the iap_config
+        if allowedUsers.contains("all_users") {
             enabled = dictionary[Keys.enabled] as? Bool ?? false
             experimentEnabled = dictionary[Keys.experimentEnabled] as? Bool ?? false
         }
