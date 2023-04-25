@@ -64,10 +64,29 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradePaymentError(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, paymentError: String) {
+    func trackCourseUpgradePaymentError(name: AnalyticsDisplayName, biName: AnalyticsEventName, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, paymentError: String) {
         let event = OEXAnalyticsEvent()
-        event.displayName = AnalyticsDisplayName.CourseUpgradePaymentError.rawValue
-        event.name = AnalyticsEventName.CourseUpgradePaymentError.rawValue
+        event.displayName = name.rawValue
+        event.name = biName.rawValue
+        event.category = AnalyticsCategory.InAppPurchases.rawValue
+
+        var info = [
+            AnalyticsEventDataKey.Pacing.rawValue: pacing,
+            key_course_id: courseID,
+            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
+            AnalyticsEventDataKey.Price.rawValue: coursePrice,
+            AnalyticsEventDataKey.UpgradeError.rawValue: paymentError
+        ]
+
+        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
+
+        trackEvent(event, forComponent: nil, withInfo: info)
+    }
+    
+    func trackCourseUpgradePaymentCancelError(name: AnalyticsDisplayName, biName: AnalyticsEventName, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, paymentError: String) {
+        let event = OEXAnalyticsEvent()
+        event.displayName = AnalyticsDisplayName.CourseUpgradePaymentCancelError.rawValue
+        event.name = AnalyticsEventName.CourseUpgradePaymentCancelError.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
         var info = [
@@ -83,7 +102,7 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeError(courseID: String, blockID: String, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, upgradeError: String, flowType: String) {
+    func trackCourseUpgradeError(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String? = nil, screen: CourseUpgradeScreen, upgradeError: String, flowType: String) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeError.rawValue
         event.name = AnalyticsEventName.CourseUpgradeError.rawValue
@@ -119,7 +138,7 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeErrorAction(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, errorAction: String, upgradeError: String, flowType: String) {
+    func trackCourseUpgradeErrorAction(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String? = nil, screen: CourseUpgradeScreen, errorAction: String, upgradeError: String, flowType: String) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeErrorAction.rawValue
         event.name = AnalyticsEventName.CourseUpgradeErrorAction.rawValue
