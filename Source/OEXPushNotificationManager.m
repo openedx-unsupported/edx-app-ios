@@ -49,8 +49,8 @@
 - (void)performRegistration {
     UIApplication* application = [UIApplication sharedApplication];
 
-    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
-    UNAuthorizationOptionSound | UNAuthorizationOptionBadge | UNAuthorizationOptionProvisional;
+    UNAuthorizationOptions authOptions = UNAuthorizationOptionSound | UNAuthorizationOptionAlert
+     | UNAuthorizationOptionBadge;
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
     [[UNUserNotificationCenter currentNotificationCenter]
      requestAuthorizationWithOptions:authOptions
