@@ -9,6 +9,7 @@
 import Foundation
 import MessageUI
 import KeychainSwift
+import StoreKit
 
 let CourseUpgradeCompletionNotification = "CourseUpgradeCompletionNotification"
 private let IAPKeychainKey = "CourseUpgradeIAPKeyChainKey"
@@ -117,7 +118,7 @@ class CourseUpgradeHelper: NSObject {
             contentUpgradeTime = CFAbsoluteTimeGetCurrent()
             if upgradeHadler.upgradeMode == .userInitiated {
                 let endTime = CFAbsoluteTimeGetCurrent() - (paymentStartTime ?? 0)
-                environment?.analytics.trackCourseUpgradePaymentTime(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
+                environment?.analytics.trackCourseUpgradePaymentTime(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
             }
             if show {
                 showLoader()
@@ -132,12 +133,17 @@ class CourseUpgradeHelper: NSObject {
                 showSilentRefreshAlert()
             }
             break
-        case .error(let type, _):
+        case .error(let type, let error):
             if type == .paymentError {
-                environment?.analytics.trackCourseUpgradePaymentError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
+                if let error = error as? SKError, error.code == .paymentCancelled {
+                    environment?.analytics.trackCourseUpgradePaymentError(name: .CourseUpgradePaymentCancelError, biName: .CourseUpgradePaymentCancelError, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
+                }
+                else {
+                    environment?.analytics.trackCourseUpgradePaymentError(name: .CourseUpgradePaymentError, biName: .CourseUpgradePaymentError, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
+                }
             }
 
-            environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError, flowType: upgradeHadler.upgradeMode.rawValue)
+            environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError, flowType: upgradeHadler.upgradeMode.rawValue)
 
             removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
@@ -149,22 +155,28 @@ class CourseUpgradeHelper: NSObject {
         topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successMessage, textSize: .xSmall, autoDismiss: true, duration: 3)
 
         let contentTime = CFAbsoluteTimeGetCurrent() - (contentUpgradeTime ?? 0)
-        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: contentTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
+        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: contentTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
         
         if let refreshTime = refreshTime {
             let refreshEndTime = CFAbsoluteTimeGetCurrent() - refreshTime
             
-            environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshEndTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
+            environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: refreshEndTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
         }
 
         let endTime = CFAbsoluteTimeGetCurrent() - (startTime ?? 0)
-        environment?.analytics.trackCourseUpgradeSuccess(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
+        environment?.analytics.trackCourseUpgradeSuccess(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
 
         clearData()
     }
     
     func showError() {
         guard let topController = UIApplication.shared.topMostController() else { return }
+        
+        // not showing any error if payment is canceled by user
+        if case .error (let type, let error) = upgradeHadler?.state, type == .paymentError,
+           let error = error as? SKError, error.code == .paymentCancelled {
+            return
+        }
 
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: upgradeHadler?.errorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
@@ -246,7 +258,7 @@ class CourseUpgradeHelper: NSObject {
     }
     
     private func trackUpgradeErrorAction(errorAction: ErrorAction) {
-        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID ?? "", pacing: pacing ?? "", coursePrice: coursePrice ?? "", screen: screen, errorAction: errorAction.rawValue, upgradeError: upgradeHadler?.formattedError ?? "", flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
+        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: coursePrice, screen: screen, errorAction: errorAction.rawValue, upgradeError: upgradeHadler?.formattedError ?? "", flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
     }
 
     private func hideAlertAction() {
