@@ -103,18 +103,20 @@ import UIKit
         return .none
     }
     
-    private func showCourseDashboardViewController(with link: DeepLink) {
+    private func showCourseDashboardViewController(with link: DeepLink, completion: ((UIViewController?) -> Void)? = nil) {
         guard let topViewController = topMostViewController else { return }
         
         if environment?.config.isNewDashboardEnabled == true {
             if let courseDashboardView = topViewController as? NewCourseDashboardViewController, courseDashboardView.courseID == link.courseId {
                 if !controllerAlreadyDisplayed(for: link.type) {
                     courseDashboardView.switchTab(with: link.type)
+                    completion?(courseDashboardView)
                     return
                 }
             } else if let dashboardViewController = topViewController.navigationController?.viewControllers.first(where: { $0 is NewCourseDashboardViewController }) as? NewCourseDashboardViewController, dashboardViewController.courseID == link.courseId {
                 dashboardViewController.navigationController?.popToRootViewController(animated: true) {
                     dashboardViewController.switchTab(with: link.type)
+                    completion?(dashboardViewController)
                 }
                 return
             }
@@ -122,6 +124,7 @@ import UIKit
             if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
                 if !controllerAlreadyDisplayed(for: link.type) {
                     courseDashboardView.switchTab(with: link.type, componentID: link.componentID)
+                    completion?(courseDashboardView)
                     return
                 }
             }
@@ -129,7 +132,7 @@ import UIKit
         
         dismiss() { [weak self] _ in
             if let topController = self?.topMostViewController {
-                self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController)
+                self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController, completion: completion)
             }
         }
     }
@@ -345,6 +348,10 @@ import UIKit
             return postController.topicID == link.topicID
         }
         
+        if isControllerAlreadyDisplayed {
+            return
+        }
+        
         func showDiscussionPosts() {
             if let topController = topMostViewController {
                 environment?.router?.showDiscussionPosts(from: topController, courseID: courseId, topicID: topicID)
@@ -363,10 +370,10 @@ import UIKit
                     courseDashboardController.switchTab(with: link.type)
                 }
                 else {
-                    self?.showCourseDashboardViewController(with: link)
+                    self?.showCourseDashboardViewController(with: link) {_ in
+                        showDiscussionPosts()
+                    }
                 }
-                
-                showDiscussionPosts()
             }
         }
     }
@@ -379,6 +386,10 @@ import UIKit
         var isControllerAlreadyDisplayed: Bool {
             guard let discussionResponseController = topMostViewController as? DiscussionResponsesViewController else { return false }
             return discussionResponseController.threadID == link.threadID
+        }
+        
+        if isControllerAlreadyDisplayed {
+            return
         }
         
         func showResponses() {
@@ -421,6 +432,10 @@ import UIKit
         var isResponseControllerDisplayed: Bool {
             guard let discussionResponseController = topMostViewController as? DiscussionResponsesViewController else { return false }
             return discussionResponseController.threadID == link.threadID
+        }
+        
+        if isControllerAlreadyDisplayed {
+            return
         }
         
         func showComment() {
@@ -559,25 +574,13 @@ import UIKit
             showUserProfile(with: link)
             break
         case .discussionTopic:
-            if isNewDashboardEnabled {
-                showCourseDashboardViewController(with: link)
-            } else {
-                showDiscussionTopic(with: link)
-            }
+            showDiscussionTopic(with: link)
             break
         case .discussionPost:
-            if isNewDashboardEnabled {
-                showCourseDashboardViewController(with: link)
-            } else {
                 showDiscussionResponses(with: link)
-            }
             break
         case .discussionComment:
-            if isNewDashboardEnabled {
-                showCourseDashboardViewController(with: link)
-            } else {
                 showdiscussionComments(with: link)
-            }
         case .courseHandout:
             if isNewDashboardEnabled {
                 showCourseDashboardViewController(with: link)
