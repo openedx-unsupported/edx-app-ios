@@ -862,6 +862,7 @@
 		E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */; };
 		E0D159971EB87700005E2A76 /* WhatsNewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159961EB87700005E2A76 /* WhatsNewObject.swift */; };
 		E0D232D4291374A900051A04 /* UsingExternalAuthInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D232D3291374A900051A04 /* UsingExternalAuthInfoView.swift */; };
+		E0D31F0729E6A0A600044368 /* NewCourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D31F0629E6A0A600044368 /* NewCourseDateBannerView.swift */; };
 		E0E163EC21368A1D00DAE9F0 /* FirebaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */; };
 		E0E163EE21368A4F00DAE9F0 /* FirebaseConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */; };
 		E0E163F021368A6300DAE9F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0E163EF21368A6300DAE9F0 /* GoogleService-Info.plist */; };
@@ -2023,6 +2024,7 @@
 		E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewDataModel.swift; sourceTree = "<group>"; };
 		E0D159961EB87700005E2A76 /* WhatsNewObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObject.swift; sourceTree = "<group>"; };
 		E0D232D3291374A900051A04 /* UsingExternalAuthInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingExternalAuthInfoView.swift; sourceTree = "<group>"; };
+		E0D31F0629E6A0A600044368 /* NewCourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCourseDateBannerView.swift; sourceTree = "<group>"; };
 		E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseConfig.swift; sourceTree = "<group>"; };
 		E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseConfigTests.swift; sourceTree = "<group>"; };
 		E0E163EF21368A6300DAE9F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -2354,6 +2356,7 @@
 				5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */,
 				5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */,
 				5FD868372637F0FC0045A149 /* CalendarManager.swift */,
+				E0D31F0629E6A0A600044368 /* NewCourseDateBannerView.swift */,
 			);
 			name = "Course Dates";
 			sourceTree = "<group>";
@@ -4921,6 +4924,7 @@
 			files = (
 				5FD868382637F0FC0045A149 /* CalendarManager.swift in Sources */,
 				22A970E824EED00E008FCAF6 /* AppleAuthProvider.swift in Sources */,
+				E0D31F0729E6A0A600044368 /* NewCourseDateBannerView.swift in Sources */,
 				77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */,
 				7742F8DD1C3C979D009E555A /* DiscoveryConfig.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,

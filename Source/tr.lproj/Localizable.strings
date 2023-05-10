@@ -320,10 +320,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="dolayısıyla notlu ödevlere katılamazsınız. Önerilen programımıza göre bazı önemli son tarihleri kaçırmışsınız gibi görünüyor. Bu kursun parçası olarak notlu ödevler tamamlamak ve tarihi geçmiş ödevleri geleceğe taşımak için bugün yükseltme yapabilirsiniz.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Önerilen programımıza göre bazı önemli son tarihleri kaçırmışsınız gibi görünüyor. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Plana uygun kalmak için bu programı güncelleyebilir ve tarihi geçmiş ödevleri geleceğe taşıyabilirsiniz. Endişelenmeyin, bitiş tarihlerinizi değiştirdiğinizde ilerlemenizin hiçbir kısmını kaybetmeyeceksiniz.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Bitiş tarihlerini değiştir";
 /* Course Dates Title */

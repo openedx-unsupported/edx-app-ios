@@ -320,10 +320,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="was bedeutet, dass Sie nicht an benoteten Aufgaben teilnehmen können. Es sieht so aus, als ob Sie einige wichtige Fristen verpasst haben, basierend auf unserem vorgeschlagenen Zeitplan. Um benotete Aufgaben im Rahmen dieses Kurses abzuschließen und überfällige Aufgaben in die Zukunft zu verschieben, können Sie noch heute ein Upgrade durchführen.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Es sieht so aus, als ob Sie einige wichtige, auf unserem vorgeschlagenen Zeitplan basierende Fristen verpasst haben. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Um den Zeitplan einzuhalten, können Sie ihn aktualisieren und die überfälligen Aufgaben in die Zukunft verschieben. Keine Sorge – Sie verlieren keinen Ihrer Fortschritte, wenn Sie Ihre Fälligkeitstermine verschieben.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Fälligkeitstermine verschieben";
 /* Course Dates Title */

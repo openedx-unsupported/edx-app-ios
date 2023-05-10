@@ -320,10 +320,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="ce qui signifie que vous ne pouvez pas participer aux devoirs notés. Il semblerait que vous ayez manqué des échéances importantes de notre programme suggéré. Pour faire les devoirs notés dans le cadre de ce cours et pouvoir rendre les devoirs passés un peu plus tard, vous pouvez mettre à niveau votre inscription dès aujourd'hui.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Il semblerait que vous ayez manqué des échéances importantes de notre programme suggéré. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Pour rester sur la bonne voie, vous pouvez mettre à jour ce programme et rendre les devoirs passés un peu plus tard. Ne vous inquiétez pas : en modifiant les échéances, vous ne perdrez pas les progrès que vous avez faits.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Déplacer les dates d'échéances";
 /* Course Dates Title */

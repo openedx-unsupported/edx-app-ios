@@ -74,7 +74,7 @@ public class CourseOutlineViewController :
         }
     }
     
-    public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
+    public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?, newDashboardDelegate: NewCourseDashboardViewControllerDelegate? = nil) {
         self.rootID = rootID
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
@@ -83,6 +83,7 @@ public class CourseOutlineViewController :
         insetsController = ContentInsetsController()
         courseOutlineMode = mode ?? .full
         tableController = CourseOutlineTableController(environment: environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: rootID)
+        tableController.newDashboardDelegate = newDashboardDelegate
         resumeCourseController = ResumeCourseController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)

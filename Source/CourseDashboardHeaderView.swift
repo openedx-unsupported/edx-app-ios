@@ -34,6 +34,8 @@ class CourseDashboardHeaderView: UIView {
     private lazy var containerView = UIView()
     private lazy var courseInfoContainerView = UIView()
     private var bottomContainer = UIView()
+    lazy private var datesBannerView = NewCourseDateBannerView()
+    private var bannerInfo: DatesBannerInfo? = nil
     
     private lazy var orgLabel: UILabel = {
         let label = UILabel()
@@ -186,7 +188,7 @@ class CourseDashboardHeaderView: UIView {
         super.init(frame: .zero)
         
         addSubViews()
-        addConstraints()
+        setConstraints()
         configureView()
     }
     
@@ -222,7 +224,7 @@ class CourseDashboardHeaderView: UIView {
         addCertificateView()
     }
     
-    private func addConstraints() {
+    private func setConstraints() {
         containerView.snp.remakeConstraints { make in
             make.edges.equalTo(self)
         }
@@ -292,9 +294,21 @@ class CourseDashboardHeaderView: UIView {
             
             bottomContainer = valuePropView
         }
+        
+        if bannerInfo != nil {
+            datesBannerView.removeFromSuperview()
+            containerView.addSubview(datesBannerView)
+            
+            datesBannerView.snp.remakeConstraints { make in
+                make.top.equalTo(bottomContainer.snp.bottom).offset(StandardVerticalMargin)
+                make.leading.equalTo(containerView)
+                make.trailing.equalTo(containerView)
+            }
+            bottomContainer = datesBannerView
+        }
                 
         tabbarView.snp.remakeConstraints { make in
-            let offSet = bottomContainer == certificateView ? 0 : StandardVerticalMargin * 2
+            let offSet = bottomContainer == certificateView || bannerInfo != nil ? 0 : StandardVerticalMargin * 2
             make.top.equalTo(bottomContainer.snp.bottom).offset(offSet)
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
@@ -313,13 +327,14 @@ class CourseDashboardHeaderView: UIView {
     
     func showTabbarView(show: Bool) {
         showTabbar = show
-        addConstraints()
+        setConstraints()
     }
     
     func updateHeader(collapse: Bool) {
         courseInfoContainerView.alpha = collapse ? 0 : 1
         valuePropView.alpha = collapse ? 0 : (canShowValuePropView ? 1 : 0)
         certificateView?.alpha = collapse ? 0 : 1
+        datesBannerView.alpha = collapse ? 0 : 1
         updateTabbarConstraints(collapse: collapse)
     }
     
@@ -329,7 +344,7 @@ class CourseDashboardHeaderView: UIView {
     
     func updateTabbarConstraints(collapse: Bool) {
         tabbarView.snp.remakeConstraints { make in
-            let offSet = bottomContainer == certificateView && !collapse ? 0 : StandardVerticalMargin * 2
+            let offSet = bottomContainer == certificateView || bannerInfo != nil && !collapse ? 0 : StandardVerticalMargin * 2
             make.top.equalTo(collapse ? closeButton.snp.bottom : bottomContainer.snp.bottom).offset(offSet)
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
@@ -338,6 +353,22 @@ class CourseDashboardHeaderView: UIView {
                 make.bottom.equalTo(containerView)
             }
         }
+    }
+    
+    func showDatesBanner(delegate: CourseOutlineTableController?, bannerInfo: DatesBannerInfo?) {
+        self.bannerInfo = bannerInfo
+        datesBannerView.bannerInfo = bannerInfo
+        datesBannerView.delegate = delegate
+        datesBannerView.setupView()
+        setConstraints()
+    }
+    
+    func removeDatesBanner() {
+        bannerInfo = nil
+        datesBannerView.bannerInfo = bannerInfo
+        datesBannerView.delegate = nil
+        datesBannerView.removeFromSuperview()
+        setConstraints()
     }
 }
 

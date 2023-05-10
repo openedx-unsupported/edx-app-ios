@@ -8,6 +8,11 @@
 
 import UIKit
 
+public protocol NewCourseDashboardViewControllerDelegate: AnyObject {
+    func showCourseDates(bannerInfo: DatesBannerInfo?, delegate: CourseOutlineTableController?)
+    func hideCourseDates()
+}
+
 class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider & ServerConfigProvider
@@ -120,7 +125,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.lessThanOrEqualTo(StandardVerticalMargin * 60)
+            make.height.lessThanOrEqualTo(StandardVerticalMargin * 100)
         }
         
         container.snp.remakeConstraints { make in
@@ -243,8 +248,8 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private func prepareTabViewData() {
         tabBarItems = []
-        
-        var item = TabBarItem(title: Strings.Dashboard.courseHome, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+        let outlineController = CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full, newDashboardDelegate: self)
+        var item = TabBarItem(title: Strings.Dashboard.courseHome, viewController: outlineController, icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
         tabBarItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
@@ -547,6 +552,16 @@ extension NewCourseDashboardViewController {
         } completion: { [weak self] _ in
             self?.headerViewState = .collapsed
         }
+    }
+}
+
+extension NewCourseDashboardViewController: NewCourseDashboardViewControllerDelegate {
+    func showCourseDates(bannerInfo: DatesBannerInfo?, delegate: CourseOutlineTableController?) {
+        headerView.showDatesBanner(delegate: delegate, bannerInfo: bannerInfo)
+    }
+    
+    func hideCourseDates() {
+        headerView.removeDatesBanner()
     }
 }
 

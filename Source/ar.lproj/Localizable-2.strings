@@ -45,6 +45,10 @@
 "COURSE.AUDIT.EXPIRED_AGO" = "Access expired {time_duaration}";
 /* Course audit expired on date*/
 "COURSE.AUDIT.EXPIRED_ON" = "Expired on {expiry_date}";
+/* Course Reset Date Banner Header */
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Missed some deadlines? ";
+/* Course Reset Date Banner Body */
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Don't worry - shift our suggested schedule to complete past due assignments without losing any progress.";
 /*Title for Discover*/
 "DISCOVER"="Discover";
 /*Title for Discovery*/

@@ -22,11 +22,12 @@ protocol CourseOutlineTableControllerDelegate: AnyObject {
     func resetCourseDate(controller: CourseOutlineTableController)
 }
 
-class CourseOutlineTableController: UITableViewController, ScrollableDelegateProvider {
+public class CourseOutlineTableController: UITableViewController, ScrollableDelegateProvider {
 
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & ServerConfigProvider
     
     weak var delegate: CourseOutlineTableControllerDelegate?
+    weak var newDashboardDelegate: NewCourseDashboardViewControllerDelegate?
     
     private let environment: Environment
     private let courseID: String
@@ -49,7 +50,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     private var isResumeCourse = false
     private var shouldHideTableViewHeader: Bool = false
     
-    weak var scrollableDelegate: ScrollableDelegate?
+    weak public var scrollableDelegate: ScrollableDelegate?
     private var scrollByDragging = false
         
     private var collapsedSections = Set<Int>()
@@ -116,7 +117,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         valuePropView.accessibilityIdentifier = "CourseOutlineTableController:value-prop-view"
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
@@ -208,7 +209,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if let path = tableView.indexPathForSelectedRow {
@@ -223,11 +224,11 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         courseOutlineMode == .video ? courseVideosHeaderView?.refreshView() : nil
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         tableView.reloadData()
     }
     
-    override func updateViewConstraints() {
+    public override func updateViewConstraints() {
         super.updateViewConstraints()
         refreshTableHeaderView(isResumeCourse: isResumeCourse)
     }
@@ -237,21 +238,21 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
     }
     
     // MARK: UITableView DataSource & Delegate
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    public override func numberOfSections(in tableView: UITableView) -> Int {
         return groups.count
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return shouldApplyNewStyle(groups[section])
             ? collapsedSections.contains(section) ? 0 : groups[section].children.count
             : groups[section].children.count
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    public override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return shouldApplyNewStyle(groups[section]) ? StandardVerticalMargin * 7.5 : StandardVerticalMargin * 3.75
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    public override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CourseOutlineHeaderCell.identifier) as! CourseOutlineHeaderCell
         
         let group = groups[section]
@@ -272,23 +273,23 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         return header
     }
     
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    public override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return shouldApplyNewStyle(groups[section]) ? StandardVerticalMargin * 2 : 0
     }
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    public override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return shouldApplyNewStyle(groups[section]) ? UIView() : nil
     }
     
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    public override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let group = groups[indexPath.section]
         let nodes = group.children
         let block = nodes[indexPath.row]
@@ -351,7 +352,7 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         }
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    public override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? CourseBlockContainerCell else {
             assertionFailure("All course outline cells should implement CourseBlockContainerCell")
             return
@@ -361,13 +362,13 @@ class CourseOutlineTableController: UITableViewController, ScrollableDelegatePro
         cell.applyStyle(style: highlighted ? .Highlighted : .Normal)
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let group = groups[indexPath.section]
         let chosenBlock = group.children[indexPath.row]
         delegate?.outlineTableController(controller: self, choseBlock: chosenBlock, parent: group.block.blockID)
     }
     
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    public override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         guard let cell = tableView.cellForRow(at: indexPath) as? SwipeableCell, cell.state != .initial  else {
             return indexPath
         }
@@ -534,7 +535,12 @@ extension CourseOutlineTableController {
     }
     
     func showCourseDateBanner(bannerInfo: DatesBannerInfo) {
-        if environment.config.isNewDashboardEnabled { return }
+        if environment.config.isNewDashboardEnabled {
+            if bannerInfo.status == .resetDatesBanner {
+                showCourseDates(bannerInfo: bannerInfo, delegate: self)
+            }
+            return
+        }
        
         if canShowValueProp && bannerInfo.status == .resetDatesBanner {
             courseDateBannerView.bannerInfo = bannerInfo
@@ -547,7 +553,10 @@ extension CourseOutlineTableController {
     }
     
     func hideCourseDateBanner() {
-        if environment.config.isNewDashboardEnabled { return }
+        if environment.config.isNewDashboardEnabled {
+            hideCourseDates()
+            return
+        }
         courseDateBannerView.bannerInfo = nil
         updateCourseDateBannerView(show: false)
     }
@@ -759,17 +768,17 @@ extension CourseOutlineTableController: BlockCompletionDelegate {
 }
 
 extension CourseOutlineTableController {
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    public override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         scrollByDragging = true
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollByDragging {
             scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
         }
     }
     
-    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    public override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         scrollByDragging = false
     }
 }
@@ -780,6 +789,16 @@ extension CourseOutlineTableController: CourseOutlineHeaderCellDelegate {
             collapsedSections = collapsedSections.symmetricDifference([section])
             tableView.reloadSections([section], with: .none)
         }
+    }
+}
+
+extension CourseOutlineTableController: NewCourseDashboardViewControllerDelegate {
+    public func showCourseDates(bannerInfo: DatesBannerInfo?, delegate: CourseOutlineTableController?) {
+        newDashboardDelegate?.showCourseDates(bannerInfo: bannerInfo, delegate: self)
+    }
+    
+    public func hideCourseDates() {
+        newDashboardDelegate?.hideCourseDates()
     }
 }
 

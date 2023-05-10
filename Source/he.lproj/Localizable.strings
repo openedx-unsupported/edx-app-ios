@@ -328,10 +328,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="מה שאומר שאינך יכול להשתתף במטלות מדורגות. נראה שהחמצת כמה מועדים חשובים בהתבסס על לוח הזמנים המוצע שלנו. כדי להשלים מטלות מדורגות כחלק מהקורס הזה ולהעביר את המטלות שנקבעו בעבר אל העתיד, אתה יכול לשדרג היום.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="נראה שהחמצת כמה מועדים חשובים בהתבסס על לוח הזמנים המוצע שלנו. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="כדי לשמור על עצמכם על המסלול, תוכלו לעדכן את לוח הזמנים הזה ולהעביר את ההקצאות שהוגשו לעתיד. אל דאגה - לא תאבד שום התקדמות שהשגת כאשר תשנה את תאריכי היעד שלך.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="תאריכי יעד של משמרת";
 /* Course Dates Title */

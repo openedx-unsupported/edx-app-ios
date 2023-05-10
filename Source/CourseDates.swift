@@ -221,7 +221,7 @@ enum BannerInfoStatus {
     }
 }
 
-class DatesBannerInfo {
+public class DatesBannerInfo {
     private enum Keys: String, RawStringExtractable {
         case contentTypeGatingEnabled = "content_type_gating_enabled"
         case missedDeadline = "missed_deadlines"
