@@ -272,9 +272,7 @@ extension OEXRouter {
                     dashboardController = controller as? NewCourseDashboardViewController
                 }
                 dashboardController?.switchTab(with: deeplink.type, deeplink: deeplink)
-                if (dashboardController?.currentVisibileController) != nil {
-                    completion?()
-                }
+                completion?()
             }
         }
     }
