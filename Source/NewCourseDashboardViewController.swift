@@ -11,6 +11,13 @@ import UIKit
 public protocol NewCourseDashboardViewControllerDelegate: AnyObject {
     func showCourseDates(bannerInfo: DatesBannerInfo?, delegate: CourseOutlineTableController?)
     func hideCourseDates()
+    func selectedController() -> UIViewController?
+}
+
+extension NewCourseDashboardViewControllerDelegate {
+    public func selectedController() -> UIViewController? {
+        return nil
+    }
 }
 
 class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOverriding {
@@ -562,6 +569,10 @@ extension NewCourseDashboardViewController: NewCourseDashboardViewControllerDele
     
     func hideCourseDates() {
         headerView.removeDatesBanner()
+    }
+    
+    func selectedController() -> UIViewController? {
+        return selectedTabbarItem?.viewController
     }
 }
 

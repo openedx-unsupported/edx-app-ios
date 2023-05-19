@@ -43,6 +43,7 @@ public class CourseOutlineViewController :
     private(set) var courseOutlineMode: CourseOutlineMode
     private var loadCachedResponse: Bool = true
     private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
+    weak var newDashboardDelegate: NewCourseDashboardViewControllerDelegate?
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     fileprivate var t_hasTriggeredSetResumeCourse = false
@@ -85,7 +86,7 @@ public class CourseOutlineViewController :
         tableController = CourseOutlineTableController(environment: environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: rootID)
         tableController.newDashboardDelegate = newDashboardDelegate
         resumeCourseController = ResumeCourseController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
-        
+        self.newDashboardDelegate = newDashboardDelegate
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
         addObservers()
@@ -405,7 +406,13 @@ public class CourseOutlineViewController :
     }
     
     private func showSnackBar() {
-        showDateResetSnackBar(message: Strings.Coursedates.toastSuccessMessage, buttonText: Strings.Coursedates.viewAllDates, showButton: true) { [weak self] in
+        guard let topController = UIApplication.shared.topMostController() else { return }
+        var showViewDatesButton = true
+        if let selectedController = newDashboardDelegate?.selectedController() {
+            showViewDatesButton = !(selectedController is CourseDatesViewController)
+        }
+        
+        topController.showDateResetSnackBar(message: Strings.Coursedates.toastSuccessMessage, buttonText: Strings.Coursedates.viewAllDates, showButton: showViewDatesButton) { [weak self] in
             if let weakSelf = self {
                 weakSelf.environment.router?.showDatesTabController(controller: weakSelf)
                 weakSelf.hideSnackBar()
