@@ -179,6 +179,8 @@ class CourseDashboardHeaderView: UIView {
     private let course: OEXCourse?
     private let tabbarItems: [TabBarItem]
     private let error: CourseAccessHelper?
+    // it will be used to hide value prop from header in favor of embeded value prop ob course dashboard
+    private var hideValueProp: Bool = false
     
     init(environment: Environment, course: OEXCourse?, tabbarItems: [TabBarItem], error: CourseAccessHelper?) {
         self.environment = environment
@@ -188,7 +190,7 @@ class CourseDashboardHeaderView: UIView {
         super.init(frame: .zero)
         
         addSubViews()
-        setConstraints()
+        setOrUpdateConstraints()
         configureView()
     }
     
@@ -224,7 +226,7 @@ class CourseDashboardHeaderView: UIView {
         addCertificateView()
     }
     
-    private func setConstraints() {
+    private func setOrUpdateConstraints() {
         containerView.snp.remakeConstraints { make in
             make.edges.equalTo(self)
         }
@@ -282,7 +284,7 @@ class CourseDashboardHeaderView: UIView {
             bottomContainer = certificateView
         }
         
-        if canShowValuePropView {
+        if canShowValuePropView && !hideValueProp {
             containerView.addSubview(valuePropView)
             
             valuePropView.snp.remakeConstraints { make in
@@ -293,6 +295,12 @@ class CourseDashboardHeaderView: UIView {
             }
             
             bottomContainer = valuePropView
+        }
+        else {
+            valuePropView.snp.remakeConstraints { make in
+                make.height.equalTo(0)
+            }
+            valuePropView.removeFromSuperview()
         }
         
         if bannerInfo != nil {
@@ -327,12 +335,12 @@ class CourseDashboardHeaderView: UIView {
     
     func showTabbarView(show: Bool) {
         showTabbar = show
-        setConstraints()
+        setOrUpdateConstraints()
     }
     
     func updateHeader(collapse: Bool) {
         courseInfoContainerView.alpha = collapse ? 0 : 1
-        valuePropView.alpha = collapse ? 0 : (canShowValuePropView ? 1 : 0)
+        valuePropView.alpha = collapse ? 0 : (canShowValuePropView && !hideValueProp ? 1 : 0)
         certificateView?.alpha = collapse ? 0 : 1
         datesBannerView.alpha = collapse ? 0 : 1
         updateTabbarConstraints(collapse: collapse)
@@ -360,7 +368,7 @@ class CourseDashboardHeaderView: UIView {
         datesBannerView.bannerInfo = bannerInfo
         datesBannerView.delegate = delegate
         datesBannerView.setupView()
-        setConstraints()
+        setOrUpdateConstraints()
     }
     
     func removeDatesBanner() {
@@ -368,7 +376,12 @@ class CourseDashboardHeaderView: UIView {
         datesBannerView.bannerInfo = bannerInfo
         datesBannerView.delegate = nil
         datesBannerView.removeFromSuperview()
-        setConstraints()
+        setOrUpdateConstraints()
+    }
+    
+    func hidevalueProp(hide: Bool = true) {
+        hideValueProp = hide
+        setOrUpdateConstraints()
     }
 }
 

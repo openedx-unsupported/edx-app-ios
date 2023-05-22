@@ -16,7 +16,7 @@ protocol CourseDashboardAccessErrorViewDelegate: AnyObject {
 
 class CourseDashboardAccessErrorView: UIView {
     
-    typealias Environment = OEXConfigProvider & ServerConfigProvider
+    typealias Environment = OEXConfigProvider & ServerConfigProvider & OEXInterfaceProvider
     weak var delegate: CourseDashboardAccessErrorViewDelegate?
     
     private lazy var infoMessagesView = ValuePropMessagesView()
@@ -94,7 +94,12 @@ class CourseDashboardAccessErrorView: UIView {
         update(title: title, info: info)
         fetchCoursePrice()
         
-        let upgradeEnabled = course.sku != nil && environment.serverConfig.iapConfig?.enabledforUser == true
+        var upgradeEnabled: Bool = false
+        
+        if let enrollment = environment.interface?.enrollmentForCourse(withID: course.course_id), enrollment.isUpgradeable && environment.serverConfig.iapConfig?.enabledforUser == true {
+            upgradeEnabled = true
+        }
+        
         setConstraints(showValueProp: showValueProp, showUpgradeButton: upgradeEnabled)
     }
     
@@ -211,7 +216,8 @@ class CourseDashboardAccessErrorView: UIView {
     }
     
     func fetchCoursePrice() {
-        guard let courseSku = course?.sku, environment?.serverConfig.iapConfig?.enabledforUser == true else { return }
+        guard let courseSku = course?.sku,
+              let enrollment = environment?.interface?.enrollmentForCourse(withID: course?.course_id), enrollment.isUpgradeable && environment?.serverConfig.iapConfig?.enabledforUser == true else { return }
         
         let startTime = CFAbsoluteTimeGetCurrent()
         DispatchQueue.main.async { [weak self] in

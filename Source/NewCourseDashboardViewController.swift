@@ -191,6 +191,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         container.subviews.forEach { $0.removeFromSuperview() }
         
         if showCourseAccessError {
+            headerView.hidevalueProp()
             let view = CourseDashboardAccessErrorView()
             view.delegate = self
             view.handleCourseAccessError(environment: environment, course: course, error: courseAccessHelper)
@@ -199,6 +200,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
                 make.edges.equalTo(container)
             }
         } else if showContentNotLoadedError {
+            headerView.hidevalueProp()
             let view = CourseDashboardErrorView()
             view.myCoursesAction = { [weak self] in
                 self?.dismiss(animated: true)
@@ -208,6 +210,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
                 make.edges.equalTo(container)
             }
         } else if let tabBarItem = selectedTabbarItem {
+            headerView.hidevalueProp(hide: false)
             let contentController = tabBarItem.viewController
             if var controller = contentController as? ScrollableDelegateProvider {
                 controller.scrollableDelegate = self
