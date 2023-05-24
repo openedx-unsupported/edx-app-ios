@@ -14,12 +14,12 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - name: "Test iOS 15"
-            runtime: "iOS-15-2"
+          - name: "Test iOS 15.5"
+            runtime: "iOS-15-5"
             device: "iPhone 8"
             task: "testLTRCurrentOS"
-          - name: "Test RTL iOS 15.2"
-            runtime: "iOS-15-2"
+          - name: "Test RTL iOS 15.5"
+            runtime: "iOS-15-5"
             device: "iPhone 8"
             task: "testRTLCurrentOS"
           - name: "Test iOS 14.4"
@@ -33,11 +33,11 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v2      
-    - name: "Select Xcode 13.2.1"
+    - name: "Select Xcode 13.4.1"
       run: |
         sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
         sudo ln -s /Applications/Xcode_12.4.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.4.simruntime
-        sudo xcode-select -s /Applications/Xcode_13.2.1.app
+        sudo xcode-select -s /Applications/Xcode_13.4.1.app
     - name: Run tests
       if: always()
       run: |
