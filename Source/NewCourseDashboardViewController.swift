@@ -564,7 +564,9 @@ public extension UIViewController {
                 self?.view.addSubview(overView)
             }
             
-            overView.frame = UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
+            let height = UIApplication.shared.window?.windowScene?.windows.first?.safeAreaInsets.top ?? 0
+            let frame = UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
+            overView.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
             overView.backgroundColor = color
         }
     }
