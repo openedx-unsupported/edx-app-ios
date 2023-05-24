@@ -941,13 +941,13 @@
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Profil";
 /* Value prop unlocking content */
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Entsperren voller Zugriff auf Ihren Kurs";
 /* Value prop unlocking content part one*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "Unlocking";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "Entsperren";
 /* Value prop unlocking content part two*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "full access";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "voller Zugriff";
 /* Value prop unlocking content part three*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "auf Ihren Kurs";
 /* Value prop upgrade text */
 "VALUE_PROP.UPGRADE"= "Upgrade für {course_name} durchführen";
 /* Value prop upgrade button text with price */

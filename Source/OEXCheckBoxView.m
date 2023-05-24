@@ -64,7 +64,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     NSInteger horizontalSpacing = 2;
-    NSInteger verticalSpacing = 5;
+    NSInteger verticalSpacing = 7;
     NSInteger width = self.frame.size.width - horizontalSpacing;
     NSInteger checkboxWidth = 25;
     self.checkBox.frame = CGRectMake(5, 0, checkboxWidth, checkboxWidth);

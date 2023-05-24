@@ -924,13 +924,13 @@
 /* Button title for profile view in account*/
 "USER_ACCOUNT.PROFILE"= "Hồ sơ";
 /* Value prop unlocking content */
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Unlocking full access to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS"= "Đang mở khóa toàn quyền truy cập vào khóa học của bạn";
 /* Value prop unlocking content part one*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "Unlocking";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_ONE"= "Đang mở khóa";
 /* Value prop unlocking content part two*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "full access";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_TWO"= "toàn quyền truy cập";
 /* Value prop unlocking content part three*/
-"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "to your course";
+"VALUE_PROP.UNLOCKING_COURSE_ACCESS_PART_THREE"= "vào khóa học của bạn";
 /* Value prop upgrade text */
 "VALUE_PROP.UPGRADE"= "Nâng cấp {course_name}";
 /* Value prop upgrade button text with price */
