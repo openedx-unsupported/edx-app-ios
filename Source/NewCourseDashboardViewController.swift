@@ -555,7 +555,7 @@ public extension UIViewController {
         DispatchQueue.main.async { [weak self] in
             let tag = 123454321
             let overView: UIView
-            if let taggedView = self?.view.viewWithTag(tag){
+            if let taggedView = self?.view.viewWithTag(tag) {
                 overView = taggedView
             }
             else {
