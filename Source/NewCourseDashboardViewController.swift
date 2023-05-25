@@ -80,6 +80,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         addSubviews()
         loadCourseStream()
+        setStatusBar(color: environment.styles.primaryLightColor())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +94,10 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     private func addSubviews() {
@@ -233,6 +238,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         setupContentView()
+        setStatusBar(color: environment.styles.primaryLightColor())
     }
     
     private func prepareTabViewData() {
@@ -540,6 +546,28 @@ extension NewCourseDashboardViewController {
             self?.view.layoutIfNeeded()
         } completion: { [weak self] _ in
             self?.headerViewState = .collapsed
+        }
+    }
+}
+
+public extension UIViewController {
+    func setStatusBar(color: UIColor) {
+        DispatchQueue.main.async { [weak self] in
+            let tag = 123454321
+            let overView: UIView
+            if let taggedView = self?.view.viewWithTag(tag) {
+                overView = taggedView
+            }
+            else {
+                overView = UIView()
+                overView.tag = tag
+                self?.view.addSubview(overView)
+            }
+            
+            let height = UIApplication.shared.window?.windowScene?.windows.first?.safeAreaInsets.top ?? 0
+            let frame = UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
+            overView.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
+            overView.backgroundColor = color
         }
     }
 }
