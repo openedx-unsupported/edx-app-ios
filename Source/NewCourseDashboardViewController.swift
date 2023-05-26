@@ -8,6 +8,18 @@
 
 import UIKit
 
+public protocol NewCourseDashboardViewControllerDelegate: AnyObject {
+    func showCourseDates(bannerInfo: DatesBannerInfo?, delegate: CourseOutlineTableController?)
+    func hideCourseDates()
+    func selectedController() -> UIViewController?
+}
+
+extension NewCourseDashboardViewControllerDelegate {
+    public func selectedController() -> UIViewController? {
+        return nil
+    }
+}
+
 class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider & ServerConfigProvider
@@ -120,7 +132,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.lessThanOrEqualTo(StandardVerticalMargin * 60)
+            make.height.lessThanOrEqualTo(StandardVerticalMargin * 100)
         }
         
         container.snp.remakeConstraints { make in
@@ -179,6 +191,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         container.subviews.forEach { $0.removeFromSuperview() }
         
         if showCourseAccessError {
+            headerView.hidevalueProp()
             let view = CourseDashboardAccessErrorView()
             view.delegate = self
             view.handleCourseAccessError(environment: environment, course: course, error: courseAccessHelper)
@@ -187,6 +200,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
                 make.edges.equalTo(container)
             }
         } else if showContentNotLoadedError {
+            headerView.hidevalueProp()
             let view = CourseDashboardErrorView()
             view.myCoursesAction = { [weak self] in
                 self?.dismiss(animated: true)
@@ -196,6 +210,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
                 make.edges.equalTo(container)
             }
         } else if let tabBarItem = selectedTabbarItem {
+            headerView.hidevalueProp(hide: false)
             let contentController = tabBarItem.viewController
             if var controller = contentController as? ScrollableDelegateProvider {
                 controller.scrollableDelegate = self
@@ -243,8 +258,8 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private func prepareTabViewData() {
         tabBarItems = []
-        
-        var item = TabBarItem(title: Strings.Dashboard.courseHome, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+        let outlineController = CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full, newDashboardDelegate: self)
+        var item = TabBarItem(title: Strings.Dashboard.courseHome, viewController: outlineController, icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
         tabBarItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
@@ -547,6 +562,20 @@ extension NewCourseDashboardViewController {
         } completion: { [weak self] _ in
             self?.headerViewState = .collapsed
         }
+    }
+}
+
+extension NewCourseDashboardViewController: NewCourseDashboardViewControllerDelegate {
+    func showCourseDates(bannerInfo: DatesBannerInfo?, delegate: CourseOutlineTableController?) {
+        headerView.showDatesBanner(delegate: delegate, bannerInfo: bannerInfo)
+    }
+    
+    func hideCourseDates() {
+        headerView.removeDatesBanner()
+    }
+    
+    func selectedController() -> UIViewController? {
+        return selectedTabbarItem?.viewController
     }
 }
 

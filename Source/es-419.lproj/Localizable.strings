@@ -320,10 +320,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="lo que significa que no puedes participar en tareas calificadas. Parece que no cumpliste con algunos plazos importantes según nuestro calendario sugerido. Para completar las asignaciones calificadas como parte de este curso y cambiar las asignaciones vencidas al futuro, puedes cambiarte a la opción paga.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Cambiate a la opción paga para poder cambiar fechas de entrega";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Parece que no has cumplido con algunos plazos importantes según nuestro calendario sugerido.";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Para mantenerte en el camino adecuado, puedes actualizar este calendario y mover las tareas vencidas hacia el futuro. No te preocupes, no perderás nada de lo que hayas avanzado cuando cambies las fechas de entrega.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Cambia las fechas de entrega";
 /* Course Dates Title */

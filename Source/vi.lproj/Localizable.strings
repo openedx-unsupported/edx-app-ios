@@ -316,10 +316,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="điều này có nghĩa là bạn không thể tham gia vào các bài tập chấm điểm. Có vẻ như bạn đã bỏ lỡ một số hạn chót quan trọng dựa trên lịch biểu gợi ý của chúng tôi. Để hoàn thành các bài tập chấm điểm thuộc khóa học này và di chuyển các bài tập đã quá hạn đến tương lai, bạn có thể nâng cấp hôm nay.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Có vẻ như bạn đã bỏ lỡ một số hạn chót quan trọng dựa trên lịch biểu gợi ý của chúng tôi. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"=" Để duy trì đúng hướng đi, bạn có thể cập nhật lịch biểu này và di chuyển các bài tập đã quá hạn đến tương lai. Đừng lo lắng—bạn sẽ không mất bất kỳ tiến bộ nào mà bạn đã đạt được khi di chuyển ngày đến hạn.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Di chuyển ngày đến hạn";
 /* Course Dates Title */

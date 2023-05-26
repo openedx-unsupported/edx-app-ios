@@ -316,10 +316,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="採点対象の課題には参加できません。推奨スケジュールにある重要な期限が守られなかったようです。このコースで採点対象の課題を完了し、過去の期限付き課題を未来日付に移動させるには、アップグレードしてください。";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="推奨スケジュールにある重要な期限が守られなかったようです。";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="このスケジュールを更新し、過去の課題を未来日付に移動させることで、学習を計画通りに進めることができます。期限をずらしてもこれまでの進捗が失われることはありませんので、ご安心ください。";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="期限を移動";
 /* Course Dates Title */

@@ -321,9 +321,9 @@
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
 /* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="It looks like you missed some important deadlines based on our suggested schedule. ";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Missed some deadlines?";
 /* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="To keep yourself on track, you can update this schedule and shift the past due assignments into the future. Don’t worry—you won’t lose any of the progress you’ve made when you shift your due dates.";
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Don't worry - shift our suggested schedule to complete past due assignments without losing any progress.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Shift due dates";
 /* Course Dates Title */

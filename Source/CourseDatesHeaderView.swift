@@ -133,7 +133,7 @@ class CourseDatesHeaderView: UITableViewHeaderFooterView {
             setupBottomContainer()
         }
         
-        if !isSelfPaced && bannerInfo.status != .upgradeToCompleteGradedBanner {
+        if (!isSelfPaced && bannerInfo.status != .upgradeToCompleteGradedBanner) || bannerInfo.status == .resetDatesBanner {
             topContainer.subviews.forEach { $0.removeFromSuperview() }
         }
         

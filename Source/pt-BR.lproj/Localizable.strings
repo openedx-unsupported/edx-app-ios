@@ -321,10 +321,6 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="o que significa que você não pode participar em avaliações. Para completar avaliações como uma parte deste curso, faça o upgrade hoje. Parece que você perdeu alguns prazos importantes baseados em nossa programação sugerida. Para completar avaliações como parte deste curso e adiar tarefas já atrasadas, faça o upgrade hoje.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Parece que você perdeu alguns prazos importantes baseados em nossa programação sugerida. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Para se ficar em dia, você pode atualizar esta programação e adiar as tarefas já atrasadas. Não se preocupe – você não perderá o progresso já feito.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Alterar datas de entrega";
 /* Course Dates Title */
