@@ -78,6 +78,7 @@ public class CourseOutlineViewController :
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?, newDashboardDelegate: NewCourseDashboardViewControllerDelegate? = nil) {
         self.rootID = rootID
         self.environment = environment
+        self.newDashboardDelegate = newDashboardDelegate
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         
         loadController = LoadStateViewController()
@@ -86,7 +87,7 @@ public class CourseOutlineViewController :
         tableController = CourseOutlineTableController(environment: environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: rootID)
         tableController.newDashboardDelegate = newDashboardDelegate
         resumeCourseController = ResumeCourseController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
-        self.newDashboardDelegate = newDashboardDelegate
+        
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
         addObservers()

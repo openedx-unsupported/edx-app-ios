@@ -34,7 +34,7 @@ class CourseDashboardHeaderView: UIView {
     private lazy var containerView = UIView()
     private lazy var courseInfoContainerView = UIView()
     private var bottomContainer = UIView()
-    lazy private var datesBannerView = NewCourseDateBannerView()
+    private lazy var datesBannerView = NewCourseDateBannerView()
     private var bannerInfo: DatesBannerInfo? = nil
     
     private lazy var orgLabel: UILabel = {
@@ -179,7 +179,7 @@ class CourseDashboardHeaderView: UIView {
     private let course: OEXCourse?
     private let tabbarItems: [TabBarItem]
     private let error: CourseAccessHelper?
-    // it will be used to hide value prop from header in favor of embeded value prop ob course dashboard
+    // it will be used to hide value prop from header in favor of embeded value prop on course dashboard
     private var hideValueProp: Bool = false
     
     init(environment: Environment, course: OEXCourse?, tabbarItems: [TabBarItem], error: CourseAccessHelper?) {

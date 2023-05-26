@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-private let cornerRadius: CGFloat = 0
-
 class NewCourseDateBannerView: UIView {
     private var buttonHeight: CGFloat = 32
     private lazy var container = UIView()
@@ -44,7 +42,7 @@ class NewCourseDateBannerView: UIView {
         button.layer.backgroundColor = OEXStyles.shared().primaryBaseColor().cgColor
         button.layer.borderColor = OEXStyles.shared().primaryBaseColor().cgColor
         button.layer.borderWidth = 1
-        button.layer.cornerRadius = cornerRadius
+        button.layer.cornerRadius = 0
         button.oex_removeAllActions()
         button.oex_addAction({ [weak self] _ in
             self?.bannerButtonAction()
