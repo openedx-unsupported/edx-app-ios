@@ -24,6 +24,8 @@ class CourseContentHeaderView: UIView {
     private let attributedIconOfset: CGFloat = -4
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{2002}")
     private let dropDownBottomOffset: CGFloat = StandardVerticalMargin * 2.4
+    private let cellHeight: CGFloat = 36
+    private let gatedCellHeight: CGFloat = 76
     
     private lazy var headerTextstyle = OEXMutableTextStyle(weight: .bold, size: .base, color: environment.styles.neutralWhiteT())
     private lazy var titleTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.neutralWhiteT())
@@ -105,7 +107,8 @@ class CourseContentHeaderView: UIView {
         backButton.snp.makeConstraints { make in
             make.leading.equalTo(self).inset(StandardHorizontalMargin * 0.86)
             make.top.equalTo(self).offset(StandardVerticalMargin * 1.25)
-            make.width.height.equalTo(imageSize)
+            make.height.equalTo(imageSize)
+            make.width.equalTo(imageSize)
         }
         
         headerLabel.snp.makeConstraints { make in
@@ -130,12 +133,15 @@ class CourseContentHeaderView: UIView {
     func showDropDown() {
         let dropDown = DropDown()
         
+        let safeAreaInset = UIApplication.shared.windows.first?.safeAreaInsets ?? .zero
+        
         self.tableView = dropDown.setupCustom()
         
         dropDown.bottomOffset = CGPoint(x: 0, y: dropDownBottomOffset)
         dropDown.direction = .bottom
         dropDown.anchorView = subtitleView
         dropDown.dismissMode = .automatic
+        dropDown.offsetFromWindowBottom = safeAreaInset.bottom
         
         self.dropDown = dropDown
         
@@ -145,14 +151,16 @@ class CourseContentHeaderView: UIView {
         tableView?.register(NewCourseGatedContentHeaderTableViewCell.self, forCellReuseIdentifier: NewCourseGatedContentHeaderTableViewCell.identifier)
         
         tableView?.rowHeight = UITableView.automaticDimension
-        tableView?.estimatedRowHeight = 44
+        tableView?.estimatedRowHeight = cellHeight
         
         tableView?.separatorStyle = .singleLine
         tableView?.separatorColor = OEXStyles.shared().neutralXLight()
         tableView?.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         
-        dropDown.updatedMinHeight = 44
-        dropDown.updatedTableHeight = 44 * CGFloat(blocks.count)
+        dropDown.updatedMinHeight = cellHeight
+        
+        let height = blocks.reduce(0) { $0 + ($1.isGated ? gatedCellHeight : cellHeight) }
+        dropDown.updatedTableHeight = height
         
         tableView?.reloadData()
         
@@ -175,7 +183,7 @@ class CourseContentHeaderView: UIView {
         let subtitleTextString = [
             subtitleTextStyle.attributedString(withText: subtitle),
             attributedUnicodeSpace,
-            Icon.Dropdown.attributedText(style: subtitleTextStyle, yOffset: attributedIconOfset)
+            Icon.Dropdown.attributedText(with: imageSize, color: environment.styles.neutralWhiteT(), yOffset: attributedIconOfset),
         ]
         
         subtitleView.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: subtitleTextString)
@@ -220,5 +228,10 @@ extension CourseContentHeaderView: UITableViewDelegate, UITableViewDataSource {
         let block = blocks[index]
         delegate?.didTapOnBlock(block: block, index: index)
         dropDown?.hide()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let block = blocks[indexPath.row]
+        return block.isGated ? gatedCellHeight : cellHeight
     }
 }

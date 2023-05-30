@@ -65,14 +65,19 @@ class NewCourseContentController: UIViewController {
     private let courseID: CourseBlockID
     private let courseQuerier: CourseOutlineQuerier
     
-    init(environment: Environment, blockID: CourseBlockID?, parentID: CourseBlockID?, courseID: CourseBlockID) {
+    init(environment: Environment, blockID: CourseBlockID?, resumeCourseBlockID: CourseBlockID? = nil, parentID: CourseBlockID? = nil, courseID: CourseBlockID) {
         self.environment = environment
         self.blockID = blockID
         self.parentID = parentID
         self.courseID = courseID
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         super.init(nibName: nil, bundle: nil)
-        findCourseBlockToShow()
+        
+        if let resumeCourseBlockID = resumeCourseBlockID {
+            self.currentBlock = courseQuerier.blockWithID(id: resumeCourseBlockID).firstSuccess().value
+        } else {
+            findCourseBlockToShow()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

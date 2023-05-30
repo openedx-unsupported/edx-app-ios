@@ -25,6 +25,8 @@ class NewCourseContentHeaderTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let separator = UIView()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -49,10 +51,12 @@ class NewCourseContentHeaderTableViewCell: UITableViewCell {
     private func addSubViews() {
         contentView.addSubview(completedImageView)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(separator)
+        separator.backgroundColor = OEXStyles.shared().neutralXLight()
         
         completedImageView.snp.remakeConstraints { make in
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.height.width.equalTo(13)
+            make.height.width.equalTo(16)
             make.centerY.equalTo(contentView)
         }
         
@@ -60,6 +64,13 @@ class NewCourseContentHeaderTableViewCell: UITableViewCell {
             make.leading.equalTo(completedImageView.snp.trailing).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
             make.centerY.equalTo(contentView)
+        }
+        
+        separator.snp.remakeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(self)
+            make.height.equalTo(1)
         }
     }
     

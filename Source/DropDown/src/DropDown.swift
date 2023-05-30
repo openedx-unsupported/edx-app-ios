@@ -1020,7 +1020,6 @@ extension DropDown {
 	}
 
     fileprivate func cancel(shouldCallCallback: Bool = false) {
-        
 		hide()
 		if shouldCallCallback {
             isVisible = false
