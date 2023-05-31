@@ -46,10 +46,15 @@ extension UIViewController {
         return (navigationController != nil && navigationController?.presentingViewController?.presentedViewController == navigationController)
     }
     
-    func configurePresentationController(withSourceView sourceView: UIView) {
+    func configurePresentationController(withSourceView sourceView: UIView, location: CGRect? = nil) {
         if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
             popoverPresentationController?.sourceView = sourceView
-            popoverPresentationController?.sourceRect = sourceView.bounds
+            if let location = location {
+                popoverPresentationController?.sourceRect = location
+            }
+            else {
+                popoverPresentationController?.sourceRect = sourceView.bounds
+            }
         }
     }
     

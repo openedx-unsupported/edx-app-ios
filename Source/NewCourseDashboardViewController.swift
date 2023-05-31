@@ -370,7 +370,7 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
         dismiss(animated: true)
     }
     
-    func didTapOnShareCourse() {
+    func didTapOnShareCourse(shareView: UIView) {
         guard let course = course,
               let urlString = course.course_about,
               let url = NSURL(string: urlString) else { return }
@@ -381,7 +381,10 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
             self?.environment.analytics.trackCourseShared(courseID: self?.courseID ?? "", url: urlString, type: analyticsType)
         }
         
-        controller.configurePresentationController(withSourceView: view)
+        let location = CGRect(x: shareView.bounds.origin.x + shareView.bounds.size.width - 18, y: shareView.bounds.origin.y, width: 18, height: shareView.bounds.size.height)
+        
+        controller.configurePresentationController(withSourceView: shareView, location: location)
+        
         present(controller, animated: true, completion: nil)
     }
     
