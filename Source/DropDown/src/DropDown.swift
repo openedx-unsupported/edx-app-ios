@@ -572,14 +572,10 @@ extension DropDown {
             self.setupUI()
         }
 
-        //tableView.rowHeight = cellHeight
         setHiddentState()
         isHidden = true
 
         dismissMode = .onTap
-
-        //tableView.delegate = self
-        //tableView.dataSource = self
         
         startListeningToKeyboard()
 

@@ -176,7 +176,6 @@
 		5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */; };
 		5F08321427018D810022971F /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F08321327018D810022971F /* BannerViewController.swift */; };
 		5F11143A298A9C7F00964F02 /* ScrollableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F111439298A9C7F00964F02 /* ScrollableDelegate.swift */; };
-		5F12861E29F71C13006F778A /* DropDownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F12861D29F71C13006F778A /* DropDownCell.xib */; };
 		5F1E03FC26CA64B9004F8139 /* VideoDownloadQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */; };
 		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
@@ -185,6 +184,7 @@
 		5F2DFCB229278F0200BDA40A /* NewCourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */; };
 		5F35022427901E7400F76CB4 /* ValuePropUnlockViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */; };
 		5F371470260B3BC9004937DA /* Observeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F37146F260B3BC9004937DA /* Observeable.swift */; };
+		5F3807B02A2871EB00D87796 /* DropDownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F3807AF2A2871EB00D87796 /* DropDownCell.xib */; };
 		5F3A619A265796A7005329A4 /* CalendarSyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */; };
 		5F45030E276B4B290054D266 /* CourseUpgradeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F45030D276B4B290054D266 /* CourseUpgradeHelper.swift */; };
 		5F46A7CC24ADFFA300347EFC /* CourseDateViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */; };
@@ -1178,7 +1178,6 @@
 		5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesAPI.swift; sourceTree = "<group>"; };
 		5F08321327018D810022971F /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
 		5F111439298A9C7F00964F02 /* ScrollableDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableDelegate.swift; sourceTree = "<group>"; };
-		5F12861D29F71C13006F778A /* DropDownCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DropDownCell.xib; path = ../../../../../DropDown/DropDown/resources/DropDownCell.xib; sourceTree = "<group>"; };
 		5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloadQuality.swift; sourceTree = "<group>"; };
 		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
@@ -1187,6 +1186,7 @@
 		5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCourseDashboardViewController.swift; sourceTree = "<group>"; };
 		5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropUnlockViewContainer.swift; sourceTree = "<group>"; };
 		5F37146F260B3BC9004937DA /* Observeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observeable.swift; sourceTree = "<group>"; };
+		5F3807AF2A2871EB00D87796 /* DropDownCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DropDownCell.xib; sourceTree = "<group>"; };
 		5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSyncConfig.swift; sourceTree = "<group>"; };
 		5F45030D276B4B290054D266 /* CourseUpgradeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUpgradeHelper.swift; sourceTree = "<group>"; };
 		5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDateViewCell.swift; sourceTree = "<group>"; };
@@ -2573,7 +2573,7 @@
 		5FFB73B02849F10D000523BF /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				5F12861D29F71C13006F778A /* DropDownCell.xib */,
+				5F3807AF2A2871EB00D87796 /* DropDownCell.xib */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -4540,7 +4540,7 @@
 				69ECC60A1D50D1170030CF87 /* Icon-29@3x.png in Resources */,
 				5F6F2B64255AABA400AA3708 /* Inter-SemiBold.ttf in Resources */,
 				69ECC6191D50D1170030CF87 /* bt_grey_deactive.png in Resources */,
-				5F12861E29F71C13006F778A /* DropDownCell.xib in Resources */,
+				5F3807B02A2871EB00D87796 /* DropDownCell.xib in Resources */,
 				5F6F2B67255AABA400AA3708 /* Inter-LightItalic.ttf in Resources */,
 				6926CDAC1D59BE3600A16E22 /* ic_next.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
