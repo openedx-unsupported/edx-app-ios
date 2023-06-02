@@ -11,7 +11,7 @@ import UIKit
 protocol CourseDashboardHeaderViewDelegate: AnyObject {
     func didTapOnValueProp()
     func didTapOnClose()
-    func didTapOnShareCourse()
+    func didTapOnShareCourse(shareView: UIView)
     func didTapTabbarItem(at position: Int, tabbarItem: TabBarItem)
 }
 
@@ -62,7 +62,7 @@ class CourseDashboardHeaderView: UIView {
         textView.textContainerInset = UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
         
         let tapGesture = AttachmentTapGestureRecognizer { [weak self] _ in
-            self?.delegate?.didTapOnShareCourse()
+            self?.delegate?.didTapOnShareCourse(shareView: textView)
         }
         
         textView.addGestureRecognizer(tapGesture)
@@ -260,7 +260,7 @@ class CourseDashboardHeaderView: UIView {
         courseTitle.snp.remakeConstraints { make in
             make.top.equalTo(orgLabel.snp.bottom).offset(StandardVerticalMargin / 2)
             make.leading.equalTo(courseInfoContainerView)
-            make.trailing.equalTo(courseInfoContainerView)
+            make.trailing.lessThanOrEqualTo(courseInfoContainerView)
         }
         
         accessLabel.snp.remakeConstraints { make in
