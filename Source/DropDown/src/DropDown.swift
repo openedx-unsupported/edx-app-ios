@@ -50,17 +50,17 @@ public final class DropDown: UIView {
     var updatedTableHeight: CGFloat?
     var updatedMinHeight: CGFloat?
     
-    private var isVisible = false
-            
-        private var isHitTest: Bool = false {
-            didSet {
-                if isHitTest {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                        self?.isHitTest = false
-                    }
+    private(set) var isVisible = false
+    
+    private var isHitTest: Bool = false {
+        didSet {
+            if isHitTest {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                    self?.isHitTest = false
                 }
             }
         }
+    }
 
 	/// The dismiss mode for a drop down.
 	public enum DismissMode {
@@ -580,7 +580,6 @@ extension DropDown {
         startListeningToKeyboard()
 
         accessibilityIdentifier = "drop_down"
-        
         return tableView
     }
 
@@ -1236,7 +1235,8 @@ extension DropDown: UITableViewDataSource, UITableViewDelegate {
 extension DropDown {
 
 	public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-		let view = super.hitTest(point, with: event)
+        let view = super.hitTest(point, with: event)
+        isHitTest = true
 
 		if dismissMode == .automatic && view === dismissableView {
             cancel(shouldCallCallback: true)

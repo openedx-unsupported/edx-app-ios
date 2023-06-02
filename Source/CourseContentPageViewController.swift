@@ -409,17 +409,22 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     public func moveToBlock(block: CourseBlock, index: Int) {
-        guard let cursor = contentLoader.value else { return }
+        guard let cursor = contentLoader.value, cursor.current.block.blockID != block.blockID else {
+            return
+        }
+        
+        let currentIndex = cursor.currentIndex()
         
         cursor.updateCurrentToItemMatching { $0.block.blockID == block.blockID }
         
-        let direction: NavigationDirection = index > currentPageItemIndex ? .forward : .reverse
+        let nextIndex = cursor.currentIndex()
+        
+        let direction: NavigationDirection = nextIndex > index ? .forward : .reverse
         
         guard let nextController = controllerForBlock(block: block) else { return }
         
         setPageControllers(with: [nextController], direction: direction, animated: true) { [weak self] finished in
             guard let weakSelf = self else { return }
-            
             weakSelf.updateTransitionState(is: false)
             if weakSelf.shouldCelebrationAppear {
                 weakSelf.showCelebratoryModal(direction: direction, overController: nextController)

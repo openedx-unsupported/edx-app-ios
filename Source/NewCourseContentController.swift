@@ -199,9 +199,9 @@ class NewCourseContentController: UIViewController {
     }
     
     private func updateTitle(block: CourseBlock) {
-        guard let parent = courseQuerier.parentOfBlockWith(id: block.blockID).firstSuccess().value
+        guard let parent = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value
         else { return }
-        headerView.setup(title: parent.displayName, subtitle: block.displayName)
+        headerView.update(title: parent.displayName, subtitle: block.displayName)
     }
 }
 

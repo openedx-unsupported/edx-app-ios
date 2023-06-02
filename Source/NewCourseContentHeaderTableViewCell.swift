@@ -12,8 +12,10 @@ class NewCourseContentHeaderTableViewCell: UITableViewCell {
     static let identifier = "NewCourseContentHeaderTableViewCell"
     
     private lazy var titleStyle = OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXXDark())
+    
     private lazy var completedImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.accessibilityIdentifier = "NewCourseGatedContentHeaderTableViewCell:image-view"
         imageView.image = Icon.CheckCircle.imageWithFontSize(size: 16)
         imageView.tintColor = OEXStyles.shared().successBase()
         return imageView
@@ -21,6 +23,7 @@ class NewCourseContentHeaderTableViewCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.accessibilityIdentifier = "NewCourseGatedContentHeaderTableViewCell:title-label"
         label.numberOfLines = 1
         return label
     }()

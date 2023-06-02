@@ -162,7 +162,7 @@ class CourseDashboardHeaderView: UIView {
     
     private lazy var courseTextLabelStyle: OEXMutableTextStyle = {
         let style = OEXMutableTextStyle(textStyle: OEXTextStyle(weight: .bold, size: .base, color: environment.styles.neutralWhiteT()))
-        style.lineBreakMode = .byWordWrapping
+        style.alignment = .center
         return style
     }()
     
@@ -241,7 +241,7 @@ class CourseDashboardHeaderView: UIView {
         courseTitleLabel.snp.remakeConstraints { make in
             make.top.equalTo(closeButton)
             make.centerY.equalTo(closeButton)
-            make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
+            make.leading.equalTo(containerView).offset((StandardHorizontalMargin * 2) + imageSize)
             make.trailing.equalTo(closeButton.snp.leading).offset(-StandardHorizontalMargin)
         }
         

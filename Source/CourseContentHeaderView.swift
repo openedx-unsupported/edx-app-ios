@@ -23,11 +23,16 @@ class CourseContentHeaderView: UIView {
     private let imageSize: CGFloat = 20
     private let attributedIconOfset: CGFloat = -4
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{2002}")
-    private let dropDownBottomOffset: CGFloat = StandardVerticalMargin * 2.4
+    private let dropDownBottomOffset: CGFloat = StandardVerticalMargin * 5
     private let cellHeight: CGFloat = 36
     private let gatedCellHeight: CGFloat = 76
     
-    private lazy var headerTextstyle = OEXMutableTextStyle(weight: .bold, size: .base, color: environment.styles.neutralWhiteT())
+    private lazy var headerTextstyle: OEXMutableTextStyle = {
+        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: environment.styles.neutralWhiteT())
+        style.alignment = .center
+        return style
+    }()
+    
     private lazy var titleTextStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.neutralWhiteT())
     private lazy var subtitleTextStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.neutralWhiteT())
     
@@ -57,25 +62,41 @@ class CourseContentHeaderView: UIView {
         return label
     }()
     
-    private lazy var subtitleView: UITextView = {
-        let textView = UITextView()
-        textView.accessibilityIdentifier = "CourseContentHeaderView:subtitle-label"
-        textView.isEditable = false
-        textView.isSelectable = true
-        textView.isUserInteractionEnabled = true
-        textView.backgroundColor = .clear
-        textView.isScrollEnabled = false
-        let padding = textView.textContainer.lineFragmentPadding
-        textView.textContainerInset = UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
-        
-        let tapGesture = AttachmentTapGestureRecognizer { [weak self] _ in
-            self?.showDropDown()
-        }
-        
-        textView.addGestureRecognizer(tapGesture)
-        
-        return textView
+    private lazy var subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.accessibilityIdentifier = "CourseContentHeaderView:subtitle-label"
+        return label
     }()
+    
+    private lazy var bottomContainer = UIView()
+    
+    private lazy var imageContainer = UIView()
+    
+    private lazy var dropDownImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.accessibilityIdentifier = "LearnContainerHeaderView:image-view"
+        imageView.image = Icon.Dropdown.imageWithFontSize(size: imageSize)
+        imageView.tintColor = environment.styles.neutralWhiteT()
+        return imageView
+    }()
+    
+    private lazy var button: UIButton = {
+        let button = UIButton()
+        button.oex_addAction({ [weak self] _ in
+            self?.handleDropDown()
+        }, for: .touchUpInside)
+        return button
+    }()
+    
+    private var shouldShowDropDown: Bool = true {
+        didSet {
+            if !shouldShowDropDown {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                    self?.shouldShowDropDown = true
+                }
+            }
+        }
+    }
     
     private var dropDown: DropDown?
     private var tableView: UITableView?
@@ -100,10 +121,25 @@ class CourseContentHeaderView: UIView {
         addSubview(backButton)
         addSubview(headerLabel)
         addSubview(titleLabel)
-        addSubview(subtitleView)
+        
+        bottomContainer.addSubview(subtitleLabel)
+        bottomContainer.addSubview(imageContainer)
+        bottomContainer.addSubview(button)
+        addSubview(bottomContainer)
+        
+        imageContainer.addSubview(dropDownImageView)
+        
+        subtitleLabel.numberOfLines = 1
     }
     
     private func addConstraints() {
+        dropDownImageView.snp.makeConstraints { make in
+            make.leading.equalTo(imageContainer)
+            make.top.equalTo(imageContainer)
+            make.bottom.equalTo(imageContainer)
+            make.width.equalTo(imageSize)
+        }
+        
         backButton.snp.makeConstraints { make in
             make.leading.equalTo(self).inset(StandardHorizontalMargin * 0.86)
             make.top.equalTo(self).offset(StandardVerticalMargin * 1.25)
@@ -112,9 +148,10 @@ class CourseContentHeaderView: UIView {
         }
         
         headerLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(backButton)
             make.top.equalTo(backButton)
             make.leading.equalTo(backButton.snp.trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
+            make.trailing.equalTo(self).inset((StandardHorizontalMargin * 1.86 + imageSize) + StandardHorizontalMargin)
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -123,26 +160,59 @@ class CourseContentHeaderView: UIView {
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
         
-        subtitleView.snp.makeConstraints { make in
+        bottomContainer.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin / 2)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
+        
+        subtitleLabel.snp.makeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+        }
+        
+        imageContainer.snp.makeConstraints { make in
+            make.leading.equalTo(subtitleLabel.snp.trailing).offset(10)
+            make.trailing.top.bottom.equalToSuperview()
+            make.width.greaterThanOrEqualTo(imageSize)
+        }
+        
+        button.snp.makeConstraints { make in
+            make.leading.equalTo(bottomContainer)
+            make.top.equalTo(bottomContainer)
+            make.bottom.equalTo(bottomContainer)
+            make.trailing.equalTo(dropDownImageView)
+        }
     }
     
-    func showDropDown() {
-        let dropDown = DropDown()
-        
+    private func handleDropDown() {
+        if dropDown?.isVisible == true {
+            dropDown?.hide()
+            rotateImageView(clockWise: false)
+            dropDown = nil
+        } else {
+            if shouldShowDropDown {
+                showDropDown()
+                rotateImageView(clockWise: true)
+            }
+        }
+    }
+    
+    private func showDropDown() {
         let safeAreaInset = UIApplication.shared.windows.first?.safeAreaInsets ?? .zero
         
+        let dropDown = DropDown()
         self.tableView = dropDown.setupCustom()
         
         dropDown.bottomOffset = CGPoint(x: 0, y: dropDownBottomOffset)
         dropDown.direction = .bottom
-        dropDown.anchorView = subtitleView
+        dropDown.anchorView = bottomContainer
         dropDown.dismissMode = .automatic
+        dropDown.cornerRadius = 10
         dropDown.offsetFromWindowBottom = safeAreaInset.bottom
-        
+        dropDown.cancelAction = { [weak self] in
+            self?.shouldShowDropDown = false
+            self?.rotateImageView(clockWise: false)
+        }
         self.dropDown = dropDown
         
         tableView?.dataSource = self
@@ -154,8 +224,9 @@ class CourseContentHeaderView: UIView {
         tableView?.estimatedRowHeight = cellHeight
         
         tableView?.separatorStyle = .singleLine
-        tableView?.separatorColor = OEXStyles.shared().neutralXLight()
+        tableView?.separatorColor = environment.styles.neutralXLight()
         tableView?.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        tableView?.layer.cornerRadius = 10
         
         dropDown.updatedMinHeight = cellHeight
         
@@ -167,6 +238,17 @@ class CourseContentHeaderView: UIView {
         dropDown.show()
     }
     
+    private func rotateImageView(clockWise: Bool) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let weakSelf = self else { return }
+            if clockWise {
+                weakSelf.dropDownImageView.transform = weakSelf.dropDownImageView.transform.rotated(by: -(.pi * 0.999))
+            } else {
+                weakSelf.dropDownImageView.transform = .identity
+            }
+        }
+    }
+    
     func setBlocks(currentBlock: CourseBlock, blocks: [CourseBlock]) {
         self.currentBlock = currentBlock
         self.blocks = blocks
@@ -176,17 +258,10 @@ class CourseContentHeaderView: UIView {
         headerLabel.alpha = show ? 1 : 0
     }
     
-    func setup(title: String, subtitle: String?) {
+    func update(title: String, subtitle: String?) {
         headerLabel.attributedText = headerTextstyle.attributedString(withText: title)
         titleLabel.attributedText = titleTextStyle.attributedString(withText: title)
-        
-        let subtitleTextString = [
-            subtitleTextStyle.attributedString(withText: subtitle),
-            attributedUnicodeSpace,
-            Icon.Dropdown.attributedText(with: imageSize, color: environment.styles.neutralWhiteT(), yOffset: attributedIconOfset),
-        ]
-        
-        subtitleView.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: subtitleTextString)
+        subtitleLabel.attributedText = subtitleTextStyle.attributedString(withText: subtitle)
     }
 }
 
@@ -206,18 +281,18 @@ extension CourseContentHeaderView: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: NewCourseGatedContentHeaderTableViewCell.identifier, for: indexPath) as! NewCourseGatedContentHeaderTableViewCell
             cell.setup(block: block)
             if let currentBlock = currentBlock, block.blockID == currentBlock.blockID {
-                cell.contentView.backgroundColor = OEXStyles.shared().neutralXLight()
+                cell.contentView.backgroundColor = environment.styles.neutralXLight()
             } else {
-                cell.contentView.backgroundColor = OEXStyles.shared().neutralWhiteT()
+                cell.contentView.backgroundColor = environment.styles.neutralWhiteT()
             }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: NewCourseContentHeaderTableViewCell.identifier, for: indexPath) as! NewCourseContentHeaderTableViewCell
             cell.setup(block: block)
             if let currentBlock = currentBlock, block.blockID == currentBlock.blockID {
-                cell.contentView.backgroundColor = OEXStyles.shared().neutralXLight()
+                cell.contentView.backgroundColor = environment.styles.neutralXLight()
             } else {
-                cell.contentView.backgroundColor = OEXStyles.shared().neutralWhiteT()
+                cell.contentView.backgroundColor = environment.styles.neutralWhiteT()
             }
             return cell
         }
@@ -226,8 +301,8 @@ extension CourseContentHeaderView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
         let block = blocks[index]
+        handleDropDown()
         delegate?.didTapOnBlock(block: block, index: index)
-        dropDown?.hide()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

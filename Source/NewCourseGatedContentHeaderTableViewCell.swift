@@ -11,24 +11,37 @@ import UIKit
 class NewCourseGatedContentHeaderTableViewCell: UITableViewCell {
     static let identifier = "NewCourseGatedContentHeaderTableViewCell"
     
+    private let imageSize: CGFloat = 10
+    private let imageContainerSize: CGFloat = 16
+    
     private lazy var titleStyle = OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXXDark())
     private lazy var subtitleStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralXDark())
     
     private lazy var lockedImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = Icon.Closed.imageWithFontSize(size: 16)
-        imageView.tintColor = OEXStyles.shared().secondaryBaseColor()
+        imageView.accessibilityIdentifier = "NewCourseGatedContentHeaderTableViewCell:image-view"
+        imageView.image = Icon.Closed.imageWithFontSize(size: imageSize)
+        imageView.tintColor = OEXStyles.shared().neutralWhiteT()
         return imageView
+    }()
+    
+    private lazy var imageViewContainer: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "NewCourseGatedContentHeaderTableViewCell:image-view-container"
+        view.backgroundColor = OEXStyles.shared().secondaryBaseColor()
+        return view
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.accessibilityIdentifier = "NewCourseGatedContentHeaderTableViewCell:title-label"
         label.numberOfLines = 1
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
+        label.accessibilityIdentifier = "NewCourseGatedContentHeaderTableViewCell:subtitle-label"
         label.numberOfLines = 0
         return label
     }()
@@ -56,8 +69,14 @@ class NewCourseGatedContentHeaderTableViewCell: UITableViewCell {
         contentView.backgroundColor = OEXStyles.shared().neutralWhiteT()
     }
     
+    override func layoutSubviews() {
+        imageViewContainer.layer.cornerRadius = imageContainerSize / 2
+        imageViewContainer.clipsToBounds = true
+    }
+    
     private func addSubViews() {
-        contentView.addSubview(lockedImageView)
+        imageViewContainer.addSubview(lockedImageView)
+        contentView.addSubview(imageViewContainer)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(separator)
@@ -71,9 +90,15 @@ class NewCourseGatedContentHeaderTableViewCell: UITableViewCell {
         }
         
         lockedImageView.snp.remakeConstraints { make in
+            make.center.equalTo(imageViewContainer)
+            make.height.equalTo(imageSize)
+            make.width.equalTo(imageSize)
+        }
+        
+        imageViewContainer.snp.remakeConstraints { make in
             make.centerY.equalTo(subtitleLabel)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.height.width.equalTo(16)
+            make.height.width.equalTo(imageContainerSize)
         }
         
         subtitleLabel.snp.remakeConstraints { make in
