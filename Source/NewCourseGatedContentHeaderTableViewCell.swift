@@ -118,6 +118,6 @@ class NewCourseGatedContentHeaderTableViewCell: UITableViewCell {
     
     func setup(block: CourseBlock) {
         titleLabel.attributedText = titleStyle.attributedString(withText: block.displayName)
-        subtitleLabel.attributedText = subtitleStyle.attributedString(withText: "Some content in this part of the course is locked for upgraded users only.")
+        subtitleLabel.attributedText = subtitleStyle.attributedString(withText: Strings.CourseOutlineHeader.gatedContentTitle)
     }
 }

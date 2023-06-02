@@ -77,3 +77,5 @@
 "DASHBOARD.TRY_AGAIN"="Try again";
 /* Course Dashboard Resume Course button title*/
 "DASHBOARD.RESUME_COURSE"="Resume course";
+/* Course outline header gated content title */
+"COURSE_OUTLINE_HEADER.GATED_CONTENT_TITLE"="Some content in this part of the course is locked for upgraded users only.";

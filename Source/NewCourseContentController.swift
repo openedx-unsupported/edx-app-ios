@@ -87,6 +87,7 @@ class NewCourseContentController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setStatusBar(color: environment.styles.primaryLightColor())
         addSubViews()
         setupComponentView()
         setupCompletedBlocksView()

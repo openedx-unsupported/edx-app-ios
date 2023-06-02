@@ -243,7 +243,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         view.sizeToFit()
         
-        let barButtonItem =  UIBarButtonItem(customView: view)
+        let barButtonItem = UIBarButtonItem(customView: view)
         barButtonItem.isEnabled = enabled
         view.button.isEnabled = enabled
         return barButtonItem
@@ -280,6 +280,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                     UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
                     nextItem
                 ], animated : true)
+            if environment.config.isNewComponentNavigationEnabled {
+                navigationController?.toolbar.barTintColor = OEXStyles.shared().neutralWhiteT()
+            }
         }
         else {
             toolbarItems = []

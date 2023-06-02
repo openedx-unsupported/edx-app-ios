@@ -151,7 +151,7 @@ class CourseContentHeaderView: UIView {
             make.centerY.equalTo(backButton)
             make.top.equalTo(backButton)
             make.leading.equalTo(backButton.snp.trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(self).inset((StandardHorizontalMargin * 1.86 + imageSize) + StandardHorizontalMargin)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin * 1.86 + imageSize)
         }
         
         titleLabel.snp.makeConstraints { make in
