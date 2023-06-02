@@ -102,9 +102,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if environment.config.isNewComponentNavigationEnabled == false {
-            navigationController?.setToolbarHidden(true, animated: animated)
-        }
+        navigationController?.setToolbarHidden(true, animated: animated)
         removeObservers()
     }
     

@@ -9,8 +9,8 @@
 import UIKit
 
 protocol CourseContentHeaderViewDelegate: AnyObject {
-    func didTapOnClose()
-    func didTapOnBlock(block: CourseBlock, index: Int)
+    func didTapBackButton()
+    func didTapOnUnitBlock(block: CourseBlock, index: Int)
 }
 
 class CourseContentHeaderView: UIView {
@@ -21,7 +21,6 @@ class CourseContentHeaderView: UIView {
     private let environment: Environment
     
     private let imageSize: CGFloat = 20
-    private let attributedIconOfset: CGFloat = -4
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{2002}")
     private let dropDownBottomOffset: CGFloat = StandardVerticalMargin * 5
     private let cellHeight: CGFloat = 36
@@ -42,7 +41,7 @@ class CourseContentHeaderView: UIView {
         button.setImage(Icon.ArrowBack.imageWithFontSize(size: imageSize), for: .normal)
         button.tintColor = environment.styles.neutralWhiteT()
         button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didTapOnClose()
+            self?.delegate?.didTapBackButton()
         }, for: .touchUpInside)
         return button
     }()
@@ -121,13 +120,11 @@ class CourseContentHeaderView: UIView {
         addSubview(backButton)
         addSubview(headerLabel)
         addSubview(titleLabel)
-        
-        bottomContainer.addSubview(subtitleLabel)
+        imageContainer.addSubview(dropDownImageView)
         bottomContainer.addSubview(imageContainer)
+        bottomContainer.addSubview(subtitleLabel)
         bottomContainer.addSubview(button)
         addSubview(bottomContainer)
-        
-        imageContainer.addSubview(dropDownImageView)
         
         subtitleLabel.numberOfLines = 1
     }
@@ -201,7 +198,7 @@ class CourseContentHeaderView: UIView {
         let safeAreaInset = UIApplication.shared.windows.first?.safeAreaInsets ?? .zero
         
         let dropDown = DropDown()
-        self.tableView = dropDown.setupCustom()
+        tableView = dropDown.setupCustom()
         
         dropDown.bottomOffset = CGPoint(x: 0, y: dropDownBottomOffset)
         dropDown.direction = .bottom
@@ -217,21 +214,17 @@ class CourseContentHeaderView: UIView {
         
         tableView?.dataSource = self
         tableView?.delegate = self
-        tableView?.register(NewCourseContentHeaderTableViewCell.self, forCellReuseIdentifier: NewCourseContentHeaderTableViewCell.identifier)
-        tableView?.register(NewCourseGatedContentHeaderTableViewCell.self, forCellReuseIdentifier: NewCourseGatedContentHeaderTableViewCell.identifier)
-        
+        tableView?.register(CourseContentHeaderTableViewCell.self, forCellReuseIdentifier: CourseContentHeaderTableViewCell.identifier)
         tableView?.rowHeight = UITableView.automaticDimension
         tableView?.estimatedRowHeight = cellHeight
-        
         tableView?.separatorStyle = .singleLine
         tableView?.separatorColor = environment.styles.neutralXLight()
         tableView?.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         tableView?.layer.cornerRadius = 10
-        
-        dropDown.updatedMinHeight = cellHeight
-        
+                
         let height = blocks.reduce(0) { $0 + ($1.isGated ? gatedCellHeight : cellHeight) }
         dropDown.updatedTableHeight = height
+        dropDown.updatedMinHeight = cellHeight
         
         tableView?.reloadData()
         
@@ -276,33 +269,24 @@ extension CourseContentHeaderView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let block = blocks[indexPath.row]
-       
-        if block.isGated {
-            let cell = tableView.dequeueReusableCell(withIdentifier: NewCourseGatedContentHeaderTableViewCell.identifier, for: indexPath) as! NewCourseGatedContentHeaderTableViewCell
-            cell.setup(block: block)
-            if let currentBlock = currentBlock, block.blockID == currentBlock.blockID {
-                cell.contentView.backgroundColor = environment.styles.neutralXLight()
-            } else {
-                cell.contentView.backgroundColor = environment.styles.neutralWhiteT()
-            }
-            return cell
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: CourseContentHeaderTableViewCell.identifier, for: indexPath) as! CourseContentHeaderTableViewCell
+        cell.setup(block: block)
+        
+        if let currentBlock = currentBlock, block.blockID == currentBlock.blockID {
+            cell.contentView.backgroundColor = environment.styles.neutralXLight()
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: NewCourseContentHeaderTableViewCell.identifier, for: indexPath) as! NewCourseContentHeaderTableViewCell
-            cell.setup(block: block)
-            if let currentBlock = currentBlock, block.blockID == currentBlock.blockID {
-                cell.contentView.backgroundColor = environment.styles.neutralXLight()
-            } else {
-                cell.contentView.backgroundColor = environment.styles.neutralWhiteT()
-            }
-            return cell
+            cell.contentView.backgroundColor = environment.styles.neutralWhiteT()
         }
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
         let block = blocks[index]
         handleDropDown()
-        delegate?.didTapOnBlock(block: block, index: index)
+        delegate?.didTapOnUnitBlock(block: block, index: index)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

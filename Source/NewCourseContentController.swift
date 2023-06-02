@@ -31,7 +31,7 @@ class NewCourseContentController: UIViewController {
         return headerView
     }()
     
-    private lazy var stackView: UIStackView = {
+    private lazy var progressStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 1
@@ -84,10 +84,13 @@ class NewCourseContentController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setStatusBar(color: environment.styles.primaryLightColor())
         addSubViews()
         setupComponentView()
         setupCompletedBlocksView()
@@ -95,6 +98,7 @@ class NewCourseContentController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setStatusBar(color: environment.styles.primaryLightColor())
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
@@ -104,7 +108,7 @@ class NewCourseContentController: UIViewController {
         view.addSubview(contentView)
         
         contentView.addSubview(headerView)
-        contentView.addSubview(stackView)
+        contentView.addSubview(progressStackView)
         contentView.addSubview(containerView)
         
         contentView.snp.remakeConstraints { make in
@@ -118,7 +122,7 @@ class NewCourseContentController: UIViewController {
             make.height.lessThanOrEqualTo(StandardVerticalMargin * 14)
         }
         
-        stackView.snp.remakeConstraints { make in
+        progressStackView.snp.remakeConstraints { make in
             make.top.equalTo(headerView.snp.bottom)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
@@ -128,7 +132,7 @@ class NewCourseContentController: UIViewController {
         containerView.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.top.equalTo(stackView.snp.bottom)
+            make.top.equalTo(progressStackView.snp.bottom)
             make.bottom.equalTo(contentView)
         }
     }
@@ -173,8 +177,8 @@ class NewCourseContentController: UIViewController {
         }
         
         headerView.setBlocks(currentBlock: block, blocks: childBlocks)
-        stackView.removeAllArrangedSubviews()
-        stackView.addArrangedSubviews(childViews)
+        progressStackView.removeAllArrangedSubviews()
+        progressStackView.addArrangedSubviews(childViews)
     }
     
     private func findCourseBlockToShow() {
@@ -217,11 +221,11 @@ extension NewCourseContentController: CourseContentPageViewControllerDelegate {
 }
 
 extension NewCourseContentController: CourseContentHeaderViewDelegate {
-    func didTapOnClose() {
+    func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
     
-    func didTapOnBlock(block: CourseBlock, index: Int) {
+    func didTapOnUnitBlock(block: CourseBlock, index: Int) {
         courseContentViewController?.moveToBlock(block: block, index: index)
     }
 }
