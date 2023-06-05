@@ -199,7 +199,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
             .compactMap({ courseQuerier.blockWithID(id: $0).value })
             .first(where: { !$0.isCompleted })
         else {
-            currentBlock = courseQuerier.childrenOfBlockWithID(blockID: childBlocks.first?.blockID, forMode: .full).firstSuccess().value?.children.first
+            currentBlock = courseQuerier.childrenOfBlockWithID(blockID: childBlocks.last?.blockID, forMode: .full).firstSuccess().value?.children.last
             return
         }
         
