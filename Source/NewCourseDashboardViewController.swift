@@ -145,7 +145,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private func loadCourseStream() {
         courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
-        courseStream.listenOnce(self) { [weak self] result in
+        courseStream.listen(self) { [weak self] result in
             self?.resultLoaded(result: result)
         }
     }
