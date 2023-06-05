@@ -10,7 +10,7 @@ import UIKit
 
 protocol CourseContentHeaderViewDelegate: AnyObject {
     func didTapBackButton()
-    func didTapOnUnitBlock(block: CourseBlock, index: Int)
+    func didTapOnUnitBlock(block: CourseBlock)
 }
 
 class CourseContentHeaderView: UIView {
@@ -22,7 +22,6 @@ class CourseContentHeaderView: UIView {
     
     private let imageSize: CGFloat = 20
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{2002}")
-    private let dropDownBottomOffset: CGFloat = StandardVerticalMargin * 5
     private let cellHeight: CGFloat = 36
     private let gatedCellHeight: CGFloat = 76
     
@@ -38,7 +37,7 @@ class CourseContentHeaderView: UIView {
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.accessibilityIdentifier = "CourseContentHeaderView:back-button"
-        button.setImage(Icon.ArrowBack.imageWithFontSize(size: imageSize), for: .normal)
+        button.setImage(Icon.ArrowLeft.imageWithFontSize(size: 32), for: .normal)
         button.tintColor = environment.styles.neutralWhiteT()
         button.oex_addAction({ [weak self] _ in
             self?.delegate?.didTapBackButton()
@@ -126,7 +125,8 @@ class CourseContentHeaderView: UIView {
         bottomContainer.addSubview(button)
         addSubview(bottomContainer)
         
-        subtitleLabel.numberOfLines = 1
+        button.isEnabled = false
+        dropDownImageView.isHidden = true
     }
     
     private func addConstraints() {
@@ -140,8 +140,8 @@ class CourseContentHeaderView: UIView {
         backButton.snp.makeConstraints { make in
             make.leading.equalTo(self).inset(StandardHorizontalMargin * 0.86)
             make.top.equalTo(self).offset(StandardVerticalMargin * 1.25)
-            make.height.equalTo(imageSize)
-            make.width.equalTo(imageSize)
+            make.height.equalTo(44)
+            make.width.equalTo(44)
         }
         
         headerLabel.snp.makeConstraints { make in
@@ -200,7 +200,7 @@ class CourseContentHeaderView: UIView {
         let dropDown = DropDown()
         tableView = dropDown.setupCustom()
         
-        dropDown.bottomOffset = CGPoint(x: 0, y: dropDownBottomOffset)
+        dropDown.bottomOffset = CGPoint(x: 0, y: StandardVerticalMargin * 5)
         dropDown.direction = .bottom
         dropDown.anchorView = bottomContainer
         dropDown.dismissMode = .automatic
@@ -245,6 +245,11 @@ class CourseContentHeaderView: UIView {
     func setBlocks(currentBlock: CourseBlock, blocks: [CourseBlock]) {
         self.currentBlock = currentBlock
         self.blocks = blocks
+        
+        if blocks.count > 1 {
+            button.isEnabled = true
+            dropDownImageView.isHidden = false
+        }
     }
     
     func showHeaderLabel(show: Bool) {
@@ -268,25 +273,16 @@ extension CourseContentHeaderView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let block = blocks[indexPath.row]
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: CourseContentHeaderTableViewCell.identifier, for: indexPath) as! CourseContentHeaderTableViewCell
+        let block = blocks[indexPath.row]
         cell.setup(block: block)
-        
-        if let currentBlock = currentBlock, block.blockID == currentBlock.blockID {
-            cell.contentView.backgroundColor = environment.styles.neutralXLight()
-        } else {
-            cell.contentView.backgroundColor = environment.styles.neutralWhiteT()
-        }
-        
+        cell.contentView.backgroundColor = currentBlock?.blockID == block.blockID ? environment.styles.neutralXLight() : environment.styles.neutralWhiteT()
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let index = indexPath.row
-        let block = blocks[index]
         handleDropDown()
-        delegate?.didTapOnUnitBlock(block: block, index: index)
+        delegate?.didTapOnUnitBlock(block: blocks[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

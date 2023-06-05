@@ -241,7 +241,7 @@ class CourseDashboardHeaderView: UIView {
         courseTitleLabel.snp.remakeConstraints { make in
             make.top.equalTo(closeButton)
             make.centerY.equalTo(closeButton)
-            make.leading.equalTo(containerView).offset((StandardHorizontalMargin * 2) + imageSize)
+            make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(closeButton.snp.leading).offset(-StandardHorizontalMargin)
         }
         

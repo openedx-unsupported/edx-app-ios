@@ -787,9 +787,7 @@ extension CourseOutlineTableController: CourseOutlineHeaderCellDelegate {
     func toggleSection(section: Int) {
         if environment.config.isNewDashboardEnabled {
             collapsedSections = collapsedSections.symmetricDifference([section])
-            tableView.beginUpdates()
-            tableView.reloadSections([section], with: .automatic)
-            tableView.endUpdates()
+            tableView.reloadSections([section], with: .none)
         }
     }
 }

@@ -51,6 +51,7 @@ class CourseContentHeaderTableViewCell: UITableViewCell {
         let label = UILabel()
         label.accessibilityIdentifier = "CourseContentHeaderTableViewCell:subtitle-label"
         label.numberOfLines = 0
+        label.attributedText = subtitleStyle.attributedString(withText: Strings.CourseOutlineHeader.gatedContentTitle)
         return label
     }()
     
@@ -74,9 +75,12 @@ class CourseContentHeaderTableViewCell: UITableViewCell {
         
         titleLabel.text = ""
         subtitleLabel.text = ""
-        lockedImageView.isHidden = true
         completedImageView.isHidden = true
+        lockedImageView.isHidden = true
         contentView.backgroundColor = OEXStyles.shared().neutralWhiteT()
+        contentView.subviews.forEach { view in
+            view.removeFromSuperview()
+        }
     }
     
     override func layoutSubviews() {
@@ -84,18 +88,60 @@ class CourseContentHeaderTableViewCell: UITableViewCell {
         imageViewContainer.clipsToBounds = true
     }
     
+    func setup(block: CourseBlock) {
+        titleLabel.attributedText = titleStyle.attributedString(withText: block.displayName)
+        
+        if block.isGated {
+            addSubviewsGated()
+            completedImageView.isHidden = true
+        } else {
+            addSubviews()
+            completedImageView.isHidden = !block.isCompleted
+        }
+    }
+}
+
+extension CourseContentHeaderTableViewCell {
     private func addSubviews() {
-        imageViewContainer.addSubview(lockedImageView)
         contentView.addSubview(completedImageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(separator)
+        separator.backgroundColor = OEXStyles.shared().neutralXLight()
+        
+        completedImageView.snp.remakeConstraints { make in
+            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+            make.height.width.equalTo(16)
+            make.centerY.equalTo(contentView)
+        }
+        
+        titleLabel.snp.remakeConstraints { make in
+            make.leading.equalTo(completedImageView.snp.trailing).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
+            make.centerY.equalTo(contentView)
+        }
+        
+        separator.snp.remakeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(self)
+            make.height.equalTo(1)
+        }
+    }
+}
+
+extension CourseContentHeaderTableViewCell {
+    private func addSubviewsGated() {
+        imageViewContainer.addSubview(lockedImageView)
         contentView.addSubview(imageViewContainer)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(separator)
         
+        lockedImageView.isHidden = false
         separator.backgroundColor = OEXStyles.shared().neutralXLight()
         
         titleLabel.snp.remakeConstraints { make in
-            make.leading.equalTo(imageViewContainer.snp.trailing).offset(StandardHorizontalMargin)
+            make.leading.equalTo(lockedImageView.snp.trailing).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
             make.top.equalTo(contentView).offset(StandardVerticalMargin)
         }
@@ -104,12 +150,6 @@ class CourseContentHeaderTableViewCell: UITableViewCell {
             make.center.equalTo(imageViewContainer)
             make.height.equalTo(imageSize)
             make.width.equalTo(imageSize)
-        }
-        
-        completedImageView.snp.remakeConstraints { make in
-            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.centerY.equalTo(titleLabel)
-            make.height.width.equalTo(16)
         }
         
         imageViewContainer.snp.remakeConstraints { make in
@@ -124,34 +164,12 @@ class CourseContentHeaderTableViewCell: UITableViewCell {
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
             make.centerY.equalTo(lockedImageView)
         }
-
+        
         separator.snp.remakeConstraints { make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)
             make.height.equalTo(1)
-        }
-    }
-
-    func setup(block: CourseBlock) {
-        titleLabel.attributedText = titleStyle.attributedString(withText: block.displayName)
-        
-        if block.isGated {
-            subtitleLabel.attributedText = subtitleStyle.attributedString(withText: Strings.CourseOutlineHeader.gatedContentTitle)
-            imageViewContainer.isHidden = false
-            lockedImageView.isHidden = false
-            completedImageView.isHidden = true
-        } else {
-            imageViewContainer.isHidden = true
-            subtitleLabel.attributedText = nil
-            lockedImageView.isHidden = true
-            completedImageView.isHidden = !block.isCompleted
-            
-            titleLabel.snp.remakeConstraints { make in
-                make.leading.equalTo(imageViewContainer.snp.trailing).offset(StandardHorizontalMargin)
-                make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)
-                make.centerY.equalTo(contentView)
-            }
         }
     }
 }

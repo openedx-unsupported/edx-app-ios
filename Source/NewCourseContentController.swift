@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewCourseContentController: UIViewController {
+class NewCourseContentController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider
     
@@ -88,17 +88,25 @@ class NewCourseContentController: UIViewController {
         return .lightContent
     }
     
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         addSubViews()
         setupComponentView()
         setupCompletedBlocksView()
+        setStatusBar(color: environment.styles.primaryLightColor())
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setStatusBar(color: environment.styles.primaryLightColor())
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
@@ -119,7 +127,8 @@ class NewCourseContentController: UIViewController {
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.lessThanOrEqualTo(StandardVerticalMargin * 14)
+            make.height.equalTo(StandardVerticalMargin * 17).priority(.high)
+            make.height.lessThanOrEqualTo(StandardVerticalMargin * 17)
         }
         
         progressStackView.snp.remakeConstraints { make in
@@ -142,7 +151,7 @@ class NewCourseContentController: UIViewController {
               let parent = courseQuerier.parentOfBlockWith(id: currentBlock.blockID).firstSuccess().value
         else { return }
         
-        let courseContentViewController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: parent.blockID, forMode: .full)
+        let courseContentViewController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: parent.blockID, initialChildID: currentBlock.blockID, forMode: .full)
         courseContentViewController.navigationDelegate = self
         
         let childViewController = ForwardingNavigationController(rootViewController: courseContentViewController)
@@ -208,6 +217,10 @@ class NewCourseContentController: UIViewController {
         else { return }
         headerView.update(title: parent.displayName, subtitle: block.displayName)
     }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        setStatusBar(color: environment.styles.primaryLightColor())
+    }
 }
 
 extension NewCourseContentController: CourseContentPageViewControllerDelegate {
@@ -225,8 +238,8 @@ extension NewCourseContentController: CourseContentHeaderViewDelegate {
         navigationController?.popViewController(animated: true)
     }
     
-    func didTapOnUnitBlock(block: CourseBlock, index: Int) {
-        courseContentViewController?.moveToBlock(block: block, index: index)
+    func didTapOnUnitBlock(block: CourseBlock) {
+        courseContentViewController?.moveToBlock(block: block)
     }
 }
 
@@ -252,7 +265,8 @@ extension NewCourseContentController {
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.lessThanOrEqualTo(StandardVerticalMargin * 14)
+            make.height.equalTo(StandardVerticalMargin * 17).priority(.high)
+            make.height.lessThanOrEqualTo(StandardVerticalMargin * 17)
         }
         
         UIView.animate(withDuration: 0.3) { [weak self] in
@@ -268,7 +282,7 @@ extension NewCourseContentController {
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.equalTo(StandardVerticalMargin * 5)
+            make.height.equalTo(StandardVerticalMargin * 8)
         }
         
         UIView.animate(withDuration: 0.3) { [weak self] in

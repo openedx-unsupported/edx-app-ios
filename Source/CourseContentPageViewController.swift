@@ -409,7 +409,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         updateTransitionState(is: true)
     }
     
-    public func moveToBlock(block: CourseBlock, index: Int) {
+    public func moveToBlock(block: CourseBlock) {
         guard let cursor = contentLoader.value, cursor.current.block.blockID != block.blockID else {
             return
         }
@@ -420,7 +420,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
         let nextIndex = cursor.currentIndex()
         
-        let direction: NavigationDirection = nextIndex > index ? .forward : .reverse
+        let direction: NavigationDirection = nextIndex > currentIndex ? .forward : .reverse
         
         guard let nextController = controllerForBlock(block: block) else { return }
         
