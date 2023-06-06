@@ -144,6 +144,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOri
             switch result {
             case let .success(enrollments):
                 if let enrollments = enrollments {
+                    self?.coursesContainer.removeErrorView()
                     self?.coursesContainer.courses = enrollments.compactMap { $0.course }
                     self?.coursesContainer.collectionView.reloadData()
                     self?.loadController.state = .Loaded
