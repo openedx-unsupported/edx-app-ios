@@ -20,7 +20,8 @@ class CourseContentHeaderView: UIView {
     
     private let environment: Environment
     
-    private let imageSize: CGFloat = 20
+    private let dropdownImageSize: CGFloat = 20
+    private let backButtonImageSize: CGFloat = 44
     private let attributedUnicodeSpace = NSAttributedString(string: "\u{2002}")
     private let cellHeight: CGFloat = 36
     private let gatedCellHeight: CGFloat = 76
@@ -37,7 +38,7 @@ class CourseContentHeaderView: UIView {
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.accessibilityIdentifier = "CourseContentHeaderView:back-button"
-        button.setImage(Icon.ArrowLeft.imageWithFontSize(size: 32), for: .normal)
+        button.setImage(Icon.ArrowLeft.imageWithFontSize(size: 44), for: .normal)
         button.tintColor = environment.styles.neutralWhiteT()
         button.oex_addAction({ [weak self] _ in
             self?.delegate?.didTapBackButton()
@@ -66,20 +67,29 @@ class CourseContentHeaderView: UIView {
         return label
     }()
     
-    private lazy var bottomContainer = UIView()
+    private lazy var bottomContainer: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "CourseContentHeaderView:bottom-container"
+        return view
+    }()
     
-    private lazy var imageContainer = UIView()
-    
+    private lazy var imageContainer: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "CourseContentHeaderView:image-container"
+        return view
+    }()
+        
     private lazy var dropDownImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.accessibilityIdentifier = "LearnContainerHeaderView:image-view"
-        imageView.image = Icon.Dropdown.imageWithFontSize(size: imageSize)
+        imageView.accessibilityIdentifier = "CourseContentHeaderView:image-view"
+        imageView.image = Icon.Dropdown.imageWithFontSize(size: dropdownImageSize)
         imageView.tintColor = environment.styles.neutralWhiteT()
         return imageView
     }()
     
     private lazy var button: UIButton = {
         let button = UIButton()
+        button.accessibilityIdentifier = "CourseContentHeaderView:button-view"
         button.oex_addAction({ [weak self] _ in
             self?.handleDropDown()
         }, for: .touchUpInside)
@@ -134,21 +144,21 @@ class CourseContentHeaderView: UIView {
             make.leading.equalTo(imageContainer)
             make.top.equalTo(imageContainer)
             make.bottom.equalTo(imageContainer)
-            make.width.equalTo(imageSize)
+            make.width.equalTo(dropdownImageSize)
         }
         
         backButton.snp.makeConstraints { make in
-            make.leading.equalTo(self).inset(StandardHorizontalMargin * 0.86)
+            make.leading.equalTo(self).inset(StandardVerticalMargin / 2)
             make.top.equalTo(self).offset(StandardVerticalMargin * 1.25)
-            make.height.equalTo(44)
-            make.width.equalTo(44)
+            make.height.equalTo(backButtonImageSize)
+            make.width.equalTo(backButtonImageSize)
         }
         
         headerLabel.snp.makeConstraints { make in
             make.centerY.equalTo(backButton)
             make.top.equalTo(backButton)
             make.leading.equalTo(backButton.snp.trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(self).inset(StandardHorizontalMargin * 1.86 + imageSize)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin * 2)
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -170,7 +180,7 @@ class CourseContentHeaderView: UIView {
         imageContainer.snp.makeConstraints { make in
             make.leading.equalTo(subtitleLabel.snp.trailing).offset(10)
             make.trailing.top.bottom.equalToSuperview()
-            make.width.greaterThanOrEqualTo(imageSize)
+            make.width.greaterThanOrEqualTo(dropdownImageSize)
         }
         
         button.snp.makeConstraints { make in
@@ -198,7 +208,9 @@ class CourseContentHeaderView: UIView {
         let safeAreaInset = UIApplication.shared.windows.first?.safeAreaInsets ?? .zero
         
         let dropDown = DropDown()
+        dropDown.accessibilityIdentifier = "CourseContentHeaderView:drop-down"
         tableView = dropDown.setupCustom()
+        tableView?.accessibilityIdentifier = "CourseContentHeaderView:table-view"
         
         dropDown.bottomOffset = CGPoint(x: 0, y: StandardVerticalMargin * 5)
         dropDown.direction = .bottom
@@ -214,7 +226,7 @@ class CourseContentHeaderView: UIView {
         
         tableView?.dataSource = self
         tableView?.delegate = self
-        tableView?.register(CourseContentHeaderTableViewCell.self, forCellReuseIdentifier: CourseContentHeaderTableViewCell.identifier)
+        tableView?.register(CourseContentHeaderBlockPickerCell.self, forCellReuseIdentifier: CourseContentHeaderBlockPickerCell.identifier)
         tableView?.rowHeight = UITableView.automaticDimension
         tableView?.estimatedRowHeight = cellHeight
         tableView?.separatorStyle = .singleLine
@@ -273,7 +285,7 @@ extension CourseContentHeaderView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CourseContentHeaderTableViewCell.identifier, for: indexPath) as! CourseContentHeaderTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CourseContentHeaderBlockPickerCell.identifier, for: indexPath) as! CourseContentHeaderBlockPickerCell
         let block = blocks[indexPath.row]
         cell.setup(block: block)
         cell.contentView.backgroundColor = currentBlock?.blockID == block.blockID ? environment.styles.neutralXLight() : environment.styles.neutralWhiteT()

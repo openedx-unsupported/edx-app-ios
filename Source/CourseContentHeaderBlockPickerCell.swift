@@ -1,5 +1,5 @@
 //
-//  CourseContentHeaderTableViewCell.swift
+//  CourseContentHeaderBlockPickerCell.swift
 //  edX
 //
 //  Created by MuhammadUmer on 02/06/2023.
@@ -8,18 +8,19 @@
 
 import UIKit
 
-class CourseContentHeaderTableViewCell: UITableViewCell {
-    static let identifier = "CourseContentHeaderTableViewCell"
+class CourseContentHeaderBlockPickerCell: UITableViewCell {
+    static let identifier = "CourseContentHeaderBlockPickerCell"
     
     private let imageSize: CGFloat = 10
     private let imageContainerSize: CGFloat = 16
+    private let completedImagesize: CGFloat = 16
     
     private lazy var titleStyle = OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralXXDark())
     private lazy var subtitleStyle = OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralXDark())
     
     private lazy var lockedImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.accessibilityIdentifier = "CourseContentHeaderTableViewCell:locked-image-view"
+        imageView.accessibilityIdentifier = "CourseContentHeaderBlockPickerCell:locked-image-view"
         imageView.image = Icon.Closed.imageWithFontSize(size: imageSize)
         imageView.tintColor = OEXStyles.shared().neutralWhiteT()
         return imageView
@@ -27,41 +28,45 @@ class CourseContentHeaderTableViewCell: UITableViewCell {
     
     private lazy var completedImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.accessibilityIdentifier = "CourseContentHeaderTableViewCell:completed-image-view"
-        imageView.image = Icon.CheckCircle.imageWithFontSize(size: 16)
+        imageView.accessibilityIdentifier = "CourseContentHeaderBlockPickerCell:completed-image-view"
+        imageView.image = Icon.CheckCircle.imageWithFontSize(size: completedImagesize)
         imageView.tintColor = OEXStyles.shared().successBase()
         return imageView
     }()
     
     private lazy var imageViewContainer: UIView = {
         let view = UIView()
-        view.accessibilityIdentifier = "CourseContentHeaderTableViewCell:image-view-container"
+        view.accessibilityIdentifier = "CourseContentHeaderBlockPickerCell:image-view-container"
         view.backgroundColor = OEXStyles.shared().secondaryBaseColor()
         return view
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "CourseContentHeaderTableViewCell:title-label"
+        label.accessibilityIdentifier = "CourseContentHeaderBlockPickerCell:title-label"
         label.numberOfLines = 1
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "CourseContentHeaderTableViewCell:subtitle-label"
+        label.accessibilityIdentifier = "CourseContentHeaderBlockPickerCell:subtitle-label"
         label.numberOfLines = 0
-        label.attributedText = subtitleStyle.attributedString(withText: Strings.CourseOutlineHeader.gatedContentTitle)
         return label
     }()
     
-    private let separator = UIView()
+    private lazy var separator: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "CourseContentHeaderBlockPickerCell:separator-view"
+        view.backgroundColor = OEXStyles.shared().neutralXLight()
+        return view
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
-        accessibilityIdentifier = "CourseContentHeaderTableViewCell:tableview-cell"
+        accessibilityIdentifier = "CourseContentHeaderBlockPickerCell:tableview-cell"
         
         addSubviews()
     }
@@ -73,10 +78,6 @@ class CourseContentHeaderTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        titleLabel.text = ""
-        subtitleLabel.text = ""
-        completedImageView.isHidden = true
-        lockedImageView.isHidden = true
         contentView.backgroundColor = OEXStyles.shared().neutralWhiteT()
         contentView.subviews.forEach { view in
             view.removeFromSuperview()
@@ -90,27 +91,30 @@ class CourseContentHeaderTableViewCell: UITableViewCell {
     
     func setup(block: CourseBlock) {
         titleLabel.attributedText = titleStyle.attributedString(withText: block.displayName)
+        subtitleLabel.text = ""
         
         if block.isGated {
             addSubviewsGated()
             completedImageView.isHidden = true
+            lockedImageView.isHidden = false
+            subtitleLabel.attributedText = subtitleStyle.attributedString(withText: Strings.CourseOutlineHeader.gatedContentTitle)
         } else {
             addSubviews()
             completedImageView.isHidden = !block.isCompleted
+            lockedImageView.isHidden = true
         }
     }
 }
 
-extension CourseContentHeaderTableViewCell {
+extension CourseContentHeaderBlockPickerCell {
     private func addSubviews() {
         contentView.addSubview(completedImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(separator)
-        separator.backgroundColor = OEXStyles.shared().neutralXLight()
         
         completedImageView.snp.remakeConstraints { make in
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.height.width.equalTo(16)
+            make.height.width.equalTo(completedImagesize)
             make.centerY.equalTo(contentView)
         }
         
@@ -129,17 +133,14 @@ extension CourseContentHeaderTableViewCell {
     }
 }
 
-extension CourseContentHeaderTableViewCell {
+extension CourseContentHeaderBlockPickerCell {
     private func addSubviewsGated() {
         imageViewContainer.addSubview(lockedImageView)
         contentView.addSubview(imageViewContainer)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(separator)
-        
-        lockedImageView.isHidden = false
-        separator.backgroundColor = OEXStyles.shared().neutralXLight()
-        
+                
         titleLabel.snp.remakeConstraints { make in
             make.leading.equalTo(lockedImageView.snp.trailing).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).inset(StandardHorizontalMargin)

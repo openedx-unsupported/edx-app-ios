@@ -78,6 +78,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
         } else {
             findCourseBlockToShow()
         }
+        setStatusBar(color: environment.styles.primaryLightColor())
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -102,7 +103,6 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
         addSubViews()
         setupComponentView()
         setupCompletedBlocksView()
-        setStatusBar(color: environment.styles.primaryLightColor())
     }
     
     override func viewWillAppear(_ animated: Bool) {
