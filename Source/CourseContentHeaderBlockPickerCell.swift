@@ -94,7 +94,7 @@ class CourseContentHeaderBlockPickerCell: UITableViewCell {
         subtitleLabel.text = ""
         
         if block.isGated {
-            addSubviewsGated()
+            addGatedSubviews()
             completedImageView.isHidden = true
             lockedImageView.isHidden = false
             subtitleLabel.attributedText = subtitleStyle.attributedString(withText: Strings.CourseOutlineHeader.gatedContentTitle)
@@ -134,7 +134,7 @@ extension CourseContentHeaderBlockPickerCell {
 }
 
 extension CourseContentHeaderBlockPickerCell {
-    private func addSubviewsGated() {
+    private func addGatedSubviews() {
         imageViewContainer.addSubview(lockedImageView)
         contentView.addSubview(imageViewContainer)
         contentView.addSubview(titleLabel)
