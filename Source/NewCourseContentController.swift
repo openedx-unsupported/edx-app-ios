@@ -20,7 +20,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     
     private lazy var contentView: UIView = {
         let view = UIView()
-        view.accessibilityIdentifier = "NewCourseContentController:contentView-view"
+        view.accessibilityIdentifier = "NewCourseContentController:content-view"
         return view
     }()
     
@@ -38,7 +38,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
         stackView.backgroundColor = .clear
-        stackView.accessibilityIdentifier = "NewCourseContentController:stack-view"
+        stackView.accessibilityIdentifier = "NewCourseContentController:progress-stack-view"
         return stackView
     }()
     
@@ -52,7 +52,6 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
         
         didSet {
             updateView()
-            
             currentBlock?.completion.subscribe(observer: self) { [weak self] _,_ in
                 self?.updateView()
             }
@@ -74,7 +73,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
         super.init(nibName: nil, bundle: nil)
         
         if let resumeCourseBlockID = resumeCourseBlockID {
-            self.currentBlock = courseQuerier.blockWithID(id: resumeCourseBlockID).firstSuccess().value
+            currentBlock = courseQuerier.blockWithID(id: resumeCourseBlockID).firstSuccess().value
         } else {
             findCourseBlockToShow()
         }
