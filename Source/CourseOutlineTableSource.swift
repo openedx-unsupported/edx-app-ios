@@ -278,7 +278,13 @@ public class CourseOutlineTableController: UITableViewController, ScrollableDele
     }
     
     public override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return shouldApplyNewStyle(groups[section]) ? UIView() : nil
+        guard shouldApplyNewStyle(groups[section]) else {
+            return nil
+        }
+
+        let view = UIView()
+        view.backgroundColor = environment.styles.neutralWhiteT()
+        return view
     }
     
     public override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
