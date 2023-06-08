@@ -173,12 +173,18 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
               let section = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value
         else { return }
         
-        let childBlocks = section.children
-            .compactMap { courseQuerier.blockWithID(id: $0).firstSuccess().value }
-            .flatMap { $0.children }
-            .compactMap { courseQuerier.blockWithID(id: $0).firstSuccess().value }
+        let childBlocks: [CourseBlock] = section.children
+            .compactMap { item -> CourseBlock? in
+                return courseQuerier.blockWithID(id: item).firstSuccess().value
+            }
+            .flatMap { item -> [CourseBlockID] in
+                return item.children
+            }
+            .compactMap { item -> CourseBlock? in
+                return courseQuerier.blockWithID(id: item).firstSuccess().value
+            }
         
-        let childViews = childBlocks.map { block in
+        let childViews: [UIView] = childBlocks.map { block -> UIView in
             let view = UIView()
             view.backgroundColor = block.isCompleted ? environment.styles.accentBColor() : environment.styles.neutralDark()
             return view
