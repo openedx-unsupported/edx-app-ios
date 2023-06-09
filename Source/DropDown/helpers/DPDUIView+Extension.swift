@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Kevin Hirsch. All rights reserved.
 //
 
+#if os(iOS)
+
 import UIKit
 
 //MARK: - Constraints
@@ -38,13 +40,8 @@ internal extension UIView {
 internal extension UIWindow {
 	
 	static func visibleWindow() -> UIWindow? {
-        var currentWindow = UIApplication
-            .shared
-            .connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap { $0.windows }
-            .first { $0.isKeyWindow }
-        
+		var currentWindow = UIApplication.shared.keyWindow
+		
 		if currentWindow == nil {
 			let frontToBackWindows = Array(UIApplication.shared.windows.reversed()) 
 			
@@ -60,3 +57,5 @@ internal extension UIWindow {
 	}
 	
 }
+
+#endif

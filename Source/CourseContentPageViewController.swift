@@ -213,21 +213,35 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
         switch direction {
         case .Next:
-            titleText = isGroup ? Strings.nextUnit : Strings.next
+            if environment.config.isNewComponentNavigationEnabled {
+                titleText = Strings.next
+            } else {
+                titleText = isGroup ? Strings.nextUnit : Strings.next
+            }
             moveDirection = .forward
         case .Prev:
-            titleText = isGroup ? Strings.previousUnit : Strings.previous
+            if environment.config.isNewComponentNavigationEnabled {
+                titleText = Strings.previous
+            } else {
+                titleText =  isGroup ? Strings.previousUnit : Strings.previous
+            }
             moveDirection = .reverse
         }
         
-        let destinationText = adjacentGroup?.displayName
+        let destinationText: String?
+        
+        if environment.config.isNewComponentNavigationEnabled {
+            destinationText = nil
+        } else {
+            destinationText = adjacentGroup?.displayName
+        }
         
         let view = DetailToolbarButton(direction: direction, titleText: titleText, destinationText: destinationText) {[weak self] in
             self?.moveInDirection(direction: moveDirection)
         }
         view.sizeToFit()
         
-        let barButtonItem =  UIBarButtonItem(customView: view)
+        let barButtonItem = UIBarButtonItem(customView: view)
         barButtonItem.isEnabled = enabled
         view.button.isEnabled = enabled
         return barButtonItem
@@ -264,6 +278,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                     UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
                     nextItem
                 ], animated : true)
+            if environment.config.isNewComponentNavigationEnabled {
+                navigationController?.toolbar.barTintColor = OEXStyles.shared().neutralWhiteT()
+            }
         }
         else {
             toolbarItems = []
@@ -390,6 +407,35 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         updateTransitionState(is: true)
+    }
+    
+    public func moveToBlock(block: CourseBlock) {
+        guard let cursor = contentLoader.value, cursor.current.block.blockID != block.blockID else {
+            return
+        }
+        
+        let currentIndex = cursor.currentIndex()
+        
+        cursor.updateCurrentToItemMatching { $0.block.blockID == block.blockID }
+        
+        let nextIndex = cursor.currentIndex()
+        
+        let direction: NavigationDirection = nextIndex > currentIndex ? .forward : .reverse
+        
+        guard let nextController = controllerForBlock(block: block) else { return }
+        
+        setPageControllers(with: [nextController], direction: direction, animated: true) { [weak self] finished in
+            guard let weakSelf = self else { return }
+            weakSelf.updateTransitionState(is: false)
+            if weakSelf.shouldCelebrationAppear {
+                weakSelf.showCelebratoryModal(direction: direction, overController: nextController)
+            }
+        }
+        
+        currentPageItemIndex = contentLoader.value?.currentIndex() ?? 0
+        
+        updateNavigationBars()
+        navigationDelegate?.courseContentPageViewController(controller: self, enteredBlockWithID: cursor.current.block.blockID, parentID: cursor.current.parent)
     }
     
     func controllerForBlock(block : CourseBlock, shouldCelebrationAppear: Bool = false) -> UIViewController? {

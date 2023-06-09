@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Kevin Hirsch. All rights reserved.
 //
 
+#if os(iOS)
+
 import UIKit
 
 public typealias Index = Int
@@ -44,8 +46,11 @@ extension UIBarButtonItem: AnchorView {
 public final class DropDown: UIView {
 
 	//TODO: handle iOS 7 landscape mode
-
-    private var isVisible = false
+    
+    var updatedTableHeight: CGFloat?
+    var updatedMinHeight: CGFloat?
+    
+    private(set) var isVisible = false
     
     private var isHitTest: Bool = false {
         didSet {
@@ -56,7 +61,7 @@ public final class DropDown: UIView {
             }
         }
     }
-    
+
 	/// The dismiss mode for a drop down.
 	public enum DismissMode {
 
@@ -362,11 +367,35 @@ public final class DropDown: UIView {
 		didSet { reloadAllComponents() }
 	}
     
+    
     public var normalTextStyle: OEXTextStyle?
     public var selectedTextStyle: OEXTextStyle?
     public var selectedBackgroundColor: UIColor?
     public var normalBackgroundColor: UIColor?
     
+    
+    /**
+     The NIB to use for DropDownCells
+     
+     Changing the cell nib automatically reloads the drop down.
+     */
+	public var cellNib = UINib(nibName: "DropDownCell", bundle: bundle) {
+		didSet {
+			tableView.register(cellNib, forCellReuseIdentifier: DPDConstant.ReusableIdentifier.DropDownCell)
+			templateCell = nil
+			reloadAllComponents()
+		}
+	}
+
+  /// Correctly specify Bundle for Swift Packages
+  fileprivate static var bundle: Bundle {
+    #if SWIFT_PACKAGE
+    return Bundle.module
+    #else
+    return Bundle(for: DropDownCell.self)
+    #endif
+  }
+	
 	//MARK: Content
 
 	/**
@@ -380,7 +409,7 @@ public final class DropDown: UIView {
 			reloadAllComponents()
 		}
 	}
-    
+
     public var selectedRowIndex: Int = 0
 
 	/**
@@ -394,7 +423,10 @@ public final class DropDown: UIView {
 			dataSource = localizationKeysDataSource.map { NSLocalizedString($0, comment: "") }
 		}
 	}
-    
+
+	/// The indicies that have been selected
+	fileprivate var selectedRowIndices = Set<Index>()
+
 	/**
 	The format for the cells' text.
 
@@ -416,6 +448,14 @@ public final class DropDown: UIView {
 
 	/// The action to execute when the user selects a cell.
 	public var selectionAction: SelectionClosure?
+    
+    /**
+    The action to execute when the user selects multiple cells.
+    
+    Providing an action will turn on multiselection mode.
+    The single selection action will still be called if provided.
+    */
+    public var multiSelectionAction: MultiSelectionClosure?
 
 	/// The action to execute when the drop down will show.
 	public var willShowAction: Closure?
@@ -438,7 +478,11 @@ public final class DropDown: UIView {
 	}
 
 	fileprivate var minHeight: CGFloat {
-		return tableView.rowHeight
+        if let height = updatedMinHeight {
+            return height
+        } else {
+            return tableView.rowHeight
+        }
 	}
 
 	fileprivate var didSetupConstraints = false
@@ -486,22 +530,20 @@ public final class DropDown: UIView {
 
 	override public init(frame: CGRect) {
 		super.init(frame: frame)
-		setup()
 	}
 
 	public required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
-		setup()
 	}
 
 }
 
 //MARK: - Setup
 
-private extension DropDown {
+extension DropDown {
 
 	func setup() {
-        tableView.register(DropDownCell.self, forCellReuseIdentifier: DPDConstant.ReusableIdentifier.DropDownCell)
+		tableView.register(cellNib, forCellReuseIdentifier: DPDConstant.ReusableIdentifier.DropDownCell)
 
 		DispatchQueue.main.async {
 			//HACK: If not done in dispatch_async on main queue `setupUI` will have no effect
@@ -522,6 +564,24 @@ private extension DropDown {
 
 		accessibilityIdentifier = "drop_down"
 	}
+    
+    func setupCustom() -> UITableView {
+        DispatchQueue.main.async {
+            //HACK: If not done in dispatch_async on main queue `setupUI` will have no effect
+            self.updateConstraintsIfNeeded()
+            self.setupUI()
+        }
+
+        setHiddentState()
+        isHidden = true
+
+        dismissMode = .onTap
+        
+        startListeningToKeyboard()
+
+        accessibilityIdentifier = "drop_down"
+        return tableView
+    }
 
 	func setupUI() {
 		super.backgroundColor = dimmedBackgroundColor
@@ -749,7 +809,7 @@ extension DropDown {
 	
 	fileprivate func fittingWidth() -> CGFloat {
 		if templateCell == nil {
-            templateCell = DropDownCell(frame: .zero)
+			templateCell = (cellNib.instantiate(withOwner: nil, options: nil)[0] as! DropDownCell)
 		}
 		
 		var maxWidth: CGFloat = 0
@@ -821,7 +881,6 @@ extension DropDown {
 
 	- returns: Wether it succeed and how much height is needed to display all cells at once.
 	*/
-    
 	@discardableResult
     public func show(onTopOf window: UIWindow? = nil, beforeTransform transform: CGAffineTransform? = nil, anchorPoint: CGPoint? = nil) -> (canBeDisplayed: Bool, offscreenHeight: CGFloat?) {
 		if self == DropDown.VisibleDropDown && DropDown.VisibleDropDown?.isHidden == false { // added condition - DropDown.VisibleDropDown?.isHidden == false -> to resolve forever hiding dropdown issue when continuous taping on button - Kartik Patel - 2016-12-29
@@ -838,15 +897,15 @@ extension DropDown {
         }
 
 		if let visibleDropDown = DropDown.VisibleDropDown {
-            DropDown.VisibleDropDown = nil
-			visibleDropDown.cancel(shouldCallCallback: true)
-            return (true, 0)
+			visibleDropDown.cancel()
 		}
 
 		willShowAction?()
 
 		DropDown.VisibleDropDown = self
+
         isVisible = true
+        
 		setNeedsUpdateConstraints()
 
 		let visibleWindow = window != nil ? window : UIWindow.visibleWindow()
@@ -890,10 +949,25 @@ extension DropDown {
 		UIAccessibility.post(notification: .screenChanged, argument: self)
 
 		//deselectRows(at: selectedRowIndices)
-		selectRows(at: selectedRowIndex)
+		selectRows(at: selectedRowIndices)
 
 		return (layout.canBeDisplayed, layout.offscreenHeight)
 	}
+    
+    public func showCustomView(anchorPoint: CGPoint? = nil) {
+        let customView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 60))
+        customView.backgroundColor = .red
+        setNeedsUpdateConstraints()
+
+        let visibleWindow = window != nil ? window : UIWindow.visibleWindow()
+        visibleWindow?.addSubview(customView)
+        visibleWindow?.bringSubviewToFront(customView)
+        
+        if anchorPoint != nil {
+            customView.layer.anchorPoint = anchorPoint!
+        }
+        customView.transform = downScaleTransform
+    }
 
 	public override func accessibilityPerformEscape() -> Bool {
 		switch dismissMode {
@@ -904,11 +978,11 @@ extension DropDown {
 			return false
 		}
 	}
-    
-    public func forceHide() {
-       cancel(shouldCallCallback: true)
-    }
 
+    public func forceHide() {
+        cancel(shouldCallCallback: true)
+    }
+    
 	/// Hides the drop down.
 	public func hide() {
 		if self == DropDown.VisibleDropDown {
@@ -942,7 +1016,7 @@ extension DropDown {
 
     fileprivate func cancel(shouldCallCallback: Bool = false) {
 		hide()
-        if shouldCallCallback {
+		if shouldCallCallback {
             isVisible = false
             DropDown.VisibleDropDown = nil
             cancelAction?()
@@ -986,27 +1060,42 @@ extension DropDown {
             tableView.selectRow(
                 at: IndexPath(row: index, section: 0), animated: true, scrollPosition: scrollPosition
             )
-            selectedRowIndex = index
+            selectedRowIndices.insert(index)
 		} else {
-			deselectRows(at: selectedRowIndex)
+			deselectRows(at: selectedRowIndices)
+            selectedRowIndices.removeAll()
 		}
 	}
     
-    public func selectRows(at index: Int) {
-        selectRow(at: index)
+    public func selectRows(at indices: Set<Index>?) {
+        indices?.forEach {
+            selectRow(at: $0)
+        }
+        
+        // if we are in multi selection mode then reload data so that all selections are shown
+        if multiSelectionAction != nil {
+            tableView.reloadData()
+        }
     }
 
-	public func deselectRow(at index: Int?) {
+	public func deselectRow(at index: Index?) {
 		guard let index = index
 			, index >= 0
 			else { return }
         
+        // remove from indices
+        if let selectedRowIndex = selectedRowIndices.firstIndex(where: { $0 == index  }) {
+            selectedRowIndices.remove(at: selectedRowIndex)
+        }
+
 		tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true)
 	}
     
     // de-selects the rows at the indices provided
-    public func deselectRows(at index: Int) {
-        deselectRow(at: index)
+    public func deselectRows(at indices: Set<Index>?) {
+        indices?.forEach {
+            deselectRow(at: $0)
+        }
     }
 
 	/// Returns the index of the selected row.
@@ -1023,7 +1112,11 @@ extension DropDown {
 
 	/// Returns the height needed to display all cells.
 	fileprivate var tableHeight: CGFloat {
-		return tableView.rowHeight * CGFloat(dataSource.count)
+        if let height = updatedTableHeight {
+            return height
+        } else {
+            return tableView.rowHeight * CGFloat(dataSource.count)
+        }
 	}
 
     //MARK: Objective-C methods for converting the Swift type Index
@@ -1054,7 +1147,7 @@ extension DropDown: UITableViewDataSource, UITableViewDelegate {
 
 	public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: DPDConstant.ReusableIdentifier.DropDownCell, for: indexPath) as! DropDownCell
-		let index = indexPath.row
+		let index = (indexPath as NSIndexPath).row
 
 		configureCell(cell, at: index)
 
@@ -1066,18 +1159,11 @@ extension DropDown: UITableViewDataSource, UITableViewDelegate {
 			cell.accessibilityIdentifier = localizationKeysDataSource[index]
 		}
 		
-		//cell.optionLabel.textColor = textColor
-		//cell.optionLabel.font = textFont
-		//cell.selectedBackgroundColor = selectionBackgroundColor
-        //cell.highlightTextColor = selectedTextColor
-        //cell.normalTextColor = textColor
-		
-        cell.optionText = dataSource[index]
-        
-        cell.selectedBackgroundColor = selectedBackgroundColor
-        cell.normalBackgroundColor = normalBackgroundColor
-        cell.selectedTextStyle = selectedTextStyle
-        cell.normalTextStyle = normalTextStyle
+		cell.optionLabel.textColor = textColor
+		cell.optionLabel.font = textFont
+		cell.selectedBackgroundColor = selectionBackgroundColor
+        cell.highlightTextColor = selectedTextColor
+        cell.normalTextColor = textColor
         
         if index == selectedRowIndex {
             cell.setSelected(true, animated: true)
@@ -1086,20 +1172,51 @@ extension DropDown: UITableViewDataSource, UITableViewDelegate {
             cell.setSelected(false, animated: false)
             cell.optionLabel.attributedText = normalTextStyle?.attributedString(withText: dataSource[index])
         }
-                
-        cell.optionLabel.textAlignment = .center
+        
+		if let cellConfiguration = cellConfiguration {
+			cell.optionLabel.text = cellConfiguration(index, dataSource[index])
+		} else {
+			cell.optionLabel.text = dataSource[index]
+		}
+		
 		customCellConfiguration?(index, dataSource[index], cell)
 	}
 
 	public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.isSelected = selectedRowIndex == indexPath.row
+        cell.isSelected = selectedRowIndices.first{ $0 == (indexPath as NSIndexPath).row } != nil
 	}
 
 	public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let selectedRowIndex = indexPath.row
+		let selectedRowIndex = (indexPath as NSIndexPath).row
         
-        self.selectedRowIndex = selectedRowIndex
         
+        // are we in multi-selection mode?
+        if let multiSelectionCallback = multiSelectionAction {
+            // if already selected then deselect
+            if selectedRowIndices.first(where: { $0 == selectedRowIndex}) != nil {
+                deselectRow(at: selectedRowIndex)
+
+				let selectedRowIndicesArray = Array(selectedRowIndices)
+                let selectedRows = selectedRowIndicesArray.map { dataSource[$0] }
+                multiSelectionCallback(selectedRowIndicesArray, selectedRows)
+                return
+            }
+            else {
+                selectedRowIndices.insert(selectedRowIndex)
+
+				let selectedRowIndicesArray = Array(selectedRowIndices)
+				let selectedRows = selectedRowIndicesArray.map { dataSource[$0] }
+                
+                selectionAction?(selectedRowIndex, dataSource[selectedRowIndex])
+                multiSelectionCallback(selectedRowIndicesArray, selectedRows)
+                tableView.reloadData()
+                return
+            }
+        }
+        
+        // Perform single selection logic
+        selectedRowIndices.removeAll()
+        selectedRowIndices.insert(selectedRowIndex)
         selectionAction?(selectedRowIndex, dataSource[selectedRowIndex])
         
         if let _ = anchorView as? UIBarButtonItem {
@@ -1108,7 +1225,8 @@ extension DropDown: UITableViewDataSource, UITableViewDelegate {
         }
         
         cancel(shouldCallCallback: true)
-    }
+    
+	}
 
 }
 
@@ -1117,10 +1235,11 @@ extension DropDown: UITableViewDataSource, UITableViewDelegate {
 extension DropDown {
 
 	public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-		let view = super.hitTest(point, with: event)
+        let view = super.hitTest(point, with: event)
         isHitTest = true
+
 		if dismissMode == .automatic && view === dismissableView {
-			cancel(shouldCallCallback: true)
+            cancel(shouldCallCallback: true)
 			return nil
 		} else {
 			return view
@@ -1181,3 +1300,5 @@ private extension DispatchQueue {
 		}
 	}
 }
+
+#endif
