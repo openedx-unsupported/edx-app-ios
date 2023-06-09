@@ -93,6 +93,7 @@ class IAPConfig: NSObject {
     }
 
     var enabledforUser: Bool {
+        return true
         if experimentEnabled {
             return enabled && !(OEXSession.shared()?.currentUser?.isFromControlGroup ?? true)
         }

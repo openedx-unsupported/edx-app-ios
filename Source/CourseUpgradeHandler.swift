@@ -35,6 +35,8 @@ class CourseUpgradeHandler: NSObject {
     private var basketID: Int = 0
     private var courseSku: String = ""
     private(set) var upgradeMode: CourseUpgradeMode = .userInitiated
+    private(set) var price: NSDecimalNumber?
+    private(set) var currencyCode: String?
 
     private(set) var state: CourseUpgradeState = .initial {
         didSet {
@@ -64,9 +66,12 @@ class CourseUpgradeHandler: NSObject {
         super.init()
     }
     
-    func upgradeCourse(with upgradeMode: CourseUpgradeMode = .userInitiated, completion: UpgradeCompletionHandler?) {
+    func upgradeCourse(with upgradeMode: CourseUpgradeMode = .userInitiated, price: NSDecimalNumber?, currencyCode: String?, completion: UpgradeCompletionHandler?) {
         self.completion = completion
         self.upgradeMode = upgradeMode
+        self.price = price
+        self.currencyCode = currencyCode
+        
         guard let course = self.course,
               let coursePurchaseSku = course.sku else {
             state = .error(type: .generalError, error: error(message: "course sku is missing"))
@@ -140,7 +145,7 @@ class CourseUpgradeHandler: NSObject {
         
         // Execute API, pass the payment receipt to complete the course upgrade
         let baseURL = CourseUpgradeAPI.baseURL
-        let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: courseSku, receipt: receipt)
+        let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: courseSku, price: price ?? 0, currencyCode: currencyCode ?? "", receipt: receipt)
         
         environment?.networkManager.taskForRequest(base: baseURL, request) { [weak self] response in
             if response.error == nil {

@@ -419,18 +419,34 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
 
     private func resolveUnfinishedPayment(for sku: String, indicator: UIAlertController?) {
         guard let course = environment.interface?.course(fromSKU: sku) else {
-                  enableUserInteraction(enable: true)
-                  DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-                      self?.hideProgressIndicator(indicator: indicator, showSuccess: true)
-                  }
-                  return
-              }
-
+            enableUserInteraction(enable: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                self?.hideProgressIndicator(indicator: indicator, showSuccess: true)
+            }
+            return
+        }
+        
+        guard let courseSku = course.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
+        
+        PaymentManager.shared.productPrice(courseSku) { [weak self] product in
+            if let product = product {
+                self?.upgradeCourse(course: course, localizedCoursePrice: product.localizedPrice, price: product.price, currencyCode: product.priceLocale.currencyCode, indicator: indicator)
+            }
+            else {
+                self?.enableUserInteraction(enable: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                    self?.hideProgressIndicator(indicator: indicator, showSuccess: true)
+                }
+            }
+        }
+    }
+    
+    private func upgradeCourse(course: OEXCourse, localizedCoursePrice: String?, price: NSDecimalNumber?, currencyCode: String?, indicator: UIAlertController?) {
         let pacing: String = course.isSelfPaced == true ? "self" : "instructor"
-        CourseUpgradeHelper.shared.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", coursePrice: "", screen: .myCourses)
+        CourseUpgradeHelper.shared.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", localizedCoursePrice: localizedCoursePrice ?? "", screen: .myCourses)
         environment.analytics.trackCourseUnfulfilledPurchaseInitiated(courseID: course.course_id ?? "", pacing: pacing, screen: .myCourses, flowType: CourseUpgradeHandler.CourseUpgradeMode.restore.rawValue)
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
-        upgradeHandler.upgradeCourse(with: .restore) { [weak self] state in
+        upgradeHandler.upgradeCourse(with: .restore, price: price, currencyCode: currencyCode) { [weak self] state in
 
             switch state {
             case .verify:

@@ -51,7 +51,9 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     private let crossButtonSize: CGFloat = 20
     private var isModalDismissable = true
     
-    private var coursePrice: String?
+    private var localizedCoursePrice: String?
+    private var price: NSDecimalNumber?
+    private var currencyCode: String?
     
     private var pacing: String {
         return course.isSelfPaced ? "self" : "instructor"
@@ -96,13 +98,15 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
-            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
-                if let price = price {
+            PaymentManager.shared.productPrice(courseSku) { [weak self] product in
+                if let product = product {
                     let endTime = CFAbsoluteTimeGetCurrent() - startTime
-                    self?.coursePrice = price
+                    self?.localizedCoursePrice = product.localizedPrice
+                    self?.price = product.price
+                    self?.currencyCode = product.priceLocale.currencyCode
                     self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
                     self?.upgradeButton.stopShimmerEffect()
-                    self?.upgradeButton.setPrice(price)
+                    self?.upgradeButton.setPrice(product.localizedPrice ?? "")
                 } else {
                     self?.trackLoadError()
                     self?.showCoursePriceErrorAlert()
@@ -121,7 +125,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     private func trackPriceLoadDuration(elapsedTime: Int) {
         guard let courseID = course.course_id,
-              let coursePrice = coursePrice else { return }
+              let coursePrice = localizedCoursePrice else { return }
         
         environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, blockID: blockID, pacing: pacing, coursePrice: coursePrice, screen: screen, elapsedTime: elapsedTime)
     }
@@ -203,14 +207,14 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
     
     private func upgradeCourse() {
         guard let courseID = course.course_id,
-              let coursePrice = coursePrice else { return }
+              let coursePrice = localizedCoursePrice else { return }
         
         environment.analytics.trackUpgradeNow(with: courseID, pacing: pacing, screenName: screen, coursePrice: coursePrice)
         
-        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, coursePrice: coursePrice, screen: screen)
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, localizedCoursePrice: coursePrice, screen: screen)
 
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
-        upgradeHandler.upgradeCourse() { [weak self] status in
+        upgradeHandler.upgradeCourse(price: price, currencyCode: currencyCode) { [weak self] status in
             self?.enableUserInteraction(enable: false)
             
             switch status {

@@ -10,7 +10,7 @@ import Foundation
 
 protocol ValuePropMessageViewDelegate: AnyObject {
     func showValuePropDetailView()
-    func didTapUpgradeCourse(coursePrice: String, upgradeView: ValuePropComponentView)
+    func didTapUpgradeCourse(coursePrice: String, price: NSDecimalNumber?, currencyCode: String?, upgradeView: ValuePropComponentView)
 }
 
 class ValuePropComponentView: UIView {
@@ -79,7 +79,9 @@ class ValuePropComponentView: UIView {
     private let environment: Environment
     private var courseID: String
     private var blockID: String
-    private var coursePrice: String?
+    private var localizedCoursePrice: String?
+    private var price: NSDecimalNumber?
+    private var currencyCode: String?
     
     init(environment: Environment, courseID: String, blockID: CourseBlockID?) {
         self.environment = environment
@@ -184,13 +186,15 @@ class ValuePropComponentView: UIView {
         
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
-            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
-                if let price = price {
+            PaymentManager.shared.productPrice(courseSku) { [weak self] product in
+                if let product = product {
                     let endTime = CFAbsoluteTimeGetCurrent() - startTime
-                    self?.coursePrice = price
+                    self?.localizedCoursePrice = product.localizedPrice
+                    self?.price = product.price
+                    self?.currencyCode = product.priceLocale.currencyCode
                     self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
                     self?.upgradeButton.stopShimmerEffect()
-                    self?.upgradeButton.setPrice(price)
+                    self?.upgradeButton.setPrice(product.localizedPrice ?? "")
                 } else {
                     self?.trackLoadError()
                     self?.showCoursePriceErrorAlert()
@@ -210,7 +214,7 @@ class ValuePropComponentView: UIView {
     private func trackPriceLoadDuration(elapsedTime: Int) {
         guard let course = course,
               let courseID = course.course_id,
-              let coursePrice = coursePrice else { return }
+              let coursePrice = localizedCoursePrice else { return }
         
         environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, blockID: blockID, pacing: pacing, coursePrice: coursePrice, screen: .courseComponent, elapsedTime: elapsedTime)
     }
@@ -262,8 +266,8 @@ class ValuePropComponentView: UIView {
     }
 
     private func upgradeCourse() {
-        guard let coursePrice = coursePrice else { return }
-        delegate?.didTapUpgradeCourse(coursePrice: coursePrice, upgradeView: self)
+        guard let coursePrice = localizedCoursePrice else { return }
+        delegate?.didTapUpgradeCourse(coursePrice: coursePrice, price: price, currencyCode: currencyCode, upgradeView: self)
     }
 
     private func trackShowMorelessAnalytics(showingMore: Bool) {
