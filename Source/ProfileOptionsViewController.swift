@@ -428,7 +428,7 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
         
         guard let courseSku = course.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
         
-        PaymentManager.shared.productPrice(courseSku) { [weak self] product in
+        PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product in
             if let product = product {
                 self?.upgradeCourse(course: course, localizedCoursePrice: product.localizedPrice, price: product.price, currencyCode: product.priceLocale.currencyCode, indicator: indicator)
             }

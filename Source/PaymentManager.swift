@@ -153,7 +153,7 @@ enum PurchaseError: String {
         }
     }
 
-    func productPrice(_ identifier: String, completion: ((SKProduct?) -> Void)? = nil) {
+    func fetchPrroduct(_ identifier: String, completion: ((SKProduct?) -> Void)? = nil) {
         SwiftyStoreKit.retrieveProductsInfo([identifier]) { result in
             if let product = result.retrievedProducts.first {
                 completion?(product)
@@ -165,10 +165,6 @@ enum PurchaseError: String {
                 completion?(nil)
             }
         }
-    }
-    
-    func productPrice(_ identifiers: [String]) {
-        SwiftyStoreKit.retrieveProductsInfo(Set(identifiers.map { $0 })) { _ in }
     }
     
     func purchaseReceipt(completion: PurchaseCompletionHandler? = nil) {

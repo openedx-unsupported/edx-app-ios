@@ -98,7 +98,7 @@ class ValuePropDetailViewController: UIViewController, InterfaceOrientationOverr
         
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
-            PaymentManager.shared.productPrice(courseSku) { [weak self] product in
+            PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product in
                 if let product = product {
                     let endTime = CFAbsoluteTimeGetCurrent() - startTime
                     self?.localizedCoursePrice = product.localizedPrice
