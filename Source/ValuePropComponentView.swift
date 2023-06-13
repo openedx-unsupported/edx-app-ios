@@ -187,14 +187,14 @@ class ValuePropComponentView: UIView {
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
             PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product in
-                if let product = product {
+                if let product = product, let localizedPrice = product.localizedPrice {
                     let endTime = CFAbsoluteTimeGetCurrent() - startTime
-                    self?.localizedCoursePrice = product.localizedPrice
+                    self?.localizedCoursePrice = localizedPrice
                     self?.price = product.price
                     self?.currencyCode = product.priceLocale.currencyCode
                     self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
                     self?.upgradeButton.stopShimmerEffect()
-                    self?.upgradeButton.setPrice(self?.localizedCoursePrice ?? "")
+                    self?.upgradeButton.setPrice(localizedPrice)
                 } else {
                     self?.trackLoadError()
                     self?.showCoursePriceErrorAlert()
