@@ -458,7 +458,7 @@ public class AuthenticatedWebViewController: UIViewController, WKUIDelegate, WKN
     }
     
     public func removeCallbackHandler() {
-        configurations.userContentController.removeScriptMessageHandler(forName: AJAXCallBackHandler)
+        configurations.userContentController.removeAllUserScripts()
     }
     
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
