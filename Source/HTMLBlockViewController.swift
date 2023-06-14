@@ -253,6 +253,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
     }
     
     deinit {
+        webController.removeCallbackHandler()
         NotificationCenter.default.removeObserver(self)
     }
 }
