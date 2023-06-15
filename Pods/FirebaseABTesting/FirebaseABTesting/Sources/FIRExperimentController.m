@@ -18,12 +18,12 @@
 #import "FirebaseABTesting/Sources/ABTConstants.h"
 #import "FirebaseABTesting/Sources/Private/ABTExperimentPayload.h"
 #import "FirebaseABTesting/Sources/Public/FirebaseABTesting/FIRLifecycleEvents.h"
-#import "FirebaseCore/Sources/Private/FirebaseCoreInternal.h"
+#import "FirebaseCore/Extension/FirebaseCoreInternal.h"
 
 #import "Interop/Analytics/Public/FIRAnalyticsInterop.h"
 
 /// Logger Service String.
-FIRLoggerService kFIRLoggerABTesting = @"[Firebase/ABTesting]";
+FIRLoggerService kFIRLoggerABTesting = @"[FirebaseABTesting]";
 
 /// Default experiment overflow policy.
 const ABTExperimentPayloadExperimentOverflowPolicy FIRDefaultExperimentOverflowPolicy =
@@ -90,7 +90,7 @@ NSArray *ABTExperimentsToClearFromPayloads(
       [ABTConditionalUserPropertyController sharedInstanceWithAnalytics:analytics];
 
   // Check if the experiment is in experiments but not payloads.
-  for (id experiment in experiments) {
+  for (id experiment in [experiments copy]) {
     BOOL doesExperimentNoLongerExist = YES;
     for (NSData *payload in payloads) {
       ABTExperimentPayload *experimentPayload = ABTDeserializeExperimentPayload(payload);

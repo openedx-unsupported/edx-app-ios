@@ -66,7 +66,9 @@ static NSString *const localizedNoConnectionKey = @"Appboy.no-connection.message
  *
  */
 - (WKWebView *)getWebView {
-  WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+  WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
+  webViewConfiguration.allowsInlineMediaPlayback = YES;
+  WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:webViewConfiguration];
   webView.navigationDelegate = self;
   return webView;
 }

@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  * The Firebase Crashlytics API provides methods to annotate and manage fatal and
  * non-fatal reports captured and reported to Firebase Crashlytics.
  *
- * By default, Firebase Crashlytics is initialized with `[FIRApp configure]`.
+ * By default, Firebase Crashlytics is initialized with `FirebaseApp.configure()`.
  *
  * Note: The Crashlytics class cannot be subclassed. If this makes testing difficult,
  * we suggest using a wrapper class or a protocol extension.
@@ -48,16 +48,16 @@ NS_SWIFT_NAME(Crashlytics)
 + (instancetype)crashlytics NS_SWIFT_NAME(crashlytics());
 
 /**
- * Adds logging that is sent with your crash data. The logging does not appear  in the
- * system.log and is only visible in the Crashlytics dashboard.
+ * Adds logging that is sent with your crash data. The logging does not appear in app
+ * logs and is only visible in the Crashlytics dashboard.
  *
  * @param msg Message to log
  */
 - (void)log:(NSString *)msg;
 
 /**
- * Adds logging that is sent with your crash data. The logging does not appear  in the
- * system.log and is only visible in the Crashlytics dashboard.
+ * Adds logging that is sent with your crash data. The logging does not appear in app
+ * logs and is only visible in the Crashlytics dashboard.
  *
  * @param format Format of string
  * @param ... A comma-separated list of arguments to substitute into format
@@ -65,29 +65,30 @@ NS_SWIFT_NAME(Crashlytics)
 - (void)logWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2);
 
 /**
- * Adds logging that is sent with your crash data. The logging does not appear  in the
- * system.log and is only visible in the Crashlytics dashboard.
+ * Adds logging that is sent with your crash data. The logging does not appear in app
+ * logs and is only visible in the Crashlytics dashboard.
  *
  * @param format Format of string
  * @param args Arguments to substitute into format
  */
 - (void)logWithFormat:(NSString *)format
-            arguments:(va_list)args NS_SWIFT_NAME(log(format:arguments:));
+            arguments:(va_list)args
+    __attribute__((__swift_name__("log(format:arguments:)")));  // Avoid `NS_SWIFT_NAME` (#9331).
 
 /**
  * Sets a custom key and value to be associated with subsequent fatal and non-fatal reports.
  * When setting an object value, the object is converted to a string. This is
- * typically done by calling "-[NSObject description]".
+ * typically done by using the object's `description`.
  *
  * @param value The value to be associated with the key
  * @param key A unique key
  */
-- (void)setCustomValue:(id)value forKey:(NSString *)key;
+- (void)setCustomValue:(nullable id)value forKey:(NSString *)key;
 
 /**
  * Sets custom keys and values to be associated with subsequent fatal and non-fatal reports.
  * The objects in the dictionary are converted to strings. This is
- * typically done by calling "-[NSObject description]".
+ * typically done by using the object's  `description`.
  *
  * @param keysAndValues The values to be associated with the corresponding keys
  */
@@ -104,7 +105,18 @@ NS_SWIFT_NAME(Crashlytics)
  * @param userID An arbitrary user identifier string that associates a user to a record in your
  * system.
  */
-- (void)setUserID:(NSString *)userID;
+- (void)setUserID:(nullable NSString *)userID;
+
+/**
+ * Records a non-fatal event described by an Error object. The events are
+ * grouped and displayed similarly to crashes. Keep in mind that this method can be expensive.
+ * The total number of Errors that can be recorded during your app's life-cycle is limited by a
+ * fixed-size circular buffer. If the buffer is overrun, the oldest data is dropped. Errors are
+ * relayed to Crashlytics on a subsequent launch of your application.
+ *
+ * @param error Non-fatal error to be recorded
+ */
+- (void)recordError:(NSError *)error NS_SWIFT_NAME(record(error:));
 
 /**
  * Records a non-fatal event described by an NSError object. The events are
@@ -114,17 +126,21 @@ NS_SWIFT_NAME(Crashlytics)
  * relayed to Crashlytics on a subsequent launch of your application.
  *
  * @param error Non-fatal error to be recorded
+ * @param userInfo Additional keys and values to send with the logged error. These parameters are
+ * added to Crashlytics global list of keys and values that live with the session.
  */
-- (void)recordError:(NSError *)error NS_SWIFT_NAME(record(error:));
+- (void)recordError:(NSError *)error
+           userInfo:(nullable NSDictionary<NSString *, id> *)userInfo
+    NS_SWIFT_NAME(record(error:userInfo:));
 
 /**
- * Records an Exception Model described by an FIRExceptionModel object. The events are
+ * Records an Exception Model described by an ExceptionModel object. The events are
  * grouped and displayed similarly to crashes. Keep in mind that this method can be expensive.
- * The total number of FIRExceptionModels that can be recorded during your app's life-cycle is
+ * The total number of ExceptionModels that can be recorded during your app's life-cycle is
  * limited by a fixed-size circular buffer. If the buffer is overrun, the oldest data is dropped.
- * Exception Models are relayed to Crashlytics on a subsequent launch of your application.
+ * ExceptionModels are relayed to Crashlytics on a subsequent launch of your application.
  *
- * @param exceptionModel Instance of the FIRExceptionModel to be recorded
+ * @param exceptionModel Instance of the ExceptionModel to be recorded
  */
 - (void)recordExceptionModel:(FIRExceptionModel *)exceptionModel
     NS_SWIFT_NAME(record(exceptionModel:));
@@ -138,7 +154,7 @@ NS_SWIFT_NAME(Crashlytics)
  * Enables/disables automatic data collection.
  *
  * Calling this method overrides both the FirebaseCrashlyticsCollectionEnabled flag in your
- * App's Info.plist and FIRApp's isDataCollectionDefaultEnabled flag.
+ * App's Info.plist and FirebaseApp's isDataCollectionDefaultEnabled flag.
  *
  * When you set a value for this method, it persists across runs of the app.
  *
@@ -157,7 +173,7 @@ NS_SWIFT_NAME(Crashlytics)
  * in order of priority:
  *  - If setCrashlyticsCollectionEnabled is called with a value, use it
  *  - If the FirebaseCrashlyticsCollectionEnabled key is in your app's Info.plist, use it
- *  - Otherwise, use the default isDataCollectionDefaultEnabled in FIRApp
+ *  - Otherwise, use the default isDataCollectionDefaultEnabled in FirebaseApp
  */
 - (BOOL)isCrashlyticsCollectionEnabled;
 
@@ -170,12 +186,13 @@ NS_SWIFT_NAME(Crashlytics)
  * sendUnsentReports or deleteUnsentReports, depending on whether or not the user gives consent.
  *
  * Disable automatic collection by:
- *  - Adding the FirebaseCrashlyticsCollectionEnabled: NO key to your App's Info.plist
- *  - Calling [[FIRCrashlytics crashlytics] setCrashlyticsCollectionEnabled:NO] in your app
- *  - Setting FIRApp's isDataCollectionDefaultEnabled to NO
+ *  - Adding the `FirebaseCrashlyticsCollectionEnabled` key with the value set to NO to your app's
+ *    Info.plist
+ *  - Calling `FirebaseCrashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)` in your app
+ *  - Setting `FirebaseApp`'s `isDataCollectionDefaultEnabled` to false
  *
  * @param completion The callback that's executed once Crashlytics finishes checking for unsent
- * reports. The callback is set to YES if there are unsent reports on disk.
+ * reports. The callback is set to true if there are unsent reports on disk.
  */
 - (void)checkForUnsentReportsWithCompletion:(void (^)(BOOL))completion
     NS_SWIFT_NAME(checkForUnsentReports(completion:));
@@ -191,14 +208,15 @@ NS_SWIFT_NAME(Crashlytics)
  * sendUnsentReports or deleteUnsentReports, depending on whether or not the user gives consent.
  *
  * Disable automatic collection by:
- *  - Adding the FirebaseCrashlyticsCollectionEnabled: NO key to your App's Info.plist
- *  - Calling [[FIRCrashlytics crashlytics] setCrashlyticsCollectionEnabled:NO] in your app
- *  - Setting FIRApp's isDataCollectionDefaultEnabled to NO
+ *  - Adding the `FirebaseCrashlyticsCollectionEnabled` key with the value set to NO to your app's
+ *    Info.plist
+ *  - Calling `FirebaseCrashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)` in your app
+ *  - Setting `FirebaseApp`'s `isDataCollectionDefaultEnabled` to false
  *
- * Not calling send/deleteUnsentReports will result in the report staying on disk, which means the
- * same CrashlyticsReport can show up in multiple runs of the app. If you want avoid duplicates,
- * ensure there was a crash on the last run of the app by checking the value of
- * didCrashDuringPreviousExecution.
+ * Not calling `sendUnsentReports()`/`deleteUnsentReports()` will result in the report staying on
+ * disk, which means the same CrashlyticsReport can show up in multiple runs of the app. If you
+ * want avoid duplicates, ensure there was a crash on the last run of the app by checking the value
+ * of `didCrashDuringPreviousExecution`.
  *
  * @param completion The callback that's executed once Crashlytics finishes checking for unsent
  * reports. The callback is called with the newest unsent Crashlytics Report, or nil if there are

@@ -23,7 +23,7 @@ extern FIRConsentStatus const FIRConsentStatusGranted;
 /// device. Use the consent settings to specify individual consent type values. Settings are
 /// persisted across app sessions. By default consent types are set to `ConsentStatus.granted`.
 ///
-/// @param consentSettings An NSDictionary of consent types. Supported consent type keys are
+/// @param consentSettings A Dictionary of consent types. Supported consent type keys are
 ///   `ConsentType.adStorage` and `ConsentType.analyticsStorage`. Valid values are
 ///   `ConsentStatus.granted` and `ConsentStatus.denied`.
 + (void)setConsent:(NSDictionary<FIRConsentType, FIRConsentStatus> *)consentSettings;

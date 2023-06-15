@@ -51,14 +51,15 @@
     self.presentingController = controller;
     
     GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:[OEXConfig sharedConfig].googleConfig.apiKey];
+    GIDSignIn.sharedInstance.configuration = config;
     GIDSignIn* signIn = GIDSignIn.sharedInstance;
     
     __weak __auto_type weakSelf = self;
-    [signIn signInWithConfiguration:config presentingViewController:self.presentingController callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+    [signIn signInWithPresentingViewController:self.presentingController completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
         __auto_type strongSelf = weakSelf;
         if (strongSelf == nil) { return; }
         
-        NSString* serverCode = signIn.currentUser.authentication.accessToken;
+        NSString* serverCode = signInResult.user.accessToken.tokenString;
         
         if(strongSelf.completionHandler != nil) {
             strongSelf.completionHandler(serverCode, error);

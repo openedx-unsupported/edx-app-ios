@@ -1,11 +1,14 @@
 //
+// NRTimer
+// NewRelic
+//
 //  New Relic for Mobile -- iOS edition
 //
 //  See:
-//    https://docs.newrelic.com/docs/mobile-apps for information
-//    https://docs.newrelic.com/docs/releases/ios for release notes
+//    https://docs.newrelic.com/docs/mobile-monitoring for information
+//    https://docs.newrelic.com/docs/release-notes/mobile-release-notes/xcframework-release-notes/ for release notes
 //
-//  Copyright (c) 2014 New Relic. All rights reserved.
+//  Copyright © 2023 New Relic. All rights reserved.
 //  See https://docs.newrelic.com/docs/licenses/ios-agent-licenses for license details
 //
 
@@ -36,6 +39,9 @@ x / 1000000000
 @property (nonatomic, readonly) double endTimeMillis;
 //Absolute time isn't useful from this timer.
 //it uses relative time since last reboot.
+
+-(id) initWithStartTime:(double)startTime andEndTime:(double)endTime;
+
 - (double) startTimeInMillis;
 - (double) endTimeInMillis;
 - (void) restartTimer;

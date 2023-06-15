@@ -1,4 +1,4 @@
-framework module FirebaseCore {
+module FirebaseCore {
   umbrella header "FirebaseCore-umbrella.h"
 
   export *

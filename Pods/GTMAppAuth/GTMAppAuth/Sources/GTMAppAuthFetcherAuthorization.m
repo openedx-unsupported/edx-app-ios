@@ -26,7 +26,7 @@
 #import <AppAuth/AppAuthCore.h>
 #endif
 
-#define GTMOAuth2AssertValidSelector GTMBridgeAssertValidSelector
+#define GTMOAuth2AssertValidSelector GTMSessionFetcherAssertValidSelector
 
 /*! @brief Provides a template implementation for init-family methods which have been marked as
         NS_UNAVILABLE. Stops the compiler from giving a warning when it's the super class'
@@ -355,9 +355,12 @@ NSString *const GTMAppAuthFetcherAuthorizationErrorRequestKey = @"request";
                        request:(NSMutableURLRequest *)request
              finishedWithError:(NSError *)error;
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)authorizeRequest:(NSMutableURLRequest *)request
                 delegate:(id)delegate
        didFinishSelector:(SEL)sel {
+#pragma clang diagnostic pop
   GTMOAuth2AssertValidSelector(delegate, sel,
                                @encode(GTMAppAuthFetcherAuthorization *),
                                @encode(NSMutableURLRequest *),

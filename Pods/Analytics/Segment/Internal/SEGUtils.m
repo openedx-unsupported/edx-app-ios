@@ -18,6 +18,10 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
 
 const NSString *segment_apiHost = @"segment_apihost";
 
+@interface SEGAnalyticsConfiguration(InstanceId)
+@property (nonatomic, strong) NSString *instanceId;
+@end
+
 @implementation SEGUtils
 
 + (void)saveAPIHost:(nonnull NSString *)apiHost
@@ -182,6 +186,8 @@ NSDictionary *getStaticContext(SEGAnalyticsConfiguration *configuration, NSStrin
         @"name" : @"analytics-ios",
         @"version" : [SEGAnalytics version]
     };
+    
+    dict[@"instanceId"] = configuration.instanceId;
 
     NSMutableDictionary *infoDictionary = [[[NSBundle mainBundle] infoDictionary] mutableCopy];
     [infoDictionary addEntriesFromDictionary:[[NSBundle mainBundle] localizedInfoDictionary]];
@@ -644,6 +650,54 @@ NSString *SEGEventNameForScreenTitle(NSString *title)
 
 - (NSMutableArray *)serializableMutableDeepCopy {
     return [self serializableDeepCopy:YES];
+}
+
+@end
+
+
+@implementation NSDictionary(PListJSON)
+
+- (NSDictionary *)plistCompatible {
+    const NSMutableDictionary *replaced = [NSMutableDictionary new];
+    const id null = [NSNull null];
+
+    for(NSString *key in self) {
+        const id object = [self objectForKey:key];
+        if(object == null) {
+            continue;
+        } else if ([object isKindOfClass:[NSDictionary class]]) {
+            [replaced setObject:[object plistCompatible] forKey:key];
+        } else if ([object isKindOfClass:[NSArray class]]) {
+            [replaced setObject:[object plistCompatible] forKey:key];
+        } else {
+            [replaced setObject:object forKey:key];
+        }
+    }
+    return [NSDictionary dictionaryWithDictionary:(NSDictionary*)replaced];
+}
+
+@end
+
+@implementation NSArray(PListJSON)
+
+- (NSArray *)plistCompatible {
+    const NSMutableArray *replaced = [NSMutableArray new];
+    const id null = [NSNull null];
+
+    for (int i=0; i<[self count]; i++) {
+        const id object = [self objectAtIndex:i];
+
+        if ([object isKindOfClass:[NSDictionary class]]) {
+            [replaced setObject:[object plistCompatible] atIndexedSubscript:i];
+        } else if ([object isKindOfClass:[NSArray class]]) {
+            [replaced setObject:[object plistCompatible] atIndexedSubscript:i];
+        } else if (object == null) {
+            continue;
+        } else {
+            [replaced setObject:object atIndexedSubscript:i];
+        }
+    }
+    return [NSArray arrayWithArray:(NSArray*)replaced];
 }
 
 @end

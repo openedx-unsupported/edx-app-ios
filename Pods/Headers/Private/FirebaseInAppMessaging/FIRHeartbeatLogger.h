@@ -1,0 +1,1 @@
+../../../FirebaseInAppMessaging/FirebaseCore/Extension/FIRHeartbeatLogger.h

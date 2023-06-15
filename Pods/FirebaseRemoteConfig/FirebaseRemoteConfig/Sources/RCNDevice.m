@@ -19,7 +19,7 @@
 #import <sys/utsname.h>
 
 #import <GoogleUtilities/GULAppEnvironmentUtil.h>
-#import "FirebaseCore/Sources/Private/FirebaseCoreInternal.h"
+#import "FirebaseCore/Extension/FirebaseCoreInternal.h"
 #import "FirebaseRemoteConfig/Sources/Private/RCNConfigSettings.h"
 #import "FirebaseRemoteConfig/Sources/RCNConfigConstants.h"
 
@@ -33,19 +33,19 @@ static NSString *const RCNDeviceContextKeyDeviceLocale = @"device_locale";
 static NSString *const RCNDeviceContextKeyLocaleLanguage = @"locale_language";
 static NSString *const RCNDeviceContextKeyGMPProjectIdentifier = @"GMP_project_Identifier";
 
-NSString *FIRRemoteConfigAppVersion() {
+NSString *FIRRemoteConfigAppVersion(void) {
   return [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
 }
 
-NSString *FIRRemoteConfigAppBuildVersion() {
+NSString *FIRRemoteConfigAppBuildVersion(void) {
   return [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"];
 }
 
-NSString *FIRRemoteConfigPodVersion() {
+NSString *FIRRemoteConfigPodVersion(void) {
   return FIRFirebaseVersion();
 }
 
-RCNDeviceModel FIRRemoteConfigDeviceSubtype() {
+RCNDeviceModel FIRRemoteConfigDeviceSubtype(void) {
   NSString *model = [GULAppEnvironmentUtil deviceModel];
   if ([model hasPrefix:@"iPhone"]) {
     return RCNDeviceModelPhone;
@@ -56,7 +56,7 @@ RCNDeviceModel FIRRemoteConfigDeviceSubtype() {
   return RCNDeviceModelOther;
 }
 
-NSString *FIRRemoteConfigDeviceCountry() {
+NSString *FIRRemoteConfigDeviceCountry(void) {
   return [[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode] lowercaseString];
 }
 

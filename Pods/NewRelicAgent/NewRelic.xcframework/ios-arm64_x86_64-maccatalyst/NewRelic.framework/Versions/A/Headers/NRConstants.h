@@ -1,11 +1,14 @@
 //
+// NRConstants
+// NewRelic
+//
 //  New Relic for Mobile -- iOS edition
 //
 //  See:
-//    https://docs.newrelic.com/docs/mobile-apps for information
-//    https://docs.newrelic.com/docs/releases/ios for release notes
+//    https://docs.newrelic.com/docs/mobile-monitoring for information
+//    https://docs.newrelic.com/docs/release-notes/mobile-release-notes/xcframework-release-notes/ for release notes
 //
-//  Copyright (c) 2014 New Relic. All rights reserved.
+//  Copyright © 2023 New Relic. All rights reserved.
 //  See https://docs.newrelic.com/docs/licenses/ios-agent-licenses for license details
 //
 
@@ -26,7 +29,9 @@ extern "C" {
         NRMAPlatform_Xamarin,
         NRMAPlatform_Unity,
         NRMAPlatform_Appcelerator,
-        NRMAPlatform_React
+        NRMAPlatform_ReactNative,
+        NRMAPlatform_Flutter,
+        NRMAPlatform_Capacitor
     };
 
 // these constants are paired with enum values of NRMAApplicationPlatform
@@ -39,7 +44,9 @@ extern "C" {
 #define kNRMAPlatformString_Xamarin      @"Xamarin"
 #define kNRMAPlatformString_Unity        @"Unity"
 #define kNRMAPlatformString_Appcelerator @"Appcelerator"
-#define kNRMAPlatformString_React        @"React"
+#define kNRMAPlatformString_ReactNative  @"ReactNative"
+#define kNRMAPlatformString_Flutter      @"Flutter"
+#define kNRMAPlatformString_Capacitor    @"Capacitor"
 
 
 //Custom Trace Types
@@ -102,6 +109,22 @@ typedef NSString NRMetricUnit;
 #define kNRAgentHealthPrefix             @"Supportability/AgentHealth"
 #define kNRMASessionStartMetric          @"Session/Start"
 
+#define kNRMAUUIDOverridden              @"Supportability/Mobile/iOS/UUID/Overridden"
+
+// Defines Format string where 4 arguments are NativePlatform, Platform, Destination and DestinationSubArea.
+#define kNRMABytesOutSupportabilityFormatString  @"Supportability/Mobile/%@/%@/%@/%@/Output/Bytes"
+// Defines Format string where 3 arguments are NativePlatform, Platform, and Destination.
+#define kNRMABytesOutSupportabilityRollUpFormatString  @"Supportability/Mobile/%@/%@/%@/Output/Bytes"
+
+// Defines Format string where 4 arguments are NativePlatform, Platform, Destination and Endpoint.
+#define kNRMAMaxPayloadSizeLimitSupportabilityFormatString  @"Supportability/Mobile/%@/%@/%@/MaxPayloadSizeLimit/%@"
+#define kNRMAMaxPayloadSizeLimit         1000000 // bytes
+
+#define kNRMABytesOutConnectAPIString     @"/connect/Output/Bytes"
+#define kNRMABytesOutDataAPIString        @"/data/Output/Bytes"
+#define kNRMABytesOutFAPIString           @"/f/Output/Bytes"
+#define kNRMABytesOutMobileCrashAPIString @"/mobile_crash/Output/Bytes"
+
 #define kNRSupportabilityDistributedTracing @"Supportability/TraceContext"
 
 #define kNRMAMetricSuffixCount           @"Count"
@@ -119,6 +142,17 @@ typedef NSString NRMetricUnit;
 #define kNRMAUserActionAppBackground    @"AppBackground"
 #define kNRMAUserActionTap              @"Tap"
 
+#define kNRDeviceIDReplacementMaxLength 40
+
+#define kNRMAContentEncodingHeader      @"Content-Encoding"
+#define kNRMAGZipHeader                 @"deflate"
+#define kNRMAIdentityHeader             @"identity"
+#define kNRMAActualSizeHeader           @"actual-size"
+#define kNRMACollectorDest              @"Collector"
+
+#define kPlatformPlaceholder            @"[PLATFORM]"
+#define NRMA_METRIC_APP_LAUNCH_COLD        @"AppLaunch/Cold"
+#define NRMA_METRIC_APP_LAUNCH_RESUME      @"AppLaunch/Hot"
 
 // Network Failure Codes
 enum NRNetworkFailureCode {

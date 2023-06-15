@@ -1,12 +1,14 @@
 //
-//  NewRelicCustomInteractionInterace.h
+//  NewRelicCustomInteractionInterface.h
 //  NewRelicAgent
 //
-//  See:
-//    https://docs.newrelic.com/docs/mobile-apps for information
-//    https://docs.newrelic.com/docs/releases/ios for release notes
+//  New Relic for Mobile -- iOS edition
 //
-//  Copyright (c) 2014 New Relic. All rights reserved.
+//  See:
+//    https://docs.newrelic.com/docs/mobile-monitoring for information
+//    https://docs.newrelic.com/docs/release-notes/mobile-release-notes/xcframework-release-notes/ for release notes
+//
+//  Copyright © 2023 New Relic. All rights reserved.
 //  See https://docs.newrelic.com/docs/licenses/ios-agent-licenses for license details
 //
 

@@ -48,7 +48,7 @@ Follow the standard procedure to add the frameworks built/retrieved by Carthage 
 To install the Braze integration through Swift Package Manager, follow these steps:
 
 - Select `File > Swift Packages > Add Package Dependency`.
-- In the search bar, enter https://github.com/Appboy/appboy-segment-ios. Select either `Full-SDK` or `Core`, depending on your use case.
+- In the search bar, enter https://github.com/Appboy/appboy-segment-ios. Select either `AppboySegment` or `AppboySegmentCore`, depending on your use case.
 - In your app's target, under `Build Settings > Other Linker Flags`, add the `-ObjC` linker flag.
 - In the Xcode menu, click `Product > Scheme > Edit Scheme...`
 - Click the expand ▶️ next to `Build` and select `Post-actions`. Press `+` and select `New Run Script Action`.
@@ -66,7 +66,7 @@ After adding the dependency, you must register the integration with our SDK. To 
 #import "SEGAppboyIntegrationFactory.h"
 ```
 
-**Note:** When using Swift Package Manager, you will need to import the SDK using `import Full_SDK` or `import Core` depending on which package you are using.
+**Note:** When using Swift Package Manager, you will need to import the SDK using `import AppboySegment` or `import AppboySegmentCore` depending on which package you are using.
 
 And add the following lines:
 
@@ -93,6 +93,11 @@ SEGAnalytics.setup(with: config)
 ```
 
 Please see [our documentation](https://segment.com/docs/integrations/appboy/#ios) for more information.
+
+## Endpoint Customization
+
+- You must set your endpoint via the `ABKEndpointKey` inside the `appboyOptions` parameter passed to `startWithApiKey:inApplication:withLaunchOptions:withAppboyOptions:`. 
+- Set the value to your custom endpoint URL’s authority (for example, `sdk.iad-01.braze.com`, not `https://sdk.iad-01.braze.com`).
 
 ## License
 

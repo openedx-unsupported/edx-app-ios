@@ -1,16 +1,19 @@
 //
+// NRCustomMetrics
+// NewRelic
+//
 //  New Relic for Mobile -- iOS edition
 //
 //  See:
 //    https://docs.newrelic.com/docs/mobile-apps for information
 //    https://docs.newrelic.com/docs/releases/ios for release notes
 //
-//  Copyright (c) 2014 New Relic. All rights reserved.
+//  Copyright © 2023 New Relic. All rights reserved.
 //  See https://docs.newrelic.com/docs/licenses/ios-agent-licenses for license details
 //
 
 #import <Foundation/Foundation.h>
-#import "NRConstants.h"
+#import <NewRelic/NRConstants.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,7 +28,7 @@ extern "C" {
  */
 
 
-//set the metric name and it's category
+// Set the metric name and metric category
 + (void) recordMetricWithName:(NSString *)name
                      category:(NSString *)category;
 
@@ -34,7 +37,7 @@ extern "C" {
                      category:(NSString *)category
                         value:(NSNumber *)value;
 
-// adds a unit for the value
+// Adds a unit for the value
 /*
  * while there are a few pre-defined units please feel free to add your own by
  * typecasting an NSString.

@@ -639,6 +639,12 @@ static bool checkreturn decode_pointer_field(pb_istream_t *stream, pb_wire_type_
 
                     /* Decode the array entry */
                     pItem = *(char**)iter->pData + iter->pos->data_size * (*size);
+                    if (pItem == NULL)
+                    {
+                        /* Shouldn't happen, but satisfies static analyzers */
+                        status = false;
+                        break;
+                    }
                     initialize_pointer_field(pItem, iter);
                     if (!func(&substream, iter->pos, pItem))
                     {
@@ -1216,7 +1222,7 @@ static void pb_release_single_field(const pb_field_iter_t *iter)
         
         if (pItem)
         {
-            while (count--)
+            for (; count > 0; count--)
             {
                 pb_release((const pb_field_t*)iter->pos->ptr, pItem);
                 pItem = (char*)pItem + iter->pos->data_size;
@@ -1233,7 +1239,7 @@ static void pb_release_single_field(const pb_field_iter_t *iter)
             /* Release entries in repeated string or bytes array */
             void **pItem = *(void***)iter->pData;
             pb_size_t count = *(pb_size_t*)iter->pSize;
-            while (count--)
+            for (; count > 0; count--)
             {
                 pb_free(*pItem);
                 *pItem++ = NULL;

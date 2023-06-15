@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# 2022 New Relic
+# Shell wrapper script used to upload a builds debug symbols to New Relic.
+# run-symbol-tool 
+
+if [ ! $1 ]; then
+    echo "New Relic: usage: $0 <NEW_RELIC_APP_TOKEN> [--debug]"
+    exit -1
+fi
+
+API_KEY=$1
+DEBUG_FLAG=${2:-''}
+
+echo "New Relic: Processing dSYMs and uploading to New Relic. (In background...)"
+echo "New Relic: For troubleshooting, see upload_dsym_results.log file in project root folder. Add --debug after app token in Run Script for additional information."
+
+WORK_DIRECTORY=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+SCRIPT="$WORK_DIRECTORY/run-symbol-tool.swift"
+
+## Running with below command is useful for seeing output in Xcode, 
+## but it will incur delays in the build process while the dSYMs process and upload.
+# /usr/bin/xcrun --sdk macosx swift "$SCRIPT" $API_KEY $DEBUG_FLAG
+
+/usr/bin/xcrun --sdk macosx swift "$SCRIPT" $API_KEY $DEBUG_FLAG > upload_dsym_results.log 2>&1 &

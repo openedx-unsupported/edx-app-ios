@@ -1,1 +1,1 @@
-../../../FirebaseCrashlytics/FirebaseCore/Sources/Private/FIRComponentContainer.h
+../../../FirebaseCrashlytics/FirebaseCore/Extension/FIRComponentContainer.h

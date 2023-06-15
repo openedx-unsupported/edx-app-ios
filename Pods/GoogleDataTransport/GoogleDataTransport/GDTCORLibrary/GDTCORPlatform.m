@@ -84,7 +84,7 @@ BOOL GDTCORReachabilityFlagsContainWWAN(GDTCORNetworkReachabilityFlags flags) {
 #endif  // TARGET_OS_IOS
 }
 
-GDTCORNetworkType GDTCORNetworkTypeMessage() {
+GDTCORNetworkType GDTCORNetworkTypeMessage(void) {
 #if !TARGET_OS_WATCH
   SCNetworkReachabilityFlags reachabilityFlags = [GDTCORReachability currentFlags];
   if ((reachabilityFlags & kSCNetworkReachabilityFlagsReachable) ==
@@ -99,7 +99,7 @@ GDTCORNetworkType GDTCORNetworkTypeMessage() {
   return GDTCORNetworkTypeUNKNOWN;
 }
 
-GDTCORNetworkMobileSubtype GDTCORNetworkMobileSubTypeMessage() {
+GDTCORNetworkMobileSubtype GDTCORNetworkMobileSubTypeMessage(void) {
 #if TARGET_OS_IOS
   static NSDictionary<NSString *, NSNumber *> *CTRadioAccessTechnologyToNetworkSubTypeMessage;
   static CTTelephonyNetworkInfo *networkInfo;
@@ -154,7 +154,7 @@ GDTCORNetworkMobileSubtype GDTCORNetworkMobileSubTypeMessage() {
 #endif  // TARGET_OS_IOS
 }
 
-NSString *_Nonnull GDTCORDeviceModel() {
+NSString *_Nonnull GDTCORDeviceModel(void) {
   static NSString *deviceModel = @"Unknown";
 
 #if TARGET_OS_IOS || TARGET_OS_TV
@@ -182,6 +182,8 @@ NSData *_Nullable GDTCOREncodeArchive(id<NSSecureCoding> obj,
                                       NSError *_Nullable *error) {
   BOOL result = NO;
   if (filePath.length > 0) {
+    // TODO(ncooke3): For future cleanup– this API shouldn't touch the file
+    // system unless it successfully encoded the given object.
     result = [[NSFileManager defaultManager]
               createDirectoryAtPath:[filePath stringByDeletingLastPathComponent]
         withIntermediateDirectories:YES
@@ -203,8 +205,12 @@ NSData *_Nullable GDTCOREncodeArchive(id<NSSecureCoding> obj,
     }
     if (filePath.length > 0) {
       result = [resultData writeToFile:filePath options:NSDataWritingAtomic error:error];
-      if (result == NO || *error) {
-        GDTCORLogDebug(@"Attempt to write archive failed: path:%@ error:%@", filePath, *error);
+      if (result == NO || (error != NULL && *error != nil)) {
+        if (error != NULL && *error != nil) {
+          GDTCORLogDebug(@"Attempt to write archive failed: path:%@ error:%@", filePath, *error);
+        } else {
+          GDTCORLogDebug(@"Attempt to write archive failed: path:%@", filePath);
+        }
       } else {
         GDTCORLogDebug(@"Writing archive succeeded: %@", filePath);
       }
@@ -238,25 +244,31 @@ NSData *_Nullable GDTCOREncodeArchive(id<NSSecureCoding> obj,
   return resultData;
 }
 
+id<NSSecureCoding> _Nullable GDTCORDecodeArchiveAtPath(Class archiveClass,
+                                                       NSString *_Nonnull archivePath,
+                                                       NSError **_Nonnull error) {
+  NSData *data = [NSData dataWithContentsOfFile:archivePath options:0 error:error];
+  if (data == nil) {
+    // Reading the file failed and `error` will be populated.
+    return nil;
+  }
+
+  return GDTCORDecodeArchive(archiveClass, data, error);
+}
+
 id<NSSecureCoding> _Nullable GDTCORDecodeArchive(Class archiveClass,
-                                                 NSString *_Nullable archivePath,
-                                                 NSData *_Nullable archiveData,
-                                                 NSError *_Nullable *error) {
+                                                 NSData *_Nonnull archiveData,
+                                                 NSError **_Nonnull error) {
   id<NSSecureCoding> unarchivedObject = nil;
   if (@available(macOS 10.13, iOS 11.0, tvOS 11.0, watchOS 4, *)) {
-    NSData *data = archiveData ? archiveData : [NSData dataWithContentsOfFile:archivePath];
-    if (data) {
-      unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:archiveClass
-                                                           fromData:data
-                                                              error:error];
-    }
+    unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:archiveClass
+                                                         fromData:archiveData
+                                                            error:error];
   } else {
     @try {
-      NSData *archivedData =
-          archiveData ? archiveData : [NSData dataWithContentsOfFile:archivePath];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-      unarchivedObject = [NSKeyedUnarchiver unarchiveObjectWithData:archivedData];
+      unarchivedObject = [NSKeyedUnarchiver unarchiveObjectWithData:archiveData];
 #pragma clang diagnostic pop
     } @catch (NSException *exception) {
       NSString *errorString =

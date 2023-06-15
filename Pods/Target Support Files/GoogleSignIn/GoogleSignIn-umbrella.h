@@ -10,12 +10,13 @@
 #endif
 #endif
 
-#import "GIDAuthentication.h"
 #import "GIDConfiguration.h"
 #import "GIDGoogleUser.h"
 #import "GIDProfileData.h"
 #import "GIDSignIn.h"
 #import "GIDSignInButton.h"
+#import "GIDSignInResult.h"
+#import "GIDToken.h"
 #import "GoogleSignIn.h"
 
 FOUNDATION_EXPORT double GoogleSignInVersionNumber;

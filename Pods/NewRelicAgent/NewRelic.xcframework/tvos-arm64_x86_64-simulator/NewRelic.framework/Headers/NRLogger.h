@@ -1,11 +1,14 @@
 //
+// NRLogger
+// NewRelic
+//
 //  New Relic for Mobile -- iOS edition
 //
 //  See:
-//    https://docs.newrelic.com/docs/mobile-apps for information
-//    https://docs.newrelic.com/docs/releases/ios for release notes
+//    https://docs.newrelic.com/docs/mobile-monitoring for information
+//    https://docs.newrelic.com/docs/release-notes/mobile-release-notes/xcframework-release-notes/ for release notes
 //
-//  Copyright (c) 2014 New Relic. All rights reserved.
+//  Copyright © 2023 New Relic. All rights reserved.
 //  See https://docs.newrelic.com/docs/licenses/ios-agent-licenses for license details
 //
 
@@ -97,7 +100,7 @@ withMessage:(NSString *)message;
 
 
 /*!
- Configure the amount if information the New Relic agent outputs about it's internal operation.
+ Configure the amount of information the New Relic agent outputs about its internal operation.
  
  @param levels A single NRLogLevels constant, or a bitwise ORed combination of NRLogLevels
  

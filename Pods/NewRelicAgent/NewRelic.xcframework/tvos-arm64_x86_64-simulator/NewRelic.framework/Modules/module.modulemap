@@ -1,3 +1,4 @@
+//  Copyright © 2023 New Relic. All rights reserved.
 
 framework module NewRelic {
     umbrella header "Agent.h"

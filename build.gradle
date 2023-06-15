@@ -122,11 +122,16 @@ class IOSHelper {
     def addFacebookConfig(config, plist) {
         def facebook = config['FACEBOOK'] ?: [:]
         def key = facebook['FACEBOOK_APP_ID']
-        if(!key) {
+        def clientID = facebook['CLIENT_TOKEN']
+
+        if(!key || !clientID) {
             return
         }
-
+        
         plist["FacebookAppID"] = key
+        plist["FacebookClientToken"] = clientID
+        plist["FacebookDisplayName"] = "edX"
+        
         def scheme = ["fb" + key]
         addURLScheme(scheme, plist)
     }
