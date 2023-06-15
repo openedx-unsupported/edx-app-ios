@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyStoreKit
+import StoreKit
 
 let UnfullfilledTransctionsNotification: String = "UnfullfilledTransctionsNotification"
 
@@ -152,10 +153,10 @@ enum PurchaseError: String {
         }
     }
 
-    func productPrice(_ identifier: String, completion: ((String?) -> Void)? = nil) {
+    func fetchPrroduct(_ identifier: String, completion: ((SKProduct?) -> Void)? = nil) {
         SwiftyStoreKit.retrieveProductsInfo([identifier]) { result in
             if let product = result.retrievedProducts.first {
-                completion?(product.localizedPrice)
+                completion?(product)
             }
             else if let _ = result.invalidProductIDs.first {
                 completion?(nil)
@@ -164,10 +165,6 @@ enum PurchaseError: String {
                 completion?(nil)
             }
         }
-    }
-    
-    func productPrice(_ identifiers: [String]) {
-        SwiftyStoreKit.retrieveProductsInfo(Set(identifiers.map { $0 })) { _ in }
     }
     
     func purchaseReceipt(completion: PurchaseCompletionHandler? = nil) {
