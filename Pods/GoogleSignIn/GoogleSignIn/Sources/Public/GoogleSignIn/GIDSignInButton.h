@@ -13,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#import <TargetConditionals.h>
+
+#if TARGET_OS_IOS || TARGET_OS_MACCATALYST
 
 #import <UIKit/UIKit.h>
 
@@ -39,10 +42,10 @@ typedef NS_ENUM(NSInteger, GIDSignInButtonColorScheme) {
 
 /// This class provides the "Sign in with Google" button.
 ///
-/// You can instantiate this class programmatically or from a NIB file. You
-/// should connect this control to an `IBAction`, or something similar, that
-/// calls signInWithConfiguration:presentingViewController:callback: on
-/// `GIDSignIn` and add it to your view hierarchy.
+/// You can instantiate this class programmatically or from a NIB file. You should connect this
+/// control to an `IBAction`, or something similar, that calls
+/// signInWithPresentingViewController:completion: on `GIDSignIn` and add it to your view
+/// hierarchy.
 @interface GIDSignInButton : UIControl
 
 /// The layout style for the sign-in button.
@@ -61,3 +64,5 @@ typedef NS_ENUM(NSInteger, GIDSignInButtonColorScheme) {
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

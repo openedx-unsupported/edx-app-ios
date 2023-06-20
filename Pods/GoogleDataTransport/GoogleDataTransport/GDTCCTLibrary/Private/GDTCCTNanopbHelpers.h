@@ -97,6 +97,13 @@ gdt_cct_ClientInfo GDTCCTConstructClientInfo(void);
 FOUNDATION_EXPORT
 gdt_cct_IosClientInfo GDTCCTConstructiOSClientInfo(void);
 
+/** Constructs a gdt_cct_MacClientInfo representing the client device.
+ *
+ * @return The new gdt_cct_MacClientInfo object.
+ */
+FOUNDATION_EXPORT
+gdt_cct_MacClientInfo GDTCCTConstructMacClientInfo(void);
+
 /** Constructs the data of a gdt_cct_NetworkConnectionInfo representing the client nework connection
  * information.
  *

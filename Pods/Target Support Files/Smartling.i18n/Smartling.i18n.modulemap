@@ -1,6 +1,0 @@
-framework module Smartling_i18n {
-  umbrella header "Smartling.i18n-umbrella.h"
-
-  export *
-  module * { export * }
-}

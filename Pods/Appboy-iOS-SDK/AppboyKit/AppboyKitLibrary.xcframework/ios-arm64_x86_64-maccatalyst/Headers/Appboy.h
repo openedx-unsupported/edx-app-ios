@@ -12,8 +12,10 @@
 #import <UIKit/UIKit.h>
 #import <UserNotifications/UserNotifications.h>
 
+#import "ABKSdkMetadata.h"
+
 #ifndef APPBOY_SDK_VERSION
-#define APPBOY_SDK_VERSION @"4.3.4"
+#define APPBOY_SDK_VERSION @"4.5.4"
 #endif
 
 #if !TARGET_OS_TV
@@ -152,12 +154,23 @@ extern NSString *const ABKDeviceAllowlistKey;
  */
 extern NSString *const ABKDeviceWhitelistKey __deprecated_msg("ABKDeviceWhitelistKey is deprecated. Please use ABKDeviceAllowlistKey instead.");
 
+extern NSString *const ABKEphemeralEventsKey;
+
 /*!
  * This key can be set to a string value representing the app group name for the Push Story Notification
  * Content extension. This is required for the SDK to fetch data from and handle user interactions
  * with the Push Story app extension.
  */
 extern NSString *const ABKPushStoryAppGroupKey;
+
+/*!
+ * This key can be set to an integer value to specify the level of the log statements output by the Braze SDK.
+ *
+ * The default log level is 8 and will minimally log info. To enable verbose logging for debugging, use log level 0.
+ *
+ * This selection will override any LogLevel value set in the Info.plist.
+ */
+extern NSString *const ABKLogLevelKey;
 
 /* ------------------------------------------------------------------------------------------------------
  * Enums
@@ -268,8 +281,7 @@ typedef NS_ENUM(NSInteger, ABKChannel) {
  * @param apiKey The app's API key
  * @param application The current app
  * @param launchOptions The options NSDictionary that you get from application:didFinishLaunchingWithOptions
- * @param appboyOptions An optional NSDictionary with startup configuration values for Braze. This currently supports
- * ABKRequestProcessingPolicyOptionKey, ABKSocialAccountAcquisitionPolicyOptionKey and ABKFlushIntervalOptionKey. See below
+ * @param appboyOptions An optional NSDictionary with startup configuration values for Braze. See below
  * for more information.
  *
  * @discussion Starts up Braze and tells it that your app is done launching. You should call this
@@ -319,6 +331,11 @@ typedef NS_ENUM(NSInteger, ABKChannel) {
  * A class conforming to ABKSdkAuthenticationDelegate can be set to handle SDK Authentication errors.
  */
 @property (nonatomic, strong, nullable) id<ABKSdkAuthenticationDelegate> sdkAuthenticationDelegate;
+
+/*!
+ * A custom `NSURLSessionConfiguration` for configuring network session parameters.
+ */
+@property (nonatomic, readonly) NSURLSessionConfiguration *urlSessionConfiguration;
 
 #if !TARGET_OS_TV
 /*!
@@ -378,7 +395,8 @@ typedef NS_ENUM(NSInteger, ABKChannel) {
 * @param userId The new user's ID (from the host application).
 *
 * @discussion
-* This method changes the user's ID.
+* This method changes the user's ID. These user IDs should be private and not easily obtained (e.g. not a plain
+* email address or username).
 *
 * When you first start using Braze on a device, the user is considered "anonymous". You can use this method to
 * optionally identify a user with a unique ID, which enables the following:
@@ -629,6 +647,15 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 - (void)pushAuthorizationFromUserNotificationCenter:(BOOL)pushAuthGranted;
 
 #endif
+
+/*!
+ * Adds SDK Metadata values to those automatically collected by the SDK.
+ *
+ * Metadata tell Braze how the SDK is integrated (e.g. wrapper, package manager, etc.)
+ *
+ * @param metadata The metadata values reflecting the current SDK integration.
+ */
+- (void)addSdkMetadata:(NSArray<ABKSdkMetadata> *)metadata;
 
 /* ------------------------------------------------------------------------------------------------------
  * Data processing configuration methods.

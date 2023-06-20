@@ -45,14 +45,15 @@ typedef struct {
   volatile bool debuggerAttached;
   const char* previouslyCrashedFileFullPath;
   const char* logPath;
+  // Initial report path represents the report path used to initialized the context;
+  // where non-on-demand exceptions and other crashes will be written.
+  const char* initialReportPath;
 #if CLS_USE_SIGALTSTACK
   void* signalStack;
 #endif
 #if CLS_MACH_EXCEPTION_SUPPORTED
   void* machStack;
 #endif
-  void* delegate;
-  void* callbackDelegate;
 
   FIRCLSBinaryImageReadOnlyContext binaryimage;
   FIRCLSExceptionReadOnlyContext exception;
@@ -81,15 +82,11 @@ typedef struct {
 } FIRCLSContext;
 
 typedef struct {
-  void* delegate;
   const char* customBundleId;
   const char* rootPath;
   const char* previouslyCrashedFileRootPath;
   const char* sessionId;
   const char* betaToken;
-#if CLS_MACH_EXCEPTION_SUPPORTED
-  exception_mask_t machExceptionMask;
-#endif
   bool errorsEnabled;
   bool customExceptionsEnabled;
   uint32_t maxCustomExceptions;

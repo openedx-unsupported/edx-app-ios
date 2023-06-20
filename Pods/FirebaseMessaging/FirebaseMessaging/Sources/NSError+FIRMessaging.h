@@ -18,11 +18,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXPORT NSString *const kFIRMessagingDomain;
-
 // FIRMessaging Internal Error Code
 typedef NS_ENUM(NSUInteger, FIRMessagingErrorCode) {
   kFIRMessagingErrorCodeUnknown = 0,
+  kFIRMessagingErrorCodeInternal = 1,
 
   kFIRMessagingErrorCodeNetwork = 4,
 
@@ -38,6 +37,7 @@ typedef NS_ENUM(NSUInteger, FIRMessagingErrorCode) {
   kFIRMessagingErrorCodeMissingAuthorizedEntity = 502,
   kFIRMessagingErrorCodeMissingScope = 503,
   kFIRMessagingErrorCodeMissingFid = 504,
+  kFIRMessagingErrorCodeMissingDeviceToken = 505,
 
   // Upstream send errors
   kFIRMessagingErrorCodeServiceNotAvailable = 1001,

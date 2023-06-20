@@ -35,7 +35,7 @@ extension FeatureInteractor {
         FeatureTestCase.activeTest.expectation(for: predicate, evaluatedWith: element, handler: nil)
         FeatureTestCase.activeTest.waitForExpectations { (error) -> Void in
             if error != nil {
-                FeatureTestCase.activeTest.recordFailure(withDescription: "Timeout waiting for element: \(element)", inFile: file, atLine: Int(line), expected: true)
+                FeatureTestCase.activeTest.record(XCTIssue(type: .assertionFailure, compactDescription: "Timeout waiting for element: \(element)", sourceCodeContext: XCTSourceCodeContext(location: XCTSourceCodeLocation(filePath: file, lineNumber: Int(line)))))
             }
         }
     }

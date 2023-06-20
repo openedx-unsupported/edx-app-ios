@@ -1,1 +1,1 @@
-../../../GTMSessionFetcher/Source/GTMSessionFetcherLogging.h
+../../../GTMSessionFetcher/Sources/Core/Public/GTMSessionFetcher/GTMSessionFetcherLogging.h

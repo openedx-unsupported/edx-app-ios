@@ -125,6 +125,11 @@ static UIColor *_linkLabelColor = nil;
 
 #pragma mark - SetUp
 
+- (void)setUp {
+  [super setUp];
+  self.padding = 25;
+}
+
 - (void)setUpUI {
   [super setUpUI];
 
@@ -151,7 +156,7 @@ static UIColor *_linkLabelColor = nil;
     self.imageRatioConstraint,
 
     // Pin Image
-    [self.pinImageView.topAnchor constraintEqualToAnchor:self.captionedImageView.bottomAnchor],
+    [self.pinImageView.topAnchor constraintEqualToAnchor:self.captionedImageView.topAnchor],
     [self.pinImageView.trailingAnchor constraintEqualToAnchor:self.rootView.trailingAnchor],
     [self.pinImageView.widthAnchor constraintEqualToConstant:20],
     [self.pinImageView.heightAnchor constraintEqualToConstant:20],
@@ -160,9 +165,9 @@ static UIColor *_linkLabelColor = nil;
     [self.titleLabel.topAnchor constraintEqualToAnchor:self.captionedImageView.bottomAnchor
                                               constant:17],
     [self.titleLabel.leadingAnchor constraintEqualToAnchor:self.rootView.leadingAnchor
-                                                  constant:25],
+                                                  constant:self.padding],
     [self.titleLabel.trailingAnchor constraintEqualToAnchor:self.rootView.trailingAnchor
-                                                   constant:-25],
+                                                   constant:-self.padding],
 
     // Description
     [self.descriptionLabel.topAnchor constraintEqualToAnchor:self.titleLabel.bottomAnchor
@@ -178,14 +183,14 @@ static UIColor *_linkLabelColor = nil;
 
   self.descriptionConstraints = @[
     [self.descriptionLabel.bottomAnchor constraintEqualToAnchor:self.rootView.bottomAnchor
-                                                       constant:-25]
+                                                       constant:-self.padding]
   ];
 
   self.linkConstraints = @[
     [self.linkLabel.topAnchor constraintEqualToAnchor:self.descriptionLabel.bottomAnchor
                                              constant:8],
     [self.linkLabel.bottomAnchor constraintEqualToAnchor:self.rootView.bottomAnchor
-                                                constant:-25]
+                                                constant:-self.padding]
   ];
 }
 

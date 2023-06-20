@@ -13,6 +13,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *linkLabel;
 
+@property (nonatomic, assign) CGFloat padding;
+
 - (void)applyCard:(ABKCaptionedImageContentCard *)captionedImageCard;
 
 @end

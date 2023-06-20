@@ -30,7 +30,7 @@ not_in_xcode_env() {
 }
 
 bitcode_enabled() {
-    echo "New Relic: Build is Bitcode enabled. No dSYM has been uploaded. Bitcode enabled apps require dSYM files to be downloaded from iTunes Connect.
+    echo "New Relic: Build is Bitcode enabled. No dSYM has been uploaded. Bitcode enabled apps require dSYM files to be downloaded from App Store Connect.
 For more information please review https://docs.newrelic.com/docs/mobile-monitoring/new-relic-mobile-ios/install-configure/retrieve-upload-dsyms"
     exit 0
 }
@@ -67,10 +67,15 @@ upload_map_file_to_new_relic() {
         let RETRY_COUNT=$RETRY_COUNT+1
         echo "New Relic: map file upload attempt #${RETRY_COUNT} (of ${RETRY_LIMIT})"
 
+        # Python 2 support: Comment the existing line 2 lines down and uncomment the following line.
+        # MAP_SCRIPT=`/usr/bin/find "${ARTIFACT_DIR}" -name generateMapPython2.py | head -n 1`
         MAP_SCRIPT=`/usr/bin/find "${SRCROOT}" -name generateMap.py | head -n 1`
 
         if [ -z ${MAP_SCRIPT} ]; then
             ARTIFACT_DIR="${BUILD_DIR%Build/*}SourcePackages/artifacts"
+
+            # Python 2 support: Comment the existing line 2 lines down and uncomment the next line.
+            # MAP_SCRIPT=`/usr/bin/find "${ARTIFACT_DIR}" -name generateMapPython2.py | head -n 1`
             MAP_SCRIPT=`/usr/bin/find "${ARTIFACT_DIR}" -name generateMap.py | head -n 1`
 
             if [ -z ${MAP_SCRIPT} ]; then
@@ -80,7 +85,10 @@ upload_map_file_to_new_relic() {
         fi
 
         echo "Using URL: ${DSYM_UPLOAD_URL}"
-        SERVER_RESPONSE=$(python "${MAP_SCRIPT}" "${DSYM_ARCHIVE_PATH}" ${API_KEY})
+        
+        # Python 2 support: Comment the existing line 2 lines down and uncomment the following line.
+        # SERVER_RESPONSE=$(python "${MAP_SCRIPT}" "${DSYM_ARCHIVE_PATH}" ${API_KEY})
+        SERVER_RESPONSE=$(python3 "${MAP_SCRIPT}" "${DSYM_ARCHIVE_PATH}" ${API_KEY})
 
         if [ "${SERVER_RESPONSE}" == "201" ]; then
             echo "New Relic: Successfully uploaded map files"
@@ -137,7 +145,7 @@ if [ "$EFFECTIVE_PLATFORM_NAME" == "-iphonesimulator" -a ! "$ENABLE_SIMULATOR_DS
     exit 0
 fi
 
-if [ ! "$DWARF_DSYM_FOLDER_PATH" -o ! "$DWARF_DSYM_FILE_NAME" -o ! "$INFOPLIST_FILE" ]; then
+if [ ! "$DWARF_DSYM_FOLDER_PATH" ]; then
     not_in_xcode_env
 fi
 

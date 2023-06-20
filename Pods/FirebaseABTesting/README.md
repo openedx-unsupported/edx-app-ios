@@ -1,37 +1,24 @@
-[![Version](https://img.shields.io/cocoapods/v/Firebase.svg?style=flat)](https://cocoapods.org/pods/Firebase)
-[![License](https://img.shields.io/cocoapods/l/Firebase.svg?style=flat)](https://cocoapods.org/pods/Firebase)
-[![Platform](https://img.shields.io/cocoapods/p/Firebase.svg?style=flat)](https://cocoapods.org/pods/Firebase)
-
-[![Actions Status][gh-abtesting-badge]][gh-actions]
-[![Actions Status][gh-appcheck-badge]][gh-actions]
-[![Actions Status][gh-appdistribution-badge]][gh-actions]
-[![Actions Status][gh-auth-badge]][gh-actions]
-[![Actions Status][gh-cocoapods-integration-badge]][gh-actions]
-[![Actions Status][gh-core-badge]][gh-actions]
-[![Actions Status][gh-core-diagnostics-badge]][gh-actions]
-[![Actions Status][gh-crashlytics-badge]][gh-actions]
-[![Actions Status][gh-database-badge]][gh-actions]
-[![Actions Status][gh-datatransport-badge]][gh-actions]
-[![Actions Status][gh-dynamiclinks-badge]][gh-actions]
-[![Actions Status][gh-firebasepod-badge]][gh-actions]
-[![Actions Status][gh-firestore-badge]][gh-actions]
-[![Actions Status][gh-functions-badge]][gh-actions]
-[![Actions Status][gh-google-utilities-badge]][gh-actions]
-[![Actions Status][gh-google-utilities-components-badge]][gh-actions]
-[![Actions Status][gh-inappmessaging-badge]][gh-actions]
-[![Actions Status][gh-interop-badge]][gh-actions]
-[![Actions Status][gh-messaging-badge]][gh-actions]
-[![Actions Status][gh-mlmodeldownloader-badge]][gh-actions]
-[![Actions Status][gh-performance-badge]][gh-actions]
-[![Actions Status][gh-remoteconfig-badge]][gh-actions]
-[![Actions Status][gh-storage-badge]][gh-actions]
-[![Actions Status][gh-symbolcollision-badge]][gh-actions]
-[![Actions Status][gh-zip-badge]][gh-actions]
+<p align="center">
+  <a href="https://cocoapods.org/pods/Firebase">
+    <img src="https://img.shields.io/github/v/release/Firebase/firebase-ios-sdk?style=flat&label=CocoaPods"/>
+  </a>
+  <a href="https://swiftpackageindex.com/firebase/firebase-ios-sdk">
+    <img src="https://img.shields.io/github/v/release/Firebase/firebase-ios-sdk?style=flat&label=Swift%20Package%20Index&color=red"/>
+  </a>
+  <a href="https://cocoapods.org/pods/Firebase">
+    <img src="https://img.shields.io/github/license/Firebase/firebase-ios-sdk?style=flat"/>
+  </a><br/>
+  <a href="https://swiftpackageindex.com/firebase/firebase-ios-sdk">
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Ffirebase%2Ffirebase-ios-sdk%2Fbadge%3Ftype%3Dplatforms"/>
+  </a>
+  <a href="https://swiftpackageindex.com/firebase/firebase-ios-sdk">
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Ffirebase%2Ffirebase-ios-sdk%2Fbadge%3Ftype%3Dswift-versions"/>
+  </a>
+</p>
 
 # Firebase Apple Open Source Development
 
-This repository contains all Apple platform Firebase SDK source except FirebaseAnalytics
-and FirebaseML.
+This repository contains all Apple platform Firebase SDK source except FirebaseAnalytics.
 
 Firebase is an app development platform with tools to help you build, grow and
 monetize your app. More information about Firebase can be found on the
@@ -39,7 +26,9 @@ monetize your app. More information about Firebase can be found on the
 
 ## Installation
 
-See the subsections below for details about the different installation methods.
+See the subsections below for details about the different installation methods. Where
+available, it's recommended to install any libraries with a `Swift` suffix to get the
+best experience when writing your app in Swift.
 1. [Standard pod install](#standard-pod-install)
 1. [Swift Package Manager](#swift-package-manager)
 1. [Installing from the GitHub repo](#installing-from-github)
@@ -98,7 +87,7 @@ Instructions for the experimental Carthage distribution are at
 To develop Firebase software in this repository, ensure that you have at least
 the following software:
 
-  * Xcode 12.2 (or later)
+  * Xcode 14.1 (or later)
 
 CocoaPods is still the canonical way to develop, but much of the repo now supports
 development with Swift Package Manager.
@@ -165,7 +154,7 @@ GitHub Actions will verify that any code changes are done in a style compliant
 way. Install `clang-format` and `mint`:
 
 ```console
-brew install clang-format@13
+brew install clang-format@16
 brew install mint
 ```
 
@@ -220,7 +209,7 @@ integrating Performance with the dev test App.
 ### Firebase Storage
 
 To run the Storage Integration tests, follow the instructions in
-[FIRStorageIntegrationTests.m](FirebaseStorage/Tests/Integration/FIRStorageIntegrationTests.m).
+[StorageIntegration.swift](FirebaseStorage/Tests/Integration/StorageIntegration.swift).
 
 #### Push Notifications
 
@@ -243,7 +232,7 @@ physical device.
 
 ## Building with Firebase on Apple platforms
 
-Firebase 8.9.0 introduces official beta support for macOS, Catalyst, and tvOS. watchOS continues
+Firebase 8.9.0 introduced official beta support for macOS, Catalyst, and tvOS. watchOS continues
 to be community supported. Thanks to community contributions for many of the multi-platform PRs.
 
 At this time, most of Firebase's products are available across Apple platforms. There are still
@@ -290,30 +279,3 @@ The contents of this repository are licensed under the
 
 Your use of Firebase is governed by the
 [Terms of Service for Firebase Services](https://firebase.google.com/terms/).
-
-[gh-actions]: https://github.com/firebase/firebase-ios-sdk/actions
-[gh-abtesting-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/abtesting/badge.svg
-[gh-appcheck-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/app_check/badge.svg
-[gh-appdistribution-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/appdistribution/badge.svg
-[gh-auth-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/auth/badge.svg
-[gh-cocoapods-integration-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/cocoapods-integration/badge.svg
-[gh-core-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/core/badge.svg
-[gh-core-diagnostics-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/core-diagnostics/badge.svg
-[gh-crashlytics-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/crashlytics/badge.svg
-[gh-database-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/database/badge.svg
-[gh-datatransport-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/datatransport/badge.svg
-[gh-dynamiclinks-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/dynamiclinks/badge.svg
-[gh-firebasepod-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/firebasepod/badge.svg
-[gh-firestore-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/firestore/badge.svg
-[gh-functions-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/functions/badge.svg
-[gh-google-utilities-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/google-utilities/badge.svg
-[gh-google-utilities-components-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/google-utilities-components/badge.svg
-[gh-inappmessaging-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/inappmessaging/badge.svg
-[gh-interop-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/interop/badge.svg
-[gh-messaging-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/messaging/badge.svg
-[gh-mlmodeldownloader-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/mlmodeldownloader/badge.svg
-[gh-performance-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/performance/badge.svg
-[gh-remoteconfig-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/remoteconfig/badge.svg
-[gh-storage-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/storage/badge.svg
-[gh-symbolcollision-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/symbolcollision/badge.svg
-[gh-zip-badge]: https://github.com/firebase/firebase-ios-sdk/workflows/zip/badge.svg

@@ -17,7 +17,7 @@
 #import <TargetConditionals.h>
 #if TARGET_OS_IOS || TARGET_OS_TV
 
-#import "FirebaseCore/Sources/Private/FirebaseCoreInternal.h"
+#import "FirebaseCore/Extension/FirebaseCoreInternal.h"
 
 #import "FirebaseInAppMessaging/Sources/FIRCore+InAppMessaging.h"
 #import "FirebaseInAppMessaging/Sources/Private/Data/FIRIAMFetchResponseParser.h"
@@ -92,7 +92,7 @@
                "resetting the message cache",
               (unsigned long)self.testMessages.count, (unsigned long)self.regularMessages.count,
               (unsigned long)self.firebaseAnalyticEventsToWatch.count);
-  [self.observer dataChanged];
+  [self.observer messageDataChanged];
 }
 
 // triggered after self.messages are updated so that we can correctly enable/disable listening
@@ -213,7 +213,7 @@
 
   // triggers the observer outside synchronization block
   if (msgToRemove) {
-    [self.observer dataChanged];
+    [self.observer messageDataChanged];
   }
 }
 
