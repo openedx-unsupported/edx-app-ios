@@ -116,7 +116,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         // Filed http://www.openradar.appspot.com/radar?id=6188034965897216 against Apple to better expose
         // this API.
         // Verified on iOS9 and iOS 8
-        if let scrollView = (view.subviews.compactMap { return $0 as? UIScrollView }).first {
+        if let scrollView = view.subviews.compactMap({ return $0 as? UIScrollView }).first {
+            scrollView.delegate = self
             scrollView.delaysContentTouches = false
         }
         addObservers()
@@ -512,6 +513,19 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let block = contentLoader.value?.peekPrev()?.block {
             preloadBlock(block: block)
         }
+    }
+}
+
+// There is a bug with UIPageViewController, if user tries to quickly scroll between controllers,
+// the UIPageViewControllerDelegate is not being called appropriately,
+// to handle this, listen to UISsrollViewDelegate and handle the user interaction.
+extension CourseContentPageViewController: UIScrollViewDelegate {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        updateTransitionState(is: false)
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        updateTransitionState(is: false)
     }
 }
 
