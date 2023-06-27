@@ -99,7 +99,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         return message
     }()
     
-    private lazy var celebrationMessageLabel: UILabel = {
+    private lazy var shareMessageLabel: UILabel = {
         let message = UILabel()
         message.numberOfLines = 0
         message.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
@@ -109,7 +109,6 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         let messageStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: environment.styles.neutralBlackT())
         let messageAttributedString = messageStyle.attributedString(withText: Strings.Celebration.infoMessage)
         let compiledMessage = NSAttributedString.joinInNaturalLayout(attributedStrings: [earneditAttributedString, messageAttributedString])
-        message.sizeToFit()
         message.attributedText = compiledMessage
         return message
     }()
@@ -134,7 +133,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         return imageView
     }()
     
-    private lazy var shareButtonView: UIButton = {
+    private lazy var shareButton: UIButton = {
         let button = UIButton()
         button.accessibilityLabel = Strings.Accessibility.shareACourse
         button.oex_removeAllActions()
@@ -149,15 +148,24 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         return button
     }()
     
+    private let shareContainer = UIView()
+    
     private lazy var courseURL: String? = {
         return environment.interface?.enrollmentForCourse(withID: courseID)?.course.course_about
     }()
     
     private lazy var celebrationImageSize: CGSize = {
         let margin: CGFloat = isiPad() ? 240 : 80
-        let width = view.frame.size.width - margin
+        let width = UIScreen.main.bounds.width - margin
         let imageAspectRatio: CGFloat = 1.37
         return CGSize(width: width, height: width / imageAspectRatio)
+    }()
+    
+    private lazy var celebrationImageSizeLandscape: CGSize = {
+        let margin: CGFloat = isiPad() ? 340 : 165
+        let height = UIScreen.main.bounds.height - margin
+        let imageAspectRatio: CGFloat = 1.37
+        return CGSize(width: height * imageAspectRatio, height: height)
     }()
     
     init(courseID: String, environment: Environment) {
@@ -183,9 +191,8 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         super.viewDidLoad()
         
         view.backgroundColor = environment.styles.neutralXXDark().withAlphaComponent(0.5)
-        view.setNeedsUpdateConstraints()
-        view.addSubview(modalView)
         
+        addSubviews()
         setIdentifiers()
     }
     
@@ -199,6 +206,7 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         super.viewWillLayoutSubviews()
         updateViewConstraints()
     }
+    
     
     override func updateViewConstraints() {
         if isVerticallyCompact() {
@@ -215,269 +223,154 @@ class CelebratoryModalViewController: UIViewController, InterfaceOrientationOver
         NotificationCenter.default.removeObserver(self)
     }
     
-    private func removeViews() {
-        modalView.subviews.forEach { $0.removeFromSuperview() }
-    }
-    
     private func setIdentifiers() {
-        modalView.accessibilityIdentifier = "CelebratoryModalView:modal-container-view"
+        modalView.accessibilityIdentifier = "CelebratoryModalView:modal-view"
         titleLabel.accessibilityIdentifier = "CelebratoryModalView:label-title"
-        titleMessageLabel.accessibilityIdentifier = "CelebratoryModalView:label-title-message"
-        celebrationMessageLabel.accessibilityIdentifier = "CelebratoryModalView:label-celebration-message"
+        titleMessageLabel.accessibilityIdentifier = "CelebratoryModalView:title-message-label"
+        shareMessageLabel.accessibilityIdentifier = "CelebratoryModalView:share-message-label"
         congratulationImageView.accessibilityIdentifier = "CelebratoryModalView:congratulation-image-view"
-        shareButtonView.accessibilityIdentifier = "CelebratoryModalView:share-button-view"
+        shareButton.accessibilityIdentifier = "CelebratoryModalView:share-button"
         shareImageView.accessibilityIdentifier = "CelebratoryModalView:share-image-view"
+        shareContainer.accessibilityIdentifier = "CelebratoryModalView:share-container-view"
     }
     
-    private func setupPortraitView() {
-        removeViews()
-        let imageContainer = UIView()
-        let insideContainer = UIView()
-        let keepGoingButtonContainer = UIView()
-        let buttonContainer = UIView()
-        let textContainer = UIView()
+    private func addSubviews() {
+        view.addSubview(modalView)
         
         modalView.addSubview(titleLabel)
         modalView.addSubview(titleMessageLabel)
-        imageContainer.addSubview(congratulationImageView)
-        modalView.addSubview(imageContainer)
-        modalView.addSubview(insideContainer)
-        modalView.addSubview(keepGoingButtonContainer)
+        modalView.addSubview(congratulationImageView)
+        modalView.addSubview(shareContainer)
+        modalView.addSubview(keepGoingButton)
         
-        imageContainer.accessibilityIdentifier = "CelebratoryModalView:image-cotainer-view"
-        insideContainer.accessibilityIdentifier = "CelebratoryModalView:share-inside-container-view"
-        keepGoingButtonContainer.accessibilityIdentifier = "CelebratoryModalView:keep-going-button-container-view"
-        buttonContainer.accessibilityIdentifier = "CelebratoryModalView:share-button-container-view"
-        textContainer.accessibilityIdentifier = "CelebratoryModalView:share-text-container-view"
+        shareContainer.backgroundColor = environment.styles.infoXXLight()
+        shareContainer.addSubview(shareImageView)
+        shareContainer.addSubview(shareMessageLabel)
+        shareContainer.addSubview(shareButton)
         
-        insideContainer.backgroundColor = environment.styles.infoXXLight()
-        insideContainer.addSubview(buttonContainer)
-        insideContainer.addSubview(textContainer)
-        insideContainer.addSubview(shareButtonView)
-        
-        shareButtonView.superview?.bringSubviewToFront(shareButtonView)
-        
-        textContainer.addSubview(celebrationMessageLabel)
-        buttonContainer.addSubview(shareImageView)
-        keepGoingButtonContainer.addSubview(keepGoingButton)
-
-        
+        shareButton.superview?.bringSubviewToFront(shareButton)
+    }
+    
+    private func setupPortraitView() {
         titleLabel.snp.remakeConstraints { make in
             make.top.equalTo(modalView).offset(StandardVerticalMargin*3)
-            make.centerX.equalTo(modalView)
             make.leading.equalTo(modalView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(modalView).inset(StandardHorizontalMargin)
-            make.height.equalTo(titleLabelHeight)
         }
-
+        
         titleMessageLabel.snp.remakeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin * 2)
-            make.centerX.equalTo(modalView)
-            make.width.equalTo(imageContainer.snp.width).inset(10)
-            make.height.equalTo(titleLabelMessageHeight)
+            make.leading.equalTo(congratulationImageView)
+            make.trailing.equalTo(congratulationImageView)
         }
         
         congratulationImageView.snp.remakeConstraints { make in
-            make.edges.equalTo(imageContainer)
-        }
-
-        imageContainer.snp.remakeConstraints { make in
             make.top.equalTo(titleMessageLabel.snp.bottom).offset(StandardVerticalMargin * 2)
             make.centerX.equalTo(modalView)
             make.width.equalTo(celebrationImageSize.width)
             make.height.equalTo(celebrationImageSize.height)
         }
-
-        insideContainer.snp.remakeConstraints { make in
-            make.top.equalTo(imageContainer.snp.bottom).offset(StandardVerticalMargin * 2)
-            make.centerX.equalTo(modalView)
-            make.width.equalTo(imageContainer.snp.width)
-            make.height.equalTo(shareButtonContainerHeight)
+        
+        shareContainer.snp.remakeConstraints { make in
+            make.top.equalTo(congratulationImageView.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.centerX.equalTo(congratulationImageView)
+            make.leading.equalTo(congratulationImageView)
+            make.trailing.equalTo(congratulationImageView)
         }
-
-        buttonContainer.snp.remakeConstraints { make in
-            make.leading.equalTo(insideContainer)
-            make.top.equalTo(insideContainer).offset(StandardVerticalMargin * 2)
-            make.bottom.equalTo(insideContainer)
+        
+        shareButton.snp.remakeConstraints { make in
+            make.edges.equalTo(shareContainer)
         }
-
-        textContainer.snp.remakeConstraints { make in
-            make.top.equalTo(insideContainer).offset(StandardVerticalMargin * 2)
-            make.leading.equalTo(buttonContainer.snp.trailing).inset(StandardHorizontalMargin / 2)
-            make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin * 2)
-            make.bottom.equalTo(insideContainer).inset(StandardVerticalMargin * 2)
-        }
-
+        
         shareImageView.snp.remakeConstraints { make in
-            make.top.equalTo(celebrationMessageLabel.snp.top)
-            make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin * 2)
-            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
+            make.top.equalTo(shareContainer).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(shareContainer).offset(StandardHorizontalMargin)
             make.width.equalTo(shareImageSize.width)
             make.height.equalTo(shareImageSize.height)
         }
-
-        celebrationMessageLabel.snp.remakeConstraints { make in
-            make.centerX.equalTo(textContainer)
-            make.centerY.equalTo(textContainer)
-            make.leading.equalTo(textContainer)
-            make.trailing.equalTo(textContainer)
-        }
         
-        shareButtonView.snp.makeConstraints { make in
-            make.edges.equalTo(insideContainer)
-        }
-        
-        keepGoingButtonContainer.snp.remakeConstraints { make in
-            make.top.equalTo(insideContainer.snp.bottom).offset(StandardVerticalMargin * 3)
-            make.leading.equalTo(modalView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(modalView).inset(StandardHorizontalMargin)
-            make.height.equalTo(keepGoingButtonSize.height)
+        shareMessageLabel.snp.remakeConstraints { make in
+            make.top.equalTo(shareImageView)
+            make.leading.equalTo(shareImageView.snp.trailing).offset(StandardHorizontalMargin / 2)
+            make.trailing.equalTo(shareContainer).inset(StandardHorizontalMargin)
+            make.bottom.equalTo(shareContainer).inset(StandardVerticalMargin * 2)
         }
         
         keepGoingButton.snp.remakeConstraints { make in
-            make.centerX.equalTo(keepGoingButtonContainer)
-            make.height.equalTo(keepGoingButtonContainer)
+            make.top.equalTo(shareContainer.snp.bottom).offset(StandardVerticalMargin * 3)
+            make.bottom.equalTo(modalView).inset(StandardVerticalMargin * 3)
+            make.centerX.equalTo(modalView)
+            make.height.equalTo(keepGoingButtonSize.height)
             make.width.equalTo(keepGoingButtonSize.width)
         }
-                
+        
         modalView.snp.remakeConstraints { make in
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
-            let height = titleLabelHeight + titleLabelMessageHeight + celebrationImageSize.height + shareButtonContainerHeight + keepGoingButtonSize.height + (StandardVerticalMargin * 15)
-            make.height.equalTo(height)
-            make.width.equalTo(celebrationImageSize.width + StandardVerticalMargin * 5)
+            make.leading.equalTo(safeLeading).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(safeTrailing).inset(StandardHorizontalMargin)
         }
     }
     
     private func setupLandscapeView() {
-        removeViews()
-        let stackView = UIStackView()
-        let rightStackView = UIStackView()
-        let rightContainer = UIView()
-        let insideContainer = UIView()
-        let buttonContainer = UIView()
-        let textContainer = UIView()
-        let keepGoingButtonContainer = UIView()
-        
-        stackView.accessibilityIdentifier = "CelebratoryModalView:stack-view"
-        rightStackView.accessibilityIdentifier = "CelebratoryModalView:stack-right-view"
-        rightContainer.accessibilityIdentifier = "CelebratoryModalView:stack-cotainer-right-view"
-        insideContainer.accessibilityIdentifier = "CelebratoryModalView:share-inside-container-view"
-        keepGoingButtonContainer.accessibilityIdentifier = "CelebratoryModalView:keep-going-button-container-view"
-        buttonContainer.accessibilityIdentifier = "CelebratoryModalView:share-button-container-view"
-        textContainer.accessibilityIdentifier = "CelebratoryModalView:share-text-container-view"
-        
-        stackView.alignment = .center
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = StandardVerticalMargin * 2
-        insideContainer.backgroundColor = environment.styles.infoXXLight()
-        
-        modalView.addSubview(stackView)
-        textContainer.addSubview(celebrationMessageLabel)
-        buttonContainer.addSubview(shareImageView)
-        insideContainer.addSubview(shareButtonView)
-        insideContainer.addSubview(buttonContainer)
-        insideContainer.addSubview(textContainer)
-        
-        shareButtonView.superview?.bringSubviewToFront(shareButtonView)
-                
-        rightStackView.alignment = .fill
-        rightStackView.axis = .vertical
-        rightStackView.distribution = .equalSpacing
-        rightStackView.spacing = StandardVerticalMargin
-        
-        rightStackView.addArrangedSubview(titleLabel)
-        rightStackView.addArrangedSubview(titleMessageLabel)
-        rightStackView.addArrangedSubview(insideContainer)
-        rightStackView.addArrangedSubview(keepGoingButtonContainer)
-        
-        stackView.addArrangedSubview(congratulationImageView)
-        stackView.addArrangedSubview(rightContainer)
-        
-        rightContainer.addSubview(rightStackView)
-        keepGoingButtonContainer.addSubview(keepGoingButton)
-        
-        rightStackView.snp.makeConstraints { make in
-            make.edges.equalTo(rightContainer)
-        }
-        
-        rightContainer.snp.remakeConstraints { make in
-            make.height.equalTo(stackView)
+        congratulationImageView.snp.remakeConstraints { make in
+            make.top.equalTo(modalView).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(modalView).offset(StandardHorizontalMargin)
+            make.width.equalTo(celebrationImageSizeLandscape.width)
+            make.height.equalTo(celebrationImageSizeLandscape.height)
+            make.bottom.equalTo(modalView).inset(StandardVerticalMargin * 2)
         }
         
         titleLabel.snp.remakeConstraints { make in
-            make.height.equalTo(titleLabelHeight)
+            make.top.equalTo(congratulationImageView).offset(StandardVerticalMargin)
+            make.leading.equalTo(congratulationImageView.snp.trailing).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(modalView).inset(StandardHorizontalMargin)
         }
         
         titleMessageLabel.snp.remakeConstraints { make in
-            make.height.equalTo(titleLabelMessageHeight)
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(titleLabel)
+            make.trailing.equalTo(titleLabel)
+        }
+
+        shareContainer.snp.remakeConstraints { make in
+            make.top.greaterThanOrEqualTo(titleMessageLabel.snp.bottom).offset(StandardVerticalMargin)
+            make.leading.equalTo(titleLabel)
+            make.trailing.equalTo(titleLabel)
         }
         
-        insideContainer.snp.remakeConstraints { make in
-            make.height.equalTo(shareButtonContainerHeight)
+        shareButton.snp.remakeConstraints { make in
+            make.edges.equalTo(shareContainer)
         }
         
         shareImageView.snp.remakeConstraints { make in
-            make.top.equalTo(celebrationMessageLabel.snp.top)
-            make.leading.equalTo(buttonContainer).offset(StandardHorizontalMargin * 2)
-            make.trailing.equalTo(buttonContainer).inset(StandardHorizontalMargin)
+            make.top.equalTo(shareContainer).offset(StandardVerticalMargin * 2)
+            make.leading.equalTo(shareContainer).offset(StandardHorizontalMargin)
             make.width.equalTo(shareImageSize.width)
             make.height.equalTo(shareImageSize.height)
         }
-
-        celebrationMessageLabel.snp.remakeConstraints { make in
-            make.centerX.equalTo(textContainer)
-            make.centerY.equalTo(textContainer)
-            make.leading.equalTo(textContainer)
-            make.trailing.equalTo(textContainer)
-            make.height.lessThanOrEqualTo(textContainer)
-        }
-
-        shareButtonView.snp.makeConstraints { make in
-            make.edges.equalTo(insideContainer)
-        }
         
-        buttonContainer.snp.remakeConstraints { make in
-            make.leading.equalTo(insideContainer)
-            make.top.equalTo(insideContainer)
-            make.bottom.equalTo(insideContainer)
-        }
-            
-        textContainer.snp.remakeConstraints { make in
-            make.top.equalTo(insideContainer)
-            make.leading.equalTo(buttonContainer.snp.trailing).inset(StandardHorizontalMargin / 2)
-            make.trailing.equalTo(insideContainer).inset(StandardHorizontalMargin * 2)
-            make.bottom.equalTo(insideContainer).inset(StandardVerticalMargin)
-        }
-        
-        keepGoingButtonContainer.snp.remakeConstraints { make in
-            make.height.equalTo(keepGoingButtonSize.height)
+        shareMessageLabel.snp.remakeConstraints { make in
+            make.top.equalTo(shareImageView)
+            make.leading.equalTo(shareImageView.snp.trailing).offset(StandardHorizontalMargin / 2)
+            make.trailing.equalTo(shareContainer).inset(StandardHorizontalMargin)
+            make.bottom.equalTo(shareContainer).inset(StandardVerticalMargin * 2)
         }
         
         keepGoingButton.snp.remakeConstraints { make in
-            make.centerX.equalTo(keepGoingButtonContainer)
-            make.height.equalTo(keepGoingButtonContainer)
+            make.top.equalTo(shareContainer.snp.bottom).offset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(modalView).inset(StandardVerticalMargin * 2)
+            make.centerX.equalTo(shareMessageLabel)
+            make.height.equalTo(keepGoingButtonSize.height)
             make.width.equalTo(keepGoingButtonSize.width)
         }
         
+        
         modalView.snp.remakeConstraints { make in
-            // For iPad the modal is streching to the end of the screen so we restricted the modal top, bottom, leading
-            // and trailing margin for iPad
-            
-            make.leading.equalTo(view).offset(isiPad() ? 100 : 40)
-            make.trailing.equalTo(view).inset(isiPad() ? 100 : 40)
-            
-            let top = isiPad() ? ((view.frame.size.height / 2.5 ) / 2) : ((view.frame.size.height / 4) / 2)
-            let bottom = isiPad() ? ((view.frame.size.width / 2.5 ) / 2) : ((view.frame.size.height / 4) / 2)
-            make.top.equalTo(view).offset(top)
-            make.bottom.equalTo(view).inset(bottom)
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
-        }
-        
-        stackView.snp.remakeConstraints { make in
-            make.edges.equalTo(modalView).inset(20)
+            make.leading.equalTo(safeLeading).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(safeTrailing).inset(StandardHorizontalMargin)
         }
     }
     
