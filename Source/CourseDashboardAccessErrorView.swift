@@ -10,7 +10,7 @@ import Foundation
 
 protocol CourseDashboardAccessErrorViewDelegate: AnyObject {
     func findCourseAction()
-    func upgradeCourseAction(course: OEXCourse, price: String?, completion: @escaping ((Bool)->()))
+    func upgradeCourseAction(course: OEXCourse, coursePrice: String, price: NSDecimalNumber?, currencyCode: String?, completion: @escaping ((Bool)->()))
     func coursePrice(cell: CourseDashboardAccessErrorView, price: String?, elapsedTime: Int)
 }
 
@@ -27,8 +27,8 @@ class CourseDashboardAccessErrorView: UIView {
     private lazy var upgradeButton: CourseUpgradeButtonView = {
         let upgradeButton = CourseUpgradeButtonView()
         upgradeButton.tapAction = { [weak self] in
-            guard let course = self?.course else { return }
-            self?.delegate?.upgradeCourseAction(course: course, price: self?.coursePrice) { _ in
+            guard let course = self?.course, let coursePrice = self?.localizedCoursePrice else { return }
+            self?.delegate?.upgradeCourseAction(course: course, coursePrice: coursePrice, price: self?.price, currencyCode: self?.currencyCode) { _ in
                 self?.upgradeButton.stopAnimating()
             }
         }
@@ -73,7 +73,9 @@ class CourseDashboardAccessErrorView: UIView {
     private var course: OEXCourse?
     private var error: CourseAccessHelper?
     
-    var coursePrice: String?
+    private var localizedCoursePrice: String?
+    private var price: NSDecimalNumber?
+    private var currencyCode: String?
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -222,14 +224,16 @@ class CourseDashboardAccessErrorView: UIView {
         let startTime = CFAbsoluteTimeGetCurrent()
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
-            PaymentManager.shared.productPrice(courseSku) { [weak self] price in
+            PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product in
                 guard let weakSelf = self else { return }
                 
-                if let price = price {
+                if let product = product, let coursePrice = product.localizedPrice {
                     let elapsedTime = CFAbsoluteTimeGetCurrent() - startTime
-                    weakSelf.coursePrice = price
-                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: price, elapsedTime: elapsedTime.millisecond)
-                    weakSelf.upgradeButton.setPrice(price)
+                    weakSelf.localizedCoursePrice = coursePrice
+                    weakSelf.price = product.price
+                    weakSelf.currencyCode = product.priceLocale.currencyCode
+                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: coursePrice, elapsedTime: elapsedTime.millisecond)
+                    weakSelf.upgradeButton.setPrice(coursePrice)
                     weakSelf.upgradeButton.stopShimmerEffect()
                 }
                 else {
