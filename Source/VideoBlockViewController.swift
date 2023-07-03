@@ -36,6 +36,8 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     private var overlayLabel: UILabel?
     var shouldCelebrationAppear: Bool
     
+    var orientationDelegate: VideoBlockViewControllerOrientationDelegate?
+    
     init(environment : Environment, blockID : CourseBlockID?, courseID: String, shouldCelebrationAppear: Bool = false) {
         self.blockID = blockID
         self.environment = environment
