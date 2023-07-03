@@ -63,21 +63,23 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     private let parentID: CourseBlockID?
     private let courseID: CourseBlockID
     private let courseQuerier: CourseOutlineQuerier
+    private let courseOutlineMode: CourseOutlineMode
     
-    init(environment: Environment, blockID: CourseBlockID?, resumeCourseBlockID: CourseBlockID? = nil, parentID: CourseBlockID? = nil, courseID: CourseBlockID) {
+    init(environment: Environment, blockID: CourseBlockID?, resumeCourseBlockID: CourseBlockID? = nil, parentID: CourseBlockID? = nil, courseID: CourseBlockID, courseOutlineMode: CourseOutlineMode? = .full) {
         self.environment = environment
         self.blockID = blockID
         self.parentID = parentID
         self.courseID = courseID
+        self.courseOutlineMode = courseOutlineMode ?? .full
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         super.init(nibName: nil, bundle: nil)
+        setStatusBar(color: environment.styles.primaryLightColor())
         
         if let resumeCourseBlockID = resumeCourseBlockID {
             currentBlock = courseQuerier.blockWithID(id: resumeCourseBlockID).firstSuccess().value
         } else {
             findCourseBlockToShow()
         }
-        setStatusBar(color: environment.styles.primaryLightColor())
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -106,6 +108,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setStatusBar(color: environment.styles.primaryLightColor())
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
@@ -150,7 +153,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
               let parent = courseQuerier.parentOfBlockWith(id: currentBlock.blockID).firstSuccess().value
         else { return }
         
-        let courseContentViewController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: parent.blockID, initialChildID: currentBlock.blockID, forMode: .full)
+        let courseContentViewController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: parent.blockID, initialChildID: currentBlock.blockID, forMode: courseOutlineMode)
         courseContentViewController.navigationDelegate = self
         
         let childViewController = ForwardingNavigationController(rootViewController: courseContentViewController)
@@ -170,20 +173,15 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     
     private func setupCompletedBlocksView() {
         guard let block = currentBlock,
-              let section = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value
+            let section = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value,
+            let sectionChildren = courseQuerier.childrenOfBlockWithID(blockID: section.blockID, forMode: courseOutlineMode).value
         else { return }
         
-        let childBlocks: [CourseBlock] = section.children
-            .compactMap { item -> CourseBlock? in
-                return courseQuerier.blockWithID(id: item).firstSuccess().value
-            }
-            .flatMap { item -> [CourseBlockID] in
-                return item.children
-            }
-            .compactMap { item -> CourseBlock? in
-                return courseQuerier.blockWithID(id: item).firstSuccess().value
-            }
-        
+        let childBlocks: [CourseBlock] = sectionChildren.children.compactMap { item in
+            courseQuerier.childrenOfBlockWithID(blockID: item.blockID, forMode: courseOutlineMode)
+                .firstSuccess().value?.children ?? []
+        }.flatMap { $0 }
+
         let childViews: [UIView] = childBlocks.map { block -> UIView in
             let view = UIView()
             view.backgroundColor = block.isCompleted ? environment.styles.accentBColor() : environment.styles.neutralDark()
@@ -200,15 +198,13 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
             .firstSuccess().value?.children.compactMap({ $0 }).filter({ $0.type == .Unit })
         else { return }
         
-        guard let firstInCompleteBlock = childBlocks.flatMap({ $0.children })
-            .compactMap({ courseQuerier.blockWithID(id: $0).value })
-            .first(where: { !$0.isCompleted })
-        else {
-            currentBlock = courseQuerier.childrenOfBlockWithID(blockID: childBlocks.last?.blockID, forMode: .full).firstSuccess().value?.children.last
-            return
+        let blocks: [CourseBlock] = childBlocks.flatMap { block in
+            courseQuerier.childrenOfBlockWithID(blockID: block.blockID, forMode: courseOutlineMode).value?.children.compactMap { child in
+                courseQuerier.blockWithID(id: child.blockID).value
+            } ?? []
         }
-        
-        currentBlock = firstInCompleteBlock
+
+        currentBlock = blocks.first(where: { !$0.isCompleted }) ?? blocks.last
     }
     
     private func updateView() {
@@ -234,6 +230,11 @@ extension NewCourseContentController: CourseContentPageViewControllerDelegate {
         currentBlock = block
         if var controller = controller.viewControllers?.first as? ScrollableDelegateProvider {
             controller.scrollableDelegate = self
+        }
+        
+        if let controller = controller.viewControllers?.first as? VideoBlockViewController {
+            controller.orientationDelegate = self
+            changeOrientation(orientation: currentOrientation())
         }
     }
 }
@@ -295,6 +296,20 @@ extension NewCourseContentController {
             self?.view.layoutIfNeeded()
         } completion: { [weak self] _ in
             self?.headerViewState = .collapsed
+        }
+    }
+}
+
+extension NewCourseContentController: VideoBlockViewControllerOrientationDelegate {
+    func changeOrientation(orientation: UIInterfaceOrientation) {
+        if orientation == .portrait {
+            if headerViewState == .collapsed {
+                headerViewState = .animating
+                expandHeaderView()
+            }
+        } else if headerViewState == .expanded {
+            headerViewState = .animating
+            collapseHeaderView()
         }
     }
 }

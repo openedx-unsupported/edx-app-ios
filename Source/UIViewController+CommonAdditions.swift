@@ -65,4 +65,14 @@ extension UIViewController {
         }
         navigationItem.leftBarButtonItem = backItem
     }
+    
+    func findParentViewController<T: UIViewController>(type: T.Type) -> T? {
+        if let parentViewController = self.parent as? T {
+            return parentViewController
+        } else if let parentViewController = self.parent {
+            return parentViewController.findParentViewController(type: type)
+        } else {
+            return nil
+        }
+    }
 }
