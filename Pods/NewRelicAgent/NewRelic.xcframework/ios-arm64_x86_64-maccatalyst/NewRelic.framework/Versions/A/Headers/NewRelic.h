@@ -2,10 +2,10 @@
 //  New Relic for Mobile -- iOS edition
 //
 //  See:
-//    https://docs.newrelic.com/docs/mobile-apps for information
-//    https://docs.newrelic.com/docs/releases/ios for release notes
+//    https://docs.newrelic.com/docs/mobile-monitoring for information
+//    https://docs.newrelic.com/docs/release-notes/mobile-release-notes/xcframework-release-notes/ for release notes
 //
-//  Copyright (c) 2014 New Relic. All rights reserved.
+//  Copyright © 2023 New Relic. All rights reserved.
 //  See https://docs.newrelic.com/docs/licenses/ios-agent-licenses for license details
 //
 
@@ -15,12 +15,12 @@
  *  data collection.
  */
 
-#import "NewRelicFeatureFlags.h"
-#import "NRConstants.h"
-#import "NRTimer.h"
-#import "NRLogger.h"
-#import "NewRelicCustomInteractionInterface.h"
-#import "NRGCDOverride.h"
+#import <NewRelic/NewRelicFeatureFlags.h>
+#import <NewRelic/NRConstants.h>
+#import <NewRelic/NRTimer.h>
+#import <NewRelic/NRLogger.h>
+#import <NewRelic/NewRelicCustomInteractionInterface.h>
+#import <NewRelic/NRGCDOverride.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -495,6 +495,7 @@ extern "C" {
 
 
 #pragma mark - Recording custom network events
++  (void)setURLRegexRules:(NSDictionary<NSString *, NSString *> *_Nonnull)regexRules;
 
 /*********************************/
 /**      Network Requests       **/
@@ -540,8 +541,28 @@ extern "C" {
                          bytesSent:(NSUInteger)bytesSent
                      bytesReceived:(NSUInteger)bytesReceived
                       responseData:(NSData * _Null_unspecified)responseData
+                      traceHeaders:(NSDictionary<NSString*,NSString*>* _Nullable)traceHeaders
                          andParams:(NSDictionary * _Nullable)params;
 
+/*******************************************************************************
+ * Manually record any transactional, HTTP-like network request that completes.
+ *      double startTime:
+ *          A double that captures the start time of the request.
+ *      double endTime:
+ *          A double that captures the end time of the request.
+ *******************************************************************************/
+
++ (void)noticeNetworkRequestForURL:(NSURL* _Null_unspecified)url
+                        httpMethod:(NSString* _Null_unspecified)httpMethod
+                        startTime:(double)startTime
+                        endTime:(double)endTime
+                   responseHeaders:(NSDictionary* _Null_unspecified)headers
+                        statusCode:(NSInteger)httpStatusCode
+                         bytesSent:(NSUInteger)bytesSent
+                     bytesReceived:(NSUInteger)bytesReceived
+                      responseData:(NSData * _Null_unspecified)responseData
+                      traceHeaders:(NSDictionary* _Nullable)traceHeaders
+                         andParams:(NSDictionary * _Nullable)params;
 
 /*******************************************************************************
  * Manually record a failed transactional network request.
@@ -560,6 +581,25 @@ extern "C" {
                          withTimer:(NRTimer* _Null_unspecified)timer
                     andFailureCode:(NSInteger)iOSFailureCode;
 
+/*******************************************************************************
+ * Manually record a failed transactional network request.
+ *      double startTime:
+ *          A double that captures the start time of the request.
+ *      double endTime:
+ *          A double that captures the end time of the request.
+ *******************************************************************************/
+
++ (void)noticeNetworkFailureForURL:(NSURL* _Null_unspecified)url
+                        httpMethod:(NSString* _Null_unspecified)httpMethod
+                         startTime:(double)startTime
+                           endTime:(double)endTime
+                    andFailureCode:(NSInteger)iOSFailureCode;
+
+/*******************************************************************************
+ * Generates Distributed Tracing headers for use if not
+ * automatically instrumenting network connections
+ *******************************************************************************/
++ (NSDictionary<NSString*,NSString*>* _Nonnull)generateDistributedTracingHeaders;
 #pragma mark - Recording custom events
 
 /*!
@@ -592,7 +632,7 @@ extern "C" {
 
 /*!
  * Record a MobileBreadcrumb event
- * @param name identfying name of the breadcrumb
+ * @param name identifying name of the breadcrumb
  * @return YES if successfully added event, no if failed with error in log.
  */
 
@@ -711,6 +751,8 @@ extern "C" {
  */
 + (void) recordHandledException:(NSException* _Nonnull)exception
            withAttributes:(NSDictionary* _Nullable)attributes;
+
++ (void) recordHandledExceptionWithStackTrace:(NSDictionary* _Nonnull)exceptionDictionary;
 
 #pragma mark - Handled Errors
 

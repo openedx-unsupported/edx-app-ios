@@ -6,55 +6,55 @@
 	<dict>
 		<key>Headers/Agent.h</key>
 		<data>
-		YSx6A9DG99uAFMAnJdMIMTzoVT4=
+		HUhfZuHn3p+SBMlJFzM3Pvx7Zpk=
 		</data>
 		<key>Headers/NRConstants.h</key>
 		<data>
-		Z2jjlbjvV84rHHan3EnIinBKaWM=
+		kzQGsJzyHjGsgB1iVQ04pDUy10E=
 		</data>
 		<key>Headers/NRCustomMetrics.h</key>
 		<data>
-		8XPepyMaYcfgZ28Nv9wjL5Scmu8=
+		7eIvvlmytx2phXwHloi7y7524gA=
 		</data>
 		<key>Headers/NRGCDOverride.h</key>
 		<data>
-		k23RDe6L9jSVqGL57KIMh4wg9Pk=
+		aKuktqGK5bEMP3/471MEPIrS79I=
 		</data>
 		<key>Headers/NRLogger.h</key>
 		<data>
-		pGAZuFM6iy2/RK9KdRRSTIn94iw=
+		H4CnG51VqIvnJXvfTeyTQUXUfKE=
 		</data>
 		<key>Headers/NRTimer.h</key>
 		<data>
-		mC9m4khXaJn9bUFe0583b0XX/KU=
+		uHOizNPJnx9B+BvXoJFqR1M/j64=
 		</data>
 		<key>Headers/NRURLSessionTaskDelegateBase.h</key>
 		<data>
-		UZoJjv3xFcXpO6g0pAxF7HR06CQ=
+		JeQgGzhiQuO8T9NxvEjyWpXqqz0=
 		</data>
 		<key>Headers/NRWKNavigationDelegateBase.h</key>
 		<data>
-		w6pLw+161qBdG7rVae7L9gpQWQE=
+		EMRtAjk2tFyfixtA/XNArq+uK7Y=
 		</data>
 		<key>Headers/NewRelic.h</key>
 		<data>
-		dwA3dYUTA4OkXdsmROodRtjQh8k=
+		b4Au3opWdschBydxwNykWLg0HFk=
 		</data>
 		<key>Headers/NewRelicCustomInteractionInterface.h</key>
 		<data>
-		rne2KO6oFPsMsiY/qyEvAlfbuQg=
+		oOHG7a4MFCGZFBqwkeqjSq3PV9k=
 		</data>
 		<key>Headers/NewRelicFeatureFlags.h</key>
 		<data>
-		9/rkIIEu9Aji2c2TwtVfq9t1Mmg=
+		MjzsV7jhMQx/U0BVgMRxiaG12Ic=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		UgbWHNodwuI+VRC7SfwS0lL3wh4=
+		kbGFn4FQ0A4BVhFn61bv+lV+n2Q=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		vAb6Team9ZSnMv3bjCmmpe7OYJQ=
+		3xMc1DV9ubhqL1vZIlSgJa0Wpeo=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -63,132 +63,132 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YSx6A9DG99uAFMAnJdMIMTzoVT4=
+			HUhfZuHn3p+SBMlJFzM3Pvx7Zpk=
 			</data>
 			<key>hash2</key>
 			<data>
-			a8A/l08ckxmPip9K33y1dP/nIztr3ZxO7WapKesCWuw=
+			XVWVEK8EV/s2DKWmRVlPxQUFxOlj0CJmZkbKf7UzDEU=
 			</data>
 		</dict>
 		<key>Headers/NRConstants.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Z2jjlbjvV84rHHan3EnIinBKaWM=
+			kzQGsJzyHjGsgB1iVQ04pDUy10E=
 			</data>
 			<key>hash2</key>
 			<data>
-			9Fv7JX1jboDvG2GxJYNNi9EG5f+Xpx+HmTgEMXeuHwY=
+			zDc80reR+wlhlBjgZKSSf/l1UgveMHSKrIc77vILNXA=
 			</data>
 		</dict>
 		<key>Headers/NRCustomMetrics.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			8XPepyMaYcfgZ28Nv9wjL5Scmu8=
+			7eIvvlmytx2phXwHloi7y7524gA=
 			</data>
 			<key>hash2</key>
 			<data>
-			kdVcsMe1v/vz2d6R46FSahX1jF90TlYQ7VqymArM73g=
+			CUyP3nHBJBUn6XzBIbrLQDAxfkdvxQOlki1u7cyEC+Y=
 			</data>
 		</dict>
 		<key>Headers/NRGCDOverride.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			k23RDe6L9jSVqGL57KIMh4wg9Pk=
+			aKuktqGK5bEMP3/471MEPIrS79I=
 			</data>
 			<key>hash2</key>
 			<data>
-			mfDicReMt1DH0DE6oFjANkAkkRoMZyjYLv/R5Y+xYvs=
+			xnyWWT4vFa9EQ/mpfu6fsKmYSl6ETxVwkCwc7lYC4ww=
 			</data>
 		</dict>
 		<key>Headers/NRLogger.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			pGAZuFM6iy2/RK9KdRRSTIn94iw=
+			H4CnG51VqIvnJXvfTeyTQUXUfKE=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZuL680IzYFCAWbdLrVP2denXrJ3nN2/QS4cvaRg+khs=
+			TAS4Isjvlv2YvSmlmMqCosIOnnh68O3/KJeV87VLSHQ=
 			</data>
 		</dict>
 		<key>Headers/NRTimer.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			mC9m4khXaJn9bUFe0583b0XX/KU=
+			uHOizNPJnx9B+BvXoJFqR1M/j64=
 			</data>
 			<key>hash2</key>
 			<data>
-			9nKeuBA+EJ1y56ZMyGBO0Gg9k+RgFW1suZu9Gmf+nPI=
+			e9nVu1zZP0jc/TizD1yBs4dYn1nCALnrtdTf0RNRnlY=
 			</data>
 		</dict>
 		<key>Headers/NRURLSessionTaskDelegateBase.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			UZoJjv3xFcXpO6g0pAxF7HR06CQ=
+			JeQgGzhiQuO8T9NxvEjyWpXqqz0=
 			</data>
 			<key>hash2</key>
 			<data>
-			iQH3EyZFXjHBssAnfEuIyS7ZFV/C1gY7wlgs4pOYgK0=
+			z4C9zUpHSqbErSnsDPqnkk1y+yeXCEzYqzgnVQ3Lpsg=
 			</data>
 		</dict>
 		<key>Headers/NRWKNavigationDelegateBase.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			w6pLw+161qBdG7rVae7L9gpQWQE=
+			EMRtAjk2tFyfixtA/XNArq+uK7Y=
 			</data>
 			<key>hash2</key>
 			<data>
-			pF+rQR3FHjF+QXc5HefpK7viTmyxssafMqhE+/ze05I=
+			9rSCe/F5UhcAZ6C7JuW3BaXxwqRQ7J8yxt5BHoUo/S4=
 			</data>
 		</dict>
 		<key>Headers/NewRelic.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			dwA3dYUTA4OkXdsmROodRtjQh8k=
+			b4Au3opWdschBydxwNykWLg0HFk=
 			</data>
 			<key>hash2</key>
 			<data>
-			0fR7t5ZQTX/iMuGCsAzJuE/5DZuuJKPcAjVKJ9kVfAg=
+			TKrGkqAuyyoQOe+yuR+xF7WgWfraGIPKUJKtyMnZlgI=
 			</data>
 		</dict>
 		<key>Headers/NewRelicCustomInteractionInterface.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rne2KO6oFPsMsiY/qyEvAlfbuQg=
+			oOHG7a4MFCGZFBqwkeqjSq3PV9k=
 			</data>
 			<key>hash2</key>
 			<data>
-			2Kdt3qJ28026An0rkkWQ+tSF6Ayk6Ke28pe4c7Y7kw8=
+			P3fhqKiGFglFXbkEbVyUjoD9Vehd9P9mbYR2aBe44iU=
 			</data>
 		</dict>
 		<key>Headers/NewRelicFeatureFlags.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9/rkIIEu9Aji2c2TwtVfq9t1Mmg=
+			MjzsV7jhMQx/U0BVgMRxiaG12Ic=
 			</data>
 			<key>hash2</key>
 			<data>
-			LqOlKaCoHnhvDVYKXq6xbCG7Lh2t2/Gs+RmxOezMhI8=
+			blegcb8il7QG5J6eBG9YQKo7Z+vTyUFb9qQVar+OhIQ=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			vAb6Team9ZSnMv3bjCmmpe7OYJQ=
+			3xMc1DV9ubhqL1vZIlSgJa0Wpeo=
 			</data>
 			<key>hash2</key>
 			<data>
-			5cb7U6nduzbYab4RbmkFr7uI/LTpIvnDvSjkffNn+f4=
+			JPobVO7vnFZcCMNJftC3tfvOYRz5Kji6xyIsarTDDfs=
 			</data>
 		</dict>
 	</dict>

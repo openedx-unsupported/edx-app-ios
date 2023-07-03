@@ -88,27 +88,37 @@ extension EnrolledCoursesViewController {
         var skus = skus
         guard let sku = skus.last,
               let course = environment.interface?.course(fromSKU: sku) else {
-                  // course not available for sku
-                  // remove it from the active purchases
-                  if skus.count > 1 {
-                      PaymentManager.shared.removePurchase(skus.last ?? "")
-                      skus.removeLast()
-                      resolveUnfinishedPayment(for: skus)
-                  }
-                  return
-              }
+            // course not available for sku
+            // remove it from the active purchases
+            if skus.count > 1 {
+                PaymentManager.shared.removePurchase(skus.last ?? "")
+                skus.removeLast()
+                resolveUnfinishedPayment(for: skus)
+            }
+            return
+        }
+        
+        guard let courseSku = course.sku, environment.serverConfig.iapConfig?.enabledforUser == true else { return }
+        
+        PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product in
+            if let product = product {
+                self?.upgradeCourse(course: course, localizedCoursePrice: product.localizedPrice, price: product.price, currencyCode: product.priceLocale.currencyCode)
+            }
+        }
+    }
+    
+    private func upgradeCourse(course: OEXCourse, localizedCoursePrice: String?, price: NSDecimalNumber?, currencyCode: String?) {
         let pacing: String = course.isSelfPaced == true ? "self" : "instructor"
-        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", coursePrice: "", screen: .myCourses)
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", localizedCoursePrice: localizedCoursePrice ?? "", screen: .myCourses)
         environment.analytics.trackCourseUnfulfilledPurchaseInitiated(courseID: course.course_id ?? "", pacing: pacing, screen: .myCourses, flowType: CourseUpgradeHandler.CourseUpgradeMode.silent.rawValue)
 
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
-        upgradeHandler.upgradeCourse(with: .silent) { [weak self] state in
+        upgradeHandler.upgradeCourse(with: .silent, price: price, currencyCode: currencyCode) { [weak self] state in
             switch state {
             case .verify:
                 self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment(showLoader: false))
                 break
             case .complete:
-                skus.removeAll { $0 == sku }
                 self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .success(course.course_id ?? "", nil))
                 break
             case .error(let type, let error):

@@ -25,7 +25,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private let datesLoader = BackedStream<(CourseDateModel, UserPreference?)>()
     private let courseDateBannerLoader = BackedStream<(CourseDateBannerModel)>()
-    private var stream: OEXStream<(CourseDateModel, UserPreference?)>?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -180,10 +179,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         let preferenceStream = environment.dataManager.userPreferenceManager.feed.output
         let networkRequest = CourseDatesAPI.courseDatesRequest(courseID: courseID)
         let datesStream = environment.networkManager.streamForRequest(networkRequest)
-        stream = joinStreams(datesStream, preferenceStream)
-        datesLoader.addBackingStream(datesLoader)
+        let stream = joinStreams(datesStream, preferenceStream)
+        datesLoader.addBackingStream(stream)
         
-        stream?.listen(self) { [weak self] response in
+        stream.listen(self) { [weak self] response in
             self?.refreshController.endRefreshing()
             switch response {
             case .success((var courseDateModel, let userPreference)):

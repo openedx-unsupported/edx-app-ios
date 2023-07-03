@@ -19,7 +19,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "FirebaseCore/Sources/Private/FirebaseCoreInternal.h"
+#import "FirebaseCore/Extension/FirebaseCoreInternal.h"
 
 #import "FirebaseInAppMessaging/Sources/Analytics/FIRIAMClearcutLogStorage.h"
 #import "FirebaseInAppMessaging/Sources/FIRCore+InAppMessaging.h"
@@ -166,10 +166,23 @@ static NSString *const kEventExtensionJson = @"extension_js";
   NSString *filePath = cacheFilePath == nil ? [self.class determineCacheFilePath] : cacheFilePath;
 
   NSTimeInterval start = [self.timeFetcher currentTimestampInSeconds];
+  id fetchedClearcutRetryRecords;
+  NSData *data = [NSData dataWithContentsOfFile:filePath];
+  if (data) {
+    if (@available(macOS 10.13, iOS 11.0, tvOS 11.0, *)) {
+      fetchedClearcutRetryRecords = [NSKeyedUnarchiver
+          unarchivedObjectOfClasses:[NSSet setWithObjects:[FIRIAMClearcutLogRecord class],
+                                                          [NSMutableArray class], nil]
+                           fromData:data
+                              error:nil];
+    } else {
+      // Fallback on earlier versions
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  id fetchedClearcutRetryRecords = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+      fetchedClearcutRetryRecords = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 #pragma clang diagnostic pop
+    }
+  }
   if (fetchedClearcutRetryRecords) {
     @synchronized(self) {
       self.records = (NSMutableArray<FIRIAMClearcutLogRecord *> *)fetchedClearcutRetryRecords;

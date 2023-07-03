@@ -23,6 +23,7 @@
 #import "Crashlytics/Crashlytics/Models/FIRCLSFileManager.h"
 #import "Crashlytics/Crashlytics/Models/FIRCLSInstallIdentifierModel.h"
 #import "Crashlytics/Crashlytics/Models/FIRCLSInternalReport.h"
+#import "Crashlytics/Crashlytics/Models/FIRCLSSettings.h"
 #import "Crashlytics/Crashlytics/Models/FIRCLSSymbolResolver.h"
 #import "Crashlytics/Crashlytics/Models/Record/FIRCLSReportAdapter.h"
 #import "Crashlytics/Crashlytics/Operations/Reports/FIRCLSProcessReportOperation.h"
@@ -86,15 +87,11 @@
   // symbolication operation may be computationally intensive.
   FIRCLSApplicationActivity(
       FIRCLSApplicationActivityDefault, @"Crashlytics Crash Report Processing", ^{
-        // Run this only once because it can be run multiple times in succession,
-        // and if it's slow it could delay crash upload too much without providing
-        // user benefit.
-        static dispatch_once_t regenerateOnceToken;
-        dispatch_once(&regenerateOnceToken, ^{
-          // Check to see if the FID has rotated before we construct the payload
-          // so that the payload has an updated value.
-          [self.installIDModel regenerateInstallIDIfNeeded];
-        });
+        // Check to see if the FID has rotated before we construct the payload
+        // so that the payload has an updated value.
+        [self.installIDModel regenerateInstallIDIfNeededWithBlock:^(NSString *_Nonnull newFIID) {
+          self.fiid = [newFIID copy];
+        }];
 
         // Run on-device symbolication before packaging if we should process
         if (shouldProcess) {
@@ -176,7 +173,8 @@
 
   FIRCLSReportAdapter *adapter = [[FIRCLSReportAdapter alloc] initWithPath:path
                                                                googleAppId:self.googleAppID
-                                                            installIDModel:self.installIDModel];
+                                                            installIDModel:self.installIDModel
+                                                                      fiid:self.fiid];
 
   GDTCOREvent *event = [self.googleTransport eventForTransport];
   event.dataObject = adapter;
@@ -190,12 +188,14 @@
            if (!wasWritten) {
              FIRCLSErrorLog(
                  @"Failed to send crash report due to failure writing GoogleDataTransport event");
+             dispatch_semaphore_signal(semaphore);
              return;
            }
 
            if (error) {
              FIRCLSErrorLog(@"Failed to send crash report due to GoogleDataTransport error: %@",
                             error.localizedDescription);
+             dispatch_semaphore_signal(semaphore);
              return;
            }
 

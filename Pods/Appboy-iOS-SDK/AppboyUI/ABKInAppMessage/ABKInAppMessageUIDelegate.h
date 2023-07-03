@@ -61,11 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
  *      * make the in-app message clickable when there is no button(s) on it.
  *      * stretch/shrink the in-app message view to fix the whole screen.
  *
- * NOTE: The returned view controller should be a ABKInAppMessageViewController or preferably, a subclass of
- * ABKInAppMessageViewController. The view of the returned view controller should be an instance of ABKInAppMessageView or its
- * subclass.
+ * @returns An ABKInAppMessageViewController subclass for which the view is an ABKInAppMessageView
+ * instance or subclass. Returning nil will prevent the in-app message from displaying.
  */
-- (ABKInAppMessageViewController *)inAppMessageViewControllerWithInAppMessage:(ABKInAppMessage *)inAppMessage;
+- (nullable ABKInAppMessageViewController *)inAppMessageViewControllerWithInAppMessage:(ABKInAppMessage *)inAppMessage;
 
 /*!
  * @param inAppMessage The in-app message object being offered to the delegate.

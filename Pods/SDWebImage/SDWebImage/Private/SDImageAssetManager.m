@@ -9,7 +9,7 @@
 #import "SDImageAssetManager.h"
 #import "SDInternalMacros.h"
 
-static NSArray *SDBundlePreferredScales() {
+static NSArray *SDBundlePreferredScales(void) {
     static NSArray *scales;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -18,7 +18,13 @@ static NSArray *SDBundlePreferredScales() {
 #elif SD_UIKIT
         CGFloat screenScale = [UIScreen mainScreen].scale;
 #elif SD_MAC
-        CGFloat screenScale = [NSScreen mainScreen].backingScaleFactor;
+      NSScreen *mainScreen = nil;
+      if (@available(macOS 10.12, *)) {
+          mainScreen = [NSScreen mainScreen];
+      } else {
+          mainScreen = [NSScreen screens].firstObject;
+      }
+      CGFloat screenScale = mainScreen.backingScaleFactor ?: 1.0f;
 #endif
         if (screenScale <= 1) {
             scales = @[@1,@2,@3];

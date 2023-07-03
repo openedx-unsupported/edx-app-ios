@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/FirebaseCore/Sources/Private/FIRLibrary.h
+../../../FirebaseMessaging/FirebaseCore/Extension/FIRLibrary.h

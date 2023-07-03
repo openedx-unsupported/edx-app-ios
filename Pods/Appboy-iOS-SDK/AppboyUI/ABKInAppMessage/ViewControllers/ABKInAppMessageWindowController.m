@@ -23,6 +23,8 @@ static NSInteger const KeyWindowRetryMaxCount = 10;
 
 @property (nonatomic, assign) NSInteger keyWindowRetryCount;
 
+@property (nonatomic, assign) BOOL isRemovingWindow;
+
 @end
 
 @implementation ABKInAppMessageWindowController
@@ -41,6 +43,7 @@ static NSInteger const KeyWindowRetryMaxCount = 10;
     _inAppMessageIsTapped = NO;
     _clickedButtonId = -1;
     _keyWindowRetryCount = 0;
+    _isRemovingWindow = NO;
   }
   return self;
 }
@@ -254,14 +257,18 @@ static NSInteger const KeyWindowRetryMaxCount = 10;
 
 #pragma mark - Windows
 
+- (void)resetKeyWindowRetryCount {
+  self.keyWindowRetryCount = 0;
+}
+
 /*!
  * React to windows changes in the view hierarchy. This is needed to ensure that the in-app message
  * stays visible in cases where the host app decides to display a window (possibly the app's main
  * window) over our in-app message.
  *
- * This method tries to make the in-app message window visible up to 10 times. The in-app message
- * is dismissed when reaching that value to prevent infinite loops when another window in the view
- * hierarchy has a similar behavior.
+ * This method tries to make the in-app message window visible up to 10 times — debounced with a
+ * 0.1s timeout. The in-app message is dismissed when reaching that value to prevent infinite loops
+ * when another window in the view hierarchy has a similar behavior.
  *
  * e.g. Some clients have extra logic when bootstrapping their app that can lead to the app's main
  * window being made key and visible after a delay at startup. In the case of test in-app messages
@@ -272,6 +279,15 @@ static NSInteger const KeyWindowRetryMaxCount = 10;
 - (void)handleWindowDidBecomeKeyNotification:(NSNotification *)notification {
   UIWindow *window = notification.object;
 
+  // Cancel debounced reset
+  [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                           selector:@selector(resetKeyWindowRetryCount)
+                                             object:nil];
+
+  // Skip if this in-app message is already removing the window
+  if (self.isRemovingWindow) {
+    return;
+  }
   // Skip for any in-app message window
   if ([window isKindOfClass:[ABKInAppMessageWindow class]]) {
     return;
@@ -292,6 +308,13 @@ static NSInteger const KeyWindowRetryMaxCount = 10;
   
   // Force in-app message window to be displayed
   [self.inAppMessageWindow makeKeyAndVisible];
+
+  // Debounced reset, use NSRunLoopCommonModes as NSDefaultRunLoopMode does not update during
+  // scroll events.
+  [self performSelector:@selector(resetKeyWindowRetryCount)
+             withObject:nil
+             afterDelay:0.1
+                inModes:@[NSRunLoopCommonModes]];
 }
 
 #pragma mark - Display and Hide In-app Message
@@ -360,10 +383,18 @@ static NSInteger const KeyWindowRetryMaxCount = 10;
 }
 
 - (void)hideInAppMessageWindow {
+  if (self.isRemovingWindow) {
+    return;
+  }
+  self.isRemovingWindow = YES;
+
   [self.slideAwayTimer invalidate];
   self.slideAwayTimer = nil;
 
   self.inAppMessageWindow.rootViewController = nil;
+  if (@available(iOS 13.0, *)) {
+    self.inAppMessageWindow.windowScene = nil;
+  }
   self.inAppMessageWindow = nil;
   [[NSNotificationCenter defaultCenter] postNotificationName:ABKNotificationInAppMessageWindowDismissed
                                                       object:self

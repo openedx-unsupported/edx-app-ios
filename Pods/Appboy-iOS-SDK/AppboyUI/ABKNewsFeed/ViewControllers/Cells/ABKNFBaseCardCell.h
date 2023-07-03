@@ -1,5 +1,4 @@
 #import <UIKit/UIKit.h>
-#import <SDWebImage/SDAnimatedImageView+WebCache.h>
 #import "ABKCard.h"
 
 @protocol ABKBaseNewsFeedCellDelegate <NSObject>

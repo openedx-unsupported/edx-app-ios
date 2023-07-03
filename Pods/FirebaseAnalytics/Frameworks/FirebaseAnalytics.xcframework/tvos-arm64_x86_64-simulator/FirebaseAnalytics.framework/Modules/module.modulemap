@@ -1,5 +1,5 @@
 framework module FirebaseAnalytics {
-umbrella header "FirebaseAnalytics.h"
+umbrella header "FirebaseAnalytics-umbrella.h"
 export *
 module * { export * }
   link framework "Foundation"

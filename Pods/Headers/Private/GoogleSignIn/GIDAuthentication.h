@@ -1,1 +1,1 @@
-../../../GoogleSignIn/GoogleSignIn/Sources/Public/GoogleSignIn/GIDAuthentication.h
+../../../GoogleSignIn/GoogleSignIn/Sources/GIDAuthentication.h

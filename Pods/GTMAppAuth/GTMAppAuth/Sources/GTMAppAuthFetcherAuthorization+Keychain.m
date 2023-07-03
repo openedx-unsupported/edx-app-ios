@@ -23,24 +23,77 @@
 @implementation GTMAppAuthFetcherAuthorization (Keychain)
 
 + (GTMAppAuthFetcherAuthorization *)authorizationFromKeychainForName:(NSString *)keychainItemName {
-  NSData *passwordData = [GTMKeychain passwordDataFromKeychainForName:keychainItemName];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+  return [GTMAppAuthFetcherAuthorization authorizationFromKeychainForName:keychainItemName
+                                                useDataProtectionKeychain:NO];
+#pragma clang diagnostic pop
+}
+
++ (GTMAppAuthFetcherAuthorization *)authorizationFromKeychainForName:(NSString *)keychainItemName
+                                           useDataProtectionKeychain:(BOOL)useDataProtectionKeychain {
+  NSData *passwordData = [GTMKeychain passwordDataFromKeychainForName:keychainItemName
+                                            useDataProtectionKeychain:useDataProtectionKeychain];
   if (!passwordData) {
     return nil;
   }
-  GTMAppAuthFetcherAuthorization *authorization = (GTMAppAuthFetcherAuthorization *)
-      [NSKeyedUnarchiver unarchiveObjectWithData:passwordData];
+  GTMAppAuthFetcherAuthorization *authorization;
+  if (@available(iOS 11.0, macOS 10.13, tvOS 11.0, watchOS 4.0, *)) {
+    authorization = (GTMAppAuthFetcherAuthorization *)
+        [NSKeyedUnarchiver unarchivedObjectOfClass:[GTMAppAuthFetcherAuthorization class]
+                                          fromData:passwordData
+                                             error:nil];
+  } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    authorization = (GTMAppAuthFetcherAuthorization *)
+        [NSKeyedUnarchiver unarchiveObjectWithData:passwordData];
+#pragma clang diagnostic pop
+  }
   return authorization;
 }
 
 + (BOOL)removeAuthorizationFromKeychainForName:(NSString *)keychainItemName {
-  return [GTMKeychain removePasswordFromKeychainForName:keychainItemName];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+  return [GTMAppAuthFetcherAuthorization removeAuthorizationFromKeychainForName:keychainItemName
+                                                      useDataProtectionKeychain:NO];
+#pragma clang diagnostic pop
+}
+
++ (BOOL)removeAuthorizationFromKeychainForName:(NSString *)keychainItemName
+                     useDataProtectionKeychain:(BOOL)useDataProtectionKeychain {
+  return [GTMKeychain removePasswordFromKeychainForName:keychainItemName
+                              useDataProtectionKeychain:useDataProtectionKeychain];
 }
 
 + (BOOL)saveAuthorization:(GTMAppAuthFetcherAuthorization *)auth
         toKeychainForName:(NSString *)keychainItemName {
-  NSData *authorizationData = [NSKeyedArchiver archivedDataWithRootObject:auth];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+  return [GTMAppAuthFetcherAuthorization saveAuthorization:auth
+                                         toKeychainForName:keychainItemName
+                                 useDataProtectionKeychain:NO];
+#pragma clang diagnostic pop
+}
+
++ (BOOL)saveAuthorization:(GTMAppAuthFetcherAuthorization *)auth
+             toKeychainForName:(NSString *)keychainItemName
+     useDataProtectionKeychain:(BOOL)useDataProtectionKeychain {
+  NSData *authorizationData;
+  if (@available(iOS 11.0, macOS 10.13, tvOS 11.0, watchOS 4.0, *)) {
+    authorizationData = [NSKeyedArchiver archivedDataWithRootObject:auth
+                                              requiringSecureCoding:YES
+                                                              error:nil];
+  } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    authorizationData = [NSKeyedArchiver archivedDataWithRootObject:auth];
+#pragma clang diagnostic pop
+  }
   return [GTMKeychain savePasswordDataToKeychainForName:keychainItemName
-                                           passwordData:authorizationData];
+                                           passwordData:authorizationData
+                              useDataProtectionKeychain:useDataProtectionKeychain];
 }
 
 @end

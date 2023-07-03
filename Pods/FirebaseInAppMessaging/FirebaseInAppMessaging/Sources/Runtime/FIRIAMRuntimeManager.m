@@ -17,7 +17,7 @@
 #import <TargetConditionals.h>
 #if TARGET_OS_IOS || TARGET_OS_TV
 
-#import "FirebaseCore/Sources/Private/FirebaseCoreInternal.h"
+#import "FirebaseCore/Extension/FirebaseCoreInternal.h"
 
 #import "FirebaseInAppMessaging/Sources/Analytics/FIRIAMAnalyticsEventLoggerImpl.h"
 #import "FirebaseInAppMessaging/Sources/Analytics/FIRIAMClearcutHttpRequestSender.h"
@@ -429,7 +429,7 @@ static NSString *const kFirebaseInAppMessagingAutoDataCollectionKey =
                                  // One-time triggering of checks for both fetch flow
                                  // upon SDK/app startup.
                                  [self.fetchOnAppForegroundFlow
-                                   checkAndFetchForInitialAppLaunch:YES];
+                                     checkAndFetchForInitialAppLaunch:YES];
                                } else {
                                  FIRLogDebug(kFIRLoggerInAppMessaging, @"I-IAM180009",
                                              @"No FIAM SDK startup due to settings.");

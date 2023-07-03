@@ -41,12 +41,18 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ABKInAppMessageWebViewBridgeDelegate <NSObject>
 
 /*!
- * Tells the delegate the bridge has received a click action to execute
+ * Tells the delegate that the bridge has received a click action to execute
  * @param webViewBridge The bridge informing the delegate
  * @param clickAction The clickAction performed
  */
 - (void)webViewBridge:(ABKInAppMessageWebViewBridge *)webViewBridge
   receivedClickAction:(ABKInAppMessageClickActionType)clickAction;
+
+/*!
+ * Tells the delegate that a close message action was received
+ * @param webViewBridge The bridge informing the delegate
+ */
+- (void)closeMessageWithWebViewBridge:(ABKInAppMessageWebViewBridge *)webViewBridge;
 
 @end
 

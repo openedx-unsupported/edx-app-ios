@@ -1,1 +1,1 @@
-../../../FirebaseCore/FirebaseCore/Sources/Private/FIRComponentType.h
+../../../FirebaseCore/FirebaseCore/Extension/FIRComponentType.h

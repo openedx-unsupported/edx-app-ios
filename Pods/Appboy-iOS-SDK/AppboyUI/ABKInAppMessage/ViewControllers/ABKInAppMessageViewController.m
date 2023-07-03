@@ -55,6 +55,7 @@ static NSString *const FontAwesomeName = @"FontAwesome";
   [super viewDidDisappear:animated];
   UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
                                   nil);
+  [[ABKUIUtils activeApplicationViewController] setNeedsStatusBarAppearanceUpdate];
 }
 
 - (BOOL)prefersStatusBarHidden {

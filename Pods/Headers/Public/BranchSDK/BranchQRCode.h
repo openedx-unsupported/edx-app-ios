@@ -1,0 +1,1 @@
+../../../BranchSDK/BranchSDK/BranchQRCode.h

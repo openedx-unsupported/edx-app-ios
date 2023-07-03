@@ -79,6 +79,9 @@
         SEGLog(@"[Appboy startWithApiKey:inApplication:withLaunchOptions:withAppboyOptions:]");
       });
     }
+#if !TARGET_OS_TV
+    [[Appboy sharedInstance] addSdkMetadata:@[ABKSdkMetadataSegment]];
+#endif
   }
   
   if ([Appboy sharedInstance] != nil) {
@@ -107,7 +110,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     [dateFormatter setLocale:enUSPOSIXLocale];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
     [Appboy sharedInstance].user.dateOfBirth = [dateFormatter dateFromString:payload.traits[@"birthday"]];
     SEGLog(@"Logged [Appboy sharedInstance].user.dateOfBirth");
   }
@@ -126,17 +129,12 @@
     [Appboy sharedInstance].user.lastName = payload.traits[@"lastName"];
     SEGLog(@"Logged [Appboy sharedInstance].user.lastName");
   }
-  
-  // Appboy only accepts "m" or "male" for gender male, and "f" or "female" for gender female, with case insensitive.
+    
   if ([payload.traits[@"gender"] isKindOfClass:[NSString class]]) {
     NSString *gender = payload.traits[@"gender"];
-    if ([gender.lowercaseString isEqualToString:@"m"] || [gender.lowercaseString isEqualToString:@"male"]) {
-      [[Appboy sharedInstance].user setGender:ABKUserGenderMale];
-      SEGLog(@"[[Appboy sharedInstance].user setGender:]");
-    } else if ([gender.lowercaseString isEqualToString:@"f"] || [gender.lowercaseString isEqualToString:@"female"]) {
-      [[Appboy sharedInstance].user setGender:ABKUserGenderFemale];
-      SEGLog(@"[[Appboy sharedInstance].user setGender:]");
-    }
+    ABKUserGenderType genderInputType = [SEGAppboyIntegration parseUserGenderInput:gender];
+    [[Appboy sharedInstance].user setGender:genderInputType];
+    SEGLog(@"Logged [Appboy sharedInstance].user setGender:genderInputType - %@", payload.traits[@"gender"]);
   }
   
   if ([payload.traits[@"phone"] isKindOfClass:[NSString class]]) {
@@ -326,6 +324,23 @@
     return YES;
   }
   return NO;
+}
+
++ (ABKUserGenderType)parseUserGenderInput:(NSString *)gender {
+  if ([gender.lowercaseString isEqualToString:@"m"] || [gender.lowercaseString isEqualToString:@"male"]) {
+    return ABKUserGenderMale;
+  } else if ([gender.lowercaseString isEqualToString:@"f"] || [gender.lowercaseString isEqualToString:@"female"]) {
+    return ABKUserGenderFemale;
+  } else if ([gender.lowercaseString isEqualToString:@"o"] || [gender.lowercaseString isEqualToString:@"other"]) {
+    return ABKUserGenderOther;
+  } else if ([gender.lowercaseString isEqualToString:@"u"] || [gender.lowercaseString isEqualToString:@"unknown"]) {
+    return ABKUserGenderUnknown;
+  } else if ([gender.lowercaseString isEqualToString:@"n"] || [gender.lowercaseString isEqualToString:@"not applicable"]) {
+    return ABKUserGenderNotApplicable;
+  } else if ([gender.lowercaseString isEqualToString:@"p"] || [gender.lowercaseString isEqualToString:@"prefer not to say"]) {
+    return ABKUserGenderPreferNotToSay;
+  }
+  return ABKUserGenderUnknown;
 }
 
 @end

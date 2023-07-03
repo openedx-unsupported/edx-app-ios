@@ -199,7 +199,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
       NSLog(@"In-app message body click not registered. Automatic body clicks are disabled.");
     }
   }
-  
   [parentViewController inAppMessageClickedWithActionType:self.inAppMessage.inAppMessageClickActionType
                                                       URL:url
                                          openURLInWebView:[self getOpenURLInWebView:queryParams]];
@@ -417,11 +416,20 @@ runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt
   receivedClickAction:(ABKInAppMessageClickActionType)clickAction {
   ABKInAppMessageWindowController *parentViewController =
     (ABKInAppMessageWindowController *)self.parentViewController;
-  
+
   [self.inAppMessage setInAppMessageClickAction:clickAction withURI:nil];
   [parentViewController inAppMessageClickedWithActionType:self.inAppMessage.inAppMessageClickActionType
                                                       URL:nil
                                          openURLInWebView:false];
+}
+
+- (void)closeMessageWithWebViewBridge:(ABKInAppMessageWebViewBridge *)webViewBridge {
+  ABKInAppMessageWindowController *parentViewController =
+    (ABKInAppMessageWindowController *)self.parentViewController;
+  if ([parentViewController.inAppMessageUIDelegate respondsToSelector:@selector(onInAppMessageDismissed:)]) {
+    [parentViewController.inAppMessageUIDelegate onInAppMessageDismissed:self.inAppMessage];
+  }
+  [super hideInAppMessage:self.inAppMessage.animateOut];
 }
 
 @end

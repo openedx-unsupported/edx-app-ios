@@ -17,7 +17,7 @@
 #import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREndpoints.h"
 
 static NSString *const kINTServerURL =
-    @"https://dummyapiverylong-dummy.dummy.com/dummy/api/very/long";
+    @"https://dummyapiverylong-dummy.google.com/dummy/api/very/long";
 
 @implementation GDTCOREndpoints
 

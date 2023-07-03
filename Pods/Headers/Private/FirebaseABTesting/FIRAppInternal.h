@@ -1,1 +1,1 @@
-../../../FirebaseABTesting/FirebaseCore/Sources/Private/FIRAppInternal.h
+../../../FirebaseABTesting/FirebaseCore/Extension/FIRAppInternal.h

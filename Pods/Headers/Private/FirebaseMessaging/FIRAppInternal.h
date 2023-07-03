@@ -1,1 +1,1 @@
-../../../FirebaseMessaging/FirebaseCore/Sources/Private/FIRAppInternal.h
+../../../FirebaseMessaging/FirebaseCore/Extension/FIRAppInternal.h

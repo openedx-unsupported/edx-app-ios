@@ -23,6 +23,13 @@ typedef NS_ENUM(NSInteger, ABKInAppMessageDisplayChoice) {
   ABKDiscardInAppMessage
 };
 
+typedef NS_ENUM(NSInteger, ABKTriggerEventType) {
+  ABKTriggerEventTypeSessionStart,
+  ABKTriggerEventTypeCustomEvent,
+  ABKTriggerEventTypePurchase,
+  ABKTriggerEventTypeOther
+};
+
 /*!
  * The in-app message delegate allows you to control the display of the Braze in-app message. For more detailed
  * information on in-app message behavior, including when and how the delegate is used, see the documentation for the
@@ -32,7 +39,7 @@ typedef NS_ENUM(NSInteger, ABKInAppMessageDisplayChoice) {
  * you are using the In-App Message subspec, please use ABKInAppMessageUIDelegate.
  */
 
-/*
+/*!
  * Braze Public API: ABKInAppMessageControllerDelegate
  */
 @protocol ABKInAppMessageControllerDelegate <NSObject>
@@ -52,18 +59,28 @@ typedef NS_ENUM(NSInteger, ABKInAppMessageDisplayChoice) {
 - (ABKInAppMessageDisplayChoice)beforeInAppMessageDisplayed:(ABKInAppMessage *)inAppMessage;
 
 /*!
-* @param inAppMessage The control in-app message object being offered to the delegate method.
-* @return ABKInAppMessageDisplayChoice The control in-app message impression logging choice.
-* For details refer to the documentation regarding the ENUM ABKInAppMessageDisplayChoice above.
-* Logging a control message impression is an equivalent of displaying the message, except that no actual display occurs.
-*
-* This delegate method defines the timing of when the control in-app message impression event should be logged: now, later, or discarded.
-* Logging a control message impression is an equivalent of displaying the message, except that no actual display occurs.
-*
-* If there are situations where you would not want the control in-app message impression to be logged, you can use this delegate to delay
-* or discard it.
-*/
+ * @param inAppMessage The control in-app message object being offered to the delegate method.
+ * @return ABKInAppMessageDisplayChoice The control in-app message impression logging choice.
+ * For details refer to the documentation regarding the ENUM ABKInAppMessageDisplayChoice above.
+ * Logging a control message impression is an equivalent of displaying the message, except that no actual display occurs.
+ *
+ * This delegate method defines the timing of when the control in-app message impression event should be logged: now, later, or discarded.
+ * Logging a control message impression is an equivalent of displaying the message, except that no actual display occurs.
+ *
+ * If there are situations where you would not want the control in-app message impression to be logged, you can use this delegate to delay
+ * or discard it.
+ */
 - (ABKInAppMessageDisplayChoice)beforeControlMessageImpressionLogged:(ABKInAppMessage *)inAppMessage;
+
+/*!
+ * Executed when no trigger matches the Braze event.
+ *
+ * @param eventType The type of event that failed to match the user's triggers.
+ * @param name The event name of a custom event, the product identifier for a purchase
+ *             event, or `nil` for a session start event.
+ */
+- (void)noMatchingTriggerForEvent:(ABKTriggerEventType)eventType
+                             name:(nullable NSString *)name;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -160,23 +160,25 @@
 }
 
 - (void)dealloc {
-  // When the Zombies instrument is enabled, a zombie is created for the
-  // swizzled object upon deallocation. Because this zombie subclasses
-  // the generated class, the swizzler should not dispose it during the
-  // swizzler's deallocation. The `zombiesEnabled` value is used to guard calls
-  // to dispose the generated class.
+  // When the Zombies instrument is enabled, a zombie is created for the swizzled object upon
+  // deallocation. Because this zombie subclasses the generated class, the swizzler should not
+  // dispose it during the swizzler's deallocation.
+  //
+  // There are other special cases where the generated class might be subclassed by a third-party
+  // generated classes, for example: https://github.com/firebase/firebase-ios-sdk/issues/9083
+  // To avoid errors in such cases, the environment variable `GULGeneratedClassDisposeDisabled` can
+  // be set with `YES`.
   NSDictionary *environment = [[NSProcessInfo processInfo] environment];
-  BOOL zombiesEnabled = [[environment objectForKey:@"NSZombieEnabled"] boolValue];
+  if ([[environment objectForKey:@"NSZombieEnabled"] boolValue] ||
+      [[environment objectForKey:@"GULGeneratedClassDisposeDisabled"] boolValue]) {
+    return;
+  }
 
   if (_generatedClass) {
     if (_swizzledObject == nil) {
       // The swizzled object has been deallocated already, so the generated class can be disposed
       // now.
-
-      // Do not dispose the generated class if zombies is enabled.
-      if (!zombiesEnabled) {
-        objc_disposeClassPair(_generatedClass);
-      }
+      objc_disposeClassPair(_generatedClass);
       return;
     }
 
@@ -196,13 +198,10 @@
     if (isSwizzledObjectInstanceOfGeneratedClass) {
       Class generatedClass = _generatedClass;
 
-      // Do not dispose the generated class if zombies is enabled.
-      if (!zombiesEnabled) {
-        // Schedule the generated class disposal after the swizzled object has been deallocated.
-        dispatch_async(dispatch_get_main_queue(), ^{
-          objc_disposeClassPair(generatedClass);
-        });
-      }
+      // Schedule the generated class disposal after the swizzled object has been deallocated.
+      dispatch_async(dispatch_get_main_queue(), ^{
+        objc_disposeClassPair(generatedClass);
+      });
     }
   }
 }

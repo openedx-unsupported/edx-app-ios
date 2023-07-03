@@ -1,5 +1,7 @@
 #import "SEGFirebaseIntegration.h"
-#import <Firebase/Firebase.h>
+
+#import <FirebaseCore/FirebaseCore.h>
+#import <FirebaseAnalytics/FirebaseAnalytics.h>
 
 #if defined(__has_include) && __has_include(<Analytics/SEGAnalytics.h>)
 #import <Analytics/SEGAnalyticsUtils.h>
@@ -128,10 +130,10 @@
                                              kFIREventAddToCart, @"Product Added",
                                              kFIREventRemoveFromCart, @"Product Removed",
                                              kFIREventBeginCheckout, @"Checkout Started",
-                                             kFIREventPresentOffer, @"Promotion Viewed",
+                                             kFIREventViewPromotion, @"Promotion Viewed",
                                              kFIREventAddPaymentInfo, @"Payment Info Entered",
                                              kFIREventPurchase, @"Order Completed",
-                                             kFIREventPurchaseRefund, @"Order Refunded",
+                                             kFIREventRefund, @"Order Refunded",
                                              kFIREventViewItemList, @"Product List Viewed",
                                              kFIREventAddToWishlist, @"Product Added to Wishlist",
                                              kFIREventShare, @"Product Shared",
@@ -185,8 +187,9 @@
             if ([data isKindOfClass:[NSDictionary class]]) {
                 data = [self mapToFirebaseParameters:data withMap:mapper];
             } else if ([data isKindOfClass: [NSArray class]]) {
+                NSArray *originalData = (NSArray *)data;
                 NSMutableArray *newArray = [NSMutableArray array];
-                for (id entry in newArray) {
+                for (id entry in originalData) {
                     if ([entry isKindOfClass:[NSDictionary class]]) {
                         id newEntry = [self mapToFirebaseParameters:entry withMap:mapper];
                         [newArray addObject:newEntry];

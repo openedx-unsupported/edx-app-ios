@@ -156,9 +156,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showLoggedOutScreen {
-    [self showLoginScreenFromController:nil completion:^{
-        [self showSplash];
-    }];
+    [self showLoginScreenFromController:nil completion:nil];
     
 }
 

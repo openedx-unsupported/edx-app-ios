@@ -35,6 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// The current device model. Returns an empty string if device model cannot be retrieved.
 + (nullable NSString *)deviceModel;
 
+/// The current device model, with simulator-specific values. Returns an empty string if device
+/// model cannot be retrieved.
++ (nullable NSString *)deviceSimulatorModel;
+
 /// The current operating system version. Returns an empty string if the system version cannot be
 /// retrieved.
 + (NSString *)systemVersion;
@@ -51,6 +55,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// @return An Apple platform. Possible values "ios", "tvos", "macos", "watchos", "maccatalyst".
 + (NSString *)applePlatform;
+
+/// @return An Apple Device platform. Same possible values as `applePlatform`, with the addition of
+/// "ipados".
++ (NSString *)appleDevicePlatform;
 
 /// @return The way the library was added to the app, e.g. "swiftpm", "cocoapods", etc.
 + (NSString *)deploymentType;

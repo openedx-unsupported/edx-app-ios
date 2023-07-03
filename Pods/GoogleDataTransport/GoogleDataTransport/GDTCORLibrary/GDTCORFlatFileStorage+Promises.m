@@ -22,6 +22,10 @@
 #import "FBLPromises.h"
 #endif
 
+#import "GoogleDataTransport/GDTCORLibrary/Internal/GDTCORPlatform.h"
+
+#import "GoogleDataTransport/GDTCORLibrary/Private/GDTCORMetricsMetadata.h"
+#import "GoogleDataTransport/GDTCORLibrary/Private/GDTCORStorageMetadata.h"
 #import "GoogleDataTransport/GDTCORLibrary/Private/GDTCORUploadBatch.h"
 
 @implementation GDTCORFlatFileStorage (Promises)
@@ -92,6 +96,55 @@
                               }
                             }];
         }];
+}
+
+- (FBLPromise<NSNull *> *)fetchAndUpdateMetricsWithHandler:
+    (GDTCORMetricsMetadata * (^)(GDTCORMetricsMetadata *_Nullable fetchedMetadata,
+                                 NSError *_Nullable fetchError))handler {
+  return FBLPromise.doOn(self.storageQueue, ^id {
+    // Fetch the stored metrics metadata.
+    NSError *decodeError;
+    NSString *metricsMetadataPath =
+        [[[self class] libraryDataStoragePath] stringByAppendingPathComponent:@"metrics_metadata"];
+    GDTCORMetricsMetadata *decodedMetadata = (GDTCORMetricsMetadata *)GDTCORDecodeArchiveAtPath(
+        GDTCORMetricsMetadata.class, metricsMetadataPath, &decodeError);
+
+    // Update the metadata using the retrieved metadata.
+    GDTCORMetricsMetadata *updatedMetadata = handler(decodedMetadata, decodeError);
+    if (updatedMetadata == nil) {
+      // `nil` metadata is not expected and will be a no-op.
+      return nil;
+    }
+
+    if (![updatedMetadata isEqual:decodedMetadata]) {
+      // The metadata was updated so it needs to be saved.
+      // - Encode the updated metadata.
+      NSError *encodeError;
+      NSData *encodedMetadata = GDTCOREncodeArchive(updatedMetadata, nil, &encodeError);
+      if (encodeError) {
+        return encodeError;
+      }
+
+      // - Write the encoded metadata to disk.
+      NSError *writeError;
+      BOOL writeResult = GDTCORWriteDataToFile(encodedMetadata, metricsMetadataPath, &writeError);
+      if (writeResult == NO || writeError) {
+        return writeError;
+      }
+    }
+
+    return nil;
+  });
+}
+
+- (FBLPromise<GDTCORStorageMetadata *> *)fetchStorageMetadata {
+  return FBLPromise.asyncOn(self.storageQueue, ^(FBLPromiseFulfillBlock _Nonnull fulfill,
+                                                 FBLPromiseRejectBlock _Nonnull reject) {
+    [self storageSizeWithCallback:^(GDTCORStorageSizeBytes storageSize) {
+      fulfill([GDTCORStorageMetadata metadataWithCurrentCacheSize:storageSize
+                                                     maxCacheSize:kGDTCORFlatFileStorageSizeLimit]);
+    }];
+  });
 }
 
 // TODO: Move to a separate class/extension when needed in more places.
