@@ -73,7 +73,6 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
         self.courseOutlineMode = courseOutlineMode ?? .full
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         super.init(nibName: nil, bundle: nil)
-        setStatusBar(color: environment.styles.primaryLightColor())
         
         if let resumeCourseBlockID = resumeCourseBlockID {
             currentBlock = courseQuerier.blockWithID(id: resumeCourseBlockID).firstSuccess().value
@@ -101,6 +100,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setStatusBar(color: environment.styles.primaryLightColor())
         addSubViews()
         setupComponentView()
         setupCompletedBlocksView()
@@ -108,7 +108,6 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setStatusBar(color: environment.styles.primaryLightColor())
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
@@ -220,7 +219,18 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        setStatusBar(color: environment.styles.primaryLightColor())
+        
+        if currentOrientation() == .portrait {
+            setStatusBar(color: environment.styles.primaryLightColor())
+        } else {
+            removeStatusBar()
+        }
+        
+        if headerViewState == .collapsed {
+            collapseHeaderView()
+        } else if headerViewState == .expanded {
+            expandHeaderView()
+        }
     }
 }
 

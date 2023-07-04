@@ -258,7 +258,18 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         setupContentView()
-        setStatusBar(color: environment.styles.primaryLightColor())
+        
+        if currentOrientation() == .portrait {
+            setStatusBar(color: environment.styles.primaryLightColor())
+        } else {
+            removeStatusBar()
+        }
+        
+        if headerViewState == .collapsed {
+            collapseHeaderView()
+        } else if headerViewState == .expanded {
+            expandHeaderView()
+        }
     }
     
     private func prepareTabViewData() {
@@ -605,6 +616,15 @@ public extension UIViewController {
             let frame = UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
             overView.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
             overView.backgroundColor = color
+        }
+    }
+    
+    func removeStatusBar() {
+        DispatchQueue.main.async { [weak self] in
+            let tag = 123454321
+            if let taggedView = self?.view.viewWithTag(tag) {
+                taggedView.removeFromSuperview()
+            }
         }
     }
 }
