@@ -41,7 +41,7 @@ class NetworkManager_InterceptionTests : XCTestCase {
             expectations.fulfill()
         }
 
-        waitForExpectations()
+        OEXWaitForExpectations()
 
         OHHTTPStubs.removeStub(stub)
     }
@@ -70,7 +70,7 @@ class NetworkManager_InterceptionTests : XCTestCase {
             XCTAssertNil(result.data)
             expectations.fulfill()
         }
-        self.waitForExpectations()
+        self.OEXWaitForExpectations()
     }
 
 

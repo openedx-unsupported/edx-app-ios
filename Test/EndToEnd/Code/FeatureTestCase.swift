@@ -33,7 +33,7 @@ extension FeatureInteractor {
     func waitForElement(_ element: XCUIElement, predicate: NSPredicate = NSPredicate(format: "exists == true"), file: String = #file, line: UInt = #line) {
         
         FeatureTestCase.activeTest.expectation(for: predicate, evaluatedWith: element, handler: nil)
-        FeatureTestCase.activeTest.waitForExpectations { (error) -> Void in
+        FeatureTestCase.activeTest.OEXWaitForExpectations { (error) -> Void in
             if error != nil {
                 FeatureTestCase.activeTest.record(XCTIssue(type: .assertionFailure, compactDescription: "Timeout waiting for element: \(element)", sourceCodeContext: XCTSourceCodeContext(location: XCTSourceCodeLocation(filePath: file, lineNumber: Int(line)))))
             }

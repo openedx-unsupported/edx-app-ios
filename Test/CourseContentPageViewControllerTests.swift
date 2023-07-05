@@ -48,7 +48,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                     }
                 }
             }
-            self.waitForExpectations()
+            self.OEXWaitForExpectations()
         }
         return controller
     }

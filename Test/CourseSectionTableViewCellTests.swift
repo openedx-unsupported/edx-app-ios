@@ -52,7 +52,7 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
                     }
                 }
             }
-            waitForExpectations()
+            OEXWaitForExpectations()
         }
     }
     

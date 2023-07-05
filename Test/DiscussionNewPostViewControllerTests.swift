@@ -25,7 +25,7 @@ class DiscussionNewPostViewControllerTests: SnapshotTestCase {
         controller.t_topicsLoaded().listenOnce(self) {_ in
             expectations.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)

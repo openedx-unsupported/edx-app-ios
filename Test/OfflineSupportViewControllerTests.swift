@@ -29,7 +29,7 @@ class OfflineSupportViewControllerTests: XCTestCase {
         }
         
         reachability.networkStatus = (wifi : false, wwan : false)
-        self.waitForExpectations()
+        self.OEXWaitForExpectations()
         removable.remove()
         XCTAssertTrue(controller.t_isShowingSnackBar)
     }

@@ -19,7 +19,7 @@ class StartupViewControllerTests: SnapshotTestCase {
                     "WEBVIEW": [
                         "BASE_URL": "www.example.com",
                     ]
-                ],
+                ] as [String : Any],
                 "PROGRAM": [
                     "TYPE": "webview",
                     "WEBVIEW": [

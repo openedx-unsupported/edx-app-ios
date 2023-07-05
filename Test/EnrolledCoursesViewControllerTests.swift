@@ -105,7 +105,7 @@ class EnrolledCoursesViewControllerTests: SnapshotTestCase {
         
         let versionInfoController = VersionUpgradeInfoController.sharedController
         versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo as? [String : Any])
-        self.waitForExpectations()
+        self.OEXWaitForExpectations()
         removable.remove()
         XCTAssertTrue(controller.t_isShowingSnackBar)
         // remove version upgrade info

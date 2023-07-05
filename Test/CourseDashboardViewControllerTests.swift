@@ -112,7 +112,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
             expectations.fulfill()
         }
         
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
@@ -146,7 +146,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
             expectations.fulfill()
         }
         
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         
         inScreenNavigationContext(controller, action: { () -> () in

@@ -41,7 +41,7 @@ struct CalendarSyncConfig {
                 Keys.disabledVersions.rawValue: disabledVersions,
                 Keys.selfPacedEnabled.rawValue: selfPacedEnabled,
                 Keys.instructorPacedEnabled.rawValue: instructorPacedEnabled,
-            ]
+            ] as [String : Any]
         ]
     }
 }

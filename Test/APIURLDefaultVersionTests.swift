@@ -17,7 +17,7 @@ class APIURLDefaultVersionTests: XCTestCase {
     }
     
     func testEmptyAPIURLConfig() {
-        let config = OEXConfig(dictionary:["API_URL_VERSION":[:]])
+        let config = OEXConfig(dictionary:["API_URL_VERSION":[:]  as [String : Any]])
         XCTAssertEqual(config.apiUrlVersionConfig.blocks, APIURLDefaultVersion.blocks.rawValue)
     }
     

@@ -123,7 +123,7 @@ class MockNetworkManagerTests : XCTestCase {
             XCTAssertEqual(result.data!, "Success")
             expectation.fulfill()
         }
-        self.waitForExpectations()
+        self.OEXWaitForExpectations()
     }
     
     func testNoInterceptorsFails() {
@@ -139,7 +139,7 @@ class MockNetworkManagerTests : XCTestCase {
             XCTAssertNotNil(result.error)
             expectation.fulfill()
         }
-        self.waitForExpectations()
+        self.OEXWaitForExpectations()
     }
     
 }

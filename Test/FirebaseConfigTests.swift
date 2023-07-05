@@ -27,7 +27,7 @@ class FirebaseConfigTests: XCTestCase {
     }
 
     func testEmptyFirebaseConfig() {
-        let config = OEXConfig(dictionary:["FIREBASE":[:]])
+        let config = OEXConfig(dictionary:["FIREBASE":[:] as [String : Any]])
         XCTAssertFalse(config.firebaseConfig.enabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
         XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceFirebase)
@@ -46,7 +46,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
 
         let config = OEXConfig(dictionary: configDictionary)
@@ -66,7 +66,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
 
         let config = OEXConfig(dictionary: configDictionary)
@@ -83,7 +83,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
 
         let config = OEXConfig(dictionary: configDictionary)
@@ -101,7 +101,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
 
         let config = OEXConfig(dictionary: configDictionary)
@@ -119,7 +119,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
@@ -138,7 +138,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
@@ -157,7 +157,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
@@ -176,7 +176,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
@@ -195,7 +195,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
@@ -226,7 +226,7 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ]
+            ] as [String : Any]
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
@@ -244,12 +244,12 @@ class FirebaseConfigTests: XCTestCase {
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
                 "GCM_SENDER_ID" : gcmSenderID
-            ],
+            ] as [String : Any],
             
             "SEGMENT_IO": [
                 "ENABLED": true,
                 "SEGMENT_IO_WRITE_KEY": "p910192UHD101010nY0000001Kb00GFcz'"
-            ]
+            ] as [String : Any]
         ]
         
         let config = OEXConfig(dictionary: configDictionary)

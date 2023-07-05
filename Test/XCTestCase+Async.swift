@@ -13,7 +13,7 @@ extension XCTestCase {
     
     // Standardize on a reasonable timeout to account for slow CI systems interacting with slow operations like
     // screenshot generation. Also makes it easier to change to a long number when debugging
-    func waitForExpectations(_ handler : XCWaitCompletionHandler? = nil) {
+    func OEXWaitForExpectations(_ handler : XCWaitCompletionHandler? = nil) {
         self.waitForExpectations(timeout: 60, handler: handler)
     }
         
@@ -22,6 +22,6 @@ extension XCTestCase {
         DispatchQueue.main.async {
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
 }

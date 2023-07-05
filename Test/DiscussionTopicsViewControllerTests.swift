@@ -23,7 +23,7 @@ class DiscussionTopicsViewControllerTests: SnapshotTestCase {
         controller.t_topicsLoaded().listenOnce(self) {_ in
             expectations.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         inScreenNavigationContext(controller){
             assertSnapshotValidWithContent(controller.navigationController!)

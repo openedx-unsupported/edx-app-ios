@@ -126,7 +126,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
                 XCTAssertTrue(controller.t_isShowingOverlayMessage)
                 expectations.fulfill()
             })
-            waitForExpectations()
+            OEXWaitForExpectations()
         }
     }
     
@@ -147,7 +147,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
                 XCTAssertTrue(controller.t_isShowingAlertView())
                 expectations.fulfill()
             })
-            waitForExpectations()
+            OEXWaitForExpectations()
         }
     }
     
@@ -173,7 +173,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             controller.t_enrollInCourse {
                 completionCalled = true
             }
-            waitForExpectations()
+            OEXWaitForExpectations()
             XCTAssertTrue(completionCalled)
         }
         return environment

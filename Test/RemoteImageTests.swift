@@ -33,7 +33,7 @@ class RemoteImageTests: XCTestCase {
             box.value = response
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
 
         OHHTTPStubs.removeStub(stub)
         return box.value!

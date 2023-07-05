@@ -20,7 +20,7 @@ class KVOListenerTests: XCTestCase {
             expectation.fulfill()
         }
         observed.value = "new"
-        waitForExpectations()
+        OEXWaitForExpectations()
         remover.remove()
     }
 

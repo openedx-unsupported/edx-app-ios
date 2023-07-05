@@ -21,7 +21,7 @@ class MicrosoftConfigTests: XCTestCase {
     }
     
     func testEmptyMicrosoftConfig() {
-        let config = OEXConfig(dictionary:["MICROSOFT":[:]])
+        let config = OEXConfig(dictionary:["MICROSOFT":[:] as [String : Any]])
         XCTAssertFalse(config.microsoftConfig.enabled)
         XCTAssertNil(config.microsoftConfig.appID)
     }
@@ -31,7 +31,7 @@ class MicrosoftConfigTests: XCTestCase {
             "MICROSOFT" : [
                 "ENABLED": true,
                 "APP_ID" : microsoftAppID
-            ]
+            ] as [String : Any]
         ]
         
         let config = OEXConfig(dictionary: configDictionary)

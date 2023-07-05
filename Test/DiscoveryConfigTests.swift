@@ -18,7 +18,7 @@ class DiscoveryConfigTests: XCTestCase {
     }
     
     func testDiscoveryEmptyConfig() {
-        let config = OEXConfig(dictionary:["DISCOVERY":[:]])
+        let config = OEXConfig(dictionary:["DISCOVERY":[:] as [String : Any]])
         XCTAssertFalse(config.discovery.isEnabled)
         XCTAssertEqual(config.discovery.type, .none)
     }
@@ -46,9 +46,8 @@ class DiscoveryConfigTests: XCTestCase {
                     "BASE_URL": sampleBaseURL,
                     "COURSE_DETAIL_TEMPLATE": sampleInfoURLTemplate,
                     "PROGRAM_DETAIL_TEMPLATE": sampleProgramInfoURLTemplate
-
-                ]
-            ]
+                ]  as [String : Any]
+            ] as [String : Any]
         ]
 
         let config = OEXConfig(dictionary: configDictionary)

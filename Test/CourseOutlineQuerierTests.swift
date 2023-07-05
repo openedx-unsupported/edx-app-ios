@@ -30,7 +30,7 @@ class CourseOutlineQuerierTests: XCTestCase {
             XCTAssertEqual(block.value!.blockID, blockID)
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         removable.remove()
     }
     
@@ -49,7 +49,7 @@ class CourseOutlineQuerierTests: XCTestCase {
             XCTAssertEqual(Set(blocks.value!), Set(knownNodes))
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         removable.remove()
     }
     
@@ -99,7 +99,7 @@ class CourseOutlineQuerierTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         removable.remove()
         
         // now if we supply a loadable outline
@@ -118,7 +118,7 @@ class CourseOutlineQuerierTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         removable.remove()
         
     }

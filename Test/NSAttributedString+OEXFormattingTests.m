@@ -18,7 +18,7 @@
 @implementation NSAttributedString_OEXFormatting
 
 - (void)testFormatNoParams {
-    NSAttributedString* format = [[NSAttributedString alloc] initWithString:@"some string with { stuff in it" attributes:nil];
+    NSAttributedString* format = [[NSAttributedString alloc] initWithString: NSLocalizedString(@"some string with { stuff in it", nil) attributes:nil];
     NSAttributedString* result = [format oex_formatWithParameters:@{}];
     XCTAssertEqualObjects(result.string, format.string);
 }
@@ -27,8 +27,8 @@
     CGFloat baseSize = 14;
     CGFloat otherSize = 18;
     
-    NSAttributedString* format = [[NSAttributedString alloc] initWithString:@"{param} string with {param} stuff in it" attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:baseSize] }];
-    NSAttributedString* replacement = [[NSAttributedString alloc] initWithString:@"some" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:otherSize]}];
+    NSAttributedString* format = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"{param} string with {param} stuff in it", nil) attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:baseSize] }];
+    NSAttributedString* replacement = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"some", nil) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:otherSize]}];
     NSAttributedString* result = [format oex_formatWithParameters:@{@"param" : replacement}];
     XCTAssertEqualObjects(result.string, @"some string with some stuff in it");
     
