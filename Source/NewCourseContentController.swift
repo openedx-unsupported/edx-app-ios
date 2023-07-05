@@ -44,6 +44,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     
     private var courseContentViewController: CourseContentPageViewController?
     private var headerViewState: HeaderViewState = .expanded
+    private var statusBarTag = 999999
     
     private var currentBlock: CourseBlock? {
         willSet {
@@ -100,7 +101,6 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setStatusBar(color: environment.styles.primaryLightColor())
         addSubViews()
         setupComponentView()
         setupCompletedBlocksView()
@@ -109,6 +109,14 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        updateStatusBarVisibility()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            self?.removeStatusBarView()
+        }
     }
     
     private func addSubViews() {
@@ -220,16 +228,34 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         
-        if currentOrientation() == .portrait {
-            setStatusBar(color: environment.styles.primaryLightColor())
-        } else {
-            removeStatusBar()
+        coordinator.animate { [weak self] _ in
+            self?.updateStatusBarVisibility()
         }
         
         if headerViewState == .collapsed {
             collapseHeaderView()
         } else if headerViewState == .expanded {
             expandHeaderView()
+        }
+    }
+
+    private func removeStatusBarView() {
+        if let statusBar = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.viewWithTag(statusBarTag) {
+            statusBar.removeFromSuperview()
+        }
+    }
+
+    private func updateStatusBarVisibility() {
+        let window = UIApplication.shared.windows.first
+        let topPadding = window?.safeAreaInsets.top
+          
+        if currentOrientation() == .portrait {
+            let statusBar = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: topPadding ?? 0.0))
+            statusBar.backgroundColor = environment.styles.primaryLightColor()
+            statusBar.tag = statusBarTag
+            UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.addSubview(statusBar)
+        } else {
+            removeStatusBarView()
         }
     }
 }
@@ -244,7 +270,14 @@ extension NewCourseContentController: CourseContentPageViewControllerDelegate {
         
         if let controller = controller.viewControllers?.first as? VideoBlockViewController {
             controller.orientationDelegate = self
-            changeOrientation(orientation: currentOrientation())
+            
+            if currentOrientation() != .portrait {
+                collapseHeaderView()
+            } else if headerViewState == .collapsed {
+                collapseHeaderView()
+            } else if headerViewState == .expanded {
+                expandHeaderView()
+            }
         }
     }
 }

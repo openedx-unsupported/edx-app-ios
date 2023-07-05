@@ -64,7 +64,12 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private var error: NSError?
     private var courseAccessHelper: CourseAccessHelper?
     private var selectedTabbarItem: TabBarItem?
-    private var headerViewState: HeaderViewState = .expanded
+    
+    private var headerViewState: HeaderViewState = .expanded {
+        didSet {
+            headerView.state = headerViewState
+        }
+    }
     private var tabBarItems: [TabBarItem] = []
     private var isModalDismissable = true
     private let courseStream: BackedStream<UserCourseEnrollment>
@@ -105,7 +110,12 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        expandHeaderView()
+        
+        if headerViewState == .collapsed {
+            collapseHeaderView()
+        } else if headerViewState == .expanded {
+            expandHeaderView()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
