@@ -411,10 +411,10 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorViewDelega
         }
     }
     
-    func upgradeCourseAction(course: OEXCourse, price: String?, completion: @escaping ((Bool) -> ())) {
+    func upgradeCourseAction(course: OEXCourse, coursePrice: String, price: NSDecimalNumber?, currencyCode: String?, completion: @escaping ((Bool) -> ())) {
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
         
-        guard let courseID = course.course_id, let coursePrice = price else {
+        guard let courseID = course.course_id else {
             courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .error(.generalError, nil))
             completion(false)
             return
@@ -422,9 +422,9 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorViewDelega
         
         environment.analytics.trackUpgradeNow(with: courseID, pacing: pacing, screenName: .courseDashboard, coursePrice: coursePrice)
         
-        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, coursePrice: coursePrice, screen: .courseDashboard)
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, localizedCoursePrice: coursePrice, screen: .courseDashboard)
         
-        upgradeHandler.upgradeCourse { [weak self] status in
+        upgradeHandler.upgradeCourse(price: price, currencyCode: currencyCode) { [weak self] status in
             guard let weakSelf = self else { return }
             weakSelf.enableUserInteraction(enable: false)
             
