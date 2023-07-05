@@ -336,7 +336,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
    
     private func showCelebratoryModal(direction: UIPageViewController.NavigationDirection, overController: UIViewController?) {
-        let celebratoryModalView = environment.router?.showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
+        
+        var controller: UIViewController = self
+        
+        if environment.config.isNewComponentNavigationEnabled {
+            if let contentContainerController = parent?.parent {
+                controller = contentContainerController
+            }
+        }
+        
+        let celebratoryModalView = environment.router?.showCelebratoryModal(fromController: controller, courseID: courseQuerier.courseID)
         if let videoBlockViewController = overController as? VideoBlockViewController {
             celebratoryModalView?.delegate = videoBlockViewController
         }
