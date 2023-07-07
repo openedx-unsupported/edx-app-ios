@@ -428,9 +428,9 @@ extension CourseUpgradeHelper {
 
     private func savedIAPSKUsFromKeychain() -> [String : [InappPurchase]] {
         guard let data = keychain.getData(IAPKeychainKey),
-              let purchases = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String : [InappPurchase]]
+              let purchases = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [InappPurchase.self, NSDictionary.self, NSString.self, NSArray.self], from: data) as? [String : [InappPurchase]] ?? [:]
         else { return [:] }
-
+        
         return purchases
     }
 
@@ -444,9 +444,13 @@ extension CourseUpgradeHelper {
     }
 }
 
-class InappPurchase: NSObject, NSCoding {
+class InappPurchase: NSObject, NSCoding, NSSecureCoding {
     var status: Bool = false
     var identifier: String = ""
+    
+    static var supportsSecureCoding: Bool {
+        return true
+    }
 
     required init?(coder: NSCoder) {
         identifier = coder.decodeObject(forKey: "identifier") as? String ?? ""
