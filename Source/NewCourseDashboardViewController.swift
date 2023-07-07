@@ -271,13 +271,8 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         
         coordinator.animate { [weak self] _ in
             guard let weakSelf = self else { return }
-            
-            if weakSelf.currentOrientation() == .portrait {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    weakSelf.setStatusBar(color: weakSelf.environment.styles.primaryLightColor())
-                }
-            } else {
-                weakSelf.removeStatusBar()
+            DispatchQueue.main.async {
+                weakSelf.setStatusBar(color: weakSelf.environment.styles.primaryLightColor())
             }
         }
         
@@ -616,31 +611,27 @@ extension NewCourseDashboardViewController: NewCourseDashboardViewControllerDele
 
 public extension UIViewController {
     func setStatusBar(color: UIColor) {
-        DispatchQueue.main.async { [weak self] in
-            let tag = 123454321
-            let overView: UIView
-            if let taggedView = self?.view.viewWithTag(tag) {
-                overView = taggedView
-            }
-            else {
-                overView = UIView()
-                overView.tag = tag
-                self?.view.addSubview(overView)
-            }
-            
-            let height = UIApplication.shared.window?.windowScene?.windows.first?.safeAreaInsets.top ?? 0
-            let frame = UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
-            overView.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
-            overView.backgroundColor = color
+        let tag = 123454321
+        let overView: UIView
+        if let taggedView = view.viewWithTag(tag) {
+            overView = taggedView
         }
+        else {
+            overView = UIView()
+            overView.tag = tag
+            view.addSubview(overView)
+        }
+        
+        let height = UIApplication.shared.window?.windowScene?.windows.first?.safeAreaInsets.top ?? 0
+        let frame = UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
+        overView.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
+        overView.backgroundColor = color
     }
     
     func removeStatusBar() {
-        DispatchQueue.main.async { [weak self] in
-            let tag = 123454321
-            if let taggedView = self?.view.viewWithTag(tag) {
-                taggedView.removeFromSuperview()
-            }
+        let tag = 123454321
+        if let taggedView = view.viewWithTag(tag) {
+            taggedView.removeFromSuperview()
         }
     }
 }

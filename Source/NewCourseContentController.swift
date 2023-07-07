@@ -222,19 +222,9 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animate { [weak self] _ in
             guard let weakSelf = self else { return }
-            if weakSelf.currentOrientation() == .portrait {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    weakSelf.setStatusBar(color: weakSelf.environment.styles.primaryLightColor())
-                }
-            } else {
-                weakSelf.removeStatusBar()
+            DispatchQueue.main.async {
+                weakSelf.setStatusBar(color: weakSelf.environment.styles.primaryLightColor())
             }
-        }
-        
-        if headerViewState == .collapsed {
-            collapseHeaderView()
-        } else if headerViewState == .expanded {
-            expandHeaderView()
         }
     }
 }
@@ -256,8 +246,6 @@ extension NewCourseContentController: CourseContentPageViewControllerDelegate {
     
     private func updateHeaderState(with controller: CourseContentPageViewController) {
         if let controller = controller.viewControllers?.first as? VideoBlockViewController {
-            controller.orientationDelegate = self
-            
             if currentOrientation() != .portrait {
                 collapseHeaderView()
             } else if headerViewState == .collapsed {
@@ -326,20 +314,6 @@ extension NewCourseContentController {
             self?.view.layoutIfNeeded()
         } completion: { [weak self] _ in
             self?.headerViewState = .collapsed
-        }
-    }
-}
-
-extension NewCourseContentController: VideoBlockViewControllerOrientationDelegate {
-    func changeOrientation(orientation: UIInterfaceOrientation) {
-        if orientation == .portrait {
-            if headerViewState == .collapsed {
-                headerViewState = .animating
-                expandHeaderView()
-            }
-        } else if headerViewState == .expanded {
-            headerViewState = .animating
-            collapseHeaderView()
         }
     }
 }

@@ -10,10 +10,6 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-protocol VideoBlockViewControllerOrientationDelegate {
-    func changeOrientation(orientation: UIInterfaceOrientation)
-}
-
 class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider & NetworkManagerProvider
@@ -35,9 +31,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     private var playOverlayButton: UIButton?
     private var overlayLabel: UILabel?
     var shouldCelebrationAppear: Bool
-    
-    var orientationDelegate: VideoBlockViewControllerOrientationDelegate?
-    
+        
     init(environment : Environment, blockID : CourseBlockID?, courseID: String, shouldCelebrationAppear: Bool = false) {
         self.blockID = blockID
         self.environment = environment
@@ -448,9 +442,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         }
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        orientationDelegate?.changeOrientation(orientation: currentOrientation())
-        
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {        
         if UIDevice.current.userInterfaceIdiom == .pad {
             if videoPlayer.isFullScreen {
                 videoPlayer.setFullscreen(fullscreen: !UIDevice.current.orientation.isPortrait, animated: true, with: currentOrientation(), forceRotate: false)
