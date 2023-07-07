@@ -269,10 +269,16 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         setupContentView()
         
-        if currentOrientation() == .portrait {
-            setStatusBar(color: environment.styles.primaryLightColor())
-        } else {
-            removeStatusBar()
+        coordinator.animate { [weak self] _ in
+            guard let weakSelf = self else { return }
+            
+            if weakSelf.currentOrientation() == .portrait {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    weakSelf.setStatusBar(color: weakSelf.environment.styles.primaryLightColor())
+                }
+            } else {
+                weakSelf.removeStatusBar()
+            }
         }
         
         if headerViewState == .collapsed {
