@@ -66,7 +66,7 @@ public struct CourseCatalogAPI {
                 "course_details" : [
                     "course_id": courseID,
                     "email_opt_in": emailOptIn
-                ]
+                ] as [String : Any]
             ])),
             deserializer: .jsonResponse(enrollmentDeserializer)
         )

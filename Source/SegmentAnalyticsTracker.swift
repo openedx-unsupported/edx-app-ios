@@ -67,7 +67,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     }
     
     func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
-        var properties: [String:Any] = [
+        var properties: [String : Any] = [
             key_context: [
                 key_app_name: value_app_name
             ]

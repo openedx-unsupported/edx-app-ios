@@ -56,7 +56,7 @@ class SessionUsernameProviderTests: XCTestCase {
             XCTAssertEqual(entry?.data, responseData)
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
 
 }

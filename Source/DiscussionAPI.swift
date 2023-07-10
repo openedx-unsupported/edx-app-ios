@@ -104,7 +104,7 @@ public class DiscussionAPI {
             "title" : newThread.title,
             "raw_body" : newThread.rawBody,
             "following" : follow
-            ])
+            ] as [String : Any])
         return NetworkRequest(
             method : HTTPMethod.POST,
             path : "/api/discussion/v1/threads/",

@@ -41,7 +41,7 @@ class UserProfileManagerTests : XCTestCase {
                 testExpectation.fulfill()
             }
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         removable.remove()
         
         session.closeAndClear()
@@ -66,7 +66,7 @@ class UserProfileManagerTests : XCTestCase {
                 testExpectation.fulfill()
             }
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         removable.remove()
     }
     
@@ -80,7 +80,7 @@ class UserProfileManagerTests : XCTestCase {
             profile = $0.value
             testExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         let newBio = "Test Passed"
         profile.updateDictionary = ["bio" : newBio as AnyObject]
         
@@ -95,7 +95,7 @@ class UserProfileManagerTests : XCTestCase {
             XCTAssertEqual(result.value!.bio, newBio)
             testExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         // We updated the profile so the current user feed should also fire
         testExpectation = expectation(description: "Profile feed update")
@@ -103,7 +103,7 @@ class UserProfileManagerTests : XCTestCase {
             XCTAssertEqual($0.value!.bio!, newBio)
             testExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
     
     func testClearsOnLogOut() {
@@ -116,7 +116,7 @@ class UserProfileManagerTests : XCTestCase {
             testExpectation.fulfill()
         }
         
-        waitForExpectations()
+        OEXWaitForExpectations()
         XCTAssertNotNil(feed.output.value!.username)
         session.closeAndClear()
         

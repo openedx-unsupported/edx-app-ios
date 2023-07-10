@@ -18,7 +18,7 @@ class PaginationInfoTests: XCTestCase {
             "num_pages" : 3,
             "previous" : "http://example.com/previous",
             "next" : "http://example.com/next",
-            ])
+            ] as [String : Any])
         let info = PaginationInfo(json: json)
         XCTAssertEqual(info!.pageCount, 3)
         XCTAssertEqual(info!.totalCount, 25)
@@ -31,7 +31,7 @@ class PaginationInfoTests: XCTestCase {
             "count" : 25,
             "previous" : "http://example.com/previous",
             "next" : "http://example.com/next",
-            ])
+            ] as [String : Any])
         let info = PaginationInfo(json: json)
         XCTAssertNil(info)
     }
@@ -76,7 +76,7 @@ class PaginationInfoTests: XCTestCase {
                     "num_pages" : 4
                 ],
                 "results" : [1, 2, 3, 4]
-                ]))
+                ] as [String : Any]))
             XCTAssertEqual(parse.value!.value, [1, 2, 3, 4])
             XCTAssertEqual(parse.value!.pagination.pageCount, 4)
             XCTAssertEqual(parse.value!.pagination.totalCount, 50)

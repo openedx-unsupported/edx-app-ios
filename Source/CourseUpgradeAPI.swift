@@ -44,7 +44,7 @@ public struct CourseUpgradeAPI {
             body: .jsonBody(JSON([
                 "basket_id": basketID,
                 "payment_processor": PaymentProcessor
-            ])),
+            ] as [String : Any])),
             deserializer: .jsonResponse(checkoutDeserializer)
         )
     }
@@ -68,7 +68,7 @@ public struct CourseUpgradeAPI {
                 "currency_code": currencyCode,
                 "purchaseToken": receipt,
                 "payment_processor": PaymentProcessor
-            ])),
+            ] as [String : Any])),
             deserializer: .jsonResponse(executeDeserializer)
         )
     }

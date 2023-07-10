@@ -25,7 +25,7 @@ class TranscriptParserTests: XCTestCase {
             }
         }
         
-        waitForExpectations { (error) in
+        OEXWaitForExpectations { (error) in
             if error != nil {
                 XCTFail("Transcript parsing failed")
             }
@@ -44,7 +44,7 @@ class TranscriptParserTests: XCTestCase {
             }
         }
     
-        waitForExpectations { (error) in
+        OEXWaitForExpectations { (error) in
             if error != nil {
                 XCTFail("Transcript parsing failed")
             }
@@ -62,7 +62,7 @@ class TranscriptParserTests: XCTestCase {
             }
         }
         
-        waitForExpectations { (error) in
+        OEXWaitForExpectations { (error) in
             if error != nil {
                 XCTFail("Transcript parsing failed")
             }
@@ -81,7 +81,7 @@ class TranscriptParserTests: XCTestCase {
             }
         }
         
-        waitForExpectations { (error) in
+        OEXWaitForExpectations { (error) in
             if error != nil {
                 XCTFail("Transcript parsing failed")
             }
@@ -102,7 +102,7 @@ class TranscriptParserTests: XCTestCase {
             }
         }
         
-        waitForExpectations { (error) in
+        OEXWaitForExpectations { (error) in
             if error != nil {
                 XCTFail("Transcript parsing failed")
             }
