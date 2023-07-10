@@ -16,6 +16,7 @@ protocol CourseDashboardHeaderViewDelegate: AnyObject {
 }
 
 enum HeaderViewState {
+    case initial
     case animating
     case expanded
     case collapsed
@@ -36,6 +37,8 @@ class CourseDashboardHeaderView: UIView {
     private var bottomContainer = UIView()
     private lazy var datesBannerView = NewCourseDateBannerView()
     private var bannerInfo: DatesBannerInfo? = nil
+    
+    var state: HeaderViewState = .initial
     
     private lazy var orgLabel: UILabel = {
         let label = UILabel()
@@ -244,6 +247,8 @@ class CourseDashboardHeaderView: UIView {
             make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(closeButton.snp.leading).offset(-StandardHorizontalMargin)
         }
+        
+        if state == .collapsed { return }
         
         courseInfoContainerView.snp.remakeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom)

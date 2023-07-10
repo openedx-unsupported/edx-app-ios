@@ -64,7 +64,12 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private var error: NSError?
     private var courseAccessHelper: CourseAccessHelper?
     private var selectedTabbarItem: TabBarItem?
-    private var headerViewState: HeaderViewState = .expanded
+    
+    private var headerViewState: HeaderViewState = .expanded {
+        didSet {
+            headerView.state = headerViewState
+        }
+    }
     private var tabBarItems: [TabBarItem] = []
     private var isModalDismissable = true
     private let courseStream: BackedStream<UserCourseEnrollment>
@@ -101,6 +106,16 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         navigationItem.setHidesBackButton(true, animated: true)
         navigationController?.setNavigationBarHidden(true, animated: true)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseDashboard, courseID: courseID, value: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if headerViewState == .collapsed {
+            collapseHeaderView()
+        } else if headerViewState == .expanded {
+            expandHeaderView()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -253,7 +268,19 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         setupContentView()
-        setStatusBar(color: environment.styles.primaryLightColor())
+        
+        coordinator.animate { [weak self] _ in
+            guard let weakSelf = self else { return }
+            DispatchQueue.main.async {
+                weakSelf.setStatusBar(color: weakSelf.environment.styles.primaryLightColor())
+            }
+        }
+        
+        if headerViewState == .collapsed {
+            collapseHeaderView()
+        } else if headerViewState == .expanded {
+            expandHeaderView()
+        }
     }
     
     private func prepareTabViewData() {
@@ -584,22 +611,27 @@ extension NewCourseDashboardViewController: NewCourseDashboardViewControllerDele
 
 public extension UIViewController {
     func setStatusBar(color: UIColor) {
-        DispatchQueue.main.async { [weak self] in
-            let tag = 123454321
-            let overView: UIView
-            if let taggedView = self?.view.viewWithTag(tag) {
-                overView = taggedView
-            }
-            else {
-                overView = UIView()
-                overView.tag = tag
-                self?.view.addSubview(overView)
-            }
-            
-            let height = UIApplication.shared.window?.windowScene?.windows.first?.safeAreaInsets.top ?? 0
-            let frame = UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
-            overView.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
-            overView.backgroundColor = color
+        let tag = 123454321
+        let overView: UIView
+        if let taggedView = view.viewWithTag(tag) {
+            overView = taggedView
+        }
+        else {
+            overView = UIView()
+            overView.tag = tag
+            view.addSubview(overView)
+        }
+        
+        let height = UIApplication.shared.window?.windowScene?.windows.first?.safeAreaInsets.top ?? 0
+        let frame = UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
+        overView.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
+        overView.backgroundColor = color
+    }
+    
+    func removeStatusBar() {
+        let tag = 123454321
+        if let taggedView = view.viewWithTag(tag) {
+            taggedView.removeFromSuperview()
         }
     }
 }

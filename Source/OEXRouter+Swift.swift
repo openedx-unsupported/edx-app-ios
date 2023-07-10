@@ -138,7 +138,7 @@ extension OEXRouter {
     
     func showContainerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: ((UIViewController) -> Void)? = nil) {
         if environment.config.isNewComponentNavigationEnabled {
-            let contentController = NewCourseContentController(environment: environment, blockID: blockID, parentID: parentID, courseID: courseID)
+            let contentController = NewCourseContentController(environment: environment, blockID: blockID, parentID: parentID, courseID: courseID, courseOutlineMode: mode)
             controller.navigationController?.pushViewController(contentController, animated: true, completion: completion)
         } else {
             showContainerForBlockWithIDOld(blockID: blockID, type: type, parentID: parentID, courseID: courseID, fromController: controller, forMode: mode, completion: completion)

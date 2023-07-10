@@ -63,12 +63,14 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     private let parentID: CourseBlockID?
     private let courseID: CourseBlockID
     private let courseQuerier: CourseOutlineQuerier
+    private let courseOutlineMode: CourseOutlineMode
     
-    init(environment: Environment, blockID: CourseBlockID?, resumeCourseBlockID: CourseBlockID? = nil, parentID: CourseBlockID? = nil, courseID: CourseBlockID) {
+    init(environment: Environment, blockID: CourseBlockID?, resumeCourseBlockID: CourseBlockID? = nil, parentID: CourseBlockID? = nil, courseID: CourseBlockID, courseOutlineMode: CourseOutlineMode? = .full) {
         self.environment = environment
         self.blockID = blockID
         self.parentID = parentID
         self.courseID = courseID
+        self.courseOutlineMode = courseOutlineMode ?? .full
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         super.init(nibName: nil, bundle: nil)
         
@@ -77,7 +79,6 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
         } else {
             findCourseBlockToShow()
         }
-        setStatusBar(color: environment.styles.primaryLightColor())
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -99,6 +100,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setStatusBar(color: environment.styles.primaryLightColor())
         addSubViews()
         setupComponentView()
         setupCompletedBlocksView()
@@ -150,7 +152,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
               let parent = courseQuerier.parentOfBlockWith(id: currentBlock.blockID).firstSuccess().value
         else { return }
         
-        let courseContentViewController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: parent.blockID, initialChildID: currentBlock.blockID, forMode: .full)
+        let courseContentViewController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: parent.blockID, initialChildID: currentBlock.blockID, forMode: courseOutlineMode)
         courseContentViewController.navigationDelegate = self
         
         let childViewController = ForwardingNavigationController(rootViewController: courseContentViewController)
@@ -170,20 +172,15 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     
     private func setupCompletedBlocksView() {
         guard let block = currentBlock,
-              let section = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value
+            let section = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value,
+            let sectionChildren = courseQuerier.childrenOfBlockWithID(blockID: section.blockID, forMode: courseOutlineMode).value
         else { return }
         
-        let childBlocks: [CourseBlock] = section.children
-            .compactMap { item -> CourseBlock? in
-                return courseQuerier.blockWithID(id: item).firstSuccess().value
-            }
-            .flatMap { item -> [CourseBlockID] in
-                return item.children
-            }
-            .compactMap { item -> CourseBlock? in
-                return courseQuerier.blockWithID(id: item).firstSuccess().value
-            }
-        
+        let childBlocks: [CourseBlock] = sectionChildren.children.compactMap { item in
+            courseQuerier.childrenOfBlockWithID(blockID: item.blockID, forMode: courseOutlineMode)
+                .firstSuccess().value?.children ?? []
+        }.flatMap { $0 }
+
         let childViews: [UIView] = childBlocks.map { block -> UIView in
             let view = UIView()
             view.backgroundColor = block.isCompleted ? environment.styles.accentBColor() : environment.styles.neutralDark()
@@ -200,15 +197,13 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
             .firstSuccess().value?.children.compactMap({ $0 }).filter({ $0.type == .Unit })
         else { return }
         
-        guard let firstInCompleteBlock = childBlocks.flatMap({ $0.children })
-            .compactMap({ courseQuerier.blockWithID(id: $0).value })
-            .first(where: { !$0.isCompleted })
-        else {
-            currentBlock = courseQuerier.childrenOfBlockWithID(blockID: childBlocks.last?.blockID, forMode: .full).firstSuccess().value?.children.last
-            return
+        let blocks: [CourseBlock] = childBlocks.flatMap { block in
+            courseQuerier.childrenOfBlockWithID(blockID: block.blockID, forMode: courseOutlineMode).value?.children.compactMap { child in
+                courseQuerier.blockWithID(id: child.blockID).value
+            } ?? []
         }
-        
-        currentBlock = firstInCompleteBlock
+
+        currentBlock = blocks.first(where: { !$0.isCompleted }) ?? blocks.last
     }
     
     private func updateView() {
@@ -224,7 +219,12 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        setStatusBar(color: environment.styles.primaryLightColor())
+        coordinator.animate { [weak self] _ in
+            guard let weakSelf = self else { return }
+            DispatchQueue.main.async {
+                weakSelf.setStatusBar(color: weakSelf.environment.styles.primaryLightColor())
+            }
+        }
     }
 }
 
@@ -234,6 +234,24 @@ extension NewCourseContentController: CourseContentPageViewControllerDelegate {
         currentBlock = block
         if var controller = controller.viewControllers?.first as? ScrollableDelegateProvider {
             controller.scrollableDelegate = self
+        }
+        
+        // header animation is overlapping with UIPageController animation which results in crash
+        // calling the header animation after a delay of 1 sec to overcome the issue
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.updateHeaderState(with: controller)
+        }
+    }
+    
+    private func updateHeaderState(with controller: CourseContentPageViewController) {
+        if let controller = controller.viewControllers?.first as? VideoBlockViewController {
+            if currentOrientation() != .portrait {
+                collapseHeaderView()
+            } else if headerViewState == .collapsed {
+                collapseHeaderView()
+            } else if headerViewState == .expanded {
+                expandHeaderView()
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ protocol VideoPlayerDelegate: AnyObject {
 private var playbackLikelyToKeepUpContext = 0
 class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManagerDelegate {
     
-    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
+    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXConfigProvider
     
     public let environment : Environment
     fileprivate var controls: VideoPlayerControls?
@@ -684,9 +684,13 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         if !isVisible { return }
         isFullScreen = fullscreen
+        
         if fullscreen {
-            
-            fullScreenContainerView = UIApplication.shared.window?.rootViewController?.view ?? UIApplication.shared.windows[0].rootViewController?.view
+            if environment.config.isNewComponentNavigationEnabled {
+                fullScreenContainerView = parent?.findParentViewController(type: NewCourseContentController.self)?.view ?? UIApplication.shared.windows.first?.rootViewController?.view
+            } else {
+                fullScreenContainerView = UIApplication.shared.window?.rootViewController?.view ?? UIApplication.shared.windows.first?.rootViewController?.view
+            }
             
             if movieBackgroundView.frame == .zero {
                 movieBackgroundView.frame = movieBackgroundFrame
