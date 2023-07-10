@@ -44,7 +44,6 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     
     private var courseContentViewController: CourseContentPageViewController?
     private var headerViewState: HeaderViewState = .expanded
-    private var statusBarTag = 999999
     
     private var currentBlock: CourseBlock? {
         willSet {
