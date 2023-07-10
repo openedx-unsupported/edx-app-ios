@@ -26,7 +26,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
                 }
             }
 
-            waitForExpectations()
+            OEXWaitForExpectations()
             removeable.remove()
         }
 

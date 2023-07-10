@@ -41,7 +41,7 @@ class VideoPlayerTests: XCTestCase {
                 }
                 expectations.fulfill()
             }
-            waitForExpectations()
+            OEXWaitForExpectations()
             removable.remove()
             stopPlayer()
     }

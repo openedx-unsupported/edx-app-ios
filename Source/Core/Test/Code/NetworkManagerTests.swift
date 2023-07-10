@@ -67,7 +67,7 @@ class NetworkManagerTests: XCTestCase {
         let sampleJSON = JSON([
             "Some field" : true,
             "Some other field" : ["a", "b"]
-            ])
+            ] as [String : Any])
         let apiRequest = NetworkRequest(
             method: HTTPMethod.POST,
             path: "/something",
@@ -146,7 +146,7 @@ class NetworkManagerTests: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         XCTAssertEqual(manager.tokenStatus, AccessTokenStatus.expired)
     }
@@ -172,7 +172,7 @@ class NetworkManagerTests: XCTestCase {
         manager.responseCache.setCacheResponse(response, withData: originalData, forRequest: urlRequest as URLRequest, completion: {
             cacheExpectation.fulfill()
         })
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         // make a request
         let networkData = "network".data(using: String.Encoding.utf8)!
@@ -196,7 +196,7 @@ class NetworkManagerTests: XCTestCase {
                     loadedExpectation.fulfill()
                 }
             })
-            waitForExpectations()
+            OEXWaitForExpectations()
         }
         
         XCTAssertEqual(results.value, [originalData, networkData])
@@ -218,7 +218,7 @@ class NetworkManagerTests: XCTestCase {
             stream.listen(owner) {_ in
                 loadedExpectation.fulfill()
             }
-            waitForExpectations()
+            OEXWaitForExpectations()
         }
         
         XCTAssertTrue(cache.isEmpty, "Requests with no response shouldn't enter cache")
@@ -233,7 +233,7 @@ class NetworkManagerTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         XCTAssertFalse(stream.active)
         XCTAssertNotNil(stream.error)
     }
@@ -256,7 +256,7 @@ class NetworkManagerTests: XCTestCase {
         stream.listenOnce(self) {_ in
             loadedExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         let cacheExpectation = expectation(description: "Cache Load finished")
         manager.responseCache.fetchCacheEntryWithRequest(urlRequest) {
@@ -265,7 +265,7 @@ class NetworkManagerTests: XCTestCase {
             XCTAssertEqual($0!.headers, headers)
             cacheExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
     
     func testAuthenticationActionAuthenticateSuccess() {
@@ -309,7 +309,7 @@ class NetworkManagerTests: XCTestCase {
             XCTAssertEqual(response.data?.rawString(), "{\n  \"I Love\" : \"Cake\"\n}")
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
     
     func testAuthenticationActionAuthenticateFailure() {
@@ -340,7 +340,7 @@ class NetworkManagerTests: XCTestCase {
             XCTAssertEqual(response.data, nil)
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
     
     func simpleStubResponseBuilder(_ statusCode: Int32, data: String) -> OHHTTPStubsResponse{

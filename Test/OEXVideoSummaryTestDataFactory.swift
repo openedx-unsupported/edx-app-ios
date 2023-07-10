@@ -48,7 +48,7 @@ class OEXVideoSummaryTestDataFactory {
                 "duration" : 100,
                 "encoded_videos": encodings ?? [:],
                 "transcripts": ["en": TranscriptDataFactory.validTranscriptString]
-            ]
+            ] as [String : Any]
         ]
         return OEXVideoSummary(dictionary: info)
     }
@@ -56,12 +56,12 @@ class OEXVideoSummaryTestDataFactory {
     // This method create the mock video objects
     static func localCourseVideos(_ videoID : String) -> [OEXHelperVideoDownload]{
         
-        let video1 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
-        let video2 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
-        let video3 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot2", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
-        let video4 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
+        let video1 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"] as [String : Any]])
+        let video2 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"] as [String : Any]])
+        let video3 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot2", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"] as [String : Any]])
+        let video4 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"] as [String : Any]])
         
-        let video5 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"], "mobile_high":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
+        let video5 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"] as [String : Any], "mobile_high":["file_size":3700000, "url":"https://www.example.com/video.mp4"] as [String : Any]] as [String : Any])
         
         return OEXVideoSummaryTestDataFactory.videos(with: [video1, video2, video3, video4, video5])
     }

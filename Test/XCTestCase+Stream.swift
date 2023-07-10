@@ -16,6 +16,6 @@ extension XCTestCase {
             verifier?($0)
             expectations.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
 }

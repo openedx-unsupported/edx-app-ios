@@ -63,7 +63,7 @@ class PersistentResponseCacheTests: XCTestCase {
         cache.setCacheResponse(response, withData: data, forRequest: request) {
             storeExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         let loadExpectation = expectation(description: "Cache loaded")
         cache.fetchCacheEntryWithRequest(request) {entry in
@@ -72,7 +72,7 @@ class PersistentResponseCacheTests: XCTestCase {
             XCTAssertEqual(entry!.statusCode, statusCode)
             XCTAssertEqual(entry!.headers, headers)
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
     
     func testDifferentMethods() {
@@ -87,7 +87,7 @@ class PersistentResponseCacheTests: XCTestCase {
         cache.setCacheResponse(response, withData: getData, forRequest: getRequest) {
             getStoreExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         let postStoreExpectation = expectation(description: "Cache stored POST")
         let postData = "test data".data(using: String.Encoding.utf8)!
@@ -97,21 +97,21 @@ class PersistentResponseCacheTests: XCTestCase {
         cache.setCacheResponse(response, withData: postData, forRequest: postRequest as URLRequest) {
             postStoreExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         let getLoadExpectation = expectation(description: "Cache loaded GET")
         cache.fetchCacheEntryWithRequest(getRequest) {
             XCTAssertEqual($0!.data!, getData)
             getLoadExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         let postLoadExpectation = expectation(description: "Cache loaded POST")
         cache.fetchCacheEntryWithRequest(postRequest as URLRequest) {
             XCTAssertEqual($0!.data!, postData)
             postLoadExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
     
     func testMiss() {
@@ -123,7 +123,7 @@ class PersistentResponseCacheTests: XCTestCase {
         cache.setCacheResponse(response, withData: nil, forRequest: request) {
             storeExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
         
         let loadExpectation = expectation(description: "Cache loaded")
         let otherRequest = URLRequest(url: URL(string : "http://edx.org")!)
@@ -131,7 +131,7 @@ class PersistentResponseCacheTests: XCTestCase {
             XCTAssertNil($0)
             loadExpectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
 
 
@@ -177,7 +177,7 @@ class PersistentResponseCacheTests: XCTestCase {
             XCTAssertNil(entry)
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
 
     // Since we use NSCoding to save cache entries, it's not super robust against
@@ -212,7 +212,7 @@ class PersistentResponseCacheTests: XCTestCase {
             XCTAssertEqual(entry?.data, "test".data(using: String.Encoding.utf8))
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
 
 }

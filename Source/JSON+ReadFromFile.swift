@@ -22,7 +22,7 @@ public extension JSON {
             let data = try? NSData(contentsOf: url, options: NSData.ReadingOptions.mappedIfSafe) else
         {
             assertionFailure("Couldn't load data from file")
-            self.init([:])
+            self.init([:] as [String : Any])
             return
         }
         self.init(data:data as Data)
@@ -34,7 +34,7 @@ public extension JSON {
             let data = NSDictionary(contentsOf: url) else
         {
             assertionFailure("Couldn't load data from file")
-            self.init([:])
+            self.init([:] as [String : Any])
             return
         }
         self.init(data)

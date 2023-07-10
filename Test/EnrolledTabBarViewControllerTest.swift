@@ -14,7 +14,7 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
     
     func testsnapshotEnrolledTabBarView() {
         let configDict = [
-            "DISCOVERY": ["TYPE": "webview", "WEBVIEW":["BASE_URL": "https:www.testurl.com"]],
+            "DISCOVERY": ["TYPE": "webview", "WEBVIEW":["BASE_URL": "https:www.testurl.com"]] as [String : Any],
             "PROGRAM": ["ENABLED": true, "PROGRAM_URL": "https:www.testurl.com"]
         ]
         let config = OEXConfig(dictionary: configDict)
@@ -36,9 +36,9 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
     
     func testsnapshotEnrolledTabBarViewDiscovery() {
         let configDict = [
-            "DISCOVERY": ["TYPE": "webview", "WEBVIEW":["BASE_URL": "https:www.testurl.com"]],
-            "PROGRAM": ["ENABLED": true, "PROGRAM_URL": "https:www.testurl.com"]
-        ]
+            "DISCOVERY": ["TYPE": "webview", "WEBVIEW":["BASE_URL": "https:www.testurl.com"]] as [String : Any],
+            "PROGRAM": ["ENABLED": true, "PROGRAM_URL": "https:www.testurl.com"] as [String : Any]
+        ] as [String : Any]
         let config = OEXConfig(dictionary: configDict)
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
         let environment = TestRouterEnvironment(config: config, interface: nil).logInTestUser()
@@ -58,7 +58,7 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
     
     func testsnapshotEnrolledTabBarViewProgramDisable() {
         let configDict = [
-            "DISCOVERY": ["TYPE": "webview", "WEBVIEW":["BASE_URL": "https:www.testurl.com"]]
+            "DISCOVERY": ["TYPE": "webview", "WEBVIEW":["BASE_URL": "https:www.testurl.com"]] as [String : Any]
         ]
         let config = OEXConfig(dictionary: configDict)
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
@@ -96,7 +96,7 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
     
     func testsnapshotEnrolledTabBarViewDiscoveryDisable() {
         let configDict = [
-            "PROGRAM": ["ENABLED": true, "PROGRAM_URL": "https:www.testurl.com"]
+            "PROGRAM": ["ENABLED": true, "PROGRAM_URL": "https:www.testurl.com"] as [String : Any]
         ]
         let config = OEXConfig(dictionary: configDict)
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
@@ -116,7 +116,7 @@ class EnrolledTabBarViewControllerTest: SnapshotTestCase {
     
     func testsnapshotEnrolledTabBarProgramsView() {
         let configDict = [
-            "PROGRAM": ["ENABLED": true, "PROGRAM_URL": "https:www.testurl.com"]
+            "PROGRAM": ["ENABLED": true, "PROGRAM_URL": "https:www.testurl.com"] as [String : Any]
         ]
         let config = OEXConfig(dictionary: configDict)
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]

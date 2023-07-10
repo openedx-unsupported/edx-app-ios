@@ -45,7 +45,7 @@ public extension OEXCourse {
             courseDictionary["course_handouts"] = "http://www.url.com"
         }
         
-        var unparsedMediaInfos : [String:Any] = [:]
+        var unparsedMediaInfos : [String : Any] = [:]
         for (name, info) in mediaInfo {
             unparsedMediaInfos[name] = info.dictionary
         }

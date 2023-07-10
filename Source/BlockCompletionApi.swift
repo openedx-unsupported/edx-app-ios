@@ -23,7 +23,7 @@ public struct BlockCompletionApi {
             "username": username,
             "course_key": courseID,
             "blocks" : [ blockID: 1.0]
-            ]))
+            ] as [String : Any]))
 
         return NetworkRequest(
             method: .POST,

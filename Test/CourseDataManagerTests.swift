@@ -21,7 +21,7 @@ class CourseDataManagerTests: XCTestCase {
             XCTAssertEqual(rootBlock.value!.blockID, rootID, file : file, line : line)
             expectation.fulfill()
         }
-        waitForExpectations()
+        OEXWaitForExpectations()
     }
     
     func addInterceptorForOutline(_ networkManager: MockNetworkManager, outline : CourseOutline) {

@@ -59,7 +59,7 @@ class RegistrationViewControllerTests: SnapshotTestCase {
     }
 
     func testSnapshotContent() {
-        let config = OEXConfig(dictionary:["FACEBOOK": [ "ENABLED": true ], "GOOGLE": ["ENABLED": true, "GOOGLE_PLUS_KEY": "FAKE"],"MICROSOFT": ["ENABLED": true, "GOOGLE_PLUS_KEY": "FAKE"], "PLATFORM_NAME" : "App Test"])
+        let config = OEXConfig(dictionary:["FACEBOOK": [ "ENABLED": true ], "GOOGLE": ["ENABLED": true, "GOOGLE_PLUS_KEY": "FAKE"] as [String : Any],"MICROSOFT": ["ENABLED": true, "GOOGLE_PLUS_KEY": "FAKE"] as [String : Any], "PLATFORM_NAME" : "App Test"] as [String : Any])
         let environment = TestRouterEnvironment(config: config, interface: nil)
         let json = JSON(resourceNamed: "RegistrationForm")
         environment.mockNetworkManager.interceptWhenMatching({(_: NetworkRequest<OEXRegistrationDescription>) in true }) {

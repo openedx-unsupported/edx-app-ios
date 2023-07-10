@@ -53,7 +53,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
                     }
                 }
             }
-            self.waitForExpectations()
+            self.OEXWaitForExpectations()
         }
     }
     
@@ -70,7 +70,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
             XCTAssertGreaterThan(full.children.count, filtered.children.count)
             expectation.fulfill()
         }
-        self.waitForExpectations()
+        self.OEXWaitForExpectations()
     }
     
     func testScreenAnalyticsRoot() {
