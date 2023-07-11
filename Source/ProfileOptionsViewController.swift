@@ -296,8 +296,8 @@ extension ProfileOptionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch options[indexPath.row] {
         case .personalInformation:
-            guard environment.config.profilesEnabled, let username = environment.session.currentUser?.username else { return }
-            environment.router?.showProfileForUsername(controller: self, username: username, editable: true)
+            guard environment.config.profilesEnabled, let _ = environment.session.currentUser?.username else { return }
+            environment.router?.showProfileEditorFromController(controller: self)
             environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.PersonalInformationClicked, name: AnalyticsEventName.PersonalInformationClicked)
         default:
             return
