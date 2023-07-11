@@ -244,7 +244,7 @@ extension NewCourseContentController: CourseContentPageViewControllerDelegate {
     }
     
     private func updateHeaderState(with controller: CourseContentPageViewController) {
-        if let controller = controller.viewControllers?.first as? VideoBlockViewController {
+        if let _ = controller.viewControllers?.first as? VideoBlockViewController {
             if currentOrientation() != .portrait {
                 collapseHeaderView()
             } else if headerViewState == .collapsed {
