@@ -9,6 +9,7 @@
 import Foundation
 
 private let cellId = "CustomCell"
+let captionLanguageNone = "none"
 
 public typealias RowType = (title: String, value: Any)
 public struct OEXVideoPlayerSetting {
@@ -66,20 +67,23 @@ class VideoPlayerSettings : NSObject {
                         rows.append(item)
                     }
                 }
+                
+                if !rows.isEmpty {
+                    rows.append(RowType(title: Strings.none, value: captionLanguageNone))
+                }
     
                 let cc = OEXVideoPlayerSetting(title: Strings.videoSettingClosedCaptions, rows: rows, isSelected: { (row) -> Bool in
                     var selected = false
-                    if let selectedLanguage:String = OEXInterface.getCCSelectedLanguage() {
-                        let lang = rows[row].value as! String
-                        selected = selectedLanguage == lang
+                    
+                    var selectedLanguage = OEXInterface.getCCSelectedLanguage() ?? captionLanguageNone
+                    if selectedLanguage.isEmpty {
+                        selectedLanguage = captionLanguageNone
                     }
+                    let lang = rows[row].value as? String ?? captionLanguageNone
+                    selected = selectedLanguage == lang
                     return selected
                 }) {[weak self] value in
-                    var language : String = value as! String
-                    if language == OEXInterface.getCCSelectedLanguage() && language != "" {
-                        language = ""
-                    }
-                    self?.delegate?.setCaption(language: language)
+                    self?.delegate?.setCaption(language: value as? String ?? "")
                 }
                 return [cc, speeds]
             } else {
