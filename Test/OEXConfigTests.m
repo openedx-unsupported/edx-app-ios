@@ -16,7 +16,6 @@
 #import "OEXGoogleConfig.h"
 #import "OEXNewRelicConfig.h"
 #import "OEXSegmentConfig.h"
-#import "OEXZeroRatingConfig.h"
 
 @interface OEXConfigTests : XCTestCase
 @end
@@ -138,35 +137,6 @@
     OEXSegmentConfig *segmentConfig=[config segmentConfig];
     XCTAssert(segmentConfig.enabled,@"Segment config should be enabled");
     XCTAssertNotNil(segmentConfig.apiKey,@"Segment config api key should not be nil");
-}
-
-
-//Zero Rating Config tests
-
--(void)testZeroRatingConfig{
-    NSDictionary *configDictionary=@{};
-    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXZeroRatingConfig *zeroRatingConfig=[config zeroRatingConfig];
-    XCTAssert(!zeroRatingConfig.enabled,@"Zero_Rating config should not be enabled");
-    XCTAssert([zeroRatingConfig.carriers count]==0,@"Carriers array should be empty");
-}
-
--(void)testZeroRatingEmptyConfig{
-    NSDictionary *configDictionary=@{@"ZERO_RATING":@{}};
-    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXZeroRatingConfig *zeroRatingConfig=[config zeroRatingConfig];
-    XCTAssert(!zeroRatingConfig.enabled,@"Zero_Rating config should not be enabled");
-    XCTAssert([zeroRatingConfig.carriers count]==0,@"Carriers array should be empty");
-}
-
--(void)testZeroRatingConfigEnabled{
-    NSDictionary *configDictionary=@{@"ZERO_RATING":@{@"ENABLED":@YES ,
-                                                  @"CARRIERS":@[@"1234",
-                                                                @"3242"]} };
-    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXZeroRatingConfig *zeroRatingConfig=[config zeroRatingConfig];
-    XCTAssert(zeroRatingConfig.enabled,@" Zero_Rating config should be enabled");
-    XCTAssert([zeroRatingConfig.carriers count]==2,@"Carriers array should not be empty");
 }
 
 @end

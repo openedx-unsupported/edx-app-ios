@@ -649,9 +649,7 @@
 		B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */; };
 		B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */; };
 		B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E11A9A497A00DD603A /* OEXSegmentConfig.m */; };
-		B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */; };
 		B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E91A9B182900DD603A /* OEXConfigTests.m */; };
-		B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285EC1A9B429200DD603A /* OEXNetworkUtility.m */; };
 		B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */; };
 		B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E41A9490E9000F44E8 /* OEXLoginSplashViewController.m */; };
 		B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */; };
@@ -1719,11 +1717,7 @@
 		B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNewRelicConfig.m; sourceTree = "<group>"; };
 		B4B285E01A9A497A00DD603A /* OEXSegmentConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSegmentConfig.h; sourceTree = "<group>"; };
 		B4B285E11A9A497A00DD603A /* OEXSegmentConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentConfig.m; sourceTree = "<group>"; };
-		B4B285E61A9A662600DD603A /* OEXZeroRatingConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXZeroRatingConfig.h; sourceTree = "<group>"; };
-		B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXZeroRatingConfig.m; sourceTree = "<group>"; };
 		B4B285E91A9B182900DD603A /* OEXConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXConfigTests.m; sourceTree = "<group>"; };
-		B4B285EB1A9B429200DD603A /* OEXNetworkUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkUtility.h; sourceTree = "<group>"; };
-		B4B285EC1A9B429200DD603A /* OEXNetworkUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNetworkUtility.m; sourceTree = "<group>"; };
 		B4B6C80B1A9C7AEA004F0FAF /* OEXPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPlaceholderTextView.h; sourceTree = "<group>"; };
 		B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPlaceholderTextView.m; sourceTree = "<group>"; };
 		B4B6D5E31A9490E9000F44E8 /* OEXLoginSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLoginSplashViewController.h; sourceTree = "<group>"; };
@@ -3403,8 +3397,6 @@
 				B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */,
 				B4B285E01A9A497A00DD603A /* OEXSegmentConfig.h */,
 				B4B285E11A9A497A00DD603A /* OEXSegmentConfig.m */,
-				B4B285E61A9A662600DD603A /* OEXZeroRatingConfig.h */,
-				B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */,
 				1A8172521C3C21DE007262AA /* TwitterConfig.swift */,
 				E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */,
 				E06292741F7BAFFF006D5EFC /* BranchConfig.swift */,
@@ -3999,8 +3991,6 @@
 				BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */,
 				9C9B7F711A8CC80E00A857B2 /* OEXURLSessionManager.h */,
 				9C9B7F721A8CC80E00A857B2 /* OEXURLSessionManager.m */,
-				B4B285EB1A9B429200DD603A /* OEXNetworkUtility.h */,
-				B4B285EC1A9B429200DD603A /* OEXNetworkUtility.m */,
 				9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */,
 				7C2DD54E1D4A7901006148E0 /* UserPreference.swift */,
 				7C2DD5501D4A790F006148E0 /* UserPreferenceAPI.swift */,
@@ -4930,7 +4920,6 @@
 				223972E11FE92BB500B2BBEC /* EnrolledTabBarViewController.swift in Sources */,
 				B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */,
 				77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */,
-				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */,
 				BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */,
 				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
@@ -4994,7 +4983,6 @@
 				E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */,
 				9E882B6A1BBA9825007347A2 /* DiscussionTopicCell.swift in Sources */,
 				B7CCC72C209B16B100A66923 /* ConstraintView.swift in Sources */,
-				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
 				5FFB73C12849F10D000523BF /* DropDownCell.swift in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,

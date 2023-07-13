@@ -26,7 +26,6 @@
 #import "OEXGoogleSocial.h"
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
-#import "OEXNetworkUtility.h"
 #import "OEXSession.h"
 #import "OEXUserDetails.h"
 #import "OEXUserLicenseAgreementViewController.h"
@@ -90,11 +89,11 @@
     [self.view setUserInteractionEnabled:NO];
 }
 - (BOOL)isFacebookEnabled {
-    return ![OEXNetworkUtility isOnZeroRatedNetwork] && [self.environment.config facebookConfig].enabled;
+    return [self.environment.config facebookConfig].enabled;
 }
 
 - (BOOL)isGoogleEnabled {
-    return ![OEXNetworkUtility isOnZeroRatedNetwork] && [self.environment.config googleConfig].enabled;
+    return [self.environment.config googleConfig].enabled;
 }
 
 - (BOOL)isMicrosoftEnabled {
