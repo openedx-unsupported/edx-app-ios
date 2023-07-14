@@ -201,6 +201,7 @@ class CoursesContainerViewController: UICollectionViewController {
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: EnrolledCoursesFooterView.identifier, for: indexPath) as! EnrolledCoursesFooterView
             footerView.findCoursesAction = {[weak self] in
                 self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
+                self?.environment.analytics.trackUserFindsCourses(self?.courses.count ?? 0)
             }
             return footerView
         }
