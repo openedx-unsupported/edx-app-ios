@@ -132,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)trackUserDoesNotHaveAccount;
 
-- (void)trackUserFindsCourses;
+- (void)trackUserFindsCourses:(NSInteger) enrolledCounses;
 
 //Discussion search screen event
 - (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query;
