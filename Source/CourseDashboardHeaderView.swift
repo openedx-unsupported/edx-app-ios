@@ -361,7 +361,7 @@ class CourseDashboardHeaderView: UIView {
             make.top.equalTo(collapse ? closeButton.snp.bottom : bottomContainer.snp.bottom).offset(offSet)
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
-            make.height.equalTo(collapse ? StandardVerticalMargin * 5.5 : showTabbar ? StandardVerticalMargin * 4.8 : 0)
+            make.height.equalTo(collapse || showTabbar ? StandardVerticalMargin * 4.8 : 0)
             if !collapse {
                 make.bottom.equalTo(containerView)
             }

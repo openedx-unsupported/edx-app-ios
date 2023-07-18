@@ -583,7 +583,7 @@ extension NewCourseDashboardViewController {
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.equalTo(StandardVerticalMargin * 12)
+            make.height.equalTo(StandardVerticalMargin * 11)
         }
         
         UIView.animate(withDuration: 0.3) { [weak self] in

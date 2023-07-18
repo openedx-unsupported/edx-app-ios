@@ -77,7 +77,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         tableView.cellLayoutMarginsFollowReadableWidth = false
         
         searchBar.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
-        
+        searchBar.searchBarStyle = .minimal
         searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
             if let owner = self {
                 owner.environment.router?.showPostsFromController(controller: owner, courseID: owner.courseID, queryString : text)

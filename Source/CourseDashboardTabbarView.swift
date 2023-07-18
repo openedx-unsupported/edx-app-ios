@@ -29,12 +29,19 @@ class CourseDashboardTabbarView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.accessibilityIdentifier = "CourseDashboardTabbarView:collection-view"
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = environment.styles.neutralWhiteT()
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CourseDashboardTabbarViewCell.self, forCellWithReuseIdentifier: CourseDashboardTabbarViewCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
+    }()
+    
+    private lazy var bottomBar: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "CourseDashboardTabbarView:bottom-bar-view"
+        view.backgroundColor = environment.styles.neutralLight()
+        return view
     }()
     
     private var shouldShowDiscussions: Bool {
@@ -67,7 +74,17 @@ class CourseDashboardTabbarView: UIView {
     }
     
     private func addSubViews() {
+        backgroundColor = environment.styles.neutralWhiteT()
+        
+        addSubview(bottomBar)
         addSubview(collectionView)
+        
+        bottomBar.snp.makeConstraints { make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(self)
+            make.height.equalTo(2)
+        }
         
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(self)
@@ -176,6 +193,7 @@ class CourseDashboardTabbarViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         accessibilityIdentifier = "CourseDashboardTabbarViewCell"
+        backgroundColor = .clear
         addSubviews()
         addConstrains()
     }
