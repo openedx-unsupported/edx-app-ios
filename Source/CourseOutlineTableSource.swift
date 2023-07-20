@@ -409,9 +409,9 @@ extension CourseOutlineTableController {
                 if index > firstIncompleteSection {
                     collapsedSections.insert(index)
                 }
-            } else {
-                let completedChildren = group.children.filter { $0.isCompleted }
-                if collapsedSections.isEmpty && !completedChildren.isEmpty && !collapsedSections.contains(index) {
+            }
+            else {
+                if allBlocksCompleted(for: group) && !collapsedSections.contains(index) {
                     collapsedSections.insert(index)
                 }
             }
