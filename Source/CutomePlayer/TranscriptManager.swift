@@ -34,7 +34,17 @@ class TranscriptManager: NSObject {
     
     private var captionURL: String {
         var url: String = ""
-        if let ccSelectedLanguage = OEXInterface.getCCSelectedLanguage(), let transcriptURL = video.summary?.transcripts?[ccSelectedLanguage] as? String, !ccSelectedLanguage.isEmpty, !transcriptURL.isEmpty{
+        let devicelangue = Locale.current.languageCode ?? ""
+
+        if let ccSelectedLanguage = OEXInterface.getCCSelectedLanguage(), let transcriptURL = video.summary?.transcripts?[ccSelectedLanguage] as? String, !ccSelectedLanguage.isEmpty, !transcriptURL.isEmpty, ccSelectedLanguage != captionLanguageNone {
+            url = transcriptURL
+        }
+        else if let transcriptURL = video.summary?.transcripts?[devicelangue] as? String,!devicelangue.isEmpty, !transcriptURL.isEmpty {
+            // if no language is selected, give preference to device language
+            url = transcriptURL
+        }
+        else if let transcriptURL = video.summary?.transcripts?["en"] as? String, !transcriptURL.isEmpty {
+            // if no language is selected, and transcripts are not available for device langue, look for english
             url = transcriptURL
         }
         else if let transcriptURL = video.summary?.transcripts?.values.first as? String  {

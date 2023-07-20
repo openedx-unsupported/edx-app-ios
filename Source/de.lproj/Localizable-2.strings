@@ -43,3 +43,5 @@
 "MY_COURSES"="My courses";
 /*Title My programs*/
 "MY_PROGRAMS"="My programs";
+/* None option in the caption list to de select caption language*/
+"NONE"="None";
