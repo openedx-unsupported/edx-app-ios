@@ -278,8 +278,9 @@ class CoursesContainerViewController: UICollectionViewController, ScrollableDele
     }
     
     private func setupErrorView() {
-        view.subviews.forEach { $0.removeFromSuperview() }
+        collectionView.alpha = 0
         view.addSubview(errorView)
+        view.bringSubviewToFront(errorView)
         
         errorView.snp.makeConstraints { make in
             make.edges.equalTo(view)
@@ -294,6 +295,13 @@ class CoursesContainerViewController: UICollectionViewController, ScrollableDele
             if let URL = self?.environment.config.appUpgradeConfig.iOSAppStoreURL() as? URL, UIApplication.shared.canOpenURL(URL) {
                 UIApplication.shared.open(URL as URL, options: [:], completionHandler: nil)
             }
+        }
+    }
+    
+    func removeErrorView() {
+        if view.subviews.contains(errorView) {
+            errorView.removeFromSuperview()
+            collectionView.alpha = 1
         }
     }
 }
