@@ -156,7 +156,11 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showLoggedOutScreen {
-    [self showLoginScreenFromController:nil completion:nil];
+    __block OEXRouter *blockSelf = self;
+    [self showLoginScreenFromController:nil completion:^{
+        [blockSelf showSplash];
+        blockSelf.logistrationCompletion = nil;
+    }];
     
 }
 
