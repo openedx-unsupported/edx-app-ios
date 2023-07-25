@@ -45,6 +45,10 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     
     private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
     
+    private var statusbarColor: UIColor {
+        return environment.styles.primaryLightColor()
+    }
+    
     private var pacing: String {
         guard let course = course else { return "" }
         return course.isSelfPaced ? "self" : "instructor"
@@ -97,7 +101,6 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         addSubviews()
         loadCourseStream()
-        setStatusBar(color: environment.styles.primaryLightColor())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,8 +124,12 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         view.backgroundColor = environment.styles.neutralWhiteT()
         view.addSubview(contentView)
         contentView.snp.remakeConstraints { make in
-            make.edges.equalTo(safeEdges)
+            make.top.equalTo(view)
+            make.bottom.equalTo(safeBottom)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
         }
+        setStatusBar(inside: contentView, color: statusbarColor)
         loadStateController.setupInController(controller: self, contentView: contentView)
     }
     
@@ -134,7 +141,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         contentView.addSubview(headerView)
         
         headerView.snp.remakeConstraints { make in
-            make.top.equalTo(contentView)
+            make.top.equalTo(safeTop)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.height.lessThanOrEqualTo(StandardVerticalMargin * 100)
@@ -155,18 +162,25 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         }
     }
     
-    private func loadedCourse(withCourse course: OEXCourse) {
-        verifyAccess(forCourse: course)
-        setupConstraints()
-    }
-    
     private func resultLoaded(result: Result<UserCourseEnrollment>) {
         switch result {
         case .success(let enrollment):
-            course = enrollment.course
+            let course = enrollment.course
+            self.course = course
             prepareTabViewData()
-            loadedCourse(withCourse: enrollment.course)
+            
+            if let access = enrollment.course.courseware_access, !access.has_access {
+                let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
+                courseAccessHelper = CourseAccessHelper(course: course, enrollment: enrollment)
+                headerView.showTabbarView(show: false)
+            } else {
+                headerView.showTabbarView(show: true)
+            }
+            
+            loadStateController.state = .Loaded
             setupConstraints()
+            setupContentView()
+            
         case .failure(let error):
             if !courseStream.active {
                 loadStateController.state = .Loaded
@@ -175,21 +189,6 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
                 setupContentView()
             }
         }
-    }
-    
-    private func verifyAccess(forCourse course: OEXCourse) {
-        self.course = course
-        
-        if let access = course.courseware_access, !access.has_access {
-            loadStateController.state = .Loaded
-            let enrollment = environment.interface?.enrollmentForCourse(withID: courseID)
-            courseAccessHelper = CourseAccessHelper(course: course, enrollment: enrollment)
-            headerView.showTabbarView(show: false)
-        } else {
-            loadStateController.state = .Loaded
-            headerView.showTabbarView(show: true)
-        }
-        setupContentView()
     }
     
     private func setupContentView() {
@@ -262,7 +261,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         coordinator.animate { [weak self] _ in
             guard let weakSelf = self else { return }
             DispatchQueue.main.async {
-                weakSelf.setStatusBar(color: weakSelf.environment.styles.primaryLightColor())
+                weakSelf.setStatusBar(inside: weakSelf.contentView, color: weakSelf.statusbarColor)
             }
         }
         
@@ -546,7 +545,7 @@ extension NewCourseDashboardViewController: ScrollableDelegate {
 extension NewCourseDashboardViewController {
     private func expandHeaderView() {
         headerView.snp.remakeConstraints { make in
-            make.top.equalTo(contentView)
+            make.top.equalTo(safeTop)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.height.lessThanOrEqualTo(StandardVerticalMargin * 60)
@@ -570,7 +569,7 @@ extension NewCourseDashboardViewController {
         headerView.updateHeader(collapse: true)
         
         headerView.snp.remakeConstraints { make in
-            make.top.equalTo(contentView)
+            make.top.equalTo(safeTop)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.height.equalTo(StandardVerticalMargin * 11)
@@ -600,28 +599,27 @@ extension NewCourseDashboardViewController: NewCourseDashboardViewControllerDele
 }
 
 public extension UIViewController {
-    func setStatusBar(color: UIColor) {
+    func setStatusBar(inside contentView: UIView? = nil, color: UIColor) {
         let tag = 123454321
         let overView: UIView
-        if let taggedView = view.viewWithTag(tag) {
+        
+        if let contentView = contentView, let taggedView = contentView.viewWithTag(tag) {
             overView = taggedView
-        }
-        else {
+        } else if contentView != nil {
+            overView = UIView()
+            overView.tag = tag
+            contentView?.addSubview(overView)
+        } else if let taggedView = view.viewWithTag(tag) {
+            overView = taggedView
+        } else {
             overView = UIView()
             overView.tag = tag
             view.addSubview(overView)
         }
         
-        let height = UIApplication.shared.window?.windowScene?.windows.first?.safeAreaInsets.top ?? 0
-        let frame = UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
+        let height = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
+        let frame = UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
         overView.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
         overView.backgroundColor = color
-    }
-    
-    func removeStatusBar() {
-        let tag = 123454321
-        if let taggedView = view.viewWithTag(tag) {
-            taggedView.removeFromSuperview()
-        }
     }
 }
