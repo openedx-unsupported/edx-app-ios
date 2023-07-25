@@ -108,16 +108,6 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseDashboard, courseID: courseID, value: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if headerViewState == .collapsed {
-            collapseHeaderView()
-        } else if headerViewState == .expanded {
-            expandHeaderView()
-        }
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
