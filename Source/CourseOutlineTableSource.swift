@@ -759,17 +759,16 @@ extension CourseOutlineTableController: VideoDownloadQualityDelegate {
 
 extension CourseOutlineTableController: BlockCompletionDelegate {
     func didCompletionChanged(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode) {
-        
         if mode != courseOutlineMode { return }
         
         guard let index = groups.firstIndex(where: { return $0.block.blockID == blockGroup.block.blockID }) else { return }
         
-        if tableView.isValidSection(with: index) {
-            if mode == .full {
-                groups[index] = blockGroup
-            }
-            tableView.reloadSections([index], with: .none)
+        if mode == .full {
+            groups[index] = blockGroup
         }
+        collapsedSections.removeAll()
+        hasAddedToCollapsedSections = false
+        setGroups(groups)
     }
 }
 
