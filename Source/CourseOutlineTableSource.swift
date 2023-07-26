@@ -769,19 +769,22 @@ extension CourseOutlineTableController: BlockCompletionDelegate {
         
         if let index = groups.firstIndex(where: { $0.block.blockID == blockGroup.block.blockID }) {
             groups[index] = blockGroup
+            collapsedSections.removeAll()
+            hasAddedToCollapsedSections = false
+            setGroups(groups)
         } else {
-            if let index = groups.firstIndex(where: { $0.block.blockID == blockGroup.block.blockID }),
-               let child = courseQuerier.childrenOfBlockWithID(blockID: groups[index].block.blockID, forMode: .full).value,
-               let indexOfBlock = child.children.firstIndex(where: { $0.blockID == blockGroup.block.blockID }) {
-                var updatedChild = child
-                updatedChild.children[indexOfBlock] = blockGroup.block
-                groups[index] = updatedChild
+            for (index, group) in groups.enumerated() {
+                guard var child = courseQuerier.childrenOfBlockWithID(blockID: group.block.blockID, forMode: .full).value else { continue }
+                if let indexOfBlock = child.children.firstIndex(where: { $0.blockID == blockGroup.block.blockID }) {
+                    child.children[indexOfBlock] = blockGroup.block
+                    groups[index] = child
+                    collapsedSections.removeAll()
+                    hasAddedToCollapsedSections = false
+                    setGroups(groups)
+                    break
+                }
             }
         }
-        
-        collapsedSections.removeAll()
-        hasAddedToCollapsedSections = false
-        setGroups(groups)
     }
 }
 
