@@ -400,6 +400,12 @@ extension CourseOutlineTableController {
         for (index, group) in groups.enumerated() {
             let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
             courseQuerier.add(observer: observer)
+            if let blocks = courseQuerier.childrenOfBlockWithID(blockID: group.block.blockID, forMode: .full).value {
+                blocks.children.forEach { block in
+                    let observer = BlockCompletionObserver(controller: self, blockID: block.blockID, mode: courseOutlineMode, delegate: self)
+                    courseQuerier.add(observer: observer)
+                }
+            }
             
             if firstIncompleteSection == nil && !allBlocksCompleted(for: group) && !hasAddedToCollapsedSections {
                 firstIncompleteSection = index
@@ -759,13 +765,20 @@ extension CourseOutlineTableController: VideoDownloadQualityDelegate {
 
 extension CourseOutlineTableController: BlockCompletionDelegate {
     func didCompletionChanged(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode) {
-        if mode != courseOutlineMode { return }
+        guard mode == courseOutlineMode, mode == .full else { return }
         
-        guard let index = groups.firstIndex(where: { return $0.block.blockID == blockGroup.block.blockID }) else { return }
-        
-        if mode == .full {
+        if let index = groups.firstIndex(where: { $0.block.blockID == blockGroup.block.blockID }) {
             groups[index] = blockGroup
+        } else {
+            if let index = groups.firstIndex(where: { $0.block.blockID == blockGroup.block.blockID }),
+               let child = courseQuerier.childrenOfBlockWithID(blockID: groups[index].block.blockID, forMode: .full).value,
+               let indexOfBlock = child.children.firstIndex(where: { $0.blockID == blockGroup.block.blockID }) {
+                var updatedChild = child
+                updatedChild.children[indexOfBlock] = blockGroup.block
+                groups[index] = updatedChild
+            }
         }
+        
         collapsedSections.removeAll()
         hasAddedToCollapsedSections = false
         setGroups(groups)
