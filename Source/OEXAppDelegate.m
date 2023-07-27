@@ -64,10 +64,6 @@
         });
         return YES;
     }
-    if([[NSProcessInfo processInfo].arguments containsObject:@"-END_TO_END_TEST"]) {
-        [[[OEXSession alloc] init] closeAndClearSession];
-        [OEXFileUtility nukeUserData];
-    }
 #endif
 
     // logout user automatically if server changed
