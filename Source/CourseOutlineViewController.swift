@@ -131,12 +131,12 @@ public class CourseOutlineViewController :
         view.setNeedsUpdateConstraints()
         addListeners()
         setAccessibilityIdentifiers()
+        loadCourseStream()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         resumeCourseController.loadResumeCourse(forMode: courseOutlineMode)
-        loadCourseStream()
         
         if courseOutlineMode == .video {
             // We are doing calculations to show downloading progress on video tab, For this purpose we are observing notifications.

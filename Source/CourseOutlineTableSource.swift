@@ -400,6 +400,12 @@ extension CourseOutlineTableController {
         for (index, group) in groups.enumerated() {
             let observer = BlockCompletionObserver(controller: self, blockID: group.block.blockID, mode: courseOutlineMode, delegate: self)
             courseQuerier.add(observer: observer)
+            if let blocks = courseQuerier.childrenOfBlockWithID(blockID: group.block.blockID, forMode: .full).value {
+                blocks.children.forEach { block in
+                    let observer = BlockCompletionObserver(controller: self, blockID: block.blockID, mode: courseOutlineMode, delegate: self)
+                    courseQuerier.add(observer: observer)
+                }
+            }
             
             if firstIncompleteSection == nil && !allBlocksCompleted(for: group) && !hasAddedToCollapsedSections {
                 firstIncompleteSection = index
@@ -759,16 +765,25 @@ extension CourseOutlineTableController: VideoDownloadQualityDelegate {
 
 extension CourseOutlineTableController: BlockCompletionDelegate {
     func didCompletionChanged(in blockGroup: CourseOutlineQuerier.BlockGroup, mode: CourseOutlineMode) {
+        guard mode == courseOutlineMode, mode == .full else { return }
         
-        if mode != courseOutlineMode { return }
-        
-        guard let index = groups.firstIndex(where: { return $0.block.blockID == blockGroup.block.blockID }) else { return }
-        
-        if tableView.isValidSection(with: index) {
-            if mode == .full {
-                groups[index] = blockGroup
+        if let index = groups.firstIndex(where: { $0.block.blockID == blockGroup.block.blockID }) {
+            groups[index] = blockGroup
+            collapsedSections.removeAll()
+            hasAddedToCollapsedSections = false
+            setGroups(groups)
+        } else {
+            for (index, group) in groups.enumerated() {
+                guard var child = courseQuerier.childrenOfBlockWithID(blockID: group.block.blockID, forMode: .full).value else { continue }
+                if let indexOfBlock = child.children.firstIndex(where: { $0.blockID == blockGroup.block.blockID }) {
+                    child.children[indexOfBlock] = blockGroup.block
+                    groups[index] = child
+                    collapsedSections.removeAll()
+                    hasAddedToCollapsedSections = false
+                    setGroups(groups)
+                    break
+                }
             }
-            tableView.reloadSections([index], with: .none)
         }
     }
 }
