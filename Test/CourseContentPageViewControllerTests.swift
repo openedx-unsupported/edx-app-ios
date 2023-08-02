@@ -210,6 +210,10 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
     }
     
+    func testABC() {
+        XCTAssert(true)
+    }
+    
     private func wait(for duration: Double, completion: @escaping () -> ()) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(duration * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
             completion()
