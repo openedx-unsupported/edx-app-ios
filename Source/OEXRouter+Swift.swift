@@ -582,7 +582,6 @@ extension OEXRouter {
         } else {
             showControllerFromStartupScreen(controller: controller)
         }
-        self.environment.analytics.trackUserFindsCourses()
     }
     
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {

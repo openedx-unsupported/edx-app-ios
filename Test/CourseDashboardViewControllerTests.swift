@@ -12,14 +12,13 @@ import edXCore
 
 private extension OEXConfig {
     
-    convenience init(courseVideosEnabled: Bool = false, courseDatesEnabled: Bool = true, discussionsEnabled : Bool, courseSharingEnabled: Bool = false, isAnnouncementsEnabled: Bool = true, tabDashboardEnabled: Bool = true, certificatesEnabled: Bool = false) {
+    convenience init(courseVideosEnabled: Bool = false, courseDatesEnabled: Bool = true, discussionsEnabled : Bool, courseSharingEnabled: Bool = false, isAnnouncementsEnabled: Bool = true, certificatesEnabled: Bool = false) {
         self.init(dictionary: [
             "COURSE_VIDEOS_ENABLED" : courseVideosEnabled,
             "COURSE_DATES_ENABLED" : courseDatesEnabled,
             "DISCUSSIONS_ENABLED": discussionsEnabled,
             "COURSE_SHARING_ENABLED": courseSharingEnabled,
             "ANNOUNCEMENTS_ENABLED": isAnnouncementsEnabled,
-            "TAB_LAYOUTS_ENABLED": tabDashboardEnabled,
             "CERTIFICATES_ENABLED": certificatesEnabled
             ]
         )
@@ -92,7 +91,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testSnapshot() {
-        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true, tabDashboardEnabled: true)
+        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true)
         let course = OEXCourse.freshCourse(aboutUrl: "http://www.yahoo.com")
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
         let interface = OEXInterface.shared()
@@ -120,7 +119,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testCertificate() {
-        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true, tabDashboardEnabled: true, certificatesEnabled: true)
+        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true, certificatesEnabled: true)
         
         let courseData = OEXCourse.testData()
         let course = OEXCourse(dictionary: courseData)

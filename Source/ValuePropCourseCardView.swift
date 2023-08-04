@@ -90,13 +90,15 @@ class ValuePropCourseCardView: UIView {
 
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(lockImageView.snp.trailing).offset(StandardVerticalMargin)
-            make.trailing.lessThanOrEqualTo(chevronImageView).inset(StandardHorizontalMargin)
+            make.trailing.equalTo(chevronImageView.snp.leading).inset(StandardHorizontalMargin)
             make.centerY.equalTo(lockImageView)
         }
 
         chevronImageView.snp.makeConstraints { make in
             make.trailing.equalTo(containerView).inset(StandardHorizontalMargin)
             make.centerY.equalTo(lockImageView)
+            make.height.equalTo(20)
+            make.width.equalTo(20)
         }
         
         tapButton.snp.makeConstraints { make in

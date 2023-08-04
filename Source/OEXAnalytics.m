@@ -482,13 +482,13 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
-- (void)trackUserFindsCourses {
+- (void)trackUserFindsCourses:(NSInteger) enrolledCounses {
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = value_find_courses;
     event.displayName = @"Find Courses Clicked";
     event.category = OEXAnalyticsCategoryUserEngagement;
     event.label = @"course-discovery";
-    [self trackEvent:event forComponent:nil withInfo:@{}];
+    [self trackEvent:event forComponent:nil withInfo:@{@"enrolled_courses_count": [NSNumber numberWithInteger:enrolledCounses]}];
 }
 
 #pragma mark- Discussion

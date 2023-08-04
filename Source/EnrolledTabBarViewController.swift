@@ -167,9 +167,6 @@ class EnrolledTabBarViewController: UITabBarController, InterfaceOrientationOver
 extension EnrolledTabBarViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         navigationItem.title = viewController.navigationItem.title
-        if TabBarOptions.options[tabBarController.selectedIndex] == .CourseCatalog {
-            environment.analytics.trackUserFindsCourses()
-        }
     }
 }
 

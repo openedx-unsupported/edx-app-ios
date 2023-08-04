@@ -77,3 +77,5 @@
 "DASHBOARD.RESUME_COURSE"="Resume course";
 /* Course outline header gated content title */
 "COURSE_OUTLINE_HEADER.GATED_CONTENT_TITLE"="Some content in this part of the course is locked for upgraded users only.";
+/* None option in the caption list to de select caption language*/
+"NONE"="None";

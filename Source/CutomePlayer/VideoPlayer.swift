@@ -269,7 +269,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             transcriptManager = TranscriptManager(environment: environment, video: video)
             transcriptManager?.delegate = self
             
-            if let ccSelectedLanguage = OEXInterface.getCCSelectedLanguage(), let transcriptURL = video.summary?.transcripts?[ccSelectedLanguage] as? String, !ccSelectedLanguage.isEmpty, !transcriptURL.isEmpty {
+            if let ccSelectedLanguage = OEXInterface.getCCSelectedLanguage(), let transcriptURL = video.summary?.transcripts?[ccSelectedLanguage] as? String, !ccSelectedLanguage.isEmpty, !transcriptURL.isEmpty, ccSelectedLanguage != captionLanguageNone {
                 controls?.activateSubTitles()
             }
         }
@@ -660,9 +660,14 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func captionUpdate(playerControls: VideoPlayerControls, language: String) {
+        let alreadySelectedLanguage = OEXInterface.getCCSelectedLanguage() ?? ""
         OEXInterface.setCCSelectedLanguage(language)
-        if language.isEmpty {
+        
+        if alreadySelectedLanguage == language { return }
+        
+        if language == captionLanguageNone {
             playerControls.deAvtivateSubTitles()
+            transcriptManager?.loadTranscripts()
         }
         else {
             transcriptManager?.loadTranscripts()

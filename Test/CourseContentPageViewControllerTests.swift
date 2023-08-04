@@ -25,7 +25,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let interface = OEXInterface.shared()
         interface.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
         interface.t_setCourseVideos([course.course_id!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
-        environment = TestRouterEnvironment(config: OEXConfig(dictionary:["TAB_LAYOUTS_ENABLED": true]), interface: interface)
+        environment = TestRouterEnvironment(config: OEXConfig(dictionary:[:]), interface: interface)
         environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: course.course_id!, interface: interface, outline: outline)
         router = OEXRouter(environment: environment)
     }
@@ -87,7 +87,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             return nil
         }
     }
-  /*
+    
     func testNextButton() {
         let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
@@ -109,7 +109,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                     XCTAssertEqual($0.value!, childID)
                 }
             }
-            self.waitForExpectations()
+            self.OEXWaitForExpectations()
             XCTAssertTrue(controller.t_prevButtonEnabled)
             XCTAssertEqual(controller.t_nextButtonEnabled, childID != childIDs.last!)
         }
@@ -137,7 +137,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                     testExpectation.fulfill()
                 }
             }
-            self.waitForExpectations()
+            self.OEXWaitForExpectations()
         }
     }
     
@@ -178,7 +178,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                         testExpectation.fulfill()
                     }
                 }
-                self.waitForExpectations()
+                self.OEXWaitForExpectations()
             }
         
             let pageEvents = environment.eventTracker.events.compactMap { (e: MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
@@ -197,7 +197,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 XCTAssertEqual(event.event.name, OEXAnalyticsEventComponentViewed)
             }
     }
-*/
+    
     func testSnapshotContent() {
         let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren
         let childIDs = outline.blocks[parent]!.children
