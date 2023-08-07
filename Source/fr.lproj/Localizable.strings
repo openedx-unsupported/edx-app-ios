@@ -728,8 +728,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Langue actuelle:";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "Lieu actuel:";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "Modifier le profil";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="Les informations sur votre profil ne sont visibles que par vous. Seul votre nom d'utilisateur est visible par les autres sur {platform_name}.";
 /* Accessibility label for edit profile button */

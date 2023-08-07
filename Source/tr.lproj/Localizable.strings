@@ -728,8 +728,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Şu anki dil:";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "Şu anki konum:";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "Profili düzenle";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="Profil bilgileriniz yalnızca size görünür. {platform_name} üzerinde yalnızca kullanıcı adınız başkalarına görünür olur.";
 /* Accessibility label for edit profile button */
