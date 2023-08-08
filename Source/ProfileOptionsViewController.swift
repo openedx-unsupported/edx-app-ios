@@ -143,7 +143,7 @@ class ProfileOptionsViewController: UIViewController {
             options.append(.personalInformation)
         }
         
-        if environment.serverConfig.iapConfig?.enabled ?? false {
+        if environment.serverConfig.iapConfig?.enabledforUser ?? false {
             options.append(.restorePurchase)
         }
         
