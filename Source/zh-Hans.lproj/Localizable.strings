@@ -712,8 +712,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "当前语言：";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "当前位置：";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "编辑资料";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="你的属性信息只能由你浏览。对于{paltform_name}上的其他用户只显示你的用户名。";
 /* Accessibility label for edit profile button */
