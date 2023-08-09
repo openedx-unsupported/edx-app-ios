@@ -235,12 +235,11 @@ extension OEXRouter {
     
     func showDatesTabController(controller: UIViewController) {
         if environment.config.isNewDashboardEnabled {
-            if let dashboardController = controller.navigationController?.viewControllers.first as? NewCourseDashboardViewController {
+            if let dashboardController = controller.findParentViewController(type: NewCourseContentController.self)?.navigationController?.viewControllers.first as? NewCourseDashboardViewController {
                 popToRoot(controller: dashboardController) {
                     dashboardController.switchTab(with: .courseDates)
                 }
-            }
-            else if let dashboardController = UIApplication.shared.topMostController() as? NewCourseDashboardViewController {
+            } else if let dashboardController = UIApplication.shared.topMostController() as? NewCourseDashboardViewController {
                 dashboardController.switchTab(with: .courseDates)
             }
         } else {
