@@ -43,6 +43,8 @@ class DiscoveryWebViewHelper: NSObject {
         self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, searchQuery: nil)
     }
     
+    private lazy var titleView = UIView()
+    
     @objc init(environment: Environment, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, searchQuery: String?) {
         self.environment = environment
         self.webView = WKWebView(frame: .zero, configuration: environment.config.webViewConfiguration())
@@ -69,8 +71,57 @@ class DiscoveryWebViewHelper: NSObject {
         refreshView()
     }
     
+    private func addShowTitleView() {
+        guard let container = delegate?.webViewContainingController() else { return }
+        
+        if contentView.contains(titleView) {
+            if titleView.alpha != 1 {
+                UIView.animate(withDuration: 0.4) { [weak self] in
+                    self?.titleView.alpha = 1
+                }
+                contentView.bringSubviewToFront(titleView)
+            }
+        }
+        else {
+            titleView.backgroundColor = OEXStyles.shared().navigationBarColor()
+            contentView.addSubview(titleView)
+            titleView.alpha = 0
+            let title = UILabel()
+            title.textColor = OEXStyles.shared().navigationItemTintColor()
+            title.text = "Explore the catalog"
+            titleView.addSubview(title)
+            
+            title.snp.remakeConstraints { make in
+                make.center.equalTo(titleView)
+            }
+        }
+        
+        let offSet = container.view.viewWithTag(123454321)?.frame.size.height ?? 0
+        titleView.snp.remakeConstraints { make in
+            make.top.equalTo(contentView).offset(offSet)
+            make.trailing.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.height.equalTo(44)
+        }
+    }
+    
+    private func hideTitleView() {
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.titleView.alpha = 0
+        }
+    }
+    
+    @objc func updateTitleViewVisibility() {
+        if webView.scrollView.contentOffset.y >= 0 {
+            addShowTitleView()
+        }
+        else {
+            hideTitleView()
+        }
+    }
+    
     @objc func refreshView() {
-        guard let _ = delegate?.webViewContainingController() else { return }
+        guard let container = delegate?.webViewContainingController() else { return }
         contentView.subviews.forEach { $0.removeFromSuperview() }
         let isUserLoggedIn = environment.session.currentUser != nil
 
@@ -93,6 +144,14 @@ class DiscoveryWebViewHelper: NSObject {
         }
 
         addObserver()
+        
+        if let container  = container as? OEXFindCoursesViewController {
+            if !container.fromStartupScreen {
+                webView.scrollView.delegate = self
+                container.setStatusBar(color: OEXStyles.shared().navigationBarColor())
+                addShowTitleView()
+            }
+        }
     }
     
     private func addObserver() {
@@ -340,5 +399,33 @@ extension WKWebView {
 
         let script: WKUserScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         configuration.userContentController.addUserScript(script)
+    }
+}
+
+extension DiscoveryWebViewHelper: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y >= 0 {
+            addShowTitleView()
+        }
+        else {
+            hideTitleView()
+        }
+    }
+}
+
+extension OEXFindCoursesViewController {
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
+    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        coordinator.animate { [weak self] _ in
+            guard let weakSelf = self else { return }
+            DispatchQueue.main.async {
+                weakSelf.setStatusBar(color: OEXStyles.shared().navigationBarColor())
+                weakSelf.updateTitleViewVisibility()
+            }
+        }
     }
 }

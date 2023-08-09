@@ -34,13 +34,14 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 @implementation OEXFindCoursesViewController
 
-- (instancetype) initWithEnvironment:(RouterEnvironment *)environment showBottomBar:(BOOL) showBottomBar bottomBar:(UIView *)bottomBar searchQuery:(nullable NSString *)searchQuery  {
+- (instancetype) initWithEnvironment:(RouterEnvironment *)environment showBottomBar:(BOOL) showBottomBar bottomBar:(UIView *)bottomBar searchQuery:(nullable NSString *)searchQuery fromStartupScreen:(BOOL) fromStartupScreen {
     self = [super init];
     if (self) {
         _environment = environment;
         _bottomBar = bottomBar;
         _searchQuery = searchQuery;
         _showBottomBar = showBottomBar;
+        _fromStartupScreen = fromStartupScreen;
 
         [self loadCourseDiscovery];
     }
@@ -85,13 +86,20 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     }
     
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenFindCourses];
-    self.navigationController.navigationBar.prefersLargeTitles = true;
-    self.extendedLayoutIncludesOpaqueBars = true;
+
+    if (!_fromStartupScreen) {
+        [self.navigationController setNavigationBarHidden:true animated:animated];
+        [self.webViewHelper updateTitleViewVisibility];
+    }
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    self.navigationController.navigationBar.prefersLargeTitles = false;
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:false animated:animated];
+}
+
+- (void) updateTitleViewVisibility {
+    [self.webViewHelper updateTitleViewVisibility];
 }
 
 - (DiscoveryConfig*)discoveryConfig {
