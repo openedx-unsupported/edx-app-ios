@@ -604,7 +604,7 @@ public extension UIViewController {
     func setStatusBar(inside contentView: UIView? = nil, color: UIColor) {
         let overView: UIView
         
-        if let contentView = contentView, let taggedView = contentView.viewWithTag(tag) {
+        if let contentView = contentView, let taggedView = contentView.viewWithTag(FakeStatusBarViewTag) {
             overView = taggedView
         } else if contentView != nil {
             overView = UIView()
