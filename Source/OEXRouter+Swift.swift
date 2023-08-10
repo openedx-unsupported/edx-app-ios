@@ -243,7 +243,7 @@ extension OEXRouter {
                 dashboardController.switchTab(with: .courseDates)
             }
         } else {
-            if let dashboardController = controller as? CourseDashboardViewController {
+            if let dashboardController = controller.findParentViewController(type: CourseDashboardViewController.self) {
                 dashboardController.switchTab(with: .courseDates)
             } else if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
                 controller.navigationController?.popToViewController(dashboardController, animated: false)
