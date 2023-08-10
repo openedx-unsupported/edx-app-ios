@@ -8,6 +8,8 @@
 
 import UIKit
 
+let FakeStatusBarViewTag: Int = 123454321
+
 public protocol NewCourseDashboardViewControllerDelegate: AnyObject {
     func showCourseDates(bannerInfo: DatesBannerInfo?, delegate: CourseOutlineTableController?)
     func hideCourseDates()
@@ -600,20 +602,19 @@ extension NewCourseDashboardViewController: NewCourseDashboardViewControllerDele
 
 public extension UIViewController {
     func setStatusBar(inside contentView: UIView? = nil, color: UIColor) {
-        let tag = 123454321
         let overView: UIView
         
         if let contentView = contentView, let taggedView = contentView.viewWithTag(tag) {
             overView = taggedView
         } else if contentView != nil {
             overView = UIView()
-            overView.tag = tag
+            overView.tag = FakeStatusBarViewTag
             contentView?.addSubview(overView)
-        } else if let taggedView = view.viewWithTag(tag) {
+        } else if let taggedView = view.viewWithTag(FakeStatusBarViewTag) {
             overView = taggedView
         } else {
             overView = UIView()
-            overView.tag = tag
+            overView.tag = FakeStatusBarViewTag
             view.addSubview(overView)
         }
         
