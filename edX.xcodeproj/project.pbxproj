@@ -774,7 +774,6 @@
 		E03E6A191D38EC7500944AAA /* UIView+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A181D38EC7500944AAA /* UIView+UIViewController.swift */; };
 		E03E6A201D38F2AF00944AAA /* UIView+UIViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A1E1D38F28000944AAA /* UIView+UIViewControllerTests.swift */; };
 		E03E6A221D38F77C00944AAA /* OfflineSupportViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A211D38F77C00944AAA /* OfflineSupportViewControllerTests.swift */; };
-		E048260227AD519A0046B8AF /* screen_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E048260127AD51990046B8AF /* screen_2.png */; };
 		E04848321CFDA10600BE00E1 /* DiscussionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */; };
 		E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */; };
 		E04A85A0282E6BB600CF0962 /* Localizable-2.strings in Resources */ = {isa = PBXBuildFile; fileRef = E04A85A2282E6BB600CF0962 /* Localizable-2.strings */; };
@@ -784,7 +783,6 @@
 		E0514DEA285C4F7900D645E0 /* RobotoMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0514DE6285C4F7900D645E0 /* RobotoMono-Bold.ttf */; };
 		E0514DEB285C4F7900D645E0 /* RobotoMono-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0514DE7285C4F7900D645E0 /* RobotoMono-Light.ttf */; };
 		E054B09D1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E054B09C1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift */; };
-		E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E054B09E1EC3178200FACBA6 /* screen_1.png */; };
 		E055D53D1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */; };
 		E06292751F7BAFFF006D5EFC /* BranchConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06292741F7BAFFF006D5EFC /* BranchConfig.swift */; };
 		E06292791F7E349D006D5EFC /* BranchConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06292781F7E349D006D5EFC /* BranchConfigTests.swift */; };
@@ -820,6 +818,7 @@
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
 		E0B58CDC2818F7DF0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */; };
 		E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */; };
+		E0C152622A8B611E000FBB9C /* screen_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = E0C152612A8B611E000FBB9C /* screen_1.gif */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
 		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
 		E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */; };
@@ -1881,7 +1880,6 @@
 		E041698E22CA143900449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = tr; path = tr.lproj/profiles.json; sourceTree = "<group>"; };
 		E041698F22CA143900449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = tr; path = tr.lproj/languages.json; sourceTree = "<group>"; };
 		E041699022CA143A00449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = tr; path = tr.lproj/whats_new.json; sourceTree = "<group>"; };
-		E048260127AD51990046B8AF /* screen_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_2.png; sourceTree = "<group>"; };
 		E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModelTests.swift; sourceTree = "<group>"; };
 		E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsViewControllerTests.swift; sourceTree = "<group>"; };
 		E04A85A1282E6BB600CF0962 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/Localizable-2.strings"; sourceTree = "<group>"; };
@@ -1902,7 +1900,6 @@
 		E0514DE7285C4F7900D645E0 /* RobotoMono-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Light.ttf"; sourceTree = "<group>"; };
 		E052F5A81D9953BB009F6B6F /* edX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = edX.entitlements; sourceTree = "<group>"; };
 		E054B09C1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXInterface+WhatsNew.swift"; sourceTree = "<group>"; };
-		E054B09E1EC3178200FACBA6 /* screen_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_1.png; sourceTree = "<group>"; };
 		E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+ResponseInterceptors.swift"; sourceTree = SOURCE_ROOT; };
 		E06292741F7BAFFF006D5EFC /* BranchConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchConfig.swift; sourceTree = "<group>"; };
 		E06292781F7E349D006D5EFC /* BranchConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchConfigTests.swift; sourceTree = "<group>"; };
@@ -1941,6 +1938,7 @@
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
 		E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+CourseUpgrade.swift"; sourceTree = "<group>"; };
 		E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+CourseUpgrade.swift"; sourceTree = "<group>"; };
+		E0C152612A8B611E000FBB9C /* screen_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = screen_1.gif; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
 		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+Banner.swift"; sourceTree = "<group>"; };
@@ -3957,8 +3955,7 @@
 		E08EFCCC1EC1E462008ECEC9 /* WhatsNew */ = {
 			isa = PBXGroup;
 			children = (
-				E048260127AD51990046B8AF /* screen_2.png */,
-				E054B09E1EC3178200FACBA6 /* screen_1.png */,
+				E0C152612A8B611E000FBB9C /* screen_1.gif */,
 			);
 			path = WhatsNew;
 			sourceTree = "<group>";
@@ -4311,9 +4308,7 @@
 				69ECC62C1D50D1170030CF87 /* ic_back.png in Resources */,
 				E06BEB0A2270863F00C7CF01 /* GoogleService-Info.plist in Resources */,
 				69ECC60E1D50D1170030CF87 /* Icon-60@3x.png in Resources */,
-				E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */,
 				5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */,
-				E048260227AD519A0046B8AF /* screen_2.png in Resources */,
 				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
@@ -4366,6 +4361,7 @@
 				69ECC64B1D50D1170030CF87 /* placeholderCourseCardImage.png in Resources */,
 				69ECC61F1D50D1170030CF87 /* bt_signin_active.png in Resources */,
 				6960892B1D53935500EE66DD /* courseCertificate.png in Resources */,
+				E0C152622A8B611E000FBB9C /* screen_1.gif in Resources */,
 				E096583625C1963B0004FFCC /* absl_base_LICENSE.html in Resources */,
 				5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */,
 				E01733BC25F75CEE00671365 /* ajaxHandler.js in Resources */,

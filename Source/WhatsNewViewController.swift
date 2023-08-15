@@ -41,7 +41,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         else {
             self.dataModel = WhatsNewDataModel(environment: environment as? RouterEnvironment, version: Bundle.main.oex_shortVersionString())
         }
-        titleString = title ?? Strings.WhatsNew.headerText
+        titleString = "This course is upgradeable on mobile!"//title ?? Strings.WhatsNew.headerText
         pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         environment.interface?.saveAppVersionOnWhatsNewAppear()
         super.init(nibName: nil, bundle: nil)

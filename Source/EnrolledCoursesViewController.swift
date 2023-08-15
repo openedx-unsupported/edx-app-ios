@@ -86,7 +86,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         super.viewDidAppear(animated)
         
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
-        showWhatsNewIfNeeded()
+//        showWhatsNewIfNeeded()
         
         if !handleBannerOnStart {
             handleBannerOnStart = true
