@@ -1,3 +1,4 @@
+
 import com.dd.plist.*
 import org.edx.builder.TaskHelper
 
@@ -256,11 +257,36 @@ wrapper {
     gradleVersion = '6.3'
 }
 
+def getSimulatorUDID(deviceName, osVersion) {
+    def output = ["xcrun", "simctl", "list", "devices"].execute().text
+    println output
+    def lines = output.split('\n')
+    def osFound = false
+    
+    for (line in lines) {
+        if (line.contains("-- iOS $osVersion --")) {
+            osFound = true
+        } else if (osFound && line.contains(deviceName)) {
+            def match = line =~ /(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/
+            if (match) {
+                return match[0][0]
+            }
+        }
+    }
+
+    return null
+}
+
 def testBuildArguments(workspace, scheme, OS, record) {
+    def deviceName = OS.startsWith("16") ? "iPhone 14 Pro" : "iPhone 13 Pro"
+    def udid = getSimulatorUDID(deviceName, OS)
+    
     def args = [
-        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', '-destination', 'platform=iOS Simulator,name=iPhone 8,OS=' + OS, 'test'
+        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator',
+        '-destination', "id=$udid", 'test'
     ]
-    if(record) {
+
+    if (record) {
         args += ["OTHER_SWIFT_FLAGS=\$(OTHER_SWIFT_FLAGS) -D RECORD_SNAPSHOTS"]
     }
     return args
@@ -270,7 +296,7 @@ def RTLSchemeForScheme(scheme) {
     return scheme + '-RTL'
 }
 
-def operatingSystems = ["currentOS": "15.2", "previousOS": "14.4"]
+def operatingSystems = ["currentOS": "16.4", "previousOS": "15.5"]
 def directions = ["LTR": scheme, "RTL": RTLSchemeForScheme(scheme)]
 def commands = ["test" : ["record" : false], "recordSnapshots": ["record" : true]] 
 
