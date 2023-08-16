@@ -28,6 +28,7 @@ jobs:
     - name: Run tests
       if: always()
       run: |
+        xcrun simctl list
         TASK="${{ matrix.env.task }}"
         RUNTIME="${{ matrix.env.runtime }}"
         DEVICE="${{ matrix.env.device }}"
