@@ -27,6 +27,7 @@ jobs:
       uses: actions/checkout@v2
     - name: "Select Xcode 14.3.1"
     run: |
+        xcrun simctl list
         sudo xcode-select -s /Applications/Xcode_14.3.1.app
     - name: Run tests
       if: always()
