@@ -15,16 +15,19 @@ jobs:
       matrix:
         env:
           - name: "Test iOS 16"
-            runtime: "iOS-16"
+            runtime: "iOS-16-4"
             device: "iPhone 14 Pro"
             task: "testLTRCurrentOS"
           - name: "Test RTL iOS 16"
-            runtime: "iOS-16"
+            runtime: "iOS-16-4"
             device: "iPhone 14 Pro"
             task: "testRTLCurrentOS"
     steps:
     - name: Git checkout
       uses: actions/checkout@v2
+    - name: "Select Xcode 14.3.1"
+    run: |
+        sudo xcode-select -s /Applications/Xcode_14.3.1.app
     - name: Run tests
       if: always()
       run: |
