@@ -24,7 +24,6 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     private var navigationItems: [UIBarButtonItem] = []
     
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
-    private var whatsNewShown: Bool = false
     init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID
@@ -197,17 +196,6 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
             loadStateController.loadController.state = .Loaded
             prepareTabViewData(withCourse: course)
             addNavigationItems(withCourse: course)
-            showWhatsNewIfNeeded()
-        }
-    }
-    
-    private func showWhatsNewIfNeeded() {
-        guard let enrollment = environment.interface?.enrollmentForCourse(withID: course?.course_id), enrollment.isUpgradeable && !whatsNewShown else { return}
-        
-        
-        if WhatsNewViewController.canShowWhatsNew(environment: environment as? RouterEnvironment), environment.serverConfig.iapConfig?.enabledforUser ?? false {
-            whatsNewShown = true
-            environment.router?.showWhatsNew(fromController: self)
         }
     }
     

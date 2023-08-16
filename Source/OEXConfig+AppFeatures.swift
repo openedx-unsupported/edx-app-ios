@@ -59,6 +59,7 @@ extension OEXConfig {
     }
     
     var isWhatsNewEnabled: Bool {
+        return true
         return bool(forKey: "WHATS_NEW_ENABLED")
     }
     
