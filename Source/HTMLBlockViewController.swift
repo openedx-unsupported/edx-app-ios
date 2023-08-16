@@ -22,7 +22,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
     private let environment: Environment
     private let subkind: CourseHTMLBlockSubkind
     
-    private lazy var courseDateBannerView = CourseDateBannerView(frame: .zero)
+    private lazy var courseDateBannerViewContainer = UIView()
     private let webController: AuthenticatedWebViewController
     
     private let loader = BackedStream<CourseBlock>()
@@ -65,8 +65,8 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
     }
 
     private func setupViews() {
-        view.addSubview(courseDateBannerView)
-        courseDateBannerView.snp.makeConstraints { make in
+        view.addSubview(courseDateBannerViewContainer)
+        courseDateBannerViewContainer.snp.makeConstraints { make in
             make.trailing.equalTo(view)
             make.leading.equalTo(view)
             make.top.equalTo(view)
@@ -86,7 +86,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
             webController.view.snp.remakeConstraints { make in
                 make.trailing.equalTo(view)
                 make.leading.equalTo(view)
-                make.top.equalTo(courseDateBannerView.snp.bottom)
+                make.top.equalTo(courseDateBannerViewContainer.snp.bottom)
                 make.bottom.equalTo(view)
             }
         }
@@ -101,7 +101,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
             webController.view.snp.remakeConstraints { make in
                 make.trailing.equalTo(view)
                 make.leading.equalTo(view)
-                make.top.equalTo(courseDateBannerView.snp.bottom)
+                make.top.equalTo(courseDateBannerViewContainer.snp.bottom)
             }
 
             openInBrowserView.snp.remakeConstraints { make in
@@ -158,16 +158,31 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
         } else {
             guard let status = bannerModel.bannerInfo.status else { return }
             
+            var courseDateBannerView: BannerView
+            
+            if environment.config.isNewComponentNavigationEnabled {
+                courseDateBannerView = NewCourseDateBannerView()
+            } else {
+                courseDateBannerView = CourseDateBannerView()
+            }
+            
+            if let courseDateBannerView = courseDateBannerView as? UIView {
+                courseDateBannerViewContainer.addSubview(courseDateBannerView)
+                courseDateBannerView.snp.remakeConstraints { make in
+                    make.edges.equalTo(courseDateBannerViewContainer)
+                }
+            }
+            
             if status == .resetDatesBanner {
                 courseDateBannerView.delegate = self
                 courseDateBannerView.bannerInfo = bannerModel.bannerInfo
                 courseDateBannerView.setupView()
+                height = StandardVerticalMargin * 16
                 trackDateBannerAppearanceEvent(bannerModel: bannerModel)
-                height = courseDateBannerView.heightForView(width: view.frame.size.width)
             }
         }
         
-        courseDateBannerView.snp.remakeConstraints { make in
+        courseDateBannerViewContainer.snp.remakeConstraints { make in
             make.trailing.equalTo(view)
             make.leading.equalTo(view)
             make.top.equalTo(view)
@@ -180,7 +195,7 @@ class HTMLBlockViewController: UIViewController, CourseBlockViewController, Prel
     }
     
     private func hideCourseBannerView() {
-        courseDateBannerView.snp.remakeConstraints { make in
+        courseDateBannerViewContainer.snp.remakeConstraints { make in
             make.trailing.equalTo(view)
             make.leading.equalTo(view)
             make.top.equalTo(view)
