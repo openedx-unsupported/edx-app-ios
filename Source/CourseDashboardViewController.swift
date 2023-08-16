@@ -24,7 +24,6 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     private var navigationItems: [UIBarButtonItem] = []
     
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
-    
     init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID

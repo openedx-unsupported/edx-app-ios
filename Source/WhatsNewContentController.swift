@@ -21,11 +21,11 @@ class WhatsNewContentController: UIViewController {
     private let messageLabel = UILabel()
     
     private var titleStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .xLarge, color: OEXStyles.shared().neutralWhiteT())
+        return OEXTextStyle(weight: .semiBold, size: .xxLarge, color: OEXStyles.shared().neutralWhiteT())
     }
     
     private var messageStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhiteT())
+        return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralWhiteT())
     }
     
     typealias Environment = OEXStylesProvider
@@ -99,7 +99,12 @@ class WhatsNewContentController: UIViewController {
             make.top.equalTo(containerView)
             make.trailing.equalTo(containerView)
             make.leading.equalTo(containerView)
-            let height = view.bounds.size.height / ScreenDivider
+            var divider = ScreenDivider
+            if !isVerticallyCompact() {
+                divider = 1.25
+            }
+            
+            let height = view.bounds.size.height / divider
             make.height.equalTo(height)
         }
         

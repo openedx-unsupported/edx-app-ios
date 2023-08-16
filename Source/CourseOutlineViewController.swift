@@ -67,6 +67,8 @@ public class CourseOutlineViewController :
         return environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
     }
     
+    private var whatsNewShown: Bool = false
+    
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
         self.rootID = rootID
         self.environment = environment
@@ -201,6 +203,7 @@ public class CourseOutlineViewController :
                 if self?.courseOutlineMode == .full {
                     self?.courseOutlineLoaded = true
                     self?.handleNavigationIfNeeded()
+                    self?.showWhatsNewIfNeeded()
                     self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
                 }
                 else {
@@ -334,6 +337,16 @@ public class CourseOutlineViewController :
                 }
             }
         )
+    }
+    
+    private func showWhatsNewIfNeeded() {
+        guard let enrollment = environment.interface?.enrollmentForCourse(withID: course?.course_id), enrollment.isUpgradeable && !whatsNewShown else { return}
+        
+        
+        if WhatsNewViewController.canShowWhatsNew(environment: environment as? RouterEnvironment), environment.serverConfig.iapConfig?.enabledforUser ?? false {
+            whatsNewShown = true
+            environment.router?.showWhatsNew(fromController: self)
+        }
     }
     
     private func handleNavigationIfNeeded() {
