@@ -26,8 +26,8 @@ jobs:
       - name: "Select Xcode 14.3.1"
         run: |
           sudo xcode-select -s /Applications/Xcode_14.3.1.app
-          xcrun simctl runtimes
-          xcrun simctl devices
+          xcrun simctl list runtimes
+          xcrun simctl list devices
       - name: Git checkout
         uses: actions/checkout@v2
       - name: Run tests
