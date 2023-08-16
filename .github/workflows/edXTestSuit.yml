@@ -8,6 +8,7 @@ on:
 
 jobs:
   xcode-ios:
+    name: "${{ matrix.env.name }}"
     runs-on: macos-12
     strategy:
       fail-fast: false
@@ -22,16 +23,16 @@ jobs:
             device: "iPhone 14 Pro"
             task: "testRTLCurrentOS"
     steps:
-      - name: Git checkout
-        uses: actions/checkout@v2
       - name: "Select Xcode 14.3.1"
         run: |
-          xcrun simctl list
           sudo xcode-select -s /Applications/Xcode_14.3.1.app
+          xcrun simctl runtimes
+          xcrun simctl devices
+      - name: Git checkout
+        uses: actions/checkout@v2
       - name: Run tests
         if: always()
         run: |
-          xcrun simctl list
           TASK="${{ matrix.env.task }}"
           RUNTIME="${{ matrix.env.runtime }}"
           DEVICE="${{ matrix.env.device }}"
