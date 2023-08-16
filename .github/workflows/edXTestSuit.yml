@@ -30,6 +30,10 @@ jobs:
           xcrun simctl list devices
       - name: Git checkout
         uses: actions/checkout@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
       - name: Run tests
         if: always()
         run: |
