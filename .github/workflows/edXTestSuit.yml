@@ -68,6 +68,5 @@ jobs:
           run: |
             xcrun simctl list devices
             TASK="${{ matrix.env.task }}"
-            xcrun simctl boot $DESTINATION_ID
             ./gradlew -q $TASK | xcpretty -c
           shell: bash
