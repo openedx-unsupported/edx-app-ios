@@ -88,7 +88,7 @@ class DiscoveryWebViewHelper: NSObject {
             titleView.alpha = 0
             let title = UILabel()
             title.textColor = OEXStyles.shared().navigationItemTintColor()
-            title.text = "Explore the catalog"
+            title.text = Strings.exploreTheCatalog
             titleView.addSubview(title)
             
             title.snp.remakeConstraints { make in
