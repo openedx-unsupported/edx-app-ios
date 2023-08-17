@@ -258,7 +258,11 @@ wrapper {
 }
 
 def getSimulatorUDID(deviceName, osVersion) {
+    println deviceName
+    println osVersion
+    println "------------------------------------------"
     def output = ["xcrun", "simctl", "list", "devices"].execute().text
+    println output
     def lines = output.split('\n')
     def osFound = false
     
@@ -277,6 +281,10 @@ def getSimulatorUDID(deviceName, osVersion) {
 }
 
 def testBuildArguments(workspace, scheme, OS, record) {
+    println workspace
+    println scheme
+    println OS
+
     def deviceName = OS.startsWith("16") ? "iPhone 14 Pro" : "iPhone 13 Pro"
     def udid = getSimulatorUDID(deviceName, OS)
     
