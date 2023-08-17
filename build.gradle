@@ -259,7 +259,6 @@ wrapper {
 
 def getSimulatorUDID(deviceName, osVersion) {
     def output = ["xcrun", "simctl", "list", "devices"].execute().text
-    println output
     def lines = output.split('\n')
     def osFound = false
     
@@ -283,7 +282,7 @@ def testBuildArguments(workspace, scheme, OS, record) {
     
     def args = [
         'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator',
-        '-destination', "id=$udid", 'test'
+        '-destination', "id=$udid,arch=x86_64", 'test'
     ]
 
     if (record) {
