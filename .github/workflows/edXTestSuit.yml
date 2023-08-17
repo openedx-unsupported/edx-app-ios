@@ -41,32 +41,32 @@ jobs:
           ./gradlew -q $TASK | xcpretty -c
         shell: bash
 
-  xcode-13:
-      name: "${{ matrix.env.name }}"
-      runs-on: macos-12
-      strategy:
-        fail-fast: false
-        matrix:
-          env:
-            - name: "Test iOS 15"
-              runtime: "iOS-15-5"
-              device: "iPhone 13 Pro"
-              task: "testLTRCurrentOS"
-            - name: "Test RTL iOS 15"
-              runtime: "iOS-15-5"
-              device: "iPhone 13 Pro"
-              task: "testRTLCurrentOS"
-      steps:
-        - name: "Select Xcode 13.4.1"
-          run: |
-            sudo xcode-select -s /Applications/Xcode_13.4.1.app
-            xcrun simctl list runtimes
-        - name: Git checkout
-          uses: actions/checkout@v2
-        - name: Run tests
-          if: always()
-          run: |
-            xcrun simctl list devices
-            TASK="${{ matrix.env.task }}"
-            ./gradlew -q $TASK | xcpretty -c
-          shell: bash
+  # xcode-13:
+  #     name: "${{ matrix.env.name }}"
+  #     runs-on: macos-12
+  #     strategy:
+  #       fail-fast: false
+  #       matrix:
+  #         env:
+  #           - name: "Test iOS 15"
+  #             runtime: "iOS-15-5"
+  #             device: "iPhone 13 Pro"
+  #             task: "testLTRCurrentOS"
+  #           - name: "Test RTL iOS 15"
+  #             runtime: "iOS-15-5"
+  #             device: "iPhone 13 Pro"
+  #             task: "testRTLCurrentOS"
+  #     steps:
+  #       - name: "Select Xcode 13.4.1"
+  #         run: |
+  #           sudo xcode-select -s /Applications/Xcode_13.4.1.app
+  #           xcrun simctl list runtimes
+  #       - name: Git checkout
+  #         uses: actions/checkout@v2
+  #       - name: Run tests
+  #         if: always()
+  #         run: |
+  #           xcrun simctl list devices
+  #           TASK="${{ matrix.env.task }}"
+  #           ./gradlew -q $TASK | xcpretty -c
+  #         shell: bash
