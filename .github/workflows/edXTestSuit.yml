@@ -65,7 +65,7 @@ jobs:
         - name: "Select Xcode 13.4.1"
           run: |
             xcrun simctl list runtimes
-            sudo xcode-select -s /Applications/Xcode_14.3.1.app
+            sudo xcode-select -s /Applications/Xcode_13.4.1.app
         - name: Git checkout
           uses: actions/checkout@v2
         - name: Run tests
