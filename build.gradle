@@ -285,13 +285,17 @@ def testBuildArguments(workspace, scheme, OS, record) {
     println scheme
     println OS
 
-    def deviceName = OS.startsWith("16") ? "iPhone 14 Pro" : "iPhone 13 Pro"
-    def udid = getSimulatorUDID(deviceName, OS)
-    
     def args = [
-        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator',
-        '-destination', "id=$udid,arch=x86_64", 'test'
+        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator'
     ]
+
+    if (OS.startsWith("16")) {
+        args += ['-destination', "id=$udid,arch=x86_64"]
+    } else {
+        args += ['-destination', "id=$udid"]
+    }
+
+    args += ['test']
 
     if (record) {
         args += ["OTHER_SWIFT_FLAGS=\$(OTHER_SWIFT_FLAGS) -D RECORD_SNAPSHOTS"]
