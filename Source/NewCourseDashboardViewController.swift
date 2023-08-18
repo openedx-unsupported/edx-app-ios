@@ -8,7 +8,8 @@
 
 import UIKit
 
-let FakeStatusBarViewTag: Int = 123454321
+// view used at the exact same location of status bar in case of hidden navbar
+let statuBarViewTag: Int = 123454321
 
 public protocol NewCourseDashboardViewControllerDelegate: AnyObject {
     func showCourseDates(bannerInfo: DatesBannerInfo?, delegate: CourseOutlineTableController?)
@@ -604,17 +605,17 @@ public extension UIViewController {
     func setStatusBar(inside contentView: UIView? = nil, color: UIColor) {
         let overView: UIView
         
-        if let contentView = contentView, let taggedView = contentView.viewWithTag(FakeStatusBarViewTag) {
+        if let contentView = contentView, let taggedView = contentView.viewWithTag(statuBarViewTag) {
             overView = taggedView
         } else if contentView != nil {
             overView = UIView()
-            overView.tag = FakeStatusBarViewTag
+            overView.tag = statuBarViewTag
             contentView?.addSubview(overView)
-        } else if let taggedView = view.viewWithTag(FakeStatusBarViewTag) {
+        } else if let taggedView = view.viewWithTag(statuBarViewTag) {
             overView = taggedView
         } else {
             overView = UIView()
-            overView.tag = FakeStatusBarViewTag
+            overView.tag = statuBarViewTag
             view.addSubview(overView)
         }
         

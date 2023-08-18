@@ -96,7 +96,7 @@ class DiscoveryWebViewHelper: NSObject {
             }
         }
         
-        let offSet = container.view.viewWithTag(FakeStatusBarViewTag)?.frame.size.height ?? 0
+        let offSet = container.view.viewWithTag(statuBarViewTag)?.frame.size.height ?? 0
         titleView.snp.remakeConstraints { make in
             make.top.equalTo(contentView).offset(offSet)
             make.trailing.equalTo(contentView)
