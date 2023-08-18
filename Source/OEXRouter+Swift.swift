@@ -575,7 +575,7 @@ extension OEXRouter {
     }
     
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil, searchQuery: String? = nil) {
-        guard let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery) else { return }
+        guard let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery, fromStartupScreen: true) else { return }
         if let fromController = fromController {
             fromController.tabBarController?.selectedIndex = EnrolledTabBarViewController.courseCatalogIndex
         } else {
@@ -583,10 +583,10 @@ extension OEXRouter {
         }
     }
     
-    func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {
+    func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil, fromStartupScreen: Bool = false) -> UIViewController? {
         guard environment.config.discovery.isEnabled else { return nil }
 
-        return environment.config.discovery.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
+        return environment.config.discovery.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery, fromStartupScreen: fromStartupScreen) : CourseCatalogViewController(environment: environment)
     }
     
     func showProgramDetail(from controller: UIViewController, with pathId: String, bottomBar: UIView?) {
