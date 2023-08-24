@@ -253,7 +253,7 @@ def saveConfigChanges(helper, plist, infoPlistPath, plistPath) {
 }
 
 wrapper {
-    gradleVersion = '6.3'
+    gradleVersion = '7.3'
 }
 
 def testBuildArguments(workspace, scheme, OS, record) {

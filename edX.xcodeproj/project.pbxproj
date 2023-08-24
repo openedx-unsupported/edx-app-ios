@@ -3884,7 +3884,6 @@
 		};
 		77BDD65E1A44BD7300EA2A9C /* Process Config */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 12;
 			files = (
 			);
@@ -3899,7 +3898,6 @@
 		};
 		77BFD8641BB637DB001D7BE5 /* Compile Localizations */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -3938,7 +3936,6 @@
 		};
 		E0D9C59723FEAE100085218B /* Remove Unsupported Architectures */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
