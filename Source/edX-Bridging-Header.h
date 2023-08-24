@@ -2,6 +2,7 @@
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
+#import <Firebase/Firebase.h>
 #import <FirebaseCore/FirebaseCore.h>
 #import <FirebaseMessaging/FIRMessaging.h>
 #import <FirebaseCrashlytics/FIRCrashlytics.h>
@@ -81,7 +82,6 @@
 #import "NSURL+OEXPathExtensions.h"
 #import "OEXRegisteringUserDetails.h"
 #import "OEXExternalAuthProviderButton.h"
-#import "ListenableObject.h"
 #import "OEXSegmentConfig.h"
 #import "OEXAppDelegate.h"
 
