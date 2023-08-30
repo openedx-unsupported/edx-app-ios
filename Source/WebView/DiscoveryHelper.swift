@@ -12,7 +12,6 @@ import UIKit
 enum URIString: String {
     case appURLScheme = "edxapp"
     case pathPlaceHolder = "{path_id}"
-    case coursePathPrefix = "course/"
 }
 
 fileprivate enum URLParameterKeys: String, RawStringExtractable {
@@ -47,8 +46,7 @@ enum WebviewActions: String {
             return nil
         }
         
-        // the site sends us things of the form "course/<path_id>" we only want the path id
-        return path.replacingOccurrences(of: URIString.coursePathPrefix.rawValue, with: "")
+        return path
     }
     
     class func parse(url: URL) -> (courseId: String?, emailOptIn: Bool)? {
