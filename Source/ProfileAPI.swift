@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import edXCore
-
+@testable import edX
 public class ProfileAPI: NSObject {
     
     private static var currentUserFeed = [String: Feed<UserProfile>]()

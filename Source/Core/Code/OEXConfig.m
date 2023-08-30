@@ -8,7 +8,6 @@
 
 #import "OEXConfig.h"
 
-#import <edXCore/edXCore-Swift.h>
 
 // Please keep sorted alphabetically
 static NSString* const OEXAPIHostURL = @"API_HOST_URL";
@@ -66,7 +65,7 @@ static OEXConfig* sSharedConfig;
             return result;
         }
         else {
-            [Logger logError:@"CONFIG" :[NSString stringWithFormat:@"Couldn't read config key (%@) from environment. Invalid JSON: %@", key, value] file:@"" __FILE__ line:__LINE__];
+//            [Logger logError:@"CONFIG" :[NSString stringWithFormat:@"Couldn't read config key (%@) from environment. Invalid JSON: %@", key, value] file:@"" __FILE__ line:__LINE__];
         }
     }
     return self.properties[key];

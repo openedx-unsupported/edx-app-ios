@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import edXCore
 
 private func equalsCaseInsensitive(lhs: String, _ rhs: String) -> Bool {
     return lhs.caseInsensitiveCompare(rhs) == .orderedSame

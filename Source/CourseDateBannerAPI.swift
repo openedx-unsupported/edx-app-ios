@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import edXCore
+ 
 
 class CourseDateBannerAPI: NSObject {
     private static func courseDateBannerDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDateBannerModel> {

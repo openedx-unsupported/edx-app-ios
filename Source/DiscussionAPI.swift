@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import edXCore
-
+@testable import edX
 public enum DiscussionPostsFilter {
     case AllPosts
     case Unread

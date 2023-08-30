@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import edXCore
+import 
 import edX
 
 // This is just a class in the current bundle rather than in whatever bundle JSON is in.

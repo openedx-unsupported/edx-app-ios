@@ -8,8 +8,6 @@
 
 import Foundation
 
-import edXCore
-
 public enum LoadState {
     case Initial
     case Loaded

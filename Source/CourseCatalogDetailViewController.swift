@@ -9,8 +9,6 @@
 import WebKit
 import UIKit
 
-import edXCore
-
 class CourseCatalogDetailViewController: UIViewController, InterfaceOrientationOverriding {
     private let courseID: String
     fileprivate var enrollmentFailureAlertView: UIAlertController?

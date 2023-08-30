@@ -6,8 +6,7 @@
 //  Copyright © 2016 edX. All rights reserved.
 //
 
-import Foundation
-import edXCore
+import Foundation 
 
 enum DiscoveryConfigType: String {
     case native = "native"

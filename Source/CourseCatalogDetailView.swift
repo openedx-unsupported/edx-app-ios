@@ -9,7 +9,6 @@
 private let margin : CGFloat = 20
 
 import WebKit
-import edXCore
 
 class CourseCatalogDetailView : UIView {
 

@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import edXCore
-
+@testable import edX
 @objc public class SessionUsernameProvider : NSObject, PathProvider {
     private let session : OEXSession
     @objc public init(session : OEXSession) {

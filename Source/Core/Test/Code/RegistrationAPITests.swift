@@ -8,7 +8,7 @@
 
 import XCTest
 
-@testable import edXCore
+@testable import edX
 
 class RegistrationAPITests: XCTestCase {
 

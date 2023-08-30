@@ -8,7 +8,6 @@
 
 import UIKit
 
-import edXCore
 
 public struct CourseInfoAPI {
     

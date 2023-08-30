@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-@import edXCore;
+
 @import Firebase;
 @import GoogleCast;
 @import NewRelic;

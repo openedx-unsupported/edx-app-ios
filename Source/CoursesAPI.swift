@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import edXCore
 
 struct CoursesAPI {
     private enum Keys: String, RawStringExtractable {

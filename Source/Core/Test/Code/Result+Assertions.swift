@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 
-import edXCore
+@testable import edX
 
 func AssertSuccess<A>(_ result : Result<A> , file : StaticString = #file, line : UInt = #line, assertions : ((A) -> Void)? = nil) {
     switch result {

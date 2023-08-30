@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import edXCore
-
+@testable import edX
 public enum EnrollmentMode: String {
     case audit = "audit"
     case verified = "verified"

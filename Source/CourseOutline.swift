@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import edXCore
 
 public typealias CourseBlockID = String
 

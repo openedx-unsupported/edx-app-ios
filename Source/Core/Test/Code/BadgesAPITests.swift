@@ -8,8 +8,8 @@
 
 import Foundation
 import XCTest
+@testable import edX
 
-import edXCore
 
 class BadgesAPITests : XCTestCase {
 

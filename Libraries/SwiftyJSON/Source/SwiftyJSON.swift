@@ -266,12 +266,12 @@ private func unwrap(_ object: Any) -> Any? {
     }
 }
 
-public enum Index<T: Any>: Comparable {
+public enum Indexx<T: Any>: Comparable {
     case array(Int)
     case dictionary(DictionaryIndex<String, T>)
     case null
     
-    static public func == (lhs: Index, rhs: Index) -> Bool {
+    static public func == (lhs: Indexx, rhs: Indexx) -> Bool {
         switch (lhs, rhs) {
         case (.array(let left), .array(let right)):
             return left == right
@@ -283,7 +283,7 @@ public enum Index<T: Any>: Comparable {
         }
     }
     
-    static public func < (lhs: Index, rhs: Index) -> Bool {
+    static public func < (lhs: Indexx, rhs: Indexx) -> Bool {
         switch (lhs, rhs) {
         case (.array(let left), .array(let right)):
             return left < right
@@ -295,14 +295,14 @@ public enum Index<T: Any>: Comparable {
     }
 }
 
-public typealias JSONIndex = Index<JSON>
-public typealias JSONRawIndex = Index<Any>
+public typealias JSONIndex = Indexx<JSON>
+public typealias JSONRawIndex = Indexx<Any>
 
 extension JSON: Swift.Collection {
     
-    public typealias Index = JSONRawIndex
+    public typealias Indexx = JSONRawIndex
     
-    public var startIndex: Index {
+    public var startIndex: Indexx {
         switch type {
         case .array:
             return .array(rawArray.startIndex)
@@ -313,7 +313,7 @@ extension JSON: Swift.Collection {
         }
     }
     
-    public var endIndex: Index {
+    public var endIndex: Indexx {
         switch type {
         case .array:
             return .array(rawArray.endIndex)
@@ -324,7 +324,7 @@ extension JSON: Swift.Collection {
         }
     }
     
-    public func index(after i: Index) -> Index {
+    public func index(after i: Indexx) -> Indexx {
         switch i {
         case .array(let idx):
             return .array(rawArray.index(after: idx))
@@ -335,7 +335,7 @@ extension JSON: Swift.Collection {
         }
     }
     
-    public subscript (position: Index) -> (String, JSON) {
+    public subscript (position: Indexx) -> (String, JSON) {
         switch position {
         case .array(let idx):
             return (String(idx), JSON(self.rawArray[idx]))

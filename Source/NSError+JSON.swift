@@ -8,8 +8,6 @@
 
 import Foundation
 
-import edXCore
-
 enum APIErrorCodeAction {
     case doNothing
     case logout

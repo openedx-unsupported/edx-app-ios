@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 import XCTest
+@testable import edX
 
-import edXCore
 
 class NetworkManagerTests: XCTestCase {
     class AuthProvider : NSObject, AuthorizationHeaderProvider, SessionDataProvider {

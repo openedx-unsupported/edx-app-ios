@@ -85,3 +85,5 @@
 #import "OEXSegmentConfig.h"
 #import "OEXAppDelegate.h"
 
+#import "NSString+OEXFormatting.h"
+#import "NSBundle+OEXConveniences.h"

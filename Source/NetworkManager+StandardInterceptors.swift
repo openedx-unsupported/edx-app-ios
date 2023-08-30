@@ -7,8 +7,7 @@
 //
 
 import Foundation
-
-import edXCore
+ 
 
 extension NetworkManager {
     @objc public func addStandardInterceptors() {

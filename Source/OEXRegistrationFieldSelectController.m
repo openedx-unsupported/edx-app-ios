@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-@import edXCore;
+
 
 #import "OEXRegistrationFieldSelectController.h"
 

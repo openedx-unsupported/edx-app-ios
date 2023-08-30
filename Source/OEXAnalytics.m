@@ -6,7 +6,6 @@
 //  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-@import edXCore;
 
 #import "OEXAnalytics.h"
 #import "OEXAnalyticsData.h"

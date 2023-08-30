@@ -8,7 +8,6 @@
 
 import UIKit
 import WebKit
-import edXCore
 
 private func announcementsDeserializer(response: HTTPURLResponse, json: JSON) -> Result<[OEXAnnouncement]> {
     return json.array.toResult().map {

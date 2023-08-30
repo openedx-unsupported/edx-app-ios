@@ -8,8 +8,6 @@
 
 import Foundation
 
-import edXCore
-
 extension NetworkManager {
     
     func performQueuedTasks(success: Bool) {

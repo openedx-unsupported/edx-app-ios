@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import edXCore
+@testable import edX
 
 public func Success<A>(v : A) -> Result<A> {
     return Result.success(v)

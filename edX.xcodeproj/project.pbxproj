@@ -165,7 +165,6 @@
 		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
 		5F54D99D26B9228500F1EA71 /* PaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F54D99C26B9228500F1EA71 /* PaymentManager.swift */; };
 		5F58DCE12819879300787A75 /* CourseUpgrade.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F58DCE32819879300787A75 /* CourseUpgrade.strings */; };
-		5F592AD0257521F600D96214 /* ISOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F592ACF257521F600D96214 /* ISOParser.swift */; };
 		5F59B40026AFF5B000D6CA3E /* ProfileOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F59B3FF26AFF5B000D6CA3E /* ProfileOptionsViewController.swift */; };
 		5F5FC00B269DA8C500F92B8F /* ValuePropMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00A269DA8C500F92B8F /* ValuePropMessagesView.swift */; };
 		5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */; };
@@ -220,8 +219,6 @@
 		6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089291D53935500EE66DD /* courseCertificate@2x.png */; };
 		6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6960892A1D53935500EE66DD /* courseCertificate@3x.png */; };
 		697652261D9BA7C80031FF8B /* OEXColorsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697652251D9BA7C80031FF8B /* OEXColorsDataFactory.swift */; };
-		697B5A031D92DA2F002C3ABD /* RegistrationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391471C97A70700FA959C /* RegistrationAPI.swift */; };
-		697B5A091D92DB3F002C3ABD /* RegistrationFormAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */; };
 		6987A86D1D6C67DB00E9D183 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 6987A86C1D6C67DB00E9D183 /* colors.json */; };
 		698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698EE6E81E38A53600DF4FEA /* RatingView.swift */; };
 		699FF8501E559E6B00AD98A5 /* OEXInterface+AppReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699FF84F1E559E6B00AD98A5 /* OEXInterface+AppReview.swift */; };
@@ -301,25 +298,10 @@
 		771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */; };
 		7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */; };
 		7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7714A25F1AB37CF7004C2254 /* OEXRegistrationFieldError.m */; };
-		771D65C31C922DE500112B7E /* OEXHTTPStatusCodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 771D65C21C922DE500112B7E /* OEXHTTPStatusCodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		771D65C61C922E6700112B7E /* OEXRemovable.h in Headers */ = {isa = PBXBuildFile; fileRef = 771D65C41C922E6700112B7E /* OEXRemovable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		771D65C71C922E6700112B7E /* OEXRemovable.m in Sources */ = {isa = PBXBuildFile; fileRef = 771D65C51C922E6700112B7E /* OEXRemovable.m */; };
-		771D65C91C922EE600112B7E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65C81C922EE600112B7E /* NetworkManager.swift */; };
-		771D65CC1C922FB800112B7E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65CA1C922FB800112B7E /* Result.swift */; };
-		771D65CD1C922FB800112B7E /* OEXStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65CB1C922FB800112B7E /* OEXStream.swift */; };
-		771D65D01C922FC800112B7E /* Removable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65CE1C922FC800112B7E /* Removable.swift */; };
-		771D65D11C922FC800112B7E /* StreamWaitOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65CF1C922FC800112B7E /* StreamWaitOperation.swift */; };
-		771D65D31C922FD400112B7E /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65D21C922FD400112B7E /* Operation.swift */; };
-		771D65D51C922FE500112B7E /* PersistentResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65D41C922FE500112B7E /* PersistentResponseCache.swift */; };
-		771D65D71C922FF400112B7E /* NSHTTPURLResponse+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65D61C922FF400112B7E /* NSHTTPURLResponse+OEXHelpers.swift */; };
-		771D65D91C92300000112B7E /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65D81C92300000112B7E /* Box.swift */; };
-		771D65DB1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65DA1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift */; };
 		77236EEB1C21C32E006AC1A4 /* PaginationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77236EEA1C21C32E006AC1A4 /* PaginationController.swift */; };
 		77236EED1C21C376006AC1A4 /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77236EEC1C21C376006AC1A4 /* Paginator.swift */; };
 		7725016A1C80FB5C002549A9 /* ServerChangedChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772501691C80FB5C002549A9 /* ServerChangedChecker.swift */; };
 		772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 772619B61ADDA8ED005BD7E4 /* OEXPushSettingsManager.m */; };
-		772856DF1CADBFD100460E7C /* BadgesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772856DE1CADBFD100460E7C /* BadgesAPI.swift */; };
-		772856E11CADC5DB00460E7C /* RawStringExtractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772856E01CADC5DB00460E7C /* RawStringExtractable.swift */; };
 		773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181361B697644000CC050 /* DiscussionDataManager.swift */; };
 		7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */; };
 		773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */; };
@@ -335,9 +317,6 @@
 		77503E8E1B287DBF00C47229 /* KeyboardInsetsSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */; };
 		77509D941BE1710200B10CD3 /* TZStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77509D8F1BE1710200B10CD3 /* TZStackView.swift */; };
 		77509D981BE1916600B10CD3 /* UserProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77509D971BE1916600B10CD3 /* UserProfileManager.swift */; };
-		775391441C9760BD00FA959C /* NSString+OEXCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 775391421C9760BD00FA959C /* NSString+OEXCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		775391451C9760BD00FA959C /* NSString+OEXCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 775391431C9760BD00FA959C /* NSString+OEXCrypto.m */; };
-		77542CD61CB6A398006CA428 /* JSON+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77542CD51CB6A398006CA428 /* JSON+Formatting.swift */; };
 		775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434821AD7394D00635A40 /* OEXPushNotificationManager.m */; };
 		77567B771AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B761AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m */; };
 		775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775716B81CB804E40091AB10 /* UserProfilePresenter.swift */; };
@@ -387,7 +366,6 @@
 		77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4A81AC1B57800AC8955 /* UIImage+OEXColors.m */; };
 		77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4AE1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m */; };
 		77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */; };
-		77AF076F1CADD20F00A42704 /* BadgesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF076E1CADD20F00A42704 /* BadgesModel.swift */; };
 		77AF07751CB311B200A42704 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07741CB311B200A42704 /* UserProfileView.swift */; };
 		77AF07771CB42AC400A42704 /* TabContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07761CB42AC400A42704 /* TabContainerView.swift */; };
 		77AFD10B1C1A04C3001985FD /* UserAgentGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10A1C1A04C3001985FD /* UserAgentGenerator.swift */; };
@@ -397,7 +375,6 @@
 		77BECB041B0A5FDB00894276 /* ContentInsetsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */; };
 		77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */; };
 		77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BFD8691BB9E15B001D7BE5 /* Strings.swift */; };
-		77C182A61CD2997C00AE1474 /* PaginationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C182A51CD2997C00AE1474 /* PaginationInfo.swift */; };
 		77C182AA1CD2E46900AE1474 /* TablePaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C182A91CD2E46900AE1474 /* TablePaginationManipulator.swift */; };
 		77C182AC1CD2E60E00AE1474 /* StackPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C182AB1CD2E60E00AE1474 /* StackPaginationManipulator.swift */; };
 		77C6BBCA1CB4BC6F0026C37B /* AccomplishmentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C6BBC91CB4BC6F0026C37B /* AccomplishmentsView.swift */; };
@@ -414,26 +391,12 @@
 		77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DCD23C1C2B434200CAEBB5 /* UIViewController+Overlay.swift */; };
 		77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E00B701B82A06F00573622 /* GrowingTextViewController.swift */; };
 		77E209851AF158190071316D /* CourseOutline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E209841AF158190071316D /* CourseOutline.swift */; };
-		77E647A31C90C10300B6740D /* edXCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E6478E1C90C10300B6740D /* edXCore.framework */; };
-		77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E6478E1C90C10300B6740D /* edXCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77E647CE1C90CAB800B6740D /* NSAttributedString+OEXFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2C01AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m */; };
-		77E647D01C90CABD00B6740D /* NSString+OEXFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E647C61C90C70600B6740D /* NSString+OEXFormatting.m */; };
-		77E647D11C90CB0700B6740D /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */; };
-		77E648221C90DD6B00B6740D /* edXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E648201C90DD6B00B6740D /* edXCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		77E648261C90DE0200B6740D /* NSBundle+OEXConveniences.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E648241C90DE0200B6740D /* NSBundle+OEXConveniences.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		77E648271C90DE0200B6740D /* NSBundle+OEXConveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E648251C90DE0200B6740D /* NSBundle+OEXConveniences.m */; };
 		77E648591C91235A00B6740D /* OEXConfig+AppFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E648581C91235A00B6740D /* OEXConfig+AppFeatures.swift */; };
-		77E648601C91274700B6740D /* OEXConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E6485C1C91273F00B6740D /* OEXConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		77E648611C91274E00B6740D /* OEXConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E6485D1C91273F00B6740D /* OEXConfig.m */; };
-		77E648651C9127DF00B6740D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E648641C9127DF00B6740D /* Logger.swift */; };
 		77E6486C1C912BD600B6740D /* Logger+OEXObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */; };
 		77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E6486D1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift */; };
 		77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E648771C91330D00B6740D /* Result+Conveniences.swift */; };
-		77E6487D1C91337300B6740D /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80542B111AFD3AB400CE5FB0 /* Alamofire.swift */; };
 		77E6487F1C9133C600B6740D /* SessionUsernameProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E6487E1C9133C600B6740D /* SessionUsernameProvider.swift */; };
-		77E648851C91385C00B6740D /* Array+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E648841C91385C00B6740D /* Array+Functional.swift */; };
-		77E648941C91407B00B6740D /* NSObject+OEXDeallocAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E648901C91407B00B6740D /* NSObject+OEXDeallocAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		77E648951C91407B00B6740D /* NSObject+OEXDeallocAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E648911C91407B00B6740D /* NSObject+OEXDeallocAction.m */; };
 		77EA92261BB4590A00EC625A /* DownloadsAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EA92251BB4590A00EC625A /* DownloadsAccessoryView.swift */; };
 		77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */; };
 		77F76A6E1B0BD32A00ED3E39 /* OEXSession+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A6D1B0BD32A00ED3E39 /* OEXSession+Authorization.swift */; };
@@ -627,6 +590,49 @@
 		DB1A58F42A9739BE00DD9744 /* NutritionLabel.txt in Resources */ = {isa = PBXBuildFile; fileRef = DB1A58C92A9739BD00DD9744 /* NutritionLabel.txt */; };
 		DB1A58F72A973CC000DD9744 /* GoogleCastCoreResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DB1A58F52A973CC000DD9744 /* GoogleCastCoreResources.bundle */; };
 		DB1A58F82A973CC000DD9744 /* GoogleCastUIResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DB1A58F62A973CC000DD9744 /* GoogleCastUIResources.bundle */; };
+		DB95F2A92A9F4B730029EC39 /* OEXMetaClassHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29D2A9F4B730029EC39 /* OEXMetaClassHelpers.m */; };
+		DB95F2AB2A9F4B730029EC39 /* MockResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29F2A9F4B730029EC39 /* MockResponseCache.swift */; };
+		DB95F2D22A9F4B800029EC39 /* StreamWaitOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B22A9F4B7F0029EC39 /* StreamWaitOperation.swift */; };
+		DB95F2D32A9F4B800029EC39 /* RegistrationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B32A9F4B7F0029EC39 /* RegistrationAPI.swift */; };
+		DB95F2D42A9F4B800029EC39 /* OEXStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B42A9F4B7F0029EC39 /* OEXStream.swift */; };
+		DB95F2D52A9F4B800029EC39 /* RegistrationFormAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B52A9F4B7F0029EC39 /* RegistrationFormAPI.swift */; };
+		DB95F2D62A9F4B800029EC39 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B62A9F4B7F0029EC39 /* Box.swift */; };
+		DB95F2D72A9F4B800029EC39 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B72A9F4B7F0029EC39 /* Operation.swift */; };
+		DB95F2D82A9F4B800029EC39 /* NSObject+OEXDeallocAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B82A9F4B7F0029EC39 /* NSObject+OEXDeallocAction.m */; };
+		DB95F2D92A9F4B800029EC39 /* PaginationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B92A9F4B7F0029EC39 /* PaginationInfo.swift */; };
+		DB95F2DA2A9F4B800029EC39 /* Removable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2BA2A9F4B800029EC39 /* Removable.swift */; };
+		DB95F2DB2A9F4B800029EC39 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2BB2A9F4B800029EC39 /* NetworkManager.swift */; };
+		DB95F2DC2A9F4B800029EC39 /* NSString+OEXFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2BC2A9F4B800029EC39 /* NSString+OEXFormatting.m */; };
+		DB95F2DD2A9F4B800029EC39 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2BE2A9F4B800029EC39 /* Logger.swift */; };
+		DB95F2DE2A9F4B800029EC39 /* PersistentResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2BF2A9F4B800029EC39 /* PersistentResponseCache.swift */; };
+		DB95F2DF2A9F4B800029EC39 /* NSBundle+OEXConveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2C12A9F4B800029EC39 /* NSBundle+OEXConveniences.m */; };
+		DB95F2E02A9F4B800029EC39 /* BadgesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2C22A9F4B800029EC39 /* BadgesModel.swift */; };
+		DB95F2E12A9F4B800029EC39 /* BadgesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2C32A9F4B800029EC39 /* BadgesAPI.swift */; };
+		DB95F2E22A9F4B800029EC39 /* NSHTTPURLResponse+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2C42A9F4B800029EC39 /* NSHTTPURLResponse+OEXHelpers.swift */; };
+		DB95F2E32A9F4B800029EC39 /* JSON+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2C52A9F4B800029EC39 /* JSON+Formatting.swift */; };
+		DB95F2E42A9F4B800029EC39 /* NSString+OEXCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2C62A9F4B800029EC39 /* NSString+OEXCrypto.m */; };
+		DB95F2E52A9F4B800029EC39 /* OEXConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2C82A9F4B800029EC39 /* OEXConfig.m */; };
+		DB95F2E62A9F4B800029EC39 /* RawStringExtractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2C92A9F4B800029EC39 /* RawStringExtractable.swift */; };
+		DB95F2E72A9F4B800029EC39 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2CA2A9F4B800029EC39 /* Result.swift */; };
+		DB95F2E82A9F4B800029EC39 /* OEXRemovable.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2CD2A9F4B800029EC39 /* OEXRemovable.m */; };
+		DB95F2E92A9F4B800029EC39 /* Array+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2D02A9F4B800029EC39 /* Array+Functional.swift */; };
+		DB95F2EA2A9F4B800029EC39 /* OEXHTTPStatusCode+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2D12A9F4B800029EC39 /* OEXHTTPStatusCode+Groups.swift */; };
+		DB95F2F32A9F4DDA0029EC39 /* edXTests_tempp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2F22A9F4DDA0029EC39 /* edXTests_tempp.swift */; };
+		DB95F2FA2A9F4DE20029EC39 /* NSObject+OEXDeallocActionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A02A9F4B730029EC39 /* NSObject+OEXDeallocActionTests.m */; };
+		DB95F2FB2A9F4DE20029EC39 /* Array+FunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A52A9F4B730029EC39 /* Array+FunctionalTests.swift */; };
+		DB95F2FC2A9F4DE20029EC39 /* BadgesAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29C2A9F4B730029EC39 /* BadgesAPITests.swift */; };
+		DB95F2FD2A9F4DE20029EC39 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A12A9F4B730029EC39 /* NetworkManagerTests.swift */; };
+		DB95F2FE2A9F4DE20029EC39 /* NSString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A42A9F4B730029EC39 /* NSString+OEXFormattingTests.m */; };
+		DB95F2FF2A9F4DE20029EC39 /* PaginationInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29E2A9F4B730029EC39 /* PaginationInfoTests.swift */; };
+		DB95F3002A9F4DE20029EC39 /* PersistentResponseCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A62A9F4B730029EC39 /* PersistentResponseCacheTests.swift */; };
+		DB95F3012A9F4DE20029EC39 /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29B2A9F4B730029EC39 /* RegistrationAPITests.swift */; };
+		DB95F3022A9F4E890029EC39 /* Result+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A22A9F4B730029EC39 /* Result+Assertions.swift */; };
+		DB95F3032A9F4EB80029EC39 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */; };
+		DB95F3042A9F4EC90029EC39 /* ISOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F592ACF257521F600D96214 /* ISOParser.swift */; };
+		DB95F3052A9F4EF10029EC39 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80542B111AFD3AB400CE5FB0 /* Alamofire.swift */; };
+		DB95F3072A9F50260029EC39 /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3062A9F50260029EC39 /* DateFormatting.swift */; };
+		DB95F30A2A9F51A40029EC39 /* LoginApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3082A9F51A40029EC39 /* LoginApi.swift */; };
+		DB95F30B2A9F51A40029EC39 /* LogoutApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3092A9F51A40029EC39 /* LogoutApi.swift */; };
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
 		E00603472656509700CEBB12 /* BrazeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00603462656509700CEBB12 /* BrazeProvider.swift */; };
 		E0060349265650A400CEBB12 /* BrazeListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0060348265650A400CEBB12 /* BrazeListener.swift */; };
@@ -673,13 +679,11 @@
 		E07107931C7591360004B76C /* DiscussionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07107921C7591360004B76C /* DiscussionHelper.swift */; };
 		E076A5C21C7DB624008A99C6 /* DiscussionResponsesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */; };
 		E082D60325C0070800C94C9A /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E082D60225C0070700C94C9A /* Photos.framework */; };
-		E08863F31F209B9C0009A06D /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08863F21F209B9C0009A06D /* DateFormatting.swift */; };
 		E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */; };
 		E09B73722342034400D0EE45 /* FCMProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B73712342034400D0EE45 /* FCMProvider.swift */; };
 		E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */; };
 		E09F953828111ABE00F29443 /* KeychainSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AA9129280FFF8C00D39A4D /* KeychainSwift.xcframework */; };
 		E09F953928111ABE00F29443 /* KeychainSwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E0AA9129280FFF8C00D39A4D /* KeychainSwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461C1D5CA6950066C766 /* LogoutApi.swift */; };
 		E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */; };
 		E0A948132786A6DE00BE79D9 /* WebviewCookiesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
@@ -694,22 +698,20 @@
 		E0D159971EB87700005E2A76 /* WhatsNewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159961EB87700005E2A76 /* WhatsNewObject.swift */; };
 		E0D232D4291374A900051A04 /* UsingExternalAuthInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D232D3291374A900051A04 /* UsingExternalAuthInfoView.swift */; };
 		E0E163EC21368A1D00DAE9F0 /* FirebaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */; };
-		E0EC12AD2216A6910090EEF6 /* NSString+OEXFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E647C51C90C70600B6740D /* NSString+OEXFormatting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */ = {isa = PBXBuildFile; fileRef = E0EEC6E91F1CD279006C8D62 /* whats_new.json */; };
 		E0FF457920FDD24400109662 /* BlockCompletionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FF457820FDD24400109662 /* BlockCompletionApi.swift */; };
 		E40AEA73218D074700049C39 /* YoutubeVideoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40AEA72218D074600049C39 /* YoutubeVideoConfig.swift */; };
 		E40AEA75218D076200049C39 /* YoutubeVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40AEA74218D076200049C39 /* YoutubeVideoPlayer.swift */; };
 		F22A0ABB1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22A0ABA1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift */; };
-		F22A0ABD1CE660B300D50DFF /* LoginApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22A0ABC1CE660B300D50DFF /* LoginApi.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		77E647A11C90C10300B6740D /* PBXContainerItemProxy */ = {
+		DB95F2F42A9F4DDA0029EC39 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BECB7B031924C0C3009C77F1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 77E6478D1C90C10300B6740D;
-			remoteInfo = "edX-core";
+			remoteGlobalIDString = BECB7B0A1924C0C3009C77F1;
+			remoteInfo = edX;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -722,7 +724,6 @@
 			files = (
 				5F700E9A278C35B000B17044 /* SwiftyStoreKit.xcframework in Embed Frameworks */,
 				E09F953928111ABE00F29443 /* KeychainSwift.xcframework in Embed Frameworks */,
-				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1033,7 +1034,6 @@
 		696089291D53935500EE66DD /* courseCertificate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@2x.png"; sourceTree = "<group>"; };
 		6960892A1D53935500EE66DD /* courseCertificate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@3x.png"; sourceTree = "<group>"; };
 		697652251D9BA7C80031FF8B /* OEXColorsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsDataFactory.swift; sourceTree = "<group>"; };
-		697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationFormAPI.swift; path = Source/Core/Code/RegistrationFormAPI.swift; sourceTree = SOURCE_ROOT; };
 		6987A86C1D6C67DB00E9D183 /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
 		698EE6E81E38A53600DF4FEA /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		699FF84F1E559E6B00AD98A5 /* OEXInterface+AppReview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXInterface+AppReview.swift"; sourceTree = "<group>"; };
@@ -1123,26 +1123,11 @@
 		7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegisteringUserDetails.m; sourceTree = "<group>"; };
 		7714A25E1AB37CF7004C2254 /* OEXRegistrationFieldError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldError.h; sourceTree = "<group>"; };
 		7714A25F1AB37CF7004C2254 /* OEXRegistrationFieldError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldError.m; sourceTree = "<group>"; };
-		771D65C21C922DE500112B7E /* OEXHTTPStatusCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXHTTPStatusCodes.h; path = Source/Core/Code/OEXHTTPStatusCodes.h; sourceTree = SOURCE_ROOT; };
-		771D65C41C922E6700112B7E /* OEXRemovable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXRemovable.h; path = Source/Core/Code/OEXRemovable.h; sourceTree = SOURCE_ROOT; };
-		771D65C51C922E6700112B7E /* OEXRemovable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXRemovable.m; path = Source/Core/Code/OEXRemovable.m; sourceTree = SOURCE_ROOT; };
-		771D65C81C922EE600112B7E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = Source/Core/Code/NetworkManager.swift; sourceTree = SOURCE_ROOT; };
-		771D65CA1C922FB800112B7E /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Core/Code/Result.swift; sourceTree = SOURCE_ROOT; };
-		771D65CB1C922FB800112B7E /* OEXStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXStream.swift; path = Source/Core/Code/OEXStream.swift; sourceTree = SOURCE_ROOT; };
-		771D65CE1C922FC800112B7E /* Removable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Removable.swift; path = Source/Core/Code/Removable.swift; sourceTree = SOURCE_ROOT; };
-		771D65CF1C922FC800112B7E /* StreamWaitOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamWaitOperation.swift; path = Source/Core/Code/StreamWaitOperation.swift; sourceTree = SOURCE_ROOT; };
-		771D65D21C922FD400112B7E /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Operation.swift; path = Source/Core/Code/Operation.swift; sourceTree = SOURCE_ROOT; };
-		771D65D41C922FE500112B7E /* PersistentResponseCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentResponseCache.swift; path = Source/Core/Code/PersistentResponseCache.swift; sourceTree = SOURCE_ROOT; };
-		771D65D61C922FF400112B7E /* NSHTTPURLResponse+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSHTTPURLResponse+OEXHelpers.swift"; path = "Source/Core/Code/NSHTTPURLResponse+OEXHelpers.swift"; sourceTree = SOURCE_ROOT; };
-		771D65D81C92300000112B7E /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Box.swift; path = Source/Core/Code/Box.swift; sourceTree = SOURCE_ROOT; };
-		771D65DA1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OEXHTTPStatusCode+Groups.swift"; path = "Source/Core/Code/OEXHTTPStatusCode+Groups.swift"; sourceTree = SOURCE_ROOT; };
 		77236EEA1C21C32E006AC1A4 /* PaginationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationController.swift; sourceTree = "<group>"; };
 		77236EEC1C21C376006AC1A4 /* Paginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginator.swift; sourceTree = "<group>"; };
 		772501691C80FB5C002549A9 /* ServerChangedChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerChangedChecker.swift; sourceTree = "<group>"; };
 		772619B51ADDA8ED005BD7E4 /* OEXPushSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushSettingsManager.h; sourceTree = "<group>"; };
 		772619B61ADDA8ED005BD7E4 /* OEXPushSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushSettingsManager.m; sourceTree = "<group>"; };
-		772856DE1CADBFD100460E7C /* BadgesAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesAPI.swift; path = Source/Core/Code/BadgesAPI.swift; sourceTree = SOURCE_ROOT; };
-		772856E01CADC5DB00460E7C /* RawStringExtractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RawStringExtractable.swift; path = Source/Core/Code/RawStringExtractable.swift; sourceTree = SOURCE_ROOT; };
 		773181361B697644000CC050 /* DiscussionDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataManager.swift; sourceTree = "<group>"; };
 		7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeparatorInsetable.swift; sourceTree = "<group>"; };
 		773A04691AF289650076532C /* edX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "edX-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1161,17 +1146,6 @@
 		77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInsetsSource.swift; sourceTree = "<group>"; };
 		77509D8F1BE1710200B10CD3 /* TZStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TZStackView.swift; sourceTree = "<group>"; };
 		77509D971BE1916600B10CD3 /* UserProfileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileManager.swift; sourceTree = "<group>"; };
-		7753913B1C97579000FA959C /* PersistentResponseCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentResponseCacheTests.swift; path = Source/Core/Test/Code/PersistentResponseCacheTests.swift; sourceTree = SOURCE_ROOT; };
-		7753913D1C9758A300FA959C /* Result+Assertions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Result+Assertions.swift"; path = "Source/Core/Test/Code/Result+Assertions.swift"; sourceTree = SOURCE_ROOT; };
-		775391421C9760BD00FA959C /* NSString+OEXCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+OEXCrypto.h"; path = "Source/Core/Code/NSString+OEXCrypto.h"; sourceTree = SOURCE_ROOT; };
-		775391431C9760BD00FA959C /* NSString+OEXCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXCrypto.m"; path = "Source/Core/Code/NSString+OEXCrypto.m"; sourceTree = SOURCE_ROOT; };
-		775391471C97A70700FA959C /* RegistrationAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPI.swift; path = Source/Core/Code/RegistrationAPI.swift; sourceTree = SOURCE_ROOT; };
-		775391831CA0600700FA959C /* RegistrationAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPITests.swift; path = Source/Core/Test/Code/RegistrationAPITests.swift; sourceTree = SOURCE_ROOT; };
-		77542CD51CB6A398006CA428 /* JSON+Formatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "JSON+Formatting.swift"; path = "Source/Core/Code/JSON+Formatting.swift"; sourceTree = SOURCE_ROOT; };
-		77542CD71CB6A3AA006CA428 /* BadgesAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesAPITests.swift; path = Source/Core/Test/Code/BadgesAPITests.swift; sourceTree = SOURCE_ROOT; };
-		77542CD91CB6A463006CA428 /* OEXMetaClassHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXMetaClassHelpers.h; path = Source/Core/Test/Code/OEXMetaClassHelpers.h; sourceTree = SOURCE_ROOT; };
-		77542CDA1CB6A463006CA428 /* OEXMetaClassHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXMetaClassHelpers.m; path = Source/Core/Test/Code/OEXMetaClassHelpers.m; sourceTree = SOURCE_ROOT; };
-		77542CDC1CB6A504006CA428 /* edXCoreTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "edXCoreTests-Bridging-Header.h"; path = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		775434801AD738AD00635A40 /* OEXPushProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushProvider.h; sourceTree = "<group>"; };
 		775434811AD7394D00635A40 /* OEXPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushNotificationManager.h; sourceTree = "<group>"; };
 		775434821AD7394D00635A40 /* OEXPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationManager.m; sourceTree = "<group>"; };
@@ -1241,7 +1215,6 @@
 		77ADF4AE1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleAuthProvider.m; sourceTree = "<group>"; };
 		77ADF4B11AC1FACC00AC8955 /* OEXTextStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXTextStyle.h; sourceTree = "<group>"; };
 		77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTextStyle.m; sourceTree = "<group>"; };
-		77AF076E1CADD20F00A42704 /* BadgesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesModel.swift; path = Source/Core/Code/BadgesModel.swift; sourceTree = SOURCE_ROOT; };
 		77AF07741CB311B200A42704 /* UserProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		77AF07761CB42AC400A42704 /* TabContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabContainerView.swift; sourceTree = "<group>"; };
 		77AFD10A1C1A04C3001985FD /* UserAgentGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentGenerator.swift; sourceTree = "<group>"; };
@@ -1253,8 +1226,6 @@
 		77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentInsetsController.swift; sourceTree = "<group>"; };
 		77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Geometry.swift"; sourceTree = "<group>"; };
 		77BFD8691BB9E15B001D7BE5 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = BUILT_PRODUCTS_DIR; };
-		77C182A51CD2997C00AE1474 /* PaginationInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginationInfo.swift; path = Source/Core/Code/PaginationInfo.swift; sourceTree = SOURCE_ROOT; };
-		77C182A71CD299AE00AE1474 /* PaginationInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginationInfoTests.swift; path = Source/Core/Test/Code/PaginationInfoTests.swift; sourceTree = SOURCE_ROOT; };
 		77C182A91CD2E46900AE1474 /* TablePaginationManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TablePaginationManipulator.swift; sourceTree = "<group>"; };
 		77C182AB1CD2E60E00AE1474 /* StackPaginationManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackPaginationManipulator.swift; sourceTree = "<group>"; };
 		77C6BBC91CB4BC6F0026C37B /* AccomplishmentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccomplishmentsView.swift; sourceTree = "<group>"; };
@@ -1271,29 +1242,10 @@
 		77DCD23C1C2B434200CAEBB5 /* UIViewController+Overlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Overlay.swift"; sourceTree = "<group>"; };
 		77E00B701B82A06F00573622 /* GrowingTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewController.swift; sourceTree = "<group>"; };
 		77E209841AF158190071316D /* CourseOutline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutline.swift; sourceTree = "<group>"; };
-		77E6478E1C90C10300B6740D /* edXCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = edXCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		77E647C51C90C70600B6740D /* NSString+OEXFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+OEXFormatting.h"; path = "Source/Core/Code/NSString+OEXFormatting.h"; sourceTree = SOURCE_ROOT; };
-		77E647C61C90C70600B6740D /* NSString+OEXFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXFormatting.m"; path = "Source/Core/Code/NSString+OEXFormatting.m"; sourceTree = SOURCE_ROOT; };
-		77E648201C90DD6B00B6740D /* edXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edXCore.h; sourceTree = "<group>"; };
-		77E648211C90DD6B00B6740D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		77E648241C90DE0200B6740D /* NSBundle+OEXConveniences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBundle+OEXConveniences.h"; path = "Source/Core/Code/NSBundle+OEXConveniences.h"; sourceTree = SOURCE_ROOT; };
-		77E648251C90DE0200B6740D /* NSBundle+OEXConveniences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+OEXConveniences.m"; path = "Source/Core/Code/NSBundle+OEXConveniences.m"; sourceTree = SOURCE_ROOT; };
-		77E648281C90DE4700B6740D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/Core/Test/SupportingFiles/Info.plist; sourceTree = SOURCE_ROOT; };
-		77E648291C90DE5000B6740D /* NSString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXFormattingTests.m"; path = "Source/Core/Test/Code/NSString+OEXFormattingTests.m"; sourceTree = SOURCE_ROOT; };
 		77E648581C91235A00B6740D /* OEXConfig+AppFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXConfig+AppFeatures.swift"; sourceTree = "<group>"; };
-		77E6485C1C91273F00B6740D /* OEXConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXConfig.h; path = Source/Core/Code/OEXConfig.h; sourceTree = SOURCE_ROOT; };
-		77E6485D1C91273F00B6740D /* OEXConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXConfig.m; path = Source/Core/Code/OEXConfig.m; sourceTree = SOURCE_ROOT; };
-		77E648641C9127DF00B6740D /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Source/Core/Code/Logger.swift; sourceTree = SOURCE_ROOT; };
 		77E6486D1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+StandardInterceptors.swift"; sourceTree = "<group>"; };
 		77E648771C91330D00B6740D /* Result+Conveniences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+Conveniences.swift"; sourceTree = "<group>"; };
 		77E6487E1C9133C600B6740D /* SessionUsernameProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionUsernameProvider.swift; sourceTree = "<group>"; };
-		77E648841C91385C00B6740D /* Array+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Functional.swift"; path = "Source/Core/Code/Array+Functional.swift"; sourceTree = SOURCE_ROOT; };
-		77E648901C91407B00B6740D /* NSObject+OEXDeallocAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+OEXDeallocAction.h"; path = "Source/Core/Code/NSObject+OEXDeallocAction.h"; sourceTree = SOURCE_ROOT; };
-		77E648911C91407B00B6740D /* NSObject+OEXDeallocAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OEXDeallocAction.m"; path = "Source/Core/Code/NSObject+OEXDeallocAction.m"; sourceTree = SOURCE_ROOT; };
-		77E648981C91CC0700B6740D /* NSObject+OEXDeallocActionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OEXDeallocActionTests.m"; path = "Source/Core/Test/Code/NSObject+OEXDeallocActionTests.m"; sourceTree = SOURCE_ROOT; };
-		77E6489B1C91CC6700B6740D /* Array+FunctionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+FunctionalTests.swift"; path = "Source/Core/Test/Code/Array+FunctionalTests.swift"; sourceTree = SOURCE_ROOT; };
-		77E6489F1C91EB2000B6740D /* NetworkManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManagerTests.swift; path = Source/Core/Test/Code/NetworkManagerTests.swift; sourceTree = SOURCE_ROOT; };
-		77E648A11C91EB4900B6740D /* MockResponseCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockResponseCache.swift; path = Source/Core/Test/Code/MockResponseCache.swift; sourceTree = SOURCE_ROOT; };
 		77EA92251BB4590A00EC625A /* DownloadsAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsAccessoryView.swift; sourceTree = "<group>"; };
 		77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsData.m; sourceTree = "<group>"; };
 		77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Libraries/SwiftyJSON/Source/SwiftyJSON.swift; sourceTree = SOURCE_ROOT; };
@@ -1545,6 +1497,55 @@
 		DB1A58C92A9739BD00DD9744 /* NutritionLabel.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NutritionLabel.txt; sourceTree = "<group>"; };
 		DB1A58F52A973CC000DD9744 /* GoogleCastCoreResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleCastCoreResources.bundle; path = GoogleCast.xcframework/GoogleCastCoreResources.bundle; sourceTree = "<group>"; };
 		DB1A58F62A973CC000DD9744 /* GoogleCastUIResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleCastUIResources.bundle; path = GoogleCast.xcframework/GoogleCastUIResources.bundle; sourceTree = "<group>"; };
+		DB95F29B2A9F4B730029EC39 /* RegistrationAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPITests.swift; path = Source/Core/Test/Code/RegistrationAPITests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F29C2A9F4B730029EC39 /* BadgesAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesAPITests.swift; path = Source/Core/Test/Code/BadgesAPITests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F29D2A9F4B730029EC39 /* OEXMetaClassHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXMetaClassHelpers.m; path = Source/Core/Test/Code/OEXMetaClassHelpers.m; sourceTree = SOURCE_ROOT; };
+		DB95F29E2A9F4B730029EC39 /* PaginationInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginationInfoTests.swift; path = Source/Core/Test/Code/PaginationInfoTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F29F2A9F4B730029EC39 /* MockResponseCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockResponseCache.swift; path = Source/Core/Test/Code/MockResponseCache.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2A02A9F4B730029EC39 /* NSObject+OEXDeallocActionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OEXDeallocActionTests.m"; path = "Source/Core/Test/Code/NSObject+OEXDeallocActionTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F2A12A9F4B730029EC39 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManagerTests.swift; path = Source/Core/Test/Code/NetworkManagerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2A22A9F4B730029EC39 /* Result+Assertions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Result+Assertions.swift"; path = "Source/Core/Test/Code/Result+Assertions.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F2A32A9F4B730029EC39 /* OEXMetaClassHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXMetaClassHelpers.h; path = Source/Core/Test/Code/OEXMetaClassHelpers.h; sourceTree = SOURCE_ROOT; };
+		DB95F2A42A9F4B730029EC39 /* NSString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXFormattingTests.m"; path = "Source/Core/Test/Code/NSString+OEXFormattingTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F2A52A9F4B730029EC39 /* Array+FunctionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+FunctionalTests.swift"; path = "Source/Core/Test/Code/Array+FunctionalTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F2A62A9F4B730029EC39 /* PersistentResponseCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentResponseCacheTests.swift; path = Source/Core/Test/Code/PersistentResponseCacheTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2B22A9F4B7F0029EC39 /* StreamWaitOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamWaitOperation.swift; path = Source/Core/Code/StreamWaitOperation.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2B32A9F4B7F0029EC39 /* RegistrationAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPI.swift; path = Source/Core/Code/RegistrationAPI.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2B42A9F4B7F0029EC39 /* OEXStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXStream.swift; path = Source/Core/Code/OEXStream.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2B52A9F4B7F0029EC39 /* RegistrationFormAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationFormAPI.swift; path = Source/Core/Code/RegistrationFormAPI.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2B62A9F4B7F0029EC39 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Box.swift; path = Source/Core/Code/Box.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2B72A9F4B7F0029EC39 /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Operation.swift; path = Source/Core/Code/Operation.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2B82A9F4B7F0029EC39 /* NSObject+OEXDeallocAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OEXDeallocAction.m"; path = "Source/Core/Code/NSObject+OEXDeallocAction.m"; sourceTree = SOURCE_ROOT; };
+		DB95F2B92A9F4B7F0029EC39 /* PaginationInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginationInfo.swift; path = Source/Core/Code/PaginationInfo.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2BA2A9F4B800029EC39 /* Removable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Removable.swift; path = Source/Core/Code/Removable.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2BB2A9F4B800029EC39 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = Source/Core/Code/NetworkManager.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2BC2A9F4B800029EC39 /* NSString+OEXFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXFormatting.m"; path = "Source/Core/Code/NSString+OEXFormatting.m"; sourceTree = SOURCE_ROOT; };
+		DB95F2BD2A9F4B800029EC39 /* OEXConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXConfig.h; path = Source/Core/Code/OEXConfig.h; sourceTree = SOURCE_ROOT; };
+		DB95F2BE2A9F4B800029EC39 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Source/Core/Code/Logger.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2BF2A9F4B800029EC39 /* PersistentResponseCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentResponseCache.swift; path = Source/Core/Code/PersistentResponseCache.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2C02A9F4B800029EC39 /* OEXRemovable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXRemovable.h; path = Source/Core/Code/OEXRemovable.h; sourceTree = SOURCE_ROOT; };
+		DB95F2C12A9F4B800029EC39 /* NSBundle+OEXConveniences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+OEXConveniences.m"; path = "Source/Core/Code/NSBundle+OEXConveniences.m"; sourceTree = SOURCE_ROOT; };
+		DB95F2C22A9F4B800029EC39 /* BadgesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesModel.swift; path = Source/Core/Code/BadgesModel.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2C32A9F4B800029EC39 /* BadgesAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesAPI.swift; path = Source/Core/Code/BadgesAPI.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2C42A9F4B800029EC39 /* NSHTTPURLResponse+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSHTTPURLResponse+OEXHelpers.swift"; path = "Source/Core/Code/NSHTTPURLResponse+OEXHelpers.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F2C52A9F4B800029EC39 /* JSON+Formatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "JSON+Formatting.swift"; path = "Source/Core/Code/JSON+Formatting.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F2C62A9F4B800029EC39 /* NSString+OEXCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXCrypto.m"; path = "Source/Core/Code/NSString+OEXCrypto.m"; sourceTree = SOURCE_ROOT; };
+		DB95F2C72A9F4B800029EC39 /* OEXHTTPStatusCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXHTTPStatusCodes.h; path = Source/Core/Code/OEXHTTPStatusCodes.h; sourceTree = SOURCE_ROOT; };
+		DB95F2C82A9F4B800029EC39 /* OEXConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXConfig.m; path = Source/Core/Code/OEXConfig.m; sourceTree = SOURCE_ROOT; };
+		DB95F2C92A9F4B800029EC39 /* RawStringExtractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RawStringExtractable.swift; path = Source/Core/Code/RawStringExtractable.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2CA2A9F4B800029EC39 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Core/Code/Result.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2CB2A9F4B800029EC39 /* NSBundle+OEXConveniences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBundle+OEXConveniences.h"; path = "Source/Core/Code/NSBundle+OEXConveniences.h"; sourceTree = SOURCE_ROOT; };
+		DB95F2CC2A9F4B800029EC39 /* NSObject+OEXDeallocAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+OEXDeallocAction.h"; path = "Source/Core/Code/NSObject+OEXDeallocAction.h"; sourceTree = SOURCE_ROOT; };
+		DB95F2CD2A9F4B800029EC39 /* OEXRemovable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXRemovable.m; path = Source/Core/Code/OEXRemovable.m; sourceTree = SOURCE_ROOT; };
+		DB95F2CE2A9F4B800029EC39 /* NSString+OEXCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+OEXCrypto.h"; path = "Source/Core/Code/NSString+OEXCrypto.h"; sourceTree = SOURCE_ROOT; };
+		DB95F2CF2A9F4B800029EC39 /* NSString+OEXFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+OEXFormatting.h"; path = "Source/Core/Code/NSString+OEXFormatting.h"; sourceTree = SOURCE_ROOT; };
+		DB95F2D02A9F4B800029EC39 /* Array+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Functional.swift"; path = "Source/Core/Code/Array+Functional.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F2D12A9F4B800029EC39 /* OEXHTTPStatusCode+Groups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OEXHTTPStatusCode+Groups.swift"; path = "Source/Core/Code/OEXHTTPStatusCode+Groups.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F2F02A9F4DDA0029EC39 /* edXTests-tempp.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "edXTests-tempp.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB95F2F22A9F4DDA0029EC39 /* edXTests_tempp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = edXTests_tempp.swift; sourceTree = "<group>"; };
+		DB95F3062A9F50260029EC39 /* DateFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatting.swift; sourceTree = "<group>"; };
+		DB95F3082A9F51A40029EC39 /* LoginApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginApi.swift; path = Source/Core/Code/LoginApi.swift; sourceTree = SOURCE_ROOT; };
+		DB95F3092A9F51A40029EC39 /* LogoutApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogoutApi.swift; path = Source/Core/Code/LogoutApi.swift; sourceTree = SOURCE_ROOT; };
 		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
 		E00603462656509700CEBB12 /* BrazeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeProvider.swift; sourceTree = "<group>"; };
 		E0060348265650A400CEBB12 /* BrazeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeListener.swift; sourceTree = "<group>"; };
@@ -1629,7 +1630,6 @@
 		E07107921C7591360004B76C /* DiscussionHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionHelper.swift; sourceTree = "<group>"; };
 		E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataController.swift; sourceTree = "<group>"; };
 		E082D60225C0070700C94C9A /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
-		E08863F21F209B9C0009A06D /* DateFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatting.swift; sourceTree = SOURCE_ROOT; };
 		E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModel.swift; sourceTree = "<group>"; };
 		E08CC57A1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E08CC57B1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -1638,7 +1638,6 @@
 		E08CC57F1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/whats_new.json"; sourceTree = "<group>"; };
 		E09B73712342034400D0EE45 /* FCMProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMProvider.swift; sourceTree = "<group>"; };
 		E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoController.swift; sourceTree = "<group>"; };
-		E0A2461C1D5CA6950066C766 /* LogoutApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutApi.swift; sourceTree = SOURCE_ROOT; };
 		E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreConfig.swift; sourceTree = "<group>"; };
 		E0A948122786A6DE00BE79D9 /* WebviewCookiesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewCookiesManager.swift; sourceTree = "<group>"; };
 		E0AA9129280FFF8C00D39A4D /* KeychainSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = KeychainSwift.xcframework; sourceTree = "<group>"; };
@@ -1667,18 +1666,10 @@
 		E40AEA72218D074600049C39 /* YoutubeVideoConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeVideoConfig.swift; sourceTree = "<group>"; };
 		E40AEA74218D076200049C39 /* YoutubeVideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeVideoPlayer.swift; sourceTree = "<group>"; };
 		F22A0ABA1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Authenticators.swift"; sourceTree = "<group>"; };
-		F22A0ABC1CE660B300D50DFF /* LoginApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginApi.swift; sourceTree = SOURCE_ROOT; };
 		FC0C457982AE7FA92C629E0F /* Pods-edX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edX.release.xcconfig"; path = "Target Support Files/Pods-edX/Pods-edX.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		77E6478A1C90C10300B6740D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		BECB7B081924C0C3009C77F1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1700,7 +1691,6 @@
 				5F700E99278C35B000B17044 /* SwiftyStoreKit.xcframework in Frameworks */,
 				8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */,
 				E09F953828111ABE00F29443 /* KeychainSwift.xcframework in Frameworks */,
-				77E647A31C90C10300B6740D /* edXCore.framework in Frameworks */,
 				BE8163F61954244E00F9A2C5 /* MessageUI.framework in Frameworks */,
 				BE0EE28B192B78DA00F9FF98 /* libz.dylib in Frameworks */,
 				BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */,
@@ -1709,6 +1699,13 @@
 				BECB7B131924C0C3009C77F1 /* UIKit.framework in Frameworks */,
 				BECB7B0F1924C0C3009C77F1 /* Foundation.framework in Frameworks */,
 				672E72A2755C52B99154ABC2 /* libPods-edX.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB95F2ED2A9F4DDA0029EC39 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2345,45 +2342,6 @@
 			path = Libraries/TZStackView;
 			sourceTree = SOURCE_ROOT;
 		};
-		775391341C97404600FA959C /* Base Structures */ = {
-			isa = PBXGroup;
-			children = (
-				771D65D81C92300000112B7E /* Box.swift */,
-				77E648641C9127DF00B6740D /* Logger.swift */,
-				771D65C41C922E6700112B7E /* OEXRemovable.h */,
-				771D65C51C922E6700112B7E /* OEXRemovable.m */,
-				77C182A51CD2997C00AE1474 /* PaginationInfo.swift */,
-				771D65CA1C922FB800112B7E /* Result.swift */,
-				771D65CE1C922FC800112B7E /* Removable.swift */,
-				771D65CB1C922FB800112B7E /* OEXStream.swift */,
-			);
-			name = "Base Structures";
-			sourceTree = "<group>";
-		};
-		775391351C97405D00FA959C /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				77AF07701CADD2D800A42704 /* API */,
-				771D65DA1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift */,
-				771D65C21C922DE500112B7E /* OEXHTTPStatusCodes.h */,
-				771D65C81C922EE600112B7E /* NetworkManager.swift */,
-				771D65D41C922FE500112B7E /* PersistentResponseCache.swift */,
-			);
-			name = Network;
-			sourceTree = "<group>";
-		};
-		7753913A1C97576100FA959C /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				77542CD71CB6A3AA006CA428 /* BadgesAPITests.swift */,
-				775391831CA0600700FA959C /* RegistrationAPITests.swift */,
-				77E6489F1C91EB2000B6740D /* NetworkManagerTests.swift */,
-				77C182A71CD299AE00AE1474 /* PaginationInfoTests.swift */,
-				7753913B1C97579000FA959C /* PersistentResponseCacheTests.swift */,
-			);
-			name = Tests;
-			sourceTree = "<group>";
-		};
 		7754348A1AD8122E00635A40 /* Push Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -2558,19 +2516,6 @@
 			name = Providers;
 			sourceTree = "<group>";
 		};
-		77AF07701CADD2D800A42704 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				772856DE1CADBFD100460E7C /* BadgesAPI.swift */,
-				77AF076E1CADD20F00A42704 /* BadgesModel.swift */,
-				775391471C97A70700FA959C /* RegistrationAPI.swift */,
-				697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */,
-				F22A0ABC1CE660B300D50DFF /* LoginApi.swift */,
-				E0A2461C1D5CA6950066C766 /* LogoutApi.swift */,
-			);
-			name = API;
-			sourceTree = "<group>";
-		};
 		77AF07781CB42ACB00A42704 /* Helper Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -2638,28 +2583,6 @@
 			name = "Course Structure";
 			sourceTree = "<group>";
 		};
-		77E6478F1C90C10300B6740D /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				77E648621C91275500B6740D /* Code */,
-				77E6479D1C90C10300B6740D /* Tests */,
-				77E6481F1C90DD6B00B6740D /* Supporting Files */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		77E6479D1C90C10300B6740D /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				77E648A31C91EB4E00B6740D /* Helpers */,
-				7753913A1C97576100FA959C /* Tests */,
-				77E6489A1C91CC0C00B6740D /* Library Additions */,
-				77E647B41C90C22D00B6740D /* Supporting Files */,
-			);
-			name = Tests;
-			path = Core/Test;
-			sourceTree = SOURCE_ROOT;
-		};
 		77E647B11C90C21100B6740D /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -2667,88 +2590,6 @@
 				69ECC5A11D50D1170030CF87 /* Resources */,
 			);
 			name = App;
-			sourceTree = "<group>";
-		};
-		77E647B41C90C22D00B6740D /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				77542CDC1CB6A504006CA428 /* edXCoreTests-Bridging-Header.h */,
-				77E648281C90DE4700B6740D /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		77E647BF1C90C6BE00B6740D /* Library Additions */ = {
-			isa = PBXGroup;
-			children = (
-				77E648841C91385C00B6740D /* Array+Functional.swift */,
-				77542CD51CB6A398006CA428 /* JSON+Formatting.swift */,
-				77E648241C90DE0200B6740D /* NSBundle+OEXConveniences.h */,
-				77E648251C90DE0200B6740D /* NSBundle+OEXConveniences.m */,
-				771D65D61C922FF400112B7E /* NSHTTPURLResponse+OEXHelpers.swift */,
-				775391421C9760BD00FA959C /* NSString+OEXCrypto.h */,
-				775391431C9760BD00FA959C /* NSString+OEXCrypto.m */,
-				77E647C51C90C70600B6740D /* NSString+OEXFormatting.h */,
-				77E647C61C90C70600B6740D /* NSString+OEXFormatting.m */,
-				77E648901C91407B00B6740D /* NSObject+OEXDeallocAction.h */,
-				77E648911C91407B00B6740D /* NSObject+OEXDeallocAction.m */,
-				771D65D21C922FD400112B7E /* Operation.swift */,
-				772856E01CADC5DB00460E7C /* RawStringExtractable.swift */,
-				771D65CF1C922FC800112B7E /* StreamWaitOperation.swift */,
-				E08863F21F209B9C0009A06D /* DateFormatting.swift */,
-			);
-			name = "Library Additions";
-			sourceTree = "<group>";
-		};
-		77E6481F1C90DD6B00B6740D /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				77E648201C90DD6B00B6740D /* edXCore.h */,
-				77E648211C90DD6B00B6740D /* Info.plist */,
-			);
-			name = "Supporting Files";
-			path = Source/Core/SupportingFiles;
-			sourceTree = SOURCE_ROOT;
-		};
-		77E648621C91275500B6740D /* Code */ = {
-			isa = PBXGroup;
-			children = (
-				775391341C97404600FA959C /* Base Structures */,
-				77E648631C91276500B6740D /* Configuration */,
-				77E647BF1C90C6BE00B6740D /* Library Additions */,
-				775391351C97405D00FA959C /* Network */,
-			);
-			name = Code;
-			sourceTree = "<group>";
-		};
-		77E648631C91276500B6740D /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				77E6485C1C91273F00B6740D /* OEXConfig.h */,
-				77E6485D1C91273F00B6740D /* OEXConfig.m */,
-			);
-			name = Configuration;
-			sourceTree = "<group>";
-		};
-		77E6489A1C91CC0C00B6740D /* Library Additions */ = {
-			isa = PBXGroup;
-			children = (
-				77E6489B1C91CC6700B6740D /* Array+FunctionalTests.swift */,
-				77E648291C90DE5000B6740D /* NSString+OEXFormattingTests.m */,
-				77E648981C91CC0700B6740D /* NSObject+OEXDeallocActionTests.m */,
-			);
-			name = "Library Additions";
-			sourceTree = "<group>";
-		};
-		77E648A31C91EB4E00B6740D /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				77E648A11C91EB4900B6740D /* MockResponseCache.swift */,
-				77542CD91CB6A463006CA428 /* OEXMetaClassHelpers.h */,
-				77542CDA1CB6A463006CA428 /* OEXMetaClassHelpers.m */,
-				7753913D1C9758A300FA959C /* Result+Assertions.swift */,
-			);
-			name = Helpers;
 			sourceTree = "<group>";
 		};
 		77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */ = {
@@ -3139,12 +2980,14 @@
 		BECB7B021924C0C3009C77F1 = {
 			isa = PBXGroup;
 			children = (
+				DB95F2EB2A9F4DB90029EC39 /* edXTests */,
+				DB95F29A2A9F4B5D0029EC39 /* CoreTemp */,
 				E052F5A81D9953BB009F6B6F /* edX.entitlements */,
 				77E647B11C90C21100B6740D /* App */,
 				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
+				DB95F2F12A9F4DDA0029EC39 /* edXTests-tempp */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
 				BECB7B0C1924C0C3009C77F1 /* Products */,
-				77E6478F1C90C10300B6740D /* Core */,
 				C7156A9A0C1AA9845947F6E2 /* Pods */,
 			);
 			sourceTree = "<group>";
@@ -3153,7 +2996,7 @@
 			isa = PBXGroup;
 			children = (
 				BECB7B0B1924C0C3009C77F1 /* edX.app */,
-				77E6478E1C90C10300B6740D /* edXCore.framework */,
+				DB95F2F02A9F4DDA0029EC39 /* edXTests-tempp.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3424,6 +3267,75 @@
 			path = NutritionLabel;
 			sourceTree = "<group>";
 		};
+		DB95F29A2A9F4B5D0029EC39 /* CoreTemp */ = {
+			isa = PBXGroup;
+			children = (
+				DB95F3082A9F51A40029EC39 /* LoginApi.swift */,
+				DB95F3092A9F51A40029EC39 /* LogoutApi.swift */,
+				DB95F3062A9F50260029EC39 /* DateFormatting.swift */,
+				DB95F2D02A9F4B800029EC39 /* Array+Functional.swift */,
+				DB95F2C32A9F4B800029EC39 /* BadgesAPI.swift */,
+				DB95F2C22A9F4B800029EC39 /* BadgesModel.swift */,
+				DB95F2B62A9F4B7F0029EC39 /* Box.swift */,
+				DB95F2C52A9F4B800029EC39 /* JSON+Formatting.swift */,
+				DB95F2BE2A9F4B800029EC39 /* Logger.swift */,
+				DB95F2BB2A9F4B800029EC39 /* NetworkManager.swift */,
+				DB95F2CB2A9F4B800029EC39 /* NSBundle+OEXConveniences.h */,
+				DB95F2C12A9F4B800029EC39 /* NSBundle+OEXConveniences.m */,
+				DB95F2C42A9F4B800029EC39 /* NSHTTPURLResponse+OEXHelpers.swift */,
+				DB95F2CC2A9F4B800029EC39 /* NSObject+OEXDeallocAction.h */,
+				DB95F2B82A9F4B7F0029EC39 /* NSObject+OEXDeallocAction.m */,
+				DB95F2CE2A9F4B800029EC39 /* NSString+OEXCrypto.h */,
+				DB95F2C62A9F4B800029EC39 /* NSString+OEXCrypto.m */,
+				DB95F2CF2A9F4B800029EC39 /* NSString+OEXFormatting.h */,
+				DB95F2BC2A9F4B800029EC39 /* NSString+OEXFormatting.m */,
+				DB95F2BD2A9F4B800029EC39 /* OEXConfig.h */,
+				DB95F2C82A9F4B800029EC39 /* OEXConfig.m */,
+				DB95F2D12A9F4B800029EC39 /* OEXHTTPStatusCode+Groups.swift */,
+				DB95F2C72A9F4B800029EC39 /* OEXHTTPStatusCodes.h */,
+				DB95F2C02A9F4B800029EC39 /* OEXRemovable.h */,
+				DB95F2CD2A9F4B800029EC39 /* OEXRemovable.m */,
+				DB95F2B42A9F4B7F0029EC39 /* OEXStream.swift */,
+				DB95F2B72A9F4B7F0029EC39 /* Operation.swift */,
+				DB95F2B92A9F4B7F0029EC39 /* PaginationInfo.swift */,
+				DB95F2BF2A9F4B800029EC39 /* PersistentResponseCache.swift */,
+				DB95F2C92A9F4B800029EC39 /* RawStringExtractable.swift */,
+				DB95F2B32A9F4B7F0029EC39 /* RegistrationAPI.swift */,
+				DB95F2B52A9F4B7F0029EC39 /* RegistrationFormAPI.swift */,
+				DB95F2BA2A9F4B800029EC39 /* Removable.swift */,
+				DB95F2CA2A9F4B800029EC39 /* Result.swift */,
+				DB95F2B22A9F4B7F0029EC39 /* StreamWaitOperation.swift */,
+				DB95F2A52A9F4B730029EC39 /* Array+FunctionalTests.swift */,
+				DB95F29C2A9F4B730029EC39 /* BadgesAPITests.swift */,
+				DB95F29F2A9F4B730029EC39 /* MockResponseCache.swift */,
+				DB95F2A12A9F4B730029EC39 /* NetworkManagerTests.swift */,
+				DB95F2A02A9F4B730029EC39 /* NSObject+OEXDeallocActionTests.m */,
+				DB95F2A42A9F4B730029EC39 /* NSString+OEXFormattingTests.m */,
+				DB95F2A32A9F4B730029EC39 /* OEXMetaClassHelpers.h */,
+				DB95F29D2A9F4B730029EC39 /* OEXMetaClassHelpers.m */,
+				DB95F29E2A9F4B730029EC39 /* PaginationInfoTests.swift */,
+				DB95F2A62A9F4B730029EC39 /* PersistentResponseCacheTests.swift */,
+				DB95F29B2A9F4B730029EC39 /* RegistrationAPITests.swift */,
+				DB95F2A22A9F4B730029EC39 /* Result+Assertions.swift */,
+			);
+			path = CoreTemp;
+			sourceTree = "<group>";
+		};
+		DB95F2EB2A9F4DB90029EC39 /* edXTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = edXTests;
+			sourceTree = "<group>";
+		};
+		DB95F2F12A9F4DDA0029EC39 /* edXTests-tempp */ = {
+			isa = PBXGroup;
+			children = (
+				DB95F2F22A9F4DDA0029EC39 /* edXTests_tempp.swift */,
+			);
+			path = "edXTests-tempp";
+			sourceTree = "<group>";
+		};
 		E024177D254043BB00E397EA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -3513,43 +3425,7 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		77E6478B1C90C10300B6740D /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E0EC12AD2216A6910090EEF6 /* NSString+OEXFormatting.h in Headers */,
-				771D65C31C922DE500112B7E /* OEXHTTPStatusCodes.h in Headers */,
-				775391441C9760BD00FA959C /* NSString+OEXCrypto.h in Headers */,
-				77E648261C90DE0200B6740D /* NSBundle+OEXConveniences.h in Headers */,
-				771D65C61C922E6700112B7E /* OEXRemovable.h in Headers */,
-				77E648941C91407B00B6740D /* NSObject+OEXDeallocAction.h in Headers */,
-				77E648221C90DD6B00B6740D /* edXCore.h in Headers */,
-				77E648601C91274700B6740D /* OEXConfig.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
-		77E6478D1C90C10300B6740D /* edXCore */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 77E647AB1C90C10400B6740D /* Build configuration list for PBXNativeTarget "edXCore" */;
-			buildPhases = (
-				77E6478B1C90C10300B6740D /* Headers */,
-				77E647891C90C10300B6740D /* Sources */,
-				77E6478A1C90C10300B6740D /* Frameworks */,
-				77E6478C1C90C10300B6740D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = edXCore;
-			productName = "edX-core";
-			productReference = 77E6478E1C90C10300B6740D /* edXCore.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		BECB7B0A1924C0C3009C77F1 /* edX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BECB7B3D1924C0C3009C77F1 /* Build configuration list for PBXNativeTarget "edX" */;
@@ -3569,12 +3445,29 @@
 			buildRules = (
 			);
 			dependencies = (
-				77E647A21C90C10300B6740D /* PBXTargetDependency */,
 			);
 			name = edX;
 			productName = edXVideoLocker;
 			productReference = BECB7B0B1924C0C3009C77F1 /* edX.app */;
 			productType = "com.apple.product-type.application";
+		};
+		DB95F2EF2A9F4DDA0029EC39 /* edXTests-tempp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB95F2F62A9F4DDA0029EC39 /* Build configuration list for PBXNativeTarget "edXTests-tempp" */;
+			buildPhases = (
+				DB95F2EC2A9F4DDA0029EC39 /* Sources */,
+				DB95F2ED2A9F4DDA0029EC39 /* Frameworks */,
+				DB95F2EE2A9F4DDA0029EC39 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DB95F2F52A9F4DDA0029EC39 /* PBXTargetDependency */,
+			);
+			name = "edXTests-tempp";
+			productName = "edXTests-tempp";
+			productReference = DB95F2F02A9F4DDA0029EC39 /* edXTests-tempp.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -3584,15 +3477,10 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = edX;
 				TargetAttributes = {
-					77E6478D1C90C10300B6740D = {
-						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 1030;
-						ProvisioningStyle = Automatic;
-					};
 					BECB7B0A1924C0C3009C77F1 = {
 						LastSwiftMigration = 1030;
 						SystemCapabilities = {
@@ -3612,6 +3500,10 @@
 								enabled = 1;
 							};
 						};
+					};
+					DB95F2EF2A9F4DDA0029EC39 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = BECB7B0A1924C0C3009C77F1;
 					};
 				};
 			};
@@ -3639,19 +3531,12 @@
 			projectRoot = "";
 			targets = (
 				BECB7B0A1924C0C3009C77F1 /* edX */,
-				77E6478D1C90C10300B6740D /* edXCore */,
+				DB95F2EF2A9F4DDA0029EC39 /* edXTests-tempp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		77E6478C1C90C10300B6740D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		BECB7B091924C0C3009C77F1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3825,6 +3710,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DB95F2EE2A9F4DDA0029EC39 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -3983,41 +3875,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		77E647891C90C10300B6740D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				772856DF1CADBFD100460E7C /* BadgesAPI.swift in Sources */,
-				77AF076F1CADD20F00A42704 /* BadgesModel.swift in Sources */,
-				5F592AD0257521F600D96214 /* ISOParser.swift in Sources */,
-				77542CD61CB6A398006CA428 /* JSON+Formatting.swift in Sources */,
-				77E648851C91385C00B6740D /* Array+Functional.swift in Sources */,
-				771D65D01C922FC800112B7E /* Removable.swift in Sources */,
-				77E648651C9127DF00B6740D /* Logger.swift in Sources */,
-				771D65C91C922EE600112B7E /* NetworkManager.swift in Sources */,
-				E08863F31F209B9C0009A06D /* DateFormatting.swift in Sources */,
-				77E648611C91274E00B6740D /* OEXConfig.m in Sources */,
-				772856E11CADC5DB00460E7C /* RawStringExtractable.swift in Sources */,
-				77E647D01C90CABD00B6740D /* NSString+OEXFormatting.m in Sources */,
-				771D65D11C922FC800112B7E /* StreamWaitOperation.swift in Sources */,
-				77E6487D1C91337300B6740D /* Alamofire.swift in Sources */,
-				771D65D31C922FD400112B7E /* Operation.swift in Sources */,
-				771D65D91C92300000112B7E /* Box.swift in Sources */,
-				77E647D11C90CB0700B6740D /* SwiftyJSON.swift in Sources */,
-				771D65CD1C922FB800112B7E /* OEXStream.swift in Sources */,
-				77E648271C90DE0200B6740D /* NSBundle+OEXConveniences.m in Sources */,
-				771D65D51C922FE500112B7E /* PersistentResponseCache.swift in Sources */,
-				771D65D71C922FF400112B7E /* NSHTTPURLResponse+OEXHelpers.swift in Sources */,
-				77C182A61CD2997C00AE1474 /* PaginationInfo.swift in Sources */,
-				775391451C9760BD00FA959C /* NSString+OEXCrypto.m in Sources */,
-				771D65C71C922E6700112B7E /* OEXRemovable.m in Sources */,
-				771D65DB1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift in Sources */,
-				77E648951C91407B00B6740D /* NSObject+OEXDeallocAction.m in Sources */,
-				697B5A031D92DA2F002C3ABD /* RegistrationAPI.swift in Sources */,
-				771D65CC1C922FB800112B7E /* Result.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		BECB7B071924C0C3009C77F1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4026,6 +3883,7 @@
 				22A970E824EED00E008FCAF6 /* AppleAuthProvider.swift in Sources */,
 				77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */,
 				7742F8DD1C3C979D009E555A /* DiscoveryConfig.swift in Sources */,
+				DB95F3072A9F50260029EC39 /* DateFormatting.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
 				5FC24C222514DBDA0059C0BA /* CourseDateBannerAPI.swift in Sources */,
 				1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */,
@@ -4037,6 +3895,8 @@
 				5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */,
 				BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */,
 				77F9C1741B0D496B004D39E7 /* CourseStructureAPI.swift in Sources */,
+				DB95F2EA2A9F4B800029EC39 /* OEXHTTPStatusCode+Groups.swift in Sources */,
+				DB95F2E12A9F4B800029EC39 /* BadgesAPI.swift in Sources */,
 				779376571BF15C1B00900A8C /* DiscoveryWebViewHelper.swift in Sources */,
 				E0D029F827043DE6001F83B1 /* BannerAPI.swift in Sources */,
 				6919F5FF1D65CD27006935C8 /* OEXColors.swift in Sources */,
@@ -4056,8 +3916,10 @@
 				B7CCC735209B16B100A66923 /* ConstraintView+Extensions.swift in Sources */,
 				E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
+				DB95F2D42A9F4B800029EC39 /* OEXStream.swift in Sources */,
 				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,
 				778F177C1C0D12780099BF93 /* CourseCatalogAPI.swift in Sources */,
+				DB95F30A2A9F51A40029EC39 /* LoginApi.swift in Sources */,
 				B7CCC73B209B16B100A66923 /* LayoutConstraint.swift in Sources */,
 				B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */,
 				773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */,
@@ -4090,10 +3952,12 @@
 				5F7C0C642534520200A344B9 /* FillBackgroundTextStorage.swift in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
 				5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */,
+				DB95F2E92A9F4B800029EC39 /* Array+Functional.swift in Sources */,
 				774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */,
 				22F6A15C20B7E62D009C3F4A /* Mappings.swift in Sources */,
 				9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */,
 				5FB44C1324978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift in Sources */,
+				DB95F3052A9F4EF10029EC39 /* Alamofire.swift in Sources */,
 				7758FFDE1C32FD6A0072355B /* EnrollmentShared.swift in Sources */,
 				5D43B1861B0C1F9200448B52 /* PostTableViewCell.swift in Sources */,
 				774BC7F41B4B0D700084F902 /* DiscussionTopic.swift in Sources */,
@@ -4101,12 +3965,14 @@
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
 				9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */,
 				5FFC1D69286EECB700DD29EB /* ServerConfiguration.swift in Sources */,
+				DB95F2E72A9F4B800029EC39 /* Result.swift in Sources */,
 				B7CCC71F209B16B100A66923 /* ConstraintDescription.swift in Sources */,
 				E03168EB270301C300AD20FA /* OEXConfig+SingleKeys.swift in Sources */,
 				771273271BA36B76008BA397 /* LoggingAnalyticsTracker.swift in Sources */,
 				9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */,
 				1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */,
 				5F903AF4255020D7006365DE /* UIDeviceExtension.swift in Sources */,
+				DB95F2D22A9F4B800029EC39 /* StreamWaitOperation.swift in Sources */,
 				46CECC3C1B041D270073C63A /* AdditionalTableViewCell.swift in Sources */,
 				778F177A1C0D125A0099BF93 /* CoursesContainerViewController.swift in Sources */,
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
@@ -4116,6 +3982,7 @@
 				1A8172511C3C1F2E007262AA /* OEXConfig+swift.swift in Sources */,
 				77D6A9A61C28F98A00E67CCF /* EnrolledCoursesViewController.swift in Sources */,
 				77691F911B388626003922F2 /* UIGestureRecognizer+BlockActions.swift in Sources */,
+				DB95F2E02A9F4B800029EC39 /* BadgesModel.swift in Sources */,
 				1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */,
 				5F5FC00B269DA8C500F92B8F /* ValuePropMessagesView.swift in Sources */,
 				B7CCC729209B16B100A66923 /* ConstraintInsetTarget.swift in Sources */,
@@ -4135,7 +4002,7 @@
 				5FFB73C12849F10D000523BF /* DropDownCell.swift in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
-				E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */,
+				DB95F2D52A9F4B800029EC39 /* RegistrationFormAPI.swift in Sources */,
 				E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */,
 				E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
@@ -4158,6 +4025,7 @@
 				80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */,
 				775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */,
 				22AB111F2375695C007D03D2 /* PushLink.swift in Sources */,
+				DB95F2DE2A9F4B800029EC39 /* PersistentResponseCache.swift in Sources */,
 				22D9BE5621945B4300FE1EB5 /* UIApplication+UIViewController.swift in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
 				227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */,
@@ -4208,16 +4076,22 @@
 				778C72F11B17C30000FC3F68 /* Dictionary+Functional.swift in Sources */,
 				E00603472656509700CEBB12 /* BrazeProvider.swift in Sources */,
 				E0FF457920FDD24400109662 /* BlockCompletionApi.swift in Sources */,
+				DB95F2E42A9F4B800029EC39 /* NSString+OEXCrypto.m in Sources */,
 				69F5FACB1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift in Sources */,
+				DB95F2DD2A9F4B800029EC39 /* Logger.swift in Sources */,
 				699FF8501E559E6B00AD98A5 /* OEXInterface+AppReview.swift in Sources */,
 				5F68992B29090FBD0060661B /* ExternalAuthOptionsView.swift in Sources */,
+				DB95F2D92A9F4B800029EC39 /* PaginationInfo.swift in Sources */,
 				773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */,
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
 				7C2DD5531D4A8669006148E0 /* UserPreferenceManager.swift in Sources */,
+				DB95F2DA2A9F4B800029EC39 /* Removable.swift in Sources */,
+				DB95F2A92A9F4B730029EC39 /* OEXMetaClassHelpers.m in Sources */,
 				777DE71A1C1656ED0068E280 /* CourseCatalogDetailView.swift in Sources */,
 				775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */,
 				B760E5562010DD6800ECACAB /* BulkDownloadHelper.swift in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
+				DB95F2D82A9F4B800029EC39 /* NSObject+OEXDeallocAction.m in Sources */,
 				9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */,
 				B78823A61FC6F59A00F9CD61 /* LogistrationTextField.swift in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */,
@@ -4227,6 +4101,7 @@
 				5FB69A8E24BC2CD800BBCAD7 /* RegistrationFormValidation.swift in Sources */,
 				77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */,
 				5FFCF2C7284CA12600D6456F /* LearnContainerViewController.swift in Sources */,
+				DB95F2D72A9F4B800029EC39 /* Operation.swift in Sources */,
 				292CBABE28AB849100A5FB96 /* NetworkManager+QueuedTask.swift in Sources */,
 				77691F9C1B3A0774003922F2 /* Result+JSON.swift in Sources */,
 				772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */,
@@ -4243,6 +4118,7 @@
 				B7CCC721209B16B100A66923 /* ConstraintAttributes.swift in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
 				1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */,
+				DB95F2AB2A9F4B730029EC39 /* MockResponseCache.swift in Sources */,
 				E06292751F7BAFFF006D5EFC /* BranchConfig.swift in Sources */,
 				B7A09BDC20F8CAFB00A6C249 /* URL+PathExtension.swift in Sources */,
 				1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */,
@@ -4254,6 +4130,7 @@
 				E0E163EC21368A1D00DAE9F0 /* FirebaseConfig.swift in Sources */,
 				B7EC83C121A2DE9E00D6A89C /* DiscoveryViewController.swift in Sources */,
 				9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */,
+				DB95F2E82A9F4B800029EC39 /* OEXRemovable.m in Sources */,
 				770C514B1B1685E3009B9696 /* HTMLBlockViewController.swift in Sources */,
 				46CECC3A1B041CDC0073C63A /* CourseCardView.swift in Sources */,
 				B7CCC732209B16B100A66923 /* ConstraintMaker.swift in Sources */,
@@ -4268,13 +4145,13 @@
 				9ED168B01B29A9EF00AA7B5B /* ResumeCourseItem.swift in Sources */,
 				227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */,
 				1AAD95F81CEB725900BBF70C /* OEXTextStyle+Swift.swift in Sources */,
+				DB95F2E52A9F4B800029EC39 /* OEXConfig.m in Sources */,
 				1A67E5411BD7D61800C53401 /* Feed.swift in Sources */,
 				22A1B6FF206CFFA3001C1704 /* TranscriptManager.swift in Sources */,
 				B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */,
 				9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */,
 				223895D21F25CF76005B9C15 /* SwipeCellActionView.swift in Sources */,
 				1A373E911C45807D00E3AAAA /* NSError+JSON.swift in Sources */,
-				697B5A091D92DB3F002C3ABD /* RegistrationFormAPI.swift in Sources */,
 				77D6A9A41C28F32900E67CCF /* CoursesAPI.swift in Sources */,
 				778B40D91C2F62520009F33E /* EnrollmentManager.swift in Sources */,
 				22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */,
@@ -4313,6 +4190,7 @@
 				5F371470260B3BC9004937DA /* Observeable.swift in Sources */,
 				699FF8541E5AE74300AD98A5 /* EmailTemplates.swift in Sources */,
 				0D157633235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift in Sources */,
+				DB95F2DC2A9F4B800029EC39 /* NSString+OEXFormatting.m in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
 				B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */,
 				5F7C0C6A2534521300A344B9 /* FillBackgroundLayoutManager.swift in Sources */,
@@ -4321,7 +4199,10 @@
 				2271C54A21634E40001EA1E6 /* DeepLinkManager.swift in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
+				DB95F3042A9F4EC90029EC39 /* ISOParser.swift in Sources */,
 				E0D232D4291374A900051A04 /* UsingExternalAuthInfoView.swift in Sources */,
+				DB95F2E32A9F4B800029EC39 /* JSON+Formatting.swift in Sources */,
+				DB95F2DB2A9F4B800029EC39 /* NetworkManager.swift in Sources */,
 				0D930BC4236978D6001C80AF /* ChromeCastMetaDataModel.swift in Sources */,
 				B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
@@ -4339,13 +4220,13 @@
 				46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */,
 				9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */,
 				B7CCC733209B16B100A66923 /* ConstraintRelation.swift in Sources */,
+				DB95F2E22A9F4B800029EC39 /* NSHTTPURLResponse+OEXHelpers.swift in Sources */,
 				779D1CE11B8E6FE000FCC847 /* PullRefreshController.swift in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
 				223895CF1F25CF76005B9C15 /* SwipeableCell.swift in Sources */,
 				5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */,
 				777DE7141C1630110068E280 /* CourseMediaInfo.swift in Sources */,
 				E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */,
-				F22A0ABD1CE660B300D50DFF /* LoginApi.swift in Sources */,
 				773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */,
 				77AFD10B1C1A04C3001985FD /* UserAgentGenerator.swift in Sources */,
 				5F35022427901E7400F76CB4 /* ValuePropUnlockViewContainer.swift in Sources */,
@@ -4353,6 +4234,7 @@
 				2227A3F825C1E9BA008CB570 /* CelebratoryAPI.swift in Sources */,
 				7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */,
 				77092C731B421BD0004AA1A1 /* ContainerNavigationController.swift in Sources */,
+				DB95F30B2A9F51A40029EC39 /* LogoutApi.swift in Sources */,
 				B7CCC73C209B16B100A66923 /* ConstraintLayoutGuide+Extensions.swift in Sources */,
 				B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */,
 				E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */,
@@ -4360,6 +4242,7 @@
 				5F59B40026AFF5B000D6CA3E /* ProfileOptionsViewController.swift in Sources */,
 				7772BE731AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift in Sources */,
 				1A5501A41BBAB8BD00D5F9DD /* JSONFormBuilder.swift in Sources */,
+				DB95F2DF2A9F4B800029EC39 /* NSBundle+OEXConveniences.m in Sources */,
 				5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */,
 				9ED03B951B204CDF0081A19A /* CourseSectionTableViewCell.swift in Sources */,
 				77BECB041B0A5FDB00894276 /* ContentInsetsController.swift in Sources */,
@@ -4398,6 +4281,7 @@
 				0D157635235EDA950007B0B7 /* ChromeCastManager.swift in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
 				1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */,
+				DB95F2E62A9F4B800029EC39 /* RawStringExtractable.swift in Sources */,
 				5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */,
 				1AFEB1B11BBD51EE004C471D /* JSONFormBuilderChooser.swift in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
@@ -4427,16 +4311,19 @@
 				2294AEDF2565429C00C00FC1 /* ValuePropCourseCardView.swift in Sources */,
 				225E9FDC25BAF79E000D6332 /* CelebratoryModalViewController.swift in Sources */,
 				E03E6A171D38EB9000944AAA /* SnackbarViews.swift in Sources */,
+				DB95F3032A9F4EB80029EC39 /* SwiftyJSON.swift in Sources */,
 				0D930BC223680983001C80AF /* ChromeCastMiniPlayer.swift in Sources */,
 				5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */,
 				77C901A71BBDDD630016E468 /* TableCellStyle.swift in Sources */,
 				7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */,
 				7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */,
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,
+				DB95F2D62A9F4B800029EC39 /* Box.swift in Sources */,
 				224D457921B90753003A382C /* UIFont+Attributes.swift in Sources */,
 				5F3A619A265796A7005329A4 /* CalendarSyncConfig.swift in Sources */,
 				777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */,
 				9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */,
+				DB95F2D32A9F4B800029EC39 /* RegistrationAPI.swift in Sources */,
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
 				E40AEA75218D076200049C39 /* YoutubeVideoPlayer.swift in Sources */,
 				69C12C661E07F5F8004E7261 /* VideoTranscript.swift in Sources */,
@@ -4488,13 +4375,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DB95F2EC2A9F4DDA0029EC39 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB95F2FD2A9F4DE20029EC39 /* NetworkManagerTests.swift in Sources */,
+				DB95F2FA2A9F4DE20029EC39 /* NSObject+OEXDeallocActionTests.m in Sources */,
+				DB95F2FB2A9F4DE20029EC39 /* Array+FunctionalTests.swift in Sources */,
+				DB95F2FC2A9F4DE20029EC39 /* BadgesAPITests.swift in Sources */,
+				DB95F3002A9F4DE20029EC39 /* PersistentResponseCacheTests.swift in Sources */,
+				DB95F2FF2A9F4DE20029EC39 /* PaginationInfoTests.swift in Sources */,
+				DB95F2F32A9F4DDA0029EC39 /* edXTests_tempp.swift in Sources */,
+				DB95F3022A9F4E890029EC39 /* Result+Assertions.swift in Sources */,
+				DB95F2FE2A9F4DE20029EC39 /* NSString+OEXFormattingTests.m in Sources */,
+				DB95F3012A9F4DE20029EC39 /* RegistrationAPITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		77E647A21C90C10300B6740D /* PBXTargetDependency */ = {
+		DB95F2F52A9F4DDA0029EC39 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 77E6478D1C90C10300B6740D /* edXCore */;
-			targetProxy = 77E647A11C90C10300B6740D /* PBXContainerItemProxy */;
+			target = BECB7B0A1924C0C3009C77F1 /* edX */;
+			targetProxy = DB95F2F42A9F4DDA0029EC39 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4855,126 +4759,6 @@
 			};
 			name = Profile;
 		};
-		77E647A51C90C10400B6740D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu99 gnu++11";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
-				PRODUCT_NAME = edXCore;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		77E647A61C90C10400B6740D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu99 gnu++11";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
-				PRODUCT_NAME = edXCore;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		77E647A71C90C10400B6740D /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu99 gnu++11";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
-				PRODUCT_NAME = edXCore;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Profile;
-		};
 		BECB7B3B1924C0C3009C77F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5293,19 +5077,103 @@
 			};
 			name = Release;
 		};
+		DB95F2F72A9F4DDA0029EC39 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = TXXMQ24MJN;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mobile.edXTests-tempp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/edX";
+			};
+			name = Debug;
+		};
+		DB95F2F82A9F4DDA0029EC39 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = TXXMQ24MJN;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mobile.edXTests-tempp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/edX";
+			};
+			name = Release;
+		};
+		DB95F2F92A9F4DDA0029EC39 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = TXXMQ24MJN;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mobile.edXTests-tempp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/edX";
+			};
+			name = Profile;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		77E647AB1C90C10400B6740D /* Build configuration list for PBXNativeTarget "edXCore" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				77E647A51C90C10400B6740D /* Debug */,
-				77E647A61C90C10400B6740D /* Release */,
-				77E647A71C90C10400B6740D /* Profile */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		BECB7B061924C0C3009C77F1 /* Build configuration list for PBXProject "edX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -5322,6 +5190,16 @@
 				BECB7B3E1924C0C3009C77F1 /* Debug */,
 				BECB7B3F1924C0C3009C77F1 /* Release */,
 				776F391F1B4D941900ED11E3 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DB95F2F62A9F4DDA0029EC39 /* Build configuration list for PBXNativeTarget "edXTests-tempp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB95F2F72A9F4DDA0029EC39 /* Debug */,
+				DB95F2F82A9F4DDA0029EC39 /* Release */,
+				DB95F2F92A9F4DDA0029EC39 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

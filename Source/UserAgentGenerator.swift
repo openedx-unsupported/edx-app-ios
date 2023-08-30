@@ -7,9 +7,7 @@
 //
 
 import Foundation
-import WebKit
-
-import edXCore
+@testable import edX
 
 class UserAgentGenerator: NSObject {
     

@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import edXCore
-
+@testable import edX
 extension Result {
     
     init(jsonData : NSData?, error : NSError? = nil, constructor: (JSON) -> A?) {

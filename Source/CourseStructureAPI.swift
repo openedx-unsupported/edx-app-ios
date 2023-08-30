@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import edXCore
 
 public struct CourseOutlineAPI {
     struct Parameters {
