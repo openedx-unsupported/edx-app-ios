@@ -9,10 +9,10 @@
 import XCTest
 @testable import edX
 
-private let sampleInvalidProgramDetailURL = "//course_info?path_id=course/usmx-corporate-finance"
+private let sampleInvalidProgramDetailURL = "//course_info?path_id=usmx-corporate-finance"
 private let sampleEnrolledProgramDetailURL = "edxapp://enrolled_program_info?path_id=programs/a3951294-926b-4247-8c3c-51c1e4347a15/details_fragment"
 private let sampleEnrolledCourseDetailURL = "edxapp://enrolled_course_info?course_id=course-v1:USMx+BUMM612+2T2018"
-private let sampleProgramCourseURL = "edxapp://course_info?path_id=course/usmx-corporate-finance"
+private let sampleProgramCourseURL = "edxapp://course_info?path_id=usmx-corporate-finance"
 private let sampleCourseEnrollmentURL = "edxapp://enroll?course_id=course-v1:USMx+BUMM610+3T2018&email_opt_in=true"
 private let sampleProgramURL = "https://example.com/dashboard/programs_fragment/?mobile_only=true"
 private let sampleInvalidProgramURLTemplate = "https://example.com/dashboard/mobile_only=true"
