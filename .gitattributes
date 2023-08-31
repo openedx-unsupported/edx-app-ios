@@ -1,1 +1,2 @@
 Libraries/Cast/*/GoogleCast.xcframework/** filter=lfs diff=lfs merge=lfs -text
+Libraries/Cast/GoogleCastSDK-ios-4.8.0_static_xcframework/GoogleCast.xcframework/** filter=lfs diff=lfs merge=lfs -text
