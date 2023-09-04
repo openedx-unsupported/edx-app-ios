@@ -7,7 +7,6 @@
 //
 
 import Foundation
-@testable import edX
 
 class UserAgentGenerator: NSObject {
     

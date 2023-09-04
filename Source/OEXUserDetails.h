@@ -6,6 +6,9 @@
 //  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXUserDetails : NSObject <NSCopying>

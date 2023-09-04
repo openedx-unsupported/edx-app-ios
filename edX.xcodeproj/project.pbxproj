@@ -446,6 +446,7 @@
 		9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */; };
 		9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFFD641B300E87002A88B0 /* OEXInterface+Swift.swift */; };
 		9EF21A9E1B4697CA000048F8 /* ResumeCourseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF21A9D1B4697CA000048F8 /* ResumeCourseController.swift */; };
+		A78167AEB30447018E88DC4A /* Pods_edXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39FE3A22584EF014CB910E32 /* Pods_edXTests.framework */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
@@ -590,8 +591,6 @@
 		DB1A58F42A9739BE00DD9744 /* NutritionLabel.txt in Resources */ = {isa = PBXBuildFile; fileRef = DB1A58C92A9739BD00DD9744 /* NutritionLabel.txt */; };
 		DB1A58F72A973CC000DD9744 /* GoogleCastCoreResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DB1A58F52A973CC000DD9744 /* GoogleCastCoreResources.bundle */; };
 		DB1A58F82A973CC000DD9744 /* GoogleCastUIResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DB1A58F62A973CC000DD9744 /* GoogleCastUIResources.bundle */; };
-		DB95F2A92A9F4B730029EC39 /* OEXMetaClassHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29D2A9F4B730029EC39 /* OEXMetaClassHelpers.m */; };
-		DB95F2AB2A9F4B730029EC39 /* MockResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29F2A9F4B730029EC39 /* MockResponseCache.swift */; };
 		DB95F2D22A9F4B800029EC39 /* StreamWaitOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B22A9F4B7F0029EC39 /* StreamWaitOperation.swift */; };
 		DB95F2D32A9F4B800029EC39 /* RegistrationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B32A9F4B7F0029EC39 /* RegistrationAPI.swift */; };
 		DB95F2D42A9F4B800029EC39 /* OEXStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2B42A9F4B7F0029EC39 /* OEXStream.swift */; };
@@ -617,22 +616,189 @@
 		DB95F2E82A9F4B800029EC39 /* OEXRemovable.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2CD2A9F4B800029EC39 /* OEXRemovable.m */; };
 		DB95F2E92A9F4B800029EC39 /* Array+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2D02A9F4B800029EC39 /* Array+Functional.swift */; };
 		DB95F2EA2A9F4B800029EC39 /* OEXHTTPStatusCode+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2D12A9F4B800029EC39 /* OEXHTTPStatusCode+Groups.swift */; };
-		DB95F2F32A9F4DDA0029EC39 /* edXTests_tempp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2F22A9F4DDA0029EC39 /* edXTests_tempp.swift */; };
-		DB95F2FA2A9F4DE20029EC39 /* NSObject+OEXDeallocActionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A02A9F4B730029EC39 /* NSObject+OEXDeallocActionTests.m */; };
-		DB95F2FB2A9F4DE20029EC39 /* Array+FunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A52A9F4B730029EC39 /* Array+FunctionalTests.swift */; };
-		DB95F2FC2A9F4DE20029EC39 /* BadgesAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29C2A9F4B730029EC39 /* BadgesAPITests.swift */; };
-		DB95F2FD2A9F4DE20029EC39 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A12A9F4B730029EC39 /* NetworkManagerTests.swift */; };
-		DB95F2FE2A9F4DE20029EC39 /* NSString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A42A9F4B730029EC39 /* NSString+OEXFormattingTests.m */; };
-		DB95F2FF2A9F4DE20029EC39 /* PaginationInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29E2A9F4B730029EC39 /* PaginationInfoTests.swift */; };
-		DB95F3002A9F4DE20029EC39 /* PersistentResponseCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A62A9F4B730029EC39 /* PersistentResponseCacheTests.swift */; };
-		DB95F3012A9F4DE20029EC39 /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29B2A9F4B730029EC39 /* RegistrationAPITests.swift */; };
-		DB95F3022A9F4E890029EC39 /* Result+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A22A9F4B730029EC39 /* Result+Assertions.swift */; };
 		DB95F3032A9F4EB80029EC39 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */; };
 		DB95F3042A9F4EC90029EC39 /* ISOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F592ACF257521F600D96214 /* ISOParser.swift */; };
 		DB95F3052A9F4EF10029EC39 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80542B111AFD3AB400CE5FB0 /* Alamofire.swift */; };
 		DB95F3072A9F50260029EC39 /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3062A9F50260029EC39 /* DateFormatting.swift */; };
 		DB95F30A2A9F51A40029EC39 /* LoginApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3082A9F51A40029EC39 /* LoginApi.swift */; };
 		DB95F30B2A9F51A40029EC39 /* LogoutApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3092A9F51A40029EC39 /* LogoutApi.swift */; };
+		DB95F31F2AA5C25F0029EC39 /* PersistentResponseCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A62A9F4B730029EC39 /* PersistentResponseCacheTests.swift */; };
+		DB95F3202AA5C25F0029EC39 /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29B2A9F4B730029EC39 /* RegistrationAPITests.swift */; };
+		DB95F3212AA5C25F0029EC39 /* NSObject+OEXDeallocActionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A02A9F4B730029EC39 /* NSObject+OEXDeallocActionTests.m */; };
+		DB95F3222AA5C25F0029EC39 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A12A9F4B730029EC39 /* NetworkManagerTests.swift */; };
+		DB95F3232AA5C25F0029EC39 /* BadgesAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29C2A9F4B730029EC39 /* BadgesAPITests.swift */; };
+		DB95F3242AA5C25F0029EC39 /* NSString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A42A9F4B730029EC39 /* NSString+OEXFormattingTests.m */; };
+		DB95F3252AA5C25F0029EC39 /* Array+FunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A52A9F4B730029EC39 /* Array+FunctionalTests.swift */; };
+		DB95F3262AA5C25F0029EC39 /* PaginationInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29E2A9F4B730029EC39 /* PaginationInfoTests.swift */; };
+		DB95F4AB2AA5C52F0029EC39 /* ListCursorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3282AA5C5260029EC39 /* ListCursorTests.swift */; };
+		DB95F4AC2AA5C52F0029EC39 /* VersionUpgradeInfoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3292AA5C5260029EC39 /* VersionUpgradeInfoControllerTests.swift */; };
+		DB95F4AD2AA5C52F0029EC39 /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F32A2AA5C5260029EC39 /* AdditionalTabBarViewControllerTests.swift */; };
+		DB95F4AE2AA5C52F0029EC39 /* NSObject+OEXReplaceNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F32B2AA5C5260029EC39 /* NSObject+OEXReplaceNullTests.m */; };
+		DB95F4AF2AA5C52F0029EC39 /* OEXMockCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F32C2AA5C5260029EC39 /* OEXMockCredentialStorage.m */; };
+		DB95F4B02AA5C52F0029EC39 /* OEXAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F32D2AA5C5260029EC39 /* OEXAnalyticsTests.m */; };
+		DB95F4B12AA5C52F0029EC39 /* DiscussionTopic+DataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F32E2AA5C5260029EC39 /* DiscussionTopic+DataFactory.swift */; };
+		DB95F4B22AA5C52F0029EC39 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F32F2AA5C5260029EC39 /* CourseShareUtmParameterTests.swift */; };
+		DB95F4B32AA5C52F0029EC39 /* MockEnrollmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3302AA5C5260029EC39 /* MockEnrollmentManager.swift */; };
+		DB95F4B42AA5C52F0029EC39 /* CourseCatalogViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3312AA5C5260029EC39 /* CourseCatalogViewControllerTests.swift */; };
+		DB95F4B52AA5C52F0029EC39 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3322AA5C5260029EC39 /* ObservableTests.swift */; };
+		DB95F4B62AA5C52F0029EC39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB95F3332AA5C5270029EC39 /* GoogleService-Info.plist */; };
+		DB95F4B72AA5C52F0029EC39 /* UserProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3342AA5C5270029EC39 /* UserProfileViewTests.swift */; };
+		DB95F4B82AA5C52F0029EC39 /* YoutubeVideoConfigTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F3352AA5C5270029EC39 /* YoutubeVideoConfigTest.swift */; };
+		DB95F5752AA5C52F0029EC39 /* OEXDBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F40A2AA5C5270029EC39 /* OEXDBTests.m */; };
+		DB95F5762AA5C52F0029EC39 /* FeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F40B2AA5C5270029EC39 /* FeedTests.swift */; };
+		DB95F5772AA5C52F0029EC39 /* DiscussionCommentsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F40C2AA5C5270029EC39 /* DiscussionCommentsViewControllerTests.swift */; };
+		DB95F5782AA5C52F0029EC39 /* StartupViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F40D2AA5C5270029EC39 /* StartupViewControllerTests.swift */; };
+		DB95F5792AA5C52F0029EC39 /* OEXTextStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F40E2AA5C5270029EC39 /* OEXTextStyleTests.swift */; };
+		DB95F57A2AA5C52F0029EC39 /* ResumeCourseControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4102AA5C5270029EC39 /* ResumeCourseControllerTests.swift */; };
+		DB95F57C2AA5C52F0029EC39 /* MockCourseDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4142AA5C5270029EC39 /* MockCourseDataManager.swift */; };
+		DB95F57D2AA5C52F0029EC39 /* SubjectsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4152AA5C5270029EC39 /* SubjectsViewControllerTests.swift */; };
+		DB95F57E2AA5C52F0029EC39 /* TabContainerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4162AA5C5270029EC39 /* TabContainerViewTests.swift */; };
+		DB95F57F2AA5C52F0029EC39 /* MicrosoftConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4172AA5C5270029EC39 /* MicrosoftConfigTests.swift */; };
+		DB95F5802AA5C52F0029EC39 /* VideoBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4182AA5C5270029EC39 /* VideoBlockViewControllerTests.swift */; };
+		DB95F5812AA5C52F0029EC39 /* MockUserProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4192AA5C5270029EC39 /* MockUserProfileManager.swift */; };
+		DB95F5822AA5C52F0029EC39 /* CourseStatusInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = DB95F41A2AA5C5270029EC39 /* CourseStatusInfo.json */; };
+		DB95F5832AA5C52F0029EC39 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F41B2AA5C5280029EC39 /* DiscussionResponsesViewControllerTests.swift */; };
+		DB95F5842AA5C52F0029EC39 /* AgreementURLsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F41C2AA5C5280029EC39 /* AgreementURLsConfigTests.swift */; };
+		DB95F5852AA5C52F0029EC39 /* MockAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F41D2AA5C5280029EC39 /* MockAnalyticsTracker.swift */; };
+		DB95F5862AA5C52F0029EC39 /* BrazeConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F41E2AA5C5280029EC39 /* BrazeConfigTests.swift */; };
+		DB95F5872AA5C52F0029EC39 /* CourseDatesModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F41F2AA5C5280029EC39 /* CourseDatesModelTests.swift */; };
+		DB95F5882AA5C52F0029EC39 /* VersionUpgradeDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4202AA5C5280029EC39 /* VersionUpgradeDataFactory.swift */; };
+		DB95F5892AA5C52F0029EC39 /* DiscussionTopicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4212AA5C5280029EC39 /* DiscussionTopicTests.swift */; };
+		DB95F58A2AA5C52F0029EC39 /* NSObject+SafeKVOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4222AA5C5280029EC39 /* NSObject+SafeKVOTests.swift */; };
+		DB95F58B2AA5C52F0029EC39 /* PostsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4232AA5C5280029EC39 /* PostsViewControllerTests.swift */; };
+		DB95F58C2AA5C52F0029EC39 /* CourseOutlineViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4242AA5C5280029EC39 /* CourseOutlineViewControllerTests.swift */; };
+		DB95F58D2AA5C52F0029EC39 /* UserProfileEditViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4252AA5C5280029EC39 /* UserProfileEditViewControllerTests.swift */; };
+		DB95F58E2AA5C52F0029EC39 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4262AA5C5280029EC39 /* OEXFontsTests.swift */; };
+		DB95F58F2AA5C52F0029EC39 /* CourseDates.json in Resources */ = {isa = PBXBuildFile; fileRef = DB95F4272AA5C5280029EC39 /* CourseDates.json */; };
+		DB95F5902AA5C52F0029EC39 /* ServerChangedCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4282AA5C5280029EC39 /* ServerChangedCheckerTests.swift */; };
+		DB95F5912AA5C52F0029EC39 /* SnapshotTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4292AA5C5280029EC39 /* SnapshotTestCase.swift */; };
+		DB95F5922AA5C52F0029EC39 /* UIView+UIViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F42A2AA5C5280029EC39 /* UIView+UIViewControllerTests.swift */; };
+		DB95F5932AA5C52F0029EC39 /* edXTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB95F42B2AA5C5280029EC39 /* edXTests-Info.plist */; };
+		DB95F5942AA5C52F0029EC39 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F42C2AA5C5280029EC39 /* NSNotificationCenter+SafeSwiftTests.swift */; };
+		DB95F5952AA5C52F0029EC39 /* OEXRegistrationViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F42D2AA5C5280029EC39 /* OEXRegistrationViewControllerTests.m */; };
+		DB95F5962AA5C52F0029EC39 /* OEXFileUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F42E2AA5C5280029EC39 /* OEXFileUtilityTests.m */; };
+		DB95F5972AA5C52F0029EC39 /* DiscussionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F42F2AA5C5280029EC39 /* DiscussionModelTests.swift */; };
+		DB95F5982AA5C52F0029EC39 /* OEXMockAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4302AA5C5290029EC39 /* OEXMockAnalyticsTracker.m */; };
+		DB95F5992AA5C52F0029EC39 /* VideoTranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4312AA5C5290029EC39 /* VideoTranscriptTests.swift */; };
+		DB95F59A2AA5C52F0029EC39 /* NSString+TestExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4322AA5C5290029EC39 /* NSString+TestExamples.m */; };
+		DB95F59B2AA5C52F0029EC39 /* APIURLDefaultVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4332AA5C5290029EC39 /* APIURLDefaultVersionTests.swift */; };
+		DB95F59C2AA5C52F0029EC39 /* RemoteImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4342AA5C5290029EC39 /* RemoteImageTests.swift */; };
+		DB95F59D2AA5C52F0029EC39 /* ResumeCourseBlockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4352AA5C5290029EC39 /* ResumeCourseBlockTests.swift */; };
+		DB95F59E2AA5C52F0029EC39 /* SessionUsernameProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4362AA5C5290029EC39 /* SessionUsernameProviderTests.swift */; };
+		DB95F59F2AA5C52F0029EC39 /* DiscussionDataParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4372AA5C5290029EC39 /* DiscussionDataParsingTests.swift */; };
+		DB95F5A02AA5C52F0029EC39 /* UIEdgeInsets+GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4382AA5C5290029EC39 /* UIEdgeInsets+GeometryTests.swift */; };
+		DB95F5A12AA5C52F0029EC39 /* DiscussionTopicsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4392AA5C5290029EC39 /* DiscussionTopicsViewControllerTests.swift */; };
+		DB95F5A22AA5C52F0029EC39 /* LiveObjectCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F43A2AA5C5290029EC39 /* LiveObjectCacheTests.swift */; };
+		DB95F5A32AA5C52F0029EC39 /* ListenableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F43B2AA5C5290029EC39 /* ListenableObject.m */; };
+		DB95F5A42AA5C52F0029EC39 /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = DB95F43D2AA5C5290029EC39 /* test-movie.mp4 */; };
+		DB95F5A52AA5C52F0029EC39 /* test_screen_1.png in Resources */ = {isa = PBXBuildFile; fileRef = DB95F43E2AA5C5290029EC39 /* test_screen_1.png */; };
+		DB95F5A62AA5C52F0029EC39 /* sample-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = DB95F43F2AA5C5290029EC39 /* sample-badge.png */; };
+		DB95F5A72AA5C52F0029EC39 /* DiscussionNewCommentViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4402AA5C5290029EC39 /* DiscussionNewCommentViewControllerTests.swift */; };
+		DB95F5A82AA5C52F0029EC39 /* NSString+OEXCryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4412AA5C5290029EC39 /* NSString+OEXCryptoTests.swift */; };
+		DB95F5A92AA5C52F0029EC39 /* DiscoveryWebViewHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4422AA5C5290029EC39 /* DiscoveryWebViewHelperTests.swift */; };
+		DB95F5AA2AA5C52F0029EC39 /* MockResumeCourseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4432AA5C5290029EC39 /* MockResumeCourseProvider.swift */; };
+		DB95F5AB2AA5C52F0029EC39 /* VersionParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4442AA5C5290029EC39 /* VersionParserTests.swift */; };
+		DB95F5AC2AA5C52F0029EC39 /* DiscoveryHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4452AA5C5290029EC39 /* DiscoveryHelperTests.swift */; };
+		DB95F5AD2AA5C52F0029EC39 /* TestEnvironmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4472AA5C52A0029EC39 /* TestEnvironmentBuilder.swift */; };
+		DB95F5AE2AA5C52F0029EC39 /* NSDate+TestDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4482AA5C52A0029EC39 /* NSDate+TestDates.swift */; };
+		DB95F5AF2AA5C52F0029EC39 /* DiscussionNewPostViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4492AA5C52A0029EC39 /* DiscussionNewPostViewControllerTests.swift */; };
+		DB95F5B02AA5C52F0029EC39 /* CourseSectionTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F44A2AA5C52A0029EC39 /* CourseSectionTableViewCellTests.swift */; };
+		DB95F5B12AA5C52F0029EC39 /* EnrolledCoursesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F44B2AA5C52A0029EC39 /* EnrolledCoursesViewControllerTests.swift */; };
+		DB95F5B22AA5C52F0029EC39 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F44C2AA5C52A0029EC39 /* DateFormattingTests.swift */; };
+		DB95F5B32AA5C52F0029EC39 /* MockReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F44D2AA5C52A0029EC39 /* MockReachability.swift */; };
+		DB95F5B42AA5C52F0029EC39 /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F44E2AA5C52A0029EC39 /* NSString+OEXValidationTests.m */; };
+		DB95F5B52AA5C52F0029EC39 /* KeyboardInsetsSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F44F2AA5C52A0029EC39 /* KeyboardInsetsSourceTests.swift */; };
+		DB95F5B62AA5C52F0029EC39 /* MockRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4502AA5C52A0029EC39 /* MockRouter.swift */; };
+		DB95F5B72AA5C52F0029EC39 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4512AA5C52A0029EC39 /* DiscussionBlockViewControllerTests.swift */; };
+		DB95F5B82AA5C52F0029EC39 /* OEXColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4522AA5C52A0029EC39 /* OEXColorsTests.swift */; };
+		DB95F5B92AA5C52F0029EC39 /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4532AA5C52A0029EC39 /* OEXVideoSummaryTestDataFactory.swift */; };
+		DB95F5BA2AA5C52F0029EC39 /* OEXInterface+AppReviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4542AA5C52A0029EC39 /* OEXInterface+AppReviewTests.swift */; };
+		DB95F5BB2AA5C52F0029EC39 /* OEXSession+AuthorizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4552AA5C52A0029EC39 /* OEXSession+AuthorizationTests.swift */; };
+		DB95F5BC2AA5C52F0029EC39 /* RegistrationForm.json in Resources */ = {isa = PBXBuildFile; fileRef = DB95F4572AA5C52B0029EC39 /* RegistrationForm.json */; };
+		DB95F5BD2AA5C52F0029EC39 /* DiscoveryConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4592AA5C52B0029EC39 /* DiscoveryConfigTests.swift */; };
+		DB95F5BE2AA5C52F0029EC39 /* NSArray+OEXFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F45A2AA5C52B0029EC39 /* NSArray+OEXFunctionalTests.m */; };
+		DB95F5BF2AA5C52F0029EC39 /* SnackbarViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F45B2AA5C52B0029EC39 /* SnackbarViewsTests.swift */; };
+		DB95F5C02AA5C52F0029EC39 /* UserProfileNetworkPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F45C2AA5C52B0029EC39 /* UserProfileNetworkPresenterTests.swift */; };
+		DB95F5C12AA5C52F0029EC39 /* AppUpgradeConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F45D2AA5C52B0029EC39 /* AppUpgradeConfigTests.swift */; };
+		DB95F5C22AA5C52F0029EC39 /* CourseContentPageViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F45E2AA5C52B0029EC39 /* CourseContentPageViewControllerTests.swift */; };
+		DB95F5C32AA5C52F0029EC39 /* StreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F45F2AA5C52B0029EC39 /* StreamTests.swift */; };
+		DB95F5C42AA5C52F0029EC39 /* UIBarButtonItem+OEXBlockActionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4602AA5C52B0029EC39 /* UIBarButtonItem+OEXBlockActionsTests.m */; };
+		DB95F5C52AA5C52F0029EC39 /* DiscussionPosts.json in Resources */ = {isa = PBXBuildFile; fileRef = DB95F4612AA5C52B0029EC39 /* DiscussionPosts.json */; };
+		DB95F5C62AA5C52F0029EC39 /* NSAttributedString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4622AA5C52B0029EC39 /* NSAttributedString+OEXFormattingTests.m */; };
+		DB95F5C72AA5C52F0029EC39 /* OEXVideoSummaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4632AA5C52B0029EC39 /* OEXVideoSummaryTests.m */; };
+		DB95F5C82AA5C52F0029EC39 /* OfflineSupportViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4642AA5C52B0029EC39 /* OfflineSupportViewControllerTests.swift */; };
+		DB95F5C92AA5C52F0029EC39 /* TestRouterEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4652AA5C52B0029EC39 /* TestRouterEnvironment.swift */; };
+		DB95F5CA2AA5C52F0029EC39 /* UIControl+OEXBlockActionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4662AA5C52B0029EC39 /* UIControl+OEXBlockActionsTests.m */; };
+		DB95F5CB2AA5C52F0029EC39 /* YoutubeVideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4672AA5C52B0029EC39 /* YoutubeVideoPlayerTests.swift */; };
+		DB95F5CC2AA5C52F0029EC39 /* OEXDataParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4682AA5C52B0029EC39 /* OEXDataParserTests.m */; };
+		DB95F5CD2AA5C52F0029EC39 /* UIImage+TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4692AA5C52B0029EC39 /* UIImage+TestData.swift */; };
+		DB95F5CE2AA5C52F0029EC39 /* DummyTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F46A2AA5C52C0029EC39 /* DummyTableViewDataSource.swift */; };
+		DB95F5CF2AA5C52F0029EC39 /* OEXUserDetails+OEXTestDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F46B2AA5C52C0029EC39 /* OEXUserDetails+OEXTestDataFactory.m */; };
+		DB95F5D02AA5C52F0029EC39 /* PaginatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F46D2AA5C52C0029EC39 /* PaginatorTests.swift */; };
+		DB95F5D12AA5C52F0029EC39 /* OEXCourseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F46E2AA5C52C0029EC39 /* OEXCourseTests.swift */; };
+		DB95F5D22AA5C52F0029EC39 /* EnrollmentManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F46F2AA5C52C0029EC39 /* EnrollmentManagerTests.swift */; };
+		DB95F5D32AA5C52F0029EC39 /* OEXFindCoursesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4702AA5C52C0029EC39 /* OEXFindCoursesTests.m */; };
+		DB95F5D42AA5C52F0029EC39 /* OEXConfig+URLCredentialProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4712AA5C52C0029EC39 /* OEXConfig+URLCredentialProviderTests.swift */; };
+		DB95F5D52AA5C52F0029EC39 /* ContentInsetsControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4722AA5C52C0029EC39 /* ContentInsetsControllerTests.swift */; };
+		DB95F5D62AA5C52F0029EC39 /* NetworkManager+InterceptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4732AA5C52C0029EC39 /* NetworkManager+InterceptionTests.swift */; };
+		DB95F5D72AA5C52F0029EC39 /* CourseDashboardViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4742AA5C52C0029EC39 /* CourseDashboardViewControllerTests.swift */; };
+		DB95F5D82AA5C52F0029EC39 /* DeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4752AA5C52C0029EC39 /* DeepLinkTests.swift */; };
+		DB95F5D92AA5C52F0029EC39 /* OEXConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4762AA5C52C0029EC39 /* OEXConfigTests.m */; };
+		DB95F5DA2AA5C52F0029EC39 /* RegistrationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4782AA5C52C0029EC39 /* RegistrationViewControllerTests.swift */; };
+		DB95F5DB2AA5C52F0029EC39 /* UIAlertController+OEXBlockActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4792AA5C52C0029EC39 /* UIAlertController+OEXBlockActionsTests.swift */; };
+		DB95F5DC2AA5C52F0029EC39 /* OEXCourse+TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F47A2AA5C52C0029EC39 /* OEXCourse+TestData.swift */; };
+		DB95F5DD2AA5C52F0029EC39 /* OEXSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F47B2AA5C52C0029EC39 /* OEXSessionTests.m */; };
+		DB95F5DE2AA5C52F0029EC39 /* BranchConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F47C2AA5C52C0029EC39 /* BranchConfigTests.swift */; };
+		DB95F5DF2AA5C52F0029EC39 /* CourseDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F47D2AA5C52C0029EC39 /* CourseDataManagerTests.swift */; };
+		DB95F5E02AA5C52F0029EC39 /* OEXMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F47E2AA5C52C0029EC39 /* OEXMockUserDefaults.m */; };
+		DB95F5E12AA5C52F0029EC39 /* FirebaseConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F47F2AA5C52C0029EC39 /* FirebaseConfigTests.swift */; };
+		DB95F5E22AA5C52F0029EC39 /* OEXRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4802AA5C52D0029EC39 /* OEXRouterTests.swift */; };
+		DB95F5E32AA5C52F0029EC39 /* UIBarButtonItem+Touchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4812AA5C52D0029EC39 /* UIBarButtonItem+Touchable.swift */; };
+		DB95F5E42AA5C52F0029EC39 /* UserAgentGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4822AA5C52D0029EC39 /* UserAgentGeneratorTests.swift */; };
+		DB95F5E52AA5C52F0029EC39 /* ProgramConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4832AA5C52D0029EC39 /* ProgramConfigTests.swift */; };
+		DB95F5E62AA5C52F0029EC39 /* VideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4842AA5C52D0029EC39 /* VideoPlayerTests.swift */; };
+		DB95F5E72AA5C52F0029EC39 /* WhatsNew.json in Resources */ = {isa = PBXBuildFile; fileRef = DB95F4852AA5C52D0029EC39 /* WhatsNew.json */; };
+		DB95F5E82AA5C52F0029EC39 /* WhatsNewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4862AA5C52D0029EC39 /* WhatsNewViewControllerTests.swift */; };
+		DB95F5E92AA5C52F0029EC39 /* RatingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4872AA5C52D0029EC39 /* RatingViewControllerTests.swift */; };
+		DB95F5EA2AA5C52F0029EC39 /* TranscriptParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4882AA5C52D0029EC39 /* TranscriptParserTests.swift */; };
+		DB95F5EB2AA5C52F0029EC39 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4892AA5C52D0029EC39 /* MockNetworkManager.swift */; };
+		DB95F5EC2AA5C52F0029EC39 /* OEXInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F48A2AA5C52D0029EC39 /* OEXInterfaceTests.swift */; };
+		DB95F5ED2AA5C52F0029EC39 /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F48B2AA5C52D0029EC39 /* NSNotificationCenter+OEXSafeAccessTests.m */; };
+		DB95F5EE2AA5C52F0029EC39 /* CourseOutlineHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F48C2AA5C52D0029EC39 /* CourseOutlineHeaderViewTests.swift */; };
+		DB95F5EF2AA5C52F0029EC39 /* Dictionary+SafeAccessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F48D2AA5C52D0029EC39 /* Dictionary+SafeAccessTests.swift */; };
+		DB95F5F02AA5C52F0029EC39 /* OEXFileUtility+TestAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F48E2AA5C52D0029EC39 /* OEXFileUtility+TestAdditions.m */; };
+		DB95F5F12AA5C52F0029EC39 /* EmailTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F48F2AA5C52D0029EC39 /* EmailTemplateTests.swift */; };
+		DB95F5F22AA5C52F0029EC39 /* NSDate+OEXComparisonsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4902AA5C52D0029EC39 /* NSDate+OEXComparisonsTests.m */; };
+		DB95F5F32AA5C52F0029EC39 /* CourseOutlineQuerierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4912AA5C52D0029EC39 /* CourseOutlineQuerierTests.swift */; };
+		DB95F5F42AA5C52F0029EC39 /* CourseCatalogDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4932AA5C52D0029EC39 /* CourseCatalogDetailViewControllerTests.swift */; };
+		DB95F5F52AA5C52F0029EC39 /* UserPreferenceManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4942AA5C52E0029EC39 /* UserPreferenceManagerTests.swift */; };
+		DB95F5F62AA5C52F0029EC39 /* WhatsNewObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4952AA5C52E0029EC39 /* WhatsNewObjectTests.swift */; };
+		DB95F5F72AA5C52F0029EC39 /* XCTestCase+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4962AA5C52E0029EC39 /* XCTestCase+Async.swift */; };
+		DB95F5F82AA5C52F0029EC39 /* OEXRegistrationFieldEmailViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4972AA5C52E0029EC39 /* OEXRegistrationFieldEmailViewTests.m */; };
+		DB95F5F92AA5C52F0029EC39 /* NetworkManager+AuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4982AA5C52E0029EC39 /* NetworkManager+AuthenticatorTests.swift */; };
+		DB95F5FA2AA5C52F0029EC39 /* XCTestCase+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4992AA5C52E0029EC39 /* XCTestCase+Stream.swift */; };
+		DB95F5FB2AA5C52F0029EC39 /* WhatsNewDataModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F49A2AA5C52E0029EC39 /* WhatsNewDataModelTests.swift */; };
+		DB95F5FC2AA5C52F0029EC39 /* SubjectDataModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F49B2AA5C52E0029EC39 /* SubjectDataModelTests.swift */; };
+		DB95F5FD2AA5C52F0029EC39 /* UIImage_OEXHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F49C2AA5C52E0029EC39 /* UIImage_OEXHelpersTests.swift */; };
+		DB95F5FE2AA5C52F0029EC39 /* UserProfileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F49D2AA5C52E0029EC39 /* UserProfileManagerTests.swift */; };
+		DB95F5FF2AA5C52F0029EC39 /* EnrolledTabBarViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F49E2AA5C52E0029EC39 /* EnrolledTabBarViewControllerTest.swift */; };
+		DB95F6002AA5C52F0029EC39 /* OEXSafeCastTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F49F2AA5C52E0029EC39 /* OEXSafeCastTests.m */; };
+		DB95F6012AA5C52F0029EC39 /* CourseCardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4A02AA5C52E0029EC39 /* CourseCardViewModelTests.swift */; };
+		DB95F6022AA5C52F0029EC39 /* NSAttributedString+FormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4A12AA5C52E0029EC39 /* NSAttributedString+FormattingTests.swift */; };
+		DB95F6042AA5C52F0029EC39 /* OEXPushNotificationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4A32AA5C52E0029EC39 /* OEXPushNotificationManagerTests.m */; };
+		DB95F6052AA5C52F0029EC39 /* PaginationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4A62AA5C52E0029EC39 /* PaginationControllerTests.swift */; };
+		DB95F6062AA5C52F0029EC39 /* String+DecodeHTMLEntitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4A72AA5C52F0029EC39 /* String+DecodeHTMLEntitiesTests.swift */; };
+		DB95F6072AA5C52F0029EC39 /* DiscussionResponsesDataControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4A82AA5C52F0029EC39 /* DiscussionResponsesDataControllerTests.swift */; };
+		DB95F6082AA5C52F0029EC39 /* OEXFormEncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4A92AA5C52F0029EC39 /* OEXFormEncodingTests.m */; };
+		DB95F6092AA5C52F0029EC39 /* CourseOutlineTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F4AA2AA5C52F0029EC39 /* CourseOutlineTestDataFactory.swift */; };
+		DB95F61B2AA5C8460029EC39 /* libOCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB95F6192AA5C7C20029EC39 /* libOCMock.xcframework */; };
+		DB95F61C2AA5D20D0029EC39 /* JSON+ReadFromFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EACF3291BE0C92C0019130E /* JSON+ReadFromFile.swift */; };
+		DB95F61D2AA5D29A0029EC39 /* Result+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F2A22A9F4B730029EC39 /* Result+Assertions.swift */; };
+		DB95F61E2AA5D2A60029EC39 /* MockResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29F2A9F4B730029EC39 /* MockResponseCache.swift */; };
+		DB95F61F2AA5D2A60029EC39 /* OEXMetaClassHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DB95F29D2A9F4B730029EC39 /* OEXMetaClassHelpers.m */; };
+		DB95F6202AA5D5CA0029EC39 /* DiscussionTestsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */; };
+		DB95F6212AA5E0FC0029EC39 /* libOCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB95F6192AA5C7C20029EC39 /* libOCMock.xcframework */; };
+		DB95F6222AA5E0FC0029EC39 /* libOCMock.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB95F6192AA5C7C20029EC39 /* libOCMock.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
 		E00603472656509700CEBB12 /* BrazeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00603462656509700CEBB12 /* BrazeProvider.swift */; };
 		E0060349265650A400CEBB12 /* BrazeListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0060348265650A400CEBB12 /* BrazeListener.swift */; };
@@ -706,7 +872,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		DB95F2F42A9F4DDA0029EC39 /* PBXContainerItemProxy */ = {
+		DB95F3192AA5C1BD0029EC39 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BECB7B031924C0C3009C77F1 /* Project object */;
 			proxyType = 1;
@@ -722,6 +888,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DB95F6222AA5E0FC0029EC39 /* libOCMock.xcframework in Embed Frameworks */,
 				5F700E9A278C35B000B17044 /* SwiftyStoreKit.xcframework in Embed Frameworks */,
 				E09F953928111ABE00F29443 /* KeychainSwift.xcframework in Embed Frameworks */,
 			);
@@ -1497,18 +1664,18 @@
 		DB1A58C92A9739BD00DD9744 /* NutritionLabel.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NutritionLabel.txt; sourceTree = "<group>"; };
 		DB1A58F52A973CC000DD9744 /* GoogleCastCoreResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleCastCoreResources.bundle; path = GoogleCast.xcframework/GoogleCastCoreResources.bundle; sourceTree = "<group>"; };
 		DB1A58F62A973CC000DD9744 /* GoogleCastUIResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleCastUIResources.bundle; path = GoogleCast.xcframework/GoogleCastUIResources.bundle; sourceTree = "<group>"; };
-		DB95F29B2A9F4B730029EC39 /* RegistrationAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPITests.swift; path = Source/Core/Test/Code/RegistrationAPITests.swift; sourceTree = SOURCE_ROOT; };
-		DB95F29C2A9F4B730029EC39 /* BadgesAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesAPITests.swift; path = Source/Core/Test/Code/BadgesAPITests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F29B2A9F4B730029EC39 /* RegistrationAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPITests.swift; path = edXTests/RegistrationAPITests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F29C2A9F4B730029EC39 /* BadgesAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesAPITests.swift; path = edXTests/BadgesAPITests.swift; sourceTree = SOURCE_ROOT; };
 		DB95F29D2A9F4B730029EC39 /* OEXMetaClassHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXMetaClassHelpers.m; path = Source/Core/Test/Code/OEXMetaClassHelpers.m; sourceTree = SOURCE_ROOT; };
-		DB95F29E2A9F4B730029EC39 /* PaginationInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginationInfoTests.swift; path = Source/Core/Test/Code/PaginationInfoTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F29E2A9F4B730029EC39 /* PaginationInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginationInfoTests.swift; path = edXTests/PaginationInfoTests.swift; sourceTree = SOURCE_ROOT; };
 		DB95F29F2A9F4B730029EC39 /* MockResponseCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockResponseCache.swift; path = Source/Core/Test/Code/MockResponseCache.swift; sourceTree = SOURCE_ROOT; };
-		DB95F2A02A9F4B730029EC39 /* NSObject+OEXDeallocActionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OEXDeallocActionTests.m"; path = "Source/Core/Test/Code/NSObject+OEXDeallocActionTests.m"; sourceTree = SOURCE_ROOT; };
-		DB95F2A12A9F4B730029EC39 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManagerTests.swift; path = Source/Core/Test/Code/NetworkManagerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2A02A9F4B730029EC39 /* NSObject+OEXDeallocActionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OEXDeallocActionTests.m"; path = "edXTests/NSObject+OEXDeallocActionTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F2A12A9F4B730029EC39 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManagerTests.swift; path = edXTests/NetworkManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		DB95F2A22A9F4B730029EC39 /* Result+Assertions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Result+Assertions.swift"; path = "Source/Core/Test/Code/Result+Assertions.swift"; sourceTree = SOURCE_ROOT; };
 		DB95F2A32A9F4B730029EC39 /* OEXMetaClassHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXMetaClassHelpers.h; path = Source/Core/Test/Code/OEXMetaClassHelpers.h; sourceTree = SOURCE_ROOT; };
-		DB95F2A42A9F4B730029EC39 /* NSString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXFormattingTests.m"; path = "Source/Core/Test/Code/NSString+OEXFormattingTests.m"; sourceTree = SOURCE_ROOT; };
-		DB95F2A52A9F4B730029EC39 /* Array+FunctionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+FunctionalTests.swift"; path = "Source/Core/Test/Code/Array+FunctionalTests.swift"; sourceTree = SOURCE_ROOT; };
-		DB95F2A62A9F4B730029EC39 /* PersistentResponseCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentResponseCacheTests.swift; path = Source/Core/Test/Code/PersistentResponseCacheTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F2A42A9F4B730029EC39 /* NSString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXFormattingTests.m"; path = "edXTests/NSString+OEXFormattingTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F2A52A9F4B730029EC39 /* Array+FunctionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+FunctionalTests.swift"; path = "edXTests/Array+FunctionalTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F2A62A9F4B730029EC39 /* PersistentResponseCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentResponseCacheTests.swift; path = edXTests/PersistentResponseCacheTests.swift; sourceTree = SOURCE_ROOT; };
 		DB95F2B22A9F4B7F0029EC39 /* StreamWaitOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamWaitOperation.swift; path = Source/Core/Code/StreamWaitOperation.swift; sourceTree = SOURCE_ROOT; };
 		DB95F2B32A9F4B7F0029EC39 /* RegistrationAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPI.swift; path = Source/Core/Code/RegistrationAPI.swift; sourceTree = SOURCE_ROOT; };
 		DB95F2B42A9F4B7F0029EC39 /* OEXStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXStream.swift; path = Source/Core/Code/OEXStream.swift; sourceTree = SOURCE_ROOT; };
@@ -1541,11 +1708,180 @@
 		DB95F2CF2A9F4B800029EC39 /* NSString+OEXFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+OEXFormatting.h"; path = "Source/Core/Code/NSString+OEXFormatting.h"; sourceTree = SOURCE_ROOT; };
 		DB95F2D02A9F4B800029EC39 /* Array+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Functional.swift"; path = "Source/Core/Code/Array+Functional.swift"; sourceTree = SOURCE_ROOT; };
 		DB95F2D12A9F4B800029EC39 /* OEXHTTPStatusCode+Groups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OEXHTTPStatusCode+Groups.swift"; path = "Source/Core/Code/OEXHTTPStatusCode+Groups.swift"; sourceTree = SOURCE_ROOT; };
-		DB95F2F02A9F4DDA0029EC39 /* edXTests-tempp.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "edXTests-tempp.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB95F2F22A9F4DDA0029EC39 /* edXTests_tempp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = edXTests_tempp.swift; sourceTree = "<group>"; };
 		DB95F3062A9F50260029EC39 /* DateFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatting.swift; sourceTree = "<group>"; };
 		DB95F3082A9F51A40029EC39 /* LoginApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginApi.swift; path = Source/Core/Code/LoginApi.swift; sourceTree = SOURCE_ROOT; };
 		DB95F3092A9F51A40029EC39 /* LogoutApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogoutApi.swift; path = Source/Core/Code/LogoutApi.swift; sourceTree = SOURCE_ROOT; };
+		DB95F3152AA5C1BD0029EC39 /* edXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = edXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB95F3282AA5C5260029EC39 /* ListCursorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListCursorTests.swift; path = Test/ListCursorTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F3292AA5C5260029EC39 /* VersionUpgradeInfoControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VersionUpgradeInfoControllerTests.swift; path = Test/VersionUpgradeInfoControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F32A2AA5C5260029EC39 /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdditionalTabBarViewControllerTests.swift; path = Test/AdditionalTabBarViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F32B2AA5C5260029EC39 /* NSObject+OEXReplaceNullTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OEXReplaceNullTests.m"; path = "Test/NSObject+OEXReplaceNullTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F32C2AA5C5260029EC39 /* OEXMockCredentialStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXMockCredentialStorage.m; path = Test/OEXMockCredentialStorage.m; sourceTree = SOURCE_ROOT; };
+		DB95F32D2AA5C5260029EC39 /* OEXAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXAnalyticsTests.m; path = Test/OEXAnalyticsTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F32E2AA5C5260029EC39 /* DiscussionTopic+DataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DiscussionTopic+DataFactory.swift"; path = "Test/DiscussionTopic+DataFactory.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F32F2AA5C5260029EC39 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseShareUtmParameterTests.swift; path = Test/CourseShareUtmParameterTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F3302AA5C5260029EC39 /* MockEnrollmentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockEnrollmentManager.swift; path = Test/MockEnrollmentManager.swift; sourceTree = SOURCE_ROOT; };
+		DB95F3312AA5C5260029EC39 /* CourseCatalogViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseCatalogViewControllerTests.swift; path = Test/CourseCatalogViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F3322AA5C5260029EC39 /* ObservableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObservableTests.swift; path = Test/ObservableTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F3332AA5C5270029EC39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "Test/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DB95F3342AA5C5270029EC39 /* UserProfileViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileViewTests.swift; path = Test/UserProfileViewTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F3352AA5C5270029EC39 /* YoutubeVideoConfigTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YoutubeVideoConfigTest.swift; path = Test/YoutubeVideoConfigTest.swift; sourceTree = SOURCE_ROOT; };
+		DB95F40A2AA5C5270029EC39 /* OEXDBTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXDBTests.m; path = Test/OEXDBTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F40B2AA5C5270029EC39 /* FeedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedTests.swift; path = Test/FeedTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F40C2AA5C5270029EC39 /* DiscussionCommentsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionCommentsViewControllerTests.swift; path = Test/DiscussionCommentsViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F40D2AA5C5270029EC39 /* StartupViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StartupViewControllerTests.swift; path = Test/StartupViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F40E2AA5C5270029EC39 /* OEXTextStyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXTextStyleTests.swift; path = Test/OEXTextStyleTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F40F2AA5C5270029EC39 /* OEXMockCredentialStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXMockCredentialStorage.h; path = Test/OEXMockCredentialStorage.h; sourceTree = SOURCE_ROOT; };
+		DB95F4102AA5C5270029EC39 /* ResumeCourseControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResumeCourseControllerTests.swift; path = Test/ResumeCourseControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4142AA5C5270029EC39 /* MockCourseDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockCourseDataManager.swift; path = Test/MockCourseDataManager.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4152AA5C5270029EC39 /* SubjectsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubjectsViewControllerTests.swift; path = Test/SubjectsViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4162AA5C5270029EC39 /* TabContainerViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabContainerViewTests.swift; path = Test/TabContainerViewTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4172AA5C5270029EC39 /* MicrosoftConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MicrosoftConfigTests.swift; path = Test/MicrosoftConfigTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4182AA5C5270029EC39 /* VideoBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoBlockViewControllerTests.swift; path = Test/VideoBlockViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4192AA5C5270029EC39 /* MockUserProfileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockUserProfileManager.swift; path = Test/MockUserProfileManager.swift; sourceTree = SOURCE_ROOT; };
+		DB95F41A2AA5C5270029EC39 /* CourseStatusInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = CourseStatusInfo.json; path = Test/CourseStatusInfo.json; sourceTree = SOURCE_ROOT; };
+		DB95F41B2AA5C5280029EC39 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionResponsesViewControllerTests.swift; path = Test/DiscussionResponsesViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F41C2AA5C5280029EC39 /* AgreementURLsConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AgreementURLsConfigTests.swift; path = Test/AgreementURLsConfigTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F41D2AA5C5280029EC39 /* MockAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockAnalyticsTracker.swift; path = Test/MockAnalyticsTracker.swift; sourceTree = SOURCE_ROOT; };
+		DB95F41E2AA5C5280029EC39 /* BrazeConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrazeConfigTests.swift; path = Test/BrazeConfigTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F41F2AA5C5280029EC39 /* CourseDatesModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseDatesModelTests.swift; path = Test/CourseDatesModelTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4202AA5C5280029EC39 /* VersionUpgradeDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VersionUpgradeDataFactory.swift; path = Test/VersionUpgradeDataFactory.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4212AA5C5280029EC39 /* DiscussionTopicTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionTopicTests.swift; path = Test/DiscussionTopicTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4222AA5C5280029EC39 /* NSObject+SafeKVOTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSObject+SafeKVOTests.swift"; path = "Test/NSObject+SafeKVOTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4232AA5C5280029EC39 /* PostsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostsViewControllerTests.swift; path = Test/PostsViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4242AA5C5280029EC39 /* CourseOutlineViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseOutlineViewControllerTests.swift; path = Test/CourseOutlineViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4252AA5C5280029EC39 /* UserProfileEditViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileEditViewControllerTests.swift; path = Test/UserProfileEditViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4262AA5C5280029EC39 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXFontsTests.swift; path = Test/OEXFontsTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4272AA5C5280029EC39 /* CourseDates.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = CourseDates.json; path = Test/CourseDates.json; sourceTree = SOURCE_ROOT; };
+		DB95F4282AA5C5280029EC39 /* ServerChangedCheckerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerChangedCheckerTests.swift; path = Test/ServerChangedCheckerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4292AA5C5280029EC39 /* SnapshotTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotTestCase.swift; path = Test/SnapshotTestCase.swift; sourceTree = SOURCE_ROOT; };
+		DB95F42A2AA5C5280029EC39 /* UIView+UIViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+UIViewControllerTests.swift"; path = "Test/UIView+UIViewControllerTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F42B2AA5C5280029EC39 /* edXTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "edXTests-Info.plist"; path = "Test/edXTests-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DB95F42C2AA5C5280029EC39 /* NSNotificationCenter+SafeSwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSNotificationCenter+SafeSwiftTests.swift"; path = "Test/NSNotificationCenter+SafeSwiftTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F42D2AA5C5280029EC39 /* OEXRegistrationViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXRegistrationViewControllerTests.m; path = Test/OEXRegistrationViewControllerTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F42E2AA5C5280029EC39 /* OEXFileUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXFileUtilityTests.m; path = Test/OEXFileUtilityTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F42F2AA5C5280029EC39 /* DiscussionModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionModelTests.swift; path = Test/DiscussionModelTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4302AA5C5290029EC39 /* OEXMockAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXMockAnalyticsTracker.m; path = Test/OEXMockAnalyticsTracker.m; sourceTree = SOURCE_ROOT; };
+		DB95F4312AA5C5290029EC39 /* VideoTranscriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoTranscriptTests.swift; path = Test/VideoTranscriptTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4322AA5C5290029EC39 /* NSString+TestExamples.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+TestExamples.m"; path = "Test/NSString+TestExamples.m"; sourceTree = SOURCE_ROOT; };
+		DB95F4332AA5C5290029EC39 /* APIURLDefaultVersionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIURLDefaultVersionTests.swift; path = Test/APIURLDefaultVersionTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4342AA5C5290029EC39 /* RemoteImageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteImageTests.swift; path = Test/RemoteImageTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4352AA5C5290029EC39 /* ResumeCourseBlockTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResumeCourseBlockTests.swift; path = Test/ResumeCourseBlockTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4362AA5C5290029EC39 /* SessionUsernameProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionUsernameProviderTests.swift; path = Test/SessionUsernameProviderTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4372AA5C5290029EC39 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionDataParsingTests.swift; path = Test/DiscussionDataParsingTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4382AA5C5290029EC39 /* UIEdgeInsets+GeometryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIEdgeInsets+GeometryTests.swift"; path = "Test/UIEdgeInsets+GeometryTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4392AA5C5290029EC39 /* DiscussionTopicsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionTopicsViewControllerTests.swift; path = Test/DiscussionTopicsViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F43A2AA5C5290029EC39 /* LiveObjectCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiveObjectCacheTests.swift; path = Test/LiveObjectCacheTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F43B2AA5C5290029EC39 /* ListenableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListenableObject.m; path = Test/ListenableObject.m; sourceTree = SOURCE_ROOT; };
+		DB95F43D2AA5C5290029EC39 /* test-movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "test-movie.mp4"; sourceTree = "<group>"; };
+		DB95F43E2AA5C5290029EC39 /* test_screen_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_screen_1.png; sourceTree = "<group>"; };
+		DB95F43F2AA5C5290029EC39 /* sample-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sample-badge.png"; sourceTree = "<group>"; };
+		DB95F4402AA5C5290029EC39 /* DiscussionNewCommentViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionNewCommentViewControllerTests.swift; path = Test/DiscussionNewCommentViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4412AA5C5290029EC39 /* NSString+OEXCryptoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSString+OEXCryptoTests.swift"; path = "Test/NSString+OEXCryptoTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4422AA5C5290029EC39 /* DiscoveryWebViewHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoveryWebViewHelperTests.swift; path = Test/DiscoveryWebViewHelperTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4432AA5C5290029EC39 /* MockResumeCourseProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockResumeCourseProvider.swift; path = Test/MockResumeCourseProvider.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4442AA5C5290029EC39 /* VersionParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VersionParserTests.swift; path = Test/VersionParserTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4452AA5C5290029EC39 /* DiscoveryHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoveryHelperTests.swift; path = Test/DiscoveryHelperTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4462AA5C52A0029EC39 /* OEXFileUtility+TestAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "OEXFileUtility+TestAdditions.h"; path = "Test/OEXFileUtility+TestAdditions.h"; sourceTree = SOURCE_ROOT; };
+		DB95F4472AA5C52A0029EC39 /* TestEnvironmentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestEnvironmentBuilder.swift; path = Test/TestEnvironmentBuilder.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4482AA5C52A0029EC39 /* NSDate+TestDates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+TestDates.swift"; path = "Test/NSDate+TestDates.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4492AA5C52A0029EC39 /* DiscussionNewPostViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionNewPostViewControllerTests.swift; path = Test/DiscussionNewPostViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F44A2AA5C52A0029EC39 /* CourseSectionTableViewCellTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseSectionTableViewCellTests.swift; path = Test/CourseSectionTableViewCellTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F44B2AA5C52A0029EC39 /* EnrolledCoursesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnrolledCoursesViewControllerTests.swift; path = Test/EnrolledCoursesViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F44C2AA5C52A0029EC39 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateFormattingTests.swift; path = Test/DateFormattingTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F44D2AA5C52A0029EC39 /* MockReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockReachability.swift; path = Test/MockReachability.swift; sourceTree = SOURCE_ROOT; };
+		DB95F44E2AA5C52A0029EC39 /* NSString+OEXValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXValidationTests.m"; path = "Test/NSString+OEXValidationTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F44F2AA5C52A0029EC39 /* KeyboardInsetsSourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardInsetsSourceTests.swift; path = Test/KeyboardInsetsSourceTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4502AA5C52A0029EC39 /* MockRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockRouter.swift; path = Test/MockRouter.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4512AA5C52A0029EC39 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionBlockViewControllerTests.swift; path = Test/DiscussionBlockViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4522AA5C52A0029EC39 /* OEXColorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXColorsTests.swift; path = Test/OEXColorsTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4532AA5C52A0029EC39 /* OEXVideoSummaryTestDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXVideoSummaryTestDataFactory.swift; path = Test/OEXVideoSummaryTestDataFactory.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4542AA5C52A0029EC39 /* OEXInterface+AppReviewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OEXInterface+AppReviewTests.swift"; path = "Test/OEXInterface+AppReviewTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4552AA5C52A0029EC39 /* OEXSession+AuthorizationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OEXSession+AuthorizationTests.swift"; path = "Test/OEXSession+AuthorizationTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4562AA5C52B0029EC39 /* NSString+TestExamples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+TestExamples.h"; path = "Test/NSString+TestExamples.h"; sourceTree = SOURCE_ROOT; };
+		DB95F4572AA5C52B0029EC39 /* RegistrationForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RegistrationForm.json; path = Test/RegistrationForm.json; sourceTree = SOURCE_ROOT; };
+		DB95F4582AA5C52B0029EC39 /* OEXMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXMockUserDefaults.h; path = Test/OEXMockUserDefaults.h; sourceTree = SOURCE_ROOT; };
+		DB95F4592AA5C52B0029EC39 /* DiscoveryConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoveryConfigTests.swift; path = Test/DiscoveryConfigTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F45A2AA5C52B0029EC39 /* NSArray+OEXFunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+OEXFunctionalTests.m"; path = "Test/NSArray+OEXFunctionalTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F45B2AA5C52B0029EC39 /* SnackbarViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnackbarViewsTests.swift; path = Test/SnackbarViewsTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F45C2AA5C52B0029EC39 /* UserProfileNetworkPresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileNetworkPresenterTests.swift; path = Test/UserProfileNetworkPresenterTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F45D2AA5C52B0029EC39 /* AppUpgradeConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppUpgradeConfigTests.swift; path = Test/AppUpgradeConfigTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F45E2AA5C52B0029EC39 /* CourseContentPageViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseContentPageViewControllerTests.swift; path = Test/CourseContentPageViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F45F2AA5C52B0029EC39 /* StreamTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamTests.swift; path = Test/StreamTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4602AA5C52B0029EC39 /* UIBarButtonItem+OEXBlockActionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+OEXBlockActionsTests.m"; path = "Test/UIBarButtonItem+OEXBlockActionsTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F4612AA5C52B0029EC39 /* DiscussionPosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = DiscussionPosts.json; path = Test/DiscussionPosts.json; sourceTree = SOURCE_ROOT; };
+		DB95F4622AA5C52B0029EC39 /* NSAttributedString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+OEXFormattingTests.m"; path = "Test/NSAttributedString+OEXFormattingTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F4632AA5C52B0029EC39 /* OEXVideoSummaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXVideoSummaryTests.m; path = Test/OEXVideoSummaryTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F4642AA5C52B0029EC39 /* OfflineSupportViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OfflineSupportViewControllerTests.swift; path = Test/OfflineSupportViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4652AA5C52B0029EC39 /* TestRouterEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestRouterEnvironment.swift; path = Test/TestRouterEnvironment.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4662AA5C52B0029EC39 /* UIControl+OEXBlockActionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIControl+OEXBlockActionsTests.m"; path = "Test/UIControl+OEXBlockActionsTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F4672AA5C52B0029EC39 /* YoutubeVideoPlayerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YoutubeVideoPlayerTests.swift; path = Test/YoutubeVideoPlayerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4682AA5C52B0029EC39 /* OEXDataParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXDataParserTests.m; path = Test/OEXDataParserTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F4692AA5C52B0029EC39 /* UIImage+TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+TestData.swift"; path = "Test/UIImage+TestData.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F46A2AA5C52C0029EC39 /* DummyTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DummyTableViewDataSource.swift; path = Test/DummyTableViewDataSource.swift; sourceTree = SOURCE_ROOT; };
+		DB95F46B2AA5C52C0029EC39 /* OEXUserDetails+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "OEXUserDetails+OEXTestDataFactory.m"; path = "Test/OEXUserDetails+OEXTestDataFactory.m"; sourceTree = SOURCE_ROOT; };
+		DB95F46C2AA5C52C0029EC39 /* edXTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "edXTests-Bridging-Header.h"; path = "Test/edXTests-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		DB95F46D2AA5C52C0029EC39 /* PaginatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginatorTests.swift; path = Test/PaginatorTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F46E2AA5C52C0029EC39 /* OEXCourseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXCourseTests.swift; path = Test/OEXCourseTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F46F2AA5C52C0029EC39 /* EnrollmentManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnrollmentManagerTests.swift; path = Test/EnrollmentManagerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4702AA5C52C0029EC39 /* OEXFindCoursesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXFindCoursesTests.m; path = Test/OEXFindCoursesTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F4712AA5C52C0029EC39 /* OEXConfig+URLCredentialProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OEXConfig+URLCredentialProviderTests.swift"; path = "Test/OEXConfig+URLCredentialProviderTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4722AA5C52C0029EC39 /* ContentInsetsControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentInsetsControllerTests.swift; path = Test/ContentInsetsControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4732AA5C52C0029EC39 /* NetworkManager+InterceptionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NetworkManager+InterceptionTests.swift"; path = "Test/NetworkManager+InterceptionTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4742AA5C52C0029EC39 /* CourseDashboardViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseDashboardViewControllerTests.swift; path = Test/CourseDashboardViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4752AA5C52C0029EC39 /* DeepLinkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeepLinkTests.swift; path = Test/DeepLinkTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4762AA5C52C0029EC39 /* OEXConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXConfigTests.m; path = Test/OEXConfigTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F4772AA5C52C0029EC39 /* OEXUserDetails+OEXTestDataFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "OEXUserDetails+OEXTestDataFactory.h"; path = "Test/OEXUserDetails+OEXTestDataFactory.h"; sourceTree = SOURCE_ROOT; };
+		DB95F4782AA5C52C0029EC39 /* RegistrationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationViewControllerTests.swift; path = Test/RegistrationViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4792AA5C52C0029EC39 /* UIAlertController+OEXBlockActionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIAlertController+OEXBlockActionsTests.swift"; path = "Test/UIAlertController+OEXBlockActionsTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F47A2AA5C52C0029EC39 /* OEXCourse+TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OEXCourse+TestData.swift"; path = "Test/OEXCourse+TestData.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F47B2AA5C52C0029EC39 /* OEXSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXSessionTests.m; path = Test/OEXSessionTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F47C2AA5C52C0029EC39 /* BranchConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BranchConfigTests.swift; path = Test/BranchConfigTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F47D2AA5C52C0029EC39 /* CourseDataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseDataManagerTests.swift; path = Test/CourseDataManagerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F47E2AA5C52C0029EC39 /* OEXMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXMockUserDefaults.m; path = Test/OEXMockUserDefaults.m; sourceTree = SOURCE_ROOT; };
+		DB95F47F2AA5C52C0029EC39 /* FirebaseConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseConfigTests.swift; path = Test/FirebaseConfigTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4802AA5C52D0029EC39 /* OEXRouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXRouterTests.swift; path = Test/OEXRouterTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4812AA5C52D0029EC39 /* UIBarButtonItem+Touchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIBarButtonItem+Touchable.swift"; path = "Test/UIBarButtonItem+Touchable.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4822AA5C52D0029EC39 /* UserAgentGeneratorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserAgentGeneratorTests.swift; path = Test/UserAgentGeneratorTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4832AA5C52D0029EC39 /* ProgramConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProgramConfigTests.swift; path = Test/ProgramConfigTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4842AA5C52D0029EC39 /* VideoPlayerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPlayerTests.swift; path = Test/VideoPlayerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4852AA5C52D0029EC39 /* WhatsNew.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = WhatsNew.json; path = Test/WhatsNew.json; sourceTree = SOURCE_ROOT; };
+		DB95F4862AA5C52D0029EC39 /* WhatsNewViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WhatsNewViewControllerTests.swift; path = Test/WhatsNewViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4872AA5C52D0029EC39 /* RatingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RatingViewControllerTests.swift; path = Test/RatingViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4882AA5C52D0029EC39 /* TranscriptParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TranscriptParserTests.swift; path = Test/TranscriptParserTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4892AA5C52D0029EC39 /* MockNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockNetworkManager.swift; path = Test/MockNetworkManager.swift; sourceTree = SOURCE_ROOT; };
+		DB95F48A2AA5C52D0029EC39 /* OEXInterfaceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXInterfaceTests.swift; path = Test/OEXInterfaceTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F48B2AA5C52D0029EC39 /* NSNotificationCenter+OEXSafeAccessTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNotificationCenter+OEXSafeAccessTests.m"; path = "Test/NSNotificationCenter+OEXSafeAccessTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F48C2AA5C52D0029EC39 /* CourseOutlineHeaderViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseOutlineHeaderViewTests.swift; path = Test/CourseOutlineHeaderViewTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F48D2AA5C52D0029EC39 /* Dictionary+SafeAccessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Dictionary+SafeAccessTests.swift"; path = "Test/Dictionary+SafeAccessTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F48E2AA5C52D0029EC39 /* OEXFileUtility+TestAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "OEXFileUtility+TestAdditions.m"; path = "Test/OEXFileUtility+TestAdditions.m"; sourceTree = SOURCE_ROOT; };
+		DB95F48F2AA5C52D0029EC39 /* EmailTemplateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EmailTemplateTests.swift; path = Test/EmailTemplateTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4902AA5C52D0029EC39 /* NSDate+OEXComparisonsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+OEXComparisonsTests.m"; path = "Test/NSDate+OEXComparisonsTests.m"; sourceTree = SOURCE_ROOT; };
+		DB95F4912AA5C52D0029EC39 /* CourseOutlineQuerierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseOutlineQuerierTests.swift; path = Test/CourseOutlineQuerierTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4922AA5C52D0029EC39 /* OEXMockAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXMockAnalyticsTracker.h; path = Test/OEXMockAnalyticsTracker.h; sourceTree = SOURCE_ROOT; };
+		DB95F4932AA5C52D0029EC39 /* CourseCatalogDetailViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseCatalogDetailViewControllerTests.swift; path = Test/CourseCatalogDetailViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4942AA5C52E0029EC39 /* UserPreferenceManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserPreferenceManagerTests.swift; path = Test/UserPreferenceManagerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4952AA5C52E0029EC39 /* WhatsNewObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WhatsNewObjectTests.swift; path = Test/WhatsNewObjectTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4962AA5C52E0029EC39 /* XCTestCase+Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "XCTestCase+Async.swift"; path = "Test/XCTestCase+Async.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4972AA5C52E0029EC39 /* OEXRegistrationFieldEmailViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXRegistrationFieldEmailViewTests.m; path = Test/OEXRegistrationFieldEmailViewTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F4982AA5C52E0029EC39 /* NetworkManager+AuthenticatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NetworkManager+AuthenticatorTests.swift"; path = "Test/NetworkManager+AuthenticatorTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4992AA5C52E0029EC39 /* XCTestCase+Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "XCTestCase+Stream.swift"; path = "Test/XCTestCase+Stream.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F49A2AA5C52E0029EC39 /* WhatsNewDataModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WhatsNewDataModelTests.swift; path = Test/WhatsNewDataModelTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F49B2AA5C52E0029EC39 /* SubjectDataModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubjectDataModelTests.swift; path = Test/SubjectDataModelTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F49C2AA5C52E0029EC39 /* UIImage_OEXHelpersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImage_OEXHelpersTests.swift; path = Test/UIImage_OEXHelpersTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F49D2AA5C52E0029EC39 /* UserProfileManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileManagerTests.swift; path = Test/UserProfileManagerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F49E2AA5C52E0029EC39 /* EnrolledTabBarViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnrolledTabBarViewControllerTest.swift; path = Test/EnrolledTabBarViewControllerTest.swift; sourceTree = SOURCE_ROOT; };
+		DB95F49F2AA5C52E0029EC39 /* OEXSafeCastTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXSafeCastTests.m; path = Test/OEXSafeCastTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F4A02AA5C52E0029EC39 /* CourseCardViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseCardViewModelTests.swift; path = Test/CourseCardViewModelTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4A12AA5C52E0029EC39 /* NSAttributedString+FormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSAttributedString+FormattingTests.swift"; path = "Test/NSAttributedString+FormattingTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4A32AA5C52E0029EC39 /* OEXPushNotificationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXPushNotificationManagerTests.m; path = Test/OEXPushNotificationManagerTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F4A42AA5C52E0029EC39 /* ListenableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListenableObject.h; path = Test/ListenableObject.h; sourceTree = SOURCE_ROOT; };
+		DB95F4A62AA5C52E0029EC39 /* PaginationControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginationControllerTests.swift; path = Test/PaginationControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4A72AA5C52F0029EC39 /* String+DecodeHTMLEntitiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+DecodeHTMLEntitiesTests.swift"; path = "Test/String+DecodeHTMLEntitiesTests.swift"; sourceTree = SOURCE_ROOT; };
+		DB95F4A82AA5C52F0029EC39 /* DiscussionResponsesDataControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscussionResponsesDataControllerTests.swift; path = Test/DiscussionResponsesDataControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		DB95F4A92AA5C52F0029EC39 /* OEXFormEncodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXFormEncodingTests.m; path = Test/OEXFormEncodingTests.m; sourceTree = SOURCE_ROOT; };
+		DB95F4AA2AA5C52F0029EC39 /* CourseOutlineTestDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseOutlineTestDataFactory.swift; path = Test/CourseOutlineTestDataFactory.swift; sourceTree = SOURCE_ROOT; };
+		DB95F6192AA5C7C20029EC39 /* libOCMock.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = libOCMock.xcframework; sourceTree = "<group>"; };
 		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
 		E00603462656509700CEBB12 /* BrazeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeProvider.swift; sourceTree = "<group>"; };
 		E0060348265650A400CEBB12 /* BrazeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeListener.swift; sourceTree = "<group>"; };
@@ -1683,6 +2019,7 @@
 				0D15762A235ED9DF0007B0B7 /* CoreText.framework in Frameworks */,
 				B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */,
 				BECB7B111924C0C3009C77F1 /* CoreGraphics.framework in Frameworks */,
+				DB95F6212AA5E0FC0029EC39 /* libOCMock.xcframework in Frameworks */,
 				0D157628235ED9B80007B0B7 /* CoreData.framework in Frameworks */,
 				0D157624235ED9A10007B0B7 /* CFNetwork.framework in Frameworks */,
 				0D157622235ED9990007B0B7 /* AVFoundation.framework in Frameworks */,
@@ -1702,10 +2039,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DB95F2ED2A9F4DDA0029EC39 /* Frameworks */ = {
+		DB95F3122AA5C1BD0029EC39 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A78167AEB30447018E88DC4A /* Pods_edXTests.framework in Frameworks */,
+				DB95F61B2AA5C8460029EC39 /* libOCMock.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2586,6 +2925,7 @@
 		77E647B11C90C21100B6740D /* App */ = {
 			isa = PBXGroup;
 			children = (
+				DB95F29A2A9F4B5D0029EC39 /* Core */,
 				BECB7B141924C0C3009C77F1 /* Source */,
 				69ECC5A11D50D1170030CF87 /* Resources */,
 			);
@@ -2957,6 +3297,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DB95F6182AA5C7C20029EC39 /* OCMock */,
 				DB1A589B2A9739BD00DD9744 /* Cast */,
 				E0AA9106280FFC8E00D39A4D /* KeychainSwift */,
 				5FFB73AE2849F10D000523BF /* DropDown */,
@@ -2980,12 +3321,10 @@
 		BECB7B021924C0C3009C77F1 = {
 			isa = PBXGroup;
 			children = (
-				DB95F2EB2A9F4DB90029EC39 /* edXTests */,
-				DB95F29A2A9F4B5D0029EC39 /* CoreTemp */,
 				E052F5A81D9953BB009F6B6F /* edX.entitlements */,
 				77E647B11C90C21100B6740D /* App */,
 				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
-				DB95F2F12A9F4DDA0029EC39 /* edXTests-tempp */,
+				DB95F3162AA5C1BD0029EC39 /* edXTests */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
 				BECB7B0C1924C0C3009C77F1 /* Products */,
 				C7156A9A0C1AA9845947F6E2 /* Pods */,
@@ -2996,7 +3335,7 @@
 			isa = PBXGroup;
 			children = (
 				BECB7B0B1924C0C3009C77F1 /* edX.app */,
-				DB95F2F02A9F4DDA0029EC39 /* edXTests-tempp.xctest */,
+				DB95F3152AA5C1BD0029EC39 /* edXTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3267,7 +3606,7 @@
 			path = NutritionLabel;
 			sourceTree = "<group>";
 		};
-		DB95F29A2A9F4B5D0029EC39 /* CoreTemp */ = {
+		DB95F29A2A9F4B5D0029EC39 /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				DB95F3082A9F51A40029EC39 /* LoginApi.swift */,
@@ -3305,36 +3644,215 @@
 				DB95F2BA2A9F4B800029EC39 /* Removable.swift */,
 				DB95F2CA2A9F4B800029EC39 /* Result.swift */,
 				DB95F2B22A9F4B7F0029EC39 /* StreamWaitOperation.swift */,
+				DB95F29F2A9F4B730029EC39 /* MockResponseCache.swift */,
+				DB95F2A32A9F4B730029EC39 /* OEXMetaClassHelpers.h */,
+				DB95F29D2A9F4B730029EC39 /* OEXMetaClassHelpers.m */,
+				DB95F2A22A9F4B730029EC39 /* Result+Assertions.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		DB95F3162AA5C1BD0029EC39 /* edXTests */ = {
+			isa = PBXGroup;
+			children = (
+				DB95F32A2AA5C5260029EC39 /* AdditionalTabBarViewControllerTests.swift */,
+				DB95F41C2AA5C5280029EC39 /* AgreementURLsConfigTests.swift */,
+				DB95F4332AA5C5290029EC39 /* APIURLDefaultVersionTests.swift */,
+				DB95F45D2AA5C52B0029EC39 /* AppUpgradeConfigTests.swift */,
+				DB95F47C2AA5C52C0029EC39 /* BranchConfigTests.swift */,
+				DB95F41E2AA5C5280029EC39 /* BrazeConfigTests.swift */,
+				DB95F4722AA5C52C0029EC39 /* ContentInsetsControllerTests.swift */,
+				DB95F4A02AA5C52E0029EC39 /* CourseCardViewModelTests.swift */,
+				DB95F4932AA5C52D0029EC39 /* CourseCatalogDetailViewControllerTests.swift */,
+				DB95F3312AA5C5260029EC39 /* CourseCatalogViewControllerTests.swift */,
+				DB95F45E2AA5C52B0029EC39 /* CourseContentPageViewControllerTests.swift */,
+				DB95F4742AA5C52C0029EC39 /* CourseDashboardViewControllerTests.swift */,
+				DB95F47D2AA5C52C0029EC39 /* CourseDataManagerTests.swift */,
+				DB95F4272AA5C5280029EC39 /* CourseDates.json */,
+				DB95F41F2AA5C5280029EC39 /* CourseDatesModelTests.swift */,
+				DB95F48C2AA5C52D0029EC39 /* CourseOutlineHeaderViewTests.swift */,
+				DB95F4912AA5C52D0029EC39 /* CourseOutlineQuerierTests.swift */,
+				DB95F4AA2AA5C52F0029EC39 /* CourseOutlineTestDataFactory.swift */,
+				DB95F4242AA5C5280029EC39 /* CourseOutlineViewControllerTests.swift */,
+				DB95F44A2AA5C52A0029EC39 /* CourseSectionTableViewCellTests.swift */,
+				DB95F32F2AA5C5260029EC39 /* CourseShareUtmParameterTests.swift */,
+				DB95F41A2AA5C5270029EC39 /* CourseStatusInfo.json */,
+				DB95F43C2AA5C5290029EC39 /* Data */,
+				DB95F44C2AA5C52A0029EC39 /* DateFormattingTests.swift */,
+				DB95F4752AA5C52C0029EC39 /* DeepLinkTests.swift */,
+				DB95F48D2AA5C52D0029EC39 /* Dictionary+SafeAccessTests.swift */,
+				DB95F4592AA5C52B0029EC39 /* DiscoveryConfigTests.swift */,
+				DB95F4452AA5C5290029EC39 /* DiscoveryHelperTests.swift */,
+				DB95F4422AA5C5290029EC39 /* DiscoveryWebViewHelperTests.swift */,
+				DB95F4512AA5C52A0029EC39 /* DiscussionBlockViewControllerTests.swift */,
+				DB95F40C2AA5C5270029EC39 /* DiscussionCommentsViewControllerTests.swift */,
+				DB95F4372AA5C5290029EC39 /* DiscussionDataParsingTests.swift */,
+				DB95F42F2AA5C5280029EC39 /* DiscussionModelTests.swift */,
+				DB95F4402AA5C5290029EC39 /* DiscussionNewCommentViewControllerTests.swift */,
+				DB95F4492AA5C52A0029EC39 /* DiscussionNewPostViewControllerTests.swift */,
+				DB95F4612AA5C52B0029EC39 /* DiscussionPosts.json */,
+				DB95F4A82AA5C52F0029EC39 /* DiscussionResponsesDataControllerTests.swift */,
+				DB95F41B2AA5C5280029EC39 /* DiscussionResponsesViewControllerTests.swift */,
+				DB95F32E2AA5C5260029EC39 /* DiscussionTopic+DataFactory.swift */,
+				DB95F4392AA5C5290029EC39 /* DiscussionTopicsViewControllerTests.swift */,
+				DB95F4212AA5C5280029EC39 /* DiscussionTopicTests.swift */,
+				DB95F46A2AA5C52C0029EC39 /* DummyTableViewDataSource.swift */,
+				DB95F46C2AA5C52C0029EC39 /* edXTests-Bridging-Header.h */,
+				DB95F42B2AA5C5280029EC39 /* edXTests-Info.plist */,
+				DB95F48F2AA5C52D0029EC39 /* EmailTemplateTests.swift */,
+				DB95F44B2AA5C52A0029EC39 /* EnrolledCoursesViewControllerTests.swift */,
+				DB95F49E2AA5C52E0029EC39 /* EnrolledTabBarViewControllerTest.swift */,
+				DB95F46F2AA5C52C0029EC39 /* EnrollmentManagerTests.swift */,
+				DB95F40B2AA5C5270029EC39 /* FeedTests.swift */,
+				DB95F47F2AA5C52C0029EC39 /* FirebaseConfigTests.swift */,
+				DB95F3332AA5C5270029EC39 /* GoogleService-Info.plist */,
+				DB95F44F2AA5C52A0029EC39 /* KeyboardInsetsSourceTests.swift */,
+				DB95F3282AA5C5260029EC39 /* ListCursorTests.swift */,
+				DB95F4A42AA5C52E0029EC39 /* ListenableObject.h */,
+				DB95F43B2AA5C5290029EC39 /* ListenableObject.m */,
+				DB95F43A2AA5C5290029EC39 /* LiveObjectCacheTests.swift */,
+				DB95F4172AA5C5270029EC39 /* MicrosoftConfigTests.swift */,
+				DB95F41D2AA5C5280029EC39 /* MockAnalyticsTracker.swift */,
+				DB95F4142AA5C5270029EC39 /* MockCourseDataManager.swift */,
+				DB95F3302AA5C5260029EC39 /* MockEnrollmentManager.swift */,
+				DB95F4892AA5C52D0029EC39 /* MockNetworkManager.swift */,
+				DB95F44D2AA5C52A0029EC39 /* MockReachability.swift */,
+				DB95F4432AA5C5290029EC39 /* MockResumeCourseProvider.swift */,
+				DB95F4502AA5C52A0029EC39 /* MockRouter.swift */,
+				DB95F4192AA5C5270029EC39 /* MockUserProfileManager.swift */,
+				DB95F4982AA5C52E0029EC39 /* NetworkManager+AuthenticatorTests.swift */,
+				DB95F4732AA5C52C0029EC39 /* NetworkManager+InterceptionTests.swift */,
+				DB95F45A2AA5C52B0029EC39 /* NSArray+OEXFunctionalTests.m */,
+				DB95F4A12AA5C52E0029EC39 /* NSAttributedString+FormattingTests.swift */,
+				DB95F4622AA5C52B0029EC39 /* NSAttributedString+OEXFormattingTests.m */,
+				DB95F4902AA5C52D0029EC39 /* NSDate+OEXComparisonsTests.m */,
+				DB95F4482AA5C52A0029EC39 /* NSDate+TestDates.swift */,
+				DB95F48B2AA5C52D0029EC39 /* NSNotificationCenter+OEXSafeAccessTests.m */,
+				DB95F42C2AA5C5280029EC39 /* NSNotificationCenter+SafeSwiftTests.swift */,
+				DB95F32B2AA5C5260029EC39 /* NSObject+OEXReplaceNullTests.m */,
+				DB95F4222AA5C5280029EC39 /* NSObject+SafeKVOTests.swift */,
+				DB95F4412AA5C5290029EC39 /* NSString+OEXCryptoTests.swift */,
+				DB95F44E2AA5C52A0029EC39 /* NSString+OEXValidationTests.m */,
+				DB95F4562AA5C52B0029EC39 /* NSString+TestExamples.h */,
+				DB95F4322AA5C5290029EC39 /* NSString+TestExamples.m */,
+				DB95F3322AA5C5260029EC39 /* ObservableTests.swift */,
+				DB95F32D2AA5C5260029EC39 /* OEXAnalyticsTests.m */,
+				DB95F4522AA5C52A0029EC39 /* OEXColorsTests.swift */,
+				DB95F4712AA5C52C0029EC39 /* OEXConfig+URLCredentialProviderTests.swift */,
+				DB95F4762AA5C52C0029EC39 /* OEXConfigTests.m */,
+				DB95F47A2AA5C52C0029EC39 /* OEXCourse+TestData.swift */,
+				DB95F46E2AA5C52C0029EC39 /* OEXCourseTests.swift */,
+				DB95F4682AA5C52B0029EC39 /* OEXDataParserTests.m */,
+				DB95F40A2AA5C5270029EC39 /* OEXDBTests.m */,
+				DB95F4462AA5C52A0029EC39 /* OEXFileUtility+TestAdditions.h */,
+				DB95F48E2AA5C52D0029EC39 /* OEXFileUtility+TestAdditions.m */,
+				DB95F42E2AA5C5280029EC39 /* OEXFileUtilityTests.m */,
+				DB95F4702AA5C52C0029EC39 /* OEXFindCoursesTests.m */,
+				DB95F4262AA5C5280029EC39 /* OEXFontsTests.swift */,
+				DB95F4A92AA5C52F0029EC39 /* OEXFormEncodingTests.m */,
+				DB95F4542AA5C52A0029EC39 /* OEXInterface+AppReviewTests.swift */,
+				DB95F48A2AA5C52D0029EC39 /* OEXInterfaceTests.swift */,
+				DB95F4922AA5C52D0029EC39 /* OEXMockAnalyticsTracker.h */,
+				DB95F4302AA5C5290029EC39 /* OEXMockAnalyticsTracker.m */,
+				DB95F40F2AA5C5270029EC39 /* OEXMockCredentialStorage.h */,
+				DB95F32C2AA5C5260029EC39 /* OEXMockCredentialStorage.m */,
+				DB95F4582AA5C52B0029EC39 /* OEXMockUserDefaults.h */,
+				DB95F47E2AA5C52C0029EC39 /* OEXMockUserDefaults.m */,
+				DB95F4A32AA5C52E0029EC39 /* OEXPushNotificationManagerTests.m */,
+				DB95F4972AA5C52E0029EC39 /* OEXRegistrationFieldEmailViewTests.m */,
+				DB95F42D2AA5C5280029EC39 /* OEXRegistrationViewControllerTests.m */,
+				DB95F4802AA5C52D0029EC39 /* OEXRouterTests.swift */,
+				DB95F49F2AA5C52E0029EC39 /* OEXSafeCastTests.m */,
+				DB95F4552AA5C52A0029EC39 /* OEXSession+AuthorizationTests.swift */,
+				DB95F47B2AA5C52C0029EC39 /* OEXSessionTests.m */,
+				DB95F40E2AA5C5270029EC39 /* OEXTextStyleTests.swift */,
+				DB95F4772AA5C52C0029EC39 /* OEXUserDetails+OEXTestDataFactory.h */,
+				DB95F46B2AA5C52C0029EC39 /* OEXUserDetails+OEXTestDataFactory.m */,
+				DB95F4532AA5C52A0029EC39 /* OEXVideoSummaryTestDataFactory.swift */,
+				DB95F4632AA5C52B0029EC39 /* OEXVideoSummaryTests.m */,
+				DB95F4642AA5C52B0029EC39 /* OfflineSupportViewControllerTests.swift */,
+				DB95F4A62AA5C52E0029EC39 /* PaginationControllerTests.swift */,
+				DB95F46D2AA5C52C0029EC39 /* PaginatorTests.swift */,
+				DB95F4232AA5C5280029EC39 /* PostsViewControllerTests.swift */,
+				DB95F4832AA5C52D0029EC39 /* ProgramConfigTests.swift */,
+				DB95F4872AA5C52D0029EC39 /* RatingViewControllerTests.swift */,
+				DB95F4572AA5C52B0029EC39 /* RegistrationForm.json */,
+				DB95F4782AA5C52C0029EC39 /* RegistrationViewControllerTests.swift */,
+				DB95F4342AA5C5290029EC39 /* RemoteImageTests.swift */,
+				DB95F4352AA5C5290029EC39 /* ResumeCourseBlockTests.swift */,
+				DB95F4102AA5C5270029EC39 /* ResumeCourseControllerTests.swift */,
+				DB95F4282AA5C5280029EC39 /* ServerChangedCheckerTests.swift */,
+				DB95F4362AA5C5290029EC39 /* SessionUsernameProviderTests.swift */,
+				DB95F45B2AA5C52B0029EC39 /* SnackbarViewsTests.swift */,
+				DB95F4292AA5C5280029EC39 /* SnapshotTestCase.swift */,
+				DB95F40D2AA5C5270029EC39 /* StartupViewControllerTests.swift */,
+				DB95F45F2AA5C52B0029EC39 /* StreamTests.swift */,
+				DB95F4A72AA5C52F0029EC39 /* String+DecodeHTMLEntitiesTests.swift */,
+				DB95F49B2AA5C52E0029EC39 /* SubjectDataModelTests.swift */,
+				DB95F4152AA5C5270029EC39 /* SubjectsViewControllerTests.swift */,
+				DB95F4162AA5C5270029EC39 /* TabContainerViewTests.swift */,
+				DB95F4472AA5C52A0029EC39 /* TestEnvironmentBuilder.swift */,
+				DB95F4652AA5C52B0029EC39 /* TestRouterEnvironment.swift */,
+				DB95F4882AA5C52D0029EC39 /* TranscriptParserTests.swift */,
+				DB95F4792AA5C52C0029EC39 /* UIAlertController+OEXBlockActionsTests.swift */,
+				DB95F4602AA5C52B0029EC39 /* UIBarButtonItem+OEXBlockActionsTests.m */,
+				DB95F4812AA5C52D0029EC39 /* UIBarButtonItem+Touchable.swift */,
+				DB95F4662AA5C52B0029EC39 /* UIControl+OEXBlockActionsTests.m */,
+				DB95F4382AA5C5290029EC39 /* UIEdgeInsets+GeometryTests.swift */,
+				DB95F49C2AA5C52E0029EC39 /* UIImage_OEXHelpersTests.swift */,
+				DB95F4692AA5C52B0029EC39 /* UIImage+TestData.swift */,
+				DB95F42A2AA5C5280029EC39 /* UIView+UIViewControllerTests.swift */,
+				DB95F4822AA5C52D0029EC39 /* UserAgentGeneratorTests.swift */,
+				DB95F4942AA5C52E0029EC39 /* UserPreferenceManagerTests.swift */,
+				DB95F4252AA5C5280029EC39 /* UserProfileEditViewControllerTests.swift */,
+				DB95F49D2AA5C52E0029EC39 /* UserProfileManagerTests.swift */,
+				DB95F45C2AA5C52B0029EC39 /* UserProfileNetworkPresenterTests.swift */,
+				DB95F3342AA5C5270029EC39 /* UserProfileViewTests.swift */,
+				DB95F4442AA5C5290029EC39 /* VersionParserTests.swift */,
+				DB95F4202AA5C5280029EC39 /* VersionUpgradeDataFactory.swift */,
+				DB95F3292AA5C5260029EC39 /* VersionUpgradeInfoControllerTests.swift */,
+				DB95F4182AA5C5270029EC39 /* VideoBlockViewControllerTests.swift */,
+				DB95F4842AA5C52D0029EC39 /* VideoPlayerTests.swift */,
+				DB95F4312AA5C5290029EC39 /* VideoTranscriptTests.swift */,
+				DB95F4852AA5C52D0029EC39 /* WhatsNew.json */,
+				DB95F49A2AA5C52E0029EC39 /* WhatsNewDataModelTests.swift */,
+				DB95F4952AA5C52E0029EC39 /* WhatsNewObjectTests.swift */,
+				DB95F4862AA5C52D0029EC39 /* WhatsNewViewControllerTests.swift */,
+				DB95F4962AA5C52E0029EC39 /* XCTestCase+Async.swift */,
+				DB95F4992AA5C52E0029EC39 /* XCTestCase+Stream.swift */,
+				DB95F3352AA5C5270029EC39 /* YoutubeVideoConfigTest.swift */,
+				DB95F4672AA5C52B0029EC39 /* YoutubeVideoPlayerTests.swift */,
 				DB95F2A52A9F4B730029EC39 /* Array+FunctionalTests.swift */,
 				DB95F29C2A9F4B730029EC39 /* BadgesAPITests.swift */,
-				DB95F29F2A9F4B730029EC39 /* MockResponseCache.swift */,
 				DB95F2A12A9F4B730029EC39 /* NetworkManagerTests.swift */,
 				DB95F2A02A9F4B730029EC39 /* NSObject+OEXDeallocActionTests.m */,
 				DB95F2A42A9F4B730029EC39 /* NSString+OEXFormattingTests.m */,
-				DB95F2A32A9F4B730029EC39 /* OEXMetaClassHelpers.h */,
-				DB95F29D2A9F4B730029EC39 /* OEXMetaClassHelpers.m */,
 				DB95F29E2A9F4B730029EC39 /* PaginationInfoTests.swift */,
 				DB95F2A62A9F4B730029EC39 /* PersistentResponseCacheTests.swift */,
 				DB95F29B2A9F4B730029EC39 /* RegistrationAPITests.swift */,
-				DB95F2A22A9F4B730029EC39 /* Result+Assertions.swift */,
-			);
-			path = CoreTemp;
-			sourceTree = "<group>";
-		};
-		DB95F2EB2A9F4DB90029EC39 /* edXTests */ = {
-			isa = PBXGroup;
-			children = (
 			);
 			path = edXTests;
 			sourceTree = "<group>";
 		};
-		DB95F2F12A9F4DDA0029EC39 /* edXTests-tempp */ = {
+		DB95F43C2AA5C5290029EC39 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				DB95F2F22A9F4DDA0029EC39 /* edXTests_tempp.swift */,
+				DB95F43D2AA5C5290029EC39 /* test-movie.mp4 */,
+				DB95F43E2AA5C5290029EC39 /* test_screen_1.png */,
+				DB95F43F2AA5C5290029EC39 /* sample-badge.png */,
 			);
-			path = "edXTests-tempp";
-			sourceTree = "<group>";
+			name = Data;
+			path = Test/Data;
+			sourceTree = SOURCE_ROOT;
+		};
+		DB95F6182AA5C7C20029EC39 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				DB95F6192AA5C7C20029EC39 /* libOCMock.xcframework */,
+			);
+			name = OCMock;
+			path = Libraries/OCMock;
+			sourceTree = SOURCE_ROOT;
 		};
 		E024177D254043BB00E397EA /* Classes */ = {
 			isa = PBXGroup;
@@ -3451,22 +3969,24 @@
 			productReference = BECB7B0B1924C0C3009C77F1 /* edX.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DB95F2EF2A9F4DDA0029EC39 /* edXTests-tempp */ = {
+		DB95F3142AA5C1BD0029EC39 /* edXTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DB95F2F62A9F4DDA0029EC39 /* Build configuration list for PBXNativeTarget "edXTests-tempp" */;
+			buildConfigurationList = DB95F31B2AA5C1BD0029EC39 /* Build configuration list for PBXNativeTarget "edXTests" */;
 			buildPhases = (
-				DB95F2EC2A9F4DDA0029EC39 /* Sources */,
-				DB95F2ED2A9F4DDA0029EC39 /* Frameworks */,
-				DB95F2EE2A9F4DDA0029EC39 /* Resources */,
+				52E8F8ABECAEDCA4F62EBA02 /* [CP] Check Pods Manifest.lock */,
+				DB95F3112AA5C1BD0029EC39 /* Sources */,
+				DB95F3122AA5C1BD0029EC39 /* Frameworks */,
+				DB95F3132AA5C1BD0029EC39 /* Resources */,
+				E31A91588B48FB89C4361E4F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				DB95F2F52A9F4DDA0029EC39 /* PBXTargetDependency */,
+				DB95F31A2AA5C1BD0029EC39 /* PBXTargetDependency */,
 			);
-			name = "edXTests-tempp";
-			productName = "edXTests-tempp";
-			productReference = DB95F2F02A9F4DDA0029EC39 /* edXTests-tempp.xctest */;
+			name = edXTests;
+			productName = edXTests;
+			productReference = DB95F3152AA5C1BD0029EC39 /* edXTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -3501,7 +4021,7 @@
 							};
 						};
 					};
-					DB95F2EF2A9F4DDA0029EC39 = {
+					DB95F3142AA5C1BD0029EC39 = {
 						CreatedOnToolsVersion = 14.3.1;
 						TestTargetID = BECB7B0A1924C0C3009C77F1;
 					};
@@ -3531,7 +4051,7 @@
 			projectRoot = "";
 			targets = (
 				BECB7B0A1924C0C3009C77F1 /* edX */,
-				DB95F2EF2A9F4DDA0029EC39 /* edXTests-tempp */,
+				DB95F3142AA5C1BD0029EC39 /* edXTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3710,10 +4230,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DB95F2EE2A9F4DDA0029EC39 /* Resources */ = {
+		DB95F3132AA5C1BD0029EC39 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB95F5A52AA5C52F0029EC39 /* test_screen_1.png in Resources */,
+				DB95F5A62AA5C52F0029EC39 /* sample-badge.png in Resources */,
+				DB95F5E72AA5C52F0029EC39 /* WhatsNew.json in Resources */,
+				DB95F58F2AA5C52F0029EC39 /* CourseDates.json in Resources */,
+				DB95F5932AA5C52F0029EC39 /* edXTests-Info.plist in Resources */,
+				DB95F5A42AA5C52F0029EC39 /* test-movie.mp4 in Resources */,
+				DB95F5BC2AA5C52F0029EC39 /* RegistrationForm.json in Resources */,
+				DB95F5822AA5C52F0029EC39 /* CourseStatusInfo.json in Resources */,
+				DB95F5C52AA5C52F0029EC39 /* DiscussionPosts.json in Resources */,
+				DB95F4B62AA5C52F0029EC39 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3736,6 +4266,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-edX-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		52E8F8ABECAEDCA4F62EBA02 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-edXTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3843,6 +4395,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo \"Target architectures: $ARCHS\"\n\nAPP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\necho $(lipo -info \"$FRAMEWORK_EXECUTABLE_PATH\")\n\nFRAMEWORK_TMP_PATH=\"$FRAMEWORK_EXECUTABLE_PATH-tmp\"\n\n# remove simulator's archs if location is not simulator's directory\ncase \"${TARGET_BUILD_DIR}\" in\n*\"iphonesimulator\")\n    echo \"No need to remove archs\"\n    ;;\n*)\n    if $(lipo \"$FRAMEWORK_EXECUTABLE_PATH\" -verify_arch \"i386\") ; then\n    lipo -output \"$FRAMEWORK_TMP_PATH\" -remove \"i386\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n    echo \"i386 architecture removed\"\n    rm \"$FRAMEWORK_EXECUTABLE_PATH\"\n    mv \"$FRAMEWORK_TMP_PATH\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n    fi\n    if $(lipo \"$FRAMEWORK_EXECUTABLE_PATH\" -verify_arch \"x86_64\") ; then\n    lipo -output \"$FRAMEWORK_TMP_PATH\" -remove \"x86_64\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n    echo \"x86_64 architecture removed\"\n    rm \"$FRAMEWORK_EXECUTABLE_PATH\"\n    mv \"$FRAMEWORK_TMP_PATH\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n    fi\n    ;;\nesac\n\necho \"Completed for executable $FRAMEWORK_EXECUTABLE_PATH\"\necho $(lipo -info \"$FRAMEWORK_EXECUTABLE_PATH\")\n\ndone\n";
+		};
+		E31A91588B48FB89C4361E4F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-edXTests/Pods-edXTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
+				"${BUILT_PRODUCTS_DIR}/iOSSnapshotTestCase/FBSnapshotTestCase.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSnapshotTestCase.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-edXTests/Pods-edXTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		F1E010E31D2D24C37C441D85 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4086,7 +4658,6 @@
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
 				7C2DD5531D4A8669006148E0 /* UserPreferenceManager.swift in Sources */,
 				DB95F2DA2A9F4B800029EC39 /* Removable.swift in Sources */,
-				DB95F2A92A9F4B730029EC39 /* OEXMetaClassHelpers.m in Sources */,
 				777DE71A1C1656ED0068E280 /* CourseCatalogDetailView.swift in Sources */,
 				775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */,
 				B760E5562010DD6800ECACAB /* BulkDownloadHelper.swift in Sources */,
@@ -4118,7 +4689,6 @@
 				B7CCC721209B16B100A66923 /* ConstraintAttributes.swift in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
 				1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */,
-				DB95F2AB2A9F4B730029EC39 /* MockResponseCache.swift in Sources */,
 				E06292751F7BAFFF006D5EFC /* BranchConfig.swift in Sources */,
 				B7A09BDC20F8CAFB00A6C249 /* URL+PathExtension.swift in Sources */,
 				1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */,
@@ -4375,30 +4945,184 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DB95F2EC2A9F4DDA0029EC39 /* Sources */ = {
+		DB95F3112AA5C1BD0029EC39 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB95F2FD2A9F4DE20029EC39 /* NetworkManagerTests.swift in Sources */,
-				DB95F2FA2A9F4DE20029EC39 /* NSObject+OEXDeallocActionTests.m in Sources */,
-				DB95F2FB2A9F4DE20029EC39 /* Array+FunctionalTests.swift in Sources */,
-				DB95F2FC2A9F4DE20029EC39 /* BadgesAPITests.swift in Sources */,
-				DB95F3002A9F4DE20029EC39 /* PersistentResponseCacheTests.swift in Sources */,
-				DB95F2FF2A9F4DE20029EC39 /* PaginationInfoTests.swift in Sources */,
-				DB95F2F32A9F4DDA0029EC39 /* edXTests_tempp.swift in Sources */,
-				DB95F3022A9F4E890029EC39 /* Result+Assertions.swift in Sources */,
-				DB95F2FE2A9F4DE20029EC39 /* NSString+OEXFormattingTests.m in Sources */,
-				DB95F3012A9F4DE20029EC39 /* RegistrationAPITests.swift in Sources */,
+				DB95F6092AA5C52F0029EC39 /* CourseOutlineTestDataFactory.swift in Sources */,
+				DB95F5F92AA5C52F0029EC39 /* NetworkManager+AuthenticatorTests.swift in Sources */,
+				DB95F4AD2AA5C52F0029EC39 /* AdditionalTabBarViewControllerTests.swift in Sources */,
+				DB95F5CC2AA5C52F0029EC39 /* OEXDataParserTests.m in Sources */,
+				DB95F4B82AA5C52F0029EC39 /* YoutubeVideoConfigTest.swift in Sources */,
+				DB95F5802AA5C52F0029EC39 /* VideoBlockViewControllerTests.swift in Sources */,
+				DB95F5CD2AA5C52F0029EC39 /* UIImage+TestData.swift in Sources */,
+				DB95F5772AA5C52F0029EC39 /* DiscussionCommentsViewControllerTests.swift in Sources */,
+				DB95F61F2AA5D2A60029EC39 /* OEXMetaClassHelpers.m in Sources */,
+				DB95F5F52AA5C52F0029EC39 /* UserPreferenceManagerTests.swift in Sources */,
+				DB95F57D2AA5C52F0029EC39 /* SubjectsViewControllerTests.swift in Sources */,
+				DB95F5A82AA5C52F0029EC39 /* NSString+OEXCryptoTests.swift in Sources */,
+				DB95F5ED2AA5C52F0029EC39 /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */,
+				DB95F5B62AA5C52F0029EC39 /* MockRouter.swift in Sources */,
+				DB95F5DC2AA5C52F0029EC39 /* OEXCourse+TestData.swift in Sources */,
+				DB95F59B2AA5C52F0029EC39 /* APIURLDefaultVersionTests.swift in Sources */,
+				DB95F5922AA5C52F0029EC39 /* UIView+UIViewControllerTests.swift in Sources */,
+				DB95F5B22AA5C52F0029EC39 /* DateFormattingTests.swift in Sources */,
+				DB95F5E22AA5C52F0029EC39 /* OEXRouterTests.swift in Sources */,
+				DB95F5EB2AA5C52F0029EC39 /* MockNetworkManager.swift in Sources */,
+				DB95F5D32AA5C52F0029EC39 /* OEXFindCoursesTests.m in Sources */,
+				DB95F6022AA5C52F0029EC39 /* NSAttributedString+FormattingTests.swift in Sources */,
+				DB95F6012AA5C52F0029EC39 /* CourseCardViewModelTests.swift in Sources */,
+				DB95F5A92AA5C52F0029EC39 /* DiscoveryWebViewHelperTests.swift in Sources */,
+				DB95F6002AA5C52F0029EC39 /* OEXSafeCastTests.m in Sources */,
+				DB95F5DE2AA5C52F0029EC39 /* BranchConfigTests.swift in Sources */,
+				DB95F5A32AA5C52F0029EC39 /* ListenableObject.m in Sources */,
+				DB95F3242AA5C25F0029EC39 /* NSString+OEXFormattingTests.m in Sources */,
+				DB95F59E2AA5C52F0029EC39 /* SessionUsernameProviderTests.swift in Sources */,
+				DB95F61C2AA5D20D0029EC39 /* JSON+ReadFromFile.swift in Sources */,
+				DB95F4B52AA5C52F0029EC39 /* ObservableTests.swift in Sources */,
+				DB95F5962AA5C52F0029EC39 /* OEXFileUtilityTests.m in Sources */,
+				DB95F5902AA5C52F0029EC39 /* ServerChangedCheckerTests.swift in Sources */,
+				DB95F5F42AA5C52F0029EC39 /* CourseCatalogDetailViewControllerTests.swift in Sources */,
+				DB95F5982AA5C52F0029EC39 /* OEXMockAnalyticsTracker.m in Sources */,
+				DB95F5A72AA5C52F0029EC39 /* DiscussionNewCommentViewControllerTests.swift in Sources */,
+				DB95F5912AA5C52F0029EC39 /* SnapshotTestCase.swift in Sources */,
+				DB95F59A2AA5C52F0029EC39 /* NSString+TestExamples.m in Sources */,
+				DB95F5EC2AA5C52F0029EC39 /* OEXInterfaceTests.swift in Sources */,
+				DB95F5D72AA5C52F0029EC39 /* CourseDashboardViewControllerTests.swift in Sources */,
+				DB95F5AD2AA5C52F0029EC39 /* TestEnvironmentBuilder.swift in Sources */,
+				DB95F5B32AA5C52F0029EC39 /* MockReachability.swift in Sources */,
+				DB95F5BE2AA5C52F0029EC39 /* NSArray+OEXFunctionalTests.m in Sources */,
+				DB95F5B72AA5C52F0029EC39 /* DiscussionBlockViewControllerTests.swift in Sources */,
+				DB95F5BF2AA5C52F0029EC39 /* SnackbarViewsTests.swift in Sources */,
+				DB95F58D2AA5C52F0029EC39 /* UserProfileEditViewControllerTests.swift in Sources */,
+				DB95F5C02AA5C52F0029EC39 /* UserProfileNetworkPresenterTests.swift in Sources */,
+				DB95F5D12AA5C52F0029EC39 /* OEXCourseTests.swift in Sources */,
+				DB95F5FC2AA5C52F0029EC39 /* SubjectDataModelTests.swift in Sources */,
+				DB95F5DB2AA5C52F0029EC39 /* UIAlertController+OEXBlockActionsTests.swift in Sources */,
+				DB95F5A12AA5C52F0029EC39 /* DiscussionTopicsViewControllerTests.swift in Sources */,
+				DB95F5D02AA5C52F0029EC39 /* PaginatorTests.swift in Sources */,
+				DB95F4AB2AA5C52F0029EC39 /* ListCursorTests.swift in Sources */,
+				DB95F5872AA5C52F0029EC39 /* CourseDatesModelTests.swift in Sources */,
+				DB95F3262AA5C25F0029EC39 /* PaginationInfoTests.swift in Sources */,
+				DB95F5CA2AA5C52F0029EC39 /* UIControl+OEXBlockActionsTests.m in Sources */,
+				DB95F5CB2AA5C52F0029EC39 /* YoutubeVideoPlayerTests.swift in Sources */,
+				DB95F58E2AA5C52F0029EC39 /* OEXFontsTests.swift in Sources */,
+				DB95F5D22AA5C52F0029EC39 /* EnrollmentManagerTests.swift in Sources */,
+				DB95F57E2AA5C52F0029EC39 /* TabContainerViewTests.swift in Sources */,
+				DB95F5AB2AA5C52F0029EC39 /* VersionParserTests.swift in Sources */,
+				DB95F3222AA5C25F0029EC39 /* NetworkManagerTests.swift in Sources */,
+				DB95F5E92AA5C52F0029EC39 /* RatingViewControllerTests.swift in Sources */,
+				DB95F5852AA5C52F0029EC39 /* MockAnalyticsTracker.swift in Sources */,
+				DB95F31F2AA5C25F0029EC39 /* PersistentResponseCacheTests.swift in Sources */,
+				DB95F58A2AA5C52F0029EC39 /* NSObject+SafeKVOTests.swift in Sources */,
+				DB95F4AC2AA5C52F0029EC39 /* VersionUpgradeInfoControllerTests.swift in Sources */,
+				DB95F57C2AA5C52F0029EC39 /* MockCourseDataManager.swift in Sources */,
+				DB95F5BA2AA5C52F0029EC39 /* OEXInterface+AppReviewTests.swift in Sources */,
+				DB95F5FA2AA5C52F0029EC39 /* XCTestCase+Stream.swift in Sources */,
+				DB95F5D42AA5C52F0029EC39 /* OEXConfig+URLCredentialProviderTests.swift in Sources */,
+				DB95F5FF2AA5C52F0029EC39 /* EnrolledTabBarViewControllerTest.swift in Sources */,
+				DB95F4B42AA5C52F0029EC39 /* CourseCatalogViewControllerTests.swift in Sources */,
+				DB95F59D2AA5C52F0029EC39 /* ResumeCourseBlockTests.swift in Sources */,
+				DB95F6072AA5C52F0029EC39 /* DiscussionResponsesDataControllerTests.swift in Sources */,
+				DB95F5A02AA5C52F0029EC39 /* UIEdgeInsets+GeometryTests.swift in Sources */,
+				DB95F5F62AA5C52F0029EC39 /* WhatsNewObjectTests.swift in Sources */,
+				DB95F4B22AA5C52F0029EC39 /* CourseShareUtmParameterTests.swift in Sources */,
+				DB95F5A22AA5C52F0029EC39 /* LiveObjectCacheTests.swift in Sources */,
+				DB95F4B02AA5C52F0029EC39 /* OEXAnalyticsTests.m in Sources */,
+				DB95F5F12AA5C52F0029EC39 /* EmailTemplateTests.swift in Sources */,
+				DB95F5762AA5C52F0029EC39 /* FeedTests.swift in Sources */,
+				DB95F61E2AA5D2A60029EC39 /* MockResponseCache.swift in Sources */,
+				DB95F4B12AA5C52F0029EC39 /* DiscussionTopic+DataFactory.swift in Sources */,
+				DB95F5C72AA5C52F0029EC39 /* OEXVideoSummaryTests.m in Sources */,
+				DB95F5D82AA5C52F0029EC39 /* DeepLinkTests.swift in Sources */,
+				DB95F5C42AA5C52F0029EC39 /* UIBarButtonItem+OEXBlockActionsTests.m in Sources */,
+				DB95F5B82AA5C52F0029EC39 /* OEXColorsTests.swift in Sources */,
+				DB95F6042AA5C52F0029EC39 /* OEXPushNotificationManagerTests.m in Sources */,
+				DB95F5C92AA5C52F0029EC39 /* TestRouterEnvironment.swift in Sources */,
+				DB95F5E82AA5C52F0029EC39 /* WhatsNewViewControllerTests.swift in Sources */,
+				DB95F5D52AA5C52F0029EC39 /* ContentInsetsControllerTests.swift in Sources */,
+				DB95F5AA2AA5C52F0029EC39 /* MockResumeCourseProvider.swift in Sources */,
+				DB95F5DD2AA5C52F0029EC39 /* OEXSessionTests.m in Sources */,
+				DB95F5C12AA5C52F0029EC39 /* AppUpgradeConfigTests.swift in Sources */,
+				DB95F5832AA5C52F0029EC39 /* DiscussionResponsesViewControllerTests.swift in Sources */,
+				DB95F5BD2AA5C52F0029EC39 /* DiscoveryConfigTests.swift in Sources */,
+				DB95F5CF2AA5C52F0029EC39 /* OEXUserDetails+OEXTestDataFactory.m in Sources */,
+				DB95F5812AA5C52F0029EC39 /* MockUserProfileManager.swift in Sources */,
+				DB95F5F82AA5C52F0029EC39 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
+				DB95F5DF2AA5C52F0029EC39 /* CourseDataManagerTests.swift in Sources */,
+				DB95F57A2AA5C52F0029EC39 /* ResumeCourseControllerTests.swift in Sources */,
+				DB95F5B02AA5C52F0029EC39 /* CourseSectionTableViewCellTests.swift in Sources */,
+				DB95F5F02AA5C52F0029EC39 /* OEXFileUtility+TestAdditions.m in Sources */,
+				DB95F5D92AA5C52F0029EC39 /* OEXConfigTests.m in Sources */,
+				DB95F5CE2AA5C52F0029EC39 /* DummyTableViewDataSource.swift in Sources */,
+				DB95F5792AA5C52F0029EC39 /* OEXTextStyleTests.swift in Sources */,
+				DB95F3212AA5C25F0029EC39 /* NSObject+OEXDeallocActionTests.m in Sources */,
+				DB95F5FE2AA5C52F0029EC39 /* UserProfileManagerTests.swift in Sources */,
+				DB95F5B42AA5C52F0029EC39 /* NSString+OEXValidationTests.m in Sources */,
+				DB95F3232AA5C25F0029EC39 /* BadgesAPITests.swift in Sources */,
+				DB95F5942AA5C52F0029EC39 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
+				DB95F5952AA5C52F0029EC39 /* OEXRegistrationViewControllerTests.m in Sources */,
+				DB95F5892AA5C52F0029EC39 /* DiscussionTopicTests.swift in Sources */,
+				DB95F5842AA5C52F0029EC39 /* AgreementURLsConfigTests.swift in Sources */,
+				DB95F3252AA5C25F0029EC39 /* Array+FunctionalTests.swift in Sources */,
+				DB95F5EA2AA5C52F0029EC39 /* TranscriptParserTests.swift in Sources */,
+				DB95F59C2AA5C52F0029EC39 /* RemoteImageTests.swift in Sources */,
+				DB95F5E42AA5C52F0029EC39 /* UserAgentGeneratorTests.swift in Sources */,
+				DB95F6052AA5C52F0029EC39 /* PaginationControllerTests.swift in Sources */,
+				DB95F5F22AA5C52F0029EC39 /* NSDate+OEXComparisonsTests.m in Sources */,
+				DB95F5F72AA5C52F0029EC39 /* XCTestCase+Async.swift in Sources */,
+				DB95F57F2AA5C52F0029EC39 /* MicrosoftConfigTests.swift in Sources */,
+				DB95F5882AA5C52F0029EC39 /* VersionUpgradeDataFactory.swift in Sources */,
+				DB95F58C2AA5C52F0029EC39 /* CourseOutlineViewControllerTests.swift in Sources */,
+				DB95F5E52AA5C52F0029EC39 /* ProgramConfigTests.swift in Sources */,
+				DB95F5C32AA5C52F0029EC39 /* StreamTests.swift in Sources */,
+				DB95F5B92AA5C52F0029EC39 /* OEXVideoSummaryTestDataFactory.swift in Sources */,
+				DB95F5B52AA5C52F0029EC39 /* KeyboardInsetsSourceTests.swift in Sources */,
+				DB95F5BB2AA5C52F0029EC39 /* OEXSession+AuthorizationTests.swift in Sources */,
+				DB95F5FD2AA5C52F0029EC39 /* UIImage_OEXHelpersTests.swift in Sources */,
+				DB95F59F2AA5C52F0029EC39 /* DiscussionDataParsingTests.swift in Sources */,
+				DB95F5C22AA5C52F0029EC39 /* CourseContentPageViewControllerTests.swift in Sources */,
+				DB95F5B12AA5C52F0029EC39 /* EnrolledCoursesViewControllerTests.swift in Sources */,
+				DB95F6062AA5C52F0029EC39 /* String+DecodeHTMLEntitiesTests.swift in Sources */,
+				DB95F4B72AA5C52F0029EC39 /* UserProfileViewTests.swift in Sources */,
+				DB95F5AE2AA5C52F0029EC39 /* NSDate+TestDates.swift in Sources */,
+				DB95F6202AA5D5CA0029EC39 /* DiscussionTestsDataFactory.swift in Sources */,
+				DB95F5E62AA5C52F0029EC39 /* VideoPlayerTests.swift in Sources */,
+				DB95F4B32AA5C52F0029EC39 /* MockEnrollmentManager.swift in Sources */,
+				DB95F5EE2AA5C52F0029EC39 /* CourseOutlineHeaderViewTests.swift in Sources */,
+				DB95F6082AA5C52F0029EC39 /* OEXFormEncodingTests.m in Sources */,
+				DB95F4AF2AA5C52F0029EC39 /* OEXMockCredentialStorage.m in Sources */,
+				DB95F5EF2AA5C52F0029EC39 /* Dictionary+SafeAccessTests.swift in Sources */,
+				DB95F5C82AA5C52F0029EC39 /* OfflineSupportViewControllerTests.swift in Sources */,
+				DB95F4AE2AA5C52F0029EC39 /* NSObject+OEXReplaceNullTests.m in Sources */,
+				DB95F5752AA5C52F0029EC39 /* OEXDBTests.m in Sources */,
+				DB95F5FB2AA5C52F0029EC39 /* WhatsNewDataModelTests.swift in Sources */,
+				DB95F5C62AA5C52F0029EC39 /* NSAttributedString+OEXFormattingTests.m in Sources */,
+				DB95F5E02AA5C52F0029EC39 /* OEXMockUserDefaults.m in Sources */,
+				DB95F58B2AA5C52F0029EC39 /* PostsViewControllerTests.swift in Sources */,
+				DB95F61D2AA5D29A0029EC39 /* Result+Assertions.swift in Sources */,
+				DB95F5E12AA5C52F0029EC39 /* FirebaseConfigTests.swift in Sources */,
+				DB95F5D62AA5C52F0029EC39 /* NetworkManager+InterceptionTests.swift in Sources */,
+				DB95F3202AA5C25F0029EC39 /* RegistrationAPITests.swift in Sources */,
+				DB95F5DA2AA5C52F0029EC39 /* RegistrationViewControllerTests.swift in Sources */,
+				DB95F5972AA5C52F0029EC39 /* DiscussionModelTests.swift in Sources */,
+				DB95F5AC2AA5C52F0029EC39 /* DiscoveryHelperTests.swift in Sources */,
+				DB95F5992AA5C52F0029EC39 /* VideoTranscriptTests.swift in Sources */,
+				DB95F5F32AA5C52F0029EC39 /* CourseOutlineQuerierTests.swift in Sources */,
+				DB95F5782AA5C52F0029EC39 /* StartupViewControllerTests.swift in Sources */,
+				DB95F5E32AA5C52F0029EC39 /* UIBarButtonItem+Touchable.swift in Sources */,
+				DB95F5AF2AA5C52F0029EC39 /* DiscussionNewPostViewControllerTests.swift in Sources */,
+				DB95F5862AA5C52F0029EC39 /* BrazeConfigTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		DB95F2F52A9F4DDA0029EC39 /* PBXTargetDependency */ = {
+		DB95F31A2AA5C1BD0029EC39 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BECB7B0A1924C0C3009C77F1 /* edX */;
-			targetProxy = DB95F2F42A9F4DDA0029EC39 /* PBXContainerItemProxy */;
+			targetProxy = DB95F3192AA5C1BD0029EC39 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -5077,8 +5801,9 @@
 			};
 			name = Release;
 		};
-		DB95F2F72A9F4DDA0029EC39 /* Debug */ = {
+		DB95F31C2AA5C1BD0029EC39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB6B4A891FF8FE90ADDD7B1D /* Pods-edXTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5094,14 +5819,19 @@
 				DEVELOPMENT_TEAM = TXXMQ24MJN;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"${PODS_ROOT}/Firebase/Core/Sources",
+					"$(SRCROOT)/Pods/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mobile.edXTests-tempp";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobile.edXTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5109,8 +5839,9 @@
 			};
 			name = Debug;
 		};
-		DB95F2F82A9F4DDA0029EC39 /* Release */ = {
+		DB95F31D2AA5C1BD0029EC39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C6351AC65234F22BA87464A /* Pods-edXTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5127,21 +5858,27 @@
 				DEVELOPMENT_TEAM = TXXMQ24MJN;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"${PODS_ROOT}/Firebase/Core/Sources",
+					"$(SRCROOT)/Pods/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mobile.edXTests-tempp";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobile.edXTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/edX";
 			};
 			name = Release;
 		};
-		DB95F2F92A9F4DDA0029EC39 /* Profile */ = {
+		DB95F31E2AA5C1BD0029EC39 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1E0289F87D9C7C4C32F8395 /* Pods-edXTests.profile.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5158,13 +5895,18 @@
 				DEVELOPMENT_TEAM = TXXMQ24MJN;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"${PODS_ROOT}/Firebase/Core/Sources",
+					"$(SRCROOT)/Pods/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mobile.edXTests-tempp";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobile.edXTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/edX";
@@ -5194,12 +5936,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DB95F2F62A9F4DDA0029EC39 /* Build configuration list for PBXNativeTarget "edXTests-tempp" */ = {
+		DB95F31B2AA5C1BD0029EC39 /* Build configuration list for PBXNativeTarget "edXTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DB95F2F72A9F4DDA0029EC39 /* Debug */,
-				DB95F2F82A9F4DDA0029EC39 /* Release */,
-				DB95F2F92A9F4DDA0029EC39 /* Profile */,
+				DB95F31C2AA5C1BD0029EC39 /* Debug */,
+				DB95F31D2AA5C1BD0029EC39 /* Release */,
+				DB95F31E2AA5C1BD0029EC39 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,0 +1,155 @@
+//
+//  NetworkManager+AuthenticatorTests.swift
+//  edX
+//
+//  Created by Christopher Lee on 5/23/16.
+//  Copyright © 2016 edX. All rights reserved.
+//
+
+import Foundation
+@testable import edX
+
+let NOTIFICATION_MOCK_LOGOUT_CALLED = "MockLogOutCalled"
+
+class NetworkManager_AuthenticationTests : XCTestCase {
+    
+    func authenticatorResponseForRequest(
+        _ response: HTTPURLResponse, data: Data, session: OEXSession, router: MockRouter, waitForLogout: Bool) -> AuthenticationAction {
+        let clientId = "dummy client_id"
+        let result = NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId: clientId, response: response, data: data, needsTokenRefresh: false)
+        
+        if waitForLogout {
+            let expectation = self.expectation(description: "wait for mock LogOut")
+
+            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_MOCK_LOGOUT_CALLED) { [weak router] (notification, _, _) in
+                if router?.testType == notification.object as? String {
+                    expectation.fulfill()
+                }
+            }
+
+            OEXWaitForExpectations()
+            removeable.remove()
+        }
+
+        return result
+    }
+    
+    func testAuthenticatorDoesNothing() {
+        let router = MockRouter()
+        let session = OEXSession()
+        let response = simpleResponseBuilder(200)
+        let data = "{}".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertFalse(router.logoutCalled)
+    }
+    
+    func testLogoutWithNoRefreshToken() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
+        router.testType = "testLogoutWithNoRefreshToken"
+        let session = OEXSession()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: true)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertTrue(router.logoutCalled)
+    }
+    
+    func testNonExistentAccessToken() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(400)
+        let data = "{\"error\":\"token_nonexistent\"}".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: true)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertTrue(router.logoutCalled)
+    }
+
+    func testInvalidGrantAccessToken() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"invalid_grant\"}".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertFalse(router.logoutCalled)
+    }
+
+    func testDisabledAccount() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"account_disabled\"}".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertFalse(router.logoutCalled)
+    }
+    
+    func testLogoutWithNonJSONData() {
+        let router = MockRouter()
+        let session = OEXSession()
+        let response = simpleResponseBuilder(200)
+        let data = "I AM NOT A JSON".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        XCTAssertTrue(result.isProceed)
+        XCTAssertFalse(router.logoutCalled)
+    }
+    
+    func testExpiredAccessTokenReturnsAuthenticate() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        XCTAssertTrue(result.isAuthenticate)
+    }
+    
+    func testMultipleRequestsWithExpiredAccessToken() {
+        let user = OEXUserDetails.freshUser()
+        let environment = TestRouterEnvironment(user: user)
+        let router = MockRouter(environment: environment)
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
+        let firstResult = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        let secondResult = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        XCTAssertTrue(firstResult.isAuthenticate)
+        XCTAssertTrue(secondResult.isQueued)
+    }
+
+    func sessionWithRefreshTokenBuilder() -> OEXSession {
+        let accessToken = OEXAccessToken()
+        accessToken.refreshToken = "dummy refresh token"
+        let keychain = OEXMockCredentialStorage()
+        keychain.storedAccessToken = accessToken
+        keychain.storedUserDetails = OEXUserDetails()
+        let session = OEXSession(credentialStore: keychain)
+        session.loadTokenFromStore()
+        return session
+    }
+    
+    func simpleResponseBuilder(_ statusCode: Int) -> HTTPURLResponse?{
+        return HTTPURLResponse(
+            url: URL(string: "http://www.example.com")!,
+            statusCode: statusCode,
+            httpVersion: nil,
+            headerFields: nil)
+    }
+    
+    func simpleRequestBuilder() -> NetworkRequest<JSON> {
+        return NetworkRequest<JSON> (
+            method: HTTPMethod.GET,
+            path: "path",
+            deserializer: .jsonResponse({(_, json) in .success(json)}))
+    }
+}

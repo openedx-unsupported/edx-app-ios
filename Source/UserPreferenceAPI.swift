@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import edX
+
 public class UserPreferenceAPI: NSObject {
     
     private static func preferenceDeserializer(response : HTTPURLResponse, json : JSON) -> Result<UserPreference> {

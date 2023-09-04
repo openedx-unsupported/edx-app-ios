@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import edX
+
 public class UserPreference {
     
     enum PreferenceKeys: String, RawStringExtractable {

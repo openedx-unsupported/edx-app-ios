@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import edX
+
 public struct ResumeCourseItem {
     public var lastVisitedBlockID: String = ""
     public var lastVisitedBlockName: String = ""

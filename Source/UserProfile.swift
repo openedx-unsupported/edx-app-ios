@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import edX
+
 public class UserProfile {
 
     public enum ProfilePrivacy: String {
