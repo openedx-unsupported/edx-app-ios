@@ -648,6 +648,11 @@
 		E0241783254043BB00E397EA /* SEGFirebaseIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = E0241780254043BB00E397EA /* SEGFirebaseIntegration.m */; };
 		E0241785254043C400E397EA /* read-this-before-update.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E0241784254043C400E397EA /* read-this-before-update.rtf */; };
 		E0249F2B26305486007F9AE1 /* OpenInExternalBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0249F2A26305486007F9AE1 /* OpenInExternalBrowserView.swift */; };
+		E02C45D42AA60C15007E635F /* SEGGoogleAnalyticsIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = E02C45CD2AA60C15007E635F /* SEGGoogleAnalyticsIntegration.m */; };
+		E02C45D52AA60C15007E635F /* SEGGoogleAnalyticsIntegrationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E02C45CE2AA60C15007E635F /* SEGGoogleAnalyticsIntegrationFactory.m */; };
+		E02C45D62AA60C15007E635F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E02C45CF2AA60C15007E635F /* LICENSE */; };
+		E02C45D72AA60C15007E635F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E02C45D02AA60C15007E635F /* README.md */; };
+		E02C45D82AA60C15007E635F /* GoogleAnalytics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E02C45D32AA60C15007E635F /* GoogleAnalytics.xcframework */; };
 		E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02E59EE1F0E231000060AE0 /* VersionParser.swift */; };
 		E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02F65651E8B94CC000D1C4E /* TZSpacerView.swift */; };
 		E02F65691E8B94CC000D1C4E /* TZStackViewAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02F65661E8B94CC000D1C4E /* TZStackViewAlignment.swift */; };
@@ -1579,6 +1584,13 @@
 		E0241781254043BB00E397EA /* SEGFirebaseIntegrationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGFirebaseIntegrationFactory.h; sourceTree = "<group>"; };
 		E0241784254043C400E397EA /* read-this-before-update.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "read-this-before-update.rtf"; sourceTree = "<group>"; };
 		E0249F2A26305486007F9AE1 /* OpenInExternalBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenInExternalBrowserView.swift; sourceTree = "<group>"; };
+		E02C45CB2AA60C15007E635F /* SEGGoogleAnalyticsIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGGoogleAnalyticsIntegration.h; sourceTree = "<group>"; };
+		E02C45CC2AA60C15007E635F /* SEGGoogleAnalyticsIntegrationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGGoogleAnalyticsIntegrationFactory.h; sourceTree = "<group>"; };
+		E02C45CD2AA60C15007E635F /* SEGGoogleAnalyticsIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGGoogleAnalyticsIntegration.m; sourceTree = "<group>"; };
+		E02C45CE2AA60C15007E635F /* SEGGoogleAnalyticsIntegrationFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGGoogleAnalyticsIntegrationFactory.m; sourceTree = "<group>"; };
+		E02C45CF2AA60C15007E635F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		E02C45D02AA60C15007E635F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E02C45D32AA60C15007E635F /* GoogleAnalytics.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GoogleAnalytics.xcframework; sourceTree = "<group>"; };
 		E02E59EE1F0E231000060AE0 /* VersionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionParser.swift; sourceTree = "<group>"; };
 		E02F65651E8B94CC000D1C4E /* TZSpacerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TZSpacerView.swift; sourceTree = "<group>"; };
 		E02F65661E8B94CC000D1C4E /* TZStackViewAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TZStackViewAlignment.swift; sourceTree = "<group>"; };
@@ -1695,6 +1707,7 @@
 				BE0EE28B192B78DA00F9FF98 /* libz.dylib in Frameworks */,
 				BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */,
 				DB1A58CA2A9739BD00DD9744 /* GoogleCast.xcframework in Frameworks */,
+				E02C45D82AA60C15007E635F /* GoogleAnalytics.xcframework in Frameworks */,
 				E082D60325C0070800C94C9A /* Photos.framework in Frameworks */,
 				BECB7B131924C0C3009C77F1 /* UIKit.framework in Frameworks */,
 				BECB7B0F1924C0C3009C77F1 /* Foundation.framework in Frameworks */,
@@ -2957,6 +2970,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E02C45C82AA60C15007E635F /* Segment-GoogleAnalytics */,
 				DB1A589B2A9739BD00DD9744 /* Cast */,
 				E0AA9106280FFC8E00D39A4D /* KeychainSwift */,
 				5FFB73AE2849F10D000523BF /* DropDown */,
@@ -3347,6 +3361,53 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		E02C45C82AA60C15007E635F /* Segment-GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				E02C45C92AA60C15007E635F /* Pod */,
+				E02C45CF2AA60C15007E635F /* LICENSE */,
+				E02C45D02AA60C15007E635F /* README.md */,
+				E02C45D12AA60C15007E635F /* GoogleAnalytics */,
+			);
+			name = "Segment-GoogleAnalytics";
+			path = "Libraries/Segment-GoogleAnalytics";
+			sourceTree = SOURCE_ROOT;
+		};
+		E02C45C92AA60C15007E635F /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				E02C45CA2AA60C15007E635F /* Classes */,
+			);
+			path = Pod;
+			sourceTree = "<group>";
+		};
+		E02C45CA2AA60C15007E635F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E02C45CB2AA60C15007E635F /* SEGGoogleAnalyticsIntegration.h */,
+				E02C45CC2AA60C15007E635F /* SEGGoogleAnalyticsIntegrationFactory.h */,
+				E02C45CD2AA60C15007E635F /* SEGGoogleAnalyticsIntegration.m */,
+				E02C45CE2AA60C15007E635F /* SEGGoogleAnalyticsIntegrationFactory.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		E02C45D12AA60C15007E635F /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				E02C45D22AA60C15007E635F /* Frameworks */,
+			);
+			path = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
+		E02C45D22AA60C15007E635F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E02C45D32AA60C15007E635F /* GoogleAnalytics.xcframework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
 		E03E6A131D38C90900944AAA /* Offline */ = {
 			isa = PBXGroup;
 			children = (
@@ -3581,6 +3642,7 @@
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
 				69ECC6421D50D1170030CF87 /* logo@2x.png in Resources */,
 				DB1A58DD2A9739BE00DD9744 /* sha3_LICENSE.html in Resources */,
+				E02C45D62AA60C15007E635F /* LICENSE in Resources */,
 				DB1A58E82A9739BE00DD9744 /* oss_licenses_index.txt in Resources */,
 				DB1A58E62A9739BE00DD9744 /* re2_LICENSE.html in Resources */,
 				69ECC61A1D50D1170030CF87 /* bt_grey_default.png in Resources */,
@@ -3690,6 +3752,7 @@
 				69ECC63A1D50D1170030CF87 /* ic_watched@2x.png in Resources */,
 				E039A8031F74C0D80064ABDB /* loginScreenImage~ipad.png in Resources */,
 				69ECC63B1D50D1170030CF87 /* ic_watched@3x.png in Resources */,
+				E02C45D72AA60C15007E635F /* README.md in Resources */,
 				E04A93291F13846B00D4615D /* InfoPlist.strings in Resources */,
 				19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */,
 				805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */,
@@ -3906,6 +3969,7 @@
 				E01F68CE2626BF2F006B6716 /* BrazeConfig.swift in Sources */,
 				778F17851C10A1B50099BF93 /* CourseCatalogDetailViewController.swift in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
+				E02C45D52AA60C15007E635F /* SEGGoogleAnalyticsIntegrationFactory.m in Sources */,
 				22E6A219207AA54600D50EDE /* PlayerView.swift in Sources */,
 				F22A0ABB1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift in Sources */,
 				E0702D392211947100D3544D /* Typealiases.swift in Sources */,
@@ -4033,6 +4097,7 @@
 				B7CCC737209B16B100A66923 /* Constraint.swift in Sources */,
 				1A5501A21BBA323700D5F9DD /* ProfileBanner.swift in Sources */,
 				B7CCC738209B16B100A66923 /* Debugging.swift in Sources */,
+				E02C45D42AA60C15007E635F /* SEGGoogleAnalyticsIntegration.m in Sources */,
 				5F08321427018D810022971F /* BannerViewController.swift in Sources */,
 				77C6BBCA1CB4BC6F0026C37B /* AccomplishmentsView.swift in Sources */,
 				B7CCC72F209B16B100A66923 /* ConstraintConstantTarget.swift in Sources */,

@@ -8,6 +8,14 @@
 	<string>edX</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_googlecast._tcp</string>
+		<string>_C0868879._googlecast._tcp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>${PRODUCT_NAME} uses the local network to discover Cast-enabled devices on your WiFi
+    network.</string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon-29.png</string>

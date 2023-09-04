@@ -15,7 +15,7 @@
 @import GoogleSignIn;
 
 #import <Analytics/SEGAnalytics.h>
-//#import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
+#import "SEGGoogleAnalyticsIntegrationFactory.h"
 #import "SEGFirebaseIntegrationFactory.h"
 #import "OEXAppDelegate.h"
 #import "edX-Swift.h"
@@ -225,7 +225,7 @@
         SEGAnalyticsConfiguration * configuration = [SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey];
         
         //Segment to Google Analytics integration
-        //[configuration use:[SEGGoogleAnalyticsIntegrationFactory instance]];
+        [configuration use:[SEGGoogleAnalyticsIntegrationFactory instance]];
         
         if (config.firebaseConfig.requiredKeysAvailable && config.firebaseConfig.isAnalyticsSourceSegment) {
             //Segment to Google Firebase integration
