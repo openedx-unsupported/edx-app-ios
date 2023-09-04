@@ -256,7 +256,7 @@
         [NewRelicAgent startWithApplicationToken:newrelic.apiKey];
     }
     
-    //[self initilizeChromeCast];
+    [self initilizeChromeCast];
 }
 
 - (void) initilizeChromeCast {

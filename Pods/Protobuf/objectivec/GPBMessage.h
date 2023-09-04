@@ -31,12 +31,12 @@
 #import <Foundation/Foundation.h>
 
 #import "GPBBootstrap.h"
+#import "GPBExtensionRegistry.h"
 
 @class GPBDescriptor;
 @class GPBCodedInputStream;
 @class GPBCodedOutputStream;
 @class GPBExtensionDescriptor;
-@class GPBExtensionRegistry;
 @class GPBFieldDescriptor;
 @class GPBUnknownFieldSet;
 
@@ -80,7 +80,7 @@ CF_EXTERN_C_END
  *       @c +parseFromData:extensionRegistry:error: to provide an extension
  *       registry.
  **/
-@interface GPBMessage : NSObject<NSSecureCoding, NSCopying>
+@interface GPBMessage : NSObject <NSSecureCoding, NSCopying>
 
 // If you add an instance method/property to this class that may conflict with
 // fields declared in protos, you need to update objective_helpers.cc. The main
@@ -90,15 +90,13 @@ CF_EXTERN_C_END
  * The set of unknown fields for this message.
  *
  * Only messages from proto files declared with "proto2" syntax support unknown
- * fields. For "proto3" syntax, any unknown fields found while parsing are
- * dropped.
+ * fields.
  **/
 @property(nonatomic, copy, nullable) GPBUnknownFieldSet *unknownFields;
 
 /**
  * Whether the message, along with all submessages, have the required fields
- * set. This is only applicable for files declared with "proto2" syntax, as
- * there are no required fields for "proto3" syntax.
+ * set.
  **/
 @property(nonatomic, readonly, getter=isInitialized) BOOL initialized;
 
@@ -147,7 +145,7 @@ CF_EXTERN_C_END
  * @return A new instance of the generated class.
  **/
 + (nullable instancetype)parseFromData:(NSData *)data
-                     extensionRegistry:(nullable GPBExtensionRegistry *)extensionRegistry
+                     extensionRegistry:(nullable id<GPBExtensionRegistry>)extensionRegistry
                                  error:(NSError **)errorPtr;
 
 /**
@@ -171,7 +169,7 @@ CF_EXTERN_C_END
  **/
 + (nullable instancetype)parseFromCodedInputStream:(GPBCodedInputStream *)input
                                  extensionRegistry:
-                                     (nullable GPBExtensionRegistry *)extensionRegistry
+                                     (nullable id<GPBExtensionRegistry>)extensionRegistry
                                              error:(NSError **)errorPtr;
 
 /**
@@ -196,7 +194,7 @@ CF_EXTERN_C_END
  **/
 + (nullable instancetype)parseDelimitedFromCodedInputStream:(GPBCodedInputStream *)input
                                           extensionRegistry:
-                                              (nullable GPBExtensionRegistry *)extensionRegistry
+                                              (nullable id<GPBExtensionRegistry>)extensionRegistry
                                                       error:(NSError **)errorPtr;
 
 /**
@@ -239,7 +237,7 @@ CF_EXTERN_C_END
  * @return An initialized instance of the generated class.
  **/
 - (nullable instancetype)initWithData:(NSData *)data
-                    extensionRegistry:(nullable GPBExtensionRegistry *)extensionRegistry
+                    extensionRegistry:(nullable id<GPBExtensionRegistry>)extensionRegistry
                                 error:(NSError **)errorPtr;
 
 /**
@@ -264,7 +262,7 @@ CF_EXTERN_C_END
  **/
 - (nullable instancetype)initWithCodedInputStream:(GPBCodedInputStream *)input
                                 extensionRegistry:
-                                    (nullable GPBExtensionRegistry *)extensionRegistry
+                                    (nullable id<GPBExtensionRegistry>)extensionRegistry
                                             error:(NSError **)errorPtr;
 
 /**
@@ -278,7 +276,7 @@ CF_EXTERN_C_END
  *                                         unsuccessful.
  **/
 - (void)mergeFromData:(NSData *)data
-    extensionRegistry:(nullable GPBExtensionRegistry *)extensionRegistry;
+    extensionRegistry:(nullable id<GPBExtensionRegistry>)extensionRegistry;
 
 /**
  * Merges the fields from another message (of the same type) into this
@@ -412,6 +410,12 @@ CF_EXTERN_C_END
  * repeated fields. If the extension is a Message one will be auto created for
  * you and returned similar to fields.
  *
+ * NOTE: For Enum extensions, if the enum was _closed_, then unknown values
+ * were parsed into the message's unknown fields instead of ending up in the
+ * extensions, just like what happens with singular/repeated fields. For open
+ * enums, the _raw_ value will be in the NSNumber, meaning if one does a
+ * `switch` on the values, a `default` case should also be included.
+ *
  * @param extension The extension descriptor of the extension to fetch.
  *
  * @return The extension matching the given descriptor, or nil if none found.
@@ -427,8 +431,7 @@ CF_EXTERN_C_END
  * @param extension The extension descriptor under which to set the value.
  * @param value     The value to be set as the extension.
  **/
-- (void)setExtension:(GPBExtensionDescriptor *)extension
-               value:(nullable id)value;
+- (void)setExtension:(GPBExtensionDescriptor *)extension value:(nullable id)value;
 
 /**
  * Adds the given value to the extension for this message. This only applies
@@ -449,9 +452,7 @@ CF_EXTERN_C_END
  * @param index     The index of the extension to be replaced.
  * @param value     The value to be replaced in the repeated extension.
  **/
-- (void)setExtension:(GPBExtensionDescriptor *)extension
-               index:(NSUInteger)index
-               value:(id)value;
+- (void)setExtension:(GPBExtensionDescriptor *)extension index:(NSUInteger)index value:(id)value;
 
 /**
  * Clears the given extension for this message.

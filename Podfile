@@ -25,17 +25,17 @@ target 'edX' do
   pod 'MSAL', '= 1.2.5'
   pod 'NewRelicAgent', '= 7.4.2'
   pod 'Segment-Appboy', '= 4.6.0'
-  pod 'Protobuf', '3.13'
+  pod 'Protobuf', '3.22.0'
 #  pod 'Segment-GoogleAnalytics', '= 1.3.3', :modular_headers => true
   pod 'Smartling.i18n', '~> 1.0.14'
   pod 'YoutubePlayer-in-WKWebView', '~> 0.3.8'
 end
 
-target 'edXTests' do
-  use_frameworks!
-  pod 'iOSSnapshotTestCase', '= 6.2.0'
-  pod 'OHHTTPStubs', '~> 4.0'
-end
+#target 'edXTests' do
+#  use_frameworks!
+#  pod 'iOSSnapshotTestCase', '= 6.2.0'
+#  pod 'OHHTTPStubs', '~> 4.0'
+#end
 
 dynamic_frameworks = ['MSAL']
 

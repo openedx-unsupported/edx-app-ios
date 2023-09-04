@@ -173,11 +173,6 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.1.1)
-  - iOSSnapshotTestCase (6.2.0):
-    - iOSSnapshotTestCase/SwiftSupport (= 6.2.0)
-  - iOSSnapshotTestCase/Core (6.2.0)
-  - iOSSnapshotTestCase/SwiftSupport (6.2.0):
-    - iOSSnapshotTestCase/Core
   - Masonry (1.1.0)
   - MSAL (1.2.5):
     - MSAL/app-lib (= 1.2.5)
@@ -188,21 +183,8 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - NewRelicAgent (7.4.2)
-  - OHHTTPStubs (4.8.0):
-    - OHHTTPStubs/Default (= 4.8.0)
-  - OHHTTPStubs/Core (4.8.0)
-  - OHHTTPStubs/Default (4.8.0):
-    - OHHTTPStubs/Core
-    - OHHTTPStubs/JSON
-    - OHHTTPStubs/NSURLSession
-    - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.8.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.8.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.8.0)
   - PromisesObjC (2.2.0)
-  - Protobuf (3.13.0)
+  - Protobuf (3.22.0)
   - SDWebImage (5.16.0):
     - SDWebImage/Core (= 5.16.0)
   - SDWebImage/Core (5.16.0)
@@ -231,12 +213,10 @@ DEPENDENCIES:
   - FirebasePerformance (= 10.5.0)
   - GoogleSignIn (~> 7.0.0)
   - GoogleUtilities (= 7.11.0)
-  - iOSSnapshotTestCase (= 6.2.0)
   - Masonry (= 1.1.0)
   - MSAL (= 1.2.5)
   - NewRelicAgent (= 7.4.2)
-  - OHHTTPStubs (~> 4.0)
-  - Protobuf (= 3.13)
+  - Protobuf (= 3.22.0)
   - Segment-Appboy (= 4.6.0)
   - Smartling.i18n (~> 1.0.14)
   - YoutubePlayer-in-WKWebView (~> 0.3.8)
@@ -269,12 +249,10 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
-    - iOSSnapshotTestCase
     - Masonry
     - MSAL
     - nanopb
     - NewRelicAgent
-    - OHHTTPStubs
     - PromisesObjC
     - Protobuf
     - SDWebImage
@@ -309,19 +287,17 @@ SPEC CHECKSUMS:
   GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
-  iOSSnapshotTestCase: 9ab44cb5aa62b84d31847f40680112e15ec579a6
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MSAL: 5149daaa19228c2c27d81987634da15b50981cef
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   NewRelicAgent: dd262d4a723181aa7ffbd7c70ae0762f37c7b85d
-  OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
-  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
+  Protobuf: 5e6cbc143d02fe08585d86b0098f8b755d2caaab
   SDWebImage: 2aea163b50bfcb569a2726b6a754c54a4506fcf6
   Segment-Appboy: b160f7416f23ffe97632bf2cf61407660a741136
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
   YoutubePlayer-in-WKWebView: 4fca3b4f6f09940077bfbae7bddb771f2b43aacd
 
-PODFILE CHECKSUM: 5cbfc0e6c53759a89ade557a39049f723b2eb48e
+PODFILE CHECKSUM: 59fd39ec0bd9d79c8521e7e1140ab5a970e8f2c4
 
 COCOAPODS: 1.12.1
