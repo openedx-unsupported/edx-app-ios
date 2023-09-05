@@ -1,0 +1,831 @@
+BCSymbolMap Version: 2.0
+Apple clang version 13.0.0 (clang-1300.0.29.3)
+/Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.0.sdk
+WatchOS8.0.sdk
+/Users/erik/Library/Developer/Xcode/DerivedData/OCMock-eolppnbannkelbekssbvglkcoyjl/Build/Intermediates.noindex/ArchiveIntermediates/OCMock watchOS/IntermediateBuildFilesPath/OCMock.build/Release-watchos/OCMock watchOS.build/DerivedSources/OCMock_vers.c
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source
++[OCMockObject initialize]
++[OCMockObject mockForClass:]
++[OCMockObject mockForProtocol:]
++[OCMockObject partialMockForObject:]
++[OCMockObject niceMockForClass:]
++[OCMockObject niceMockForProtocol:]
++[OCMockObject _makeNice:]
++[OCMockObject observerMock]
+-[OCMockObject init]
+-[OCMockObject dealloc]
+-[OCMockObject description]
+-[OCMockObject addStub:]
+-[OCMockObject stubForInvocation:]
+-[OCMockObject addExpectation:]
+-[OCMockObject assertInvocationsArrayIsPresent]
+-[OCMockObject addInvocation:]
+-[OCMockObject setExpectationOrderMatters:]
+-[OCMockObject stopMocking]
+-[OCMockObject stub]
+-[OCMockObject expect]
+-[OCMockObject reject]
+-[OCMockObject verify]
+-[OCMockObject verifyAtLocation:]
+-[OCMockObject verifyWithDelay:]
+-[OCMockObject verifyWithDelay:atLocation:]
+-[OCMockObject verifyInvocation:]
+-[OCMockObject verifyInvocation:atLocation:]
+-[OCMockObject verifyInvocation:withQuantifier:atLocation:]
+-[OCMockObject descriptionForVerificationFailureWithMatcher:quantifier:invocationCount:]
+-[OCMockObject forwardingTargetForSelector:]
+-[OCMockObject handleSelector:]
+-[OCMockObject forwardInvocation:]
+-[OCMockObject handleInvocation:]
+-[OCMockObject _nextExpectedInvocation]
+-[OCMockObject handleUnRecordedInvocation:]
+-[OCMockObject doesNotRecognizeSelector:]
+-[OCMockObject _stubDescriptions:]
+_OBJC_CLASSLIST_REFERENCES_$_
+_OBJC_SELECTOR_REFERENCES_
+_OBJC_SELECTOR_REFERENCES_.2
+_OBJC_SELECTOR_REFERENCES_.4
+_OBJC_CLASSLIST_REFERENCES_$_.5
+_OBJC_SELECTOR_REFERENCES_.7
+_OBJC_CLASSLIST_REFERENCES_$_.8
+_OBJC_SELECTOR_REFERENCES_.10
+_OBJC_CLASSLIST_REFERENCES_$_.11
+_OBJC_SELECTOR_REFERENCES_.13
+_OBJC_CLASSLIST_REFERENCES_$_.14
+_OBJC_SELECTOR_REFERENCES_.16
+_OBJC_SELECTOR_REFERENCES_.18
+_OBJC_SELECTOR_REFERENCES_.20
+_OBJC_SELECTOR_REFERENCES_.22
+_OBJC_CLASSLIST_REFERENCES_$_.23
+_OBJC_SELECTOR_REFERENCES_.25
+_OBJC_CLASSLIST_REFERENCES_$_.26
+_OBJC_SELECTOR_REFERENCES_.28
+_OBJC_SELECTOR_REFERENCES_.30
+_OBJC_SELECTOR_REFERENCES_.32
+_OBJC_CLASSLIST_REFERENCES_$_.33
+_OBJC_CLASSLIST_REFERENCES_$_.36
+_OBJC_SELECTOR_REFERENCES_.38
+_OBJC_SELECTOR_REFERENCES_.42
+_OBJC_SELECTOR_REFERENCES_.44
+_OBJC_SELECTOR_REFERENCES_.46
+_OBJC_SELECTOR_REFERENCES_.48
+_OBJC_SELECTOR_REFERENCES_.52
+_OBJC_SELECTOR_REFERENCES_.54
+_OBJC_SELECTOR_REFERENCES_.56
+_OBJC_CLASSLIST_REFERENCES_$_.57
+_OBJC_SELECTOR_REFERENCES_.59
+_OBJC_CLASSLIST_REFERENCES_$_.60
+_OBJC_SELECTOR_REFERENCES_.62
+_OBJC_SELECTOR_REFERENCES_.64
+_OBJC_SELECTOR_REFERENCES_.66
+_OBJC_SELECTOR_REFERENCES_.68
+_OBJC_SELECTOR_REFERENCES_.70
+_OBJC_SELECTOR_REFERENCES_.72
+_OBJC_CLASSLIST_REFERENCES_$_.73
+_OBJC_SELECTOR_REFERENCES_.77
+_OBJC_SELECTOR_REFERENCES_.79
+_OBJC_CLASSLIST_REFERENCES_$_.82
+_OBJC_SELECTOR_REFERENCES_.84
+_OBJC_SELECTOR_REFERENCES_.86
+_OBJC_SELECTOR_REFERENCES_.88
+_OBJC_CLASSLIST_REFERENCES_$_.91
+_OBJC_SELECTOR_REFERENCES_.93
+_OBJC_SELECTOR_REFERENCES_.95
+_OBJC_CLASSLIST_REFERENCES_$_.96
+_OBJC_SELECTOR_REFERENCES_.98
+_OBJC_CLASSLIST_REFERENCES_$_.99
+_OBJC_SELECTOR_REFERENCES_.101
+_OBJC_SELECTOR_REFERENCES_.103
+_OBJC_SELECTOR_REFERENCES_.105
+_OBJC_SELECTOR_REFERENCES_.107
+_OBJC_CLASSLIST_REFERENCES_$_.108
+_OBJC_SELECTOR_REFERENCES_.110
+_OBJC_SELECTOR_REFERENCES_.112
+_OBJC_SELECTOR_REFERENCES_.114
+_OBJC_SELECTOR_REFERENCES_.124
+_OBJC_SELECTOR_REFERENCES_.126
+_OBJC_SELECTOR_REFERENCES_.128
+_OBJC_SELECTOR_REFERENCES_.130
+_OBJC_SELECTOR_REFERENCES_.132
+_OBJC_SELECTOR_REFERENCES_.134
+_OBJC_SELECTOR_REFERENCES_.136
+_OBJC_SELECTOR_REFERENCES_.140
+_OBJC_SELECTOR_REFERENCES_.142
+_OBJC_SELECTOR_REFERENCES_.144
+_OBJC_SELECTOR_REFERENCES_.146
+_OBJC_SELECTOR_REFERENCES_.148
+_OBJC_SELECTOR_REFERENCES_.150
+_OBJC_SELECTOR_REFERENCES_.154
+_OBJC_SELECTOR_REFERENCES_.158
+_OBJC_CLASSLIST_REFERENCES_$_.163
+_OBJC_SELECTOR_REFERENCES_.165
+_OBJC_SELECTOR_REFERENCES_.167
+_OBJC_SELECTOR_REFERENCES_.177
+__OBJC_$_CLASS_METHODS_OCMockObject
+__OBJC_METACLASS_RO_$_OCMockObject
+__OBJC_$_INSTANCE_METHODS_OCMockObject
+__OBJC_$_INSTANCE_VARIABLES_OCMockObject
+__OBJC_CLASS_RO_$_OCMockObject
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMockObject.m
+OCMock/OCMockObject.m
+-[OCClassMockObject initWithClass:]
+-[OCClassMockObject dealloc]
+-[OCClassMockObject description]
+-[OCClassMockObject mockedClass]
+-[OCClassMockObject assertClassIsSupported:]
+-[OCClassMockObject stopMocking]
+-[OCClassMockObject stopMockingClassMethods]
+-[OCClassMockObject addStub:]
+-[OCClassMockObject prepareClassForClassMethodMocking]
+___54-[OCClassMockObject prepareClassForClassMethodMocking]_block_invoke
+___copy_helper_block_e4_20o24o
+___destroy_helper_block_e4_20o24o
+-[OCClassMockObject setupForwarderForClassMethodSelector:]
+-[OCClassMockObject forwardInvocationForClassObject:]
+-[OCClassMockObject initializeForClassObject]
+-[OCClassMockObject methodSignatureForSelector:]
+-[OCClassMockObject mockObjectClass]
+-[OCClassMockObject class]
+-[OCClassMockObject respondsToSelector:]
+-[OCClassMockObject isKindOfClass:]
+-[OCClassMockObject conformsToProtocol:]
+-[OCClassMockObject(NSIsKindsImplementation) isNSValue__]
+-[OCClassMockObject(NSIsKindsImplementation) isNSTimeZone__]
+-[OCClassMockObject(NSIsKindsImplementation) isNSSet__]
+-[OCClassMockObject(NSIsKindsImplementation) isNSOrderedSet__]
+-[OCClassMockObject(NSIsKindsImplementation) isNSNumber__]
+-[OCClassMockObject(NSIsKindsImplementation) isNSDate__]
+-[OCClassMockObject(NSIsKindsImplementation) isNSString__]
+-[OCClassMockObject(NSIsKindsImplementation) isNSDictionary__]
+-[OCClassMockObject(NSIsKindsImplementation) isNSData__]
+-[OCClassMockObject(NSIsKindsImplementation) isNSArray__]
+_OBJC_SELECTOR_REFERENCES_.6
+_OBJC_SELECTOR_REFERENCES_.8
+_OBJC_SELECTOR_REFERENCES_.15
+_OBJC_SELECTOR_REFERENCES_.17
+_OBJC_SELECTOR_REFERENCES_.19
+_OBJC_SELECTOR_REFERENCES_.23
+_OBJC_SELECTOR_REFERENCES_.27
+_OBJC_SELECTOR_REFERENCES_.29
+_OBJC_SELECTOR_REFERENCES_.31
+_OBJC_SELECTOR_REFERENCES_.33
+_OBJC_SELECTOR_REFERENCES_.35
+_OBJC_SELECTOR_REFERENCES_.37
+_OBJC_CLASSLIST_REFERENCES_$_.38
+_OBJC_SELECTOR_REFERENCES_.41
+_OBJC_SELECTOR_REFERENCES_.43
+_OBJC_SELECTOR_REFERENCES_.45
+_OBJC_SELECTOR_REFERENCES_.47
+_OBJC_SELECTOR_REFERENCES_.49
+_OBJC_SELECTOR_REFERENCES_.67
+_OBJC_CLASSLIST_REFERENCES_$_.68
+___block_descriptor_28_e4_20o24o_e10_v12?0#4:8l
+_OBJC_SELECTOR_REFERENCES_.73
+_OBJC_SELECTOR_REFERENCES_.75
+_OBJC_SELECTOR_REFERENCES_.81
+_OBJC_SELECTOR_REFERENCES_.83
+_OBJC_SELECTOR_REFERENCES_.85
+_OBJC_CLASSLIST_REFERENCES_$_.86
+_OBJC_SELECTOR_REFERENCES_.90
+__OBJC_METACLASS_RO_$_OCClassMockObject
+__OBJC_$_INSTANCE_METHODS_OCClassMockObject
+__OBJC_$_INSTANCE_VARIABLES_OCClassMockObject
+__OBJC_CLASS_RO_$_OCClassMockObject
+_OBJC_CLASSLIST_REFERENCES_$_.110
+_OBJC_CLASSLIST_REFERENCES_$_.111
+_OBJC_CLASSLIST_REFERENCES_$_.112
+_OBJC_CLASSLIST_REFERENCES_$_.113
+_OBJC_CLASSLIST_REFERENCES_$_.114
+_OBJC_CLASSLIST_REFERENCES_$_.115
+_OBJC_CLASSLIST_REFERENCES_$_.116
+_OBJC_CLASSLIST_REFERENCES_$_.117
+__OBJC_$_CATEGORY_INSTANCE_METHODS_OCClassMockObject_$_NSIsKindsImplementation
+__OBJC_$_CATEGORY_OCClassMockObject_$_NSIsKindsImplementation
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCClassMockObject.m
+OCMock/OCClassMockObject.m
+__destroy_helper_block_e4_20o24o
+__copy_helper_block_e4_20o24o
+__54-[OCClassMockObject prepareClassForClassMethodMocking]_block_invoke
+-[OCPartialMockObject initWithObject:]
+-[OCPartialMockObject description]
+-[OCPartialMockObject realObject]
+-[OCPartialMockObject assertClassIsSupported:]
+-[OCPartialMockObject classToSubclassForObject:]
+-[OCPartialMockObject stopMocking]
+-[OCPartialMockObject addStub:]
+-[OCPartialMockObject addInvocation:]
+-[OCPartialMockObject handleUnRecordedInvocation:]
+-[OCPartialMockObject prepareObjectForInstanceMethodMocking]
+___60-[OCPartialMockObject prepareObjectForInstanceMethodMocking]_block_invoke
+-[OCPartialMockObject setupForwarderForSelector:]
+-[OCPartialMockObject classForRealObject]
+-[OCPartialMockObject forwardingTargetForSelectorForRealObject:]
+-[OCPartialMockObject ocmock_replaced_forwardingTargetForSelector:]
+-[OCPartialMockObject forwardInvocationForRealObject:]
+-[OCPartialMockObject descriptionForVerificationFailureWithMatcher:quantifier:invocationCount:]
+___95-[OCPartialMockObject descriptionForVerificationFailureWithMatcher:quantifier:invocationCount:]_block_invoke
+___copy_helper_block_e4_20r
+___destroy_helper_block_e4_20r
+_OBJC_SELECTOR_REFERENCES_.21
+_OBJC_SELECTOR_REFERENCES_.39
+_OBJC_SELECTOR_REFERENCES_.51
+_OBJC_SELECTOR_REFERENCES_.53
+_OBJC_SELECTOR_REFERENCES_.55
+_OBJC_SELECTOR_REFERENCES_.57
+_OBJC_SELECTOR_REFERENCES_.61
+_OBJC_SELECTOR_REFERENCES_.63
+_OBJC_SELECTOR_REFERENCES_.65
+_OBJC_SELECTOR_REFERENCES_.69
+_OBJC_SELECTOR_REFERENCES_.71
+_OBJC_CLASSLIST_REFERENCES_$_.104
+_OBJC_SELECTOR_REFERENCES_.106
+_OBJC_SELECTOR_REFERENCES_.108
+_OBJC_SELECTOR_REFERENCES_.116
+_OBJC_SELECTOR_REFERENCES_.118
+_OBJC_SELECTOR_REFERENCES_.120
+___block_descriptor_28_e4_20r_e10_v12?0#4:8l
+_OBJC_SELECTOR_REFERENCES_.138
+__OBJC_METACLASS_RO_$_OCPartialMockObject
+__OBJC_$_INSTANCE_METHODS_OCPartialMockObject
+__OBJC_$_INSTANCE_VARIABLES_OCPartialMockObject
+__OBJC_CLASS_RO_$_OCPartialMockObject
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCPartialMockObject.m
+__destroy_helper_block_e4_20r
+__copy_helper_block_e4_20r
+__95-[OCPartialMockObject descriptionForVerificationFailureWithMatcher:quantifier:invocationCount:]_block_invoke
+OCMock/OCPartialMockObject.m
+__60-[OCPartialMockObject prepareObjectForInstanceMethodMocking]_block_invoke
+-[OCProtocolMockObject initWithProtocol:]
+-[OCProtocolMockObject description]
+-[OCProtocolMockObject methodSignatureForSelector:]
+-[OCProtocolMockObject conformsToProtocol:]
+-[OCProtocolMockObject respondsToSelector:]
+_OBJC_CLASSLIST_REFERENCES_$_.3
+_OBJC_SELECTOR_REFERENCES_.12
+__OBJC_METACLASS_RO_$_OCProtocolMockObject
+__OBJC_$_INSTANCE_METHODS_OCProtocolMockObject
+__OBJC_$_INSTANCE_VARIABLES_OCProtocolMockObject
+__OBJC_CLASS_RO_$_OCProtocolMockObject
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCProtocolMockObject.m
+OCMock/OCProtocolMockObject.m
+-[OCMRecorder init]
+-[OCMRecorder initWithMockObject:]
+-[OCMRecorder setMockObject:]
+-[OCMRecorder setShouldReturnMockFromInit:]
+-[OCMRecorder dealloc]
+-[OCMRecorder description]
+-[OCMRecorder invocationMatcher]
+-[OCMRecorder didRecordInvocation]
+-[OCMRecorder classMethod]
+-[OCMRecorder ignoringNonObjectArgs]
+-[OCMRecorder methodSignatureForSelector:]
+-[OCMRecorder forwardInvocation:]
+-[OCMRecorder doesNotRecognizeSelector:]
+-[OCMRecorder(Properties) _ignoringNonObjectArgs]
+___49-[OCMRecorder(Properties) _ignoringNonObjectArgs]_block_invoke
+___copy_helper_block_e4_20o
+___destroy_helper_block_e4_20o
+_OBJC_SELECTOR_REFERENCES_.14
+_OBJC_SELECTOR_REFERENCES_.24
+_OBJC_SELECTOR_REFERENCES_.26
+__OBJC_METACLASS_RO_$_OCMRecorder
+__OBJC_$_INSTANCE_METHODS_OCMRecorder
+__OBJC_$_INSTANCE_VARIABLES_OCMRecorder
+__OBJC_CLASS_RO_$_OCMRecorder
+___block_descriptor_24_e4_20o_e5_4?0l
+_OBJC_SELECTOR_REFERENCES_.58
+__OBJC_$_CATEGORY_INSTANCE_METHODS_OCMRecorder_$_Properties
+__OBJC_$_PROP_LIST_OCMRecorder_$_Properties
+__OBJC_$_CATEGORY_OCMRecorder_$_Properties
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMRecorder.m
+__destroy_helper_block_e4_20o
+__copy_helper_block_e4_20o
+__49-[OCMRecorder(Properties) _ignoringNonObjectArgs]_block_invoke
+OCMock/OCMRecorder.m
++[OCMQuantifier exactly:]
++[OCMQuantifier never]
++[OCMQuantifier atLeast:]
++[OCMQuantifier atMost:]
+-[OCMQuantifier initWithCount:]
+-[OCMQuantifier isValidCount:]
+-[OCMQuantifier description]
+-[OCMExactCountQuantifier isValidCount:]
+-[OCMAtLeastQuantifier initWithCount:]
+-[OCMAtLeastQuantifier isValidCount:]
+-[OCMAtLeastQuantifier description]
+-[OCMAtMostQuantifier initWithCount:]
+-[OCMAtMostQuantifier isValidCount:]
+-[OCMAtMostQuantifier description]
+_OBJC_CLASSLIST_REFERENCES_$_.4
+_OBJC_CLASSLIST_REFERENCES_$_.7
+_OBJC_SELECTOR_REFERENCES_.9
+_OBJC_SELECTOR_REFERENCES_.11
+_OBJC_CLASSLIST_REFERENCES_$_.16
+__OBJC_$_CLASS_METHODS_OCMQuantifier
+__OBJC_METACLASS_RO_$_OCMQuantifier
+__OBJC_$_INSTANCE_METHODS_OCMQuantifier
+__OBJC_$_INSTANCE_VARIABLES_OCMQuantifier
+__OBJC_CLASS_RO_$_OCMQuantifier
+__OBJC_METACLASS_RO_$_OCMExactCountQuantifier
+__OBJC_$_INSTANCE_METHODS_OCMExactCountQuantifier
+__OBJC_CLASS_RO_$_OCMExactCountQuantifier
+_OBJC_CLASSLIST_REFERENCES_$_.31
+__OBJC_METACLASS_RO_$_OCMAtLeastQuantifier
+__OBJC_$_INSTANCE_METHODS_OCMAtLeastQuantifier
+__OBJC_CLASS_RO_$_OCMAtLeastQuantifier
+__OBJC_METACLASS_RO_$_OCMAtMostQuantifier
+__OBJC_$_INSTANCE_METHODS_OCMAtMostQuantifier
+__OBJC_CLASS_RO_$_OCMAtMostQuantifier
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMQuantifier.m
+OCMock/OCMQuantifier.m
+-[OCMStubRecorder init]
+-[OCMStubRecorder stub]
+-[OCMStubRecorder andReturn:]
+-[OCMStubRecorder andReturnValue:]
+-[OCMStubRecorder andThrow:]
+-[OCMStubRecorder andPost:]
+-[OCMStubRecorder andCall:onObject:]
+-[OCMStubRecorder andDo:]
+-[OCMStubRecorder andForwardToRealObject]
+-[OCMStubRecorder forwardInvocation:]
+-[OCMStubRecorder(Properties) _andReturn]
+___41-[OCMStubRecorder(Properties) _andReturn]_block_invoke
+-[OCMStubRecorder(Properties) _andThrow]
+___40-[OCMStubRecorder(Properties) _andThrow]_block_invoke
+-[OCMStubRecorder(Properties) _andPost]
+___39-[OCMStubRecorder(Properties) _andPost]_block_invoke
+-[OCMStubRecorder(Properties) _andCall]
+___39-[OCMStubRecorder(Properties) _andCall]_block_invoke
+-[OCMStubRecorder(Properties) _andDo]
+___37-[OCMStubRecorder(Properties) _andDo]_block_invoke
+-[OCMStubRecorder(Properties) _andForwardToRealObject]
+___54-[OCMStubRecorder(Properties) _andForwardToRealObject]_block_invoke
+_OBJC_CLASSLIST_REFERENCES_$_.12
+_OBJC_CLASSLIST_REFERENCES_$_.13
+_OBJC_CLASSLIST_REFERENCES_$_.17
+_OBJC_CLASSLIST_REFERENCES_$_.20
+__OBJC_METACLASS_RO_$_OCMStubRecorder
+__OBJC_$_INSTANCE_METHODS_OCMStubRecorder
+__OBJC_CLASS_RO_$_OCMStubRecorder
+_OBJC_SELECTOR_REFERENCES_.40
+___block_descriptor_24_e4_20o_e16_8?0"NSValue"4l
+___block_descriptor_24_e4_20o_e20_8?0"NSException"4l
+_OBJC_SELECTOR_REFERENCES_.50
+___block_descriptor_24_e4_20o_e23_8?0"NSNotification"4l
+___block_descriptor_24_e4_20o_e10_12?04:8l
+___block_descriptor_24_e4_20o_e28_8?0?<v?"NSInvocation">4l
+__OBJC_$_CATEGORY_INSTANCE_METHODS_OCMStubRecorder_$_Properties
+__OBJC_$_PROP_LIST_OCMStubRecorder_$_Properties
+__OBJC_$_CATEGORY_OCMStubRecorder_$_Properties
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMStubRecorder.m
+__54-[OCMStubRecorder(Properties) _andForwardToRealObject]_block_invoke
+OCMock/OCMStubRecorder.m
+__37-[OCMStubRecorder(Properties) _andDo]_block_invoke
+__39-[OCMStubRecorder(Properties) _andCall]_block_invoke
+__39-[OCMStubRecorder(Properties) _andPost]_block_invoke
+__40-[OCMStubRecorder(Properties) _andThrow]_block_invoke
+__41-[OCMStubRecorder(Properties) _andReturn]_block_invoke
+-[OCMExpectationRecorder init]
+-[OCMExpectationRecorder expectation]
+-[OCMExpectationRecorder never]
+-[OCMExpectationRecorder forwardInvocation:]
+__OBJC_METACLASS_RO_$_OCMExpectationRecorder
+__OBJC_$_INSTANCE_METHODS_OCMExpectationRecorder
+__OBJC_CLASS_RO_$_OCMExpectationRecorder
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMExpectationRecorder.m
+OCMock/OCMExpectationRecorder.m
+-[OCMVerifier init]
+-[OCMVerifier withQuantifier:]
+-[OCMVerifier forwardInvocation:]
+-[OCMVerifier dealloc]
+-[OCMVerifier location]
+-[OCMVerifier setLocation:]
+-[OCMVerifier quantifier]
+-[OCMVerifier setQuantifier:]
+_OBJC_SELECTOR_REFERENCES_.5
+_OBJC_IVAR_$_OCMVerifier._location
+_OBJC_IVAR_$_OCMVerifier._quantifier
+__OBJC_METACLASS_RO_$_OCMVerifier
+__OBJC_$_INSTANCE_METHODS_OCMVerifier
+__OBJC_$_INSTANCE_VARIABLES_OCMVerifier
+__OBJC_$_PROP_LIST_OCMVerifier
+__OBJC_CLASS_RO_$_OCMVerifier
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMVerifier.m
+OCMock/OCMVerifier.h
+OCMock/OCMVerifier.m
+-[OCMInvocationMatcher dealloc]
+-[OCMInvocationMatcher setInvocation:]
+-[OCMInvocationMatcher setRecordedAsClassMethod:]
+-[OCMInvocationMatcher recordedAsClassMethod]
+-[OCMInvocationMatcher setIgnoreNonObjectArgs:]
+-[OCMInvocationMatcher description]
+-[OCMInvocationMatcher recordedInvocation]
+-[OCMInvocationMatcher matchesSelector:]
+-[OCMInvocationMatcher matchesInvocation:]
+_OBJC_CLASSLIST_REFERENCES_$_.27
+_OBJC_CLASSLIST_REFERENCES_$_.30
+__OBJC_METACLASS_RO_$_OCMInvocationMatcher
+__OBJC_$_INSTANCE_METHODS_OCMInvocationMatcher
+__OBJC_$_INSTANCE_VARIABLES_OCMInvocationMatcher
+__OBJC_CLASS_RO_$_OCMInvocationMatcher
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMInvocationMatcher.m
+OCMock/OCMInvocationMatcher.m
+-[OCMInvocationStub init]
+-[OCMInvocationStub dealloc]
+-[OCMInvocationStub addInvocationAction:]
+-[OCMInvocationStub invocationActions]
+-[OCMInvocationStub handleInvocation:]
+-[OCMInvocationStub invokeArgActionsForInvocation:]
+-[OCMInvocationStub invokeActionsForInvocation:]
+_OBJC_CLASSLIST_REFERENCES_$_.19
+_OBJC_CLASSLIST_REFERENCES_$_.32
+_OBJC_SELECTOR_REFERENCES_.34
+_OBJC_SELECTOR_REFERENCES_.36
+_OBJC_CLASSLIST_REFERENCES_$_.37
+_OBJC_CLASSLIST_REFERENCES_$_.40
+__OBJC_METACLASS_RO_$_OCMInvocationStub
+__OBJC_$_INSTANCE_METHODS_OCMInvocationStub
+__OBJC_$_INSTANCE_VARIABLES_OCMInvocationStub
+__OBJC_CLASS_RO_$_OCMInvocationStub
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMInvocationStub.m
+OCMock/OCMInvocationStub.m
+-[OCMInvocationExpectation setMatchAndReject:]
+-[OCMInvocationExpectation isMatchAndReject]
+-[OCMInvocationExpectation isSatisfied]
+-[OCMInvocationExpectation addInvocationAction:]
+-[OCMInvocationExpectation handleInvocation:]
+__OBJC_METACLASS_RO_$_OCMInvocationExpectation
+__OBJC_$_INSTANCE_METHODS_OCMInvocationExpectation
+__OBJC_$_INSTANCE_VARIABLES_OCMInvocationExpectation
+__OBJC_CLASS_RO_$_OCMInvocationExpectation
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMInvocationExpectation.m
+OCMock/OCMInvocationExpectation.m
+-[OCMRealObjectForwarder handleInvocation:]
+__OBJC_METACLASS_RO_$_OCMRealObjectForwarder
+__OBJC_$_INSTANCE_METHODS_OCMRealObjectForwarder
+__OBJC_CLASS_RO_$_OCMRealObjectForwarder
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMRealObjectForwarder.m
+OCMock/OCMRealObjectForwarder.m
+-[OCMBlockCaller initWithCallBlock:]
+-[OCMBlockCaller dealloc]
+-[OCMBlockCaller handleInvocation:]
+__OBJC_METACLASS_RO_$_OCMBlockCaller
+__OBJC_$_INSTANCE_METHODS_OCMBlockCaller
+__OBJC_$_INSTANCE_VARIABLES_OCMBlockCaller
+__OBJC_CLASS_RO_$_OCMBlockCaller
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMBlockCaller.m
+OCMock/OCMBlockCaller.m
+-[OCMBoxedReturnValueProvider handleInvocation:]
+-[OCMBoxedReturnValueProvider isMethodReturnType:compatibleWithValueType:value:valueSize:]
+__OBJC_METACLASS_RO_$_OCMBoxedReturnValueProvider
+__OBJC_$_INSTANCE_METHODS_OCMBoxedReturnValueProvider
+__OBJC_CLASS_RO_$_OCMBoxedReturnValueProvider
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMBoxedReturnValueProvider.m
+OCMock/OCMBoxedReturnValueProvider.m
+-[OCMExceptionReturnValueProvider handleInvocation:]
+__OBJC_METACLASS_RO_$_OCMExceptionReturnValueProvider
+__OBJC_$_INSTANCE_METHODS_OCMExceptionReturnValueProvider
+__OBJC_CLASS_RO_$_OCMExceptionReturnValueProvider
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMExceptionReturnValueProvider.m
+OCMock/OCMExceptionReturnValueProvider.m
+-[OCMIndirectReturnValueProvider initWithProvider:andSelector:]
+-[OCMIndirectReturnValueProvider dealloc]
+-[OCMIndirectReturnValueProvider handleInvocation:]
+__OBJC_METACLASS_RO_$_OCMIndirectReturnValueProvider
+__OBJC_$_INSTANCE_METHODS_OCMIndirectReturnValueProvider
+__OBJC_$_INSTANCE_VARIABLES_OCMIndirectReturnValueProvider
+__OBJC_CLASS_RO_$_OCMIndirectReturnValueProvider
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMIndirectReturnValueProvider.m
+OCMock/OCMIndirectReturnValueProvider.m
+-[OCMNotificationPoster initWithNotification:]
+-[OCMNotificationPoster dealloc]
+-[OCMNotificationPoster handleInvocation:]
+__OBJC_METACLASS_RO_$_OCMNotificationPoster
+__OBJC_$_INSTANCE_METHODS_OCMNotificationPoster
+__OBJC_$_INSTANCE_VARIABLES_OCMNotificationPoster
+__OBJC_CLASS_RO_$_OCMNotificationPoster
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMNotificationPoster.m
+OCMock/OCMNotificationPoster.m
+-[OCMObjectReturnValueProvider initWithValue:]
+-[OCMObjectReturnValueProvider dealloc]
+__OBJC_METACLASS_RO_$_OCMObjectReturnValueProvider
+__OBJC_$_INSTANCE_METHODS_OCMObjectReturnValueProvider
+__OBJC_CLASS_RO_$_OCMObjectReturnValueProvider
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMObjectReturnValueProvider.m
+OCMock/OCMObjectReturnValueProvider.m
++[OCMLocation locationWithTestCase:file:line:]
+-[OCMLocation initWithTestCase:file:line:]
+-[OCMLocation dealloc]
+-[OCMLocation testCase]
+-[OCMLocation file]
+-[OCMLocation line]
+__OBJC_$_CLASS_METHODS_OCMLocation
+__OBJC_METACLASS_RO_$_OCMLocation
+__OBJC_$_INSTANCE_METHODS_OCMLocation
+__OBJC_$_INSTANCE_VARIABLES_OCMLocation
+__OBJC_CLASS_RO_$_OCMLocation
+_OBJC_CLASSLIST_REFERENCES_$_.15
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMLocation.m
+OCMMakeLocation
+OCMock/OCMLocation.m
++[OCMMacroState beginStubMacro]
++[OCMMacroState endStubMacro]
++[OCMMacroState beginExpectMacro]
++[OCMMacroState endExpectMacro]
++[OCMMacroState beginRejectMacro]
++[OCMMacroState endRejectMacro]
++[OCMMacroState beginVerifyMacroAtLocation:]
++[OCMMacroState beginVerifyMacroAtLocation:withQuantifier:]
++[OCMMacroState endVerifyMacro]
++[OCMMacroState globalState]
+-[OCMMacroState initWithRecorder:]
+-[OCMMacroState dealloc]
+-[OCMMacroState setRecorder:]
+-[OCMMacroState recorder]
+-[OCMMacroState setInvocationDidThrow:]
+-[OCMMacroState invocationDidThrow]
+-[OCMMacroState switchToClassMethod]
+_OBJC_CLASSLIST_REFERENCES_$_.1
+_OBJC_SELECTOR_REFERENCES_.3
+_OBJC_CLASSLIST_REFERENCES_$_.21
+__OBJC_$_CLASS_METHODS_OCMMacroState
+__OBJC_METACLASS_RO_$_OCMMacroState
+__OBJC_$_INSTANCE_METHODS_OCMMacroState
+__OBJC_$_INSTANCE_VARIABLES_OCMMacroState
+__OBJC_CLASS_RO_$_OCMMacroState
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMMacroState.m
+OCMock/OCMMacroState.m
+-[OCMBlockArgCaller initWithBlockArguments:]
+-[OCMBlockArgCaller dealloc]
+-[OCMBlockArgCaller copyWithZone:]
+-[OCMBlockArgCaller handleArgument:]
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_NSCopying
+__OBJC_$_PROTOCOL_METHOD_TYPES_NSCopying
+__OBJC_PROTOCOL_$_NSCopying
+__OBJC_LABEL_PROTOCOL_$_NSCopying
+__OBJC_CLASS_PROTOCOLS_$_OCMBlockArgCaller
+__OBJC_METACLASS_RO_$_OCMBlockArgCaller
+__OBJC_$_INSTANCE_METHODS_OCMBlockArgCaller
+__OBJC_$_INSTANCE_VARIABLES_OCMBlockArgCaller
+__OBJC_CLASS_RO_$_OCMBlockArgCaller
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMBlockArgCaller.m
+OCMock/OCMBlockArgCaller.m
+-[OCObserverMockObject init]
+-[OCObserverMockObject retain]
+-[OCObserverMockObject dealloc]
+-[OCObserverMockObject description]
+-[OCObserverMockObject setExpectationOrderMatters:]
+-[OCObserverMockObject autoRemoveFromCenter:]
+-[OCObserverMockObject expect]
+-[OCObserverMockObject verify]
+-[OCObserverMockObject verifyAtLocation:]
+-[OCObserverMockObject notificationWithName:object:]
+-[OCObserverMockObject notificationWithName:object:userInfo:]
+-[OCObserverMockObject handleNotification:]
+_OBJC_CLASSLIST_REFERENCES_$_.47
+__OBJC_METACLASS_RO_$_OCObserverMockObject
+__OBJC_$_INSTANCE_METHODS_OCObserverMockObject
+__OBJC_$_INSTANCE_VARIABLES_OCObserverMockObject
+__OBJC_CLASS_RO_$_OCObserverMockObject
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCObserverMockObject.m
+OCMock/OCObserverMockObject.m
+-[OCMObserverRecorder dealloc]
+-[OCMObserverRecorder didRecordInvocation]
+-[OCMObserverRecorder notificationWithName:object:]
+-[OCMObserverRecorder notificationWithName:object:userInfo:]
+-[OCMObserverRecorder matchesNotification:]
+-[OCMObserverRecorder argument:matchesArgument:]
+__OBJC_METACLASS_RO_$_OCMObserverRecorder
+__OBJC_$_INSTANCE_METHODS_OCMObserverRecorder
+__OBJC_$_INSTANCE_VARIABLES_OCMObserverRecorder
+__OBJC_CLASS_RO_$_OCMObserverRecorder
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMObserverRecorder.m
+OCMock/OCMObserverRecorder.m
++[OCMArg any]
++[OCMArg anyPointer]
++[OCMArg anyObjectRef]
++[OCMArg anySelector]
++[OCMArg isNil]
++[OCMArg isNotNil]
++[OCMArg isEqual:]
++[OCMArg isNotEqual:]
++[OCMArg isKindOfClass:]
+___24+[OCMArg isKindOfClass:]_block_invoke
++[OCMArg checkWithSelector:onObject:]
++[OCMArg checkWithBlock:]
++[OCMArg setTo:]
++[OCMArg setToValue:]
++[OCMArg invokeBlock]
++[OCMArg invokeBlockWithArgs:]
++[OCMArg defaultValue]
++[OCMArg resolveSpecialValues:]
+_OBJC_CLASSLIST_REFERENCES_$_.2
+___block_descriptor_24_e4_20o_e7_B8?04l
+_OBJC_CLASSLIST_REFERENCES_$_.10
+__OBJC_$_CLASS_METHODS_OCMArg
+__OBJC_METACLASS_RO_$_OCMArg
+__OBJC_CLASS_RO_$_OCMArg
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMArg.m
+OCMock/OCMArg.m
+__24+[OCMArg isKindOfClass:]_block_invoke
++[OCMConstraint constraint]
+-[OCMConstraint evaluate:]
+-[OCMConstraint copyWithZone:]
++[OCMConstraint constraintWithSelector:onObject:]
++[OCMConstraint constraintWithSelector:onObject:withValue:]
+-[OCMAnyConstraint evaluate:]
+-[OCMIsNilConstraint evaluate:]
+-[OCMIsNotNilConstraint evaluate:]
+-[OCMIsNotEqualConstraint evaluate:]
+-[OCMInvocationConstraint evaluate:]
+-[OCMBlockConstraint initWithConstraintBlock:]
+-[OCMBlockConstraint dealloc]
+-[OCMBlockConstraint evaluate:]
+__OBJC_$_CLASS_METHODS_OCMConstraint
+__OBJC_METACLASS_RO_$_OCMConstraint
+__OBJC_$_INSTANCE_METHODS_OCMConstraint
+__OBJC_CLASS_RO_$_OCMConstraint
+__OBJC_METACLASS_RO_$_OCMAnyConstraint
+__OBJC_$_INSTANCE_METHODS_OCMAnyConstraint
+__OBJC_CLASS_RO_$_OCMAnyConstraint
+__OBJC_METACLASS_RO_$_OCMIsNilConstraint
+__OBJC_$_INSTANCE_METHODS_OCMIsNilConstraint
+__OBJC_CLASS_RO_$_OCMIsNilConstraint
+__OBJC_METACLASS_RO_$_OCMIsNotNilConstraint
+__OBJC_$_INSTANCE_METHODS_OCMIsNotNilConstraint
+__OBJC_CLASS_RO_$_OCMIsNotNilConstraint
+__OBJC_METACLASS_RO_$_OCMIsNotEqualConstraint
+__OBJC_$_INSTANCE_METHODS_OCMIsNotEqualConstraint
+__OBJC_$_INSTANCE_VARIABLES_OCMIsNotEqualConstraint
+__OBJC_CLASS_RO_$_OCMIsNotEqualConstraint
+__OBJC_METACLASS_RO_$_OCMInvocationConstraint
+__OBJC_$_INSTANCE_METHODS_OCMInvocationConstraint
+__OBJC_$_INSTANCE_VARIABLES_OCMInvocationConstraint
+__OBJC_CLASS_RO_$_OCMInvocationConstraint
+__OBJC_METACLASS_RO_$_OCMBlockConstraint
+__OBJC_$_INSTANCE_METHODS_OCMBlockConstraint
+__OBJC_$_INSTANCE_VARIABLES_OCMBlockConstraint
+__OBJC_CLASS_RO_$_OCMBlockConstraint
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMConstraint.m
+OCMock/OCMConstraint.m
+-[OCMPassByRefSetter initWithValue:]
+-[OCMPassByRefSetter dealloc]
+-[OCMPassByRefSetter handleArgument:]
+__OBJC_METACLASS_RO_$_OCMPassByRefSetter
+__OBJC_$_INSTANCE_METHODS_OCMPassByRefSetter
+__OBJC_$_INSTANCE_VARIABLES_OCMPassByRefSetter
+__OBJC_CLASS_RO_$_OCMPassByRefSetter
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMPassByRefSetter.m
+OCMock/OCMPassByRefSetter.m
++[NSInvocation(OCMAdditions) invocationForBlock:withArguments:]
+-[NSInvocation(OCMAdditions) retainObjectArgumentsExcludingObject:]
+-[NSInvocation(OCMAdditions) setArgumentWithObject:atIndex:]
+-[NSInvocation(OCMAdditions) getArgumentAtIndexAsObject:]
+-[NSInvocation(OCMAdditions) invocationDescription]
+-[NSInvocation(OCMAdditions) argumentDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) objectDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) boolDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) charDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) unsignedCharDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) intDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) unsignedIntDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) shortDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) unsignedShortDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) longDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) unsignedLongDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) longLongDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) unsignedLongLongDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) doubleDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) floatDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) longDoubleDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) structDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) pointerDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) cStringDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) selectorDescriptionAtIndex:]
+-[NSInvocation(OCMAdditions) isMethodFamily:]
+-[NSInvocation(OCMAdditions) methodIsInInitFamily]
+-[NSInvocation(OCMAdditions) methodIsInCreateFamily]
+_OBJC_CLASSLIST_REFERENCES_$_.35
+_OBJC_CLASSLIST_REFERENCES_$_.42
+_OBJC_CLASSLIST_REFERENCES_$_.59
+_OBJC_SELECTOR_REFERENCES_.97
+_OBJC_CLASSLIST_REFERENCES_$_.106
+_OBJC_SELECTOR_REFERENCES_.122
+_OBJC_SELECTOR_REFERENCES_.152
+_OBJC_SELECTOR_REFERENCES_.156
+_OBJC_SELECTOR_REFERENCES_.162
+_OBJC_SELECTOR_REFERENCES_.166
+_OBJC_CLASSLIST_REFERENCES_$_.167
+_OBJC_SELECTOR_REFERENCES_.171
+_OBJC_SELECTOR_REFERENCES_.173
+_OBJC_SELECTOR_REFERENCES_.203
+_OBJC_CLASSLIST_REFERENCES_$_.204
+_OBJC_SELECTOR_REFERENCES_.206
+_OBJC_SELECTOR_REFERENCES_.217
+_OBJC_SELECTOR_REFERENCES_.221
+_OBJC_SELECTOR_REFERENCES_.223
+_OBJC_SELECTOR_REFERENCES_.225
+_OBJC_SELECTOR_REFERENCES_.227
+_OBJC_CLASSLIST_REFERENCES_$_.228
+_OBJC_SELECTOR_REFERENCES_.230
+_OBJC_SELECTOR_REFERENCES_.232
+_OBJC_SELECTOR_REFERENCES_.234
+_OBJC_SELECTOR_REFERENCES_.238
+__OBJC_$_CATEGORY_INSTANCE_METHODS_NSInvocation_$_OCMAdditions
+__OBJC_$_CATEGORY_CLASS_METHODS_NSInvocation_$_OCMAdditions
+__OBJC_$_CATEGORY_NSInvocation_$_OCMAdditions
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/NSInvocation+OCMAdditions.m
+OCMock/NSInvocation+OCMAdditions.m
+NSMaxRange
+/Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
++[NSMethodSignature(OCMAdditions) signatureForDynamicPropertyAccessedWithSelector:inClass:]
++[NSMethodSignature(OCMAdditions) propertyMatchingSelector:inClass:isGetter:]
++[NSMethodSignature(OCMAdditions) signatureForBlock:]
+-[NSMethodSignature(OCMAdditions) usesSpecialStructureReturn]
+-[NSMethodSignature(OCMAdditions) fullTypeString]
+-[NSMethodSignature(OCMAdditions) fullObjCTypes]
+_OBJC_CLASSLIST_REFERENCES_$_.56
+__OBJC_$_CATEGORY_INSTANCE_METHODS_NSMethodSignature_$_OCMAdditions
+__OBJC_$_CATEGORY_CLASS_METHODS_NSMethodSignature_$_OCMAdditions
+__OBJC_$_CATEGORY_NSMethodSignature_$_OCMAdditions
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/NSMethodSignature+OCMAdditions.m
+OCMock/NSMethodSignature+OCMAdditions.m
+-[NSNotificationCenter(OCMAdditions) addMockObserver:name:object:]
+__OBJC_$_CATEGORY_INSTANCE_METHODS_NSNotificationCenter_$_OCMAdditions
+__OBJC_$_CATEGORY_NSNotificationCenter_$_OCMAdditions
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/NSNotificationCenter+OCMAdditions.m
+OCMock/NSNotificationCenter+OCMAdditions.m
++[NSObject(OCMAdditions) instanceMethodForwarderForSelector:]
++[NSObject(OCMAdditions) enumerateMethodsInClass:usingBlock:]
+_instanceMethodForwarderForSelector:._OCMReturnTypeCache
+__OBJC_$_CATEGORY_CLASS_METHODS_NSObject_$_OCMAdditions
+__OBJC_$_CATEGORY_NSObject_$_OCMAdditions
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/NSObject+OCMAdditions.m
+OCMock/NSObject+OCMAdditions.m
+-[NSValue(OCMAdditions) getBytes:objCType:]
+__OBJC_$_CATEGORY_INSTANCE_METHODS_NSValue_$_OCMAdditions
+__OBJC_$_CATEGORY_NSValue_$_OCMAdditions
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/NSValue+OCMAdditions.m
+OCMock/NSValue+OCMAdditions.m
+OCMNumberForValue
+_OCMIsUnqualifiedBlockType
+___OCMIsBlock_block_invoke
+___OCMIsBlock_block_invoke_2
+_ParseStructType
+_OBJC_CLASSLIST_REFERENCES_$_.18
+_OCMIsBlock.blockClass
+_OCMIsBlock.onceToken
+___block_descriptor_20_e5_v4?0l
+___block_literal_global
+___block_literal_global.30
+_OBJC_CLASSLIST_REFERENCES_$_.43
+_OBJC_SELECTOR_REFERENCES_.74
+_OBJC_SELECTOR_REFERENCES_.76
+_OBJC_SELECTOR_REFERENCES_.78
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMFunctions.m
+ParseStructType
+OCMock/OCMFunctions.m
+OCMReportFailure
+OCMGetAssociatedMockForObject
+OCMSetAssociatedMockForObject
+OCMGetAssociatedMockForClass
+OCMSetAssociatedMockForClass
+OCMOriginalSelectorForAlias
+OCMIsAliasSelector
+OCMAliasForOriginalSelector
+OCMIsSubclassOfMockClass
+OCMIsMockSubclass
+OCMDisposeSubclass
+OCMCreateSubclass
+OCMIsNonEscapingBlock
+__OCMIsBlock_block_invoke_2
+__OCMIsBlock_block_invoke
+OCMIsBlock
+/Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.0.sdk/usr/include/dispatch/once.h
+OCMIsApplePrivateMethod
+OCMIsAppleBaseClass
+OCMIsNilValue
+OCMEqualTypesAllowingOpaqueStructs
+OCMEqualTypesAllowingOpaqueStructsInternal
+OCMNumberTypeForObjCType
+OCMIsObjectType
+NSMakeRange
+OCMIsUnqualifiedClassType
+OCMIsUnqualifiedBlockType
+OCMIsBlockType
+OCMIsClassType
+OCMTypeWithoutQualifiers
+-[OCMArgAction handleArgument:]
+__OBJC_METACLASS_RO_$_OCMArgAction
+__OBJC_$_INSTANCE_METHODS_OCMArgAction
+__OBJC_CLASS_RO_$_OCMArgAction
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMArgAction.m
+OCMock/OCMArgAction.m
+-[OCMNonRetainingObjectReturnValueProvider initWithValue:]
+-[OCMNonRetainingObjectReturnValueProvider handleInvocation:]
+__OBJC_METACLASS_RO_$_OCMNonRetainingObjectReturnValueProvider
+__OBJC_$_INSTANCE_METHODS_OCMNonRetainingObjectReturnValueProvider
+__OBJC_$_INSTANCE_VARIABLES_OCMNonRetainingObjectReturnValueProvider
+__OBJC_CLASS_RO_$_OCMNonRetainingObjectReturnValueProvider
+/Users/erik/Projects/OCMock/Repositories/ocmock/Source/OCMock/OCMNonRetainingObjectReturnValueProvider.m
+OCMock/OCMNonRetainingObjectReturnValueProvider.m

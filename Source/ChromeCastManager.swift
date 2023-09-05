@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import GoogleCast
+//import GoogleCast
 
 /// This Protocol handles communication between ChromecastManager and Controller which implements it,
 /// It allows to lisen for connection states, i.e
@@ -24,29 +24,29 @@ private enum DelegateCallbackType: Int {
 }
 
 /// This class ChromeCastManager is a singleton class and it is taking care of all the chrome cast related functionality
-@objc class ChromeCastManager: NSObject, GCKSessionManagerListener, GCKDiscoveryManagerListener, GCKRemoteMediaClientListener, GCKCastDeviceStatusListener  {
+@objc class ChromeCastManager: NSObject {
     
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider
     
     @objc static let shared = ChromeCastManager()
-    private let context = GCKCastContext.sharedInstance()
+//    private let context = GCKCastContext.sharedInstance()
     
     private var delegates: [ChromeCastPlayerStatusDelegate] = []
-    private var discoveryManager: GCKDiscoveryManager?
-    var sessionManager: GCKSessionManager?
+//    private var discoveryManager: GCKDiscoveryManager?
+//    var sessionManager: GCKSessionManager?
     private var streamPosition: TimeInterval {
-        return sessionManager?.currentSession?.remoteMediaClient?.mediaStatus?.streamPosition ?? .zero
+        return 0.0
     }
     
-    private var idleReason: GCKMediaPlayerIdleReason {
-        let remoteMediaClient = sessionManager?.currentCastSession?.remoteMediaClient
-        return remoteMediaClient?.mediaStatus?.idleReason ?? .none
-    }
+//    private var idleReason: GCKMediaPlayerIdleReason {
+//        let remoteMediaClient = sessionManager?.currentCastSession?.remoteMediaClient
+//        return remoteMediaClient?.mediaStatus?.idleReason ?? .none
+//    }
     
     var video: OEXHelperVideoDownload?
     
     var isConnected: Bool {
-        return sessionManager?.hasConnectedCastSession() ?? false
+        return false
     }
     
     private var callbackType: DelegateCallbackType = .none {
@@ -75,12 +75,12 @@ private enum DelegateCallbackType: Int {
     
     @objc func configure(environment: Environment) {
         self.environment = environment
-        discoveryManager = context.discoveryManager
-        discoveryManager?.add(self)
-        sessionManager = context.sessionManager
-        sessionManager?.add(self)
-        discoveryManager?.passiveScan = true
-        discoveryManager?.startDiscovery()
+//        discoveryManager = context.discoveryManager
+//        discoveryManager?.add(self)
+//        sessionManager = context.sessionManager
+//        sessionManager?.add(self)
+//        discoveryManager?.passiveScan = true
+//        discoveryManager?.startDiscovery()
     }
     
     func add(delegate: ChromeCastPlayerStatusDelegate) {
@@ -97,30 +97,30 @@ private enum DelegateCallbackType: Int {
     }
     
     private func addMediaListner() {
-        guard let currentSession = sessionManager?.currentCastSession else { return }
-        currentSession.add(self)
-        currentSession.remoteMediaClient?.add(self)
+//        guard let currentSession = sessionManager?.currentCastSession else { return }
+//        currentSession.add(self)
+//        currentSession.remoteMediaClient?.add(self)
     }
     
     private func removeMediaListener() {
-        guard let currentSession = sessionManager?.currentCastSession else { return }
-        currentSession.remoteMediaClient?.remove(self)
+//        guard let currentSession = sessionManager?.currentCastSession else { return }
+//        currentSession.remoteMediaClient?.remove(self)
     }
     
     func showIntroductoryOverlay(items: [UIBarButtonItem]) {
         guard let button = items.first else { return }
-        guard let view = button.customView as? GCKUICastButton, !view.isHidden else { return }
-        context.presentCastInstructionsViewControllerOnce(with: view)
+//        guard let view = button.customView as? GCKUICastButton, !view.isHidden else { return }
+//        context.presentCastInstructionsViewControllerOnce(with: view)
     }
     
     //MARK:- GCKSessionManager methods
-    func sessionManager(_ sessionManager: GCKSessionManager, didStart session: GCKSession) {
-        DispatchQueue.main.async { [weak self] in
-            self?.addMediaListner()
-            self?.addChromeCastButton()
-            self?.callbackType = .connect
-        }
-    }
+//    func sessionManager(_ sessionManager: GCKSessionManager, didStart session: GCKSession) {
+//        DispatchQueue.main.async { [weak self] in
+//            self?.addMediaListner()
+//            self?.addChromeCastButton()
+//            self?.callbackType = .connect
+//        }
+//    }
     
     private func delegateCallBacks() {
         for delegate in delegates {
@@ -148,64 +148,64 @@ private enum DelegateCallbackType: Int {
     }
     
     private func saveStreamProgress() {
-        guard let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
-            let videoID = metadata.string(forKey: ChromeCastVideoID),
-            let videoData = environment?.interface?.videoData(forVideoID: videoID),
-            let duration = Double(videoData.duration), streamPosition > 1  else { return }
+//        guard let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
+//            let videoID = metadata.string(forKey: ChromeCastVideoID),
+//            let videoData = environment?.interface?.videoData(forVideoID: videoID),
+//            let duration = Double(videoData.duration), streamPosition > 1  else { return }
         // remoteMediaClient didUpdate called on buffering initilized with stream position 0 and then seek happen if there is any. If user switched in between two update calls then video stream progress marked override last played value
         
-        environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideoID: videoID)
-        let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
-        environment?.interface?.markVideoState(state, forVideoID: videoID)
+//        environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideoID: videoID)
+//        let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
+//        environment?.interface?.markVideoState(state, forVideoID: videoID)
     }
     
     private func trackEvent(for type: DelegateCallbackType) {
-        guard let video = video,
-            let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
-            let videoID = metadata.string(forKey: ChromeCastVideoID),
-            video.summary?.videoID == videoID else { return }
+//        guard let video = video,
+//            let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
+//            let videoID = metadata.string(forKey: ChromeCastVideoID),
+//            video.summary?.videoID == videoID else { return }
         
         guard type == .playing || type == .paused else { return }
         let state: OEXVideoState = type == .playing ? .play : .pause
         environment?.interface?.sendAnalyticsEvents(state, withCurrentTime: streamPosition, forVideo: video, playMedium: AnalyticsEventDataKey.PlayMediumChromecast.rawValue)
     }
     
-    func sessionManager(_ sessionManager: GCKSessionManager, didEnd session: GCKSession, withError error: Error?) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.removeMediaListener()
-            self?.callbackType = .disconnect
-            self?.removeChromeCastButton()
-        }
-    }
+//    func sessionManager(_ sessionManager: GCKSessionManager, didEnd session: GCKSession, withError error: Error?) {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+//            self?.removeMediaListener()
+//            self?.callbackType = .disconnect
+//            self?.removeChromeCastButton()
+//        }
+//    }
     
     //MARK:- GCKRemoteMediaClient methods
-    func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
-        guard let mediaStatus = mediaStatus else { return }
-
-        let playerState = mediaStatus.playerState
-        switch playerState {
-        case .paused:
-            callbackType = .paused
-            break
-        case .idle:
-            switch idleReason {
-            case .none:
-                break
-            default:
-                DispatchQueue.main.async { [weak self] in
-                    self?.callbackType = .finished
-                }
-            }
-        case .playing:
-            DispatchQueue.main.async { [weak self] in
-                self?.callbackType = .playing
-            }
-            
-            saveStreamProgress()
-        default:
-            break
-        }
-    }
+//    func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
+//        guard let mediaStatus = mediaStatus else { return }
+//
+//        let playerState = mediaStatus.playerState
+//        switch playerState {
+//        case .paused:
+//            callbackType = .paused
+//            break
+//        case .idle:
+//            switch idleReason {
+//            case .none:
+//                break
+//            default:
+//                DispatchQueue.main.async { [weak self] in
+//                    self?.callbackType = .finished
+//                }
+//            }
+//        case .playing:
+//            DispatchQueue.main.async { [weak self] in
+//                self?.callbackType = .playing
+//            }
+//
+//            saveStreamProgress()
+//        default:
+//            break
+//        }
+//    }
         
     //MARK:- ChromeCastButtonDelegate methods
     private func addChromeCastButton() {

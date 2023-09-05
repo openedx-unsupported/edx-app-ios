@@ -17,20 +17,20 @@ RSYNC_PROTECT_TMP_FILES=(--filter "P .*.??????")
 variant_for_slice()
 {
   case "$1" in
+  "NewRelic.xcframework/tvos-arm64_x86_64-simulator")
+    echo "simulator"
+    ;;
   "NewRelic.xcframework/ios-arm64")
     echo ""
-    ;;
-  "NewRelic.xcframework/ios-arm64_x86_64-maccatalyst")
-    echo "maccatalyst"
     ;;
   "NewRelic.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
+  "NewRelic.xcframework/ios-arm64_x86_64-maccatalyst")
+    echo "maccatalyst"
+    ;;
   "NewRelic.xcframework/tvos-arm64")
     echo ""
-    ;;
-  "NewRelic.xcframework/tvos-arm64_x86_64-simulator")
-    echo "simulator"
     ;;
   esac
 }
@@ -38,20 +38,20 @@ variant_for_slice()
 archs_for_slice()
 {
   case "$1" in
+  "NewRelic.xcframework/tvos-arm64_x86_64-simulator")
+    echo "arm64 x86_64"
+    ;;
   "NewRelic.xcframework/ios-arm64")
     echo "arm64"
-    ;;
-  "NewRelic.xcframework/ios-arm64_x86_64-maccatalyst")
-    echo "arm64 x86_64"
     ;;
   "NewRelic.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
     ;;
+  "NewRelic.xcframework/ios-arm64_x86_64-maccatalyst")
+    echo "arm64 x86_64"
+    ;;
   "NewRelic.xcframework/tvos-arm64")
     echo "arm64"
-    ;;
-  "NewRelic.xcframework/tvos-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
     ;;
   esac
 }
@@ -135,5 +135,5 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/NewRelicAgent/NewRelic.xcframework" "NewRelicAgent" "framework" "ios-arm64" "ios-arm64_x86_64-maccatalyst" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/NewRelicAgent/NewRelic.xcframework" "NewRelicAgent" "framework" "ios-arm64" "ios-arm64_x86_64-simulator" "ios-arm64_x86_64-maccatalyst"
 

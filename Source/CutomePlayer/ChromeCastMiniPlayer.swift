@@ -31,7 +31,7 @@ class ChromeCastMiniPlayer: UIViewController {
     private let environment : Envoirnment
     private var video: OEXHelperVideoDownload?
     private var containerView = UIView()
-    private var mediaController = GCKUIMiniMediaControlsViewController()
+    private var mediaController = UIViewController()
     private var courseImageURLString: String {
         guard let courseID = self.video?.course_id, let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else { return "" }
         
@@ -69,13 +69,13 @@ class ChromeCastMiniPlayer: UIViewController {
         }
         self.video = video
         let thumbnail = video.summary?.videoThumbnailURL ?? courseImageURLString
-        let mediaInfo = mediaInformation(contentID: url.absoluteString, title: video.summary?.name ?? "", videoID: videoID, contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
-        
-        play(with: mediaInfo, at: time) { success in
-            if success {
-                ChromeCastManager.shared.video = video
-            }
-        }
+//        let mediaInfo = mediaInformation(contentID: url.absoluteString, title: video.summary?.name ?? "", videoID: videoID, contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
+//
+//        play(with: mediaInfo, at: time) { success in
+//            if success {
+//                ChromeCastManager.shared.video = video
+//            }
+//        }
     }
     
     private func contentType(url: String) -> ChromeCastContentType {
@@ -106,9 +106,9 @@ class ChromeCastMiniPlayer: UIViewController {
     }
     
     private func createMediaController() {
-        let castContext = GCKCastContext.sharedInstance()
-        mediaController = castContext.createMiniMediaControlsViewController()
-        loadViewController(mediaController, inContainerView: containerView)
+//        let castContext = GCKCastContext.sharedInstance()
+//        mediaController = castContext.createMiniMediaControlsViewController()
+//        loadViewController(mediaController, inContainerView: containerView)
     }
     
     private func loadViewController(_ viewController: UIViewController?, inContainerView containerView: UIView) {
@@ -119,31 +119,31 @@ class ChromeCastMiniPlayer: UIViewController {
         viewController.didMove(toParent: self)
     }
     
-    private func mediaInformation(contentID: String, title: String, videoID: String, contentType: ChromeCastContentType, streamType: GCKMediaStreamType, thumbnailUrl: String?) -> GCKMediaInformation {
-        let deviceName = ChromeCastManager.shared.sessionManager?.currentCastSession?.device.friendlyName
-        
-        return GCKMediaInformation.buildMediaInformation(contentID: contentID, title: title, videoID: videoID, contentType: contentType, streamType: streamType, thumbnailUrl: thumbnailUrl, deviceName: deviceName)
-    }
+//    private func mediaInformation(contentID: String, title: String, videoID: String, contentType: ChromeCastContentType, streamType: GCKMediaStreamType, thumbnailUrl: String?) -> GCKMediaInformation {
+//        let deviceName = ChromeCastManager.shared.sessionManager?.currentCastSession?.device.friendlyName
+//
+//        return GCKMediaInformation.buildMediaInformation(contentID: contentID, title: title, videoID: videoID, contentType: contentType, streamType: streamType, thumbnailUrl: thumbnailUrl, deviceName: deviceName)
+//    }
     
     private func play(with mediaInfo: GCKMediaInformation, at time: TimeInterval, completion: ChromeCastItemCompletion? = nil) {
-        guard let currentSession = ChromeCastManager.shared.sessionManager?.currentSession, !isAlreadyPlaying(mediaInfo: mediaInfo) else {
-            completion?(false)
-            return
-        }
-        
-        let options = GCKMediaLoadOptions()
-        options.playPosition = time
-        currentSession.remoteMediaClient?.loadMedia(mediaInfo, with: options)
+//        guard let currentSession = ChromeCastManager.shared.sessionManager?.currentSession, !isAlreadyPlaying(mediaInfo: mediaInfo) else {
+//            completion?(false)
+//            return
+//        }
+//
+//        let options = GCKMediaLoadOptions()
+//        options.playPosition = time
+//        currentSession.remoteMediaClient?.loadMedia(mediaInfo, with: options)
         
         completion?(true)
     }
     
     private func isAlreadyPlaying(mediaInfo: GCKMediaInformation) -> Bool {
-        guard let currentSession = ChromeCastManager.shared.sessionManager?.currentSession, let contentID = currentSession.remoteMediaClient?.mediaStatus?.mediaInformation?.contentID else {
-            return false
-        }
+//        guard let currentSession = ChromeCastManager.shared.sessionManager?.currentSession, let contentID = currentSession.remoteMediaClient?.mediaStatus?.mediaInformation?.contentID else {
+//            return false
+//        }
         
-        return (mediaInfo.contentID ?? "") == contentID
+        return false
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

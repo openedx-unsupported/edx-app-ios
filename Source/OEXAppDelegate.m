@@ -8,14 +8,14 @@
 
 @import edXCore;
 @import FirebaseAnalytics;
-@import GoogleCast;
+//@import GoogleCast;
 @import NewRelic;
 
 @import FBSDKCoreKit;
 @import GoogleSignIn;
 
 #import <Analytics/SEGAnalytics.h>
-#import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
+#import "SEGGoogleAnalyticsIntegrationFactory.h"
 #import "SEGFirebaseIntegrationFactory.h"
 #import "OEXAppDelegate.h"
 #import "edX-Swift.h"
@@ -256,16 +256,16 @@
         [NewRelicAgent startWithApplicationToken:newrelic.apiKey];
     }
     
-    [self initilizeChromeCast];
+//    [self initilizeChromeCast];
 }
 
 - (void) initilizeChromeCast {
     // Ideally this should be in ChromeCastManager but
     // due to some weird SDK bug, chrome cast is not properly initializing from the swift classes.
-    GCKDiscoveryCriteria *criteria = [[GCKDiscoveryCriteria alloc] initWithApplicationID: kGCKDefaultMediaReceiverApplicationID];
-    GCKCastOptions *options = [[GCKCastOptions alloc] initWithDiscoveryCriteria:criteria];
-    [GCKCastContext setSharedInstanceWithOptions:options];
-    GCKCastContext.sharedInstance.useDefaultExpandedMediaControls = true;
+//    GCKDiscoveryCriteria *criteria = [[GCKDiscoveryCriteria alloc] initWithApplicationID: kGCKDefaultMediaReceiverApplicationID];
+//    GCKCastOptions *options = [[GCKCastOptions alloc] initWithDiscoveryCriteria:criteria];
+//    [GCKCastContext setSharedInstanceWithOptions:options];
+//    GCKCastContext.sharedInstance.useDefaultExpandedMediaControls = true;
     [ChromeCastManager.shared configureWithEnvironment:self.environment.router.environment];
 }
 

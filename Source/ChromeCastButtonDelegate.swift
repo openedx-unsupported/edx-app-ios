@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import GoogleCast
+//import GoogleCast
 
 /// Chrome cast button will always be added to the index one in case of more than one right navbar items
 let ChromeCastButtonIndex = 1
@@ -15,7 +15,7 @@ let ChromeCastButtonIndex = 1
 /// Handles chrome cast button addition and removal from the navigation bar
 /// This protocol will handle button addition/removal to navigation bar without consedering the video cast state
 protocol ChromeCastButtonDelegate {
-    var chromeCastButton: GCKUICastButton { get }
+    var chromeCastButton: UIButton { get }
     var chromeCastButtonItem: UIBarButtonItem { get }
     func addChromeCastButton()
     func removeChromecastButton()
@@ -30,12 +30,8 @@ protocol ChromeCastConnectedButtonDelegate: ChromeCastButtonDelegate {
 /// This way Controller just needs to add 'ChromeCastButtonDelegate' and it will have all desired functionality
 extension ChromeCastButtonDelegate where Self: UIViewController {
     /// Provides Reference to ChromeCastButton that will be added to Navigationbar
-    var chromeCastButton: GCKUICastButton {
-        let castButton = GCKUICastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        castButton.tintColor = OEXStyles.shared().primaryBaseColor()
-        castButton.oex_addAction({ _ in
-            ChromeCastManager.shared.viewExpanded = true
-        }, for: .touchUpInside)
+    var chromeCastButton: UIButton {
+        let castButton = UIButton()
         return castButton
     }
     
@@ -51,7 +47,7 @@ extension ChromeCastButtonDelegate where Self: UIViewController {
         
         var isAdded = false
         navigationItem.rightBarButtonItems?.forEach({ item in
-            if item.customView is GCKUICastButton {
+            if item.customView is UIButton {
                 isAdded = true
                 return
             }
@@ -69,7 +65,7 @@ extension ChromeCastButtonDelegate where Self: UIViewController {
         }
 
         for (index, element) in navigationBarItems.enumerated() {
-            if element.customView is GCKUICastButton {
+            if element.customView is UIButton {
                 navigationItem.rightBarButtonItems?.remove(at: index)
                 break
             }

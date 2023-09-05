@@ -9,7 +9,7 @@
 #import "OEXFileUtility+TestAdditions.h"
 
 #import "OEXFileUtility.h"
-#import "OCMock.h"
+#import <OCMock/OCMock.h>
 
 @interface OEXFileUtility (TestExposure)
 

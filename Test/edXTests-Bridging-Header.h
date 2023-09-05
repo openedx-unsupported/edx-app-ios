@@ -4,7 +4,7 @@
 
 #import "edX-Bridging-Header.h"
 #import <FBSnapshotTestCase/FBSnapshotTestCase.h>
-#import "OCMock.h"
+#import <OCMock/OCMock.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
 #import "NSString+TestExamples.h"
