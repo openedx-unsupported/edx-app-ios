@@ -1,1 +1,0 @@
-../../../FirebaseCore/FirebaseCore/Extension/FIRAppInternal.h

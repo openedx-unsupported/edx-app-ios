@@ -1,1 +1,0 @@
-../../../BranchSDK/BranchSDK/BranchJsonConfig.h

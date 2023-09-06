@@ -1,0 +1,81 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-module-flags: -target i386-apple-ios9.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name KeychainSwift
+import Foundation
+@_exported import KeychainSwift
+import Security
+import Swift
+import _Concurrency
+public enum KeychainSwiftAccessOptions {
+  case accessibleWhenUnlocked
+  case accessibleWhenUnlockedThisDeviceOnly
+  case accessibleAfterFirstUnlock
+  case accessibleAfterFirstUnlockThisDeviceOnly
+  case accessibleWhenPasscodeSetThisDeviceOnly
+  public static func == (a: KeychainSwift.KeychainSwiftAccessOptions, b: KeychainSwift.KeychainSwiftAccessOptions) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+open class KeychainSwift {
+  open var lastResultCode: Darwin.OSStatus
+  open var accessGroup: Swift.String?
+  open var synchronizable: Swift.Bool
+  public init()
+  public init(keyPrefix: Swift.String)
+  @discardableResult
+  open func set(_ value: Swift.String, forKey key: Swift.String, withAccess access: KeychainSwift.KeychainSwiftAccessOptions? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Foundation.Data, forKey key: Swift.String, withAccess access: KeychainSwift.KeychainSwiftAccessOptions? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.Bool, forKey key: Swift.String, withAccess access: KeychainSwift.KeychainSwiftAccessOptions? = nil) -> Swift.Bool
+  open func get(_ key: Swift.String) -> Swift.String?
+  open func getData(_ key: Swift.String, asReference: Swift.Bool = false) -> Foundation.Data?
+  open func getBool(_ key: Swift.String) -> Swift.Bool?
+  @discardableResult
+  open func delete(_ key: Swift.String) -> Swift.Bool
+  public var allKeys: [Swift.String] {
+    get
+  }
+  @discardableResult
+  open func clear() -> Swift.Bool
+  @objc deinit
+}
+public struct KeychainSwiftConstants {
+  public static var accessGroup: Swift.String {
+    get
+  }
+  public static var accessible: Swift.String {
+    get
+  }
+  public static var attrAccount: Swift.String {
+    get
+  }
+  public static var attrSynchronizable: Swift.String {
+    get
+  }
+  public static var klass: Swift.String {
+    get
+  }
+  public static var matchLimit: Swift.String {
+    get
+  }
+  public static var returnData: Swift.String {
+    get
+  }
+  public static var valueData: Swift.String {
+    get
+  }
+  public static var returnReference: Swift.String {
+    get
+  }
+  public static var returnAttributes: Swift.String {
+    get
+  }
+  public static var secMatchLimitAll: Swift.String {
+    get
+  }
+}
+extension KeychainSwift.KeychainSwiftAccessOptions : Swift.Equatable {}
+extension KeychainSwift.KeychainSwiftAccessOptions : Swift.Hashable {}

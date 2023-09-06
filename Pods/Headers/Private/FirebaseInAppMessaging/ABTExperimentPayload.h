@@ -1,1 +1,0 @@
-../../../FirebaseInAppMessaging/FirebaseABTesting/Sources/Private/ABTExperimentPayload.h

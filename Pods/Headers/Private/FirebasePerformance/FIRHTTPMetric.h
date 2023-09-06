@@ -1,1 +1,0 @@
-../../../FirebasePerformance/FirebasePerformance/Sources/Public/FirebasePerformance/FIRHTTPMetric.h

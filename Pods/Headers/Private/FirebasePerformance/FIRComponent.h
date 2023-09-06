@@ -1,1 +1,0 @@
-../../../FirebasePerformance/FirebaseCore/Extension/FIRComponent.h

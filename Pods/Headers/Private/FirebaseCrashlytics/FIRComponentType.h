@@ -1,1 +1,0 @@
-../../../FirebaseCrashlytics/FirebaseCore/Extension/FIRComponentType.h
