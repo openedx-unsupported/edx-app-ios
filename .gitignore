@@ -9,8 +9,11 @@ xcuserdata
 .gradle
 build
 /edx.properties
-default_config/local.yaml 
 *.gcda
 *.swp
 
 Pods/
+Podfile.lock
+$PODS_BUILD_DIR/
+DerivedData/
+Pods/build/
