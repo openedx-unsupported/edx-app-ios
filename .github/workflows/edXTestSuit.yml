@@ -1,4 +1,4 @@
-name: "edX Test Suit"
+name: "edX Test Suite"
 
 on:
   pull_request:
@@ -32,7 +32,16 @@ jobs:
             task: "testRTLPreviousOS"
     steps:
     - name: Git checkout
-      uses: actions/checkout@v2      
+      uses: actions/checkout@v2
+    - name: Cache Pods
+      uses: actions/cache@v3
+      with:
+        path: Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+    - name: Install Dependencies
+      run: pod install
     - name: "Select Xcode 13.2.1"
       run: |
         sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
@@ -50,3 +59,6 @@ jobs:
         xcrun simctl boot $DESTINATION_ID
         ./gradlew -q $TASK | xcpretty -c
       shell: bash
+
+
+
