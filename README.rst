@@ -20,7 +20,7 @@ Building
 
     git clone https://github.com/openedx/edx-app-ios
 
-2. Open terminal and run command 'pod install'
+2. Open terminal and run command ``pod install``
 
 3. Open ``edX.xcworkspace``.
 
