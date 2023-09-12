@@ -730,6 +730,7 @@
 		BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */; };
 		BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEEBF82196AAACF00EF2C35 /* Localizable.strings */; };
 		CBED55012260F90700C4F2F1 /* YoutubeVideoConfigTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBED55002260F90700C4F2F1 /* YoutubeVideoConfigTest.swift */; };
+		DB39DFC72AB08D5D0038D153 /* GoogleCast.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB39DFC62AB08D5D0038D153 /* GoogleCast.xcframework */; };
 		E001F853260CA378009F2DB7 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E001F852260CA378009F2DB7 /* ObservableTests.swift */; };
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
 		E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */; };
@@ -797,15 +798,6 @@
 		E08863F31F209B9C0009A06D /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08863F21F209B9C0009A06D /* DateFormatting.swift */; };
 		E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */; };
 		E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */; };
-		E096583525C1963B0004FFCC /* strip_unused_archs.sh in Resources */ = {isa = PBXBuildFile; fileRef = E096582C25C1963B0004FFCC /* strip_unused_archs.sh */; };
-		E096583625C1963B0004FFCC /* absl_base_LICENSE.html in Resources */ = {isa = PBXBuildFile; fileRef = E096582E25C1963B0004FFCC /* absl_base_LICENSE.html */; };
-		E096583725C1963B0004FFCC /* android_nanoproto_LICENSE.html in Resources */ = {isa = PBXBuildFile; fileRef = E096582F25C1963B0004FFCC /* android_nanoproto_LICENSE.html */; };
-		E096583825C1963B0004FFCC /* oss_licenses_index.txt in Resources */ = {isa = PBXBuildFile; fileRef = E096583025C1963B0004FFCC /* oss_licenses_index.txt */; };
-		E096583925C1963B0004FFCC /* protobuf_LICENSE.html in Resources */ = {isa = PBXBuildFile; fileRef = E096583125C1963B0004FFCC /* protobuf_LICENSE.html */; };
-		E096583A25C1963B0004FFCC /* objective_c_gtm_session_fetcher_LICENSE.html in Resources */ = {isa = PBXBuildFile; fileRef = E096583225C1963B0004FFCC /* objective_c_gtm_session_fetcher_LICENSE.html */; };
-		E096583B25C1963B0004FFCC /* objective_c_google_toolbox_for_mac_LICENSE.html in Resources */ = {isa = PBXBuildFile; fileRef = E096583325C1963B0004FFCC /* objective_c_google_toolbox_for_mac_LICENSE.html */; };
-		E096584125C196470004FFCC /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E096583425C1963B0004FFCC /* GoogleCast.framework */; };
-		E096584225C196470004FFCC /* GoogleCast.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E096583425C1963B0004FFCC /* GoogleCast.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E09B73722342034400D0EE45 /* FCMProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B73712342034400D0EE45 /* FCMProvider.swift */; };
 		E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */; };
 		E09B9D6E1D06D79F0080BAE0 /* VersionUpgradeInfoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */; };
@@ -884,7 +876,6 @@
 				5F700E9A278C35B000B17044 /* SwiftyStoreKit.xcframework in Embed Frameworks */,
 				E09F953928111ABE00F29443 /* KeychainSwift.xcframework in Embed Frameworks */,
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
-				E096584225C196470004FFCC /* GoogleCast.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1786,6 +1777,7 @@
 		BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLoginViewController.m; sourceTree = "<group>"; };
 		CB6B4A891FF8FE90ADDD7B1D /* Pods-edXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.debug.xcconfig"; path = "Target Support Files/Pods-edXTests/Pods-edXTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CBED55002260F90700C4F2F1 /* YoutubeVideoConfigTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeVideoConfigTest.swift; sourceTree = "<group>"; };
+		DB39DFC62AB08D5D0038D153 /* GoogleCast.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleCast.xcframework; path = "Pods/google-cast-sdk-xcframework/GoogleCast.xcframework"; sourceTree = "<group>"; };
 		E001F852260CA378009F2DB7 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
 		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
 		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
@@ -1896,14 +1888,6 @@
 		E08CC57C1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/profiles.json"; sourceTree = "<group>"; };
 		E08CC57E1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/languages.json"; sourceTree = "<group>"; };
 		E08CC57F1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/whats_new.json"; sourceTree = "<group>"; };
-		E096582C25C1963B0004FFCC /* strip_unused_archs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = strip_unused_archs.sh; sourceTree = "<group>"; };
-		E096582E25C1963B0004FFCC /* absl_base_LICENSE.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = absl_base_LICENSE.html; sourceTree = "<group>"; };
-		E096582F25C1963B0004FFCC /* android_nanoproto_LICENSE.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = android_nanoproto_LICENSE.html; sourceTree = "<group>"; };
-		E096583025C1963B0004FFCC /* oss_licenses_index.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oss_licenses_index.txt; sourceTree = "<group>"; };
-		E096583125C1963B0004FFCC /* protobuf_LICENSE.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = protobuf_LICENSE.html; sourceTree = "<group>"; };
-		E096583225C1963B0004FFCC /* objective_c_gtm_session_fetcher_LICENSE.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = objective_c_gtm_session_fetcher_LICENSE.html; sourceTree = "<group>"; };
-		E096583325C1963B0004FFCC /* objective_c_google_toolbox_for_mac_LICENSE.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = objective_c_google_toolbox_for_mac_LICENSE.html; sourceTree = "<group>"; };
-		E096583425C1963B0004FFCC /* GoogleCast.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleCast.framework; sourceTree = "<group>"; };
 		E09B73712342034400D0EE45 /* FCMProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMProvider.swift; sourceTree = "<group>"; };
 		E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoController.swift; sourceTree = "<group>"; };
 		E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoControllerTests.swift; sourceTree = "<group>"; };
@@ -1970,6 +1954,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB39DFC72AB08D5D0038D153 /* GoogleCast.xcframework in Frameworks */,
 				BE0EE289192B78CF00F9FF98 /* SystemConfiguration.framework in Frameworks */,
 				0D157630235EDA040007B0B7 /* Security.framework in Frameworks */,
 				776F39291B4EF4CD00ED11E3 /* WebKit.framework in Frameworks */,
@@ -1991,7 +1976,6 @@
 				BE8163F61954244E00F9A2C5 /* MessageUI.framework in Frameworks */,
 				E02661732269A821002721B7 /* libOCMock.a in Frameworks */,
 				BE0EE28B192B78DA00F9FF98 /* libz.dylib in Frameworks */,
-				E096584125C196470004FFCC /* GoogleCast.framework in Frameworks */,
 				BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */,
 				E082D60325C0070800C94C9A /* Photos.framework in Frameworks */,
 				BECB7B131924C0C3009C77F1 /* UIKit.framework in Frameworks */,
@@ -3502,7 +3486,6 @@
 			children = (
 				E0AA9106280FFC8E00D39A4D /* KeychainSwift */,
 				5FFB73AE2849F10D000523BF /* DropDown */,
-				E096582A25C1963B0004FFCC /* Cast */,
 				5F592ACE257521CF00D96214 /* SwiftDate */,
 				E0CF1DB225402900009E7901 /* Segment-Firebase */,
 				5F46A7C624ADFF5B00347EFC /* Timeline */,
@@ -3548,6 +3531,7 @@
 		BECB7B0D1924C0C3009C77F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DB39DFC62AB08D5D0038D153 /* GoogleCast.xcframework */,
 				E082D60225C0070700C94C9A /* Photos.framework */,
 				0D15762F235EDA040007B0B7 /* Security.framework */,
 				0D15762C235ED9F30007B0B7 /* MediaAccessibility.framework */,
@@ -3936,38 +3920,6 @@
 			path = WhatsNew;
 			sourceTree = "<group>";
 		};
-		E096582A25C1963B0004FFCC /* Cast */ = {
-			isa = PBXGroup;
-			children = (
-				E096582B25C1963B0004FFCC /* Tools */,
-				E096582D25C1963B0004FFCC /* OpenSourceLicenses */,
-				E096583425C1963B0004FFCC /* GoogleCast.framework */,
-			);
-			name = Cast;
-			path = Libraries/Cast;
-			sourceTree = SOURCE_ROOT;
-		};
-		E096582B25C1963B0004FFCC /* Tools */ = {
-			isa = PBXGroup;
-			children = (
-				E096582C25C1963B0004FFCC /* strip_unused_archs.sh */,
-			);
-			path = Tools;
-			sourceTree = "<group>";
-		};
-		E096582D25C1963B0004FFCC /* OpenSourceLicenses */ = {
-			isa = PBXGroup;
-			children = (
-				E096582E25C1963B0004FFCC /* absl_base_LICENSE.html */,
-				E096582F25C1963B0004FFCC /* android_nanoproto_LICENSE.html */,
-				E096583025C1963B0004FFCC /* oss_licenses_index.txt */,
-				E096583125C1963B0004FFCC /* protobuf_LICENSE.html */,
-				E096583225C1963B0004FFCC /* objective_c_gtm_session_fetcher_LICENSE.html */,
-				E096583325C1963B0004FFCC /* objective_c_google_toolbox_for_mac_LICENSE.html */,
-			);
-			path = OpenSourceLicenses;
-			sourceTree = "<group>";
-		};
 		E09B9D691D06C91D0080BAE0 /* VersionUpgrade */ = {
 			isa = PBXGroup;
 			children = (
@@ -4247,7 +4199,6 @@
 				E0514DEB285C4F7900D645E0 /* RobotoMono-Light.ttf in Resources */,
 				69ECC6461D50D1170030CF87 /* separator1.png in Resources */,
 				69ECC6491D50D1170030CF87 /* share.pdf in Resources */,
-				E096583725C1963B0004FFCC /* android_nanoproto_LICENSE.html in Resources */,
 				6926CDAF1D59BE3600A16E22 /* ic_progressbar.png in Resources */,
 				6987A86D1D6C67DB00E9D183 /* colors.json in Resources */,
 				6926CDAD1D59BE3600A16E22 /* ic_previous_press.png in Resources */,
@@ -4260,7 +4211,6 @@
 				E037C2A725762809003CE562 /* courseCertificate_large@3x.png in Resources */,
 				69ECC6341D50D1170030CF87 /* ic_next_deactive.png in Resources */,
 				5F6F2B63255AABA400AA3708 /* Inter-Regular.ttf in Resources */,
-				E096583825C1963B0004FFCC /* oss_licenses_index.txt in Resources */,
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
 				69ECC6421D50D1170030CF87 /* logo@2x.png in Resources */,
@@ -4270,7 +4220,6 @@
 				69ECC61E1D50D1170030CF87 /* bt_scrollbar_tap.png in Resources */,
 				69ECC62B1D50D1170030CF87 /* downloading.png in Resources */,
 				69ECC60D1D50D1170030CF87 /* Icon-60@2x.png in Resources */,
-				E096583B25C1963B0004FFCC /* objective_c_google_toolbox_for_mac_LICENSE.html in Resources */,
 				69ECC60A1D50D1170030CF87 /* Icon-29@3x.png in Resources */,
 				5F6F2B64255AABA400AA3708 /* Inter-SemiBold.ttf in Resources */,
 				69ECC6191D50D1170030CF87 /* bt_grey_deactive.png in Resources */,
@@ -4291,7 +4240,6 @@
 				69ECC64A1D50D1170030CF87 /* launchBackground.png in Resources */,
 				69ECC6201D50D1170030CF87 /* bt_signin_deactive.png in Resources */,
 				69ECC62F1D50D1170030CF87 /* ic_cancel@3x.png in Resources */,
-				E096583A25C1963B0004FFCC /* objective_c_gtm_session_fetcher_LICENSE.html in Resources */,
 				69ECC6381D50D1170030CF87 /* ic_unwatched@2x.png in Resources */,
 				69ECC6281D50D1170030CF87 /* check.png in Resources */,
 				5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */,
@@ -4309,7 +4257,6 @@
 				69ECC61B1D50D1170030CF87 /* bt_logout_active.png in Resources */,
 				69ECC6291D50D1170030CF87 /* check@2x.png in Resources */,
 				5F6F2B68255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf in Resources */,
-				E096583525C1963B0004FFCC /* strip_unused_archs.sh in Resources */,
 				E0514DE8285C4F7900D645E0 /* RobotoMono-SemiBold.ttf in Resources */,
 				22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */,
 				E021F46C1F739599007A26E7 /* loginScreenImage@2x~ipad.png in Resources */,
@@ -4336,7 +4283,6 @@
 				69ECC64B1D50D1170030CF87 /* placeholderCourseCardImage.png in Resources */,
 				69ECC61F1D50D1170030CF87 /* bt_signin_active.png in Resources */,
 				6960892B1D53935500EE66DD /* courseCertificate.png in Resources */,
-				E096583625C1963B0004FFCC /* absl_base_LICENSE.html in Resources */,
 				5F6F2B69255AABA400AA3708 /* Inter-BoldItalic.ttf in Resources */,
 				E01733BC25F75CEE00671365 /* ajaxHandler.js in Resources */,
 				69ECC60C1D50D1170030CF87 /* Icon-40@3x.png in Resources */,
@@ -4354,7 +4300,6 @@
 				22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */,
 				223CE59625BEEB910081C30F /* CelebrateClaps.gif in Resources */,
 				6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */,
-				E096583925C1963B0004FFCC /* protobuf_LICENSE.html in Resources */,
 				6926CDB11D59BE3600A16E22 /* ic_seek_thumb@2x.png in Resources */,
 				69ECC6351D50D1170030CF87 /* ic_next_default.png in Resources */,
 				69ECC6311D50D1170030CF87 /* ic_download.png in Resources */,
@@ -4419,6 +4364,9 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInAppMessaging/InAppMessagingDisplayResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle",
 				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+				"${PODS_ROOT}/google-cast-sdk-xcframework/GoogleCast.xcframework/GoogleCastCoreResources.bundle",
+				"${PODS_ROOT}/google-cast-sdk-xcframework/GoogleCast.xcframework/GoogleCastUIResources.bundle",
+				"${PODS_ROOT}/google-cast-sdk-xcframework/GoogleCast.xcframework/MaterialDialogs.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -4430,6 +4378,9 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/InAppMessagingDisplayResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastCoreResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastUIResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialDialogs.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -5537,11 +5488,9 @@
 				EXCLUDED_ARCHS = "$(inherited)";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "$(inherited)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
-					"$(PROJECT_DIR)/Libraries/Cast",
-					"$(PROJECT_DIR)/Libraries/MSAL",
 					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
 					"$(PROJECT_DIR)/Libraries/KeychainSwift",
 				);
@@ -5584,7 +5533,7 @@
 					"\"${PODS_ROOT}/Headers/Public/nanopb\"",
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
-					"\"$(inherited)\"",
+					"\"$(inherited)\"/**",
 				);
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -6018,11 +5967,9 @@
 				EXCLUDED_ARCHS = "$(inherited)";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "$(inherited)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
-					"$(PROJECT_DIR)/Libraries/Cast",
-					"$(PROJECT_DIR)/Libraries/MSAL",
 					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
 					"$(PROJECT_DIR)/Libraries/KeychainSwift",
 				);
@@ -6064,7 +6011,7 @@
 					"\"${PODS_ROOT}/Headers/Public/nanopb\"",
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
-					"\"$(inherited)\"",
+					"\"$(inherited)\"/**",
 				);
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -6110,11 +6057,9 @@
 				EXCLUDED_ARCHS = "$(inherited)";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "$(inherited)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
-					"$(PROJECT_DIR)/Libraries/Cast",
-					"$(PROJECT_DIR)/Libraries/MSAL",
 					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
 					"$(PROJECT_DIR)/Libraries/KeychainSwift",
 				);
@@ -6157,7 +6102,7 @@
 					"\"${PODS_ROOT}/Headers/Public/nanopb\"",
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
-					"\"$(inherited)\"",
+					"\"$(inherited)\"/**",
 				);
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

@@ -19,6 +19,7 @@ target 'edX' do
   pod 'FirebaseInAppMessaging', '= 10.5.0-beta'
   pod 'FirebaseMessaging', '= 10.5.0'
   pod 'FirebasePerformance', '= 10.5.0'
+  pod 'google-cast-sdk-xcframework', '~> 4.8.0'
   pod 'GoogleSignIn', '~> 7.0.0'
   pod 'GoogleUtilities', '= 7.11.0', :modular_headers => true
   pod 'Masonry', '= 1.1.0'
