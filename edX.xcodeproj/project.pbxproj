@@ -999,9 +999,6 @@
 		1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderTextEditor.swift; sourceTree = "<group>"; };
 		1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureTaker.swift; sourceTree = "<group>"; };
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
-		220570152307E9850026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ja; path = ja.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
-		220570162307E9850026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ja; path = ja.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
-		220570172307E9850026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ja; path = ja.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		220570182307E9850026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		220570192307E9860026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2205701A2307E9860026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ja; path = ja.lproj/profiles.json; sourceTree = "<group>"; };
@@ -1026,9 +1023,6 @@
 		223972E01FE92BB500B2BBEC /* EnrolledTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolledTabBarViewController.swift; sourceTree = "<group>"; };
 		223A5F1F1FA9AA8F008C9963 /* CourseDashboardViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewControllerTests.swift; sourceTree = "<group>"; };
 		223A98FB1FA8610B0018DF67 /* AdditionalTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewController.swift; sourceTree = "<group>"; };
-		223B4CB32313E761002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ar; path = ar.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
-		223B4CB42313E761002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ar; path = ar.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
-		223B4CB52313E761002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ar; path = ar.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		223B4CB62313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		223B4CB72313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		223B4CB82313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ar; path = ar.lproj/profiles.json; sourceTree = "<group>"; };
@@ -1041,9 +1035,6 @@
 		2240FD551FF266E4001D6589 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		224D457821B90753003A382C /* UIFont+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Attributes.swift"; sourceTree = "<group>"; };
 		224F1F522067B4E0009B3639 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
-		2250E9CD22DC623A00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
-		2250E9CE22DC623A00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
-		2250E9CF22DC623A00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		2250E9D022DC623A00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2250E9D122DC623B00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2250E9D222DC623B00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = fr; path = fr.lproj/profiles.json; sourceTree = "<group>"; };
@@ -1066,18 +1057,12 @@
 		2294AEDE2565429C00C00FC1 /* ValuePropCourseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropCourseCardView.swift; sourceTree = "<group>"; };
 		2295E2A62369BFFB00FC51D5 /* MicrosoftConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftConfigTests.swift; sourceTree = "<group>"; };
 		22A1B6FE206CFFA3001C1704 /* TranscriptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptManager.swift; sourceTree = "<group>"; };
-		22A3CEC522CCCADA005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/MobileAppEula.htm"; sourceTree = "<group>"; };
-		22A3CEC622CCCADA005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/PrivacyPolicy.htm"; sourceTree = "<group>"; };
-		22A3CEC722CCCADB005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/TermsOfServices.htm"; sourceTree = "<group>"; };
 		22A3CEC822CCCADB005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		22A3CEC922CCCADC005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		22A3CECA22CCCADC005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "zh-Hans"; path = "zh-Hans.lproj/profiles.json"; sourceTree = "<group>"; };
 		22A3CECB22CCCADC005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "zh-Hans"; path = "zh-Hans.lproj/languages.json"; sourceTree = "<group>"; };
 		22A3CECC22CCCADC005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "zh-Hans"; path = "zh-Hans.lproj/whats_new.json"; sourceTree = "<group>"; };
 		22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLVersionConfig.swift; sourceTree = "<group>"; };
-		22A3CED022D46B66005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = he; path = he.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
-		22A3CED122D46B66005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = he; path = he.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
-		22A3CED222D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = he; path = he.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		22A3CED322D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		22A3CED422D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		22A3CED522D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/profiles.json; sourceTree = "<group>"; };
@@ -1806,9 +1791,6 @@
 		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
 		E00603462656509700CEBB12 /* BrazeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeProvider.swift; sourceTree = "<group>"; };
 		E0060348265650A400CEBB12 /* BrazeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeListener.swift; sourceTree = "<group>"; };
-		E006BD0F22DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/MobileAppEula.htm"; sourceTree = "<group>"; };
-		E006BD1022DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/PrivacyPolicy.htm"; sourceTree = "<group>"; };
-		E006BD1122DF29D000AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/TermsOfServices.htm"; sourceTree = "<group>"; };
 		E006BD1222DF29D000AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E006BD1322DF29D100AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		E006BD1422DF29D100AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/profiles.json"; sourceTree = "<group>"; };
@@ -1817,9 +1799,6 @@
 		E006FDD924F904F9006E91C2 /* AppleSocial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleSocial.swift; sourceTree = "<group>"; };
 		E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewControllerTests.swift; sourceTree = "<group>"; };
 		E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnackbarViewsTests.swift; sourceTree = "<group>"; };
-		E01287DE22EEDD2A0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = de; path = de.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
-		E01287DF22EEDD2A0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = de; path = de.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
-		E01287E022EEDD2B0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = de; path = de.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		E01287E122EEDD2B0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E01287E222EEDD2C0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E01287E322EEDD2C0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/profiles.json; sourceTree = "<group>"; };
@@ -1873,9 +1852,6 @@
 		E03E6A181D38EC7500944AAA /* UIView+UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+UIViewController.swift"; sourceTree = "<group>"; };
 		E03E6A1E1D38F28000944AAA /* UIView+UIViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+UIViewControllerTests.swift"; sourceTree = "<group>"; };
 		E03E6A211D38F77C00944AAA /* OfflineSupportViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineSupportViewControllerTests.swift; sourceTree = "<group>"; };
-		E041698922CA143700449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = tr; path = tr.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
-		E041698A22CA143800449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = tr; path = tr.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
-		E041698B22CA143800449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = tr; path = tr.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		E041698C22CA143800449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E041698D22CA143900449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E041698E22CA143900449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = tr; path = tr.lproj/profiles.json; sourceTree = "<group>"; };
@@ -1960,9 +1936,6 @@
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
 		E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObjectTests.swift; sourceTree = "<group>"; };
 		E0FF457820FDD24400109662 /* BlockCompletionApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCompletionApi.swift; sourceTree = "<group>"; };
-		E0FF9BB12317B355003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = vi; path = vi.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
-		E0FF9BB22317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = vi; path = vi.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
-		E0FF9BB32317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = vi; path = vi.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		E0FF9BB42317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E0FF9BB52317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E0FF9BB62317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = vi; path = vi.lproj/profiles.json; sourceTree = "<group>"; };
@@ -5357,15 +5330,6 @@
 			children = (
 				2212FD3621D4BE84007409C3 /* es-419 */,
 				2212FD3821D4BE86007409C3 /* en */,
-				E041698922CA143700449AFB /* tr */,
-				22A3CED022D46B66005A046E /* he */,
-				22A3CEC522CCCADA005A046E /* zh-Hans */,
-				2250E9CD22DC623A00674093 /* fr */,
-				E006BD0F22DF29CF00AA5185 /* pt-BR */,
-				E01287DE22EEDD2A0093285E /* de */,
-				223B4CB32313E761002D73D3 /* ar */,
-				E0FF9BB12317B355003E61B7 /* vi */,
-				220570152307E9850026E65A /* ja */,
 			);
 			name = MobileAppEula.htm;
 			sourceTree = "<group>";
@@ -5375,15 +5339,6 @@
 			children = (
 				2212FD3A21D4BE92007409C3 /* es-419 */,
 				2212FD3C21D4BE94007409C3 /* en */,
-				E041698A22CA143800449AFB /* tr */,
-				22A3CED122D46B66005A046E /* he */,
-				22A3CEC622CCCADA005A046E /* zh-Hans */,
-				2250E9CE22DC623A00674093 /* fr */,
-				E006BD1022DF29CF00AA5185 /* pt-BR */,
-				E01287DF22EEDD2A0093285E /* de */,
-				223B4CB42313E761002D73D3 /* ar */,
-				E0FF9BB22317B356003E61B7 /* vi */,
-				220570162307E9850026E65A /* ja */,
 			);
 			name = PrivacyPolicy.htm;
 			sourceTree = "<group>";
@@ -5393,15 +5348,6 @@
 			children = (
 				2212FD3E21D4BEA0007409C3 /* es-419 */,
 				2212FD4021D4BEA2007409C3 /* en */,
-				E041698B22CA143800449AFB /* tr */,
-				22A3CED222D46B67005A046E /* he */,
-				22A3CEC722CCCADB005A046E /* zh-Hans */,
-				2250E9CF22DC623A00674093 /* fr */,
-				E006BD1122DF29D000AA5185 /* pt-BR */,
-				E01287E022EEDD2B0093285E /* de */,
-				223B4CB52313E761002D73D3 /* ar */,
-				E0FF9BB32317B356003E61B7 /* vi */,
-				220570172307E9850026E65A /* ja */,
 			);
 			name = TermsOfServices.htm;
 			sourceTree = "<group>";
