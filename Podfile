@@ -19,11 +19,11 @@ target 'edX' do
   pod 'FirebaseInAppMessaging', '= 10.5.0-beta'
   pod 'FirebaseMessaging', '= 10.5.0'
   pod 'FirebasePerformance', '= 10.5.0'
-  pod 'google-cast-sdk-xcframework', '~> 4.8.0'
+  pod 'google-cast-sdk-no-bluetooth-xcframework', '~> 4.8.0'
   pod 'GoogleSignIn', '~> 7.0.0'
   pod 'GoogleUtilities', '= 7.11.0', :modular_headers => true
   pod 'Masonry', '= 1.1.0'
-  pod 'MSAL', '= 1.2.5'
+  pod 'MSAL', '= 1.2.5', :modular_headers => true
   pod 'NewRelicAgent', '= 7.4.2'
   pod 'Segment-Appboy', '= 4.6.0'
   pod 'Segment-GoogleAnalytics', '= 1.3.3'
@@ -34,7 +34,7 @@ end
 target 'edXTests' do
   use_frameworks!
   pod 'iOSSnapshotTestCase', '= 6.2.0'
-  pod 'OHHTTPStubs', '~> 4.0'
+  pod 'OHHTTPStubs', '~> 4.0', :modular_headers => true
 end
 
 dynamic_frameworks = ['MSAL']
