@@ -10,9 +10,15 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
+class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate, ScrollableDelegateProvider {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider & NetworkManagerProvider
+    
+    weak var scrollableDelegate: ScrollableDelegate? {
+        didSet {
+            videoTranscriptView?.scrollableDelegate = scrollableDelegate
+        }
+    }
     
     let environment : Environment
     let blockID : CourseBlockID?
