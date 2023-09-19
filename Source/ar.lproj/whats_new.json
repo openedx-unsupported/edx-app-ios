@@ -1,5 +1,46 @@
 [
     {
+        "version":"5.0",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Simplified navigation",
+                "message":"Navigate with ease—the bottom navigation gets you where you want to go next!"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"1. Discover",
+                "message":"Search for what you want to learn and enroll directly into a course."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"2. Learn",
+                "message":"Switch between your courses and programs using the dropdown."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_4",
+                "title":"3. Profile",
+                "message":"Access your account information and user settings."
+            }
+        ]
+    },
+    {
         "version":"3.1",
         "messages":[
             {
