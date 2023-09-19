@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
+class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate, ScrollableDelegateProvider {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider & NetworkManagerProvider
     
@@ -32,6 +32,12 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     private var overlayLabel: UILabel?
     var shouldCelebrationAppear: Bool
         
+    weak var scrollableDelegate: ScrollableDelegate? {
+        didSet {
+            videoTranscriptView?.scrollableDelegate = scrollableDelegate
+        }
+    }
+    
     init(environment : Environment, blockID : CourseBlockID?, courseID: String, shouldCelebrationAppear: Bool = false) {
         self.blockID = blockID
         self.environment = environment
