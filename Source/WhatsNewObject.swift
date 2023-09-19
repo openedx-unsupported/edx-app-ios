@@ -42,7 +42,7 @@ extension WhatsNew {
             }
         }
         
-        if let image = UIImage(named: imageName), isSupportMessage {
+        if let image = UIImage(named: imageName) ?? UIImage.gifImageWithName(imageName), isSupportMessage {
             self.image = image
             self.title = title
             self.message = message
