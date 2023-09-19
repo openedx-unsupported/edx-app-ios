@@ -1,1 +1,0 @@
-../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Data/FIRIAMMessageContentDataWithImageURL.h

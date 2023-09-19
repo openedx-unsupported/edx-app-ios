@@ -17,14 +17,16 @@ otherwise noted. Please see ``LICENSE.txt`` for details.
 Building
 ========
 1. Check out the source code: ::
-    
+
     git clone https://github.com/openedx/edx-app-ios
 
-2. Open ``edX.xcworkspace``.
+2. Open terminal and run command ``pod install``
 
-3. Ensure that the ``edX`` scheme is selected.
+3. Open ``edX.xcworkspace``.
 
-4. Click the **Run** button.
+4. Ensure that the ``edX`` scheme is selected.
+
+5. Click the **Run** button.
 
 *Note: Our build system requires Java 7 or later.  If you see an error
 mentioning "Unsupported major.minor version 51.0 " then you should install a

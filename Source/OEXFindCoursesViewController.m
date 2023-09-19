@@ -20,7 +20,6 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 
 static NSString* const OEXFindCoursesCourseInfoPath = @"course_info/";
 static NSString* const OEXFindCoursesPathIDKey = @"path_id";
-static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 @interface OEXFindCoursesViewController () <WebViewNavigationDelegate, InterfaceOrientationOverriding>
 
@@ -108,10 +107,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 - (NSString*)getCoursePathIDFromURL:(NSURL*)url {
     if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesCourseInfoPath]) {
-        NSString* path = url.oex_queryParameters[OEXFindCoursesPathIDKey];
-        // the site sends us things of the form "course/<path_id>" we only want the path id
-        NSString* pathID = [path stringByReplacingOccurrencesOfString:OEXFindCoursePathPrefix withString:@"" options:0 range:NSMakeRange(0, OEXFindCoursePathPrefix.length)];
-        return pathID;
+        return url.oex_queryParameters[OEXFindCoursesPathIDKey];
     }
     return nil;
 }

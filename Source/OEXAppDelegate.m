@@ -255,8 +255,8 @@
         [NewRelicAgent enableCrashReporting:NO];
         [NewRelicAgent startWithApplicationToken:newrelic.apiKey];
     }
-    
-    [self initilizeChromeCast];
+    // Disable for app nav release
+//    [self initilizeChromeCast];
 }
 
 - (void) initilizeChromeCast {

@@ -81,17 +81,17 @@
     RouterEnvironment *environment = [self mockRouterEnvironment];
     DiscoveryWebViewHelper* helper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:environment delegate:nil bottomBar:nil searchQuery:nil];
     OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
-    NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
+    NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://course_info?path_id=science-happiness-uc-berkeleyx-gg101x"]];
     BOOL successCorrect = ![findCoursesViewController webView:helper.t_webView shouldLoad:testURLRequestCorrect];
     XCTAssert(successCorrect, @"Correct URL not recognized");
     
-    NSURLRequest *testURLRequestWrong = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapps://course_infos?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
+    NSURLRequest *testURLRequestWrong = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapps://course_infos?path_id=science-happiness-uc-berkeleyx-gg101x"]];
     BOOL successWrong = [findCoursesViewController webView:helper.t_webView shouldLoad:testURLRequestWrong];
     XCTAssert(successWrong, @"Wrong URL not recognized");
 }
 
 -(void)testPathIDParsing{
-    NSURL *testURL = [NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"];
+    NSURL *testURL = [NSURL URLWithString:@"edxapp://course_info?path_id=science-happiness-uc-berkeleyx-gg101x"];
     OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
     
     NSString *pathID = [findCoursesViewController getCoursePathIDFromURL:testURL];

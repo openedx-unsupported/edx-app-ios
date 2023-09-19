@@ -1,1 +1,0 @@
-../../../FirebaseInAppMessaging/FirebaseCore/Extension/FIRAppInternal.h

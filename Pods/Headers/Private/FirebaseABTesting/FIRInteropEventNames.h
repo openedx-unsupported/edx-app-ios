@@ -1,1 +1,0 @@
-../../../FirebaseABTesting/Interop/Analytics/Public/FIRInteropEventNames.h

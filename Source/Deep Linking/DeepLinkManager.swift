@@ -540,8 +540,6 @@ import UIKit
             showProgramDetail(with: link)
             break
         case .profile:
-            showUserProfile(with: link)
-        case .settings:
             showProfile(with: link)
             break
         case .userProfile:
