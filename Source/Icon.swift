@@ -91,6 +91,7 @@ public enum Icon {
     case Announcements
     case ArrowUp
     case ArrowDown
+    case ArrowForward
     case Camera
     case ChevronRight
     case Close
@@ -133,6 +134,7 @@ public enum Icon {
     case Menu
     case NoTopics
     case NoSearchResults
+    case Search
     case OpenURL
     case Pinned
     case RotateDevice
@@ -144,6 +146,7 @@ public enum Icon {
     case StarEmpty
     case StarFilled
     case ShareCourse
+    case Share
     case Discovery
     case Transcript
     case Trophy
@@ -177,6 +180,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .arrowUpward)
         case .ArrowDown:
             return MaterialIconRenderer(icon: .arrowDownward)
+        case .ArrowForward:
+            return MaterialIconRenderer(icon: .arrowForward)
         case .Account:
             return MaterialIconRenderer(icon: .moreVert)
         case .Camera:
@@ -250,7 +255,7 @@ public enum Icon {
         case .Courseware:
             return MaterialIconRenderer(icon: .classroom)
         case .CoursewareEnrolled:
-            return MaterialIconRenderer(icon: .bookmarkBorder)
+            return MaterialIconRenderer(icon: .menuBook)
         case .CourseUnknownContent:
             return MaterialIconRenderer(icon: .laptop)
         case .CourseVideoContent:
@@ -285,6 +290,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .star)
         case .ShareCourse:
             return MaterialIconRenderer(icon: .shareiOS)
+        case .Share:
+            return MaterialIconRenderer(icon: .share)
         case .Discovery:
             return MaterialIconRenderer(icon: .search)
         case .UnknownError:
@@ -293,6 +300,8 @@ public enum Icon {
             return MaterialIconRenderer(icon: .list)
         case .NoSearchResults:
             return MaterialIconRenderer(icon: .playCircleOutline)
+        case .Search:
+            return MaterialIconRenderer(icon: .search)
         case .Trophy:
             return MaterialIconRenderer(icon: .emojiEvents)
         case .VideoFullscreen:

@@ -17,12 +17,12 @@ protocol LearnContainerHeaderItem {
 }
 
 class LearnContainerHeaderView: UIView {
-    static let height = StandardVerticalMargin * 6.5
+    static let expandedHeight = StandardVerticalMargin * 10.6
+    static let collapsedHeight = StandardVerticalMargin * 5.5
     
     weak var delegate: LearnContainerHeaderViewDelegate?
     
-    private let container = UIView()
-    private let dropDownContainer = UIView()
+    var headerViewState: HeaderViewState = .expanded
     
     private lazy var button: UIButton = {
         let button = UIButton()
@@ -53,15 +53,16 @@ class LearnContainerHeaderView: UIView {
         return imageView
     }()
     
-    private var originalFrame: CGRect = .zero
-    
+    private let container = UIView()
+    private let dropDownContainer = UIView()
     private let dropDown = DropDown()
+    private let dropDownBottomOffset: CGFloat = StandardVerticalMargin * 2
+    
+    private var items: [LearnContainerHeaderItem]
     
     private var shouldShowDropDown: Bool {
         return items.count > 1
     }
-    
-    private var items: [LearnContainerHeaderItem]
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -84,40 +85,37 @@ class LearnContainerHeaderView: UIView {
         addSubview(dropDownContainer)
         addSubview(container)
         
-        container.snp.makeConstraints { make in
+        container.snp.remakeConstraints { make in
             make.top.equalTo(self).offset(-6)
             make.bottom.equalTo(self)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
+            make.height.equalTo(LearnContainerHeaderView.expandedHeight)
         }
 
-        dropDownContainer.snp.makeConstraints { make in
-            make.top.equalTo(self)
-            make.bottom.equalTo(self)
+        dropDownContainer.snp.remakeConstraints { make in
+            make.centerY.equalTo(label)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
         
-        button.snp.makeConstraints { make in
-            make.top.equalTo(container)
-            make.bottom.equalTo(container)
+        button.snp.remakeConstraints { make in
+            make.centerY.equalTo(label)
             make.leading.equalTo(label)
             make.trailing.equalTo(imageView)
         }
         
-        label.snp.makeConstraints { make in
-            make.top.equalTo(container)
-            make.bottom.equalTo(container)
+        label.snp.remakeConstraints { make in
+            make.bottom.equalTo(container).inset(StandardVerticalMargin)
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
         }
         
-        imageView.snp.makeConstraints { make in
+        imageView.snp.remakeConstraints { make in
             make.leading.equalTo(label.snp.trailing).offset(StandardHorizontalMargin / 2)
             make.centerY.equalTo(label)
         }
         
         imageView.isHidden = !shouldShowDropDown
-        originalFrame = container.frame
     }
     
     private func setupDropDown() {
@@ -126,16 +124,16 @@ class LearnContainerHeaderView: UIView {
         
         let selectedTextStyle = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().primaryBaseColor())
         selectedTextStyle.alignment = .center
-        
+        dropDown.setup()
         dropDown.accessibilityIdentifier = "LearnContainerHeaderView:drop-down-view"
-        dropDown.bottomOffset = CGPoint(x: 0, y: LearnContainerHeaderView.height)
+        dropDown.bottomOffset = CGPoint(x: 0, y: dropDownBottomOffset)
         dropDown.direction = .bottom
         dropDown.anchorView = dropDownContainer
         dropDown.dismissMode = .automatic
         dropDown.normalTextStyle = normalTextStyle
         dropDown.selectedTextStyle = selectedTextStyle
-        dropDown.selectedBackgroundColor = OEXStyles.shared().neutralXLight()
-        dropDown.normalBackgroundColor = OEXStyles.shared().neutralWhiteT()
+        dropDown.selectionBackgroundColor = OEXStyles.shared().neutralXLight()
+        dropDown.backgroundColor = OEXStyles.shared().neutralWhiteT()
         dropDown.textColor = OEXStyles.shared().primaryBaseColor()
         dropDown.selectedTextColor = OEXStyles.shared().primaryBaseColor()
         dropDown.dataSource = items.map { $0.title }
@@ -143,7 +141,7 @@ class LearnContainerHeaderView: UIView {
         dropDown.selectionAction = { [weak self] index, _ in
             guard let weakSelf = self else { return }
             weakSelf.dropDown.selectedRowIndex = index
-            weakSelf.label.attributedText = weakSelf.largeTextStyle.attributedString(withText: weakSelf.items[index].title)
+            weakSelf.updateHeaderLabel()
             weakSelf.delegate?.didTapOnDropDown(item: weakSelf.items[index])
         }
         dropDown.willShowAction = { [weak self] in
@@ -151,6 +149,15 @@ class LearnContainerHeaderView: UIView {
         }
         dropDown.cancelAction = { [weak self] in
             self?.rotateImageView(clockWise: false)
+        }
+    }
+    
+    private func updateHeaderLabel() {
+        let index = dropDown.indexForSelectedRow ?? 0
+        if headerViewState == .collapsed {
+            label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
+        } else if headerViewState == .expanded {
+            label.attributedText = largeTextStyle.attributedString(withText: items[index].title)
         }
     }
     
@@ -163,27 +170,9 @@ class LearnContainerHeaderView: UIView {
         dropDown.forceHide()
     }
     
-    func moveToCenter() {
-        dropDown.bottomOffset = CGPoint(x: 0, y: 44)
-        container.frame = CGRect(x: 0, y: 0, width: 180, height: 44)
-        container.center.x = frame.size.width / 2
-        
-        if let index = dropDown.indexForSelectedRow {
-            label.attributedText = smallTextStyle.attributedString(withText: items[index].title)
-        } else {
-            label.attributedText = smallTextStyle.attributedString(withText: items[0].title)
-        }
-    }
-    
-    func moveBackOriginalFrame() {
-        container.frame = originalFrame
-        dropDown.bottomOffset = CGPoint(x: 0, y: 80)
-        
-        if let index = dropDown.indexForSelectedRow {
-            label.attributedText = largeTextStyle.attributedString(withText: items[index].title)
-        } else {
-            label.attributedText = largeTextStyle.attributedString(withText: items[0].title)
-        }
+    func updateHeaderViewState(collapse: Bool) {
+        headerViewState = collapse ? .collapsed : .expanded
+        updateHeaderLabel()
     }
     
     private func rotateImageView(clockWise: Bool) {

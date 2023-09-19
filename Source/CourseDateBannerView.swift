@@ -10,6 +10,16 @@ import UIKit
 
 private let cornerRadius: CGFloat = 0
 
+protocol BannerView {
+    var delegate: CourseShiftDatesDelegate? { get set }
+    var bannerInfo: DatesBannerInfo? { get set }
+    func setupView()
+}
+
+extension CourseDateBannerView: BannerView {}
+extension NewCourseDateBannerView: BannerView {}
+
+
 protocol CourseShiftDatesDelegate: AnyObject {
     func courseShiftDateButtonAction()
 }

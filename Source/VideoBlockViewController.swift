@@ -31,7 +31,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     private var playOverlayButton: UIButton?
     private var overlayLabel: UILabel?
     var shouldCelebrationAppear: Bool
-    
+        
     init(environment : Environment, blockID : CourseBlockID?, courseID: String, shouldCelebrationAppear: Bool = false) {
         self.blockID = blockID
         self.environment = environment
@@ -442,16 +442,29 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         }
     }
     
-    // willTransition only called in case of iPhone because iPhone has regular and compact vertical classes.
-    // This method is specially for iPad
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        guard UIDevice.current.userInterfaceIdiom == .pad else { return }
-        
-        if videoPlayer.isFullScreen {
-            videoPlayer.setFullscreen(fullscreen: !UIDevice.current.orientation.isPortrait, animated: true, with: currentOrientation(), forceRotate: false)
-        }
-        else if UIDevice.current.orientation.isLandscape {
-            videoPlayer.setFullscreen(fullscreen: true, animated: true, with: currentOrientation(), forceRotate: false)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if videoPlayer.isFullScreen {
+                videoPlayer.setFullscreen(fullscreen: !UIDevice.current.orientation.isPortrait, animated: true, with: currentOrientation(), forceRotate: false)
+            } else if UIDevice.current.orientation.isLandscape {
+                videoPlayer.setFullscreen(fullscreen: true, animated: true, with: currentOrientation(), forceRotate: false)
+            }
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                if let weakSelf = self {
+                    if weakSelf.chromeCastManager.isMiniPlayerAdded { return }
+                    
+                    if weakSelf.videoPlayer.isFullScreen {
+                        if UITraitCollection.current.verticalSizeClass == .regular {
+                            weakSelf.videoPlayer.setFullscreen(fullscreen: false, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
+                        } else {
+                            weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
+                        }
+                    } else if UITraitCollection.current.verticalSizeClass == .compact && !weakSelf.shouldCelebrationAppear {
+                        weakSelf.videoPlayer.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
+                    }
+                }
+            }
         }
     }
     

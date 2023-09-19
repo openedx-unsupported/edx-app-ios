@@ -321,10 +321,6 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="o que significa que você não pode participar em avaliações. Para completar avaliações como uma parte deste curso, faça o upgrade hoje. Parece que você perdeu alguns prazos importantes baseados em nossa programação sugerida. Para completar avaliações como parte deste curso e adiar tarefas já atrasadas, faça o upgrade hoje.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Parece que você perdeu alguns prazos importantes baseados em nossa programação sugerida. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Para se ficar em dia, você pode atualizar esta programação e adiar as tarefas já atrasadas. Não se preocupe – você não perderá o progresso já feito.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Alterar datas de entrega";
 /* Course Dates Title */
@@ -570,7 +566,7 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "À procura de novos desafios?";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "Encontre um Curso";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "Parece que você não se inscreveu em nenhum curso ainda.";
 /* Prompt indicating user needs to enter an email address */
@@ -733,8 +729,6 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Idioma atual:";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "Local atual:";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "Editar perfil";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="As informações do seu perfil só ficam visíveis para você. Somente seu nome de usuário pode ser visto por outros usuários no {platform_name}.";
 /* Accessibility label for edit profile button */
@@ -1010,7 +1004,7 @@ Se você não conseguir acompanhar tudo nas datas sugeridas, você poderá ajust
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Uma nova versão do aplicativo está disponível.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "A versão do seu aplicativo não é mais compatível. ";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "A versão do seu aplicativo não é mais compatível";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "A versão do seu aplicativa não é mais compativel. Atualize para a última versão para entrar. ";
 /*New version available without deadline message*/

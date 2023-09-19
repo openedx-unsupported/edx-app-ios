@@ -328,10 +328,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="מה שאומר שאינך יכול להשתתף במטלות מדורגות. נראה שהחמצת כמה מועדים חשובים בהתבסס על לוח הזמנים המוצע שלנו. כדי להשלים מטלות מדורגות כחלק מהקורס הזה ולהעביר את המטלות שנקבעו בעבר אל העתיד, אתה יכול לשדרג היום.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="נראה שהחמצת כמה מועדים חשובים בהתבסס על לוח הזמנים המוצע שלנו. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="כדי לשמור על עצמכם על המסלול, תוכלו לעדכן את לוח הזמנים הזה ולהעביר את ההקצאות שהוגשו לעתיד. אל דאגה - לא תאבד שום התקדמות שהשגת כאשר תשנה את תאריכי היעד שלך.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="תאריכי יעד של משמרת";
 /* Course Dates Title */
@@ -589,7 +585,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "מחפשים אתגר חדש?";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "מצא קורס";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "נראה שאתם עדיין לא רשומים בשום קורס.";
 /* Prompt indicating user needs to enter an email address */
@@ -750,8 +746,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "שפה נוכחית:";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "מיקום נוכחי:";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "ערוך פרופיל";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="פרטי הפרופיל שלך גלויים רק לך. רק שם המשתמש שלך גלוי לאחרים ב-{platform_name}.";
 /* Accessibility label for edit profile button */
@@ -1035,7 +1029,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "גרסה חדשה של האפליקציה זמינה להורדה.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "גרסת האפליקציה שברשותך לא נתמכת עוד.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "גרסת האפליקציה שברשותך לא נתמכת עוד";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "גרסת האפליקציה שברשותכם אינה נתמכת עוד. עדכנו לגרסה האחרונה כדי להיכנס.";
 /*New version available without deadline message*/

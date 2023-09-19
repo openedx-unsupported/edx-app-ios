@@ -320,10 +320,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="dolayısıyla notlu ödevlere katılamazsınız. Önerilen programımıza göre bazı önemli son tarihleri kaçırmışsınız gibi görünüyor. Bu kursun parçası olarak notlu ödevler tamamlamak ve tarihi geçmiş ödevleri geleceğe taşımak için bugün yükseltme yapabilirsiniz.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Önerilen programımıza göre bazı önemli son tarihleri kaçırmışsınız gibi görünüyor. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Plana uygun kalmak için bu programı güncelleyebilir ve tarihi geçmiş ödevleri geleceğe taşıyabilirsiniz. Endişelenmeyin, bitiş tarihlerinizi değiştirdiğinizde ilerlemenizin hiçbir kısmını kaybetmeyeceksiniz.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Bitiş tarihlerini değiştir";
 /* Course Dates Title */
@@ -569,7 +565,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "Yeni bir maceraya hazır mısın?";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "Bir ders bul";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "Henüz herhangi bir derse kayıt yaptırmamış gözüküyorsunuz.";
 /* Prompt indicating user needs to enter an email address */
@@ -732,8 +728,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Şu anki dil:";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "Şu anki konum:";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "Profili düzenle";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="Profil bilgileriniz yalnızca size görünür. {platform_name} üzerinde yalnızca kullanıcı adınız başkalarına görünür olur.";
 /* Accessibility label for edit profile button */
@@ -1009,9 +1003,9 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Uygulamanın yeni bir sürümü mevcut.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor";
 /*Outdated version alert message for login screen*/
-"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor. Giriş yapmak için en son sürüme güncelleyin.";
+"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor. Giriş yapmak için en son sürüme güncelleyin";
 /*New version available without deadline message*/
 "VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "Uygulamanın yeni bir sürümü mevcut.";
 /*Video player remaining time default value*/

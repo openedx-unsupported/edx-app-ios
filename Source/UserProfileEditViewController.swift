@@ -210,8 +210,10 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.largeTitleDisplayMode = .never
         addSubViews()
-        title = Strings.Profile.editTitle
+        title = Strings.ProfileOptions.UserProfile.title
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         view.backgroundColor = environment.styles.standardBackgroundColor()
         

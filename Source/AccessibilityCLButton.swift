@@ -34,9 +34,12 @@ class AccessibilityCLButton: CustomPlayerButton {
     }
     
     public override func draw(_ rect: CGRect) {
-        let r = UIBezierPath(ovalIn: rect)
+        let diameter = min(rect.width, rect.height)
+        let circleRect = CGRect(x: rect.origin.x, y: rect.origin.y, width: diameter, height: diameter)
+        let path = UIBezierPath(ovalIn: circleRect)
         UIColor.black.withAlphaComponent(0.65).setFill()
-        r.fill()
+        path.fill()
+        
         super.draw(rect)
     }
 }

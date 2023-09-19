@@ -14,14 +14,19 @@ public enum ProgramScreen {
     case detail
 }
 
-class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, PullRefreshControllerDelegate {
+class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, PullRefreshControllerDelegate, ScrollableDelegateProvider {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider & ReachabilityProvider & OEXStylesProvider & NetworkManagerProvider
-    fileprivate let environment: Environment
-    fileprivate let webController: AuthenticatedWebViewController
+    
+    private let environment: Environment
     private(set) var programsURL: URL
-    fileprivate let refreshController = PullRefreshController()
     private(set) var type: ProgramScreen
+    
+    private let webController: AuthenticatedWebViewController
+    private let refreshController = PullRefreshController()
+    
+    weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
     
     init(environment: Environment, programsURL: URL, viewType type: ProgramScreen? = .base) {
         webController = AuthenticatedWebViewController(environment: environment)
@@ -31,6 +36,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, 
         super.init(nibName: nil, bundle: nil)
         webController.webViewDelegate = self
         webController.delegate = self
+        webController.scrollView.delegate = self
         setupView()
         loadPrograms()
     }
@@ -102,5 +108,21 @@ extension ProgramsViewController: WebViewNavigationDelegate {
     
     func webViewContainingController() -> UIViewController {
         return self
+    }
+}
+
+extension ProgramsViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }

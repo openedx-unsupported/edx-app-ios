@@ -13,6 +13,24 @@
 
 /* Continue text for aleart button titles or for other places*/
 "CONTINUE_TEXT"="Continue";
+/* Find a new course button title on the course dashbaord error screen */
+"COURSE_DASHBOARD.ERROR.FIND_A_NEW_COURSE"="Find a new course";
+/* Course dashbaord loading eerror */
+"COURSE_DASHBOARD.ERROR.GENERAL_ERROR"="An error occured while loading your course";
+/* Go to my courses button title on the course dashbaord general error screen */
+"COURSE_DASHBOARD.ERROR.GO_TO_COURSES"="Go to My Courses";
+/*Error message title on course dashboard screen for course yet to start*/
+"COURSE_DASHBOARD.ERROR.COURSE_NOT_STARTED_TITLE" = "This course hasn’t started yet.";
+/*Error message info on course dashboard screen for course yet to start*/
+"COURSE_DASHBOARD.ERROR.COURSE_NOT_STARTED_INFO" = "Come back {start_date} to see all your course content here.";
+/*Error message title on course dashboard screen when audit access of course*/
+"COURSE_DASHBOARD.ERROR.COURSE_ACCESS_EXPIRED_TITLE" = "Your access to this course has expired.";
+/*Error message info on course dashboard screen when audit access expired of course or course ended*/
+"COURSE_DASHBOARD.ERROR.COURSE_ACCESS_EXPIRED_INFO" = "No new sessions are available at this time.";
+/*Error message title on course dashboard screen when audit access of course*/
+"COURSE_DASHBOARD.ERROR.COURSE_ENDED_TITLE" = "This course session has ended.";
+/*Title for Discover*/
+"DISCOVER"="Discover";
 /* Label for date when course starts */
 "COURSE.STARTING" = "Starts {start_date}";
 /* Label for date when course end */
@@ -29,10 +47,10 @@
 "COURSE.AUDIT.EXPIRED_AGO" = "Access expired {time_duaration}";
 /* Course audit expired on date*/
 "COURSE.AUDIT.EXPIRED_ON" = "Expired on {expiry_date}";
-/*Title for Discover*/
-"DISCOVER"="Discovery";
-/*Title for Discovery*/
-"EXPLORE_THE_CATALOG"="Explore the catalog";
+/* Course Reset Date Banner Header */
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Missed some deadlines? ";
+/* Course Reset Date Banner Body */
+"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Don't worry - shift our suggested schedule to complete past due assignments without losing any progress.";
 /*Title for dialog when user is leaving the app when tapped on link to be opened in external browser*/
 "LEAVING_APP_TITLE"="Leaving the app";
 /* Message for dialog when user is leaving the app when tapped on link to be opened in external browser */
@@ -43,5 +61,23 @@
 "MY_COURSES"="My courses";
 /*Title My programs*/
 "MY_PROGRAMS"="My programs";
+/*Title for Discovery*/
+"EXPLORE_THE_CATALOG"="Explore the catalog";
+/*Title for Discover*/
+"DISCOVER"="Discovery";
+/* Title text for the Home section of the course dashboard */
+"DASHBOARD.COURSE_HOME"="Home";
+/* Title for audit exipred error */
+"COURSE_DASHBOARD.ERROR.AUDIT_EXPIRED_UPGRADE_INFO"="Upgrade to get full access to this course and pursue a certificate.";
+/* Title for audit title message */
+"COURSE.AUDIT_ACCESS_EXPIRED"="Access expired {expiry_date}";
+/* Enrolled courses loading error */
+"DASHBOARD.GENERAL_ERROR_MESSAGE"="An error occured while loading your courses";
+/* Enrolled courses loading error try again*/
+"DASHBOARD.TRY_AGAIN"="Try again";
+/* Course Dashboard Resume Course button title*/
+"DASHBOARD.RESUME_COURSE"="Resume course";
+/* Course outline header gated content title */
+"COURSE_OUTLINE_HEADER.GATED_CONTENT_TITLE"="Some content in this part of the course is locked for upgraded users only.";
 /* None option in the caption list to de select caption language*/
 "NONE"="None";

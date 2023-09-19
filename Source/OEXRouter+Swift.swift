@@ -71,6 +71,34 @@ extension OEXRouter {
     }
     
     func navigateToComponentScreen(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID, completion: ((UIViewController) -> Void)? = nil) {
+        if environment.config.isNewComponentNavigationEnabled {
+           navigateToComponentScreenNew(from: controller, courseID: courseID, componentID: componentID, completion: completion)
+        } else {
+            navigateToComponentScreenOld(from: controller, courseID: courseID, componentID: componentID, completion: completion)
+        }
+    }
+    
+    func navigateToComponentScreenNew(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID, completion: ((UIViewController) -> Void)? = nil) {
+        
+        var parentViewController: UIViewController?
+        
+        if environment.config.isNewDashboardEnabled {
+            if let dashboardController = controller.navigationController?.viewControllers.first as? NewCourseDashboardViewController {
+                dashboardController.switchTab(with: .courseDashboard)
+                parentViewController = dashboardController
+            }
+        } else {
+            if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController }) as? CourseDashboardViewController {
+                dashboardController.switchTab(with: .courseDashboard)
+                parentViewController = dashboardController
+            }
+        }
+        
+        let contentController = NewCourseContentController(environment: environment, blockID: componentID, resumeCourseBlockID: componentID, courseID: courseID)
+        parentViewController?.navigationController?.pushViewController(contentController, animated: true, completion: completion)
+    }
+    
+    func navigateToComponentScreenOld(from controller: UIViewController, courseID: CourseBlockID, componentID: CourseBlockID, completion: ((UIViewController) -> Void)? = nil) {
         let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         guard let childBlock = courseQuerier.blockWithID(id: componentID).firstSuccess().value,
               let unitBlock = courseQuerier.parentOfBlockWith(id: childBlock.blockID, type: .Unit).firstSuccess().value,
@@ -85,10 +113,17 @@ extension OEXRouter {
         if controller is CourseOutlineViewController {
             outlineViewController = controller
         } else {
-            guard let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController else { return }
-            dashboardController.switchTab(with: .courseDashboard)
-            guard let outlineController = dashboardController.currentVisibleController as? CourseOutlineViewController else { return }
-            outlineViewController = outlineController
+            if environment.config.isNewDashboardEnabled {
+                guard let dashboardController = controller.navigationController?.viewControllers.first as? NewCourseDashboardViewController else { return }
+                dashboardController.switchTab(with: .courseDashboard)
+                guard let outlineController = dashboardController.currentVisibileController else { return }
+                outlineViewController = outlineController
+            } else {
+                guard let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController else { return }
+                dashboardController.switchTab(with: .courseDashboard)
+                guard let outlineController = dashboardController.currentVisibleController as? CourseOutlineViewController else { return }
+                outlineViewController = outlineController
+            }
         }
         
         showContainerForBlockWithID(blockID: sectionBlock.blockID, type: sectionBlock.displayType, parentID: chapterBlock.blockID, courseID: courseID, fromController: outlineViewController) { [weak self] visibleController in
@@ -102,6 +137,15 @@ extension OEXRouter {
     }
     
     func showContainerForBlockWithID(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: ((UIViewController) -> Void)? = nil) {
+        if environment.config.isNewComponentNavigationEnabled {
+            let contentController = NewCourseContentController(environment: environment, blockID: blockID, parentID: parentID, courseID: courseID, courseOutlineMode: mode)
+            controller.navigationController?.pushViewController(contentController, animated: true, completion: completion)
+        } else {
+            showContainerForBlockWithIDOld(blockID: blockID, type: type, parentID: parentID, courseID: courseID, fromController: controller, forMode: mode, completion: completion)
+        }
+    }
+    
+    func showContainerForBlockWithIDOld(blockID: CourseBlockID?, type: CourseBlockDisplayType, parentID: CourseBlockID?, courseID: CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .full, completion: ((UIViewController) -> Void)? = nil) {
         switch type {
         case .Outline:
             fallthrough
@@ -168,11 +212,10 @@ extension OEXRouter {
     
     @objc(showMyCoursesAnimated:pushingCourseWithID:) func showMyCourses(animated: Bool = true, pushingCourseWithID courseID: String? = nil) {
         let controller = EnrolledTabBarViewController(environment: environment)
+        let learnController = controller.children.flatMap { $0.children }.compactMap { $0 as? LearnContainerViewController } .first
         showContentStack(withRootController: controller, animated: animated)
-        if let courseID = courseID {
-            let navController = controller.viewControllers?.first as? ForwardingNavigationController
-            let coursesController = navController?.viewControllers.first as? EnrolledCoursesViewController
-            showCourseWithID(courseID: courseID, fromController: coursesController ?? controller, animated: false)
+        if let courseID = courseID, let learnController = learnController {
+            showCourseWithID(courseID: courseID, fromController: learnController, animated: false)
         }
     }
 
@@ -191,23 +234,42 @@ extension OEXRouter {
     }
     
     func showDatesTabController(controller: UIViewController) {
-        if let dashboardController = controller as? CourseDashboardViewController {
-            dashboardController.switchTab(with: .courseDates)
-        } else if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
-            controller.navigationController?.popToViewController(dashboardController, animated: false)
-            dashboardController.switchTab(with: .courseDates)
+        if environment.config.isNewDashboardEnabled {
+            if let dashboardController = controller.findParentViewController(type: NewCourseContentController.self)?.navigationController?.viewControllers.first as? NewCourseDashboardViewController {
+                popToRoot(controller: dashboardController) {
+                    dashboardController.switchTab(with: .courseDates)
+                }
+            } else if let dashboardController = UIApplication.shared.topMostController() as? NewCourseDashboardViewController {
+                dashboardController.switchTab(with: .courseDates)
+            }
+        } else {
+            if let dashboardController = controller.findParentViewController(type: CourseDashboardViewController.self) {
+                dashboardController.switchTab(with: .courseDates)
+            } else if let dashboardController = controller.navigationController?.viewControllers.first(where: { $0 is CourseDashboardViewController}) as? CourseDashboardViewController {
+                controller.navigationController?.popToViewController(dashboardController, animated: false)
+                dashboardController.switchTab(with: .courseDates)
+            }
         }
     }
     
     // MARK: Deep Linking
     //Method can be use to navigate on particular tab of course dashboard with deep link type
-    func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController) {
+    func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController, completion: (() -> Void)? = nil) {
+        if environment.config.isNewDashboardEnabled {
+            showCourseNew(with: deeplink, courseID: courseID, from: controller, completion: completion)
+        } else {
+            showCourseOld(with: deeplink, courseID: courseID, from: controller, completion: completion)
+        }
+    }
+    
+    private func showCourseOld(with deeplink: DeepLink, courseID: String, from controller: UIViewController, completion: (() -> Void)? = nil) {
         let courseDashboardController = controller.navigationController?.viewControllers.first(where: { $0.isKind(of: CourseDashboardViewController.self) })
         
         if let dashboardController = courseDashboardController as? CourseDashboardViewController, dashboardController.courseID == deeplink.courseId {
             controller.navigationController?.setToolbarHidden(true, animated: false)
             controller.navigationController?.popToViewController(dashboardController, animated: true)
             dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
+            completion?()
         } else if let enrolledTabBarController = controller.find(viewController: EnrolledTabBarViewController.self) {
             if let courseDashboardController = courseDashboardController {
                 courseDashboardController.navigationController?.popToRootViewController(animated: true) { [weak self] in
@@ -215,32 +277,53 @@ extension OEXRouter {
                     self?.showCourseWithID(courseID: courseID, fromController: switchedViewController, animated: true) { controller in
                         guard let dashboardController = controller as? CourseDashboardViewController else { return }
                         dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
+                        completion?()
                     }
                 }
             } else {
                 let switchedViewController = enrolledTabBarController.switchTab(with: deeplink.type)
-                if let switchedViewController = switchedViewController as? ForwardingNavigationController,
-                   let enrolledCoursesController = switchedViewController.viewControllers.first as? EnrolledCoursesViewController {
-                    enrolledCoursesController.navigationController?.popToRootViewController(animated: true) { [weak self] in
-                        self?.showCourseWithID(courseID: courseID, fromController: enrolledCoursesController, animated: true) { controller in
-                            guard let dashboardController = controller as? CourseDashboardViewController else { return }
-                            dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
-                            return
-                        }
+                if let switchedViewController = switchedViewController as? LearnContainerViewController {
+                    switchedViewController.navigationController?.popToRootViewController(animated: true) {
+                        switchedViewController.switchTo(component: .courses)
                     }
                 }
+                showCourseWithID(courseID: courseID, fromController: switchedViewController, animated: true) { controller in
+                    guard let dashboardController = controller as? CourseDashboardViewController else { return }
+                    dashboardController.switchTab(with: deeplink.type, componentID: deeplink.componentID)
+                    completion?()
+                }
+            }
+        }
+    }
+    
+    private func showCourseNew(with deeplink: DeepLink, courseID: String, from controller: UIViewController, completion: (() -> Void)? = nil) {
+        if let enrolledTabBarController = controller.find(viewController: EnrolledTabBarViewController.self) {
+            let switchedViewController = enrolledTabBarController.switchTab(with: deeplink.type)
+            if let switchedViewController = switchedViewController as? LearnContainerViewController {
+                switchedViewController.navigationController?.popToRootViewController(animated: true) {
+                    switchedViewController.switchTo(component: .courses)
+                }
+            }
+            showCourseWithID(courseID: courseID, fromController: switchedViewController, animated: true) { controller in
+                var dashboardController: NewCourseDashboardViewController?
+                if let controller = controller as? ForwardingNavigationController {
+                    dashboardController = controller.viewControllers.first(where: { $0 is NewCourseDashboardViewController }) as? NewCourseDashboardViewController
+                } else {
+                    dashboardController = controller as? NewCourseDashboardViewController
+                }
+                dashboardController?.switchTab(with: deeplink.type, deeplink: deeplink)
+                completion?()
             }
         }
     }
 
     func showProgram(with type: DeepLinkType, url: URL? = nil, from controller: UIViewController) {
         let tabbarController = controller.find(viewController: EnrolledTabBarViewController.self)
-        if let programNavController = tabbarController?.switchTab(with: type) as? ForwardingNavigationController,
-           let programsViewController = programNavController.viewControllers.first as? ProgramsViewController {
-            programsViewController.navigationController?.popToRootViewController(animated: true) { [weak self] in
-                if let url = url {
-                    self?.showProgramDetails(with: url, from: programsViewController)
-                }
+        if let learnController = tabbarController?.switchTab(with: type) as? LearnContainerViewController {
+            popToRoot(controller: learnController)
+            if let programsViewController = learnController.switchTo(component: .programs) as? ProgramsViewController,
+            let url = url {
+                showProgramDetails(with: url, from: programsViewController)
             }
         }
     }
@@ -258,7 +341,6 @@ extension OEXRouter {
     func showDiscoveryController(from controller: UIViewController, type: DeepLinkType, isUserLoggedIn: Bool, pathID: String?) {
         let bottomBar = BottomBarView(environment: environment)
         var discoveryController = discoveryViewController(bottomBar: bottomBar, searchQuery: nil)
-        discoveryController?.hidesBottomBarWhenPushed = true
         if isUserLoggedIn {
         
             // Pop out all views and switches enrolledCourses tab on the bases of link type
@@ -397,7 +479,6 @@ extension OEXRouter {
     func showProfile(controller: UIViewController? = nil, completion: ((_ success: Bool) -> ())? = nil) {
         let profileViewController = ProfileOptionsViewController(environment: environment)
         let navigationController = ForwardingNavigationController(rootViewController: profileViewController)
-        navigationController.navigationBar.prefersLargeTitles = true
         controller?.navigationController?.present(navigationController, animated: true) {
             completion?(true)
         }
@@ -480,13 +561,21 @@ extension OEXRouter {
     }
     
     func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, completion: ((UIViewController) -> Void)? = nil) {
-        let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
-        controller.hidesBottomBarWhenPushed = true
-        fromController.navigationController?.pushViewController(controller, animated: animated, completion: completion)
+        if environment.config.isNewDashboardEnabled {
+            let courseDashboardViewController = NewCourseDashboardViewController(environment: environment, courseID: courseID)
+            let controller = ForwardingNavigationController(rootViewController: courseDashboardViewController)
+            controller.navigationController?.setNavigationBarHidden(true, animated: false)
+            controller.modalPresentationStyle = .fullScreen
+            fromController.navigationController?.presentViewControler(controller, animated: animated, completion: completion)
+        } else {
+            let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
+            controller.hidesBottomBarWhenPushed = true
+            fromController.navigationController?.pushViewController(controller, animated: animated, completion: completion)
+        }
     }
     
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil, searchQuery: String? = nil) {
-        guard let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery) else { return }
+        guard let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery, fromStartupScreen: true) else { return }
         if let fromController = fromController {
             fromController.tabBarController?.selectedIndex = EnrolledTabBarViewController.courseCatalogIndex
         } else {
@@ -494,15 +583,14 @@ extension OEXRouter {
         }
     }
     
-    func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {
+    func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil, fromStartupScreen: Bool = false) -> UIViewController? {
         guard environment.config.discovery.isEnabled else { return nil }
 
-        return environment.config.discovery.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
+        return environment.config.discovery.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery, fromStartupScreen: fromStartupScreen) : CourseCatalogViewController(environment: environment)
     }
     
     func showProgramDetail(from controller: UIViewController, with pathId: String, bottomBar: UIView?) {
         let programDetailViewController = ProgramsDiscoveryViewController(with: environment, pathId: pathId, bottomBar: bottomBar?.copy() as? UIView)
-        programDetailViewController.hidesBottomBarWhenPushed = true
         pushViewController(controller: programDetailViewController, fromController: controller)
     }
 
@@ -593,11 +681,11 @@ extension OEXRouter {
         let programDetailsController = ProgramsViewController(environment: environment, programsURL: url, viewType: .detail)
         programDetailsController.hidesBottomBarWhenPushed = true
         controller.navigationController?.pushViewController(programDetailsController, animated: true)
+        controller.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     @objc public func showCourseDetails(from controller: UIViewController, with coursePathID: String, bottomBar: UIView?) {
         let courseInfoViewController = OEXCourseInfoViewController(environment: environment, pathID: coursePathID, bottomBar: bottomBar?.copy() as? UIView)
-        courseInfoViewController.hidesBottomBarWhenPushed = true
         controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         controller.navigationController?.pushViewController(courseInfoViewController, animated: true)
     }

@@ -336,10 +336,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="مما يعني انك غير قادر ان تشارك في الواجبات المقدرة. يبدو انك فاتتك بعض المواعيد المهمة بناء على جدولنا .لتكمل الواجبات المقدرة كجزء من هذه الدورة ونقل واجبات الماضي الي المستقبل، يمكنك الترقية اليوم";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"=" يبدو انك فاتتك بعض المراعيد المهمة بناء على جدولنا المقترح";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="لتبقى نفسك على المسار الصحيح، يمكنك ترقية جدولك و نقل واجبات الماضي الي المستقبل. لا تقلق لن تخسر اي تقدم فعلته عندما تنقل التواريخ المحددة";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="تغيير المواعيد المقررة";
 /* Course Dates Title */
@@ -617,7 +613,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "هل تبحثُ عن تحدٍ جديد؟";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "ابحث عن مساق";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "يبدو أنك لم تسجل في أي مساق بعد";
 /* Prompt indicating user needs to enter an email address */
@@ -780,8 +776,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "اللغة الحاليّة:";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "الموقع الحالي:";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "تعديل الصفحة الشخصيّة";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="معلومات ملفك الشخصي مرئية لك فقط. يظهر اسم المستخدم الخاص بك فقط للآخرين على {platform_name}.";
 /* Accessibility label for edit profile button */
@@ -1073,7 +1067,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "نسخة جديدة من التطبيق متوفرة حالياً.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "النسخة التي لديك من التطبيق لم تعُد مدعومة.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "النسخة التي لديك من التطبيق لم تعُد مدعومة";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "النسخة التي لديك من التطبيق لم تعُد مدعومة. أحصل على أحدث نسخة لتسجل الدخول.";
 /*New version available without deadline message*/

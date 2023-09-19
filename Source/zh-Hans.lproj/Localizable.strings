@@ -316,10 +316,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="这意味着你不能参加分级作业。根据我们建议的日程安排，您似乎错过了一些重要的截止日期。要完成本课程一部分的分级作业，并将过去到期的作业转移到未来，您可以今天进行功能升级。";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="根据我们建议的日程安排，您似乎错过了一些重要的截止日期。";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="为了让自己赶上进程，您可以更新此计划并将过期的任务转移到未来。不要担心，当你改变你的截止日期时，你不会失去你已经取得的任何过程记录。";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="改变截止日期";
 /* Course Dates Title */
@@ -553,7 +549,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "寻找新的挑战？";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "发现课程";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "您还没有加入任何课程。";
 /* Prompt indicating user needs to enter an email address */
@@ -716,8 +712,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "当前语言：";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "当前位置：";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "编辑资料";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="你的属性信息只能由你浏览。对于{paltform_name}上的其他用户只显示你的用户名。";
 /* Accessibility label for edit profile button */
@@ -989,7 +983,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "应用程序有新版本可用。";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "不支持您的新版本。";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "不支持您的新版本";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "您的应用版本不再受支持。请更新到最新版本后再登录。";
 /*New version available without deadline message*/

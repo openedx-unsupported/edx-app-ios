@@ -174,17 +174,24 @@
 		5F0248C624AC9ED8000AF1FF /* CourseDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C524AC9ED8000AF1FF /* CourseDates.swift */; };
 		5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */; };
 		5F08321427018D810022971F /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F08321327018D810022971F /* BannerViewController.swift */; };
+		5F11143A298A9C7F00964F02 /* ScrollableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F111439298A9C7F00964F02 /* ScrollableDelegate.swift */; };
 		5F1E03FC26CA64B9004F8139 /* VideoDownloadQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */; };
 		5F28980A25074D5A00BF76DF /* CourseDateBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */; };
 		5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
+		5F2DFCB029262D8E00BDA40A /* CourseDashboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2DFCAF29262D8E00BDA40A /* CourseDashboardHeaderView.swift */; };
+		5F2DFCB229278F0200BDA40A /* NewCourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */; };
 		5F35022427901E7400F76CB4 /* ValuePropUnlockViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */; };
 		5F371470260B3BC9004937DA /* Observeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F37146F260B3BC9004937DA /* Observeable.swift */; };
+		5F3807B02A2871EB00D87796 /* DropDownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F3807AF2A2871EB00D87796 /* DropDownCell.xib */; };
 		5F3A619A265796A7005329A4 /* CalendarSyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */; };
 		5F45030E276B4B290054D266 /* CourseUpgradeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F45030D276B4B290054D266 /* CourseUpgradeHelper.swift */; };
 		5F46A7CC24ADFFA300347EFC /* CourseDateViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */; };
 		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
 		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
+		5F48E79929E868F900F52C4B /* CourseContentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F48E79829E868F900F52C4B /* CourseContentHeaderView.swift */; };
+		5F5058172A3088DA00399C55 /* CourseContentHeaderBlockPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5058162A3088DA00399C55 /* CourseContentHeaderBlockPickerCell.swift */; };
+		5F5239BF293DB9560046FF07 /* CourseDashboardTabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5239BE293DB9560046FF07 /* CourseDashboardTabbarView.swift */; };
 		5F54D99D26B9228500F1EA71 /* PaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F54D99C26B9228500F1EA71 /* PaymentManager.swift */; };
 		5F58DCE12819879300787A75 /* CourseUpgrade.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F58DCE32819879300787A75 /* CourseUpgrade.strings */; };
 		5F592AD0257521F600D96214 /* ISOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F592ACF257521F600D96214 /* ISOParser.swift */; };
@@ -193,6 +200,13 @@
 		5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FC00C269DA9F800F92B8F /* CourseUpgradeButtonView.swift */; };
 		5F68992B29090FBD0060661B /* ExternalAuthOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F68992A29090FBD0060661B /* ExternalAuthOptionsView.swift */; };
 		5F6AD05B27467898007686C2 /* ProfileOptions.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD05927467898007686C2 /* ProfileOptions.strings */; };
+		5F6AF0C329F992BE00450B42 /* DPDUIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C029F992BC00450B42 /* DPDUIView+Extension.swift */; };
+		5F6AF0C429F992BE00450B42 /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C129F992BD00450B42 /* DPDKeyboardListener.swift */; };
+		5F6AF0C529F992BE00450B42 /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C229F992BE00450B42 /* DPDConstants.swift */; };
+		5F6AF0C729F992CE00450B42 /* DropDown+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C629F992CD00450B42 /* DropDown+Appearance.swift */; };
+		5F6AF0CA29F992D600450B42 /* DropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C829F992D500450B42 /* DropDownCell.swift */; };
+		5F6AF0CB29F992D600450B42 /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AF0C929F992D600450B42 /* DropDown.swift */; };
+		5F6C8A52292DFCBB00E5FA7F /* NewDashboardContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */; };
 		5F6F2B60255AABA400AA3708 /* Inter-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */; };
 		5F6F2B61255AABA400AA3708 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */; };
 		5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */; };
@@ -210,6 +224,8 @@
 		5F7C0C6A2534521300A344B9 /* FillBackgroundLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */; };
 		5F903AF4255020D7006365DE /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F903AF3255020D7006365DE /* UIDeviceExtension.swift */; };
 		5F99F3BD26C68308000605B4 /* VideoDownloadQualityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99F3BC26C68308000605B4 /* VideoDownloadQualityViewController.swift */; };
+		5F9EE5E929BE4BF300FF5A0A /* ResumeCourseHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9EE5E829BE4BF300FF5A0A /* ResumeCourseHeaderView.swift */; };
+		5FA4266F2966B1110013BBA8 /* CourseAccessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA4266E2966B1110013BBA8 /* CourseAccessHelper.swift */; };
 		5FA7FEB1266A2BE5006286B6 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7FEB0266A2BE5006286B6 /* BrowserViewController.swift */; };
 		5FA8F8D827C4B153006003DA /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA8F8D327C4B153006003DA /* ShimmerView.swift */; };
 		5FAE055324EA647D00A29B1D /* CourseDates.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAE055124EA618000A29B1D /* CourseDates.json */; };
@@ -220,15 +236,11 @@
 		5FC5AE112847944E007E5917 /* LearnContainerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC5AE102847944E007E5917 /* LearnContainerHeaderView.swift */; };
 		5FD868362637F05E0045A149 /* CourseDatesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */; };
 		5FD868382637F0FC0045A149 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD868372637F0FC0045A149 /* CalendarManager.swift */; };
+		5FE2B8EE297ACBD60071FEF7 /* GeneralErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE2B8ED297ACBD50071FEF7 /* GeneralErrorView.swift */; };
 		5FEA006B290BA06700D39B44 /* ExternalProviderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEA006A290BA06700D39B44 /* ExternalProviderButtonView.swift */; };
 		5FF08645257F91FA0078877A /* ValuePropComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF08644257F91FA0078877A /* ValuePropComponentView.swift */; };
-		5FFB73BC2849F10D000523BF /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */; };
-		5FFB73BD2849F10D000523BF /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B42849F10D000523BF /* DPDConstants.swift */; };
-		5FFB73BE2849F10D000523BF /* DPDUIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B52849F10D000523BF /* DPDUIView+Extension.swift */; };
-		5FFB73C02849F10D000523BF /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B82849F10D000523BF /* DropDown.swift */; };
-		5FFB73C12849F10D000523BF /* DropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73B92849F10D000523BF /* DropDownCell.swift */; };
-		5FFB73C22849F10D000523BF /* DropDown+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFB73BA2849F10D000523BF /* DropDown+Appearance.swift */; };
 		5FFC1D69286EECB700DD29EB /* ServerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC1D68286EECB700DD29EB /* ServerConfiguration.swift */; };
+		5FFC5D0729E4911800467829 /* NewCourseContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC5D0629E4911800467829 /* NewCourseContentController.swift */; };
 		5FFCF2C7284CA12600D6456F /* LearnContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFCF2C6284CA12600D6456F /* LearnContainerViewController.swift */; };
 		6919F5FF1D65CD27006935C8 /* OEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6919F5FE1D65CD27006935C8 /* OEXColors.swift */; };
 		6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDA41D59BE3600A16E22 /* ic_next_press.png */; };
@@ -821,6 +833,7 @@
 		E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */; };
 		E0D159971EB87700005E2A76 /* WhatsNewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159961EB87700005E2A76 /* WhatsNewObject.swift */; };
 		E0D232D4291374A900051A04 /* UsingExternalAuthInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D232D3291374A900051A04 /* UsingExternalAuthInfoView.swift */; };
+		E0D31F0729E6A0A600044368 /* NewCourseDateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D31F0629E6A0A600044368 /* NewCourseDateBannerView.swift */; };
 		E0E163EC21368A1D00DAE9F0 /* FirebaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */; };
 		E0E163EE21368A4F00DAE9F0 /* FirebaseConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */; };
 		E0E163F021368A6300DAE9F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0E163EF21368A6300DAE9F0 /* GoogleService-Info.plist */; };
@@ -830,6 +843,8 @@
 		E0EC115C221AE70900F0574A /* ListenableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC115B221AE70900F0574A /* ListenableObject.m */; };
 		E0EC12AD2216A6910090EEF6 /* NSString+OEXFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E647C51C90C70600B6740D /* NSString+OEXFormatting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */ = {isa = PBXBuildFile; fileRef = E0EEC6E91F1CD279006C8D62 /* whats_new.json */; };
+		E0F9C02F29362806003D96DF /* CourseDashboardErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F9C02E29362806003D96DF /* CourseDashboardErrorView.swift */; };
+		E0F9C0312939C497003D96DF /* CourseDashboardAccessErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F9C0302939C497003D96DF /* CourseDashboardAccessErrorView.swift */; };
 		E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */; };
 		E0FCFCC91EC59DB2000B969C /* WhatsNewObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */; };
 		E0FF457920FDD24400109662 /* BlockCompletionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FF457820FDD24400109662 /* BlockCompletionApi.swift */; };
@@ -1107,17 +1122,24 @@
 		5F0248C524AC9ED8000AF1FF /* CourseDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDates.swift; sourceTree = "<group>"; };
 		5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesAPI.swift; sourceTree = "<group>"; };
 		5F08321327018D810022971F /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
+		5F111439298A9C7F00964F02 /* ScrollableDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableDelegate.swift; sourceTree = "<group>"; };
 		5F1E03FB26CA64B9004F8139 /* VideoDownloadQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloadQuality.swift; sourceTree = "<group>"; };
 		5F28980925074D5A00BF76DF /* CourseDateBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerModel.swift; sourceTree = "<group>"; };
 		5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateBannerView.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
+		5F2DFCAF29262D8E00BDA40A /* CourseDashboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDashboardHeaderView.swift; sourceTree = "<group>"; };
+		5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCourseDashboardViewController.swift; sourceTree = "<group>"; };
 		5F35022327901E7400F76CB4 /* ValuePropUnlockViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropUnlockViewContainer.swift; sourceTree = "<group>"; };
 		5F37146F260B3BC9004937DA /* Observeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observeable.swift; sourceTree = "<group>"; };
+		5F3807AF2A2871EB00D87796 /* DropDownCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DropDownCell.xib; sourceTree = "<group>"; };
 		5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSyncConfig.swift; sourceTree = "<group>"; };
 		5F45030D276B4B290054D266 /* CourseUpgradeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUpgradeHelper.swift; sourceTree = "<group>"; };
 		5F46A7C724ADFFA200347EFC /* CourseDateViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDateViewCell.swift; sourceTree = "<group>"; };
 		5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePoint.swift; sourceTree = "<group>"; };
 		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		5F48E79829E868F900F52C4B /* CourseContentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseContentHeaderView.swift; sourceTree = "<group>"; };
+		5F5058162A3088DA00399C55 /* CourseContentHeaderBlockPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseContentHeaderBlockPickerCell.swift; sourceTree = "<group>"; };
+		5F5239BE293DB9560046FF07 /* CourseDashboardTabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDashboardTabbarView.swift; sourceTree = "<group>"; };
 		5F54D99C26B9228500F1EA71 /* PaymentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManager.swift; sourceTree = "<group>"; };
 		5F58DCE22819879300787A75 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CourseUpgrade.strings; sourceTree = "<group>"; };
 		5F58DCE52819879600787A75 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/CourseUpgrade.strings"; sourceTree = "<group>"; };
@@ -1146,6 +1168,13 @@
 		5F64839F274CEB6000DB38E0 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
 		5F68992A29090FBD0060661B /* ExternalAuthOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAuthOptionsView.swift; sourceTree = "<group>"; };
 		5F6AD05A27467898007686C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProfileOptions.strings; sourceTree = "<group>"; };
+		5F6AF0C029F992BC00450B42 /* DPDUIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DPDUIView+Extension.swift"; sourceTree = "<group>"; };
+		5F6AF0C129F992BD00450B42 /* DPDKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDKeyboardListener.swift; sourceTree = "<group>"; };
+		5F6AF0C229F992BE00450B42 /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDConstants.swift; sourceTree = "<group>"; };
+		5F6AF0C629F992CD00450B42 /* DropDown+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DropDown+Appearance.swift"; sourceTree = "<group>"; };
+		5F6AF0C829F992D500450B42 /* DropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownCell.swift; sourceTree = "<group>"; };
+		5F6AF0C929F992D600450B42 /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
+		5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDashboardContentCell.swift; sourceTree = "<group>"; };
 		5F6F2B56255AABA200AA3708 /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		5F6F2B57255AABA300AA3708 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		5F6F2B58255AABA300AA3708 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
@@ -1162,6 +1191,8 @@
 		5F7C0C692534521300A344B9 /* FillBackgroundLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBackgroundLayoutManager.swift; sourceTree = "<group>"; };
 		5F903AF3255020D7006365DE /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		5F99F3BC26C68308000605B4 /* VideoDownloadQualityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloadQualityViewController.swift; sourceTree = "<group>"; };
+		5F9EE5E829BE4BF300FF5A0A /* ResumeCourseHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeCourseHeaderView.swift; sourceTree = "<group>"; };
+		5FA4266E2966B1110013BBA8 /* CourseAccessHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseAccessHelper.swift; sourceTree = "<group>"; };
 		5FA7FEB0266A2BE5006286B6 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		5FA8F8D327C4B153006003DA /* ShimmerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		5FAE055124EA618000A29B1D /* CourseDates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CourseDates.json; sourceTree = "<group>"; };
@@ -1172,15 +1203,11 @@
 		5FC5AE102847944E007E5917 /* LearnContainerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnContainerHeaderView.swift; sourceTree = "<group>"; };
 		5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesHeaderView.swift; sourceTree = "<group>"; };
 		5FD868372637F0FC0045A149 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		5FE2B8ED297ACBD50071FEF7 /* GeneralErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralErrorView.swift; sourceTree = "<group>"; };
 		5FEA006A290BA06700D39B44 /* ExternalProviderButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalProviderButtonView.swift; sourceTree = "<group>"; };
 		5FF08644257F91FA0078877A /* ValuePropComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropComponentView.swift; sourceTree = "<group>"; };
-		5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDKeyboardListener.swift; sourceTree = "<group>"; };
-		5FFB73B42849F10D000523BF /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDConstants.swift; sourceTree = "<group>"; };
-		5FFB73B52849F10D000523BF /* DPDUIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DPDUIView+Extension.swift"; sourceTree = "<group>"; };
-		5FFB73B82849F10D000523BF /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
-		5FFB73B92849F10D000523BF /* DropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownCell.swift; sourceTree = "<group>"; };
-		5FFB73BA2849F10D000523BF /* DropDown+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DropDown+Appearance.swift"; sourceTree = "<group>"; };
 		5FFC1D68286EECB700DD29EB /* ServerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfiguration.swift; sourceTree = "<group>"; };
+		5FFC5D0629E4911800467829 /* NewCourseContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCourseContentController.swift; sourceTree = "<group>"; };
 		5FFCF2C6284CA12600D6456F /* LearnContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnContainerViewController.swift; sourceTree = "<group>"; };
 		6919F5FE1D65CD27006935C8 /* OEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColors.swift; sourceTree = "<group>"; };
 		6926CDA41D59BE3600A16E22 /* ic_next_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_next_press.png; sourceTree = "<group>"; };
@@ -1910,6 +1937,7 @@
 		E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewDataModel.swift; sourceTree = "<group>"; };
 		E0D159961EB87700005E2A76 /* WhatsNewObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObject.swift; sourceTree = "<group>"; };
 		E0D232D3291374A900051A04 /* UsingExternalAuthInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingExternalAuthInfoView.swift; sourceTree = "<group>"; };
+		E0D31F0629E6A0A600044368 /* NewCourseDateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCourseDateBannerView.swift; sourceTree = "<group>"; };
 		E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseConfig.swift; sourceTree = "<group>"; };
 		E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseConfigTests.swift; sourceTree = "<group>"; };
 		E0E163EF21368A6300DAE9F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -1918,6 +1946,8 @@
 		E0EC115A221AE70900F0574A /* ListenableObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListenableObject.h; sourceTree = "<group>"; };
 		E0EC115B221AE70900F0574A /* ListenableObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListenableObject.m; sourceTree = "<group>"; };
 		E0EEC6E81F1CD279006C8D62 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/whats_new.json; sourceTree = "<group>"; };
+		E0F9C02E29362806003D96DF /* CourseDashboardErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDashboardErrorView.swift; sourceTree = "<group>"; };
+		E0F9C0302939C497003D96DF /* CourseDashboardAccessErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDashboardAccessErrorView.swift; sourceTree = "<group>"; };
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
 		E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObjectTests.swift; sourceTree = "<group>"; };
 		E0FF457820FDD24400109662 /* BlockCompletionApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCompletionApi.swift; sourceTree = "<group>"; };
@@ -2214,6 +2244,7 @@
 				5F28980B2507B19400BF76DF /* CourseDateBannerView.swift */,
 				5FD868352637F05E0045A149 /* CourseDatesHeaderView.swift */,
 				5FD868372637F0FC0045A149 /* CalendarManager.swift */,
+				E0D31F0629E6A0A600044368 /* NewCourseDateBannerView.swift */,
 			);
 			name = "Course Dates";
 			sourceTree = "<group>";
@@ -2420,6 +2451,7 @@
 		5FFB73B02849F10D000523BF /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				5F3807AF2A2871EB00D87796 /* DropDownCell.xib */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -2427,9 +2459,9 @@
 		5FFB73B22849F10D000523BF /* helpers */ = {
 			isa = PBXGroup;
 			children = (
-				5FFB73B32849F10D000523BF /* DPDKeyboardListener.swift */,
-				5FFB73B42849F10D000523BF /* DPDConstants.swift */,
-				5FFB73B52849F10D000523BF /* DPDUIView+Extension.swift */,
+				5F6AF0C229F992BE00450B42 /* DPDConstants.swift */,
+				5F6AF0C129F992BD00450B42 /* DPDKeyboardListener.swift */,
+				5F6AF0C029F992BC00450B42 /* DPDUIView+Extension.swift */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -2437,9 +2469,9 @@
 		5FFB73B72849F10D000523BF /* src */ = {
 			isa = PBXGroup;
 			children = (
-				5FFB73B82849F10D000523BF /* DropDown.swift */,
-				5FFB73B92849F10D000523BF /* DropDownCell.swift */,
-				5FFB73BA2849F10D000523BF /* DropDown+Appearance.swift */,
+				5F6AF0C929F992D600450B42 /* DropDown.swift */,
+				5F6AF0C829F992D500450B42 /* DropDownCell.swift */,
+				5F6AF0C629F992CD00450B42 /* DropDown+Appearance.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -2800,6 +2832,7 @@
 		7772BE781AF40A730081CA7A /* Controller Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5FE2B8ED297ACBD50071FEF7 /* GeneralErrorView.swift */,
 				7765025E1C7CEBC5007384E7 /* SingleChildContainingViewController.swift */,
 				779D1CE01B8E6FE000FCC847 /* PullRefreshController.swift */,
 				77E00B701B82A06F00573622 /* GrowingTextViewController.swift */,
@@ -3446,6 +3479,7 @@
 				E0249F2A26305486007F9AE1 /* OpenInExternalBrowserView.swift */,
 				7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */,
 				773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */,
+				5F9EE5E829BE4BF300FF5A0A /* ResumeCourseHeaderView.swift */,
 				773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */,
 				46CECC3B1B041D270073C63A /* AdditionalTableViewCell.swift */,
 				1AE0A6C71BF4F68A00E14917 /* CourseCertificateCell.swift */,
@@ -3469,6 +3503,16 @@
 				225E9FDB25BAF79E000D6332 /* CelebratoryModalViewController.swift */,
 				5FA7FEB0266A2BE5006286B6 /* BrowserViewController.swift */,
 				5F08321327018D810022971F /* BannerViewController.swift */,
+				5F2DFCAF29262D8E00BDA40A /* CourseDashboardHeaderView.swift */,
+				5F2DFCB129278F0200BDA40A /* NewCourseDashboardViewController.swift */,
+				5FFC5D0629E4911800467829 /* NewCourseContentController.swift */,
+				5F48E79829E868F900F52C4B /* CourseContentHeaderView.swift */,
+				5F5058162A3088DA00399C55 /* CourseContentHeaderBlockPickerCell.swift */,
+				E0F9C02E29362806003D96DF /* CourseDashboardErrorView.swift */,
+				E0F9C0302939C497003D96DF /* CourseDashboardAccessErrorView.swift */,
+				5FA4266E2966B1110013BBA8 /* CourseAccessHelper.swift */,
+				5F6C8A51292DFCBB00E5FA7F /* NewDashboardContentCell.swift */,
+				5F5239BE293DB9560046FF07 /* CourseDashboardTabbarView.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -3846,6 +3890,7 @@
 				77D6A9A51C28F98A00E67CCF /* EnrolledCoursesViewController.swift */,
 				223972E01FE92BB500B2BBEC /* EnrolledTabBarViewController.swift */,
 				2240FD551FF266E4001D6589 /* TabBarItem.swift */,
+				5F111439298A9C7F00964F02 /* ScrollableDelegate.swift */,
 				E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */,
 				E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */,
 				5FC5AE102847944E007E5917 /* LearnContainerHeaderView.swift */,
@@ -4225,6 +4270,7 @@
 				69ECC60A1D50D1170030CF87 /* Icon-29@3x.png in Resources */,
 				5F6F2B64255AABA400AA3708 /* Inter-SemiBold.ttf in Resources */,
 				69ECC6191D50D1170030CF87 /* bt_grey_deactive.png in Resources */,
+				5F3807B02A2871EB00D87796 /* DropDownCell.xib in Resources */,
 				5F6F2B67255AABA400AA3708 /* Inter-LightItalic.ttf in Resources */,
 				6926CDAC1D59BE3600A16E22 /* ic_next.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
@@ -4594,6 +4640,7 @@
 			files = (
 				5FD868382637F0FC0045A149 /* CalendarManager.swift in Sources */,
 				22A970E824EED00E008FCAF6 /* AppleAuthProvider.swift in Sources */,
+				E0D31F0729E6A0A600044368 /* NewCourseDateBannerView.swift in Sources */,
 				77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */,
 				7742F8DD1C3C979D009E555A /* DiscoveryConfig.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
@@ -4614,6 +4661,7 @@
 				7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */,
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				E01F68CE2626BF2F006B6716 /* BrazeConfig.swift in Sources */,
+				5F6AF0CA29F992D600450B42 /* DropDownCell.swift in Sources */,
 				778F17851C10A1B50099BF93 /* CourseCatalogDetailViewController.swift in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
 				22E6A219207AA54600D50EDE /* PlayerView.swift in Sources */,
@@ -4627,12 +4675,14 @@
 				E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
 				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,
+				5F5058172A3088DA00399C55 /* CourseContentHeaderBlockPickerCell.swift in Sources */,
 				778F177C1C0D12780099BF93 /* CourseCatalogAPI.swift in Sources */,
 				B7CCC73B209B16B100A66923 /* LayoutConstraint.swift in Sources */,
 				B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */,
 				773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */,
 				B70BD00920B57E8F005F0D19 /* OEXCourseDetailTableViewCell.m in Sources */,
 				191A002B19405E1B004F7902 /* OEXCourse.m in Sources */,
+				5F11143A298A9C7F00964F02 /* ScrollableDelegate.swift in Sources */,
 				2240FD561FF266E4001D6589 /* TabBarItem.swift in Sources */,
 				E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */,
 				7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */,
@@ -4644,13 +4694,12 @@
 				BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */,
 				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
 				B70BD00720B57E89005F0D19 /* OEXTabBarItemsCell.m in Sources */,
+				5F6AF0C529F992BE00450B42 /* DPDConstants.swift in Sources */,
 				E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */,
 				223CE58F25BEEACC0081C30F /* UIImage+GIF.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
-				5FFB73BC2849F10D000523BF /* DPDKeyboardListener.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
-				5FFB73C22849F10D000523BF /* DropDown+Appearance.swift in Sources */,
 				7765025F1C7CEBC5007384E7 /* SingleChildContainingViewController.swift in Sources */,
 				7C2DD54F1D4A7901006148E0 /* UserPreference.swift in Sources */,
 				1A3AFFE51BD56370002846F3 /* CropViewController.swift in Sources */,
@@ -4672,6 +4721,7 @@
 				9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */,
 				5FFC1D69286EECB700DD29EB /* ServerConfiguration.swift in Sources */,
 				B7CCC71F209B16B100A66923 /* ConstraintDescription.swift in Sources */,
+				5F5239BF293DB9560046FF07 /* CourseDashboardTabbarView.swift in Sources */,
 				E03168EB270301C300AD20FA /* OEXConfig+SingleKeys.swift in Sources */,
 				771273271BA36B76008BA397 /* LoggingAnalyticsTracker.swift in Sources */,
 				9E4E6C411B4BDB5C0034F7EB /* MockResumeCourseProvider.swift in Sources */,
@@ -4696,6 +4746,7 @@
 				E006FDDA24F904F9006E91C2 /* AppleSocial.swift in Sources */,
 				77092C751B42E4C1004AA1A1 /* UIStatusBarStyle+Styles.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
+				5FFC5D0729E4911800467829 /* NewCourseContentController.swift in Sources */,
 				1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */,
 				E0A948132786A6DE00BE79D9 /* WebviewCookiesManager.swift in Sources */,
 				B7CCC723209B16B100A66923 /* ConstraintPriorityTarget.swift in Sources */,
@@ -4703,11 +4754,13 @@
 				E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */,
 				9E882B6A1BBA9825007347A2 /* DiscussionTopicCell.swift in Sources */,
 				B7CCC72C209B16B100A66923 /* ConstraintView.swift in Sources */,
+				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
 				5FFB73C12849F10D000523BF /* DropDownCell.swift in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
 				E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */,
 				E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */,
+				5F6AF0CB29F992D600450B42 /* DropDown.swift in Sources */,
 				E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
@@ -4722,10 +4775,12 @@
 				778F17781C0D123F0099BF93 /* CourseCatalogViewController.swift in Sources */,
 				1AB539E41BFA24DC0065501F /* CertificateViewController.swift in Sources */,
 				69E1CD011D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift in Sources */,
+				E0F9C0312939C497003D96DF /* CourseDashboardAccessErrorView.swift in Sources */,
 				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,
 				9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */,
 				B7CCC720209B16B100A66923 /* ConstraintMakerPriortizable.swift in Sources */,
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
+				5F6AF0C429F992BE00450B42 /* DPDKeyboardListener.swift in Sources */,
 				80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */,
 				775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */,
 				22AB111F2375695C007D03D2 /* PushLink.swift in Sources */,
@@ -4744,7 +4799,6 @@
 				1A8172531C3C21DE007262AA /* TwitterConfig.swift in Sources */,
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
-				5FFB73C02849F10D000523BF /* DropDown.swift in Sources */,
 				69EFBB0D1E36270000FF66C4 /* RatingContainerView.swift in Sources */,
 				5F28980C2507B19400BF76DF /* CourseDateBannerView.swift in Sources */,
 				B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */,
@@ -4791,6 +4845,7 @@
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */,
 				B78823A61FC6F59A00F9CD61 /* LogistrationTextField.swift in Sources */,
+				5FE2B8EE297ACBD60071FEF7 /* GeneralErrorView.swift in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */,
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */,
@@ -4809,6 +4864,7 @@
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,
 				B7CCC722209B16B100A66923 /* ConstraintViewDSL.swift in Sources */,
+				5F2DFCB029262D8E00BDA40A /* CourseDashboardHeaderView.swift in Sources */,
 				5FA7FEB1266A2BE5006286B6 /* BrowserViewController.swift in Sources */,
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				B7CCC721209B16B100A66923 /* ConstraintAttributes.swift in Sources */,
@@ -4835,7 +4891,6 @@
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
 				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
 				9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */,
-				5FFB73BD2849F10D000523BF /* DPDConstants.swift in Sources */,
 				E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */,
 				9ED168B01B29A9EF00AA7B5B /* ResumeCourseItem.swift in Sources */,
 				227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */,
@@ -4905,6 +4960,7 @@
 				5DD0FFC31B17ED2100837121 /* DiscussionCommentsViewController.swift in Sources */,
 				770C514D1B1685F5009B9696 /* AuthenticatedWebViewController.swift in Sources */,
 				E0D159911EB87658005E2A76 /* WhatsNewViewController.swift in Sources */,
+				5F2DFCB229278F0200BDA40A /* NewCourseDashboardViewController.swift in Sources */,
 				9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */,
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
 				1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */,
@@ -4914,6 +4970,7 @@
 				779D1CE11B8E6FE000FCC847 /* PullRefreshController.swift in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
 				223895CF1F25CF76005B9C15 /* SwipeableCell.swift in Sources */,
+				E0F9C02F29362806003D96DF /* CourseDashboardErrorView.swift in Sources */,
 				5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */,
 				777DE7141C1630110068E280 /* CourseMediaInfo.swift in Sources */,
 				E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */,
@@ -4961,6 +5018,7 @@
 				9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */,
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,
 				021AD6251F150BA3009AF653 /* Dictionary+SafeAccess.swift in Sources */,
+				5F6AF0C329F992BE00450B42 /* DPDUIView+Extension.swift in Sources */,
 				77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */,
 				B7CCC728209B16B100A66923 /* ConstraintPriority.swift in Sources */,
 				E09B73722342034400D0EE45 /* FCMProvider.swift in Sources */,
@@ -4976,6 +5034,7 @@
 				1AFEB1B11BBD51EE004C471D /* JSONFormBuilderChooser.swift in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
 				E40AEA73218D074700049C39 /* YoutubeVideoConfig.swift in Sources */,
+				5F6AF0C729F992CE00450B42 /* DropDown+Appearance.swift in Sources */,
 				B7CCC730209B16B100A66923 /* ConstraintOffsetTarget.swift in Sources */,
 				E076A5C21C7DB624008A99C6 /* DiscussionResponsesDataController.swift in Sources */,
 				5F99F3BD26C68308000605B4 /* VideoDownloadQualityViewController.swift in Sources */,
@@ -4988,6 +5047,7 @@
 				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
 				7793764F1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift in Sources */,
 				E0060349265650A400CEBB12 /* BrazeListener.swift in Sources */,
+				5F9EE5E929BE4BF300FF5A0A /* ResumeCourseHeaderView.swift in Sources */,
 				77E648591C91235A00B6740D /* OEXConfig+AppFeatures.swift in Sources */,
 				2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,
@@ -5017,7 +5077,6 @@
 				E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */,
 				773B1D421B1F48F100B861DF /* CourseOutlineHeaderView.swift in Sources */,
 				B7A09BD520F88FBC00A6C249 /* ProgramsViewController.swift in Sources */,
-				5FFB73BE2849F10D000523BF /* DPDUIView+Extension.swift in Sources */,
 				22FDD0AC2552691600BA378D /* FirebaseRemoteConfiguration.swift in Sources */,
 				2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */,
 				E0357C4726CA59120041947A /* CourseUpgradeHandler.swift in Sources */,
@@ -5036,6 +5095,7 @@
 				220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */,
+				5F6C8A52292DFCBB00E5FA7F /* NewDashboardContentCell.swift in Sources */,
 				E0241782254043BB00E397EA /* SEGFirebaseIntegrationFactory.m in Sources */,
 				9EF21A9E1B4697CA000048F8 /* ResumeCourseController.swift in Sources */,
 				698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */,
@@ -5047,6 +5107,7 @@
 				77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */,
 				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
 				221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */,
+				5F48E79929E868F900F52C4B /* CourseContentHeaderView.swift in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,
 				E055D53D1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift in Sources */,
 				1A1181E41BB462D700CFE52B /* RemoteImage.swift in Sources */,
@@ -5059,6 +5120,7 @@
 				1AB539F51BFDFBC10065501F /* DebugMenuViewController.swift in Sources */,
 				5D43B18A1B0C1F9200448B52 /* MenuOptionsViewController.swift in Sources */,
 				E0B58CDC2818F7DF0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift in Sources */,
+				5FA4266F2966B1110013BBA8 /* CourseAccessHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

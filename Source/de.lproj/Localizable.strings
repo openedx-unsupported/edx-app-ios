@@ -320,10 +320,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="was bedeutet, dass Sie nicht an benoteten Aufgaben teilnehmen können. Es sieht so aus, als ob Sie einige wichtige Fristen verpasst haben, basierend auf unserem vorgeschlagenen Zeitplan. Um benotete Aufgaben im Rahmen dieses Kurses abzuschließen und überfällige Aufgaben in die Zukunft zu verschieben, können Sie noch heute ein Upgrade durchführen.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Es sieht so aus, als ob Sie einige wichtige, auf unserem vorgeschlagenen Zeitplan basierende Fristen verpasst haben. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Um den Zeitplan einzuhalten, können Sie ihn aktualisieren und die überfälligen Aufgaben in die Zukunft verschieben. Keine Sorge – Sie verlieren keinen Ihrer Fortschritte, wenn Sie Ihre Fälligkeitstermine verschieben.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Fälligkeitstermine verschieben";
 /* Course Dates Title */
@@ -569,7 +565,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "Suchen Sie nach eine neuen Herausforderung?";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "Einen Kurs finden";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "Es scheint, als wären Sie noch in keinem Kurs eingeschrieben.";
 /* Prompt indicating user needs to enter an email address */
@@ -732,8 +728,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Aktuelle Sprache:";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "Derzeitiger Standort:";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "Profil bearbeiten";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="Ihre Profilinformationen sind nur für Sie sichtbar. Nur Ihr Benutzername ist für andere auf {platform_name} sichtbar.";
 /* Accessibility label for edit profile button */
@@ -1009,7 +1003,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Es ist eine neue Version der App verfügbar.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Ihre Version der App wird nicht weiter unterstützt.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Ihre Version der App wird nicht weiter unterstützt";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Ihre Version der App wird nicht weiter unterstützt. Aktualisieren Sie auf die letzte Version, um sich anzumelden.";
 /*New version available without deadline message*/

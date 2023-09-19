@@ -6,42 +6,30 @@
 //  Copyright (c) 2015 Kevin Hirsch. All rights reserved.
 //
 
+#if os(iOS)
+
 import UIKit
 
 open class DropDownCell: UITableViewCell {
-    
+		
 	//UI
-    lazy var optionLabel = UILabel()
-    
-    var optionText: String?
+	@IBOutlet open weak var optionLabel: UILabel!
 	
 	var selectedBackgroundColor: UIColor?
-    var normalBackgroundColor: UIColor?
-    
     var highlightTextColor: UIColor?
     var normalTextColor: UIColor?
-    
-    var normalTextStyle: OEXTextStyle?
-    var selectedTextStyle: OEXTextStyle?
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        backgroundColor = .clear
-        
-        addSubview(optionLabel)
-        
-        optionLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
-            make.top.equalTo(self).offset(StandardVerticalMargin)
-            make.bottom.equalTo(self).inset(StandardVerticalMargin)
-        }
-    }
-    
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+}
+
+//MARK: - UI
+
+extension DropDownCell {
+	
+	override open func awakeFromNib() {
+		super.awakeFromNib()
+		
+		backgroundColor = .clear
+	}
 	
 	override open var isSelected: Bool {
 		willSet {
@@ -63,18 +51,17 @@ open class DropDownCell: UITableViewCell {
 		let executeSelection: () -> Void = { [weak self] in
 			guard let `self` = self else { return }
 
-			if let selectedBackgroundColor = self.selectedBackgroundColor,
-               let normalBackgroundColor = self.normalBackgroundColor {
+			if let selectedBackgroundColor = self.selectedBackgroundColor {
 				if selected {
 					self.backgroundColor = selectedBackgroundColor
-                    self.optionLabel.attributedText = self.selectedTextStyle?.attributedString(withText: self.optionText)
+                    self.optionLabel.textColor = self.highlightTextColor
 				} else {
-					self.backgroundColor = normalBackgroundColor
-                    self.optionLabel.attributedText = self.normalTextStyle?.attributedString(withText: self.optionText)
+					self.backgroundColor = .clear
+                    self.optionLabel.textColor = self.normalTextColor
 				}
 			}
 		}
-        		
+		
 		if animated {
 			UIView.animate(withDuration: 0.3, animations: {
 				executeSelection()
@@ -87,3 +74,5 @@ open class DropDownCell: UITableViewCell {
 	}
 	
 }
+
+#endif

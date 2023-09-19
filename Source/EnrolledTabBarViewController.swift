@@ -9,15 +9,15 @@
 import UIKit
 
 private enum TabBarOptions: Int {
-    case Course, Program, CourseCatalog, Debug
-    static let options = [Course, Program, CourseCatalog, Debug]
+    case Course, Profile, CourseCatalog, Debug
+    static let options = [CourseCatalog, Course, Profile, Debug]
     
     func title(config: OEXConfig? = nil) -> String {
         switch self {
         case .Course:
-            return Strings.courses
-        case .Program:
-            return Strings.programs
+            return Strings.learn
+        case .Profile:
+            return Strings.UserAccount.profile
         case .CourseCatalog:
             return config?.discovery.type == .native ? Strings.findCourses : Strings.discover
         case .Debug:
@@ -26,12 +26,12 @@ private enum TabBarOptions: Int {
     }
 }
 
-class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelegate, InterfaceOrientationOverriding, ChromeCastConnectedButtonDelegate {
+class EnrolledTabBarViewController: UITabBarController, InterfaceOrientationOverriding, ChromeCastConnectedButtonDelegate {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & ServerConfigProvider
     
-    fileprivate let environment: Environment
-    private var tabBarItems : [TabBarItem] = []
+    private let environment: Environment
+    private var tabBarItems: [TabBarItem] = []
     
     // add the additional resources options like 'debug'(special developer option) in additionalTabBarItems
     private var additionalTabBarItems : [TabBarItem] = []
@@ -40,7 +40,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     static var courseCatalogIndex: Int = 0
     
     private var screenTitle: String {
-        guard let option = TabBarOptions.options.first else {return Strings.courses}
+        guard let option = TabBarOptions.options.first else { return Strings.courses }
         return option.title(config: environment.config)
     }
     
@@ -61,8 +61,10 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         delegate = self
         
         view.accessibilityIdentifier = "EnrolledTabBarViewController:view"
-        selectedIndex = 0
+        selectedIndex = 1
         title = ""
+        
+        addTabbarIndicator()
     }
     
     override func didReceiveMemoryWarning() {
@@ -84,23 +86,17 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for option in TabBarOptions.options {
             switch option {
             case .Course:
-                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: EnrolledCoursesViewController(environment: environment)), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: LearnContainerViewController(environment: environment)), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-
-            case .Program:
-                guard environment.config.programConfig.enabled,
-                      let programsURL = environment.config.programConfig.programURL else { break}
-
-                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: ProgramsViewController(environment: environment, programsURL: programsURL)), icon: Icon.CoursewareEnrolled, detailText: Strings.Dashboard.courseCourseDetail)
+            case .Profile:
+                item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: ProfileOptionsViewController.init(environment: environment)), icon: Icon.Person, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-
             case .CourseCatalog:
                 guard let router = environment.router,
                     let discoveryController = router.discoveryViewController() else { break }
                 item = TabBarItem(title: option.title(config: environment.config), viewController: ForwardingNavigationController(rootViewController: discoveryController), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-                EnrolledTabBarViewController.courseCatalogIndex = 2
-
+                EnrolledTabBarViewController.courseCatalogIndex = 0
             case .Debug:
                 if environment.config.shouldShowDebug() {
                     item = TabBarItem(title: option.title(), viewController: ForwardingNavigationController(rootViewController: DebugMenuViewController(environment: environment)), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
@@ -114,7 +110,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
                 AdditionalTabBarViewController(environment: environment, cellItems: additionalTabBarItems), icon: Icon.MoreOptionsIcon, detailText: "")
             tabBarItems.append(item)
         }
-
+    
         loadTabBarViewControllers(tabBarItems: tabBarItems)
     }
     
@@ -141,10 +137,12 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             controller = tabBarViewController(ProfileOptionsViewController.self)
             break
         case .program, .programDetail:
-            selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
+            selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
+            controller = tabBarViewController(LearnContainerViewController.self)
             break
-        case .courseDashboard, .courseDates, .courseVideos, .courseHandout, .courseComponent:
-            selectedIndex = tabBarViewControllerIndex(with: EnrolledCoursesViewController.self)
+        case .courseDashboard, .courseDates, .courseVideos, .courseHandout, .courseComponent, .courseAnnouncement, .discussions, .discussionPost, .discussionTopic, .discussionComment:
+            selectedIndex = tabBarViewControllerIndex(with: LearnContainerViewController.self)
+            controller = tabBarViewController(LearnContainerViewController.self)
             break
         case .discovery, .discoveryCourseDetail, .discoveryProgramDetail:
             if environment.config.discovery.isEnabled {
@@ -166,8 +164,27 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     }
 }
 
-extension EnrolledTabBarViewController {
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
+extension EnrolledTabBarViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         navigationItem.title = viewController.navigationItem.title
+    }
+}
+
+extension UITabBarController {
+    func addTabbarIndicator(color: UIColor = OEXStyles.shared().primaryDarkColor(), lineHeight: CGFloat = 2) {
+        guard let count = tabBar.items?.count else { return }
+        let tabBarItemSize = CGSize(width: tabBar.frame.width / CGFloat(count), height: tabBar.frame.height)
+        let indicator = createTabbarIndicator(color: color, size: tabBarItemSize, lineHeight: lineHeight)
+        tabBar.selectionIndicatorImage = indicator
+    }
+    
+    private func createTabbarIndicator(color: UIColor, size: CGSize, lineHeight: CGFloat) -> UIImage {
+        let rect = CGRect(x: 0, y: size.height - lineHeight, width: size.width, height: lineHeight )
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image ?? UIImage()
     }
 }

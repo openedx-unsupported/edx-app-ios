@@ -316,10 +316,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="điều này có nghĩa là bạn không thể tham gia vào các bài tập chấm điểm. Có vẻ như bạn đã bỏ lỡ một số hạn chót quan trọng dựa trên lịch biểu gợi ý của chúng tôi. Để hoàn thành các bài tập chấm điểm thuộc khóa học này và di chuyển các bài tập đã quá hạn đến tương lai, bạn có thể nâng cấp hôm nay.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Có vẻ như bạn đã bỏ lỡ một số hạn chót quan trọng dựa trên lịch biểu gợi ý của chúng tôi. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"=" Để duy trì đúng hướng đi, bạn có thể cập nhật lịch biểu này và di chuyển các bài tập đã quá hạn đến tương lai. Đừng lo lắng—bạn sẽ không mất bất kỳ tiến bộ nào mà bạn đã đạt được khi di chuyển ngày đến hạn.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Di chuyển ngày đến hạn";
 /* Course Dates Title */
@@ -555,7 +551,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "Tìm kiếm thử thách mới?";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "Tìm khóa học";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "Có vẻ như bạn chưa tham gia khóa học nào.";
 /* Prompt indicating user needs to enter an email address */
@@ -718,8 +714,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Ngôn ngữ hiện tại: ";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "Địa điểm hiện tại: ";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "Chỉnh sửa hồ sơ";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="Thông tin hồ sơ của bạn chỉ hiển thị trước bạn. Chỉ có tên người dùng của bạn mới hiển thị trước những người khác trên {platform_name}.";
 /* Accessibility label for edit profile button */
@@ -991,7 +985,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Ứng dụng đã có phiên bản mới hơn.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Phiên bản hiện tại của ứng dụng không còn được hỗ trợ.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Phiên bản hiện tại của ứng dụng không còn được hỗ trợ";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Phiên bản hiện tại của ứng dụng không còn được hỗ trợ. Cập nhật lên phiên bản mới nhất để đăng nhập.";
 /*New version available without deadline message*/

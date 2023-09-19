@@ -46,10 +46,15 @@ extension UIViewController {
         return (navigationController != nil && navigationController?.presentingViewController?.presentedViewController == navigationController)
     }
     
-    func configurePresentationController(withSourceView sourceView: UIView) {
+    func configurePresentationController(withSourceView sourceView: UIView, location: CGRect? = nil) {
         if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
             popoverPresentationController?.sourceView = sourceView
-            popoverPresentationController?.sourceRect = sourceView.bounds
+            if let location = location {
+                popoverPresentationController?.sourceRect = location
+            }
+            else {
+                popoverPresentationController?.sourceRect = sourceView.bounds
+            }
         }
     }
     
@@ -59,5 +64,15 @@ extension UIViewController {
             self?.navigationController?.popViewController(animated: true)
         }
         navigationItem.leftBarButtonItem = backItem
+    }
+    
+    func findParentViewController<T: UIViewController>(type: T.Type) -> T? {
+        if let parentViewController = self.parent as? T {
+            return parentViewController
+        } else if let parentViewController = self.parent {
+            return parentViewController.findParentViewController(type: type)
+        } else {
+            return nil
+        }
     }
 }

@@ -116,7 +116,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         // Filed http://www.openradar.appspot.com/radar?id=6188034965897216 against Apple to better expose
         // this API.
         // Verified on iOS9 and iOS 8
-        if let scrollView = (view.subviews.compactMap { return $0 as? UIScrollView }).first {
+        if let scrollView = view.subviews.compactMap({ return $0 as? UIScrollView }).first {
+            scrollView.delegate = self
             scrollView.delaysContentTouches = false
         }
         addObservers()
@@ -213,21 +214,35 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
         switch direction {
         case .Next:
-            titleText = isGroup ? Strings.nextUnit : Strings.next
+            if environment.config.isNewComponentNavigationEnabled {
+                titleText = Strings.next
+            } else {
+                titleText = isGroup ? Strings.nextUnit : Strings.next
+            }
             moveDirection = .forward
         case .Prev:
-            titleText = isGroup ? Strings.previousUnit : Strings.previous
+            if environment.config.isNewComponentNavigationEnabled {
+                titleText = Strings.previous
+            } else {
+                titleText =  isGroup ? Strings.previousUnit : Strings.previous
+            }
             moveDirection = .reverse
         }
         
-        let destinationText = adjacentGroup?.displayName
+        let destinationText: String?
+        
+        if environment.config.isNewComponentNavigationEnabled {
+            destinationText = nil
+        } else {
+            destinationText = adjacentGroup?.displayName
+        }
         
         let view = DetailToolbarButton(direction: direction, titleText: titleText, destinationText: destinationText) {[weak self] in
             self?.moveInDirection(direction: moveDirection)
         }
         view.sizeToFit()
         
-        let barButtonItem =  UIBarButtonItem(customView: view)
+        let barButtonItem = UIBarButtonItem(customView: view)
         barButtonItem.isEnabled = enabled
         view.button.isEnabled = enabled
         return barButtonItem
@@ -264,6 +279,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                     UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
                     nextItem
                 ], animated : true)
+            if environment.config.isNewComponentNavigationEnabled {
+                navigationController?.toolbar.barTintColor = OEXStyles.shared().neutralWhiteT()
+            }
         }
         else {
             toolbarItems = []
@@ -318,7 +336,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
    
     private func showCelebratoryModal(direction: UIPageViewController.NavigationDirection, overController: UIViewController?) {
-        let celebratoryModalView = environment.router?.showCelebratoryModal(fromController: self, courseID: courseQuerier.courseID)
+        
+        var controller: UIViewController = self
+        
+        if environment.config.isNewComponentNavigationEnabled {
+            if let contentContainerController = parent?.parent {
+                controller = contentContainerController
+            }
+        }
+        
+        let celebratoryModalView = environment.router?.showCelebratoryModal(fromController: controller, courseID: courseQuerier.courseID)
         if let videoBlockViewController = overController as? VideoBlockViewController {
             celebratoryModalView?.delegate = videoBlockViewController
         }
@@ -390,6 +417,30 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         updateTransitionState(is: true)
+    }
+    
+    public func moveToBlock(block: CourseBlock) {
+        guard let cursor = contentLoader.value, cursor.current.block.blockID != block.blockID else {
+            return
+        }
+        
+        let currentIndex = cursor.currentIndex()
+        
+        cursor.updateCurrentToItemMatching { $0.block.blockID == block.blockID }
+        
+        let nextIndex = cursor.currentIndex()
+        
+        let direction: NavigationDirection = nextIndex > currentIndex ? .forward : .reverse
+        
+        guard let nextController = controllerForBlock(block: block) else { return }
+        
+        setPageControllers(with: [nextController], direction: direction, animated: false) { [weak self] finished in
+            guard let weakSelf = self else { return }
+            weakSelf.updateTransitionState(is: false)
+            if weakSelf.shouldCelebrationAppear {
+                weakSelf.showCelebratoryModal(direction: direction, overController: nextController)
+            }
+        }
     }
     
     func controllerForBlock(block : CourseBlock, shouldCelebrationAppear: Bool = false) -> UIViewController? {
@@ -466,6 +517,19 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let block = contentLoader.value?.peekPrev()?.block {
             preloadBlock(block: block)
         }
+    }
+}
+
+// There is a bug with UIPageViewController, if user tries to quickly scroll between controllers,
+// the UIPageViewControllerDelegate is not being called appropriately,
+// to handle this, listen to UISsrollViewDelegate and handle the user interaction.
+extension CourseContentPageViewController: UIScrollViewDelegate {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        updateTransitionState(is: false)
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        updateTransitionState(is: false)
     }
 }
 

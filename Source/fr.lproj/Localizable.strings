@@ -320,10 +320,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="ce qui signifie que vous ne pouvez pas participer aux devoirs notés. Il semblerait que vous ayez manqué des échéances importantes de notre programme suggéré. Pour faire les devoirs notés dans le cadre de ce cours et pouvoir rendre les devoirs passés un peu plus tard, vous pouvez mettre à niveau votre inscription dès aujourd'hui.";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="Il semblerait que vous ayez manqué des échéances importantes de notre programme suggéré. ";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="Pour rester sur la bonne voie, vous pouvez mettre à jour ce programme et rendre les devoirs passés un peu plus tard. Ne vous inquiétez pas : en modifiant les échéances, vous ne perdrez pas les progrès que vous avez faits.";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="Déplacer les dates d'échéances";
 /* Course Dates Title */
@@ -569,7 +565,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "À la recherche d'un nouveau challenge?";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "Trouver un cours";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "Vous n'êtes inscrit à aucun cours.";
 /* Prompt indicating user needs to enter an email address */
@@ -732,8 +728,6 @@
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Langue actuelle:";
 /* 'Current Location' label on top row of edit country in user's profile */
 "PROFILE.CURRENT_LOCATION_LABEL" = "Lieu actuel:";
-/* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "Modifier le profil";
 /* Profile screen fields visibility off info message */
 "PROFILE.VISIBILITY_OFF_MESSGAE"="Les informations sur votre profil ne sont visibles que par vous. Seul votre nom d'utilisateur est visible par les autres sur {platform_name}.";
 /* Accessibility label for edit profile button */
@@ -1009,7 +1003,7 @@
 /*Deprecated version detail message*/
 "VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Une nouvelle version est disponible.";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Votre version n'est plus supportée.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Votre version n'est plus supportée";
 /*Outdated version alert message for login screen*/
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Votre version n'est plus supportée. Mettez à jour avec la dernière version pour vous connecter.";
 /*New version available without deadline message*/

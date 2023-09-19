@@ -20,7 +20,8 @@ public class CourseOutlineViewController :
     CourseContentPageViewControllerDelegate,
     PullRefreshControllerDelegate,
     LoadStateViewReloadSupport,
-    InterfaceOrientationOverriding
+    InterfaceOrientationOverriding,
+    ScrollableDelegateProvider
 {
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider & ServerConfigProvider
     
@@ -42,6 +43,7 @@ public class CourseOutlineViewController :
     private(set) var courseOutlineMode: CourseOutlineMode
     private var loadCachedResponse: Bool = true
     private lazy var courseUpgradeHelper = CourseUpgradeHelper.shared
+    weak var newDashboardDelegate: NewCourseDashboardViewControllerDelegate?
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     fileprivate var t_hasTriggeredSetResumeCourse = false
@@ -67,15 +69,23 @@ public class CourseOutlineViewController :
         return environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID)?.course
     }
     
-    public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
+    public weak var scrollableDelegate: ScrollableDelegate? {
+        didSet {
+            tableController.scrollableDelegate = scrollableDelegate
+        }
+    }
+    
+    public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?, newDashboardDelegate: NewCourseDashboardViewControllerDelegate? = nil) {
         self.rootID = rootID
         self.environment = environment
+        self.newDashboardDelegate = newDashboardDelegate
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
         courseOutlineMode = mode ?? .full
         tableController = CourseOutlineTableController(environment: environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: rootID)
+        tableController.newDashboardDelegate = newDashboardDelegate
         resumeCourseController = ResumeCourseController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
@@ -121,12 +131,12 @@ public class CourseOutlineViewController :
         view.setNeedsUpdateConstraints()
         addListeners()
         setAccessibilityIdentifiers()
+        loadCourseStream()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         resumeCourseController.loadResumeCourse(forMode: courseOutlineMode)
-        loadCourseStream()
         
         if courseOutlineMode == .video {
             // We are doing calculations to show downloading progress on video tab, For this purpose we are observing notifications.
@@ -154,7 +164,10 @@ public class CourseOutlineViewController :
         loadController.insets = UIEdgeInsets(top: view.safeAreaInsets.top, left: 0, bottom: view.safeAreaInsets.bottom, right : 0)
         
         tableController.view.snp.remakeConstraints { make in
-            make.edges.equalTo(safeEdges)
+            make.top.equalTo(safeTop).offset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(safeBottom)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
         }
         super.updateViewConstraints()
     }
@@ -322,8 +335,7 @@ public class CourseOutlineViewController :
     private func loadRowsStream() {
         rowsLoader.listen(self, success : { [weak self] groups in
                 if let owner = self {
-                    owner.tableController.groups = groups
-                    owner.tableController.tableView.reloadData()
+                    owner.tableController.setGroups(groups)
                     owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded
                 }
             }, failure : {[weak self] error in
@@ -337,24 +349,33 @@ public class CourseOutlineViewController :
     }
     
     private func handleNavigationIfNeeded() {
-        if let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel {
-            courseUpgradeHelper.resetUpgradeModel()
-
-            if courseUpgradeModel.screen == .courseDashboard {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                    self?.courseUpgradeHelper.removeLoader(success: true, removeView: true)
-                }
-            } else if courseUpgradeModel.screen == .courseComponent, let blockID = courseUpgradeModel.blockID {
-                environment.router?.navigateToComponentScreen(from: self, courseID: courseUpgradeModel.courseID, componentID: blockID) { _ in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                        self?.courseUpgradeHelper.removeLoader(success: true, removeView: true)
-                    }
-                }
-            }
-        } else {
+        guard let courseUpgradeModel = courseUpgradeHelper.courseUpgradeModel else {
             // navigation from deeplink
             navigateToComponentScreenIfNeeded()
+            return
         }
+        
+        courseUpgradeHelper.resetUpgradeModel()
+        
+        switch courseUpgradeModel.screen {
+        case .courseDashboard:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                self?.removeLoader()
+            }
+        case .courseComponent:
+            guard let blockID = courseUpgradeModel.blockID else { return }
+            environment.router?.navigateToComponentScreen(from: self, courseID: courseUpgradeModel.courseID, componentID: blockID) { _ in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                    self?.removeLoader()
+                }
+            }
+        default:
+            break
+        }
+    }
+
+    private func removeLoader() {
+        courseUpgradeHelper.removeLoader(success: true, removeView: true)
     }
     
     private func loadBackedStreams() {
@@ -395,7 +416,13 @@ public class CourseOutlineViewController :
     }
     
     private func showSnackBar() {
-        showDateResetSnackBar(message: Strings.Coursedates.toastSuccessMessage, buttonText: Strings.Coursedates.viewAllDates, showButton: true) { [weak self] in
+        guard let topController = UIApplication.shared.topMostController() else { return }
+        var showViewDatesButton = true
+        if let selectedController = newDashboardDelegate?.selectedController() {
+            showViewDatesButton = !(selectedController is CourseDatesViewController)
+        }
+        
+        topController.showDateResetSnackBar(message: Strings.Coursedates.toastSuccessMessage, buttonText: Strings.Coursedates.viewAllDates, showButton: showViewDatesButton) { [weak self] in
             if let weakSelf = self {
                 weakSelf.environment.router?.showDatesTabController(controller: weakSelf)
                 weakSelf.hideSnackBar()
@@ -521,7 +548,7 @@ extension CourseOutlineViewController {
     }
     
     public func t_currentChildCount() -> Int {
-        return tableController.groups.count
+        return tableController.t_groupsCount
     }
     
     public func t_populateResumeCourseItem(item : ResumeCourseItem) -> Bool {

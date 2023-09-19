@@ -16,7 +16,7 @@ struct CourseCertificateIem {
 
 class CourseCertificateView: UIView {
     
-    static let height: CGFloat = 100.0
+    static let height: CGFloat = 132.0
     private let certificateImageView = UIImageView()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
@@ -61,31 +61,85 @@ class CourseCertificateView: UIView {
         
         titleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
         subtitleLabel.adjustsFontSizeToFitWidth = true
-        
-        certificateImageView.snp.makeConstraints { make in
-            make.top.equalTo(self).offset(StandardVerticalMargin)
-            make.bottom.equalTo(self).inset(StandardVerticalMargin)
+
+        setAccessibilityIdentifiers()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setConstraints()
+    }
+    
+    private func setConstraints() {
+        if traitCollection.verticalSizeClass == .regular {
+            addPortraitConstraints()
+        } else {
+            addLandscapeConstraints()
+        }
+    }
+    
+    private func addPortraitConstraints() {
+        if OEXConfig.shared().isNewDashboardEnabled {
+            certificateImageView.snp.remakeConstraints { make in
+                make.top.equalTo(self).offset(StandardVerticalMargin * 2)
+                make.centerX.equalTo(self)
+                make.width.equalTo(138)
+                make.height.equalTo(100)
+            }
+            
+            titleLabel.snp.remakeConstraints { make in
+                make.top.equalTo(certificateImageView.snp.bottom).offset(StandardVerticalMargin * 2)
+                make.centerX.equalTo(certificateImageView)
+            }
+            
+            subtitleLabel.snp.remakeConstraints { make in
+                make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
+                make.centerX.equalTo(titleLabel)
+            }
+            
+            viewCertificateButton.snp.remakeConstraints { make in
+                make.top.equalTo(subtitleLabel.snp.bottom).offset(StandardVerticalMargin * 2)
+                make.leading.equalTo(self).offset(StandardHorizontalMargin)
+                make.trailing.equalTo(self).inset(StandardHorizontalMargin)
+                make.centerX.equalTo(subtitleLabel)
+                make.height.equalTo(StandardVerticalMargin * 4.5)
+                make.bottom.equalTo(self).inset(StandardVerticalMargin * 2)
+                
+            }
+        }
+        else {
+            // old portrait style is somewhat close to landscape design so for view simplicity using that here as well
+            addLandscapeConstraints()
+        }
+    }
+    
+    private func addLandscapeConstraints() {
+        certificateImageView.snp.remakeConstraints { make in
+            make.top.equalTo(self).offset(StandardVerticalMargin * 2)
+            make.bottom.equalTo(self).inset(StandardVerticalMargin * 2)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.width.equalTo(138)
+            make.height.equalTo(100)
         }
         
-        titleLabel.snp.makeConstraints { make in
+        titleLabel.snp.remakeConstraints { make in
             make.top.equalTo(certificateImageView)
+            make.leading.equalTo(certificateImageView.snp.trailing).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
         
-        subtitleLabel.snp.makeConstraints { make in
+        subtitleLabel.snp.remakeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(titleLabel)
-            make.top.equalTo(titleLabel.snp.bottom)
         }
         
-        viewCertificateButton.snp.makeConstraints { make in
-            make.leading.equalTo(titleLabel)
-            make.trailing.equalTo(titleLabel)
+        viewCertificateButton.snp.remakeConstraints { make in
+            make.leading.equalTo(subtitleLabel)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
+            make.height.equalTo(StandardVerticalMargin * 4.5)
             make.bottom.equalTo(certificateImageView)
         }
-
-        setAccessibilityIdentifiers()
     }
 
     private func setAccessibilityIdentifiers() {
@@ -100,10 +154,19 @@ class CourseCertificateView: UIView {
         guard let certificateItem = item else {return}
         certificateImageView.image = certificateItem.certificateImage
         
-        let titleStyle = OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().primaryBaseColor())
-        let subtitleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().primaryXLightColor())
+        let titleStyle = OEXMutableTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().primaryBaseColor())
+        let subtitleStyle = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().primaryXLightColor())
         
-        titleLabel.attributedText = titleStyle.attributedString(withText: Strings.Certificates.courseCompletionTitle)
+        var title = Strings.Certificates.courseCompletionTitle
+        if OEXConfig.shared().isNewDashboardEnabled {
+            titleStyle.weight = .bold
+            titleStyle.size = .xxLarge
+            titleStyle.color = OEXStyles.shared().neutralBlack()
+            subtitleStyle.color = OEXStyles.shared().neutralXDark()
+            title = title.capitalized
+        }
+        
+        titleLabel.attributedText = titleStyle.attributedString(withText: title)
         subtitleLabel.attributedText = subtitleStyle.attributedString(withText: Strings.Certificates.courseCompletionSubtitle)
         
         addActionIfNeccessary()
@@ -119,7 +182,4 @@ class CourseCertificateView: UIView {
         }
         addGestureRecognizer(tapGesture)
     }
-    
 }
-
-

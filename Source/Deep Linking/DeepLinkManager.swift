@@ -103,19 +103,10 @@ import UIKit
         return .none
     }
     
-    private func showCourseDashboardViewController(with link: DeepLink) {
-        guard let topViewController = topMostViewController else { return }
-        
-        if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
-            if !controllerAlreadyDisplayed(for: link.type) {
-                courseDashboardView.switchTab(with: link.type, componentID: link.componentID)
-                return
-            }
-        }
-        
+    private func showCourseDashboardViewController(with link: DeepLink, completion: (() -> Void)? = nil) {
         dismiss() { [weak self] _ in
             if let topController = self?.topMostViewController {
-                self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController)
+                self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController, completion: completion)
             }
         }
     }
@@ -331,6 +322,10 @@ import UIKit
             return postController.topicID == link.topicID
         }
         
+        if isControllerAlreadyDisplayed {
+            return
+        }
+        
         func showDiscussionPosts() {
             if let topController = topMostViewController {
                 environment?.router?.showDiscussionPosts(from: topController, courseID: courseId, topicID: topicID)
@@ -349,10 +344,10 @@ import UIKit
                     courseDashboardController.switchTab(with: link.type)
                 }
                 else {
-                    self?.showCourseDashboardViewController(with: link)
+                    self?.showCourseDashboardViewController(with: link) {
+                        showDiscussionPosts()
+                    }
                 }
-                
-                showDiscussionPosts()
             }
         }
     }
@@ -365,6 +360,10 @@ import UIKit
         var isControllerAlreadyDisplayed: Bool {
             guard let discussionResponseController = topMostViewController as? DiscussionResponsesViewController else { return false }
             return discussionResponseController.threadID == link.threadID
+        }
+        
+        if isControllerAlreadyDisplayed {
+            return
         }
         
         func showResponses() {
@@ -407,6 +406,10 @@ import UIKit
         var isResponseControllerDisplayed: Bool {
             guard let discussionResponseController = topMostViewController as? DiscussionResponsesViewController else { return false }
             return discussionResponseController.threadID == link.threadID
+        }
+        
+        if isControllerAlreadyDisplayed {
+            return
         }
         
         func showComment() {
@@ -522,6 +525,8 @@ import UIKit
             return
         }
         
+        let isNewDashboardEnabled = environment?.config.isNewDashboardEnabled ?? false
+        
         switch type {
         case .courseDashboard, .courseVideos, .discussions, .courseDates, .courseComponent:
             showCourseDashboardViewController(with: link)
@@ -544,15 +549,23 @@ import UIKit
             showDiscussionTopic(with: link)
             break
         case .discussionPost:
-            showDiscussionResponses(with: link)
+                showDiscussionResponses(with: link)
             break
         case .discussionComment:
-            showdiscussionComments(with: link)
+                showdiscussionComments(with: link)
         case .courseHandout:
-            showCourseHandout(with: link)
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showCourseHandout(with: link)
+            }
             break
         case .courseAnnouncement:
-            showCourseAnnouncement(with: link)
+            if isNewDashboardEnabled {
+                showCourseDashboardViewController(with: link)
+            } else {
+                showCourseAnnouncement(with: link)
+            }
             break
         default:
             break

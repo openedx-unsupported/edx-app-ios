@@ -105,13 +105,15 @@ class CourseCardCell : UICollectionViewCell {
 protocol CoursesContainerViewControllerDelegate : AnyObject {
     func coursesContainerChoseCourse(course : OEXCourse)
     func showValuePropDetailView(with course: OEXCourse)
+    func reload()
 }
 
 extension CoursesContainerViewControllerDelegate {
     func showValuePropDetailView(with course: OEXCourse) {}
+    func reload() {}
 }
 
-class CoursesContainerViewController: UICollectionViewController {
+class CoursesContainerViewController: UICollectionViewController, ScrollableDelegateProvider {
     
     enum Context {
         case courseCatalog
@@ -120,12 +122,20 @@ class CoursesContainerViewController: UICollectionViewController {
     
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXInterfaceProvider & OEXAnalyticsProvider & ServerConfigProvider
     
+    weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
+    
     private let environment : Environment
     private let context: Context
     
     weak var delegate: CoursesContainerViewControllerDelegate?
     
     private var isAuditModeCourseAvailable: Bool = false
+    
+    private lazy var errorView: GeneralErrorView = {
+        let errorView = GeneralErrorView()
+        return errorView
+    }()
     
     var courses: [OEXCourse] = [] {
         didSet {
@@ -143,9 +153,9 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     private var shouldShowFooter: Bool {
-        return context == .enrollmentList && isDiscoveryEnabled
+        return context == .enrollmentList && isDiscoveryEnabled && courses.isEmpty
     }
-    
+        
     init(environment: Environment, context: Context) {
         self.environment = environment
         self.context = context
@@ -188,18 +198,14 @@ class CoursesContainerViewController: UICollectionViewController {
         )
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return courses.count
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: shouldShowFooter ? EnrolledCoursesFooterViewHeight : 0)
+        return CGSize(width: collectionView.frame.size.width, height: shouldShowFooter ? collectionView.frame.size.height : 0)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionFooter {
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: EnrolledCoursesFooterView.identifier, for: indexPath) as! EnrolledCoursesFooterView
-            footerView.findCoursesAction = {[weak self] in
+            footerView.findCoursesAction = { [weak self] in
                 self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
                 self?.environment.analytics.trackUserFindsCourses(self?.courses.count ?? 0)
             }
@@ -207,6 +213,10 @@ class CoursesContainerViewController: UICollectionViewController {
         }
         
         return UICollectionReusableView()
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return courses.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -258,6 +268,43 @@ class CoursesContainerViewController: UICollectionViewController {
         super.viewDidLayoutSubviews()
         insetsController.updateInsets()
     }
+    
+    func showError(message: String? = nil) {
+        setupErrorView()
+        errorView.setErrorMessage(message: message)
+        
+        errorView.tapAction = { [weak self] in
+            self?.delegate?.reload()
+        }
+    }
+    
+    private func setupErrorView() {
+        collectionView.alpha = 0
+        view.addSubview(errorView)
+        view.bringSubviewToFront(errorView)
+        
+        errorView.snp.makeConstraints { make in
+            make.edges.equalTo(view)
+        }
+    }
+    
+    func showOutdatedVersionError() {
+        setupErrorView()
+        errorView.showOutdatedVersionError()
+        
+        errorView.tapAction = { [weak self] in
+            if let URL = self?.environment.config.appUpgradeConfig.iOSAppStoreURL() as? URL, UIApplication.shared.canOpenURL(URL) {
+                UIApplication.shared.open(URL as URL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    func removeErrorView() {
+        if view.subviews.contains(errorView) {
+            errorView.removeFromSuperview()
+            collectionView.alpha = 1
+        }
+    }
 }
 
 extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
@@ -290,5 +337,21 @@ extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
         let valuePropHeight: CGFloat = calculateValuePropHeight(for: indexPath)
         let heightPerItem =  widthPerItem * StandardImageAspectRatio + valuePropHeight
         return CGSize(width: widthPerItem, height: heightPerItem)
+    }
+}
+
+extension CoursesContainerViewController {
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
     }
 }

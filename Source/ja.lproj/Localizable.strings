@@ -316,10 +316,6 @@
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BODY"="採点対象の課題には参加できません。推奨スケジュールにある重要な期限が守られなかったようです。このコースで採点対象の課題を完了し、過去の期限付き課題を未来日付に移動させるには、アップグレードしてください。";
 /* Course Reset Date Upgrade Reset Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_RESET_BANNER.BUTTON"="Upgrade to shift due dates";
-/* Course Reset Date Banner Header */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.HEADER"="推奨スケジュールにある重要な期限が守られなかったようです。";
-/* Course Reset Date Banner Body */
-"COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BODY"="このスケジュールを更新し、過去の課題を未来日付に移動させることで、学習を計画通りに進めることができます。期限をずらしてもこれまでの進捗が失われることはありませんので、ご安心ください。";
 /* Course Reset Date Banner Button */
 "COURSEDATES.RESET_DATE.RESET_DATE_BANNER.BUTTON"="期限を移動";
 /* Course Dates Title */
@@ -560,7 +556,7 @@
 /* Prompt shown to users on the course list encouraging them to find new courses */
 "ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "新しいチャレンジを探していますか？";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "講座を探す";
+"ENROLLMENT_LIST.FIND_COURSES" = "Explore courses";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "あなたはまだどの講座にも受講登録をしていないようです。";
 /* Prompt indicating user needs to enter an email address */
