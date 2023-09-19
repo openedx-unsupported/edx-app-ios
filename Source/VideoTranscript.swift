@@ -12,9 +12,12 @@ protocol VideoTranscriptDelegate: AnyObject {
     func didSelectSubtitleAtInterval(time: TimeInterval)
 }
 
-class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
+class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource, ScrollableDelegateProvider {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider
+    
+    weak var scrollableDelegate: ScrollableDelegate?
+    private var scrollByDragging = false
     
     let transcriptTableView = UITableView(frame: CGRect.zero, style: .plain)
     var transcripts = [TranscriptObject]()
@@ -68,7 +71,18 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
         delegate?.didSelectSubtitleAtInterval(time: transcripts[indexPath.row].start)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollByDragging {
+            scrollableDelegate?.scrollViewDidScroll(scrollView: scrollView)
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollByDragging = false
+    }
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollByDragging = true
         isTableDragged = true
         draggingTimer.invalidate()
         draggingTimer = Timer.scheduledTimer(timeInterval: dragDelay, target: self, selector: #selector(invalidateDragging), userInfo: nil, repeats: false)
