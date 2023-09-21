@@ -85,12 +85,12 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private let environment: Environment
     let courseID: String
     private let screen: CourseUpgradeScreen = .courseDashboard
-    private let fromEnrollment: Bool
+    private let newEnrollment: Bool
     
-    init(environment: Environment, courseID: String, fromEnrollment: Bool = false) {
+    init(environment: Environment, courseID: String, newEnrollment: Bool = false) {
         self.environment = environment
         self.courseID = courseID
-        self.fromEnrollment = fromEnrollment
+        self.newEnrollment = newEnrollment
         self.courseStream = BackedStream<UserCourseEnrollment>()
         self.loadStateController = LoadStateViewController()
         super.init(nibName: nil, bundle: nil)
@@ -106,7 +106,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         addSubviews()
         
-        let delay = fromEnrollment ?  0.5 : 0
+        let delay = newEnrollment ?  0.5 : 0
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
             self?.loadCourseStream()
         }

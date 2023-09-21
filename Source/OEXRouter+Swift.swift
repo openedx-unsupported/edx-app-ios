@@ -210,12 +210,12 @@ extension OEXRouter {
         return controllerForBlockWithID(blockID: block.blockID, type: block.displayType, courseID: courseID, gated: block.isGated, shouldCelebrationAppear: shouldCelebrationAppear)
     }
     
-    @objc func showMyCourses(animated: Bool = true, pushingCourseWithID courseID: String? = nil, fromEnrollment: Bool = false) {
+    @objc(showMyCoursesAnimated:pushingCourseWithID:) func showMyCourses(animated: Bool = true, pushingCourseWithID courseID: String? = nil) {
         let controller = EnrolledTabBarViewController(environment: environment)
         let learnController = controller.children.flatMap { $0.children }.compactMap { $0 as? LearnContainerViewController } .first
         showContentStack(withRootController: controller, animated: animated)
         if let courseID = courseID, let learnController = learnController {
-            showCourseWithID(courseID: courseID, fromController: learnController, animated: false, fromEnrollment: fromEnrollment)
+            showCourseWithID(courseID: courseID, fromController: learnController, animated: false, newEnrollment: true)
         }
     }
 
@@ -560,9 +560,9 @@ extension OEXRouter {
         c.loadRequest(request: URLRequest(url: url as URL) as NSURLRequest)
     }
     
-    func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, fromEnrollment: Bool = false, completion: ((UIViewController) -> Void)? = nil) {
+    func showCourseWithID(courseID: String, fromController: UIViewController, animated: Bool = true, newEnrollment: Bool = false, completion: ((UIViewController) -> Void)? = nil) {
         if environment.config.isNewDashboardEnabled {
-            let courseDashboardViewController = NewCourseDashboardViewController(environment: environment, courseID: courseID, fromEnrollment: fromEnrollment)
+            let courseDashboardViewController = NewCourseDashboardViewController(environment: environment, courseID: courseID, newEnrollment: newEnrollment)
             let controller = ForwardingNavigationController(rootViewController: courseDashboardViewController)
             controller.navigationController?.setNavigationBarHidden(true, animated: false)
             controller.modalPresentationStyle = .fullScreen

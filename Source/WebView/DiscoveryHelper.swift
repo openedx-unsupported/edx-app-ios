@@ -72,7 +72,7 @@ enum WebviewActions: String {
     }
     
     private class func showMainScreen(with message: String, and courseId: String, from controller: UIViewController) {
-        OEXRouter.shared().showMyCourses(animated: true, pushingCourseWithID: courseId, fromEnrollment: controller is OEXCourseInfoViewController ? true : false)
+        OEXRouter.shared().showMyCourses(animated: true, pushingCourseWithID: courseId)
         let delay = DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: delay) {
            postEnrollmentSuccessNotification(message: message, from: controller)
