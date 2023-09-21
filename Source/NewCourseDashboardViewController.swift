@@ -85,10 +85,12 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
     private let environment: Environment
     let courseID: String
     private let screen: CourseUpgradeScreen = .courseDashboard
+    private let fromEnrollment: Bool
     
-    init(environment: Environment, courseID: String) {
+    init(environment: Environment, courseID: String, fromEnrollment: Bool = false) {
         self.environment = environment
         self.courseID = courseID
+        self.fromEnrollment = fromEnrollment
         self.courseStream = BackedStream<UserCourseEnrollment>()
         self.loadStateController = LoadStateViewController()
         super.init(nibName: nil, bundle: nil)
@@ -104,10 +106,10 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         addSubviews()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let delay = fromEnrollment ?  0.5 : 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
             self?.loadCourseStream()
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

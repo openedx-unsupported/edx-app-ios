@@ -118,7 +118,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (void)showMainScreenWithMessage:(NSString*)message courseID:(NSString*)courseID {
-    [self.environment.router showMyCoursesAnimated:YES pushingCourseWithID:courseID];
+    [self.environment.router showMyCoursesWithAnimated:YES pushingCourseWithID:courseID fromEnrollment:YES];
     [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:0.5];
 }
 
