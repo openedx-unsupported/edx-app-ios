@@ -103,7 +103,11 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         addSubviews()
-        loadCourseStream()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.loadCourseStream()
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
