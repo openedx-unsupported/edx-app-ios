@@ -35,6 +35,15 @@
                     "android"
                 ],
                 "image":"screen_4",
+                "title":"2. Learn",
+                "message":"Once in the course, navigate course content quickly and easily using tabs and dropdowns."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_5",
                 "title":"3. Profile",
                 "message":"Access your account information and user settings."
             }
