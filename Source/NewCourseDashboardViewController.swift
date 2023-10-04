@@ -153,7 +153,7 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
             make.top.equalTo(safeTop)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.height.lessThanOrEqualTo(StandardVerticalMargin * 100)
+            make.height.lessThanOrEqualTo(StandardVerticalMargin * 120)
         }
         
         container.snp.remakeConstraints { make in

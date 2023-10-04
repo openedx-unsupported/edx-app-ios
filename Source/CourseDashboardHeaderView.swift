@@ -309,8 +309,9 @@ class CourseDashboardHeaderView: UIView {
         }
         
         if bannerInfo != nil {
-            datesBannerView.removeFromSuperview()
-            containerView.addSubview(datesBannerView)
+            if !containerView.subviews.contains(datesBannerView) {
+                containerView.addSubview(datesBannerView)
+            }
             
             datesBannerView.snp.remakeConstraints { make in
                 make.top.equalTo(bottomContainer.snp.bottom).offset(StandardVerticalMargin)
@@ -318,6 +319,8 @@ class CourseDashboardHeaderView: UIView {
                 make.trailing.equalTo(containerView)
             }
             bottomContainer = datesBannerView
+        } else {
+            datesBannerView.removeFromSuperview()
         }
                 
         tabbarView.snp.remakeConstraints { make in
