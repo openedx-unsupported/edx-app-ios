@@ -176,6 +176,7 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         if !chromeCastManager.viewExpanded {
             resetChromeCast()
         }
+        videoTranscriptView = nil
     }
     
     override func viewDidAppear(_ animated : Bool) {

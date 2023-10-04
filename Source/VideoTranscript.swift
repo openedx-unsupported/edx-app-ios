@@ -41,8 +41,6 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource, Scr
         self.environment = environment
         super.init()
         setupTable(tableView: transcriptTableView)
-        transcriptTableView.dataSource = self
-        transcriptTableView.delegate = self
     }
     
     private func setupTable(tableView: UITableView) {
@@ -52,6 +50,8 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource, Scr
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         tableView.isHidden = true
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
     //MARK: - UITableview methods
@@ -115,5 +115,9 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource, Scr
     
     @objc func invalidateDragging(){
         isTableDragged = false
+    }
+    
+    deinit {
+        draggingTimer.invalidate()
     }
 }
