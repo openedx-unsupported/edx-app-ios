@@ -842,6 +842,11 @@
 		E0EAD98E2ABC1B87001C6470 /* screen_3.gif in Resources */ = {isa = PBXBuildFile; fileRef = E0EAD98C2ABC1B87001C6470 /* screen_3.gif */; };
 		E0EAD98F2ABC1B87001C6470 /* screen_4.gif in Resources */ = {isa = PBXBuildFile; fileRef = E0EAD98D2ABC1B87001C6470 /* screen_4.gif */; };
 		E0EAD9912ABD3727001C6470 /* screen_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = E0EAD9902ABD3727001C6470 /* screen_1.gif */; };
+		E0EAD99E2ACEBA48001C6470 /* SEGGoogleAnalyticsIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EAD9972ACEBA48001C6470 /* SEGGoogleAnalyticsIntegration.m */; };
+		E0EAD99F2ACEBA48001C6470 /* SEGGoogleAnalyticsIntegrationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EAD9982ACEBA48001C6470 /* SEGGoogleAnalyticsIntegrationFactory.m */; };
+		E0EAD9A02ACEBA48001C6470 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E0EAD9992ACEBA48001C6470 /* LICENSE */; };
+		E0EAD9A12ACEBA48001C6470 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E0EAD99A2ACEBA48001C6470 /* README.md */; };
+		E0EAD9A22ACEBA48001C6470 /* GoogleAnalytics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0EAD99D2ACEBA48001C6470 /* GoogleAnalytics.xcframework */; };
 		E0EC115C221AE70900F0574A /* ListenableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC115B221AE70900F0574A /* ListenableObject.m */; };
 		E0EC12AD2216A6910090EEF6 /* NSString+OEXFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E647C51C90C70600B6740D /* NSString+OEXFormatting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E0EDDBD12AB9698600DB3CFE /* screen_5.png in Resources */ = {isa = PBXBuildFile; fileRef = E0EDDBCF2AB9698600DB3CFE /* screen_5.png */; };
@@ -1948,6 +1953,13 @@
 		E0EAD98C2ABC1B87001C6470 /* screen_3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = screen_3.gif; sourceTree = "<group>"; };
 		E0EAD98D2ABC1B87001C6470 /* screen_4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = screen_4.gif; sourceTree = "<group>"; };
 		E0EAD9902ABD3727001C6470 /* screen_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = screen_1.gif; sourceTree = "<group>"; };
+		E0EAD9952ACEBA48001C6470 /* SEGGoogleAnalyticsIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGGoogleAnalyticsIntegration.h; sourceTree = "<group>"; };
+		E0EAD9962ACEBA48001C6470 /* SEGGoogleAnalyticsIntegrationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGGoogleAnalyticsIntegrationFactory.h; sourceTree = "<group>"; };
+		E0EAD9972ACEBA48001C6470 /* SEGGoogleAnalyticsIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGGoogleAnalyticsIntegration.m; sourceTree = "<group>"; };
+		E0EAD9982ACEBA48001C6470 /* SEGGoogleAnalyticsIntegrationFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGGoogleAnalyticsIntegrationFactory.m; sourceTree = "<group>"; };
+		E0EAD9992ACEBA48001C6470 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		E0EAD99A2ACEBA48001C6470 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E0EAD99D2ACEBA48001C6470 /* GoogleAnalytics.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GoogleAnalytics.xcframework; sourceTree = "<group>"; };
 		E0EC115A221AE70900F0574A /* ListenableObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListenableObject.h; sourceTree = "<group>"; };
 		E0EC115B221AE70900F0574A /* ListenableObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListenableObject.m; sourceTree = "<group>"; };
 		E0EDDBCF2AB9698600DB3CFE /* screen_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_5.png; sourceTree = "<group>"; };
@@ -2014,6 +2026,7 @@
 				E02661732269A821002721B7 /* libOCMock.a in Frameworks */,
 				BE0EE28B192B78DA00F9FF98 /* libz.dylib in Frameworks */,
 				BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */,
+				E0EAD9A22ACEBA48001C6470 /* GoogleAnalytics.xcframework in Frameworks */,
 				E082D60325C0070800C94C9A /* Photos.framework in Frameworks */,
 				BECB7B131924C0C3009C77F1 /* UIKit.framework in Frameworks */,
 				BECB7B0F1924C0C3009C77F1 /* Foundation.framework in Frameworks */,
@@ -3535,6 +3548,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E0EAD9922ACEBA48001C6470 /* Segment-GoogleAnalytics */,
 				E0AA9106280FFC8E00D39A4D /* KeychainSwift */,
 				5FFB73AE2849F10D000523BF /* DropDown */,
 				5F592ACE257521CF00D96214 /* SwiftDate */,
@@ -4035,6 +4049,53 @@
 			name = WhatsNew;
 			sourceTree = "<group>";
 		};
+		E0EAD9922ACEBA48001C6470 /* Segment-GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				E0EAD9932ACEBA48001C6470 /* Pod */,
+				E0EAD9992ACEBA48001C6470 /* LICENSE */,
+				E0EAD99A2ACEBA48001C6470 /* README.md */,
+				E0EAD99B2ACEBA48001C6470 /* GoogleAnalytics */,
+			);
+			name = "Segment-GoogleAnalytics";
+			path = "Libraries/Segment-GoogleAnalytics";
+			sourceTree = SOURCE_ROOT;
+		};
+		E0EAD9932ACEBA48001C6470 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				E0EAD9942ACEBA48001C6470 /* Classes */,
+			);
+			path = Pod;
+			sourceTree = "<group>";
+		};
+		E0EAD9942ACEBA48001C6470 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E0EAD9952ACEBA48001C6470 /* SEGGoogleAnalyticsIntegration.h */,
+				E0EAD9962ACEBA48001C6470 /* SEGGoogleAnalyticsIntegrationFactory.h */,
+				E0EAD9972ACEBA48001C6470 /* SEGGoogleAnalyticsIntegration.m */,
+				E0EAD9982ACEBA48001C6470 /* SEGGoogleAnalyticsIntegrationFactory.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		E0EAD99B2ACEBA48001C6470 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				E0EAD99C2ACEBA48001C6470 /* Frameworks */,
+			);
+			path = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
+		E0EAD99C2ACEBA48001C6470 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E0EAD99D2ACEBA48001C6470 /* GoogleAnalytics.xcframework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -4291,6 +4352,7 @@
 				5F6F2B62255AABA400AA3708 /* Inter-Bold.ttf in Resources */,
 				E048260227AD519A0046B8AF /* screen_2.png in Resources */,
 				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
+				E0EAD9A02ACEBA48001C6470 /* LICENSE in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
 				22F8A9141F4708A50025E18A /* Main.storyboard in Resources */,
@@ -4316,6 +4378,7 @@
 				69ECC6291D50D1170030CF87 /* check@2x.png in Resources */,
 				5F6F2B68255AABA400AA3708 /* Inter-ExtraBoldItalic.ttf in Resources */,
 				E0514DE8285C4F7900D645E0 /* RobotoMono-SemiBold.ttf in Resources */,
+				E0EAD9A12ACEBA48001C6470 /* README.md in Resources */,
 				22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */,
 				E021F46C1F739599007A26E7 /* loginScreenImage@2x~ipad.png in Resources */,
 				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
@@ -4728,6 +4791,7 @@
 				7758FFDE1C32FD6A0072355B /* EnrollmentShared.swift in Sources */,
 				5D43B1861B0C1F9200448B52 /* PostTableViewCell.swift in Sources */,
 				774BC7F41B4B0D700084F902 /* DiscussionTopic.swift in Sources */,
+				E0EAD99E2ACEBA48001C6470 /* SEGGoogleAnalyticsIntegration.m in Sources */,
 				E054B09D1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift in Sources */,
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
 				9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */,
@@ -4835,6 +4899,7 @@
 				9EE684CB1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift in Sources */,
 				7C2DD5511D4A790F006148E0 /* UserPreferenceAPI.swift in Sources */,
 				9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */,
+				E0EAD99F2ACEBA48001C6470 /* SEGGoogleAnalyticsIntegrationFactory.m in Sources */,
 				19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */,
 				2285121720FDC365006A4736 /* DiscoveryHelper.swift in Sources */,
 				7784C68B1B03BA1E00529C7C /* LoadStateViewController.swift in Sources */,
