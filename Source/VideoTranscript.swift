@@ -117,7 +117,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource, Scr
         isTableDragged = false
     }
     
-    deinit {
+    func invalidateTimer() {
         draggingTimer.invalidate()
     }
 }
