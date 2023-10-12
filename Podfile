@@ -26,7 +26,6 @@ target 'edX' do
   pod 'MSAL', '= 1.2.5', :modular_headers => true
   pod 'NewRelicAgent', '= 7.4.2'
   pod 'Segment-Appboy', '= 4.6.0'
-  pod 'Segment-GoogleAnalytics', '= 1.3.3'
   pod 'Smartling.i18n', '~> 1.0.14'
   pod 'YoutubePlayer-in-WKWebView', '~> 0.3.8'
 end
