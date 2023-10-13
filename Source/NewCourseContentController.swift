@@ -46,15 +46,8 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     private var headerViewState: HeaderViewState = .expanded
     
     private var currentBlock: CourseBlock? {
-        willSet {
-            currentBlock?.completion.unsubscribe(observer: self)
-        }
-        
         didSet {
             updateView()
-            currentBlock?.completion.subscribe(observer: self) { [weak self] _,_ in
-                self?.updateView()
-            }
         }
     }
     
@@ -103,7 +96,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
         setStatusBar(color: environment.styles.primaryLightColor())
         addSubViews()
         setupComponentView()
-        setupCompletedBlocksView()
+        configureBlocks()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -170,30 +163,27 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
         self.courseContentViewController = courseContentViewController
     }
     
-    private func setupCompletedBlocksView() {
+    private func configureBlocks() {
         guard let block = currentBlock,
+            let parent = courseQuerier.parentOfBlockWith(id: block.blockID).value,
+            let children = courseQuerier.childrenOfBlockWithID(blockID: parent.blockID, forMode: courseOutlineMode).value?.children,
             let section = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value,
             let sectionChildren = courseQuerier.childrenOfBlockWithID(blockID: section.blockID, forMode: courseOutlineMode).value
         else { return }
         
-        let childBlocks: [CourseBlock] = sectionChildren.children.compactMap { item in
-            courseQuerier.childrenOfBlockWithID(blockID: item.blockID, forMode: courseOutlineMode)
-                .firstSuccess().value?.children ?? []
-        }.flatMap { $0 }
-
-        let childViews: [UIView] = childBlocks.map { block -> UIView in
+        let childViews: [UIView] = children.map { childBlock -> UIView in
             let view = UIView()
-            view.backgroundColor = block.isCompleted ? environment.styles.accentBColor() : environment.styles.neutralDark()
+            view.backgroundColor = block.blockID == childBlock.blockID ? environment.styles.accentBColor() : environment.styles.neutralDark()
             return view
         }
         
-        headerView.setBlocks(currentBlock: block, blocks: childBlocks)
+        headerView.setBlocks(currentBlock: parent, blocks: sectionChildren.children)
         progressStackView.removeAllArrangedSubviews()
         progressStackView.addArrangedSubviews(childViews)
     }
     
     private func findCourseBlockToShow() {
-        guard let childBlocks = courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: .full)
+        guard let childBlocks = courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: courseOutlineMode)
             .firstSuccess().value?.children.compactMap({ $0 }).filter({ $0.type == .Unit })
         else { return }
         
@@ -208,14 +198,14 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
     
     private func updateView() {
         guard let block = currentBlock else { return }
+        configureBlocks()
         updateTitle(block: block)
-        setupCompletedBlocksView()
     }
     
     private func updateTitle(block: CourseBlock) {
-        guard let parent = courseQuerier.parentOfBlockWith(id: block.blockID, type: .Section).firstSuccess().value
-        else { return }
-        headerView.update(title: parent.displayName, subtitle: block.displayName)
+        guard let currentBlock = courseQuerier.parentOfBlockWith(id: block.blockID).value,
+              let parent = courseQuerier.parentOfBlockWith(id: currentBlock.blockID).value else { return }
+        headerView.update(title: parent.displayName, subtitle: currentBlock.displayName)
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -262,7 +252,8 @@ extension NewCourseContentController: CourseContentHeaderViewDelegate {
     }
     
     func didTapOnUnitBlock(block: CourseBlock) {
-        courseContentViewController?.moveToBlock(block: block)
+        guard let firstBlock = courseQuerier.blockWithID(id: block.children.first).value else { return }
+        courseContentViewController?.moveToBlock(block: firstBlock)
     }
 }
 

@@ -261,6 +261,9 @@ class CourseContentHeaderView: UIView {
         if blocks.count > 1 {
             button.isEnabled = true
             dropDownImageView.isHidden = false
+        } else {
+            button.isEnabled = false
+            dropDownImageView.isHidden = true
         }
     }
     
