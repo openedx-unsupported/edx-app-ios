@@ -143,6 +143,8 @@ class CoursesContainerViewController: UICollectionViewController, ScrollableDele
                 let auditModeCourses = courses.filter { valuePropEnabled(for: $0) }
                 isAuditModeCourseAvailable = !auditModeCourses.isEmpty
             }
+            
+            canShowEmptyScreen = courses.isEmpty
         }
     }
     
@@ -153,8 +155,11 @@ class CoursesContainerViewController: UICollectionViewController, ScrollableDele
     }
     
     private var shouldShowFooter: Bool {
-        return context == .enrollmentList && isDiscoveryEnabled && courses.isEmpty
+        return context == .enrollmentList && isDiscoveryEnabled && canShowEmptyScreen
     }
+    
+    //Empty Screen should be shown after fetching the enrollments API
+    var canShowEmptyScreen: Bool = false
         
     init(environment: Environment, context: Context) {
         self.environment = environment
@@ -297,6 +302,11 @@ class CoursesContainerViewController: UICollectionViewController, ScrollableDele
                 UIApplication.shared.open(URL as URL, options: [:], completionHandler: nil)
             }
         }
+    }
+    
+    func showEmptyScreen(show: Bool = true) {
+        canShowEmptyScreen = show
+        collectionView.reloadData()
     }
     
     func removeErrorView() {
