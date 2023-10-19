@@ -155,7 +155,7 @@ class CoursesContainerViewController: UICollectionViewController, ScrollableDele
     }
     
     private var shouldShowFooter: Bool {
-        return context == .enrollmentList && isDiscoveryEnabled && courses.isEmpty && canShowEmptyScreen
+        return context == .enrollmentList && isDiscoveryEnabled && canShowEmptyScreen
     }
     
     //Empty Screen should be shown after fetching the enrollments API
