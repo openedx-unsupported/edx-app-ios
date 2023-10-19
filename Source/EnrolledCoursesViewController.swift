@@ -147,12 +147,12 @@ class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOri
                     self?.coursesContainer.removeErrorView()
                     self?.coursesContainer.courses = enrollments.compactMap { $0.course }
                     self?.coursesContainer.collectionView.reloadData()
-                    self?.loadController.state = .Loaded
                     self?.handleUpgradationLoader(success: true)
                     
                     if enrollments.isEmpty {
                         self?.enrollmentsEmptyState()
                     }
+                    self?.loadController.state = .Loaded
                 }
                 else {
                     self?.loadController.state = .Initial
@@ -193,6 +193,9 @@ class EnrolledCoursesViewController : OfflineSupportViewController, InterfaceOri
         if !isDiscoveryEnabled {
             let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
             loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
+        }
+        else {
+            coursesContainer.showEmptyScreen()
         }
     }
     
