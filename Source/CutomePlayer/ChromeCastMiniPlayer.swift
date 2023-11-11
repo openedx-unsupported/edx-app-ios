@@ -63,13 +63,14 @@ class ChromeCastMiniPlayer: UIViewController {
     
     func play(video: OEXHelperVideoDownload, time: TimeInterval) {
         guard let videoURL = video.summary?.videoURL,
-            let url = URL(string: videoURL),
-            let videoID = video.summary?.videoID else {
+              let courseID = video.course_id,
+              let url = URL(string: videoURL),
+              let videoID = video.summary?.videoID else {
             return
         }
         self.video = video
         let thumbnail = video.summary?.videoThumbnailURL ?? courseImageURLString
-        let mediaInfo = mediaInformation(contentID: url.absoluteString, title: video.summary?.name ?? "", videoID: videoID, contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
+        let mediaInfo = mediaInformation(courseID: courseID, contentID: url.absoluteString, title: video.summary?.name ?? "", videoID: videoID, contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
         
         play(with: mediaInfo, at: time) { success in
             if success {
@@ -119,10 +120,10 @@ class ChromeCastMiniPlayer: UIViewController {
         viewController.didMove(toParent: self)
     }
     
-    private func mediaInformation(contentID: String, title: String, videoID: String, contentType: ChromeCastContentType, streamType: GCKMediaStreamType, thumbnailUrl: String?) -> GCKMediaInformation {
+    private func mediaInformation(courseID: String, contentID: String, title: String, videoID: String, contentType: ChromeCastContentType, streamType: GCKMediaStreamType, thumbnailUrl: String?) -> GCKMediaInformation {
         let deviceName = ChromeCastManager.shared.sessionManager?.currentCastSession?.device.friendlyName
         
-        return GCKMediaInformation.buildMediaInformation(contentID: contentID, title: title, videoID: videoID, contentType: contentType, streamType: streamType, thumbnailUrl: thumbnailUrl, deviceName: deviceName)
+        return GCKMediaInformation.buildMediaInformation(courseID: courseID, contentID: contentID, title: title, videoID: videoID, contentType: contentType, streamType: streamType, thumbnailUrl: thumbnailUrl, deviceName: deviceName)
     }
     
     private func play(with mediaInfo: GCKMediaInformation, at time: TimeInterval, completion: ChromeCastItemCompletion? = nil) {

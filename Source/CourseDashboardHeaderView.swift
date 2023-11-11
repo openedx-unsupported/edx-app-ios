@@ -91,6 +91,8 @@ class CourseDashboardHeaderView: UIView {
         return button
     }()
     
+    private lazy var chromercastView = ChromecastEnableView()
+    
     private lazy var certificateView: CourseCertificateView? = nil
     
     private func addCertificateView() {
@@ -185,6 +187,12 @@ class CourseDashboardHeaderView: UIView {
     // it will be used to hide value prop from header in favor of embeded value prop on course dashboard
     private var hideValueProp: Bool = false
     
+    private var chromeCastManager = ChromeCastManager.shared
+    
+    private var isChromeCastConnected: Bool {
+        return chromeCastManager.isConnected && chromeCastManager.currentPlayingVideoCourseID == course?.course_id
+    }
+    
     init(environment: Environment, course: OEXCourse?, tabbarItems: [TabBarItem], error: CourseAccessHelper?) {
         self.environment = environment
         self.course = course
@@ -195,6 +203,8 @@ class CourseDashboardHeaderView: UIView {
         addSubViews()
         setOrUpdateConstraints()
         configureView()
+        
+        ChromeCastManager.shared.add(delegate: self)
     }
     
     private func configureView() {
@@ -234,6 +244,23 @@ class CourseDashboardHeaderView: UIView {
             make.edges.equalTo(self)
         }
         
+        if isChromeCastConnected {
+            if !containerView.subviews.contains(chromercastView) {
+                containerView.addSubview(chromercastView)
+            }
+            
+            chromercastView.addChromeCastButton(tintColor: environment.styles.neutralWhiteT())
+            
+            chromercastView.snp.remakeConstraints { make in
+                make.top.equalTo(containerView).offset(StandardVerticalMargin * 2)
+                make.trailing.equalTo(closeButton.snp.leading).offset(-StandardHorizontalMargin)
+                make.height.equalTo(imageSize)
+                make.width.equalTo(imageSize)
+            }
+        } else {
+            chromercastView.removeFromSuperview()
+        }
+        
         closeButton.snp.remakeConstraints { make in
             make.top.equalTo(containerView).offset(StandardVerticalMargin * 2)
             make.trailing.equalTo(containerView).inset(StandardVerticalMargin * 2)
@@ -245,7 +272,7 @@ class CourseDashboardHeaderView: UIView {
             make.top.equalTo(closeButton)
             make.centerY.equalTo(closeButton)
             make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(closeButton.snp.leading).offset(-StandardHorizontalMargin)
+            make.trailing.equalTo(isChromeCastConnected ? chromercastView.snp.leading : closeButton.snp.leading).offset(-StandardHorizontalMargin)
         }
         
         if state == .collapsed { return }
@@ -391,10 +418,40 @@ class CourseDashboardHeaderView: UIView {
         hideValueProp = hide
         setOrUpdateConstraints()
     }
+    
+    func reset() {
+        chromeCastManager.remove(delegate: self)
+    }
 }
 
 extension CourseDashboardHeaderView: CourseDashboardTabbarViewDelegate {
     func didSelectItem(at position: Int, tabbarItem: TabBarItem) {
         delegate?.didTapTabbarItem(at: position, tabbarItem: tabbarItem)
+    }
+}
+
+extension CourseDashboardHeaderView: ChromeCastPlayerStatusDelegate {
+    func chromeCastDidConnect() {
+        guard let course = course else { return }
+        let currentPlayingCourseID = chromeCastManager.currentPlayingVideoCourseID
+        if currentPlayingCourseID == course.course_id {
+            setOrUpdateConstraints()
+        }
+    }
+    
+    func chromeCastDidDisconnect(playedTime: TimeInterval) {
+        setOrUpdateConstraints()
+    }
+    
+    func chromeCastVideoPlaying() {
+        guard let course = course else { return }
+        let currentPlayingCourseID = chromeCastManager.currentPlayingVideoCourseID
+        if currentPlayingCourseID == course.course_id {
+            setOrUpdateConstraints()
+        }
+    }
+    
+    func chromeCastDidFinishPlaying() {
+        
     }
 }

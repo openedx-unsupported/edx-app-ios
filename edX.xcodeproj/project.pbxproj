@@ -4162,12 +4162,12 @@
 				BECB7B071924C0C3009C77F1 /* Sources */,
 				BECB7B081924C0C3009C77F1 /* Frameworks */,
 				BECB7B091924C0C3009C77F1 /* Resources */,
-				77BDD65E1A44BD7300EA2A9C /* Process Config */,
 				77E647AC1C90C10400B6740D /* Embed Frameworks */,
 				E0D9C59723FEAE100085218B /* Remove Unsupported Architectures */,
 				E094D55D2474E8150071BAAD /* Firebase Crashlytics */,
 				BFD74E97BAF89D19434811E5 /* [CP] Embed Pods Frameworks */,
 				43A92E60C5A96043835CC691 /* [CP] Copy Pods Resources */,
+				77BDD65E1A44BD7300EA2A9C /* Process Config */,
 			);
 			buildRules = (
 			);
