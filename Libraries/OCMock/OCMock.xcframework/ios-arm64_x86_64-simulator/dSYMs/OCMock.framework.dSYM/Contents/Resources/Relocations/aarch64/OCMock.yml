@@ -1,0 +1,476 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/erik/Library/Developer/Xcode/DerivedData/OCMock-eolppnbannkelbekssbvglkcoyjl/Build/Products/Release-iphonesimulator/OCMock.framework/OCMock'
+relocations:
+  - { offsetInCU: 0x27, offset: 0x5500B, size: 0x8, addend: 0x0, symName: '+[OCMockObject initialize]', symObjAddr: 0x0, symBinAddr: 0x361C, symSize: 0x70 }
+  - { offsetInCU: 0x19E, offset: 0x55182, size: 0x8, addend: 0x0, symName: '+[OCMockObject initialize]', symObjAddr: 0x0, symBinAddr: 0x361C, symSize: 0x70 }
+  - { offsetInCU: 0x1CD, offset: 0x551B1, size: 0x8, addend: 0x0, symName: '+[OCMockObject mockForClass:]', symObjAddr: 0x70, symBinAddr: 0x368C, symSize: 0x40 }
+  - { offsetInCU: 0x210, offset: 0x551F4, size: 0x8, addend: 0x0, symName: '+[OCMockObject mockForProtocol:]', symObjAddr: 0xB0, symBinAddr: 0x36CC, symSize: 0x40 }
+  - { offsetInCU: 0x253, offset: 0x55237, size: 0x8, addend: 0x0, symName: '+[OCMockObject partialMockForObject:]', symObjAddr: 0xF0, symBinAddr: 0x370C, symSize: 0x40 }
+  - { offsetInCU: 0x296, offset: 0x5527A, size: 0x8, addend: 0x0, symName: '+[OCMockObject niceMockForClass:]', symObjAddr: 0x130, symBinAddr: 0x374C, symSize: 0x38 }
+  - { offsetInCU: 0x2DD, offset: 0x552C1, size: 0x8, addend: 0x0, symName: '+[OCMockObject niceMockForProtocol:]', symObjAddr: 0x168, symBinAddr: 0x3784, symSize: 0x38 }
+  - { offsetInCU: 0x324, offset: 0x55308, size: 0x8, addend: 0x0, symName: '+[OCMockObject _makeNice:]', symObjAddr: 0x1A0, symBinAddr: 0x37BC, symSize: 0x28 }
+  - { offsetInCU: 0x367, offset: 0x5534B, size: 0x8, addend: 0x0, symName: '+[OCMockObject observerMock]', symObjAddr: 0x1C8, symBinAddr: 0x37E4, symSize: 0x30 }
+  - { offsetInCU: 0x39A, offset: 0x5537E, size: 0x8, addend: 0x0, symName: '-[OCMockObject init]', symObjAddr: 0x1F8, symBinAddr: 0x3814, symSize: 0x158 }
+  - { offsetInCU: 0x3F0, offset: 0x553D4, size: 0x8, addend: 0x0, symName: '-[OCMockObject dealloc]', symObjAddr: 0x350, symBinAddr: 0x396C, symSize: 0x90 }
+  - { offsetInCU: 0x423, offset: 0x55407, size: 0x8, addend: 0x0, symName: '-[OCMockObject description]', symObjAddr: 0x3E0, symBinAddr: 0x39FC, symSize: 0x1C }
+  - { offsetInCU: 0x456, offset: 0x5543A, size: 0x8, addend: 0x0, symName: '-[OCMockObject addStub:]', symObjAddr: 0x3FC, symBinAddr: 0x3A18, symSize: 0x74 }
+  - { offsetInCU: 0x499, offset: 0x5547D, size: 0x8, addend: 0x0, symName: '-[OCMockObject stubForInvocation:]', symObjAddr: 0x470, symBinAddr: 0x3A8C, symSize: 0x178 }
+  - { offsetInCU: 0x4F7, offset: 0x554DB, size: 0x8, addend: 0x0, symName: '-[OCMockObject addExpectation:]', symObjAddr: 0x5E8, symBinAddr: 0x3C04, symSize: 0x70 }
+  - { offsetInCU: 0x53A, offset: 0x5551E, size: 0x8, addend: 0x0, symName: '-[OCMockObject assertInvocationsArrayIsPresent]', symObjAddr: 0x658, symBinAddr: 0x3C74, symSize: 0x8C }
+  - { offsetInCU: 0x56D, offset: 0x55551, size: 0x8, addend: 0x0, symName: '-[OCMockObject addInvocation:]', symObjAddr: 0x6E4, symBinAddr: 0x3D00, symSize: 0x7C }
+  - { offsetInCU: 0x5B0, offset: 0x55594, size: 0x8, addend: 0x0, symName: '-[OCMockObject setExpectationOrderMatters:]', symObjAddr: 0x760, symBinAddr: 0x3D7C, symSize: 0x20 }
+  - { offsetInCU: 0x5ED, offset: 0x555D1, size: 0x8, addend: 0x0, symName: '-[OCMockObject stopMocking]', symObjAddr: 0x780, symBinAddr: 0x3D9C, symSize: 0x74 }
+  - { offsetInCU: 0x620, offset: 0x55604, size: 0x8, addend: 0x0, symName: '-[OCMockObject stub]', symObjAddr: 0x7F4, symBinAddr: 0x3E10, symSize: 0x40 }
+  - { offsetInCU: 0x657, offset: 0x5563B, size: 0x8, addend: 0x0, symName: '-[OCMockObject expect]', symObjAddr: 0x834, symBinAddr: 0x3E50, symSize: 0x40 }
+  - { offsetInCU: 0x68E, offset: 0x55672, size: 0x8, addend: 0x0, symName: '-[OCMockObject reject]', symObjAddr: 0x874, symBinAddr: 0x3E90, symSize: 0x24 }
+  - { offsetInCU: 0x6C5, offset: 0x556A9, size: 0x8, addend: 0x0, symName: '-[OCMockObject verify]', symObjAddr: 0x898, symBinAddr: 0x3EB4, symSize: 0x18 }
+  - { offsetInCU: 0x6FA, offset: 0x556DE, size: 0x8, addend: 0x0, symName: '-[OCMockObject verifyAtLocation:]', symObjAddr: 0x8B0, symBinAddr: 0x3ECC, symSize: 0x30C }
+  - { offsetInCU: 0x853, offset: 0x55837, size: 0x8, addend: 0x0, symName: '-[OCMockObject verifyWithDelay:]', symObjAddr: 0xBBC, symBinAddr: 0x41D8, symSize: 0x18 }
+  - { offsetInCU: 0x895, offset: 0x55879, size: 0x8, addend: 0x0, symName: '-[OCMockObject verifyWithDelay:atLocation:]', symObjAddr: 0xBD4, symBinAddr: 0x41F0, symSize: 0x214 }
+  - { offsetInCU: 0x95B, offset: 0x5593F, size: 0x8, addend: 0x0, symName: '-[OCMockObject verifyInvocation:]', symObjAddr: 0xDE8, symBinAddr: 0x4404, symSize: 0x18 }
+  - { offsetInCU: 0x99C, offset: 0x55980, size: 0x8, addend: 0x0, symName: '-[OCMockObject verifyInvocation:atLocation:]', symObjAddr: 0xE00, symBinAddr: 0x441C, symSize: 0x1C }
+  - { offsetInCU: 0x9EE, offset: 0x559D2, size: 0x8, addend: 0x0, symName: '-[OCMockObject verifyInvocation:withQuantifier:atLocation:]', symObjAddr: 0xE1C, symBinAddr: 0x4438, symSize: 0x1E8 }
+  - { offsetInCU: 0xAB6, offset: 0x55A9A, size: 0x8, addend: 0x0, symName: '-[OCMockObject descriptionForVerificationFailureWithMatcher:quantifier:invocationCount:]', symObjAddr: 0x1004, symBinAddr: 0x4620, symSize: 0x108 }
+  - { offsetInCU: 0xB32, offset: 0x55B16, size: 0x8, addend: 0x0, symName: '-[OCMockObject forwardingTargetForSelector:]', symObjAddr: 0x110C, symBinAddr: 0x4728, symSize: 0x94 }
+  - { offsetInCU: 0xC0D, offset: 0x55BF1, size: 0x8, addend: 0x0, symName: '-[OCMockObject handleSelector:]', symObjAddr: 0x11A0, symBinAddr: 0x47BC, symSize: 0x170 }
+  - { offsetInCU: 0xC6E, offset: 0x55C52, size: 0x8, addend: 0x0, symName: '-[OCMockObject forwardInvocation:]', symObjAddr: 0x1310, symBinAddr: 0x492C, symSize: 0x118 }
+  - { offsetInCU: 0xCD3, offset: 0x55CB7, size: 0x8, addend: 0x0, symName: '-[OCMockObject handleInvocation:]', symObjAddr: 0x1428, symBinAddr: 0x4A44, symSize: 0x23C }
+  - { offsetInCU: 0xD5E, offset: 0x55D42, size: 0x8, addend: 0x0, symName: '-[OCMockObject _nextExpectedInvocation]', symObjAddr: 0x1664, symBinAddr: 0x4C80, symSize: 0x134 }
+  - { offsetInCU: 0xDAE, offset: 0x55D92, size: 0x8, addend: 0x0, symName: '-[OCMockObject handleUnRecordedInvocation:]', symObjAddr: 0x1798, symBinAddr: 0x4DB4, symSize: 0xB8 }
+  - { offsetInCU: 0xDF3, offset: 0x55DD7, size: 0x8, addend: 0x0, symName: '-[OCMockObject doesNotRecognizeSelector:]', symObjAddr: 0x1850, symBinAddr: 0x4E6C, symSize: 0xE4 }
+  - { offsetInCU: 0xE77, offset: 0x55E5B, size: 0x8, addend: 0x0, symName: '-[OCMockObject _stubDescriptions:]', symObjAddr: 0x1934, symBinAddr: 0x4F50, symSize: 0x21C }
+  - { offsetInCU: 0x27, offset: 0x55FE7, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject initWithClass:]', symObjAddr: 0x0, symBinAddr: 0x516C, symSize: 0x70 }
+  - { offsetInCU: 0x10A, offset: 0x560CA, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject initWithClass:]', symObjAddr: 0x0, symBinAddr: 0x516C, symSize: 0x70 }
+  - { offsetInCU: 0x151, offset: 0x56111, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject dealloc]', symObjAddr: 0x70, symBinAddr: 0x51DC, symSize: 0x54 }
+  - { offsetInCU: 0x184, offset: 0x56144, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject description]', symObjAddr: 0xC4, symBinAddr: 0x5230, symSize: 0x5C }
+  - { offsetInCU: 0x1E1, offset: 0x561A1, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject mockedClass]', symObjAddr: 0x120, symBinAddr: 0x528C, symSize: 0x20 }
+  - { offsetInCU: 0x218, offset: 0x561D8, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject assertClassIsSupported:]', symObjAddr: 0x140, symBinAddr: 0x52AC, symSize: 0xD8 }
+  - { offsetInCU: 0x276, offset: 0x56236, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject stopMocking]', symObjAddr: 0x218, symBinAddr: 0x5384, symSize: 0xA4 }
+  - { offsetInCU: 0x2C5, offset: 0x56285, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject stopMockingClassMethods]', symObjAddr: 0x2BC, symBinAddr: 0x5428, symSize: 0x58 }
+  - { offsetInCU: 0x369, offset: 0x56329, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject addStub:]', symObjAddr: 0x314, symBinAddr: 0x5480, symSize: 0x88 }
+  - { offsetInCU: 0x3AC, offset: 0x5636C, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject prepareClassForClassMethodMocking]', symObjAddr: 0x39C, symBinAddr: 0x5508, symSize: 0x2D4 }
+  - { offsetInCU: 0x63C, offset: 0x565FC, size: 0x8, addend: 0x0, symName: '___54-[OCClassMockObject prepareClassForClassMethodMocking]_block_invoke', symObjAddr: 0x670, symBinAddr: 0x57DC, symSize: 0x13C }
+  - { offsetInCU: 0x747, offset: 0x56707, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32o40o, symObjAddr: 0x7AC, symBinAddr: 0x5918, symSize: 0x3C }
+  - { offsetInCU: 0x770, offset: 0x56730, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32o40o, symObjAddr: 0x7E8, symBinAddr: 0x5954, symSize: 0x30 }
+  - { offsetInCU: 0x78F, offset: 0x5674F, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject setupForwarderForClassMethodSelector:]', symObjAddr: 0x818, symBinAddr: 0x5984, symSize: 0xF4 }
+  - { offsetInCU: 0x949, offset: 0x56909, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject forwardInvocationForClassObject:]', symObjAddr: 0x90C, symBinAddr: 0x5A78, symSize: 0xF0 }
+  - { offsetInCU: 0x9DD, offset: 0x5699D, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject initializeForClassObject]', symObjAddr: 0x9FC, symBinAddr: 0x5B68, symSize: 0x14 }
+  - { offsetInCU: 0xA0C, offset: 0x569CC, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject methodSignatureForSelector:]', symObjAddr: 0xA10, symBinAddr: 0x5B7C, symSize: 0x7C }
+  - { offsetInCU: 0xA63, offset: 0x56A23, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject mockObjectClass]', symObjAddr: 0xA8C, symBinAddr: 0x5BF8, symSize: 0x44 }
+  - { offsetInCU: 0xA9A, offset: 0x56A5A, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject class]', symObjAddr: 0xAD0, symBinAddr: 0x5C3C, symSize: 0x20 }
+  - { offsetInCU: 0xAD1, offset: 0x56A91, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject respondsToSelector:]', symObjAddr: 0xAF0, symBinAddr: 0x5C5C, symSize: 0x20 }
+  - { offsetInCU: 0xB16, offset: 0x56AD6, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject isKindOfClass:]', symObjAddr: 0xB10, symBinAddr: 0x5C7C, symSize: 0x20 }
+  - { offsetInCU: 0xB5B, offset: 0x56B1B, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject conformsToProtocol:]', symObjAddr: 0xB30, symBinAddr: 0x5C9C, symSize: 0x94 }
+  - { offsetInCU: 0xC1B, offset: 0x56BDB, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSValue__]', symObjAddr: 0xBC4, symBinAddr: 0x5D30, symSize: 0x48 }
+  - { offsetInCU: 0xC53, offset: 0x56C13, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSTimeZone__]', symObjAddr: 0xC0C, symBinAddr: 0x5D78, symSize: 0x48 }
+  - { offsetInCU: 0xC8B, offset: 0x56C4B, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSSet__]', symObjAddr: 0xC54, symBinAddr: 0x5DC0, symSize: 0x48 }
+  - { offsetInCU: 0xCC3, offset: 0x56C83, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSOrderedSet__]', symObjAddr: 0xC9C, symBinAddr: 0x5E08, symSize: 0x48 }
+  - { offsetInCU: 0xCFB, offset: 0x56CBB, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSNumber__]', symObjAddr: 0xCE4, symBinAddr: 0x5E50, symSize: 0x48 }
+  - { offsetInCU: 0xD33, offset: 0x56CF3, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSDate__]', symObjAddr: 0xD2C, symBinAddr: 0x5E98, symSize: 0x48 }
+  - { offsetInCU: 0xD6B, offset: 0x56D2B, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSString__]', symObjAddr: 0xD74, symBinAddr: 0x5EE0, symSize: 0x48 }
+  - { offsetInCU: 0xDA3, offset: 0x56D63, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSDictionary__]', symObjAddr: 0xDBC, symBinAddr: 0x5F28, symSize: 0x48 }
+  - { offsetInCU: 0xDDB, offset: 0x56D9B, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSData__]', symObjAddr: 0xE04, symBinAddr: 0x5F70, symSize: 0x48 }
+  - { offsetInCU: 0xE13, offset: 0x56DD3, size: 0x8, addend: 0x0, symName: '-[OCClassMockObject(NSIsKindsImplementation) isNSArray__]', symObjAddr: 0xE4C, symBinAddr: 0x5FB8, symSize: 0x48 }
+  - { offsetInCU: 0x27, offset: 0x56FCB, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject initWithObject:]', symObjAddr: 0x0, symBinAddr: 0x6000, symSize: 0xF4 }
+  - { offsetInCU: 0x131, offset: 0x570D5, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject initWithObject:]', symObjAddr: 0x0, symBinAddr: 0x6000, symSize: 0xF4 }
+  - { offsetInCU: 0x188, offset: 0x5712C, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject description]', symObjAddr: 0xF4, symBinAddr: 0x60F4, symSize: 0x60 }
+  - { offsetInCU: 0x1E5, offset: 0x57189, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject realObject]', symObjAddr: 0x154, symBinAddr: 0x6154, symSize: 0x20 }
+  - { offsetInCU: 0x21C, offset: 0x571C0, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject assertClassIsSupported:]', symObjAddr: 0x174, symBinAddr: 0x6174, symSize: 0x12C }
+  - { offsetInCU: 0x295, offset: 0x57239, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject classToSubclassForObject:]', symObjAddr: 0x2A0, symBinAddr: 0x62A0, symSize: 0x78 }
+  - { offsetInCU: 0x31F, offset: 0x572C3, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject stopMocking]', symObjAddr: 0x318, symBinAddr: 0x6318, symSize: 0xBC }
+  - { offsetInCU: 0x3FD, offset: 0x573A1, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject addStub:]', symObjAddr: 0x3D4, symBinAddr: 0x63D4, symSize: 0x88 }
+  - { offsetInCU: 0x440, offset: 0x573E4, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject addInvocation:]', symObjAddr: 0x45C, symBinAddr: 0x645C, symSize: 0xC0 }
+  - { offsetInCU: 0x483, offset: 0x57427, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject handleUnRecordedInvocation:]', symObjAddr: 0x51C, symBinAddr: 0x651C, symSize: 0x118 }
+  - { offsetInCU: 0x4F5, offset: 0x57499, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject prepareObjectForInstanceMethodMocking]', symObjAddr: 0x634, symBinAddr: 0x6634, symSize: 0x288 }
+  - { offsetInCU: 0x7E3, offset: 0x57787, size: 0x8, addend: 0x0, symName: '___60-[OCPartialMockObject prepareObjectForInstanceMethodMocking]_block_invoke', symObjAddr: 0x8BC, symBinAddr: 0x68BC, symSize: 0xDC }
+  - { offsetInCU: 0x8F3, offset: 0x57897, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject setupForwarderForSelector:]', symObjAddr: 0xA04, symBinAddr: 0x6998, symSize: 0x15C }
+  - { offsetInCU: 0xA9C, offset: 0x57A40, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject classForRealObject]', symObjAddr: 0xB60, symBinAddr: 0x6AF4, symSize: 0x78 }
+  - { offsetInCU: 0xB11, offset: 0x57AB5, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject forwardingTargetForSelectorForRealObject:]', symObjAddr: 0xBD8, symBinAddr: 0x6B6C, symSize: 0xC0 }
+  - { offsetInCU: 0xB7F, offset: 0x57B23, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject ocmock_replaced_forwardingTargetForSelector:]', symObjAddr: 0xC98, symBinAddr: 0x6C2C, symSize: 0x18 }
+  - { offsetInCU: 0xBBE, offset: 0x57B62, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject forwardInvocationForRealObject:]', symObjAddr: 0xCB0, symBinAddr: 0x6C44, symSize: 0xD0 }
+  - { offsetInCU: 0xC36, offset: 0x57BDA, size: 0x8, addend: 0x0, symName: '-[OCPartialMockObject descriptionForVerificationFailureWithMatcher:quantifier:invocationCount:]', symObjAddr: 0xD80, symBinAddr: 0x6D14, symSize: 0x154 }
+  - { offsetInCU: 0xCD8, offset: 0x57C7C, size: 0x8, addend: 0x0, symName: '___95-[OCPartialMockObject descriptionForVerificationFailureWithMatcher:quantifier:invocationCount:]_block_invoke', symObjAddr: 0xED4, symBinAddr: 0x6E68, symSize: 0xAC }
+  - { offsetInCU: 0xD74, offset: 0x57D18, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32r, symObjAddr: 0xF80, symBinAddr: 0x6F14, symSize: 0x10 }
+  - { offsetInCU: 0xD9D, offset: 0x57D41, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32r, symObjAddr: 0xF90, symBinAddr: 0x6F24, symSize: 0xC }
+  - { offsetInCU: 0x27, offset: 0x57FDE, size: 0x8, addend: 0x0, symName: '-[OCProtocolMockObject initWithProtocol:]', symObjAddr: 0x0, symBinAddr: 0x6F30, symSize: 0x98 }
+  - { offsetInCU: 0xD9, offset: 0x58090, size: 0x8, addend: 0x0, symName: '-[OCProtocolMockObject initWithProtocol:]', symObjAddr: 0x0, symBinAddr: 0x6F30, symSize: 0x98 }
+  - { offsetInCU: 0x120, offset: 0x580D7, size: 0x8, addend: 0x0, symName: '-[OCProtocolMockObject description]', symObjAddr: 0x98, symBinAddr: 0x6FC8, symSize: 0x54 }
+  - { offsetInCU: 0x199, offset: 0x58150, size: 0x8, addend: 0x0, symName: '-[OCProtocolMockObject methodSignatureForSelector:]', symObjAddr: 0xEC, symBinAddr: 0x701C, symSize: 0xC4 }
+  - { offsetInCU: 0x282, offset: 0x58239, size: 0x8, addend: 0x0, symName: '-[OCProtocolMockObject conformsToProtocol:]', symObjAddr: 0x1B0, symBinAddr: 0x70E0, symSize: 0x24 }
+  - { offsetInCU: 0x2F8, offset: 0x582AF, size: 0x8, addend: 0x0, symName: '-[OCProtocolMockObject respondsToSelector:]', symObjAddr: 0x1D4, symBinAddr: 0x7104, symSize: 0x2C }
+  - { offsetInCU: 0x27, offset: 0x5836F, size: 0x8, addend: 0x0, symName: '-[OCMRecorder init]', symObjAddr: 0x0, symBinAddr: 0x7130, symSize: 0x2C }
+  - { offsetInCU: 0x178, offset: 0x584C0, size: 0x8, addend: 0x0, symName: '-[OCMRecorder init]', symObjAddr: 0x0, symBinAddr: 0x7130, symSize: 0x2C }
+  - { offsetInCU: 0x1AD, offset: 0x584F5, size: 0x8, addend: 0x0, symName: '-[OCMRecorder initWithMockObject:]', symObjAddr: 0x2C, symBinAddr: 0x715C, symSize: 0x44 }
+  - { offsetInCU: 0x1F4, offset: 0x5853C, size: 0x8, addend: 0x0, symName: '-[OCMRecorder setMockObject:]', symObjAddr: 0x70, symBinAddr: 0x71A0, symSize: 0x20 }
+  - { offsetInCU: 0x233, offset: 0x5857B, size: 0x8, addend: 0x0, symName: '-[OCMRecorder setShouldReturnMockFromInit:]', symObjAddr: 0x90, symBinAddr: 0x71C0, symSize: 0x20 }
+  - { offsetInCU: 0x270, offset: 0x585B8, size: 0x8, addend: 0x0, symName: '-[OCMRecorder dealloc]', symObjAddr: 0xB0, symBinAddr: 0x71E0, symSize: 0x60 }
+  - { offsetInCU: 0x2A3, offset: 0x585EB, size: 0x8, addend: 0x0, symName: '-[OCMRecorder description]', symObjAddr: 0x110, symBinAddr: 0x7240, symSize: 0x20 }
+  - { offsetInCU: 0x2DA, offset: 0x58622, size: 0x8, addend: 0x0, symName: '-[OCMRecorder invocationMatcher]', symObjAddr: 0x130, symBinAddr: 0x7260, symSize: 0x20 }
+  - { offsetInCU: 0x311, offset: 0x58659, size: 0x8, addend: 0x0, symName: '-[OCMRecorder didRecordInvocation]', symObjAddr: 0x150, symBinAddr: 0x7280, symSize: 0x20 }
+  - { offsetInCU: 0x348, offset: 0x58690, size: 0x8, addend: 0x0, symName: '-[OCMRecorder classMethod]', symObjAddr: 0x170, symBinAddr: 0x72A0, symSize: 0x44 }
+  - { offsetInCU: 0x37F, offset: 0x586C7, size: 0x8, addend: 0x0, symName: '-[OCMRecorder ignoringNonObjectArgs]', symObjAddr: 0x1B4, symBinAddr: 0x72E4, symSize: 0x44 }
+  - { offsetInCU: 0x3B6, offset: 0x586FE, size: 0x8, addend: 0x0, symName: '-[OCMRecorder methodSignatureForSelector:]', symObjAddr: 0x1F8, symBinAddr: 0x7328, symSize: 0x128 }
+  - { offsetInCU: 0x42D, offset: 0x58775, size: 0x8, addend: 0x0, symName: '-[OCMRecorder forwardInvocation:]', symObjAddr: 0x320, symBinAddr: 0x7450, symSize: 0xC0 }
+  - { offsetInCU: 0x48F, offset: 0x587D7, size: 0x8, addend: 0x0, symName: '-[OCMRecorder doesNotRecognizeSelector:]', symObjAddr: 0x3E0, symBinAddr: 0x7510, symSize: 0x78 }
+  - { offsetInCU: 0x514, offset: 0x5885C, size: 0x8, addend: 0x0, symName: '-[OCMRecorder(Properties) _ignoringNonObjectArgs]', symObjAddr: 0x458, symBinAddr: 0x7588, symSize: 0x64 }
+  - { offsetInCU: 0x55B, offset: 0x588A3, size: 0x8, addend: 0x0, symName: '___49-[OCMRecorder(Properties) _ignoringNonObjectArgs]_block_invoke', symObjAddr: 0x4BC, symBinAddr: 0x75EC, symSize: 0x18 }
+  - { offsetInCU: 0x59E, offset: 0x588E6, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32o, symObjAddr: 0x4D4, symBinAddr: 0x7604, symSize: 0x10 }
+  - { offsetInCU: 0x5C7, offset: 0x5890F, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32o, symObjAddr: 0x4E4, symBinAddr: 0x7614, symSize: 0xC }
+  - { offsetInCU: 0x27, offset: 0x58AB9, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder init]', symObjAddr: 0x0, symBinAddr: 0x7620, symSize: 0xB0 }
+  - { offsetInCU: 0x1B1, offset: 0x58C43, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder init]', symObjAddr: 0x0, symBinAddr: 0x7620, symSize: 0xB0 }
+  - { offsetInCU: 0x1E8, offset: 0x58C7A, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder stub]', symObjAddr: 0xB0, symBinAddr: 0x76D0, symSize: 0x24 }
+  - { offsetInCU: 0x21F, offset: 0x58CB1, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder andReturn:]', symObjAddr: 0xD4, symBinAddr: 0x76F4, symSize: 0x98 }
+  - { offsetInCU: 0x276, offset: 0x58D08, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder andReturnValue:]', symObjAddr: 0x16C, symBinAddr: 0x778C, symSize: 0x68 }
+  - { offsetInCU: 0x2BD, offset: 0x58D4F, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder andThrow:]', symObjAddr: 0x1D4, symBinAddr: 0x77F4, symSize: 0x68 }
+  - { offsetInCU: 0x304, offset: 0x58D96, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder andPost:]', symObjAddr: 0x23C, symBinAddr: 0x785C, symSize: 0x68 }
+  - { offsetInCU: 0x34B, offset: 0x58DDD, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder andCall:onObject:]', symObjAddr: 0x2A4, symBinAddr: 0x78C4, symSize: 0x70 }
+  - { offsetInCU: 0x3A2, offset: 0x58E34, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder andDo:]', symObjAddr: 0x314, symBinAddr: 0x7934, symSize: 0x68 }
+  - { offsetInCU: 0x3E9, offset: 0x58E7B, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder andForwardToRealObject]', symObjAddr: 0x37C, symBinAddr: 0x799C, symSize: 0x58 }
+  - { offsetInCU: 0x420, offset: 0x58EB2, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder andFulfill:]', symObjAddr: 0x3D4, symBinAddr: 0x79F4, symSize: 0x60 }
+  - { offsetInCU: 0x467, offset: 0x58EF9, size: 0x8, addend: 0x0, symName: '___30-[OCMStubRecorder andFulfill:]_block_invoke', symObjAddr: 0x434, symBinAddr: 0x7A54, symSize: 0x18 }
+  - { offsetInCU: 0x4AE, offset: 0x58F40, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder forwardInvocation:]', symObjAddr: 0x468, symBinAddr: 0x7A6C, symSize: 0x74 }
+  - { offsetInCU: 0x4F1, offset: 0x58F83, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder(Properties) _andReturn]', symObjAddr: 0x4DC, symBinAddr: 0x7AE0, symSize: 0x64 }
+  - { offsetInCU: 0x538, offset: 0x58FCA, size: 0x8, addend: 0x0, symName: '___41-[OCMStubRecorder(Properties) _andReturn]_block_invoke', symObjAddr: 0x540, symBinAddr: 0x7B44, symSize: 0x8C }
+  - { offsetInCU: 0x5DB, offset: 0x5906D, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder(Properties) _andThrow]', symObjAddr: 0x5CC, symBinAddr: 0x7BD0, symSize: 0x64 }
+  - { offsetInCU: 0x622, offset: 0x590B4, size: 0x8, addend: 0x0, symName: '___40-[OCMStubRecorder(Properties) _andThrow]_block_invoke', symObjAddr: 0x630, symBinAddr: 0x7C34, symSize: 0x1C }
+  - { offsetInCU: 0x675, offset: 0x59107, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder(Properties) _andPost]', symObjAddr: 0x64C, symBinAddr: 0x7C50, symSize: 0x64 }
+  - { offsetInCU: 0x6BC, offset: 0x5914E, size: 0x8, addend: 0x0, symName: '___39-[OCMStubRecorder(Properties) _andPost]_block_invoke', symObjAddr: 0x6B0, symBinAddr: 0x7CB4, symSize: 0x1C }
+  - { offsetInCU: 0x70F, offset: 0x591A1, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder(Properties) _andCall]', symObjAddr: 0x6CC, symBinAddr: 0x7CD0, symSize: 0x64 }
+  - { offsetInCU: 0x756, offset: 0x591E8, size: 0x8, addend: 0x0, symName: '___39-[OCMStubRecorder(Properties) _andCall]_block_invoke', symObjAddr: 0x730, symBinAddr: 0x7D34, symSize: 0x1C }
+  - { offsetInCU: 0x7B7, offset: 0x59249, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder(Properties) _andDo]', symObjAddr: 0x74C, symBinAddr: 0x7D50, symSize: 0x64 }
+  - { offsetInCU: 0x7FE, offset: 0x59290, size: 0x8, addend: 0x0, symName: '___37-[OCMStubRecorder(Properties) _andDo]_block_invoke', symObjAddr: 0x7B0, symBinAddr: 0x7DB4, symSize: 0x1C }
+  - { offsetInCU: 0x851, offset: 0x592E3, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder(Properties) _andForwardToRealObject]', symObjAddr: 0x7CC, symBinAddr: 0x7DD0, symSize: 0x64 }
+  - { offsetInCU: 0x898, offset: 0x5932A, size: 0x8, addend: 0x0, symName: '___54-[OCMStubRecorder(Properties) _andForwardToRealObject]_block_invoke', symObjAddr: 0x830, symBinAddr: 0x7E34, symSize: 0x18 }
+  - { offsetInCU: 0x8DB, offset: 0x5936D, size: 0x8, addend: 0x0, symName: '-[OCMStubRecorder(Properties) _andFulfill]', symObjAddr: 0x848, symBinAddr: 0x7E4C, symSize: 0x64 }
+  - { offsetInCU: 0x922, offset: 0x593B4, size: 0x8, addend: 0x0, symName: '___42-[OCMStubRecorder(Properties) _andFulfill]_block_invoke', symObjAddr: 0x8AC, symBinAddr: 0x7EB0, symSize: 0x1C }
+  - { offsetInCU: 0x27, offset: 0x59BA7, size: 0x8, addend: 0x0, symName: '-[OCMExpectationRecorder init]', symObjAddr: 0x0, symBinAddr: 0x7ECC, symSize: 0x7C }
+  - { offsetInCU: 0x1BE, offset: 0x59D3E, size: 0x8, addend: 0x0, symName: '-[OCMExpectationRecorder init]', symObjAddr: 0x0, symBinAddr: 0x7ECC, symSize: 0x7C }
+  - { offsetInCU: 0x1F5, offset: 0x59D75, size: 0x8, addend: 0x0, symName: '-[OCMExpectationRecorder expectation]', symObjAddr: 0x7C, symBinAddr: 0x7F48, symSize: 0x24 }
+  - { offsetInCU: 0x22C, offset: 0x59DAC, size: 0x8, addend: 0x0, symName: '-[OCMExpectationRecorder never]', symObjAddr: 0xA0, symBinAddr: 0x7F6C, symSize: 0x3C }
+  - { offsetInCU: 0x263, offset: 0x59DE3, size: 0x8, addend: 0x0, symName: '-[OCMExpectationRecorder forwardInvocation:]', symObjAddr: 0xDC, symBinAddr: 0x7FA8, symSize: 0x74 }
+  - { offsetInCU: 0x27, offset: 0x59E8E, size: 0x8, addend: 0x0, symName: '-[OCMVerifier init]', symObjAddr: 0x0, symBinAddr: 0x801C, symSize: 0xC4 }
+  - { offsetInCU: 0x21F, offset: 0x5A086, size: 0x8, addend: 0x0, symName: '-[OCMVerifier init]', symObjAddr: 0x0, symBinAddr: 0x801C, symSize: 0xC4 }
+  - { offsetInCU: 0x256, offset: 0x5A0BD, size: 0x8, addend: 0x0, symName: '-[OCMVerifier withQuantifier:]', symObjAddr: 0xC4, symBinAddr: 0x80E0, symSize: 0x34 }
+  - { offsetInCU: 0x29D, offset: 0x5A104, size: 0x8, addend: 0x0, symName: '-[OCMVerifier forwardInvocation:]', symObjAddr: 0xF8, symBinAddr: 0x8114, symSize: 0xA0 }
+  - { offsetInCU: 0x2E0, offset: 0x5A147, size: 0x8, addend: 0x0, symName: '-[OCMVerifier dealloc]', symObjAddr: 0x198, symBinAddr: 0x81B4, symSize: 0x70 }
+  - { offsetInCU: 0x313, offset: 0x5A17A, size: 0x8, addend: 0x0, symName: '-[OCMVerifier location]', symObjAddr: 0x208, symBinAddr: 0x8224, symSize: 0x10 }
+  - { offsetInCU: 0x34A, offset: 0x5A1B1, size: 0x8, addend: 0x0, symName: '-[OCMVerifier setLocation:]', symObjAddr: 0x218, symBinAddr: 0x8234, symSize: 0xC }
+  - { offsetInCU: 0x389, offset: 0x5A1F0, size: 0x8, addend: 0x0, symName: '-[OCMVerifier quantifier]', symObjAddr: 0x224, symBinAddr: 0x8240, symSize: 0x10 }
+  - { offsetInCU: 0x3C0, offset: 0x5A227, size: 0x8, addend: 0x0, symName: '-[OCMVerifier setQuantifier:]', symObjAddr: 0x234, symBinAddr: 0x8250, symSize: 0xC }
+  - { offsetInCU: 0x27, offset: 0x5A2A5, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher dealloc]', symObjAddr: 0x0, symBinAddr: 0x825C, symSize: 0x58 }
+  - { offsetInCU: 0x97, offset: 0x5A315, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher dealloc]', symObjAddr: 0x0, symBinAddr: 0x825C, symSize: 0x58 }
+  - { offsetInCU: 0xCA, offset: 0x5A348, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher setInvocation:]', symObjAddr: 0x58, symBinAddr: 0x82B4, symSize: 0x50 }
+  - { offsetInCU: 0x10D, offset: 0x5A38B, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher setRecordedAsClassMethod:]', symObjAddr: 0xA8, symBinAddr: 0x8304, symSize: 0x18 }
+  - { offsetInCU: 0x14A, offset: 0x5A3C8, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher recordedAsClassMethod]', symObjAddr: 0xC0, symBinAddr: 0x831C, symSize: 0x18 }
+  - { offsetInCU: 0x181, offset: 0x5A3FF, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher setIgnoreNonObjectArgs:]', symObjAddr: 0xD8, symBinAddr: 0x8334, symSize: 0x18 }
+  - { offsetInCU: 0x1BE, offset: 0x5A43C, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher description]', symObjAddr: 0xF0, symBinAddr: 0x834C, symSize: 0x18 }
+  - { offsetInCU: 0x1F5, offset: 0x5A473, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher recordedInvocation]', symObjAddr: 0x108, symBinAddr: 0x8364, symSize: 0x18 }
+  - { offsetInCU: 0x22C, offset: 0x5A4AA, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher matchesSelector:]', symObjAddr: 0x120, symBinAddr: 0x837C, symSize: 0xB0 }
+  - { offsetInCU: 0x2D6, offset: 0x5A554, size: 0x8, addend: 0x0, symName: '-[OCMInvocationMatcher matchesInvocation:]', symObjAddr: 0x1D0, symBinAddr: 0x842C, symSize: 0x37C }
+  - { offsetInCU: 0x27, offset: 0x5A6D1, size: 0x8, addend: 0x0, symName: '+[OCMQuantifier exactly:]', symObjAddr: 0x0, symBinAddr: 0x87A8, symSize: 0x40 }
+  - { offsetInCU: 0xAB, offset: 0x5A755, size: 0x8, addend: 0x0, symName: '+[OCMQuantifier exactly:]', symObjAddr: 0x0, symBinAddr: 0x87A8, symSize: 0x40 }
+  - { offsetInCU: 0xEE, offset: 0x5A798, size: 0x8, addend: 0x0, symName: '+[OCMQuantifier never]', symObjAddr: 0x40, symBinAddr: 0x87E8, symSize: 0x18 }
+  - { offsetInCU: 0x123, offset: 0x5A7CD, size: 0x8, addend: 0x0, symName: '+[OCMQuantifier atLeast:]', symObjAddr: 0x58, symBinAddr: 0x8800, symSize: 0x40 }
+  - { offsetInCU: 0x166, offset: 0x5A810, size: 0x8, addend: 0x0, symName: '+[OCMQuantifier atMost:]', symObjAddr: 0x98, symBinAddr: 0x8840, symSize: 0x40 }
+  - { offsetInCU: 0x1A9, offset: 0x5A853, size: 0x8, addend: 0x0, symName: '-[OCMQuantifier initWithCount:]', symObjAddr: 0xD8, symBinAddr: 0x8880, symSize: 0x88 }
+  - { offsetInCU: 0x1F0, offset: 0x5A89A, size: 0x8, addend: 0x0, symName: '-[OCMQuantifier isValidCount:]', symObjAddr: 0x160, symBinAddr: 0x8908, symSize: 0x18 }
+  - { offsetInCU: 0x22F, offset: 0x5A8D9, size: 0x8, addend: 0x0, symName: '-[OCMQuantifier description]', symObjAddr: 0x178, symBinAddr: 0x8920, symSize: 0xA0 }
+  - { offsetInCU: 0x266, offset: 0x5A910, size: 0x8, addend: 0x0, symName: '-[OCMExactCountQuantifier isValidCount:]', symObjAddr: 0x218, symBinAddr: 0x89C0, symSize: 0x20 }
+  - { offsetInCU: 0x2AB, offset: 0x5A955, size: 0x8, addend: 0x0, symName: '-[OCMAtLeastQuantifier initWithCount:]', symObjAddr: 0x238, symBinAddr: 0x89E0, symSize: 0x80 }
+  - { offsetInCU: 0x2F2, offset: 0x5A99C, size: 0x8, addend: 0x0, symName: '-[OCMAtLeastQuantifier isValidCount:]', symObjAddr: 0x2B8, symBinAddr: 0x8A60, symSize: 0x20 }
+  - { offsetInCU: 0x337, offset: 0x5A9E1, size: 0x8, addend: 0x0, symName: '-[OCMAtLeastQuantifier description]', symObjAddr: 0x2D8, symBinAddr: 0x8A80, symSize: 0x54 }
+  - { offsetInCU: 0x36E, offset: 0x5AA18, size: 0x8, addend: 0x0, symName: '-[OCMAtMostQuantifier initWithCount:]', symObjAddr: 0x32C, symBinAddr: 0x8AD4, symSize: 0x80 }
+  - { offsetInCU: 0x3B5, offset: 0x5AA5F, size: 0x8, addend: 0x0, symName: '-[OCMAtMostQuantifier isValidCount:]', symObjAddr: 0x3AC, symBinAddr: 0x8B54, symSize: 0x20 }
+  - { offsetInCU: 0x3FA, offset: 0x5AAA4, size: 0x8, addend: 0x0, symName: '-[OCMAtMostQuantifier description]', symObjAddr: 0x3CC, symBinAddr: 0x8B74, symSize: 0x54 }
+  - { offsetInCU: 0x27, offset: 0x5AB3C, size: 0x8, addend: 0x0, symName: '-[OCMInvocationStub init]', symObjAddr: 0x0, symBinAddr: 0x8BC8, symSize: 0x70 }
+  - { offsetInCU: 0xCE, offset: 0x5ABE3, size: 0x8, addend: 0x0, symName: '-[OCMInvocationStub init]', symObjAddr: 0x0, symBinAddr: 0x8BC8, symSize: 0x70 }
+  - { offsetInCU: 0x105, offset: 0x5AC1A, size: 0x8, addend: 0x0, symName: '-[OCMInvocationStub dealloc]', symObjAddr: 0x70, symBinAddr: 0x8C38, symSize: 0x60 }
+  - { offsetInCU: 0x138, offset: 0x5AC4D, size: 0x8, addend: 0x0, symName: '-[OCMInvocationStub addInvocationAction:]', symObjAddr: 0xD0, symBinAddr: 0x8C98, symSize: 0x20 }
+  - { offsetInCU: 0x179, offset: 0x5AC8E, size: 0x8, addend: 0x0, symName: '-[OCMInvocationStub invocationActions]', symObjAddr: 0xF0, symBinAddr: 0x8CB8, symSize: 0x20 }
+  - { offsetInCU: 0x1B0, offset: 0x5ACC5, size: 0x8, addend: 0x0, symName: '-[OCMInvocationStub handleInvocation:]', symObjAddr: 0x110, symBinAddr: 0x8CD8, symSize: 0x1A0 }
+  - { offsetInCU: 0x277, offset: 0x5AD8C, size: 0x8, addend: 0x0, symName: '-[OCMInvocationStub invokeArgActionsForInvocation:]', symObjAddr: 0x2B0, symBinAddr: 0x8E78, symSize: 0x14C }
+  - { offsetInCU: 0x328, offset: 0x5AE3D, size: 0x8, addend: 0x0, symName: '-[OCMInvocationStub invokeActionsForInvocation:]', symObjAddr: 0x3FC, symBinAddr: 0x8FC4, symSize: 0x2C }
+  - { offsetInCU: 0x27, offset: 0x5AEBD, size: 0x8, addend: 0x0, symName: '-[OCMInvocationExpectation setMatchAndReject:]', symObjAddr: 0x0, symBinAddr: 0x8FF0, symSize: 0x44 }
+  - { offsetInCU: 0xD2, offset: 0x5AF68, size: 0x8, addend: 0x0, symName: '-[OCMInvocationExpectation setMatchAndReject:]', symObjAddr: 0x0, symBinAddr: 0x8FF0, symSize: 0x44 }
+  - { offsetInCU: 0x10F, offset: 0x5AFA5, size: 0x8, addend: 0x0, symName: '-[OCMInvocationExpectation isMatchAndReject]', symObjAddr: 0x44, symBinAddr: 0x9034, symSize: 0x20 }
+  - { offsetInCU: 0x146, offset: 0x5AFDC, size: 0x8, addend: 0x0, symName: '-[OCMInvocationExpectation isSatisfied]', symObjAddr: 0x64, symBinAddr: 0x9054, symSize: 0x20 }
+  - { offsetInCU: 0x17D, offset: 0x5B013, size: 0x8, addend: 0x0, symName: '-[OCMInvocationExpectation addInvocationAction:]', symObjAddr: 0x84, symBinAddr: 0x9074, symSize: 0xB4 }
+  - { offsetInCU: 0x1C0, offset: 0x5B056, size: 0x8, addend: 0x0, symName: '-[OCMInvocationExpectation handleInvocation:]', symObjAddr: 0x138, symBinAddr: 0x9128, symSize: 0xE0 }
+  - { offsetInCU: 0x27, offset: 0x5B101, size: 0x8, addend: 0x0, symName: '-[OCMRealObjectForwarder handleInvocation:]', symObjAddr: 0x0, symBinAddr: 0x9208, symSize: 0x19C }
+  - { offsetInCU: 0x78, offset: 0x5B152, size: 0x8, addend: 0x0, symName: '-[OCMRealObjectForwarder handleInvocation:]', symObjAddr: 0x0, symBinAddr: 0x9208, symSize: 0x19C }
+  - { offsetInCU: 0x27, offset: 0x5B29F, size: 0x8, addend: 0x0, symName: '-[OCMBlockCaller initWithCallBlock:]', symObjAddr: 0x0, symBinAddr: 0x93A4, symSize: 0x78 }
+  - { offsetInCU: 0xD5, offset: 0x5B34D, size: 0x8, addend: 0x0, symName: '-[OCMBlockCaller initWithCallBlock:]', symObjAddr: 0x0, symBinAddr: 0x93A4, symSize: 0x78 }
+  - { offsetInCU: 0x11C, offset: 0x5B394, size: 0x8, addend: 0x0, symName: '-[OCMBlockCaller dealloc]', symObjAddr: 0x78, symBinAddr: 0x941C, symSize: 0x58 }
+  - { offsetInCU: 0x14F, offset: 0x5B3C7, size: 0x8, addend: 0x0, symName: '-[OCMBlockCaller handleInvocation:]', symObjAddr: 0xD0, symBinAddr: 0x9474, symSize: 0x3C }
+  - { offsetInCU: 0x27, offset: 0x5B47C, size: 0x8, addend: 0x0, symName: '-[OCMBoxedReturnValueProvider handleInvocation:]', symObjAddr: 0x0, symBinAddr: 0x94B0, symSize: 0x17C }
+  - { offsetInCU: 0xAA, offset: 0x5B4FF, size: 0x8, addend: 0x0, symName: '-[OCMBoxedReturnValueProvider handleInvocation:]', symObjAddr: 0x0, symBinAddr: 0x94B0, symSize: 0x17C }
+  - { offsetInCU: 0x18D, offset: 0x5B5E2, size: 0x8, addend: 0x0, symName: '-[OCMBoxedReturnValueProvider isMethodReturnType:compatibleWithValueType:value:valueSize:]', symObjAddr: 0x17C, symBinAddr: 0x962C, symSize: 0xF0 }
+  - { offsetInCU: 0x27, offset: 0x5B731, size: 0x8, addend: 0x0, symName: '-[OCMExceptionReturnValueProvider handleInvocation:]', symObjAddr: 0x0, symBinAddr: 0x971C, symSize: 0xC0 }
+  - { offsetInCU: 0x41, offset: 0x5B74B, size: 0x8, addend: 0x0, symName: _OCMStubbedException, symObjAddr: 0x170, symBinAddr: 0x23AF8, symSize: 0x0 }
+  - { offsetInCU: 0xC0, offset: 0x5B7CA, size: 0x8, addend: 0x0, symName: '-[OCMExceptionReturnValueProvider handleInvocation:]', symObjAddr: 0x0, symBinAddr: 0x971C, symSize: 0xC0 }
+  - { offsetInCU: 0x27, offset: 0x5B84D, size: 0x8, addend: 0x0, symName: '-[OCMIndirectReturnValueProvider initWithProvider:andSelector:]', symObjAddr: 0x0, symBinAddr: 0x97DC, symSize: 0x84 }
+  - { offsetInCU: 0xA3, offset: 0x5B8C9, size: 0x8, addend: 0x0, symName: '-[OCMIndirectReturnValueProvider initWithProvider:andSelector:]', symObjAddr: 0x0, symBinAddr: 0x97DC, symSize: 0x84 }
+  - { offsetInCU: 0xFA, offset: 0x5B920, size: 0x8, addend: 0x0, symName: '-[OCMIndirectReturnValueProvider dealloc]', symObjAddr: 0x84, symBinAddr: 0x9860, symSize: 0x58 }
+  - { offsetInCU: 0x12D, offset: 0x5B953, size: 0x8, addend: 0x0, symName: '-[OCMIndirectReturnValueProvider handleInvocation:]', symObjAddr: 0xDC, symBinAddr: 0x98B8, symSize: 0x84 }
+  - { offsetInCU: 0x27, offset: 0x5B9E7, size: 0x8, addend: 0x0, symName: '-[OCMNotificationPoster initWithNotification:]', symObjAddr: 0x0, symBinAddr: 0x993C, symSize: 0x78 }
+  - { offsetInCU: 0x5F, offset: 0x5BA1F, size: 0x8, addend: 0x0, symName: '-[OCMNotificationPoster initWithNotification:]', symObjAddr: 0x0, symBinAddr: 0x993C, symSize: 0x78 }
+  - { offsetInCU: 0xA6, offset: 0x5BA66, size: 0x8, addend: 0x0, symName: '-[OCMNotificationPoster dealloc]', symObjAddr: 0x78, symBinAddr: 0x99B4, symSize: 0x58 }
+  - { offsetInCU: 0xD9, offset: 0x5BA99, size: 0x8, addend: 0x0, symName: '-[OCMNotificationPoster handleInvocation:]', symObjAddr: 0xD0, symBinAddr: 0x9A0C, symSize: 0x3C }
+  - { offsetInCU: 0x27, offset: 0x5BB45, size: 0x8, addend: 0x0, symName: '-[OCMObjectReturnValueProvider initWithValue:]', symObjAddr: 0x0, symBinAddr: 0x9A48, symSize: 0x7C }
+  - { offsetInCU: 0x94, offset: 0x5BBB2, size: 0x8, addend: 0x0, symName: '-[OCMObjectReturnValueProvider initWithValue:]', symObjAddr: 0x0, symBinAddr: 0x9A48, symSize: 0x7C }
+  - { offsetInCU: 0xDB, offset: 0x5BBF9, size: 0x8, addend: 0x0, symName: '-[OCMObjectReturnValueProvider dealloc]', symObjAddr: 0x7C, symBinAddr: 0x9AC4, symSize: 0x64 }
+  - { offsetInCU: 0x27, offset: 0x5BC6B, size: 0x8, addend: 0x0, symName: '+[OCMLocation locationWithTestCase:file:line:]', symObjAddr: 0x0, symBinAddr: 0x9B28, symSize: 0x58 }
+  - { offsetInCU: 0xB1, offset: 0x5BCF5, size: 0x8, addend: 0x0, symName: '+[OCMLocation locationWithTestCase:file:line:]', symObjAddr: 0x0, symBinAddr: 0x9B28, symSize: 0x58 }
+  - { offsetInCU: 0x114, offset: 0x5BD58, size: 0x8, addend: 0x0, symName: '-[OCMLocation initWithTestCase:file:line:]', symObjAddr: 0x58, symBinAddr: 0x9B80, symSize: 0x8C }
+  - { offsetInCU: 0x17B, offset: 0x5BDBF, size: 0x8, addend: 0x0, symName: '-[OCMLocation dealloc]', symObjAddr: 0xE4, symBinAddr: 0x9C0C, symSize: 0x58 }
+  - { offsetInCU: 0x1AE, offset: 0x5BDF2, size: 0x8, addend: 0x0, symName: '-[OCMLocation testCase]', symObjAddr: 0x13C, symBinAddr: 0x9C64, symSize: 0x18 }
+  - { offsetInCU: 0x1E5, offset: 0x5BE29, size: 0x8, addend: 0x0, symName: '-[OCMLocation file]', symObjAddr: 0x154, symBinAddr: 0x9C7C, symSize: 0x18 }
+  - { offsetInCU: 0x21C, offset: 0x5BE60, size: 0x8, addend: 0x0, symName: '-[OCMLocation line]', symObjAddr: 0x16C, symBinAddr: 0x9C94, symSize: 0x18 }
+  - { offsetInCU: 0x253, offset: 0x5BE97, size: 0x8, addend: 0x0, symName: _OCMMakeLocation, symObjAddr: 0x184, symBinAddr: 0x9CAC, symSize: 0x60 }
+  - { offsetInCU: 0x27, offset: 0x5BF42, size: 0x8, addend: 0x0, symName: '+[OCMMacroState beginStubMacro]', symObjAddr: 0x0, symBinAddr: 0x9D0C, symSize: 0x7C }
+  - { offsetInCU: 0x157, offset: 0x5C072, size: 0x8, addend: 0x0, symName: '+[OCMMacroState beginStubMacro]', symObjAddr: 0x0, symBinAddr: 0x9D0C, symSize: 0x7C }
+  - { offsetInCU: 0x1A6, offset: 0x5C0C1, size: 0x8, addend: 0x0, symName: '+[OCMMacroState endStubMacro]', symObjAddr: 0x7C, symBinAddr: 0x9D88, symSize: 0xE4 }
+  - { offsetInCU: 0x219, offset: 0x5C134, size: 0x8, addend: 0x0, symName: '+[OCMMacroState beginExpectMacro]', symObjAddr: 0x160, symBinAddr: 0x9E6C, symSize: 0x7C }
+  - { offsetInCU: 0x268, offset: 0x5C183, size: 0x8, addend: 0x0, symName: '+[OCMMacroState endExpectMacro]', symObjAddr: 0x1DC, symBinAddr: 0x9EE8, symSize: 0x14 }
+  - { offsetInCU: 0x29D, offset: 0x5C1B8, size: 0x8, addend: 0x0, symName: '+[OCMMacroState beginRejectMacro]', symObjAddr: 0x1F0, symBinAddr: 0x9EFC, symSize: 0x7C }
+  - { offsetInCU: 0x2EC, offset: 0x5C207, size: 0x8, addend: 0x0, symName: '+[OCMMacroState endRejectMacro]', symObjAddr: 0x26C, symBinAddr: 0x9F78, symSize: 0x54 }
+  - { offsetInCU: 0x333, offset: 0x5C24E, size: 0x8, addend: 0x0, symName: '+[OCMMacroState beginVerifyMacroAtLocation:]', symObjAddr: 0x2C0, symBinAddr: 0x9FCC, symSize: 0x18 }
+  - { offsetInCU: 0x372, offset: 0x5C28D, size: 0x8, addend: 0x0, symName: '+[OCMMacroState beginVerifyMacroAtLocation:withQuantifier:]', symObjAddr: 0x2D8, symBinAddr: 0x9FE4, symSize: 0xA0 }
+  - { offsetInCU: 0x3E1, offset: 0x5C2FC, size: 0x8, addend: 0x0, symName: '+[OCMMacroState endVerifyMacro]', symObjAddr: 0x378, symBinAddr: 0xA084, symSize: 0xEC }
+  - { offsetInCU: 0x450, offset: 0x5C36B, size: 0x8, addend: 0x0, symName: '+[OCMMacroState globalState]', symObjAddr: 0x464, symBinAddr: 0xA170, symSize: 0x38 }
+  - { offsetInCU: 0x483, offset: 0x5C39E, size: 0x8, addend: 0x0, symName: '-[OCMMacroState initWithRecorder:]', symObjAddr: 0x49C, symBinAddr: 0xA1A8, symSize: 0x78 }
+  - { offsetInCU: 0x4CA, offset: 0x5C3E5, size: 0x8, addend: 0x0, symName: '-[OCMMacroState dealloc]', symObjAddr: 0x514, symBinAddr: 0xA220, symSize: 0xAC }
+  - { offsetInCU: 0x4FD, offset: 0x5C418, size: 0x8, addend: 0x0, symName: '-[OCMMacroState setRecorder:]', symObjAddr: 0x5C0, symBinAddr: 0xA2CC, symSize: 0x44 }
+  - { offsetInCU: 0x540, offset: 0x5C45B, size: 0x8, addend: 0x0, symName: '-[OCMMacroState recorder]', symObjAddr: 0x604, symBinAddr: 0xA310, symSize: 0x18 }
+  - { offsetInCU: 0x577, offset: 0x5C492, size: 0x8, addend: 0x0, symName: '-[OCMMacroState setInvocationDidThrow:]', symObjAddr: 0x61C, symBinAddr: 0xA328, symSize: 0x18 }
+  - { offsetInCU: 0x5B4, offset: 0x5C4CF, size: 0x8, addend: 0x0, symName: '-[OCMMacroState invocationDidThrow]', symObjAddr: 0x634, symBinAddr: 0xA340, symSize: 0x18 }
+  - { offsetInCU: 0x5EB, offset: 0x5C506, size: 0x8, addend: 0x0, symName: '-[OCMMacroState switchToClassMethod]', symObjAddr: 0x64C, symBinAddr: 0xA358, symSize: 0x18 }
+  - { offsetInCU: 0x27, offset: 0x5C5AF, size: 0x8, addend: 0x0, symName: '-[OCMBlockArgCaller initWithBlockArguments:]', symObjAddr: 0x0, symBinAddr: 0xA370, symSize: 0x80 }
+  - { offsetInCU: 0x70, offset: 0x5C5F8, size: 0x8, addend: 0x0, symName: '-[OCMBlockArgCaller initWithBlockArguments:]', symObjAddr: 0x0, symBinAddr: 0xA370, symSize: 0x80 }
+  - { offsetInCU: 0xB7, offset: 0x5C63F, size: 0x8, addend: 0x0, symName: '-[OCMBlockArgCaller dealloc]', symObjAddr: 0x80, symBinAddr: 0xA3F0, symSize: 0x60 }
+  - { offsetInCU: 0xEA, offset: 0x5C672, size: 0x8, addend: 0x0, symName: '-[OCMBlockArgCaller copyWithZone:]', symObjAddr: 0xE0, symBinAddr: 0xA450, symSize: 0x14 }
+  - { offsetInCU: 0x12B, offset: 0x5C6B3, size: 0x8, addend: 0x0, symName: '-[OCMBlockArgCaller handleArgument:]', symObjAddr: 0xF4, symBinAddr: 0xA464, symSize: 0x6C }
+  - { offsetInCU: 0x27, offset: 0x5C787, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject init]', symObjAddr: 0x0, symBinAddr: 0xA4D0, symSize: 0x8C }
+  - { offsetInCU: 0x88, offset: 0x5C7E8, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject init]', symObjAddr: 0x0, symBinAddr: 0xA4D0, symSize: 0x8C }
+  - { offsetInCU: 0xBF, offset: 0x5C81F, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject retain]', symObjAddr: 0x8C, symBinAddr: 0xA55C, symSize: 0x44 }
+  - { offsetInCU: 0xF6, offset: 0x5C856, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject dealloc]', symObjAddr: 0xD0, symBinAddr: 0xA5A0, symSize: 0x13C }
+  - { offsetInCU: 0x140, offset: 0x5C8A0, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject description]', symObjAddr: 0x20C, symBinAddr: 0xA6DC, symSize: 0x1C }
+  - { offsetInCU: 0x173, offset: 0x5C8D3, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject setExpectationOrderMatters:]', symObjAddr: 0x228, symBinAddr: 0xA6F8, symSize: 0x18 }
+  - { offsetInCU: 0x1B0, offset: 0x5C910, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject autoRemoveFromCenter:]', symObjAddr: 0x240, symBinAddr: 0xA710, symSize: 0x68 }
+  - { offsetInCU: 0x1F3, offset: 0x5C953, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject expect]', symObjAddr: 0x2A8, symBinAddr: 0xA778, symSize: 0x84 }
+  - { offsetInCU: 0x23A, offset: 0x5C99A, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject verify]', symObjAddr: 0x32C, symBinAddr: 0xA7FC, symSize: 0x18 }
+  - { offsetInCU: 0x26B, offset: 0x5C9CB, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject verifyAtLocation:]', symObjAddr: 0x344, symBinAddr: 0xA814, symSize: 0x144 }
+  - { offsetInCU: 0x39D, offset: 0x5CAFD, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject notificationWithName:object:]', symObjAddr: 0x488, symBinAddr: 0xA958, symSize: 0x94 }
+  - { offsetInCU: 0x413, offset: 0x5CB73, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject notificationWithName:object:userInfo:]', symObjAddr: 0x51C, symBinAddr: 0xA9EC, symSize: 0xA8 }
+  - { offsetInCU: 0x499, offset: 0x5CBF9, size: 0x8, addend: 0x0, symName: '-[OCObserverMockObject handleNotification:]', symObjAddr: 0x5C4, symBinAddr: 0xAA94, symSize: 0x154 }
+  - { offsetInCU: 0x27, offset: 0x5CCD3, size: 0x8, addend: 0x0, symName: '-[OCMObserverRecorder dealloc]', symObjAddr: 0x0, symBinAddr: 0xABE8, symSize: 0x58 }
+  - { offsetInCU: 0x74, offset: 0x5CD20, size: 0x8, addend: 0x0, symName: '-[OCMObserverRecorder dealloc]', symObjAddr: 0x0, symBinAddr: 0xABE8, symSize: 0x58 }
+  - { offsetInCU: 0xA7, offset: 0x5CD53, size: 0x8, addend: 0x0, symName: '-[OCMObserverRecorder didRecordInvocation]', symObjAddr: 0x58, symBinAddr: 0xAC40, symSize: 0x18 }
+  - { offsetInCU: 0xDA, offset: 0x5CD86, size: 0x8, addend: 0x0, symName: '-[OCMObserverRecorder notificationWithName:object:]', symObjAddr: 0x70, symBinAddr: 0xAC58, symSize: 0x44 }
+  - { offsetInCU: 0x131, offset: 0x5CDDD, size: 0x8, addend: 0x0, symName: '-[OCMObserverRecorder notificationWithName:object:userInfo:]', symObjAddr: 0xB4, symBinAddr: 0xAC9C, symSize: 0x44 }
+  - { offsetInCU: 0x198, offset: 0x5CE44, size: 0x8, addend: 0x0, symName: '-[OCMObserverRecorder matchesNotification:]', symObjAddr: 0xF8, symBinAddr: 0xACE0, symSize: 0xF4 }
+  - { offsetInCU: 0x1DF, offset: 0x5CE8B, size: 0x8, addend: 0x0, symName: '-[OCMObserverRecorder argument:matchesArgument:]', symObjAddr: 0x1EC, symBinAddr: 0xADD4, symSize: 0x120 }
+  - { offsetInCU: 0x27, offset: 0x5CF8D, size: 0x8, addend: 0x0, symName: '+[OCMArg any]', symObjAddr: 0x0, symBinAddr: 0xAEF4, symSize: 0x1C }
+  - { offsetInCU: 0x72, offset: 0x5CFD8, size: 0x8, addend: 0x0, symName: '+[OCMArg any]', symObjAddr: 0x0, symBinAddr: 0xAEF4, symSize: 0x1C }
+  - { offsetInCU: 0xA5, offset: 0x5D00B, size: 0x8, addend: 0x0, symName: '+[OCMArg anyPointer]', symObjAddr: 0x1C, symBinAddr: 0xAF10, symSize: 0x1C }
+  - { offsetInCU: 0xD8, offset: 0x5D03E, size: 0x8, addend: 0x0, symName: '+[OCMArg anyObjectRef]', symObjAddr: 0x38, symBinAddr: 0xAF2C, symSize: 0x14 }
+  - { offsetInCU: 0x10D, offset: 0x5D073, size: 0x8, addend: 0x0, symName: '+[OCMArg anySelector]', symObjAddr: 0x4C, symBinAddr: 0xAF40, symSize: 0x1C }
+  - { offsetInCU: 0x179, offset: 0x5D0DF, size: 0x8, addend: 0x0, symName: '+[OCMArg isNil]', symObjAddr: 0x68, symBinAddr: 0xAF5C, symSize: 0x1C }
+  - { offsetInCU: 0x1AC, offset: 0x5D112, size: 0x8, addend: 0x0, symName: '+[OCMArg isNotNil]', symObjAddr: 0x84, symBinAddr: 0xAF78, symSize: 0x1C }
+  - { offsetInCU: 0x1DF, offset: 0x5D145, size: 0x8, addend: 0x0, symName: '+[OCMArg isEqual:]', symObjAddr: 0xA0, symBinAddr: 0xAF94, symSize: 0x18 }
+  - { offsetInCU: 0x222, offset: 0x5D188, size: 0x8, addend: 0x0, symName: '+[OCMArg isNotEqual:]', symObjAddr: 0xB8, symBinAddr: 0xAFAC, symSize: 0x48 }
+  - { offsetInCU: 0x275, offset: 0x5D1DB, size: 0x8, addend: 0x0, symName: '+[OCMArg isKindOfClass:]', symObjAddr: 0x100, symBinAddr: 0xAFF4, symSize: 0x7C }
+  - { offsetInCU: 0x2B8, offset: 0x5D21E, size: 0x8, addend: 0x0, symName: '___24+[OCMArg isKindOfClass:]_block_invoke', symObjAddr: 0x17C, symBinAddr: 0xB070, symSize: 0x1C }
+  - { offsetInCU: 0x307, offset: 0x5D26D, size: 0x8, addend: 0x0, symName: '+[OCMArg checkWithSelector:onObject:]', symObjAddr: 0x1B4, symBinAddr: 0xB08C, symSize: 0x1C }
+  - { offsetInCU: 0x356, offset: 0x5D2BC, size: 0x8, addend: 0x0, symName: '+[OCMArg checkWithBlock:]', symObjAddr: 0x1D0, symBinAddr: 0xB0A8, symSize: 0x40 }
+  - { offsetInCU: 0x399, offset: 0x5D2FF, size: 0x8, addend: 0x0, symName: '+[OCMArg setTo:]', symObjAddr: 0x210, symBinAddr: 0xB0E8, symSize: 0x40 }
+  - { offsetInCU: 0x3DC, offset: 0x5D342, size: 0x8, addend: 0x0, symName: '+[OCMArg setToValue:]', symObjAddr: 0x250, symBinAddr: 0xB128, symSize: 0x40 }
+  - { offsetInCU: 0x41F, offset: 0x5D385, size: 0x8, addend: 0x0, symName: '+[OCMArg invokeBlock]', symObjAddr: 0x290, symBinAddr: 0xB168, symSize: 0x30 }
+  - { offsetInCU: 0x452, offset: 0x5D3B8, size: 0x8, addend: 0x0, symName: '+[OCMArg invokeBlockWithArgs:]', symObjAddr: 0x2C0, symBinAddr: 0xB198, symSize: 0xBC }
+  - { offsetInCU: 0x4D5, offset: 0x5D43B, size: 0x8, addend: 0x0, symName: '+[OCMArg defaultValue]', symObjAddr: 0x37C, symBinAddr: 0xB254, symSize: 0x1C }
+  - { offsetInCU: 0x508, offset: 0x5D46E, size: 0x8, addend: 0x0, symName: '+[OCMArg resolveSpecialValues:]', symObjAddr: 0x398, symBinAddr: 0xB270, symSize: 0x15C }
+  - { offsetInCU: 0x27, offset: 0x5D6A4, size: 0x8, addend: 0x0, symName: '+[OCMConstraint constraint]', symObjAddr: 0x0, symBinAddr: 0xB3CC, symSize: 0x28 }
+  - { offsetInCU: 0x19B, offset: 0x5D818, size: 0x8, addend: 0x0, symName: '+[OCMConstraint constraint]', symObjAddr: 0x0, symBinAddr: 0xB3CC, symSize: 0x28 }
+  - { offsetInCU: 0x1D2, offset: 0x5D84F, size: 0x8, addend: 0x0, symName: '-[OCMConstraint evaluate:]', symObjAddr: 0x28, symBinAddr: 0xB3F4, symSize: 0x18 }
+  - { offsetInCU: 0x211, offset: 0x5D88E, size: 0x8, addend: 0x0, symName: '-[OCMConstraint copyWithZone:]', symObjAddr: 0x40, symBinAddr: 0xB40C, symSize: 0x14 }
+  - { offsetInCU: 0x252, offset: 0x5D8CF, size: 0x8, addend: 0x0, symName: '+[OCMConstraint constraintWithSelector:onObject:]', symObjAddr: 0x54, symBinAddr: 0xB420, symSize: 0xE8 }
+  - { offsetInCU: 0x316, offset: 0x5D993, size: 0x8, addend: 0x0, symName: '+[OCMConstraint constraintWithSelector:onObject:withValue:]', symObjAddr: 0x13C, symBinAddr: 0xB508, symSize: 0xA0 }
+  - { offsetInCU: 0x38D, offset: 0x5DA0A, size: 0x8, addend: 0x0, symName: '-[OCMAnyConstraint evaluate:]', symObjAddr: 0x1DC, symBinAddr: 0xB5A8, symSize: 0x18 }
+  - { offsetInCU: 0x3CC, offset: 0x5DA49, size: 0x8, addend: 0x0, symName: '-[OCMIsNilConstraint evaluate:]', symObjAddr: 0x1F4, symBinAddr: 0xB5C0, symSize: 0x1C }
+  - { offsetInCU: 0x40D, offset: 0x5DA8A, size: 0x8, addend: 0x0, symName: '-[OCMIsNotNilConstraint evaluate:]', symObjAddr: 0x210, symBinAddr: 0xB5DC, symSize: 0x1C }
+  - { offsetInCU: 0x44E, offset: 0x5DACB, size: 0x8, addend: 0x0, symName: '-[OCMIsNotEqualConstraint evaluate:]', symObjAddr: 0x22C, symBinAddr: 0xB5F8, symSize: 0x3C }
+  - { offsetInCU: 0x495, offset: 0x5DB12, size: 0x8, addend: 0x0, symName: '-[OCMInvocationConstraint evaluate:]', symObjAddr: 0x268, symBinAddr: 0xB634, symSize: 0x68 }
+  - { offsetInCU: 0x4EC, offset: 0x5DB69, size: 0x8, addend: 0x0, symName: '-[OCMBlockConstraint initWithConstraintBlock:]', symObjAddr: 0x2D0, symBinAddr: 0xB69C, symSize: 0x80 }
+  - { offsetInCU: 0x533, offset: 0x5DBB0, size: 0x8, addend: 0x0, symName: '-[OCMBlockConstraint dealloc]', symObjAddr: 0x350, symBinAddr: 0xB71C, symSize: 0x60 }
+  - { offsetInCU: 0x566, offset: 0x5DBE3, size: 0x8, addend: 0x0, symName: '-[OCMBlockConstraint evaluate:]', symObjAddr: 0x3B0, symBinAddr: 0xB77C, symSize: 0x48 }
+  - { offsetInCU: 0x27, offset: 0x5DC91, size: 0x8, addend: 0x0, symName: '+[OCMPassByRefSetter initialize]', symObjAddr: 0x0, symBinAddr: 0xB7C4, symSize: 0x6C }
+  - { offsetInCU: 0x41, offset: 0x5DCAB, size: 0x8, addend: 0x0, symName: __OCMPassByRefSetterInstances, symObjAddr: 0x1D50, symBinAddr: 0x2D558, symSize: 0x0 }
+  - { offsetInCU: 0xB0, offset: 0x5DD1A, size: 0x8, addend: 0x0, symName: '+[OCMPassByRefSetter initialize]', symObjAddr: 0x0, symBinAddr: 0xB7C4, symSize: 0x6C }
+  - { offsetInCU: 0xE3, offset: 0x5DD4D, size: 0x8, addend: 0x0, symName: '+[OCMPassByRefSetter isPassByRefSetterInstance:]', symObjAddr: 0x6C, symBinAddr: 0xB830, symSize: 0x78 }
+  - { offsetInCU: 0x159, offset: 0x5DDC3, size: 0x8, addend: 0x0, symName: '-[OCMPassByRefSetter initWithValue:]', symObjAddr: 0xE4, symBinAddr: 0xB8A8, symSize: 0xC0 }
+  - { offsetInCU: 0x1C9, offset: 0x5DE33, size: 0x8, addend: 0x0, symName: '-[OCMPassByRefSetter dealloc]', symObjAddr: 0x1A4, symBinAddr: 0xB968, symSize: 0xA0 }
+  - { offsetInCU: 0x225, offset: 0x5DE8F, size: 0x8, addend: 0x0, symName: '-[OCMPassByRefSetter handleArgument:]', symObjAddr: 0x244, symBinAddr: 0xBA08, symSize: 0xAC }
+  - { offsetInCU: 0x27, offset: 0x5DF31, size: 0x8, addend: 0x0, symName: '+[NSInvocation(OCMAdditions) invocationForBlock:withArguments:]', symObjAddr: 0x0, symBinAddr: 0xBAB4, symSize: 0x124 }
+  - { offsetInCU: 0x78, offset: 0x5DF82, size: 0x8, addend: 0x0, symName: '+[NSInvocation(OCMAdditions) invocationForBlock:withArguments:]', symObjAddr: 0x0, symBinAddr: 0xBAB4, symSize: 0x124 }
+  - { offsetInCU: 0x14D, offset: 0x5E057, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) retainObjectArgumentsExcludingObject:]', symObjAddr: 0x124, symBinAddr: 0xBBD8, symSize: 0x2C4 }
+  - { offsetInCU: 0x3D4, offset: 0x5E2DE, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) setArgumentWithObject:atIndex:]', symObjAddr: 0x3E8, symBinAddr: 0xBE9C, symSize: 0x36C }
+  - { offsetInCU: 0x5EF, offset: 0x5E4F9, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) getArgumentAtIndexAsObject:]', symObjAddr: 0x754, symBinAddr: 0xC208, symSize: 0x5FC }
+  - { offsetInCU: 0x866, offset: 0x5E770, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) invocationDescription]', symObjAddr: 0xD50, symBinAddr: 0xC804, symSize: 0x154 }
+  - { offsetInCU: 0x922, offset: 0x5E82C, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) argumentDescriptionAtIndex:]', symObjAddr: 0xEA4, symBinAddr: 0xC958, symSize: 0x380 }
+  - { offsetInCU: 0x98A, offset: 0x5E894, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) objectDescriptionAtIndex:]', symObjAddr: 0x1224, symBinAddr: 0xCCD8, symSize: 0x104 }
+  - { offsetInCU: 0x9E4, offset: 0x5E8EE, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) boolDescriptionAtIndex:]', symObjAddr: 0x1328, symBinAddr: 0xCDDC, symSize: 0x68 }
+  - { offsetInCU: 0xA3E, offset: 0x5E948, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) charDescriptionAtIndex:]', symObjAddr: 0x1390, symBinAddr: 0xCE44, symSize: 0x118 }
+  - { offsetInCU: 0xA97, offset: 0x5E9A1, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) unsignedCharDescriptionAtIndex:]', symObjAddr: 0x14A8, symBinAddr: 0xCF5C, symSize: 0x90 }
+  - { offsetInCU: 0xAF0, offset: 0x5E9FA, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) intDescriptionAtIndex:]', symObjAddr: 0x1538, symBinAddr: 0xCFEC, symSize: 0x50 }
+  - { offsetInCU: 0xB4A, offset: 0x5EA54, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) unsignedIntDescriptionAtIndex:]', symObjAddr: 0x1588, symBinAddr: 0xD03C, symSize: 0x50 }
+  - { offsetInCU: 0xBA4, offset: 0x5EAAE, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) shortDescriptionAtIndex:]', symObjAddr: 0x15D8, symBinAddr: 0xD08C, symSize: 0x50 }
+  - { offsetInCU: 0xBFE, offset: 0x5EB08, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) unsignedShortDescriptionAtIndex:]', symObjAddr: 0x1628, symBinAddr: 0xD0DC, symSize: 0x50 }
+  - { offsetInCU: 0xC58, offset: 0x5EB62, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) longDescriptionAtIndex:]', symObjAddr: 0x1678, symBinAddr: 0xD12C, symSize: 0x50 }
+  - { offsetInCU: 0xCB2, offset: 0x5EBBC, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) unsignedLongDescriptionAtIndex:]', symObjAddr: 0x16C8, symBinAddr: 0xD17C, symSize: 0x50 }
+  - { offsetInCU: 0xD0C, offset: 0x5EC16, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) longLongDescriptionAtIndex:]', symObjAddr: 0x1718, symBinAddr: 0xD1CC, symSize: 0x50 }
+  - { offsetInCU: 0xD66, offset: 0x5EC70, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) unsignedLongLongDescriptionAtIndex:]', symObjAddr: 0x1768, symBinAddr: 0xD21C, symSize: 0x50 }
+  - { offsetInCU: 0xDC0, offset: 0x5ECCA, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) doubleDescriptionAtIndex:]', symObjAddr: 0x17B8, symBinAddr: 0xD26C, symSize: 0x50 }
+  - { offsetInCU: 0xE1A, offset: 0x5ED24, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) floatDescriptionAtIndex:]', symObjAddr: 0x1808, symBinAddr: 0xD2BC, symSize: 0x54 }
+  - { offsetInCU: 0xE74, offset: 0x5ED7E, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) longDoubleDescriptionAtIndex:]', symObjAddr: 0x185C, symBinAddr: 0xD310, symSize: 0x50 }
+  - { offsetInCU: 0xECE, offset: 0x5EDD8, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) structDescriptionAtIndex:]', symObjAddr: 0x18AC, symBinAddr: 0xD360, symSize: 0x54 }
+  - { offsetInCU: 0xF17, offset: 0x5EE21, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) pointerDescriptionAtIndex:]', symObjAddr: 0x1900, symBinAddr: 0xD3B4, symSize: 0x8C }
+  - { offsetInCU: 0xF71, offset: 0x5EE7B, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) cStringDescriptionAtIndex:]', symObjAddr: 0x198C, symBinAddr: 0xD440, symSize: 0xE4 }
+  - { offsetInCU: 0xFEA, offset: 0x5EEF4, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) selectorDescriptionAtIndex:]', symObjAddr: 0x1A70, symBinAddr: 0xD524, symSize: 0x60 }
+  - { offsetInCU: 0x106C, offset: 0x5EF76, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) isMethodFamily:]', symObjAddr: 0x1AD0, symBinAddr: 0xD584, symSize: 0x128 }
+  - { offsetInCU: 0x1132, offset: 0x5F03C, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) methodIsInInitFamily]', symObjAddr: 0x1BF8, symBinAddr: 0xD6AC, symSize: 0x1C }
+  - { offsetInCU: 0x1168, offset: 0x5F072, size: 0x8, addend: 0x0, symName: '-[NSInvocation(OCMAdditions) methodIsInCreateFamily]', symObjAddr: 0x1C14, symBinAddr: 0xD6C8, symSize: 0xE4 }
+  - { offsetInCU: 0x27, offset: 0x5F15B, size: 0x8, addend: 0x0, symName: '+[NSMethodSignature(OCMAdditions) signatureForDynamicPropertyAccessedWithSelector:inClass:]', symObjAddr: 0x0, symBinAddr: 0xD7AC, symSize: 0x274 }
+  - { offsetInCU: 0x162, offset: 0x5F296, size: 0x8, addend: 0x0, symName: '+[NSMethodSignature(OCMAdditions) signatureForDynamicPropertyAccessedWithSelector:inClass:]', symObjAddr: 0x0, symBinAddr: 0xD7AC, symSize: 0x274 }
+  - { offsetInCU: 0x2B9, offset: 0x5F3ED, size: 0x8, addend: 0x0, symName: '+[NSMethodSignature(OCMAdditions) propertyMatchingSelector:inClass:isGetter:]', symObjAddr: 0x274, symBinAddr: 0xDA20, symSize: 0x3A0 }
+  - { offsetInCU: 0x4C4, offset: 0x5F5F8, size: 0x8, addend: 0x0, symName: '+[NSMethodSignature(OCMAdditions) signatureForBlock:]', symObjAddr: 0x614, symBinAddr: 0xDDC0, symSize: 0x64 }
+  - { offsetInCU: 0x537, offset: 0x5F66B, size: 0x8, addend: 0x0, symName: '-[NSMethodSignature(OCMAdditions) usesSpecialStructureReturn]', symObjAddr: 0x678, symBinAddr: 0xDE24, symSize: 0x98 }
+  - { offsetInCU: 0x5AE, offset: 0x5F6E2, size: 0x8, addend: 0x0, symName: '-[NSMethodSignature(OCMAdditions) fullTypeString]', symObjAddr: 0x710, symBinAddr: 0xDEBC, symSize: 0xCC }
+  - { offsetInCU: 0x614, offset: 0x5F748, size: 0x8, addend: 0x0, symName: '-[NSMethodSignature(OCMAdditions) fullObjCTypes]', symObjAddr: 0x7DC, symBinAddr: 0xDF88, symSize: 0x24 }
+  - { offsetInCU: 0x27, offset: 0x5F7E0, size: 0x8, addend: 0x0, symName: '-[NSNotificationCenter(OCMAdditions) addMockObserver:name:object:]', symObjAddr: 0x0, symBinAddr: 0xDFAC, symSize: 0x64 }
+  - { offsetInCU: 0x3C, offset: 0x5F7F5, size: 0x8, addend: 0x0, symName: '-[NSNotificationCenter(OCMAdditions) addMockObserver:name:object:]', symObjAddr: 0x0, symBinAddr: 0xDFAC, symSize: 0x64 }
+  - { offsetInCU: 0x27, offset: 0x5F90E, size: 0x8, addend: 0x0, symName: '+[NSObject(OCMAdditions) instanceMethodForwarderForSelector:]', symObjAddr: 0x0, symBinAddr: 0xE010, symSize: 0x1C }
+  - { offsetInCU: 0x4B, offset: 0x5F932, size: 0x8, addend: 0x0, symName: '+[NSObject(OCMAdditions) instanceMethodForwarderForSelector:]', symObjAddr: 0x0, symBinAddr: 0xE010, symSize: 0x1C }
+  - { offsetInCU: 0x8A, offset: 0x5F971, size: 0x8, addend: 0x0, symName: '+[NSObject(OCMAdditions) enumerateMethodsInClass:usingBlock:]', symObjAddr: 0x1C, symBinAddr: 0xE02C, symSize: 0xDC }
+  - { offsetInCU: 0x27, offset: 0x5FBAD, size: 0x8, addend: 0x0, symName: '-[NSValue(OCMAdditions) getBytes:objCType:]', symObjAddr: 0x0, symBinAddr: 0xE108, symSize: 0x4E8 }
+  - { offsetInCU: 0x17E, offset: 0x5FD04, size: 0x8, addend: 0x0, symName: '-[NSValue(OCMAdditions) getBytes:objCType:]', symObjAddr: 0x0, symBinAddr: 0xE108, symSize: 0x4E8 }
+  - { offsetInCU: 0x27, offset: 0x5FFDB, size: 0x8, addend: 0x0, symName: _OCMTypeWithoutQualifiers, symObjAddr: 0x0, symBinAddr: 0xE5F0, symSize: 0xCC }
+  - { offsetInCU: 0x4F, offset: 0x60003, size: 0x8, addend: 0x0, symName: _OCMIsBlock, symObjAddr: 0xD44, symBinAddr: 0xF334, symSize: 0x80 }
+  - { offsetInCU: 0x77, offset: 0x6002B, size: 0x8, addend: 0x0, symName: _OCMIsBlock.blockClass, symObjAddr: 0xA8F0, symBinAddr: 0x2D560, symSize: 0x0 }
+  - { offsetInCU: 0x8E, offset: 0x60042, size: 0x8, addend: 0x0, symName: _OCMIsBlock.onceToken, symObjAddr: 0xA8F8, symBinAddr: 0x2D568, symSize: 0x0 }
+  - { offsetInCU: 0x1DF, offset: 0x60193, size: 0x8, addend: 0x0, symName: _OCMTypeWithoutQualifiers, symObjAddr: 0x0, symBinAddr: 0xE5F0, symSize: 0xCC }
+  - { offsetInCU: 0x22B, offset: 0x601DF, size: 0x8, addend: 0x0, symName: _OCMIsClassType, symObjAddr: 0xCC, symBinAddr: 0xE6BC, symSize: 0x48 }
+  - { offsetInCU: 0x28D, offset: 0x60241, size: 0x8, addend: 0x0, symName: _OCMIsBlockType, symObjAddr: 0x114, symBinAddr: 0xE704, symSize: 0x24 }
+  - { offsetInCU: 0x2DD, offset: 0x60291, size: 0x8, addend: 0x0, symName: _OCMIsUnqualifiedBlockType, symObjAddr: 0x138, symBinAddr: 0xE728, symSize: 0xA0 }
+  - { offsetInCU: 0x346, offset: 0x602FA, size: 0x8, addend: 0x0, symName: _OCMIsObjectType, symObjAddr: 0x1D8, symBinAddr: 0xE7C8, symSize: 0x17C }
+  - { offsetInCU: 0x439, offset: 0x603ED, size: 0x8, addend: 0x0, symName: _OCMIsPointerType, symObjAddr: 0x354, symBinAddr: 0xE944, symSize: 0x64 }
+  - { offsetInCU: 0x48B, offset: 0x6043F, size: 0x8, addend: 0x0, symName: _OCMNumberTypeForObjCType, symObjAddr: 0x3B8, symBinAddr: 0xE9A8, symSize: 0x148 }
+  - { offsetInCU: 0x5DF, offset: 0x60593, size: 0x8, addend: 0x0, symName: _OCMEqualTypesAllowingOpaqueStructs, symObjAddr: 0x500, symBinAddr: 0xEAF0, symSize: 0x5AC }
+  - { offsetInCU: 0x8D8, offset: 0x6088C, size: 0x8, addend: 0x0, symName: _ParseStructType, symObjAddr: 0x1880, symBinAddr: 0xFE70, symSize: 0x24C }
+  - { offsetInCU: 0x9D3, offset: 0x60987, size: 0x8, addend: 0x0, symName: _OCMIsNilValue, symObjAddr: 0xAAC, symBinAddr: 0xF09C, symSize: 0x130 }
+  - { offsetInCU: 0xA42, offset: 0x609F6, size: 0x8, addend: 0x0, symName: _OCMIsAppleBaseClass, symObjAddr: 0xBDC, symBinAddr: 0xF1CC, symSize: 0x80 }
+  - { offsetInCU: 0xA6F, offset: 0x60A23, size: 0x8, addend: 0x0, symName: _OCMIsApplePrivateMethod, symObjAddr: 0xC5C, symBinAddr: 0xF24C, symSize: 0xE8 }
+  - { offsetInCU: 0xB75, offset: 0x60B29, size: 0x8, addend: 0x0, symName: ___OCMIsBlock_block_invoke, symObjAddr: 0xDC4, symBinAddr: 0xF3B4, symSize: 0x8C }
+  - { offsetInCU: 0xBBE, offset: 0x60B72, size: 0x8, addend: 0x0, symName: ___OCMIsBlock_block_invoke_2, symObjAddr: 0xE50, symBinAddr: 0xF440, symSize: 0x14 }
+  - { offsetInCU: 0xBE7, offset: 0x60B9B, size: 0x8, addend: 0x0, symName: _OCMIsNonEscapingBlock, symObjAddr: 0xE64, symBinAddr: 0xF454, symSize: 0x68 }
+  - { offsetInCU: 0xC3C, offset: 0x60BF0, size: 0x8, addend: 0x0, symName: _OCMCreateSubclass, symObjAddr: 0xECC, symBinAddr: 0xF4BC, symSize: 0x94 }
+  - { offsetInCU: 0xD40, offset: 0x60CF4, size: 0x8, addend: 0x0, symName: _OCMDisposeSubclass, symObjAddr: 0xF60, symBinAddr: 0xF550, symSize: 0xA8 }
+  - { offsetInCU: 0xDDA, offset: 0x60D8E, size: 0x8, addend: 0x0, symName: _OCMIsMockSubclass, symObjAddr: 0x1008, symBinAddr: 0xF5F8, symSize: 0x2C }
+  - { offsetInCU: 0xE10, offset: 0x60DC4, size: 0x8, addend: 0x0, symName: _OCMIsSubclassOfMockClass, symObjAddr: 0x1034, symBinAddr: 0xF624, symSize: 0x9C }
+  - { offsetInCU: 0xE9B, offset: 0x60E4F, size: 0x8, addend: 0x0, symName: _OCMIsAliasSelector, symObjAddr: 0x10D0, symBinAddr: 0xF6C0, symSize: 0x2C }
+  - { offsetInCU: 0xED1, offset: 0x60E85, size: 0x8, addend: 0x0, symName: _OCMAliasForOriginalSelector, symObjAddr: 0x10FC, symBinAddr: 0xF6EC, symSize: 0x98 }
+  - { offsetInCU: 0xF8E, offset: 0x60F42, size: 0x8, addend: 0x0, symName: _OCMOriginalSelectorForAlias, symObjAddr: 0x1194, symBinAddr: 0xF784, symSize: 0xC8 }
+  - { offsetInCU: 0x104F, offset: 0x61003, size: 0x8, addend: 0x0, symName: _OCMSetAssociatedMockForClass, symObjAddr: 0x125C, symBinAddr: 0xF84C, symSize: 0xD0 }
+  - { offsetInCU: 0x1133, offset: 0x610E7, size: 0x8, addend: 0x0, symName: _OCMGetAssociatedMockForClass, symObjAddr: 0x132C, symBinAddr: 0xF91C, symSize: 0xF4 }
+  - { offsetInCU: 0x11E2, offset: 0x61196, size: 0x8, addend: 0x0, symName: _OCMSetAssociatedMockForObject, symObjAddr: 0x1420, symBinAddr: 0xFA10, symSize: 0xB8 }
+  - { offsetInCU: 0x1255, offset: 0x61209, size: 0x8, addend: 0x0, symName: _OCMGetAssociatedMockForObject, symObjAddr: 0x14D8, symBinAddr: 0xFAC8, symSize: 0x1C }
+  - { offsetInCU: 0x1297, offset: 0x6124B, size: 0x8, addend: 0x0, symName: _OCMReportFailure, symObjAddr: 0x14F4, symBinAddr: 0xFAE4, symSize: 0x38C }
+  - { offsetInCU: 0x27, offset: 0x61581, size: 0x8, addend: 0x0, symName: '-[OCMArgAction handleArgument:]', symObjAddr: 0x0, symBinAddr: 0x100BC, symSize: 0x14 }
+  - { offsetInCU: 0x4D, offset: 0x615A7, size: 0x8, addend: 0x0, symName: '-[OCMArgAction handleArgument:]', symObjAddr: 0x0, symBinAddr: 0x100BC, symSize: 0x14 }
+  - { offsetInCU: 0x27, offset: 0x6164A, size: 0x8, addend: 0x0, symName: '-[OCMNonRetainingObjectReturnValueProvider initWithValue:]', symObjAddr: 0x0, symBinAddr: 0x100D0, symSize: 0x68 }
+  - { offsetInCU: 0x83, offset: 0x616A6, size: 0x8, addend: 0x0, symName: '-[OCMNonRetainingObjectReturnValueProvider initWithValue:]', symObjAddr: 0x0, symBinAddr: 0x100D0, symSize: 0x68 }
+  - { offsetInCU: 0xCA, offset: 0x616ED, size: 0x8, addend: 0x0, symName: '-[OCMNonRetainingObjectReturnValueProvider handleInvocation:]', symObjAddr: 0x68, symBinAddr: 0x10138, symSize: 0x84 }
+  - { offsetInCU: 0x2A, offset: 0x617AF, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_magic, symObjAddr: 0x0, symBinAddr: 0x101BC, symSize: 0x14 }
+  - { offsetInCU: 0x38, offset: 0x617BD, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_magic, symObjAddr: 0x0, symBinAddr: 0x101BC, symSize: 0x14 }
+  - { offsetInCU: 0x4A, offset: 0x617CF, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_num_padding_bytes, symObjAddr: 0x1C, symBinAddr: 0x101D0, symSize: 0xC }
+  - { offsetInCU: 0x5C, offset: 0x617E1, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_version, symObjAddr: 0x28, symBinAddr: 0x101DC, symSize: 0x10 }
+  - { offsetInCU: 0x2A, offset: 0x61824, size: 0x8, addend: 0x0, symName: _lprofProfileDumped, symObjAddr: 0x0, symBinAddr: 0x101EC, symSize: 0xC }
+  - { offsetInCU: 0x38, offset: 0x61832, size: 0x8, addend: 0x0, symName: _lprofProfileDumped, symObjAddr: 0x0, symBinAddr: 0x101EC, symSize: 0xC }
+  - { offsetInCU: 0x2A, offset: 0x6186E, size: 0x8, addend: 0x0, symName: _getValueProfRecordHeaderSize, symObjAddr: 0x0, symBinAddr: 0x101F8, symSize: 0xC }
+  - { offsetInCU: 0x38, offset: 0x6187C, size: 0x8, addend: 0x0, symName: _getValueProfRecordHeaderSize, symObjAddr: 0x0, symBinAddr: 0x101F8, symSize: 0xC }
+  - { offsetInCU: 0x51, offset: 0x61895, size: 0x8, addend: 0x0, symName: _getValueProfRecordValueData, symObjAddr: 0x1C, symBinAddr: 0x10204, symSize: 0x14 }
+  - { offsetInCU: 0x88, offset: 0x618CC, size: 0x8, addend: 0x0, symName: _getValueProfRecordNext, symObjAddr: 0x1B4, symBinAddr: 0x10218, symSize: 0x1A4 }
+  - { offsetInCU: 0xC6, offset: 0x6190A, size: 0x8, addend: 0x0, symName: _getFirstValueProfRecord, symObjAddr: 0x358, symBinAddr: 0x103BC, symSize: 0x8 }
+  - { offsetInCU: 0xF4, offset: 0x61938, size: 0x8, addend: 0x0, symName: _lprofSetupValueProfiler, symObjAddr: 0x8C0, symBinAddr: 0x103C4, symSize: 0x68 }
+  - { offsetInCU: 0x148, offset: 0x6198C, size: 0x8, addend: 0x0, symName: ___llvm_profile_instrument_target_value, symObjAddr: 0xBB0, symBinAddr: 0x1042C, symSize: 0x284 }
+  - { offsetInCU: 0x18C, offset: 0x619D0, size: 0x8, addend: 0x0, symName: _lprofGetVPDataReader, symObjAddr: 0xE7C, symBinAddr: 0x106B0, symSize: 0xC }
+  - { offsetInCU: 0x19E, offset: 0x619E2, size: 0x8, addend: 0x0, symName: _initializeValueProfRuntimeRecord, symObjAddr: 0xE88, symBinAddr: 0x106BC, symSize: 0x178 }
+  - { offsetInCU: 0x1B7, offset: 0x619FB, size: 0x8, addend: 0x0, symName: _getNumValueDataForSiteWrapper, symObjAddr: 0x1000, symBinAddr: 0x10834, symSize: 0x14 }
+  - { offsetInCU: 0x1CD, offset: 0x61A11, size: 0x8, addend: 0x0, symName: _getNumValueDataForSiteWrapper, symObjAddr: 0x1000, symBinAddr: 0x10834, symSize: 0x14 }
+  - { offsetInCU: 0x1E0, offset: 0x61A24, size: 0x8, addend: 0x0, symName: _getValueProfDataSizeWrapper, symObjAddr: 0x1014, symBinAddr: 0x10848, symSize: 0xA8 }
+  - { offsetInCU: 0x265, offset: 0x61AA9, size: 0x8, addend: 0x0, symName: _getNumValueSitesRT, symObjAddr: 0x1100, symBinAddr: 0x10934, symSize: 0x10 }
+  - { offsetInCU: 0x277, offset: 0x61ABB, size: 0x8, addend: 0x0, symName: _getNumValueDataRT, symObjAddr: 0x1110, symBinAddr: 0x10944, symSize: 0x190 }
+  - { offsetInCU: 0x289, offset: 0x61ACD, size: 0x8, addend: 0x0, symName: _getNextNValueData, symObjAddr: 0x10BC, symBinAddr: 0x108F0, symSize: 0x44 }
+  - { offsetInCU: 0x2A, offset: 0x61B09, size: 0x8, addend: 0x0, symName: ___llvm_profile_is_continuous_mode_enabled, symObjAddr: 0x0, symBinAddr: 0x10AD4, symSize: 0x20 }
+  - { offsetInCU: 0x38, offset: 0x61B17, size: 0x8, addend: 0x0, symName: ___llvm_profile_is_continuous_mode_enabled, symObjAddr: 0x0, symBinAddr: 0x10AD4, symSize: 0x20 }
+  - { offsetInCU: 0x4A, offset: 0x61B29, size: 0x8, addend: 0x0, symName: ___llvm_profile_enable_continuous_mode, symObjAddr: 0x20, symBinAddr: 0x10AF4, symSize: 0x10 }
+  - { offsetInCU: 0x5C, offset: 0x61B3B, size: 0x8, addend: 0x0, symName: ___llvm_profile_set_page_size, symObjAddr: 0x30, symBinAddr: 0x10B04, symSize: 0xC }
+  - { offsetInCU: 0x6E, offset: 0x61B4D, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_size_for_buffer, symObjAddr: 0x3C, symBinAddr: 0x10B10, symSize: 0x6C }
+  - { offsetInCU: 0x8F, offset: 0x61B6E, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_size_for_buffer_internal, symObjAddr: 0xA8, symBinAddr: 0x10B7C, symSize: 0x134 }
+  - { offsetInCU: 0x1F7, offset: 0x61CD6, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_num_data, symObjAddr: 0x1DC, symBinAddr: 0x10CB0, symSize: 0x1C }
+  - { offsetInCU: 0x209, offset: 0x61CE8, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_data_size, symObjAddr: 0x1F8, symBinAddr: 0x10CCC, symSize: 0x24 }
+  - { offsetInCU: 0x21F, offset: 0x61CFE, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_data_size, symObjAddr: 0x1F8, symBinAddr: 0x10CCC, symSize: 0x24 }
+  - { offsetInCU: 0x231, offset: 0x61D10, size: 0x8, addend: 0x0, symName: ___llvm_profile_counter_entry_size, symObjAddr: 0x21C, symBinAddr: 0x10CF0, symSize: 0x20 }
+  - { offsetInCU: 0x243, offset: 0x61D22, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_num_counters, symObjAddr: 0x23C, symBinAddr: 0x10D10, symSize: 0x4C }
+  - { offsetInCU: 0x280, offset: 0x61D5F, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_counters_size, symObjAddr: 0x288, symBinAddr: 0x10D5C, symSize: 0x60 }
+  - { offsetInCU: 0x2E8, offset: 0x61DC7, size: 0x8, addend: 0x0, symName: ___llvm_profile_get_padding_sizes_for_counters, symObjAddr: 0x2E8, symBinAddr: 0x10DBC, symSize: 0xA8 }
+  - { offsetInCU: 0x365, offset: 0x61E44, size: 0x8, addend: 0x0, symName: _initBufferWriter, symObjAddr: 0x390, symBinAddr: 0x10E64, symSize: 0x10 }
+  - { offsetInCU: 0x3F, offset: 0x61E9C, size: 0x8, addend: 0x0, symName: _getCurFilenameLength, symObjAddr: 0x1C0, symBinAddr: 0x10E74, symSize: 0x324 }
+  - { offsetInCU: 0x51, offset: 0x61EAE, size: 0x8, addend: 0x0, symName: _getCurFilename, symObjAddr: 0x4E4, symBinAddr: 0x11198, symSize: 0x338 }
+  - { offsetInCU: 0xF7, offset: 0x61F54, size: 0x8, addend: 0x0, symName: _parseAndSetFilename, symObjAddr: 0x924, symBinAddr: 0x114D0, symSize: 0x578 }
+  - { offsetInCU: 0x283, offset: 0x620E0, size: 0x8, addend: 0x0, symName: _truncateCurrentFile, symObjAddr: 0x1D04, symBinAddr: 0x123B0, symSize: 0xCC }
+  - { offsetInCU: 0x2EA, offset: 0x62147, size: 0x8, addend: 0x0, symName: _initializeProfileForContinuousMode, symObjAddr: 0x1DD0, symBinAddr: 0x1247C, symSize: 0x250 }
+  - { offsetInCU: 0x45B, offset: 0x622B8, size: 0x8, addend: 0x0, symName: ___llvm_profile_initialize, symObjAddr: 0xE9C, symBinAddr: 0x11A48, symSize: 0xBC }
+  - { offsetInCU: 0x4EF, offset: 0x6234C, size: 0x8, addend: 0x0, symName: ___llvm_profile_write_file, symObjAddr: 0xFDC, symBinAddr: 0x11B04, symSize: 0x184 }
+  - { offsetInCU: 0x542, offset: 0x6239F, size: 0x8, addend: 0x0, symName: _writeFile, symObjAddr: 0x1160, symBinAddr: 0x11C88, symSize: 0x288 }
+  - { offsetInCU: 0x750, offset: 0x625AD, size: 0x8, addend: 0x0, symName: _createProfileDir, symObjAddr: 0x2020, symBinAddr: 0x126CC, symSize: 0x88 }
+  - { offsetInCU: 0x779, offset: 0x625D6, size: 0x8, addend: 0x0, symName: _getProfileFileSizeForMerging, symObjAddr: 0x1868, symBinAddr: 0x11F14, symSize: 0x114 }
+  - { offsetInCU: 0x7B6, offset: 0x62613, size: 0x8, addend: 0x0, symName: _mmapProfileForMerging, symObjAddr: 0x197C, symBinAddr: 0x12028, symSize: 0xC0 }
+  - { offsetInCU: 0x824, offset: 0x62681, size: 0x8, addend: 0x0, symName: _writeFileWithoutReturn, symObjAddr: 0x167C, symBinAddr: 0x11F10, symSize: 0x4 }
+  - { offsetInCU: 0x83A, offset: 0x62697, size: 0x8, addend: 0x0, symName: _writeFileWithoutReturn, symObjAddr: 0x167C, symBinAddr: 0x11F10, symSize: 0x4 }
+  - { offsetInCU: 0x84C, offset: 0x626A9, size: 0x8, addend: 0x0, symName: _mmapForContinuousMode, symObjAddr: 0x1A3C, symBinAddr: 0x120E8, symSize: 0x184 }
+  - { offsetInCU: 0x899, offset: 0x626F6, size: 0x8, addend: 0x0, symName: _fileWriter, symObjAddr: 0x1BC0, symBinAddr: 0x1226C, symSize: 0x144 }
+  - { offsetInCU: 0x8D1, offset: 0x6272E, size: 0x8, addend: 0x0, symName: _exitSignalHandler, symObjAddr: 0x20A8, symBinAddr: 0x12754, symSize: 0x10 }
+  - { offsetInCU: 0x2A, offset: 0x6276A, size: 0x8, addend: 0x0, symName: _lprofGetLoadModuleSignature, symObjAddr: 0x0, symBinAddr: 0x12764, symSize: 0xD4 }
+  - { offsetInCU: 0x38, offset: 0x62778, size: 0x8, addend: 0x0, symName: _lprofGetLoadModuleSignature, symObjAddr: 0x0, symBinAddr: 0x12764, symSize: 0xD4 }
+  - { offsetInCU: 0x4A, offset: 0x6278A, size: 0x8, addend: 0x0, symName: ___llvm_profile_check_compatibility, symObjAddr: 0xD4, symBinAddr: 0x12838, symSize: 0x194 }
+  - { offsetInCU: 0x5C, offset: 0x6279C, size: 0x8, addend: 0x0, symName: ___llvm_profile_merge_from_buffer, symObjAddr: 0x268, symBinAddr: 0x129CC, symSize: 0x1FC }
+  - { offsetInCU: 0x2A, offset: 0x627E5, size: 0x8, addend: 0x0, symName: _lprofMergeValueProfData, symObjAddr: 0x0, symBinAddr: 0x12BC8, symSize: 0xF4 }
+  - { offsetInCU: 0x38, offset: 0x627F3, size: 0x8, addend: 0x0, symName: _lprofMergeValueProfData, symObjAddr: 0x0, symBinAddr: 0x12BC8, symSize: 0xF4 }
+  - { offsetInCU: 0x2A, offset: 0x62875, size: 0x8, addend: 0x0, symName: _lprofBufferWriter, symObjAddr: 0x0, symBinAddr: 0x12CBC, symSize: 0x70 }
+  - { offsetInCU: 0x38, offset: 0x62883, size: 0x8, addend: 0x0, symName: _lprofBufferWriter, symObjAddr: 0x0, symBinAddr: 0x12CBC, symSize: 0x70 }
+  - { offsetInCU: 0x5F, offset: 0x628AA, size: 0x8, addend: 0x0, symName: _lprofBufferIOWrite, symObjAddr: 0x108, symBinAddr: 0x12D2C, symSize: 0x138 }
+  - { offsetInCU: 0xC2, offset: 0x6290D, size: 0x8, addend: 0x0, symName: _lprofWriteData, symObjAddr: 0x304, symBinAddr: 0x12E64, symSize: 0x98 }
+  - { offsetInCU: 0xE3, offset: 0x6292E, size: 0x8, addend: 0x0, symName: _lprofWriteDataImpl, symObjAddr: 0x39C, symBinAddr: 0x12EFC, symSize: 0x334 }
+  - { offsetInCU: 0x1B9, offset: 0x62A04, size: 0x8, addend: 0x0, symName: _writeOneValueProfData, symObjAddr: 0x6D0, symBinAddr: 0x13230, symSize: 0x368 }
+  - { offsetInCU: 0x2A, offset: 0x62B33, size: 0x8, addend: 0x0, symName: ___llvm_profile_begin_data, symObjAddr: 0x0, symBinAddr: 0x13598, symSize: 0xC }
+  - { offsetInCU: 0x38, offset: 0x62B41, size: 0x8, addend: 0x0, symName: ___llvm_profile_begin_data, symObjAddr: 0x0, symBinAddr: 0x13598, symSize: 0xC }
+  - { offsetInCU: 0x4A, offset: 0x62B53, size: 0x8, addend: 0x0, symName: ___llvm_profile_end_data, symObjAddr: 0xC, symBinAddr: 0x135A4, symSize: 0xC }
+  - { offsetInCU: 0x5C, offset: 0x62B65, size: 0x8, addend: 0x0, symName: ___llvm_profile_begin_names, symObjAddr: 0x18, symBinAddr: 0x135B0, symSize: 0xC }
+  - { offsetInCU: 0x6E, offset: 0x62B77, size: 0x8, addend: 0x0, symName: ___llvm_profile_end_names, symObjAddr: 0x24, symBinAddr: 0x135BC, symSize: 0xC }
+  - { offsetInCU: 0x80, offset: 0x62B89, size: 0x8, addend: 0x0, symName: ___llvm_profile_begin_counters, symObjAddr: 0x30, symBinAddr: 0x135C8, symSize: 0xC }
+  - { offsetInCU: 0x92, offset: 0x62B9B, size: 0x8, addend: 0x0, symName: ___llvm_profile_end_counters, symObjAddr: 0x3C, symBinAddr: 0x135D4, symSize: 0xC }
+  - { offsetInCU: 0xA4, offset: 0x62BAD, size: 0x8, addend: 0x0, symName: ___llvm_profile_begin_vnodes, symObjAddr: 0x54, symBinAddr: 0x135E0, symSize: 0xC }
+  - { offsetInCU: 0xB6, offset: 0x62BBF, size: 0x8, addend: 0x0, symName: ___llvm_profile_end_vnodes, symObjAddr: 0x60, symBinAddr: 0x135EC, symSize: 0xC }
+  - { offsetInCU: 0xC8, offset: 0x62BD1, size: 0x8, addend: 0x0, symName: ___llvm_write_binary_ids, symObjAddr: 0x6C, symBinAddr: 0x135F8, symSize: 0x8 }
+  - { offsetInCU: 0x2A, offset: 0x62C0D, size: 0x8, addend: 0x0, symName: ___llvm_profile_recursive_mkdir, symObjAddr: 0x0, symBinAddr: 0x13604, symSize: 0x5C }
+  - { offsetInCU: 0x3F, offset: 0x62C22, size: 0x8, addend: 0x0, symName: ___llvm_profile_recursive_mkdir, symObjAddr: 0x0, symBinAddr: 0x13604, symSize: 0x5C }
+  - { offsetInCU: 0x7E, offset: 0x62C61, size: 0x8, addend: 0x0, symName: _lprofGetHostName, symObjAddr: 0x74, symBinAddr: 0x13660, symSize: 0x80 }
+  - { offsetInCU: 0xC0, offset: 0x62CA3, size: 0x8, addend: 0x0, symName: _lprofLockFileHandle, symObjAddr: 0x214, symBinAddr: 0x136E0, symSize: 0x94 }
+  - { offsetInCU: 0x121, offset: 0x62D04, size: 0x8, addend: 0x0, symName: _lprofUnlockFileHandle, symObjAddr: 0x2A8, symBinAddr: 0x13774, symSize: 0x94 }
+  - { offsetInCU: 0x173, offset: 0x62D56, size: 0x8, addend: 0x0, symName: _lprofOpenFileEx, symObjAddr: 0x33C, symBinAddr: 0x13808, symSize: 0xD4 }
+  - { offsetInCU: 0x1E4, offset: 0x62DC7, size: 0x8, addend: 0x0, symName: _lprofFindFirstDirSeparator, symObjAddr: 0x558, symBinAddr: 0x138DC, symSize: 0x8 }
+  - { offsetInCU: 0x1F6, offset: 0x62DD9, size: 0x8, addend: 0x0, symName: _lprofInstallSignalHandler, symObjAddr: 0x568, symBinAddr: 0x138E4, symSize: 0x58 }
+  - { offsetInCU: 0x21F, offset: 0x62E02, size: 0x8, addend: 0x0, symName: _lprofSuspendSigKill, symObjAddr: 0x5C0, symBinAddr: 0x1393C, symSize: 0x8 }
+  - { offsetInCU: 0x231, offset: 0x62E14, size: 0x8, addend: 0x0, symName: _lprofRestoreSigKill, symObjAddr: 0x5C8, symBinAddr: 0x13944, symSize: 0x4 }
+...
