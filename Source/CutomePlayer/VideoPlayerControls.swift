@@ -254,7 +254,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         return label
     }()
     
-    private lazy var chromercastView = ChromecastEnableView()
+    private lazy var chromercastView = ChromecastView()
     
     private var barColor: UIColor {
         return UIColor.black.withAlphaComponent(0.7)

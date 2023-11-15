@@ -15,7 +15,7 @@ protocol ChromeCastButtonDelegate {
     func removeChromecastButton()
 }
 
-class ChromecastEnableView: UIView, ChromeCastButtonDelegate {
+class ChromecastView: UIView, ChromeCastButtonDelegate {
     private var buttonSize: CGFloat = 24
     
     var chromeCastButton: GCKUICastButton {
@@ -32,13 +32,11 @@ class ChromecastEnableView: UIView, ChromeCastButtonDelegate {
             castButton.tintColor = tintColor
         }
         addSubview(castButton)
-        castButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            castButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            castButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            castButton.widthAnchor.constraint(equalToConstant: buttonSize),
-            castButton.heightAnchor.constraint(equalToConstant: buttonSize)
-        ])
+        castButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(buttonSize)
+        }
     }
     
     func removeChromecastButton() {

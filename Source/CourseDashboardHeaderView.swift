@@ -91,7 +91,7 @@ class CourseDashboardHeaderView: UIView {
         return button
     }()
     
-    private lazy var chromercastView = ChromecastEnableView()
+    private lazy var chromercastView = ChromecastView()
     
     private lazy var certificateView: CourseCertificateView? = nil
     
@@ -204,7 +204,7 @@ class CourseDashboardHeaderView: UIView {
         setOrUpdateConstraints()
         configureView()
         
-        ChromeCastManager.shared.add(delegate: self)
+        chromeCastManager.add(delegate: self)
     }
     
     private func configureView() {
