@@ -17,8 +17,8 @@ target 'edX' do
   pod 'FirebaseCoreInternal', '= 10.5.0', :modular_headers => true
   pod 'FirebaseCrashlytics', '= 10.5.0'
   pod 'FirebaseInAppMessaging', '= 10.5.0-beta'
-  pod 'FirebaseMessaging', '= 10.5.0'
-  pod 'FirebasePerformance', '= 10.5.0'
+  pod 'FirebaseMessaging', '= 10.5.0', :modular_headers => true
+  pod 'FirebasePerformance', '= 10.5.0', :modular_headers => true
   pod 'google-cast-sdk-no-bluetooth-xcframework', '~> 4.8.0'
   pod 'GoogleSignIn', '~> 7.0.0'
   pod 'GoogleUtilities', '= 7.11.0', :modular_headers => true
