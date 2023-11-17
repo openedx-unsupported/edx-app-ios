@@ -12,13 +12,13 @@ target 'edX' do
   pod 'FBSDKCoreKit', '= 16.0.0'
   pod 'FBSDKLoginKit', '= 16.0.0'
   pod 'Firebase', '= 10.5.0', :modular_headers => true
-  pod 'FirebaseAnalytics', '= 10.5.0', :modular_headers => true
+  pod 'FirebaseAnalytics', '= 10.5.0'
   pod 'FirebaseCore', '= 10.5.0', :modular_headers => true
   pod 'FirebaseCoreInternal', '= 10.5.0', :modular_headers => true
-  pod 'FirebaseCrashlytics', '= 10.5.0', :modular_headers => true
-  pod 'FirebaseInAppMessaging', '= 10.5.0-beta', :modular_headers => true
-  pod 'FirebaseMessaging', '= 10.5.0', :modular_headers => true
-  pod 'FirebasePerformance', '= 10.5.0', :modular_headers => true
+  pod 'FirebaseCrashlytics', '= 10.5.0'
+  pod 'FirebaseInAppMessaging', '= 10.5.0-beta'
+  pod 'FirebaseMessaging', '= 10.5.0'
+  pod 'FirebasePerformance', '= 10.5.0'
   pod 'google-cast-sdk-no-bluetooth-xcframework', '~> 4.8.0'
   pod 'GoogleSignIn', '~> 7.0.0'
   pod 'GoogleUtilities', '= 7.11.0', :modular_headers => true
