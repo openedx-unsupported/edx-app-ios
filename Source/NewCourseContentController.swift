@@ -193,7 +193,7 @@ class NewCourseContentController: UIViewController, InterfaceOrientationOverridi
             } ?? []
         }
 
-        currentBlock = blocks.first(where: { !$0.isCompleted }) ?? blocks.last
+        currentBlock = blocks.first(where: { !$0.isCompleted }) ?? blocks.first
     }
     
     private func updateView() {
