@@ -46,7 +46,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     private let previousButtonSize = CGSize(width: 42.0, height: 42.0)
     private let rewindButtonSize = CGSize(width: 42.0, height: 42.0)
     private let durationSliderHeight: CGFloat = 34.0
-    private let timeRemainingLabelSize = CGSize(width: 80, height: 34.0)
+    private let timeRemainingLabelSize = CGSize(width: 60, height: 34.0)
     private let settingButtonSize = CGSize(width: 24.0, height: 24.0)
     private let fullScreenButtonSize = CGSize(width: 20.0, height: 20.0)
     private let tableSettingSize = CGSize(width: 110.0, height: 100.0)
@@ -254,6 +254,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         return label
     }()
     
+    private lazy var chromercastView = ChromecastView()
+    
     private var barColor: UIColor {
         return UIColor.black.withAlphaComponent(0.7)
     }
@@ -261,6 +263,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     var bottomBarFrame: CGRect {
         return bottomBar.frame
     }
+    
+    private let chromecastManager = ChromeCastManager.shared
     
     init(environment : Environment, player: VideoPlayer) {
         self.environment = environment
@@ -427,8 +431,22 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
             make.height.equalTo(timeRemainingLabelSize.height)
         }
         
+        if chromecastManager.isAvailable {
+            bottomBar.addSubview(chromercastView)
+            
+            chromercastView.snp.makeConstraints { make in
+                make.leading.equalTo(timeRemainingLabel.snp.trailing).offset(StandardVerticalMargin)
+                make.height.equalTo(settingButtonSize.height)
+                make.width.equalTo(settingButtonSize.width)
+                make.centerY.equalTo(bottomBar.snp.centerY)
+            }
+            
+            chromercastView.addChromeCastButton(tintColor: environment.styles.neutralWhiteT())
+        }
+        
         btnSettings.snp.makeConstraints { make in
-            make.leading.equalTo(timeRemainingLabel.snp.trailing).offset(StandardVerticalMargin)
+            let leadingAnchor = chromecastManager.isAvailable ? chromercastView.snp.trailing : timeRemainingLabel.snp.trailing
+            make.leading.equalTo(leadingAnchor).offset(StandardVerticalMargin)
             make.height.equalTo(settingButtonSize.height)
             make.width.equalTo(settingButtonSize.width)
             make.centerY.equalTo(bottomBar.snp.centerY)

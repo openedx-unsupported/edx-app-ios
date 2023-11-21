@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseDashboardViewController: UITabBarController, InterfaceOrientationOverriding, ChromeCastConnectedButtonDelegate {
+class CourseDashboardViewController: UITabBarController, InterfaceOrientationOverriding {
     
      typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider & RemoteConfigProvider & ServerConfigProvider
     

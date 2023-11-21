@@ -167,7 +167,6 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         }
         chromeCastManager.remove(delegate: self)
         removeOverlayMessage()
-        removeChromeCastButton()
         chromeCastMiniPlayer = nil
     }
     
@@ -178,6 +177,10 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         }
         videoTranscriptView?.invalidateTimer()
         videoTranscriptView = nil
+        
+        chromeCastMiniPlayer = nil
+        chromeCastManager.remove(delegate: self)
+        videoPlayer.removeControls()
     }
     
     override func viewDidAppear(_ animated : Bool) {
@@ -199,26 +202,11 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
         if !chromeCastManager.isConnected && videoTranscriptView?.transcripts.count ?? 0 > 0 {
             validateSubtitleTimer()
         }
-        
-        if !(video?.summary?.isYoutubeVideo ?? true) {
-            addChromeCastButton()
-            showChromeCastOverlay()
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         subtitleTimer.invalidate()
-    }
-    
-    private func addChromeCastButton() {
-        guard let parent = parent else { return }
-        chromeCastManager.addChromeCastButton(over: parent)
-    }
-    
-    private func removeChromeCastButton() {
-        guard let parent = parent else { return }
-        chromeCastManager.removeChromeCastButton(from: parent, force: true)
     }
     
     func setAccessibility() {
@@ -554,17 +542,6 @@ class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewCo
     }
     
     //MARK:- ChromeCastHelper
-    
-    private func showChromeCastOverlay() {
-        // Introductory overlay needs reference to castButton which is available in CourseContentPageViewController,
-        // This function calls before the castButton is initialized so we get x, y as 0 in its container,
-        // We put a delay of 2 sec to get castButton from navigationbar item then decouple it and assgin to call.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            guard let parentController = self?.parent as? CourseContentPageViewController,
-                let items = parentController.navigationItem.rightBarButtonItems else { return }
-            self?.chromeCastManager.showIntroductoryOverlay(items: items)
-        }
-    }
     
     private func addOverly(with message: String) {
         if overlayLabel != nil { return }
