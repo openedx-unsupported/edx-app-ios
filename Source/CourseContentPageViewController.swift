@@ -22,7 +22,7 @@ extension CourseBlockDisplayType {
 }
 
 // Container for scrolling horizontally between different screens of course content
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, InterfaceOrientationOverriding, ChromeCastButtonDelegate {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, InterfaceOrientationOverriding {
     
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXRouterProvider & OEXConfigProvider
     
@@ -122,7 +122,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         addObservers()
         addRestrictedViewToPagination()
-        ChromeCastManager.shared.removeChromeCastButton(from: self, force: true)
     }
     
     // This is to restrict the pagination for bottom bar of player to make player progress slider smooth

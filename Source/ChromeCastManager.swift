@@ -49,6 +49,14 @@ private enum DelegateCallbackType: Int {
         return sessionManager?.hasConnectedCastSession() ?? false
     }
     
+    var isAvailable: Bool {
+        return discoveryManager?.deviceCount ?? 0 > 0
+    }
+    
+    var currentPlayingVideoCourseID: String? {
+        return sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata?.string(forKey: ChromeCastCourseID)
+    }
+    
     private var callbackType: DelegateCallbackType = .none {
         didSet {
             if oldValue != callbackType {
@@ -84,9 +92,8 @@ private enum DelegateCallbackType: Int {
     }
     
     func add(delegate: ChromeCastPlayerStatusDelegate) {
-        let conteins = delegates.filter { $0 === delegate }
-        if conteins.count > 0 { return }
-        
+        let contains = delegates.filter { $0 === delegate }
+        if contains.count > 0 { return }
         delegates.append(delegate)
     }
     
@@ -105,21 +112,6 @@ private enum DelegateCallbackType: Int {
     private func removeMediaListener() {
         guard let currentSession = sessionManager?.currentCastSession else { return }
         currentSession.remoteMediaClient?.remove(self)
-    }
-    
-    func showIntroductoryOverlay(items: [UIBarButtonItem]) {
-        guard let button = items.first else { return }
-        guard let view = button.customView as? GCKUICastButton, !view.isHidden else { return }
-        context.presentCastInstructionsViewControllerOnce(with: view)
-    }
-    
-    //MARK:- GCKSessionManager methods
-    func sessionManager(_ sessionManager: GCKSessionManager, didStart session: GCKSession) {
-        DispatchQueue.main.async { [weak self] in
-            self?.addMediaListner()
-            self?.addChromeCastButton()
-            self?.callbackType = .connect
-        }
     }
     
     private func delegateCallBacks() {
@@ -170,11 +162,18 @@ private enum DelegateCallbackType: Int {
         environment?.interface?.sendAnalyticsEvents(state, withCurrentTime: streamPosition, forVideo: video, playMedium: AnalyticsEventDataKey.PlayMediumChromecast.rawValue)
     }
     
+    //MARK:- GCKSessionManager methods
+    func sessionManager(_ sessionManager: GCKSessionManager, didStart session: GCKSession) {
+        DispatchQueue.main.async { [weak self] in
+            self?.addMediaListner()
+            self?.callbackType = .connect
+        }
+    }
+    
     func sessionManager(_ sessionManager: GCKSessionManager, didEnd session: GCKSession, withError error: Error?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             self?.removeMediaListener()
             self?.callbackType = .disconnect
-            self?.removeChromeCastButton()
         }
     }
     
@@ -204,72 +203,6 @@ private enum DelegateCallbackType: Int {
             saveStreamProgress()
         default:
             break
-        }
-    }
-        
-    //MARK:- ChromeCastButtonDelegate methods
-    private func addChromeCastButton() {
-        let topViewcontroller = UIApplication.shared.topMostController()
-        guard let navController = topViewcontroller?.navigationController as? ForwardingNavigationController else { return }
-        
-        navController.viewControllers.forEach { [weak self] controller in
-            self?.addChromeCastButton(over: controller)
-        }
-    }
-    
-    func addChromeCastButton(over controller: UIViewController) {
-        guard let controller = controller as? ChromeCastButtonDelegate else { return }
-        
-        if controller is ChromeCastConnectedButtonDelegate {
-            if isConnected {
-                controller.addChromeCastButton()
-            }
-        }
-        else {
-            controller.addChromeCastButton()
-        }
-    }
-    
-    private func removeChromeCastButton() {
-        let topViewcontroller = UIApplication.shared.topMostController()
-        guard let navController = topViewcontroller?.navigationController as? ForwardingNavigationController else { return }
-        
-        navController.viewControllers.forEach { [weak self] controller in
-            self?.removeChromeCastButton(from: controller)
-        }
-    }
-    
-    func removeChromeCastButton(from controller: UIViewController, force: Bool = false) {
-        guard let controller = controller as? ChromeCastButtonDelegate else { return }
-        
-        if force {
-            controller.removeChromecastButton()
-            return
-        }
-        
-        if controller is ChromeCastConnectedButtonDelegate {
-            controller.removeChromecastButton()
-        }
-    }
-    
-    func handleCastButton(for controller: UIViewController) {
-        guard let _ = controller as? ChromeCastButtonDelegate else { return }
-        // Delay of 4 seconds is added as it takes framework to
-        // initialize and return true if it has already established connection
-        let delay: Double = isInitilized ? 0 : 4
-        
-        if !isInitilized {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
-                if !(self?.isInitilized ?? true) && self?.isConnected ?? false {
-                    // Add media listner if video is being casted, ideally chromecast SDK shuold configure it automatically but unfortunately, its not configuring media listener. So adding media listner manually
-                    self?.addMediaListner()
-                }
-                self?.isInitilized = true
-                self?.addChromeCastButton(over: controller)
-            }
-        }
-        else {
-            addChromeCastButton(over: controller)
         }
     }
 }

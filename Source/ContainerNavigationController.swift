@@ -183,11 +183,3 @@ extension UINavigationController {
         coordinator.animate(alongsideTransition: nil) { _ in completion?() }
     }    
 }
-
-extension ForwardingNavigationController {
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        super.pushViewController(viewController, animated: animated)
-                
-        ChromeCastManager.shared.handleCastButton(for: viewController)
-    }
-}

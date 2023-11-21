@@ -392,6 +392,7 @@ extension NewCourseDashboardViewController: CourseDashboardHeaderViewDelegate {
     }
     
     func didTapOnClose() {
+        headerView.reset()
         dismiss(animated: true)
     }
     
