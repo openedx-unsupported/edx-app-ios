@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "OCMock.h"
+
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXAccessToken.h"

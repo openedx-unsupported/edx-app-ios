@@ -767,7 +767,6 @@
 		E0241785254043C400E397EA /* read-this-before-update.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E0241784254043C400E397EA /* read-this-before-update.rtf */; };
 		E0249F2B26305486007F9AE1 /* OpenInExternalBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0249F2A26305486007F9AE1 /* OpenInExternalBrowserView.swift */; };
 		E024B0001EC4589800498ECA /* WhatsNewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E024AFFF1EC4589800498ECA /* WhatsNewViewControllerTests.swift */; };
-		E02661732269A821002721B7 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02661672269A821002721B7 /* libOCMock.a */; };
 		E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02E59EE1F0E231000060AE0 /* VersionParser.swift */; };
 		E02E59F11F0E517300060AE0 /* VersionParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02E59F01F0E517300060AE0 /* VersionParserTests.swift */; };
 		E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02F65651E8B94CC000D1C4E /* TZSpacerView.swift */; };
@@ -825,6 +824,8 @@
 		E0B58CDC2818F7DF0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */; };
 		E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
+		E0C7169D2B04B48F00858BAB /* OCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0C7169B2B046BB700858BAB /* OCMock.xcframework */; };
+		E0C7169E2B04B48F00858BAB /* OCMock.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E0C7169B2B046BB700858BAB /* OCMock.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
 		E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */; };
 		E0D029F827043DE6001F83B1 /* BannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F727043DE6001F83B1 /* BannerAPI.swift */; };
@@ -897,6 +898,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5F700E9A278C35B000B17044 /* SwiftyStoreKit.xcframework in Embed Frameworks */,
+				E0C7169E2B04B48F00858BAB /* OCMock.xcframework in Embed Frameworks */,
 				E09F953928111ABE00F29443 /* KeychainSwift.xcframework in Embed Frameworks */,
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
 			);
@@ -1848,17 +1850,6 @@
 		E0241784254043C400E397EA /* read-this-before-update.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "read-this-before-update.rtf"; sourceTree = "<group>"; };
 		E0249F2A26305486007F9AE1 /* OpenInExternalBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenInExternalBrowserView.swift; sourceTree = "<group>"; };
 		E024AFFF1EC4589800498ECA /* WhatsNewViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewViewControllerTests.swift; sourceTree = "<group>"; };
-		E02661672269A821002721B7 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
-		E02661692269A821002721B7 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
-		E026616A2269A821002721B7 /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
-		E026616B2269A821002721B7 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
-		E026616C2269A821002721B7 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
-		E026616D2269A821002721B7 /* OCMFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMFunctions.h; sourceTree = "<group>"; };
-		E026616E2269A821002721B7 /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
-		E026616F2269A821002721B7 /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
-		E02661702269A821002721B7 /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
-		E02661712269A821002721B7 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
-		E02661722269A821002721B7 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
 		E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DiscussionPosts.json; sourceTree = "<group>"; };
 		E02E59EE1F0E231000060AE0 /* VersionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionParser.swift; sourceTree = "<group>"; };
 		E02E59F01F0E517300060AE0 /* VersionParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionParserTests.swift; sourceTree = "<group>"; };
@@ -1937,6 +1928,7 @@
 		E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+CourseUpgrade.swift"; sourceTree = "<group>"; };
 		E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+CourseUpgrade.swift"; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
+		E0C7169B2B046BB700858BAB /* OCMock.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OCMock.xcframework; sourceTree = "<group>"; };
 		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+Banner.swift"; sourceTree = "<group>"; };
 		E0D029F727043DE6001F83B1 /* BannerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAPI.swift; sourceTree = "<group>"; };
@@ -2008,6 +2000,7 @@
 				0D157630235EDA040007B0B7 /* Security.framework in Frameworks */,
 				776F39291B4EF4CD00ED11E3 /* WebKit.framework in Frameworks */,
 				805329121B0EA2DC0093B177 /* QuartzCore.framework in Frameworks */,
+				E0C7169D2B04B48F00858BAB /* OCMock.xcframework in Frameworks */,
 				0D15762D235ED9F30007B0B7 /* MediaPlayer.framework in Frameworks */,
 				0D15762E235ED9F30007B0B7 /* MediaAccessibility.framework in Frameworks */,
 				0D15762A235ED9DF0007B0B7 /* CoreText.framework in Frameworks */,
@@ -2023,7 +2016,6 @@
 				E09F953828111ABE00F29443 /* KeychainSwift.xcframework in Frameworks */,
 				77E647A31C90C10300B6740D /* edXCore.framework in Frameworks */,
 				BE8163F61954244E00F9A2C5 /* MessageUI.framework in Frameworks */,
-				E02661732269A821002721B7 /* libOCMock.a in Frameworks */,
 				BE0EE28B192B78DA00F9FF98 /* libz.dylib in Frameworks */,
 				BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */,
 				E0EAD9A22ACEBA48001C6470 /* GoogleAnalytics.xcframework in Frameworks */,
@@ -3946,29 +3938,11 @@
 		E02661662269A821002721B7 /* OCMock */ = {
 			isa = PBXGroup;
 			children = (
-				E02661672269A821002721B7 /* libOCMock.a */,
-				E02661682269A821002721B7 /* OCMock */,
+				E0C7169B2B046BB700858BAB /* OCMock.xcframework */,
 			);
 			name = OCMock;
 			path = Libraries/OCMock;
 			sourceTree = SOURCE_ROOT;
-		};
-		E02661682269A821002721B7 /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				E02661692269A821002721B7 /* OCMockObject.h */,
-				E026616A2269A821002721B7 /* OCMMacroState.h */,
-				E026616B2269A821002721B7 /* OCMock.h */,
-				E026616C2269A821002721B7 /* NSNotificationCenter+OCMAdditions.h */,
-				E026616D2269A821002721B7 /* OCMFunctions.h */,
-				E026616E2269A821002721B7 /* OCMStubRecorder.h */,
-				E026616F2269A821002721B7 /* OCMRecorder.h */,
-				E02661702269A821002721B7 /* OCMLocation.h */,
-				E02661712269A821002721B7 /* OCMConstraint.h */,
-				E02661722269A821002721B7 /* OCMArg.h */,
-			);
-			path = OCMock;
-			sourceTree = "<group>";
 		};
 		E03E6A131D38C90900944AAA /* Offline */ = {
 			isa = PBXGroup;
@@ -5684,7 +5658,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 5.0.0;
+				MARKETING_VERSION = 5.0.4;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
@@ -6161,7 +6135,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 5.0.0;
+				MARKETING_VERSION = 5.0.4;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
@@ -6252,7 +6226,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 5.0.0;
+				MARKETING_VERSION = 5.0.4;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
