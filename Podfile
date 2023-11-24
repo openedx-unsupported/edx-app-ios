@@ -34,6 +34,7 @@ target 'edXTests' do
   use_frameworks!
   pod 'iOSSnapshotTestCase', '= 6.2.0'
   pod 'OHHTTPStubs', '~> 4.0', :modular_headers => true
+  pod 'OCMock', '~> 3.9.3', :modular_headers => true
 end
 
 dynamic_frameworks = ['MSAL']
