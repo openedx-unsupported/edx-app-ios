@@ -824,8 +824,6 @@
 		E0B58CDC2818F7DF0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */; };
 		E0B58CE028193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
-		E0C7169D2B04B48F00858BAB /* OCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0C7169B2B046BB700858BAB /* OCMock.xcframework */; };
-		E0C7169E2B04B48F00858BAB /* OCMock.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E0C7169B2B046BB700858BAB /* OCMock.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
 		E0D029F627043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */; };
 		E0D029F827043DE6001F83B1 /* BannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D029F727043DE6001F83B1 /* BannerAPI.swift */; };
@@ -898,7 +896,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5F700E9A278C35B000B17044 /* SwiftyStoreKit.xcframework in Embed Frameworks */,
-				E0C7169E2B04B48F00858BAB /* OCMock.xcframework in Embed Frameworks */,
 				E09F953928111ABE00F29443 /* KeychainSwift.xcframework in Embed Frameworks */,
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
 			);
@@ -1928,7 +1925,6 @@
 		E0B58CDB2818F7DD0047D78F /* EnrolledCoursesViewController+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+CourseUpgrade.swift"; sourceTree = "<group>"; };
 		E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+CourseUpgrade.swift"; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
-		E0C7169B2B046BB700858BAB /* OCMock.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OCMock.xcframework; sourceTree = "<group>"; };
 		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		E0D029F527043CCF001F83B1 /* EnrolledCoursesViewController+Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnrolledCoursesViewController+Banner.swift"; sourceTree = "<group>"; };
 		E0D029F727043DE6001F83B1 /* BannerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAPI.swift; sourceTree = "<group>"; };
@@ -2000,7 +1996,6 @@
 				0D157630235EDA040007B0B7 /* Security.framework in Frameworks */,
 				776F39291B4EF4CD00ED11E3 /* WebKit.framework in Frameworks */,
 				805329121B0EA2DC0093B177 /* QuartzCore.framework in Frameworks */,
-				E0C7169D2B04B48F00858BAB /* OCMock.xcframework in Frameworks */,
 				0D15762D235ED9F30007B0B7 /* MediaPlayer.framework in Frameworks */,
 				0D15762E235ED9F30007B0B7 /* MediaAccessibility.framework in Frameworks */,
 				0D15762A235ED9DF0007B0B7 /* CoreText.framework in Frameworks */,
@@ -3546,7 +3541,6 @@
 				5F592ACE257521CF00D96214 /* SwiftDate */,
 				E0CF1DB225402900009E7901 /* Segment-Firebase */,
 				5F46A7C624ADFF5B00347EFC /* Timeline */,
-				E02661662269A821002721B7 /* OCMock */,
 				B7CCC6F9209B16B000A66923 /* SnapKit */,
 				77509D8B1BE1710200B10CD3 /* TZStackView */,
 				77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */,
@@ -3934,15 +3928,6 @@
 			);
 			path = Classes;
 			sourceTree = "<group>";
-		};
-		E02661662269A821002721B7 /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				E0C7169B2B046BB700858BAB /* OCMock.xcframework */,
-			);
-			name = OCMock;
-			path = Libraries/OCMock;
-			sourceTree = SOURCE_ROOT;
 		};
 		E03E6A131D38C90900944AAA /* Offline */ = {
 			isa = PBXGroup;
@@ -4614,11 +4599,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-edXTests/Pods-edXTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
 				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
 				"${BUILT_PRODUCTS_DIR}/iOSSnapshotTestCase/FBSnapshotTestCase.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMock.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSnapshotTestCase.framework",
 			);
