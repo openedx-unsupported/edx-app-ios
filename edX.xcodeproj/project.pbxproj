@@ -5588,7 +5588,7 @@
 				EXCLUDED_ARCHS = "$(inherited)";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "$(inherited)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)/**",
+					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
 					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
@@ -6066,7 +6066,7 @@
 				EXCLUDED_ARCHS = "$(inherited)";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "$(inherited)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)/**",
+					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
 					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",
@@ -6156,7 +6156,7 @@
 				EXCLUDED_ARCHS = "$(inherited)";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "$(inherited)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)/**",
+					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
 					"$(PROJECT_DIR)/Libraries/SwiftyStoreKit",

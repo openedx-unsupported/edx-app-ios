@@ -4,6 +4,7 @@ platform :ios, '13.0'
 source 'https://cdn.cocoapods.org/'
 
 project 'edX.xcodeproj'
+use_modular_headers!
 
 target 'edX' do
   pod 'Analytics', '= 4.1.8'
@@ -11,19 +12,19 @@ target 'edX' do
   pod 'DateTools', '= 2.0.0'
   pod 'FBSDKCoreKit', '= 16.0.0'
   pod 'FBSDKLoginKit', '= 16.0.0'
-  pod 'Firebase', '= 10.5.0', :modular_headers => true
+  pod 'Firebase', '= 10.5.0'
   pod 'FirebaseAnalytics', '= 10.5.0'
-  pod 'FirebaseCore', '= 10.5.0', :modular_headers => true
-  pod 'FirebaseCoreInternal', '= 10.5.0', :modular_headers => true
+  pod 'FirebaseCore', '= 10.5.0'
+  pod 'FirebaseCoreInternal', '= 10.5.0'
   pod 'FirebaseCrashlytics', '= 10.5.0'
   pod 'FirebaseInAppMessaging', '= 10.5.0-beta'
   pod 'FirebaseMessaging', '= 10.5.0'
   pod 'FirebasePerformance', '= 10.5.0'
   pod 'google-cast-sdk-no-bluetooth-xcframework', '~> 4.8.0'
   pod 'GoogleSignIn', '~> 7.0.0'
-  pod 'GoogleUtilities', '= 7.11.0', :modular_headers => true
+  pod 'GoogleUtilities', '= 7.11.0'
   pod 'Masonry', '= 1.1.0'
-  pod 'MSAL', '= 1.2.5', :modular_headers => true
+  pod 'MSAL', '= 1.2.5'
   pod 'NewRelicAgent', '= 7.4.2'
   pod 'Segment-Appboy', '= 4.6.0'
   pod 'Smartling.i18n', '~> 1.0.14'
@@ -33,8 +34,8 @@ end
 target 'edXTests' do
   use_frameworks!
   pod 'iOSSnapshotTestCase', '= 6.2.0'
-  pod 'OHHTTPStubs', '~> 4.0', :modular_headers => true
-  pod 'OCMock', '~> 3.9.3', :modular_headers => true
+  pod 'OHHTTPStubs', '~> 4.0'
+  pod 'OCMock', '~> 3.9.3'
 end
 
 dynamic_frameworks = ['MSAL']
