@@ -77,7 +77,7 @@ have the following ``edx.properties``:
 
 
 The full set of known keys can be found in the ``OEXConfig.m`` or see
-`additional documentation <https://openedx.atlassian.net/wiki/display/MA/App+Configuration+Flags>`_.
+`additional documentation <https://openedx.atlassian.net/wiki/spaces/LEARNER/pages/48792067/App+Configuration+Flags>`_.
 
 Additional Customization
 ------------------------
