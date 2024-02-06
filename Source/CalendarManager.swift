@@ -117,11 +117,21 @@ class CalendarManager: NSObject {
     
     func requestAccess(completion: @escaping (Bool, EKAuthorizationStatus, EKAuthorizationStatus) -> ()) {
         let previousStatus = EKEventStore.authorizationStatus(for: .event)
-        eventStore.requestAccess(to: .event) { [weak self] access, _ in
+        let requestHandler: (Bool, Error?) -> Void = { [weak self] access, _ in
             self?.eventStore.reset()
             let currentStatus = EKEventStore.authorizationStatus(for: .event)
             DispatchQueue.main.async {
                 completion(access, previousStatus, currentStatus)
+            }
+        }
+        
+        if #available(iOS 17.0, *) {
+            eventStore.requestFullAccessToEvents { access, error in
+                requestHandler(access, error)
+            }
+        } else {
+            eventStore.requestAccess(to: .event) { access, error in
+                requestHandler(access, error)
             }
         }
     }
