@@ -348,7 +348,7 @@ extension ProfileOptionsViewController: HelpCellDelegate {
     
     func didTapSubmitFeedback() {
         guard let url = environment.serverConfig.feedbackFormURL else { return }
-        environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.SubmitFeedbackCLicked, name: AnalyticsEventName.SubmitFeedbackCLicked)
+        environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.SubmitFeedbackClicked, name: AnalyticsEventName.SubmitFeedbackClicked)
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:])
         }
