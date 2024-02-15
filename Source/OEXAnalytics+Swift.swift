@@ -103,6 +103,7 @@ public enum AnalyticsDisplayName : String {
     case PrivacyPolicyClicked = "Privacy Policy Clicked"
     case CookiePolicyClicked = "Cookie Policy Clicked"
     case DataSellConsentClicked = "Do Not Sell Data Clicked"
+    case SubmitFeedbackClicked = "Submit feedback clicked"
 }
 
 public enum AnalyticsEventName: String {
@@ -194,6 +195,7 @@ public enum AnalyticsEventName: String {
     case PrivacyPolicyClicked = "edx.bi.app.profile.privacy_policy.clicked"
     case CookiePolicyClicked = "edx.bi.app.profile.cookie_policy.clicked"
     case DataSellConsentClicked = "edx.bi.app.profile.do_not_sell_data.clicked"
+    case SubmitFeedbackClicked = "edx.bi.app.profile.submit_feedback.clicked"
 }
 
 public enum AnalyticsScreenName: String {
