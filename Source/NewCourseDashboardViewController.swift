@@ -428,12 +428,12 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorViewDelega
         redirectToDiscovery()
     }
     
-    func coursePrice(cell: CourseDashboardAccessErrorView, price: String?, elapsedTime: Int) {
+    func coursePrice(cell: CourseDashboardAccessErrorView, price: String?, error: PurchaseError?, elapsedTime: Int) {
         if let price = price {
             trackPriceLoadDuration(price: price, elapsedTime: elapsedTime)
         }
         else {
-            trackPriceLoadError(cell: cell)
+            trackPriceLoadError(cell: cell, error: error)
         }
     }
     
@@ -500,24 +500,26 @@ extension NewCourseDashboardViewController {
         environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, pacing: pacing, coursePrice: price, screen: screen, elapsedTime: elapsedTime)
     }
     
-    private func trackPriceLoadError(cell: CourseDashboardAccessErrorView) {
+    private func trackPriceLoadError(cell: CourseDashboardAccessErrorView, error: PurchaseError?) {
         guard let course = course, let courseID = course.course_id else { return }
         environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, pacing: pacing, screen: screen)
-        showCoursePriceErrorAlert(cell: cell)
+        showCoursePriceErrorAlert(cell: cell, error: error)
     }
     
-    private func showCoursePriceErrorAlert(cell: CourseDashboardAccessErrorView) {
+    private func showCoursePriceErrorAlert(cell: CourseDashboardAccessErrorView, error: PurchaseError?) {
         guard let topController = UIApplication.shared.topMostController() else { return }
 
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
-
-        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
-            cell.fetchCoursePrice()
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course?.course_id ?? "" , blockID: "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+        if error != .productNotExist {
+            alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
+                cell.fetchCoursePrice()
+                self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course?.course_id ?? "" , blockID: "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+            }
         }
 
-        alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
+        let cancelButtonTitle = error == .productNotExist ? Strings.ok : Strings.cancel
+        alertController.addButton(withTitle: cancelButtonTitle, style: .default) { [weak self] _ in
             cell.hideUpgradeButton()
             self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course?.course_id ?? "" , blockID: "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
         }
