@@ -186,7 +186,7 @@ class ValuePropComponentView: UIView {
         
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
-            PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product in
+            PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product, error in
                 if let product = product, let localizedPrice = product.localizedPrice {
                     let endTime = CFAbsoluteTimeGetCurrent() - startTime
                     self?.localizedCoursePrice = localizedPrice
@@ -197,7 +197,7 @@ class ValuePropComponentView: UIView {
                     self?.upgradeButton.setPrice(localizedPrice)
                 } else {
                     self?.trackLoadError()
-                    self?.showCoursePriceErrorAlert()
+                    self?.showCoursePriceErrorAlert(error: error)
                 }
             }
         }
@@ -225,17 +225,19 @@ class ValuePropComponentView: UIView {
         environment.analytics.trackCourseUpgradeLoadError(courseID: courseID, blockID: blockID, pacing: pacing, screen: .courseComponent)
     }
 
-    private func showCoursePriceErrorAlert() {
+    private func showCoursePriceErrorAlert(error: PurchaseError?) {
         guard let topController = UIApplication.shared.topMostController() else { return }
 
         let alertController = UIAlertController().showAlert(withTitle: Strings.CourseUpgrade.FailureAlert.alertTitle, message: Strings.CourseUpgrade.FailureAlert.priceFetchErrorMessage, cancelButtonTitle: nil, onViewController: topController) { _, _, _ in }
 
-        alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
-            self?.fetchCoursePrice()
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+        if error != .productNotExist {
+            alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
+                self?.fetchCoursePrice()
+                self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+            }
         }
-
-        alertController.addButton(withTitle: Strings.cancel, style: .default) { [weak self] _ in
+        let cancelButtonTitle = error == .productNotExist ? Strings.ok : Strings.cancel
+        alertController.addButton(withTitle: cancelButtonTitle, style: .default) { [weak self] _ in
             self?.upgradeButton.stopShimmerEffect()
             self?.upgradeButton.updateVisibility(visible: false)
             self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
