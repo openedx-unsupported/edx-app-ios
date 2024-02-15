@@ -23,14 +23,12 @@ public extension ServerConfigProvider {
         case valuePropEnabled = "value_prop_enabled"
         case config = "config"
         case iapConfig = "iap_config"
-        case feedbackFormURL = "feedback_form_url"
     }
     
     @objc static let shared = ServerConfiguration()
     
     private(set) var valuePropEnabled: Bool = false
     private(set) var iapConfig: IAPConfig? = nil
-    private(set) var feedbackFormURL: URL? = nil
     
     private override init() {
         super.init()
@@ -43,7 +41,6 @@ public extension ServerConfigProvider {
               let config = try? JSONSerialization.jsonObject(with: configData, options : []) as? Dictionary<String,Any> else { return }
 
         valuePropEnabled = config[Keys.valuePropEnabled] as? Bool ?? false
-        feedbackFormURL = (config[Keys.feedbackFormURL] as? String).flatMap { URL(string:$0)}
 
         if let iapDict = config[Keys.iapConfig] as? Dictionary<String, Any> {
             iapConfig = IAPConfig(dictionary: iapDict)
