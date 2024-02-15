@@ -21,7 +21,7 @@ class ProfileOptionsViewController: UIViewController {
         case personalInformation
         case restorePurchase
         case privacy
-        case help(Bool, Bool, Bool)
+        case help(Bool, Bool)
         case signout
         case deleteAccount
     }
@@ -139,11 +139,10 @@ class ProfileOptionsViewController: UIViewController {
         }
         
         let feedbackEnabled =  environment.config.feedbackEmailAddress() != nil
-        let submitFeedbackEnabled = environment.serverConfig.feedbackFormURL != nil
         let faqEnabled = environment.config.faqURL != nil
         
         if feedbackEnabled || faqEnabled {
-            options.append(.help(feedbackEnabled, submitFeedbackEnabled, faqEnabled))
+            options.append(.help(feedbackEnabled, faqEnabled))
         }
         
         options.append(.signout)
@@ -218,8 +217,8 @@ extension ProfileOptionsViewController: UITableViewDataSource {
         case .privacy:
             return privacyCell(tableView, indexPath: indexPath)
             
-        case .help(let feedbackEnabled, let submitFeedbackEnabled, let faqEnabled):
-            return helpCell(tableView, indexPath: indexPath, feedbackEnabled: feedbackEnabled, submitFeedbackEnabled: submitFeedbackEnabled, faqEnabled: faqEnabled)
+        case .help(let feedbackEnabled, let faqEnabled):
+            return helpCell(tableView, indexPath: indexPath, feedbackEnabled: feedbackEnabled, faqEnabled: faqEnabled)
             
         case .signout:
             return signoutCell(tableView, indexPath: indexPath)
@@ -272,10 +271,10 @@ extension ProfileOptionsViewController: UITableViewDataSource {
         return cell
     }
 
-    private func helpCell(_ tableView: UITableView, indexPath: IndexPath, feedbackEnabled: Bool, submitFeedbackEnabled: Bool, faqEnabled: Bool) -> UITableViewCell {
+    private func helpCell(_ tableView: UITableView, indexPath: IndexPath, feedbackEnabled: Bool, faqEnabled: Bool) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HelpCell.identifier, for: indexPath) as! HelpCell
         cell.delegate = self
-        cell.update(feedbackEnabled: feedbackEnabled, faqEnabled: faqEnabled, submitFeedbackEnabled: submitFeedbackEnabled, platformName: environment.config.platformName())
+        cell.update(feedbackEnabled: feedbackEnabled, faqEnabled: faqEnabled, platformName: environment.config.platformName())
         
         return cell
     }
@@ -344,14 +343,6 @@ extension ProfileOptionsViewController: HelpCellDelegate {
     func didTapEmail() {
         environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.EmailSupportClicked, name: AnalyticsEventName.EmailSupportClicked)
         launchEmailComposer()
-    }
-    
-    func didTapSubmitFeedback() {
-        guard let url = environment.serverConfig.feedbackFormURL else { return }
-        environment.analytics.trackProfileOptionClcikEvent(displayName: AnalyticsDisplayName.SubmitFeedbackCLicked, name: AnalyticsEventName.SubmitFeedbackCLicked)
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:])
-        }
     }
     
     func didTapFAQ() {
@@ -1141,7 +1132,6 @@ class PrivacyCell: UITableViewCell {
 
 protocol HelpCellDelegate: AnyObject {
     func didTapEmail()
-    func didTapSubmitFeedback()
     func didTapFAQ()
 }
 
@@ -1152,7 +1142,6 @@ class HelpCell: UITableViewCell {
     
     private var feedbackEnabled: Bool = false
     private var faqEnabled: Bool = false
-    private var submitFeedbackEnabled: Bool = false
     
     private let lineSpacing: CGFloat = 4
     
@@ -1210,21 +1199,6 @@ class HelpCell: UITableViewCell {
         return button
     }()
     
-    private lazy var submitFeedbackButton: UIButton = {
-        let button = UIButton()
-        button.layer.borderWidth = 1
-        button.layer.borderColor = OEXStyles.shared().neutralXLight().cgColor
-        button.oex_addAction({ [weak self] _ in
-            self?.delegate?.didTapSubmitFeedback()
-        }, for: .touchUpInside)
-        
-        let faqButtonTitle = [buttonStyle.attributedString(withText: Strings.ProfileOptions.Help.Heading.feedback), faqButtonIcon]
-        let attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: faqButtonTitle)
-        button.setAttributedTitle(attributedText, for: .normal)
-        button.accessibilityIdentifier = "HelpCell:submit-feedback-button"
-        return button
-    }()
-    
     private lazy var supportLabel: UILabel = {
         let label = UILabel()
         label.attributedText = subtitleTextStyle.attributedString(withText: Strings.ProfileOptions.Help.Heading.support)
@@ -1279,11 +1253,10 @@ class HelpCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(feedbackEnabled: Bool, faqEnabled: Bool, submitFeedbackEnabled: Bool, platformName: String) {
+    func update(feedbackEnabled: Bool, faqEnabled: Bool, platformName: String) {
         self.feedbackEnabled = feedbackEnabled
         self.faqEnabled = faqEnabled
         self.platformName = platformName
-        self.submitFeedbackEnabled = submitFeedbackEnabled
         setupViews()
         setupConstrains()
     }
@@ -1295,9 +1268,6 @@ class HelpCell: UITableViewCell {
             feedbackSupportContainer.addSubview(feedbackLabel)
             feedbackSupportContainer.addSubview(feedbackSubtitleLabel)
             feedbackSupportContainer.addSubview(emailFeedbackButton)
-            if submitFeedbackEnabled {
-                feedbackSupportContainer.addSubview(submitFeedbackButton)
-            }
             contentView.addSubview(feedbackSupportContainer)
         }
         
@@ -1342,19 +1312,8 @@ class HelpCell: UITableViewCell {
                 make.height.greaterThanOrEqualTo(StandardVerticalMargin * 2)
             }
             
-            if submitFeedbackEnabled {
-                submitFeedbackButton.snp.makeConstraints { make in
-                    make.top.equalTo(feedbackSubtitleLabel.snp.bottom).offset(StandardVerticalMargin)
-                    make.leading.equalTo(feedbackSupportContainer)
-                    make.trailing.equalTo(feedbackSupportContainer)
-                    make.height.equalTo(StandardVerticalMargin * 5)
-                }
-            }
-            
-            let constraintView = submitFeedbackEnabled ? submitFeedbackButton : feedbackSubtitleLabel
-            
             emailFeedbackButton.snp.makeConstraints { make in
-                make.top.equalTo(constraintView.snp.bottom).offset(StandardVerticalMargin)
+                make.top.equalTo(feedbackSubtitleLabel.snp.bottom).offset(StandardVerticalMargin)
                 make.leading.equalTo(feedbackSupportContainer)
                 make.trailing.equalTo(feedbackSupportContainer)
                 make.height.equalTo(StandardVerticalMargin * 5)
