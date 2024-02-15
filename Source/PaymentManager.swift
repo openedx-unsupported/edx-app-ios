@@ -155,7 +155,7 @@ enum PurchaseError: String {
     }
 
     func fetchPrroduct(_ identifier: String, completion: ((SKProduct?, PurchaseError?) -> Void)? = nil) {
-        SwiftyStoreKit.retrieveProductsInfo(["identifier"]) { result in
+        SwiftyStoreKit.retrieveProductsInfo([identifier]) { result in
             if let product = result.retrievedProducts.first {
                 completion?(product, nil)
             }
