@@ -36,6 +36,7 @@ enum APIErrorCode: String, CaseIterable {
     case JWTMustIncludePreferredClaim = "JWT must include a preferred_username or username claim!"
     case JWTUserRetrievalFailed = "User retrieval failed."
     case JWTUserDisabled = "account_disabled"
+    case JWTEMailMissMatch = "Failing JWT authentication due to jwt user email mismatch with lms user email."
     
     var action: APIErrorCodeAction {
         switch self {
