@@ -27,6 +27,7 @@ enum PurchaseError: String {
     case basketError // basket API returns error
     case checkoutError // checkout API returns error
     case verifyReceiptError // verify receipt API returns error
+    case productNotExist // product not existed on app appstore
     case generalError // general error
     
     var errorString: String {
@@ -153,16 +154,16 @@ enum PurchaseError: String {
         }
     }
 
-    func fetchPrroduct(_ identifier: String, completion: ((SKProduct?) -> Void)? = nil) {
+    func fetchPrroduct(_ identifier: String, completion: ((SKProduct?, PurchaseError?) -> Void)? = nil) {
         SwiftyStoreKit.retrieveProductsInfo([identifier]) { result in
             if let product = result.retrievedProducts.first {
-                completion?(product)
+                completion?(product, nil)
             }
             else if let _ = result.invalidProductIDs.first {
-                completion?(nil)
+                completion?(nil, .productNotExist)
             }
             else {
-                completion?(nil)
+                completion?(nil, .generalError)
             }
         }
     }

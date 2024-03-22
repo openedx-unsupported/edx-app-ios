@@ -11,7 +11,7 @@ import Foundation
 protocol CourseDashboardAccessErrorViewDelegate: AnyObject {
     func findCourseAction()
     func upgradeCourseAction(course: OEXCourse, coursePrice: String, price: NSDecimalNumber?, currencyCode: String?, completion: @escaping ((Bool)->()))
-    func coursePrice(cell: CourseDashboardAccessErrorView, price: String?, elapsedTime: Int)
+    func coursePrice(cell: CourseDashboardAccessErrorView, price: String?, error: PurchaseError?, elapsedTime: Int)
 }
 
 class CourseDashboardAccessErrorView: UIView {
@@ -224,7 +224,7 @@ class CourseDashboardAccessErrorView: UIView {
         let startTime = CFAbsoluteTimeGetCurrent()
         DispatchQueue.main.async { [weak self] in
             self?.upgradeButton.startShimeringEffect()
-            PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product in
+            PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product, error in
                 guard let weakSelf = self else { return }
                 
                 if let product = product, let coursePrice = product.localizedPrice {
@@ -232,12 +232,12 @@ class CourseDashboardAccessErrorView: UIView {
                     weakSelf.localizedCoursePrice = coursePrice
                     weakSelf.price = product.price
                     weakSelf.currencyCode = product.priceLocale.currencyCode
-                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: coursePrice, elapsedTime: elapsedTime.millisecond)
+                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: coursePrice, error: nil, elapsedTime: elapsedTime.millisecond)
                     weakSelf.upgradeButton.setPrice(coursePrice)
                     weakSelf.upgradeButton.stopShimmerEffect()
                 }
                 else {
-                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: nil, elapsedTime: 0)
+                    weakSelf.delegate?.coursePrice(cell: weakSelf, price: nil, error: error, elapsedTime: 0)
                 }
             }
         }
