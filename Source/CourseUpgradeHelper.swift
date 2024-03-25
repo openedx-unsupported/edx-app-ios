@@ -142,9 +142,10 @@ class CourseUpgradeHelper: NSObject {
                     environment?.analytics.trackCourseUpgradePaymentError(name: .CourseUpgradePaymentError, biName: .CourseUpgradePaymentError, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
                 }
             }
-
-            environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError, flowType: upgradeHadler.upgradeMode.rawValue)
-
+            else {
+                environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError, flowType: upgradeHadler.upgradeMode.rawValue)
+            }
+            
             removeLoader(success: false, removeView: type != .verifyReceiptError)
             break
         }
