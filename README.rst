@@ -1,14 +1,6 @@
-Deprecation Notice
-==================
-
-This repository is schedule for deprecation.  Please see:
-
-https://github.com/openedx/edx-app-ios/issues/1804
-
-This application is being replaced by:
-
-https://github.com/openedx/openedx-app-ios
-
+Warning!
+========
+This is repository is scheduled for `Link deprecation and removal <https://github.com/openedx/edx-app-ios/issues/1804>`_, please use `Link this <https://github.com/openedx/openedx-app-ios>`_ instead.
 
 edX iOS
 =======
