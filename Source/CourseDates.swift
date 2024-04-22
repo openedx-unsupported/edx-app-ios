@@ -462,7 +462,7 @@ fileprivate extension Date {
         }
         
         calender.timeZone = timeZone
-        let components = calender.dateComponents([.year, .month, .day], from: self)
+        let components = calender.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
         
         return calender.date(from: components) ?? self
     }
