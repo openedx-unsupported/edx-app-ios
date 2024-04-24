@@ -56,17 +56,16 @@ public struct CourseUpgradeAPI {
         return Success(v: (OrderVerify(json: json)))
     }
 
-    static func executeAPI(basketID: Int, productID: String, price: NSDecimalNumber, currencyCode: String, receipt: String) -> NetworkRequest<OrderVerify> {
+    static func executeAPI(basketID: Int, price: NSDecimalNumber, currencyCode: String, receipt: String) -> NetworkRequest<OrderVerify> {
         return NetworkRequest(
             method: .POST,
             path: "/api/iap/v1/execute/",
             requiresAuth: true,
             body: .jsonBody(JSON([
                 "basket_id": basketID,
-                "productId": productID,
                 "price": price,
                 "currency_code": currencyCode,
-                "purchaseToken": receipt,
+                "purchase_token": receipt,
                 "payment_processor": PaymentProcessor
             ] as [String : Any])),
             deserializer: .jsonResponse(executeDeserializer)

@@ -145,7 +145,7 @@ class CourseUpgradeHandler: NSObject {
         
         // Execute API, pass the payment receipt to complete the course upgrade
         let baseURL = CourseUpgradeAPI.baseURL
-        let request = CourseUpgradeAPI.executeAPI(basketID: basketID, productID: courseSku, price: price ?? 0, currencyCode: currencyCode ?? "", receipt: receipt)
+        let request = CourseUpgradeAPI.executeAPI(basketID: basketID, price: price ?? 0, currencyCode: currencyCode ?? "", receipt: receipt)
         
         environment?.networkManager.taskForRequest(base: baseURL, request) { [weak self] response in
             if response.error == nil {
