@@ -48,6 +48,14 @@ class ValuePropUnlockViewContainer: NSObject {
         }
     }
     
+    // the bring subview to front isn't work here because of hierarchy
+    // removing and readding the view
+    func bringToFront() {
+        removeView() { [weak self] in
+            self?.showView()
+        }
+    }
+    
     @objc private func finishTimer() {
         shouldDismiss.value = true
     }
