@@ -118,6 +118,10 @@ class NewCourseDashboardViewController: UIViewController, InterfaceOrientationOv
         navigationItem.setHidesBackButton(true, animated: true)
         navigationController?.setNavigationBarHidden(true, animated: true)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseDashboard, courseID: courseID, value: nil)
+        
+        if let _ = courseUpgradeHelper.courseUpgradeModel {
+            courseUpgradeHelper.bringLoaderToFront()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
