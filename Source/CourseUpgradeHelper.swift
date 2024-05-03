@@ -238,7 +238,7 @@ class CourseUpgradeHelper: NSObject {
         }
     }
     
-    // presented view appears on the uplock controller
+    // presented view appears on the unlock controller
     // need to bring it to front for better user experience
     func bringLoaderToFront() {
         unlockController.bringToFront()
